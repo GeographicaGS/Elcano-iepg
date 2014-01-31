@@ -28,6 +28,22 @@ a.LogoElCano{
 .buttonGroupTop a, .buttonGroupTop .btn, .btn-faq{ color:#28282b; font-size:13px; padding-top:10px;}
 .buttonGroupTop a:hover, .buttonGroupTop .btn:hover, .btn-faq:hover{ color:#d60006; text-decoration: none;}
 .btn-faq{ background:url(../html/img/iconos/faq_ico.png) no-repeat 0px 10px; padding-left:24px;}
+
+/*idiomas*/
+.idiomas .dropdown-menu-white, .idiomas .dropdown-menu-white li{
+	min-width: 80px;
+	}
+.idiomas .dropdown-menu-white li{min-width:80px;}
+.idiomas .dropdown-menu-white li a{padding-left:10px; padding-right:15px;}
+
+.buttonGroupTop .btn-default:focus,
+.buttonGroupTop .btn-default:active,
+.buttonGroupTop .open .dropdown-toggle.btn-default {
+  color: #d60006;
+  background-color: #fff;
+  border-color: #fff;
+}
+
 .IEPG{
 	font-size:21px;
 	font-family:'Roboto Condensed', sans-serif;
@@ -37,6 +53,7 @@ a.LogoElCano{
 	padding:0;
 	text-align: right;
 	}
+	
 /*MENU PRINCIPAL*/
 .navbar-principal{
 	background:#28282b;
@@ -71,7 +88,6 @@ a.LogoElCano{
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
 	color:#28282b; background:#fdc300;
 }
-
 
 /*BUSCADOR*/
 .btn-buscar{
@@ -206,6 +222,8 @@ span.underline{ text-decoration: underline;}
 .NewsTab > li.active > a,
 .NewsTab > li.active > a:hover,
 .NewsTab > li.active > a:focus { cursor: default; background: none; color:#d60006; border:none; border-bottom: 1px solid #d60006}
+.NewsHome .nav > li > a:hover{color:#d60006;}
+
 
 article{ padding:22px 0 17px; border-bottom:1px solid #e7e7ea; display: block; width:100%; float:left;}
 .entry-meta{ margin-top:7px;}
@@ -232,6 +250,41 @@ h2.entry-title a:hover{ color:#d60006}
 .novedadesIEPG .FG_NovedadesIEPG{ margin-bottom:0px;}
 .novedadesIEPG p{ color:#fdc300; font-weight: 300;}
 .novedadesIEPG p strong{ font-weight:500;}
-.novedadesIEPG .form-control{ background:#f3f3f4; border:0; border-radius:0; padding-bottom: 11px; padding-top: 10px; text-align: left; font-size: 16px; font-weight: 300; color:#a2a2ac; height: 44px;}
+.novedadesIEPG .form-control{ background: url(../html/img/iconos/arrow_link_form_ico.png) no-repeat 279px 10px #f3f3f4; border:0; border-radius:0; padding-bottom: 11px; padding-top: 10px; text-align: left; font-size: 16px; font-weight: 300; color:#a2a2ac; height: 44px;}
+
 /*DIVIDER*/
 .featurette-divider{ margin:0; border-top-color:#d0d0d5}
+
+/*FOOTER*/
+footer{ background:#515155; font-weight:300; font-size:13px; color:#a2a2ac;}
+footer a{color:#ffffff;}
+footer a:hover{color:#a2a2ac;}
+footer ul{ list-style: none;}
+
+.footerCanoLeft{ padding-top:39px; background:url(../html/img/footer_logoElcano.png) no-repeat top left;}
+.footerCanoLeft p{padding-left:30px; font-size:16px;}
+.footerCanoLeft p strong{ font-weight:500;}
+.footerCanoLeft a{ background:url(../html/img/iconos/link_footer_ico.png) no-repeat 30px 0px; padding: 5px 0 5px 62px; font-size:16px; }
+.footerCanoLeft a:hover{ color:#a2a2ac}
+.footerCanoRight { padding-top:39px;}
+.footerCanoRight ul li{ line-height:18px;}
+.footerCanoRight ul li.lastLi{ margin-top:18px;}
+.footerCanoRight ul li a{ background:url(../html/img/iconos/arrow_link_footer_ico.png) no-repeat 0px 5px; padding:0 0 0 10px;}
+.footerCanoLeft .socialLink { margin:25px 0 45px;}
+.footerCanoLeft .socialLink .siguenos{ padding-left:0;}
+.footerCanoLeft .socialLink ul{list-style: none; margin:0; padding:0;}
+.footerCanoLeft .socialLink li{list-style:none; display:inline; margin:0;}
+.footerCanoLeft .socialLink li a{ background:none; padding:0; margin:0 10px;}
+
+footer .featurette-divider{ border-top-color:#5e5e62;}
+
+footer .pull-right{ margin:0; padding:0; width:auto;}
+footer .pull-right li{list-style:none; display:inline; margin:0 15px 0 0; padding-top:5px;}
+footer .pull-right li.geographica { border-left: 1px solid #5e5e62}
+footer p.text-muted{ padding-top:5px; margin-bottom:0px;}
+footer .pull-right ul{ margin-bottom:0px;}
+footer .pull-right li{ padding-top:7px; padding-bottom:7px;}
+
+.nav-tabs  a{ 
+outline: 0;}
+

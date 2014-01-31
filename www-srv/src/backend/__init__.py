@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,jsonify
 app = Flask(__name__)
 app.config.update(
     DEBUG=True,
@@ -6,3 +6,7 @@ app.config.update(
 )
 
 import user
+
+@app.route('/', methods = ['GET'])                                            
+def alive():
+    return jsonify( { "status" : "running"})

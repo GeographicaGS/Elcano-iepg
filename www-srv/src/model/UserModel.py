@@ -9,8 +9,20 @@ import base
 
 class UserModel(PostgreSQLModel):
     
-    def getUser(self,id_user):
-        return None      
+    def getUserLogin(self,idUser=None,email=None):
+        sql = "SELECT id_user,email,name,surname,password,username,language \
+                    FROM www.user WHERE admin AND status=1 AND "
+        if idUser:
+            sql = sql + " id_user=%s"
+            binding = idUser
+        elif email:
+            sql = sql + " email=%s"
+            binding = email
+        else:
+            raise Exception("Bad parameters")
+            return None
+        
+        return self.query(sql,[binding]).row()
     
    
     

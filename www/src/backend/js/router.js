@@ -4,9 +4,10 @@ app.router = Backbone.Router.extend({
     
     /* define the route and function maps for this router */
     routes: {
-        "" : "showProjects",
-        "projects" : "showProjects",
-        "project/:id": "showProject",
+        
+        "user" : "user",
+        "logout" : "logout",       
+        //"project/:id": "showProject",
         /* Sample usage: http://example.com/#about */
         "*other"    : "defaultRoute"
         /* This is a default route that also uses a *splat. Consider the
@@ -14,13 +15,17 @@ app.router = Backbone.Router.extend({
         the user has incorrectly typed in a route path manually */
        
     },
-
-    showProjects: function(){
-       app.showProjects();
+    
+    user: function(){
+        app.showView(new app.view.UserView({
+            model: app.getUser()
+        }));
     },
-    showProject: function(id){
-        app.showProject(id);
+    
+    logout : function(){
+        app.logout();
     },
+    
     defaultRoute: function(other){
         console.log('Invalid. You attempted to reach:' + other);
     }

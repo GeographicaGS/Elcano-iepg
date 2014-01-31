@@ -1,0 +1,277 @@
+cod_unstats_num;cod_unstats_alpha;cod_eurostat;name_en;name_es;country
+015;;;Northern Africa;África Septentrional;f
+021;;;Northern America;América Septentrional;f
+154;;;Northern Europe;Europa Septentrional;f
+580;MNP;;Northern Mariana Islands;Islas Marianas Septentrionales;t
+001;;;World;Mundo;f
+002;;;Africa;África;f
+005;;;South America;Sudamérica;f
+009;;;Oceania;Oceania;f
+011;;;Western Africa;África Occidental;f
+013;;;Central America;América Central;f
+014;;;Eastern Africa;África Oriental;f
+017;;;Middle Africa;África Central;f
+018;;;Southern Africa;África Meridional;f
+019;;;Americas;América;f
+029;;;Caribbean;Caribe;f
+030;;;Eastern Asia;Asia Oriental;f
+034;;;Southern Asia;Asia Meridional;f
+035;;;South-Eastern Asia;Asia Sudoriental;f
+039;;;Southern Europe;Europa Meridional;f
+053;;;Australia and New Zealand;Australia y Nueva Zelanda;f
+054;;;Melanesia;Melanesia;f
+057;;;Micronesia;Micronesia;f
+061;;;Polynesia;Polinesia;f
+142;;;Asia;Asia;f
+143;;;Central Asia;Asia Central;f
+145;;;Western Asia;Asia Occidental;f
+150;;;Europe;Europa;f
+151;;;Eastern Europe;Europa Oriental;f
+155;;;Western Europe;Europa Occidental;f
+830;;;Channel Islands;Islas Anglonormandas;t
+680;;;Sark;Sark;t
+410;KOR;;Republic of Korea;República de Corea;t
+419;;;Latin America and the Caribbean;América Latina y El Caribe;f
+016;ASM;;American Samoa;Samoa Americana;t
+076;BRA;;Brazil;Brasil;t
+902;;;EU candidate countries;Países candidatos a la Unión Europea;f
+903;;;Potential candidates for EU membership;Candidatos potenciales para ingreso en la UE;f
+004;AFG;;Afghanistan;Afganistán;t
+008;ALB;AL;Albania;Albania;t
+012;DZA;DZ;Algeria;Argelia;t
+020;AND;;Andorra;Andorra;t
+024;AGO;;Angola;Angola;t
+028;ATG;;Antigua and Barbuda;Antigua y Barbuda;t
+031;AZE;AZ;Azerbaijan;Azerbaiyán;t
+032;ARG;;Argentina;Argentina;t
+036;AUS;;Australia;Australia;t
+040;AUT;AT;Austria;Austria;t
+044;BHS;;Bahamas;Bahamas;t
+048;BHR;;Bahrain;Bahrein;t
+050;BGD;;Bangladesh;Bangladesh;t
+051;ARM;AM;Armenia;Armenia;t
+052;BRB;;Barbados;Barbados;t
+056;BEL;BE;Belgium;Bélgica;t
+060;BMU;;Bermuda;Bermuda;t
+064;BTN;;Bhutan;Bhután;t
+068;BOL;;Bolivia (Plurinational State of);Bolivia (Plurinacional Estado de);t
+070;BIH;BA;Bosnia and Herzegovina;Bosnia y Herzegovina;t
+072;BWA;;Botswana;Botswana;t
+084;BLZ;;Belize;Belice;t
+090;SLB;;Solomon Islands;Islas Salomón;t
+092;VGB;;British Virgin Islands;Islas Vírgenes Británicas;t
+096;BRN;;Brunei Darussalam;Brunei Darussalam;t
+100;BGR;BG;Bulgaria;Bulgaria;t
+104;MMR;;Myanmar;Myanmar;t
+108;BDI;;Burundi;Burundi;t
+112;BLR;BY;Belarus;Bielorrusia;t
+116;KHM;;Cambodia;Camboya;t
+120;CMR;;Cameroon;Camerún;t
+124;CAN;;Canada;Canadá;t
+132;CPV;;Cabo Verde;Cabo Verde;t
+136;CYM;;Cayman Islands;Islas Caimán;t
+140;CAF;;Central African Republic;República Centroafricana;t
+144;LKA;;Sri Lanka;Sri Lanka;t
+148;TCD;;Chad;Chad;t
+152;CHL;;Chile;Chile;t
+156;CHN;;China;China;t
+170;COL;;Colombia;Colombia;t
+174;COM;;Comoros;Comoras;t
+175;MYT;;Mayotte;Mayotte;t
+178;COG;;Congo;Congo;t
+180;COD;;Democratic Republic of the Congo;República Democrática del Congo;t
+184;COK;;Cook Islands;Islas Cook;t
+188;CRI;;Costa Rica;Costa Rica;t
+191;HRV;HR;Croatia;Croacia;t
+192;CUB;;Cuba;Cuba;t
+196;CYP;CY;Cyprus;Chipre;t
+203;CZE;CZ;Czech Republic;República Checa;t
+204;BEN;;Benin;Benín;t
+208;DNK;DK;Denmark;Dinamarca;t
+212;DMA;;Dominica;Dominica;t
+214;DOM;;Dominican Republic;República Dominicana;t
+218;ECU;;Ecuador;Ecuador;t
+222;SLV;;El Salvador;El Salvador;t
+226;GNQ;;Equatorial Guinea;Guinea Ecuatorial;t
+231;ETH;;Ethiopia;Etiopía;t
+232;ERI;;Eritrea;Eritrea;t
+233;EST;EE;Estonia;Estonia;t
+234;FRO;;Faeroe Islands;Islas Feroe;t
+238;FLK;;Falkland Islands (Malvinas);Islas Malvinas;t
+242;FJI;;Fiji;Fiji;t
+246;FIN;FI;Finland;Finlandia;t
+248;ALA;;Åland Islands;Islas Aland;t
+250;FRA;FR;France;Francia;t
+254;GUF;;French Guiana;Guayana Francesa;t
+258;PYF;;French Polynesia;Polinesia Francesa;t
+262;DJI;;Djibouti;Djibouti;t
+266;GAB;;Gabon;Gabón;t
+268;GEO;GE;Georgia;Georgia;t
+270;GMB;;Gambia;Gambia;t
+275;PSE;PS;State of Palestine;Estado de Palestina;t
+276;DEU;DE;Germany;Alemania;t
+288;GHA;;Ghana;Ghana;t
+292;GIB;;Gibraltar;Gibraltar;t
+296;KIR;;Kiribati;Kiribati;t
+300;GRC;EL;Greece;Grecia;t
+304;GRL;;Greenland;Groenlandia;t
+308;GRD;;Grenada;Granada;t
+312;GLP;;Guadeloupe;Guadalupe;t
+316;GUM;;Guam;Guam;t
+320;GTM;;Guatemala;Guatemala;t
+324;GIN;;Guinea;Guinea;t
+328;GUY;;Guyana;Guyana;t
+332;HTI;;Haiti;Haiti;t
+336;VAT;;Holy See;Santa Sede;t
+340;HND;;Honduras;Honduras;t
+344;HKG;;China, Hong Kong Special Administrative Region;China, Región Especial Administrativa de Hong Kong;t
+348;HUN;HU;Hungary;Hungría;t
+352;ISL;IS;Iceland;Islandia;t
+356;IND;;India;India;t
+360;IDN;;Indonesia;Indonesia;t
+364;IRN;;Iran (Islamic Republic of);Irán (República Islámica de);t
+368;IRQ;;Iraq;Iraq;t
+372;IRL;IE;Ireland;Irlanda;t
+376;ISR;IL;Israel;Israel;t
+380;ITA;IT;Italy;Italia;t
+384;CIV;;Côte d'Ivoire;Costa de Marfil;t
+388;JAM;;Jamaica;Jamaica;t
+392;JPN;JP;Japan;Japón;t
+398;KAZ;;Kazakhstan;Kazajstán;t
+400;JOR;JO;Jordan;Jordania;t
+404;KEN;;Kenya;Kenia;t
+408;PRK;;Democratic People's Republic of Korea;República Popular Democrática de Corea;t
+414;KWT;;Kuwait;Kuwait;t
+417;KGZ;;Kyrgyzstan;Kirguistán;t
+418;LAO;;Lao People's Democratic Republic;República Democrática Popular de Lao;t
+850;VIR;;United States Virgin Islands;Islas Vírgenes de los Estados Unidos;t
+900;;;European Union (EU);Unión Europea;f
+901;;;European Free Trade Association (EFTA);Asociación Europea de Libre Comercio;f
+904;;;European Neighbourhood Policy (ENP)-East;Política de Vecindad de la Unión Europea-Este;f
+422;LBN;LB;Lebanon;Líbano;t
+426;LSO;;Lesotho;Lesotho;t
+428;LVA;LV;Latvia;Letonia;t
+430;LBR;;Liberia;Liberia;t
+434;LBY;LY;Libya;Libia;t
+438;LIE;LI;Liechtenstein;Liechtenstein;t
+440;LTU;LT;Lithuania;Lituania;t
+442;LUX;LU;Luxembourg;Luxemburgo;t
+446;MAC;;China, Macao Special Administrative Region;China, Región Especial Administrativa de Macao;t
+450;MDG;;Madagascar;Madagascar;t
+454;MWI;;Malawi;Malawi;t
+458;MYS;;Malaysia;Malasia;t
+462;MDV;;Maldives;Maldivas;t
+466;MLI;;Mali;Mali;t
+470;MLT;MT;Malta;Malta;t
+474;MTQ;;Martinique;Martinica;t
+478;MRT;;Mauritania;Mauritania;t
+480;MUS;;Mauritius;Mauricio;t
+484;MEX;;Mexico;Méjico;t
+492;MCO;;Monaco;Mónaco;t
+496;MNG;;Mongolia;Mongolia;t
+498;MDA;;Republic of Moldova;República de Moldova;t
+499;MNE;ME;Montenegro;Montenegro;t
+500;MSR;;Montserrat;Montserrat;t
+504;MAR;MA;Morocco;Marruecos;t
+508;MOZ;;Mozambique;Mozambique;t
+512;OMN;;Oman;Omán;t
+516;NAM;;Namibia;Namibia;t
+520;NRU;;Nauru;Nauru;t
+524;NPL;;Nepal;Nepal;t
+528;NLD;NL;Netherlands;Países Bajos;t
+531;CUW;;Curaçao;Curazao;t
+533;ABW;;Aruba;Aruba;t
+534;SXM;;Sint Maarten (Dutch part);San Martín (parte neerlandesa);t
+535;BES;;Bonaire, Saint Eustatius and Saba;Bonaire, San Eustaquio y Saba;t
+540;NCL;;New Caledonia;Nueva Caledonia;t
+548;VUT;;Vanuatu;Vanuatu;t
+554;NZL;;New Zealand;Nueva Zelanda;t
+558;NIC;;Nicaragua;Nicaragua;t
+562;NER;;Niger;Níger;t
+566;NGA;;Nigeria;Nigeria;t
+570;NIU;;Niue;Niue;t
+574;NFK;;Norfolk Island;Islas Norfolk;t
+578;NOR;NO;Norway;Noruega;t
+583;FSM;;Micronesia (Federated States of);Micronesia (Estados Federados de);t
+584;MHL;;Marshall Islands;Islas Marshall;t
+585;PLW;;Palau;Palau;t
+586;PAK;;Pakistan;Pakistán;t
+591;PAN;;Panama;Panamá;t
+598;PNG;;Papua New Guinea;Papua Nueva Guinea;t
+600;PRY;;Paraguay;Paraguay;t
+604;PER;;Peru;Perú;t
+608;PHL;;Philippines;Filipinas;t
+612;PCN;;Pitcairn;Pitcairn;t
+616;POL;PL;Poland;Polonia;t
+620;PRT;PT;Portugal;Portugal;t
+624;GNB;;Guinea-Bissau;Guinea-Bissau;t
+626;TLS;;Timor-Leste;Timor Oriental;t
+630;PRI;;Puerto Rico;Puerto Rico;t
+634;QAT;;Qatar;Qatar;t
+638;REU;;Réunion;Reunión;t
+642;ROU;RO;Romania;Rumanía;t
+643;RUS;;Russian Federation;Federación de Rusia;t
+646;RWA;;Rwanda;Rwanda;t
+652;BLM;;Saint-Barthélemy;San Bartolomé;t
+654;SHN;;Saint Helena;Santa Elena;t
+659;KNA;;Saint Kitts and Nevis;San Kitts y Nevis;t
+660;AIA;;Anguilla;Anguila;t
+662;LCA;;Saint Lucia;Santa Lucía;t
+663;MAF;;Saint-Martin (French part);San Martín (parte francesa);t
+666;SPM;;Saint Pierre and Miquelon;Saint Pierre y Miquelon;t
+670;VCT;;Saint Vincent and the Grenadines;San Vicente y Las Granadinas;t
+674;SMR;;San Marino;San Marino;t
+678;STP;;Sao Tome and Principe;Santo Tomé y Príncipe;t
+682;SAU;;Saudi Arabia;Arabia Saudí;t
+686;SEN;;Senegal;Senegal;t
+688;SRB;RS;Serbia;Serbia;t
+690;SYC;;Seychelles;Seychelles;t
+694;SLE;;Sierra Leone;Sierra Leona;t
+702;SGP;;Singapore;Singapur;t
+703;SVK;SK;Slovakia;Eslovaquia;t
+704;VNM;;Viet Nam;Viet Nam;t
+705;SVN;SI;Slovenia;Eslovenia;t
+706;SOM;;Somalia;Somalia;t
+710;ZAF;;South Africa;Sudáfrica;t
+716;ZWE;;Zimbabwe;Zimbabwe;t
+724;ESP;ES;Spain;España;t
+728;SSD;;South Sudan;Sudán del Sur;t
+729;SDN;;Sudan;Sudán;t
+732;ESH;;Western Sahara;Sáhara Occidental;t
+740;SUR;;Suriname;Suriname;t
+744;SJM;;Svalbard and Jan Mayen Islands;Islas Svalbard y Jan Mayen;t
+748;SWZ;;Swaziland;Swazilandia;t
+752;SWE;SE;Sweden;Suecia;t
+756;CHE;CH;Switzerland;Suiza;t
+760;SYR;SY;Syrian Arab Republic;República Árabe Siria;t
+762;TJK;;Tajikistan;Tayikistán;t
+764;THA;;Thailand;Tailandia;t
+768;TGO;;Togo;Togo;t
+772;TKL;;Tokelau;Tokelau;t
+776;TON;;Tonga;Tonga;t
+780;TTO;;Trinidad and Tobago;Trinidad y Tobago;t
+784;ARE;;United Arab Emirates;Emiratos Árabes Unidos;t
+788;TUN;TN;Tunisia;Túnez;t
+792;TUR;TR;Turkey;Turquía;t
+795;TKM;;Turkmenistan;Turkmenistán;t
+796;TCA;;Turks and Caicos Islands;Islas Turcas y Caicos;t
+798;TUV;;Tuvalu;Tuvalu;t
+800;UGA;;Uganda;Uganda;t
+804;UKR;UA;Ukraine;Ucrania;t
+807;MKD;MK;The former Yugoslav Republic of Macedonia;ex República Yugoslava de Macedonia;t
+818;EGY;EG;Egypt;Egipto;t
+826;GBR;UK;United Kingdom of Great Britain and Northern Ireland;Reino Unido de Gran Bretaña y Norte de Irlanda;t
+831;GGY;;Guernsey;Guernsey;t
+832;JEY;;Jersey;Jersey;t
+833;IMN;;Isle of Man;Isla de Man;t
+834;TZA;;United Republic of Tanzania;República Unida de Tanzania;t
+840;USA;US;United States of America;Estados Unidos de América;t
+854;BFA;;Burkina Faso;Burkina Faso;t
+858;URY;;Uruguay;Uriguay;t
+860;UZB;;Uzbekistan;Uzbekistán;t
+862;VEN;;Venezuela (Bolivarian Republic of);Venezuela (República Bolivariana de);t
+876;WLF;;Wallis and Futuna Islands;Islas Wallis y Futuna;t
+882;WSM;;Samoa;Samoa;t
+887;YEM;;Yemen;Yemen;t
+894;ZMB;;Zambia;Zambia;t
+905;;;European Neighbourhood Policy (ENP)-South;Política de Vecindad de la Unión Europea-Sur;f

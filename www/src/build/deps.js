@@ -15,7 +15,16 @@ deps.Backend.JS = {
 	,Core: {
 		src: [
 			// Config file
-			"backend/js/config.js"
+			"backend/js/config.js",
+			// models
+			"backend/js/model/user_model.js",
+			// views
+			"backend/js/view/login_view.js",
+			"backend/js/view/user_view.js",
+			// router
+			"backend/js/router.js",
+			// app
+			"backend/js/app.js",
 		],
 		desc: "Core library."
 	}
@@ -51,7 +60,8 @@ deps.Frontend.JS = {
 	,Core: {
 		src: [
 			// Config file
-			"frontend/js/config.js"
+			"frontend/js/config.js",
+			
 		],
 		desc: "Core library."
 	}

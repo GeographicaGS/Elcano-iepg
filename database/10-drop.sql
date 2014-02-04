@@ -4,9 +4,7 @@
 
 */
 
-\i 00-config-sql
-
-begin;
+\i 00-config.sql
 
 \c :dbname :user
 
@@ -14,6 +12,8 @@ begin;
 
 drop schema iepg_data cascade;
 
-commit;
+\c :dbname :superuser
 
 analyze;
+
+\c :dbname :user

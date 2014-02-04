@@ -6,45 +6,51 @@
 
 \i 00-config.sql
 
-begin;
-
 \c :dbname :user
 
 create schema iepg_data authorization :user;
 
-create table iepg_data.master_countries(
-  id varchar(10),
+create table iepg_data.master_country(
+  id_master_country varchar(10),
   cod_unstats_num char(3),
   cod_unstats_alpha char(3),
-  cod_eurostat char(2),  
-  name_en varchar(500),
-  name_es varchar(500),
+  cod_eurostat char(2),
+  full_name_en_order varchar(500),
+  full_name_es_order varchar(500),
+  full_name_en varchar(500),
+  full_name_es varchar(500),
+  short_name_en_order varchar(500),
+  short_name_es_order varchar(500),
+  short_name_en varchar(500),
+  short_name_es varchar(500),
+  date_in date,
+  date_out date,
   country boolean
 );
 
-alter table iepg_data.master_countries
-add constraint master_countries_pkey
-primary key(id);
+select addgeometrycolumn(
+  'iepg_data',
+  'master_country',
+  'geom',
+  4326,
+  'MULTIPOLYGON',
+  2);
 
-alter table iepg_data.master_countries
-add constraint master_countries_unique_cod_unstats_num
+alter table iepg_data.master_country
+add constraint master_country_pkey
+primary key(id_master_country);
+
+alter table iepg_data.master_country
+add constraint master_country_unique_cod_unstats_num
 unique(cod_unstats_num);
 
-alter table iepg_data.master_countries
-add constraint master_countries_unique_cod_unstats_alpha
+alter table iepg_data.master_country
+add constraint master_country_unique_cod_unstats_alpha
 unique(cod_unstats_alpha);
 
-alter table iepg_data.master_countries
-add constraint master_countries_unique_cod_eurostat
+alter table iepg_data.master_country
+add constraint master_country_unique_cod_eurostat
 unique(cod_eurostat);
-
-alter table iepg_data.master_countries
-add constraint master_countries_unique_name_en
-unique(name_en);
-
-alter table iepg_data.master_countries
-add constraint master_countries_unique_name_es
-unique(name_es);
 
 
 create table iepg_data.country_relation(
@@ -57,31 +63,26 @@ add constraint country_relation_pkey
 primary key(id_child, id_parent);
 
 alter table iepg_data.country_relation
-add constraint country_relation_master_countries_child_fkey
+add constraint country_relation_master_country_child_fkey
 foreign key (id_child)
-references iepg_data.master_countries(id);
+references iepg_data.master_country(id_master_country);
 
 alter table iepg_data.country_relation
-add constraint country_relation_master_countries_parent_fkey
+add constraint country_relation_master_country_parent_fkey
 foreign key (id_parent)
-references iepg_data.master_countries(id);
+references iepg_data.master_country(id_master_country);
 
 
--- Copy country data
+-- Variable metadata
 
-\c :dbname :superuser
+create table iepg_data.project_role(
+  id_project_role integer,
+  description varchar(250)
+);
 
-copy iepg_data.master_countries
-from :'copy_master_countries'
-with delimiter ';'
-csv header quote '"';
-
-copy iepg_data.country_relation
-from :'copy_country_relation'
-with delimiter ';'
-csv header quote '"';
-
-\c :dbname :user
+alter table iepg_data.project_role
+add constraint project_role_pkey
+primary key (id_project_role);
 
 
 create table iepg_data.metadata_variable(
@@ -92,14 +93,75 @@ create table iepg_data.metadata_variable(
   description_es text,
   discrete boolean,  
   code_type varchar(25),
-  data_type varchar(25)
+  data_type varchar(25),
+  id_project_role integer
 );
 
 alter table iepg_data.metadata_variable
 add constraint metadata_variable_pkey
 primary key (id_variable);
-  
 
-commit;
+alter table iepg_data.metadata_variable
+add constraint metadata_variable_project_role_fkey
+foreign key (id_project_role)
+references iepg_data.project_role(id_project_role);
+
+
+create table iepg_data.iepg_final_data(
+  id_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_presence float,
+  military_presence float,
+  soft_presence float,
+  iepg float
+);
+
+alter table iepg_data.iepg_final_data
+add constraint iepg_final_data_pkey
+primary key (id_country, date_in);
+
+alter table iepg_data.iepg_final_data
+add constraint iepg_final_data_master_country_fkey
+foreign key (id_country)
+references iepg_data.master_country(id_master_country);
+
+
+-- Copy data
+
+\c :dbname :superuser
+
+copy iepg_data.master_country
+from :'copy_master_country'
+with delimiter ';'
+csv header quote '"';
+
+copy iepg_data.country_relation
+from :'copy_country_relation'
+with delimiter ';'
+csv header quote '"';
+
+copy iepg_data.iepg_final_data
+from :'copy_iepg_final_data'
+with delimiter ';'
+csv header quote '"';
 
 analyze;
+
+\c :dbname :user

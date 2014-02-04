@@ -12,8 +12,6 @@
 */
 \i 00-config.sql
 
-begin;
-
 \c postgres :superuser
 
 create role :user with login password :'pass';
@@ -22,8 +20,24 @@ create database :dbname owner :user encoding 'UTF8';
 
 \c :dbname :superuser
 
-commit;
+\i lib/postgis.sql
+\i lib/spatial_ref_sys.sql
+
+alter table public.geometry_columns
+owner to :user;
+
+alter table public.spatial_ref_sys
+owner to :user;
+
+alter view public.geography_columns
+owner to :user;
 
 alter schema public owner to :user;
+
+\c :dbname :user
+
+\c :dbname :superuser
+
+analyze;
 
 \c :dbname :user

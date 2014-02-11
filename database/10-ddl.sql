@@ -75,36 +75,22 @@ references iepg_data.master_country(id_master_country);
 
 -- Variable metadata
 
-create table iepg_data.project_role(
-  id_project_role integer,
-  description varchar(250)
-);
-
-alter table iepg_data.project_role
-add constraint project_role_pkey
-primary key (id_project_role);
-
-
 create table iepg_data.metadata_variable(
-  id_variable char(32),
-  name_en varchar(250),
-  name_es varchar(250),
+  id_variable varchar(250),         -- Same as name_en
+  variable_en varchar(250),
+  variable_es varchar(250),
   description_en text,
   description_es text,
-  discrete boolean,  
-  code_type varchar(25),
-  data_type varchar(25),
-  id_project_role integer
+  info_type varchar(20),                 -- T for discrete variables, F for continuous
+  iepg_type varchar(20),
+  code_type varchar(20),
+  variable_type varchar(20),
+  data_type varchar(20)
 );
 
 alter table iepg_data.metadata_variable
 add constraint metadata_variable_pkey
 primary key (id_variable);
-
-alter table iepg_data.metadata_variable
-add constraint metadata_variable_project_role_fkey
-foreign key (id_project_role)
-references iepg_data.project_role(id_project_role);
 
 
 create table iepg_data.iepg_final_data(
@@ -144,6 +130,12 @@ references iepg_data.master_country(id_master_country);
 
 
 -- Copy data
+
+-- insert into iepg_data.project_role
+-- values(0, 'Core IEPG data');
+
+-- insert into iepg_data.project_role
+-- values(1, 'Context variable');
 
 \c :dbname :superuser
 

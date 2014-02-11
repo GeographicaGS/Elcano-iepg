@@ -3,7 +3,7 @@
 \c :dbname :superuser
 
 copy iepg_data.master_country
-to :'copy_master_countries'
+to :'copy_master_country'
 with delimiter ';'
 csv header quote '"';
 

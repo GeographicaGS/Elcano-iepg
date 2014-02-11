@@ -34,10 +34,10 @@
                 <div class="col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
                         <li class="navbar-brand"></li>
-                        <li class="portadaBT"><a href="#">Portada</a></li>
+                        <li class="portadaBT"><a href="dashboard.html">Portada</a></li>
                         <li><a class="exploraBT" href="#">Explora</a></li>
                         <li><a href="#">Noticias</a></li>
-                        <li class="active"><a href="#">Documentos</a></li>
+                        <li class="active"><a href="Documentos.html">Documentos</a></li>
                     </ul>
                     <button type="button" class="btn btn-lg btn-salir">Salir</button>
                 </div>
@@ -48,8 +48,8 @@
                     <span class="clean pull-left">* Campos necesarios</span>
                 </div>
                 <div class="pull-right pr15">
-                    <button type="button" class="btn btn-l btnlink">Cancelar</button>
-                    <button type="button" class="btn btn-l">Guardar documento</button>
+                    <a href="Documentos.html" type="button" class="btn btn-l btnlink">Cancelar</a>
+                    <a href="Documentos.html" type="button" class="btn btn-l">Guardar documento</a>
                 </div>
                 
                 <hr class="featurette-divider">
@@ -67,7 +67,28 @@
                         <div class="form-group">
                         	<div class=" col-md-2 LabelForm"><label for="">Etiquetas</label></div>
                             <div class="col-md-10">
-                                <button type="button" class="btn btn-xs anadir-bt">Añadir</button> <span class="cleanP">Documento en español sin etiquetar</span>
+                                <button type="button" class="btn btn-xs anadir-bt">Añadir</button> <span class="cleanP">
+                                <button type="button" class="btn btn-xs tag-active-bt">Economía</button>
+                                <button type="button" class="btn btn-xs tag-active-bt">Educación</button>
+                                <div class="tagForm">
+                                	<div class="tagsList">
+                                        <button type="button" class="btn btn-xs tag-add-bt">Bienes primarios</button>
+                                        <button type="button" class="btn btn-xs tag-add-bt">Energía</button>
+                                        <button type="button" class="btn btn-xs tag-add-bt">Inversiones</button>
+                                        <button type="button" class="btn btn-xs tag-add-bt">Migraciones</button>
+                                        <button type="button" class="btn btn-xs tag-add-bt">Militar</button>
+                                    </div>
+                                    <div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Nueva etiqueta en español</label>
+                                  	</div>
+                                    <div class="input-group col-md-4">
+                                        <input class="form-control Esimput" type="text">
+                                        <span class="input-group-btn">
+                                        	<button type="button" class="btn btn-default">Añadir</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                
                                 <hr class="featurette-divider">
                                 <button type="button" class="btn btn-xs anadir-bt">Añadir</button> <span class="cleanP">Documento en Inglés sin etiquetar</span>
                             </div>
@@ -109,12 +130,47 @@
                         <div class="form-group">
                         	<div class=" col-md-2 LabelForm"><label for="">Autoría</label></div>
                             <div class="col-md-10">
-                            	<div class="">
-                                	<div class="col-md-5">Nombre 1 <input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
-                                    <div class="col-md-5">Reseña 1 <input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
-                                    <button type="button" class="btn btn-resena-twitter"></button>
-                                    <button type="button" class="btn btn-resena-more"></button>
-                                	
+                                
+                                <div class="resenaGroup  col-md-12  col-sm-12">
+                                	<div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Nombre 1 (ejemplo: @rielcano)</label>
+                                  	</div>
+                                    <div class="col-md-5 col-false col-sm-12"></div>
+                                    <div class=" LabelForm labelGreyForm">
+                                    	
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class="btGroupResena">
+                                        <button type="button" class="btn btn-resena-twitter-edit col-md-2"></button>
+                                    </div>
+                                </div>
+                                
+                            	<div class="resenaGroup  col-md-12  col-sm-12">
+                                	<div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Nombre 2</label>
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Reseña 2</label>
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class="btGroupResena">
+                                        <button type="button" class="btn btn-resena-twitter"></button>
+                                    </div>
+                                </div>
+                                <div class="resenaGroup col-md-12 col-sm-12">
+                                	<div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Nombre 3</label>
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Reseña 3</label>
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class="btGroupResena">
+                                        <button type="button" class="btn btn-resena-twitter"></button>
+                                        <button type="button" class="btn btn-resena-more"></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -122,6 +178,11 @@
                         	<div class=" col-md-2 LabelForm"><label for="">descarga</label></div>
                             
                             <div class="col-md-10">
+                            	<div class="adjunto">
+                                	<a href="#" class="btn btnDOC DocAdjunto" title="b4467380427f6c13a989bb6d4bcb8d44.pdf"><span>b4467380427f6c13a989bb6d4bcb8d44.pdf</span></a>
+                                    <a href="#" class="btn btnDeleteAjunto pull-right" title="eliminar adjunto"></a>
+                                </div>
+                                <hr class="featurette-divider">
                                 <button type="button" class="btn btnDOC">Subir fichero PDF (español)</button>
                                 <hr class="featurette-divider">
                                 <button type="button" class="btn btnDOC">Subir fichero PDF (English)</button>

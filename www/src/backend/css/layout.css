@@ -152,7 +152,13 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 .ESTag, .ENTag{font-weight:500; color:#fff; text-transform: uppercase; padding:3px 4px;}
 .ESTag{ background:#d60006;}
 .ENTag{ background:#0033ff;}
+.inactivetag{ visibility:hidden}
 .Footertable{ color:#a2a2ac; font-size:13px;}
+.publicdesac{
+    cursor: not-allowed;
+    opacity: 0.25;
+    pointer-events: none;
+	}
 
 /*
  * Placeholder dashboard ideas
@@ -212,12 +218,41 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 
 .btnDOC{ background:url(../html/img/iconos/documentIco.png) no-repeat left center; color:#28282b; font-size:16px; padding-left:31px; padding-top:10px; padding-bottom:10px;}
 .btnDOC:hover, .btnDOC:active, .btnDOC:focus{ background:url(../html/img/iconos/documentIco.png) no-repeat left center; color:#515155; text-decoration:underline; box-shadow:none;}
+.DocAdjunto span{ border-bottom:1px solid #fdc300;}
+.DocAdjunto:hover{ text-decoration: none;}
+.DocAdjunto:hover span{ color:#fdc300;}
+
+.btnDeleteAjunto{ background:url(../html/img/iconos/delete_bt_ico.png) no-repeat center center; width:24px; height:43px;}
+.btnDeleteAjunto:hover{ background:url(../html/img/iconos/delete_bt_ico_hover.png) no-repeat center center;}
 
 .anadir-bt{ background: url(../html/img/iconos/anadir_ico.png) no-repeat left top #28282b; color:#fff; line-height: 0.8; padding:5px 5px 5px 20px; font-size:13px; margin-right:10px;}
-.anadir-bt:hover{background: url(../html/img/iconos/anadir_ico.png) no-repeat left top #6D6D74;}
+.anadir-bt:hover{background: url(../html/img/iconos/anadir_ico_hover.png) no-repeat left top #28282b; color:#fdc300;}
 
-.btn-resena-twitter{ background:url(../html/img/iconos/twitter_resena_ico.png) no-repeat left center}
-.btn-resena-more{ background:url(../html/img/iconos/more_resena_ico.png) no-repeat left center}
+.tag-active-bt{ background: url(../html/img/iconos/remove_icon.png) no-repeat right center #fff; color:#d60006; line-height: 0.8; padding:5px 24px 5px 5px; font-size:13px; margin-right:5px;}
+.tag-active-bt:hover{ background: url(../html/img/iconos/remove_icon_hover.png) no-repeat right center #d60006; color:#fff;}
+
+.tagForm{ background:#fafafb; padding:10px 10px 18px; margin-top:10px;}
+.tagsList{ margin-bottom:38px;}
+.tag-add-bt{background: url(../html/img/iconos/add_ico.png) no-repeat left center #fdc300; color:#28282b; line-height: 0.8; padding:5px 5px 5px 20px; font-size:13px; margin-right:5px;}
+.tag-add-bt:hover{background: url(../html/img/iconos/add_ico_hover.png) no-repeat left center #28282b; color:#fff;}
+
+.resenaGroup{ margin-bottom:10px; padding:0;}
+
+.btn-resena-twitter{ background:url(../html/img/iconos/twitter_resena_ico.png) no-repeat center center; width:35px; height:40px;}
+.btn-resena-twitter:hover{ background:url(../html/img/iconos/twitter_resena_ico_hover.png) no-repeat center center}
+
+.btn-resena-twitter-edit{background:url(../html/img/iconos/twitter_resena_edit_ico.png) no-repeat center center; width:35px; height:40px;}
+.btn-resena-twitter-edit:hover{background:url(../html/img/iconos/twitter_resena_edit_ico_hover.png) no-repeat center center;}
+
+.col-false{ width:35.999%}
+
+.inputTwitter{ float:left; width:90%;}
+
+.btn-resena-more{ background:url(../html/img/iconos/more_resena_ico.png) no-repeat center center; border-left: 1px solid #d9d9dd; margin-left:5x; width:35px; height:40px; padding-left:10px;}
+.btn-resena-more:hover{ background:url(../html/img/iconos/more_resena_ico_hover.png) no-repeat center center}
+
+.btGroupResena{ width:80px; float:left}
+.twitterResena .btn-resena-twitter-edit{float:left; margin-left:10px;}
 
 .cleanP{ color:#a2a2ac; font-size:13px; font-style:italic;}
 
@@ -228,14 +263,21 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 .DestacadosForm .LabelForm label{font-size:13px; text-transform: uppercase; color:#515155; font-weight: normal !important;}
 .DestacadosForm .form-group .featurette-divider{ border-bottom:1px dotted #c7c7cd; margin-top:13px; margin-bottom:13px;}
 
-.Esimput:focus {
+.DestacadosForm .labelGreyForm{ width:auto; float: left; margin-right:10px; padding-top:10px;}
+.DestacadosForm .labelGreyForm .greyLabel{ text-transform: none; color:#a2a2ac; font-style:normal;}
+
+.DestacadosForm .labelTwiterResena{}
+
+.input-group-btn > .btn{ border-radius:0px; font-style: normal; color:#28282b; background:#ececee; font-size:13px; font-weight: normal; border:1px solid #A2A2AC; padding:11px 16px; height:43px;}
+
+.ENimput:focus {
 	border:1px solid #0033ff;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(0, 51, 255, 0.6);
     outline-color: -moz-use-text-color;
     outline-style: none;
     outline-width: 0;
 }
-.ENimput:focus {
+.Esimput:focus {
 	border:1px solid #d60006;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(214, 0, 6, 0.6);
     outline-color: -moz-use-text-color;
@@ -246,3 +288,25 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 .pr15{ padding-right:15px;}
 .pl15{ padding-left:0px;}
 
+@media only screen and (max-width: 1024px) {
+	.col-md-6 { padding-left:0px;}
+	.inputTwitter {
+    float: left;
+    width: 80%;
+	}
+	.twitterResena .btn-resena-twitter-edit {
+    float: left;
+    margin-left: 10px;
+	}
+	}
+@media only screen and (max-width: 768px) {
+	.col-sm-12{ padding-left:0px;}
+	.inputTwitter {
+    float: left;
+    width: 100%;
+	}
+	.twitterResena .btn-resena-twitter-edit {
+    float: left;
+    margin-left: 0;
+	}
+	}

@@ -19,7 +19,6 @@ deps.Backend.JS = {
 			// models
 			"backend/js/model/user_model.js",
 			// views
-			"backend/js/view/login_view.js",
 			"backend/js/view/user_view.js",
 			// router
 			"backend/js/router.js",

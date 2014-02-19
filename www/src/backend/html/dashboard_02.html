@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="img/favicon.png">
+        
+        <title><lang>Índice Elcano de Presencia Global backend</lang></title>
+        
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Custom styles for this template -->
+        <link href="../css/layout.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+        
+        <!-- Just for debugging purposes. Don't actually copy this line! -->
+        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+        
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li class="navbar-brand"></li>
+                        <li class="active portadaBT"><a href="dashboard.html">Portada</a></li>
+                        <li><a class="exploraBT" href="#">Explora</a></li>
+                        <li><a href="#">Noticias</a></li>
+                        <li><a href="Documentos.html">Documentos</a></li>
+                    </ul>
+                    <button type="button" class="btn btn-lg btn-salir">Salir</button>
+                </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            	<div class="pull-left">
+                    <h1 class="page-header col-md-1">Destacado</h1>
+                    <button type="button" class="btn btn-l activeES ESbt">Español</button> <button type="button" class="btn btn-l activeEN ENbt">English</button>
+                    <span class="clean pull-left">* Campos necesarios</span>
+                </div>
+                <div class="pull-right pr15">
+                    <a href="dashboard.html" type="button" class="btn btn-l btnlink">Cancelar</a>
+                    <a href="dashboard.html" type="button" class="btn btn-l">Guardar destacado</a>
+                </div>
+                
+                <hr class="featurette-divider">
+                <div class="DestacadosForm">
+                    <form role="form">
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Epígrafe * <span class="clean pull-left">25 caracteres máx.</span></label></div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control Esimput " id="" placeholder="(Español)">
+                                <hr class="featurette-divider">
+                                <input type="text" class="form-control ENimput" id="" placeholder="(English)">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Título * <span class="clean pull-left">45 caracteres máx.</span></label></div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control Esimput " id="" placeholder="(Español)">
+                                <hr class="featurette-divider">
+                                <input type="text" class="form-control ENimput" id="" placeholder="(English)">
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Imagen * <span class="clean pull-left">JPG 2MB max.</span></label></div>
+                            
+                            <div class="col-md-5">
+                                <button type="button" class="btn btnImg">Subir una imagen JPG (español)</button>
+                                <hr class="featurette-divider">
+                                <button type="button" class="btn btnImg">Subir una imagen JPG (English)</button>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control Esimput " id="" placeholder=" Créditos (Español)">
+                                <hr class="featurette-divider">
+                                <input type="text" class="form-control ENimput" id="" placeholder=" Créditos (English)">
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Enlace <span class="clean pull-left">http://</span></label></div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control Esimput " id="" placeholder="(Español)">
+                                <hr class="featurette-divider">
+                                <input type="text" class="form-control ENimput" id="" placeholder="(English)">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="pull-left pl15 col-md-11 btn_botton">
+                    	 <div class="col-md-11 pl15">
+                            <a href="dashboard.html" type="button" class="btn btn-l">Guardar destacado</a>
+                            <a href="dashboard.html" type="button" class="btn btn-l btnlink">Cancelar</a>
+                        </div>
+                	</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/docs.min.js"></script>
+    </body>
+</html>

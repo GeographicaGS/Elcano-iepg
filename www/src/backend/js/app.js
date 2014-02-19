@@ -36,6 +36,8 @@ $(function() {
         e.preventDefault();
         app.router.navigate($(this).attr("href"),{trigger: true});
     });
+    
+    
     app.ini();
     
 });
@@ -53,19 +55,22 @@ app.detectCurrentLanguage = function(){
 };
 app.ini = function(){
     this._user = new app.model.User();
-    
     this.router = new app.router();
     
+    this.lang = this.detectCurrentLanguage();
+    this.basePath = this.config.BASE_PATH + this.lang;
+    
     //Backbone.history.start();root: "/public/search/"
-    Backbone.history.start({pushState: true,root: this.config.BASE_PATH + this.detectCurrentLanguage()})
+    Backbone.history.start({pushState: true,root: this.basePath });
+    
+    
 
     
     // Is the user logged in ?
     this._user.once('sync',function(){
         if (!this._user.get("id")){
-            // user not logged            
-            this._logged = false;
-            this.login();
+            // user not logged. go to login
+           this.goLogin();
         }
         else{
             this._logged = true;
@@ -86,20 +91,16 @@ app.showView = function(view) {
     $("#app_container").html(this.currentView.el);  
 }
 
-app.login = function(){    
-    this.showView(new app.view.LoginView());
-};
-
 app.logout = function(){
     var self = this;
     $.get(app.config.API_URL + "/user/logout",function(){
-        self.router.navigate("");
-        self._user = new app.model.User();
-        self._logged = false;
-        self.login();
+        self.goLogin();
     });
 };
 
+app.goLogin = function(){
+    window.location = "/" + this.basePath + "/login.html";
+};
 
 app.getUser = function(){
     return this._user;

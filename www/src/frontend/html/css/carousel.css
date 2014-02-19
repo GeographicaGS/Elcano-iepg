@@ -9,7 +9,6 @@
 /* Carousel base class */
 .carousel {
   height:450px;
-  margin-bottom: 60px;
   background:#fdc300;
 }
 /* Since positioning the image, we need to help out the caption */
@@ -122,7 +121,7 @@ width: 60%;
   
 	}
 .carousel-caption .creditPicture{ font-size:11px; text-shadow:none;}
-.carousel-caption .subtitleSlide{ color:#fdc300; font-weight:500; text-shadow:none; }
+.carousel-caption .subtitleSlide{ color:#fdc300; font-size:15px; font-family:'Roboto Condensed', sans-serif; font-weight:700; text-shadow:none; text-transform: uppercase}
 .carousel-caption h1.SlideTitle{ font-weight: 300; font-size: 48px; width:330px; text-shadow:none;}
 /* MARKETING CONTENT
 -------------------------------------------------- */
@@ -149,10 +148,6 @@ width: 60%;
 
 /* Featurettes
 ------------------------- */
-
-.featurette-divider {
-  margin: 80px 0; /* Space out the Bootstrap <hr> more */
-}
 
 /* Thin out the marketing headings */
 .featurette-heading {

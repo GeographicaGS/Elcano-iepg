@@ -60,12 +60,7 @@ app.ini = function(){
     this.lang = this.detectCurrentLanguage();
     this.basePath = this.config.BASE_PATH + this.lang;
     
-    //Backbone.history.start();root: "/public/search/"
-    Backbone.history.start({pushState: true,root: this.basePath });
-    
-    
-
-    
+  
     // Is the user logged in ?
     this._user.once('sync',function(){
         if (!this._user.get("id")){
@@ -74,6 +69,8 @@ app.ini = function(){
         }
         else{
             this._logged = true;
+              //Backbone.history.start();root: "/public/search/"
+            Backbone.history.start({pushState: true,root: this.basePath });
             app.router.navigate("user", {trigger: true});
         }
     },this);

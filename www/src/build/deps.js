@@ -20,6 +20,8 @@ deps.Backend.JS = {
 			"backend/js/model/user_model.js",
 			// views
 			"backend/js/view/user_view.js",
+			"backend/js/view/home_view.js",
+			"backend/js/view/news_view.js",
 			// router
 			"backend/js/router.js",
 			// app
@@ -37,7 +39,7 @@ deps.Backend.CSS = {
 	},
 	Core: {
 		src: [
-			"backend/css/layout.css",
+			"backend/html/css/layout.css",
 			"backend/css/render.css",
 		]
 	}

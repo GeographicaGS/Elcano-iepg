@@ -37,7 +37,10 @@ $(function() {
         app.router.navigate($(this).attr("href"),{trigger: true});
     });
     
-    
+    $("button#logout").click(function(){
+        app.logout();
+    });
+
     app.ini();
     
 });
@@ -102,4 +105,15 @@ app.goLogin = function(){
 app.getUser = function(){
     return this._user;
 }
+
+app.events = {};
+
+_.extend(app.events , Backbone.Events);
+
+app.events.on("menu", function(id){
+    var $menu = $("ul.nav-sidebar");
+    $menu.children().removeClass("active");
+    $menu.find("#"+id).addClass("active");
+});
+
 

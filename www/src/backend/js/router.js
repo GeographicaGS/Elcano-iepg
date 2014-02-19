@@ -6,6 +6,8 @@ app.router = Backbone.Router.extend({
     routes: {
         
         "user" : "user",
+        "news" : "news",
+        "home" : "home",
         "logout" : "logout",       
         //"project/:id": "showProject",
         /* Sample usage: http://example.com/#about */
@@ -20,6 +22,14 @@ app.router = Backbone.Router.extend({
         app.showView(new app.view.UserView({
             model: app.getUser()
         }));
+    },
+    
+    news: function(){
+        app.showView(new app.view.NewsView());
+    },
+    
+    home: function(){
+        app.showView(new app.view.HomeView());
     },
     
     logout : function(){

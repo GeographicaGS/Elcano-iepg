@@ -6,6 +6,8 @@ app.config.update(
 )
 
 import user
+import document
+import label
 
 @app.route('/', methods = ['GET'])                                            
 def alive():

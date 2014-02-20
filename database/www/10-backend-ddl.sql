@@ -4,9 +4,9 @@
 
 */
 
-\i 00-config.sql
+-- \i 00-config.sql
 
-\c :dbname :user
+-- \c :dbname :user
 
 create schema www authorization :user;
 
@@ -187,20 +187,20 @@ references www.author(id_author);
 
 -- Fake data
 
-insert into www.label_en
-values(1, 'Economy');
+insert into www.label_en(label)
+values('Economy');
 
-insert into www.label_en
-values(2, 'Energy');
+insert into www.label_en(label)
+values('Energy');
 
-insert into www.label_en
-values(2, 'Military');
+insert into www.label_en(label)
+values('Military');
 
-insert into www.label_es
-values(1, 'Economía');
+insert into www.label_es(label)
+values('Economía');
 
-insert into www.label_es
-values(2, 'Energía');
+insert into www.label_es(label)
+values('Energía');
 
-insert into www.label_es
-values(2, 'Militar');
+insert into www.label_es(label)
+values('Militar');

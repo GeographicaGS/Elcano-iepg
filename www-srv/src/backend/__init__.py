@@ -8,6 +8,8 @@ app.config.update(
 import user
 import document
 import label
+from config import cfgBackend
+app.config.update(cfgBackend)
 
 @app.route('/', methods = ['GET'])                                            
 def alive():

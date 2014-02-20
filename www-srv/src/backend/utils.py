@@ -1,10 +1,14 @@
 from flask import session
 from backend import app
+from functools import wraps
 
 def auth(f):
     """Wraps Authentication"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        if app.config["autoAuth"]==True:
+            return f(*args, **kwargs)
+
         if 'id_user' in session:
              return f(*args, **kwargs)
         else:

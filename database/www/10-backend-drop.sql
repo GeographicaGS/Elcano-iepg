@@ -4,7 +4,7 @@
 
 */
 
-\i config.sql
+\i 00-config.sql
 
 \c :dbname :user
 

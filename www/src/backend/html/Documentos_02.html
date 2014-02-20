@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="img/favicon.png">
+        
+        <title><lang>Índice Elcano de Presencia Global backend</lang></title>
+        
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Custom styles for this template -->
+        <link href="../css/layout.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+        
+        <!-- Just for debugging purposes. Don't actually copy this line! -->
+        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+        
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li class="navbar-brand"></li>
+                        <li class="portadaBT"><a href="dashboard.html">Portada</a></li>
+                        <li><a class="exploraBT" href="#">Explora</a></li>
+                        <li><a href="#">Noticias</a></li>
+                        <li class="active"><a href="Documentos.html">Documentos</a></li>
+                    </ul>
+                    <button type="button" class="btn btn-lg btn-salir">Salir</button>
+                </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            	<div class="pull-left">
+                    <h1 class="page-header col-md-1">Documento</h1>
+                    <button type="button" class="btn btn-l activeES ESbt">Español</button> <button type="button" class="btn btn-l activeEN ENbt">English</button>
+                    <span class="clean pull-left">* Campos necesarios</span>
+                </div>
+                <div class="pull-right pr15">
+                    <a href="Documentos.html" type="button" class="btn btn-l btnlink">Cancelar</a>
+                    <a href="Documentos.html" type="button" class="btn btn-l">Guardar documento</a>
+                </div>
+                
+                <hr class="featurette-divider">
+                <div class="DestacadosForm">
+                    <form role="form">
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">título *</label></div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control Esimput " id="" placeholder="(Español)">
+                                <hr class="featurette-divider">
+                                <input type="text" class="form-control ENimput" id="" placeholder="(English)">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Etiquetas</label></div>
+                            <div class="col-md-10">
+                                <button type="button" class="btn btn-xs anadir-bt">Añadir</button> <span class="cleanP">
+                                <button type="button" class="btn btn-xs tag-active-bt">Economía</button>
+                                <button type="button" class="btn btn-xs tag-active-bt">Educación</button>
+                                <div class="tagForm">
+                                	<div class="tagsList">
+                                        <button type="button" class="btn btn-xs tag-add-bt">Bienes primarios</button>
+                                        <button type="button" class="btn btn-xs tag-add-bt">Energía</button>
+                                        <button type="button" class="btn btn-xs tag-add-bt">Inversiones</button>
+                                        <button type="button" class="btn btn-xs tag-add-bt">Migraciones</button>
+                                        <button type="button" class="btn btn-xs tag-add-bt">Militar</button>
+                                    </div>
+                                    <div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Nueva etiqueta en español</label>
+                                  	</div>
+                                    <div class="input-group col-md-4">
+                                        <input class="form-control Esimput" type="text">
+                                        <span class="input-group-btn">
+                                        	<button type="button" class="btn btn-default">Añadir</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <hr class="featurette-divider">
+                                <button type="button" class="btn btn-xs anadir-bt">Añadir</button> <span class="cleanP">Documento en Inglés sin etiquetar</span>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Tema</label></div>
+                            <div class="col-md-10">
+                                <textarea class="form-control Esimput" placeholder="(Español)" rows="3"></textarea>
+                                <hr class="featurette-divider">
+                                <textarea class="form-control ENimput" placeholder="(English)" rows="3"></textarea>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Resumen</label></div>
+                            <div class="col-md-10">
+                                <textarea class="form-control Esimput" placeholder="(Español)" rows="6"></textarea>
+                                <hr class="featurette-divider">
+                                <textarea class="form-control ENimput" placeholder="(English)" rows="6"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Análisis *</label></div>
+                            <div class="col-md-10">
+                                <textarea class="form-control Esimput" placeholder="(Español)" rows="12"></textarea>
+                                <hr class="featurette-divider">
+                                <textarea class="form-control ENimput" placeholder="(English)" rows="12"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Conclusión</label></div>
+                            <div class="col-md-10">
+                                <textarea class="form-control Esimput" placeholder="(Español)" rows="6"></textarea>
+                                <hr class="featurette-divider">
+                                <textarea class="form-control ENimput" placeholder="(English)" rows="6"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">Autoría</label></div>
+                            <div class="col-md-10">
+                                
+                                <div class="resenaGroup  col-md-12  col-sm-12">
+                                	<div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Nombre 1 (ejemplo: @rielcano)</label>
+                                  	</div>
+                                    <div class="col-md-5 col-false col-sm-12"></div>
+                                    <div class=" LabelForm labelGreyForm">
+                                    	
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class="btGroupResena">
+                                        <button type="button" class="btn btn-resena-twitter-edit col-md-2"></button>
+                                    </div>
+                                </div>
+                                
+                            	<div class="resenaGroup  col-md-12  col-sm-12">
+                                	<div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Nombre 2</label>
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Reseña 2</label>
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class="btGroupResena">
+                                        <button type="button" class="btn btn-resena-twitter"></button>
+                                    </div>
+                                </div>
+                                <div class="resenaGroup col-md-12 col-sm-12">
+                                	<div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Nombre 3</label>
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class=" LabelForm labelGreyForm">
+                                    	<label for="" class="greyLabel">Reseña 3</label>
+                                  	</div>
+                                    <div class="col-md-5 col-sm-12"><input type="text" class="form-control Esimput" id="" placeholder="(Español)"></div>
+                                    <div class="btGroupResena">
+                                        <button type="button" class="btn btn-resena-twitter"></button>
+                                        <button type="button" class="btn btn-resena-more"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        	<div class=" col-md-2 LabelForm"><label for="">descarga</label></div>
+                            
+                            <div class="col-md-10">
+                            	<div class="adjunto">
+                                	<a href="#" class="btn btnDOC DocAdjunto" title="b4467380427f6c13a989bb6d4bcb8d44.pdf"><span>b4467380427f6c13a989bb6d4bcb8d44.pdf</span></a>
+                                    <a href="#" class="btn btnDeleteAjunto pull-right" title="eliminar adjunto"></a>
+                                </div>
+                                <hr class="featurette-divider">
+                                <button type="button" class="btn btnDOC">Subir fichero PDF (español)</button>
+                                <hr class="featurette-divider">
+                                <button type="button" class="btn btnDOC">Subir fichero PDF (English)</button>
+                            </div>
+                            
+                        </div>
+                    </form>
+                    <div class="pull-left pl15 col-md-11 btn_botton">
+                    	 <div class="col-md-11 pl15">
+                            <button type="button" class="btn btn-l">Guardar documento</button>
+                            <button type="button" class="btn btn-l btnlink">Cancelar</button>
+                        </div>
+                	</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/docs.min.js"></script>
+    </body>
+</html>

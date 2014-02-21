@@ -2,7 +2,6 @@ from backend import app
 from flask import jsonify,request,session
 from model.labelmodel import LabelModel
 from utils import auth
-# import hashlib
 
 @app.route("/label/<string:lang>", methods=["GET"])
 @auth

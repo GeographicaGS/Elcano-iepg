@@ -4,9 +4,9 @@
 
 */
 
--- \i 00-config.sql
+\i 00-config.sql
 
--- \c :dbname :user
+\c :dbname :user
 
 create schema www authorization :user;
 
@@ -67,6 +67,7 @@ primary key(id_highlight);
 
 create table www.author(
   id_author serial,
+  id_document integer,
   name varchar(100),
   position_en varchar(250),
   position_es varchar(250),
@@ -148,16 +149,6 @@ add constraint document_label_es_pkey
 primary key (id_document, id_label_es);
 
 
-create table www.document_author(
-  id_document integer,
-  id_author integer
-);
-
-alter table www.document_author
-add constraint document_author_pkey
-primary key (id_document, id_author);
-
-
 -- Foreign keys
 
 alter table www.document
@@ -190,93 +181,7 @@ add constraint document_label_es_label_en_fkey
 foreign key (id_label_es)
 references www.label_es(id_label_es);
 
-alter table www.document_author
-add constraint document_author_document_fkey
+alter table www.author
+add constraint author_document_fkey
 foreign key (id_document)
 references www.document(id_document);
-
-alter table www.document_author
-add constraint document_author_author_fkey
-foreign key (id_author)
-references www.author(id_author);
-
-
--- Fake data
-
-insert into www.wwwuser(
-  name,
-  surname,
-  password,
-  email,
-  admin,
-  username,
-  language,
-  status)
-values(
-  'Alberto',
-  'Asuero Arroyo',
-  'eac9e8dd8575f4c7831f1f6a72607126',
-  'alberto.asuero@geographica.gs',
-  true,
-  'alasarr',
-  'es',
-  1);
-
-insert into www.label_en(label)
-values('Economy');
-
-insert into www.label_en(label)
-values('Energy');
-
-insert into www.label_en(label)
-values('Military');
-
-insert into www.label_es(label)
-values('Economía');
-
-insert into www.label_es(label)
-values('Energía');
-
-insert into www.label_es(label)
-values('Militar');
-
-insert into www.document(
-  title_en,
-  title_es,
-  theme_en,
-  theme_es,
-  description_en,
-  description_es,
-  pdf_file_en,
-  pdf_file_es,
-  link_en,
-  link_es,
-  last_edit_id_user,
-  last_edit_time,
-  published)
-values(
-  'Title_en',
-  'title_es',
-  'theme_en',
-  'theme_es',
-  'description_en',
-  'description_es',
-  'pdf_file_en',
-  'pdf_file_es',
-  'link_en',
-  'link_es',
-  1,
-  now(),
-  true);
-
-insert into www.document_label_en
-values(1,1);
-
-insert into www.document_label_en
-values(1,2);
-
-insert into www.document_label_es
-values(1,1);
-
-insert into www.document_label_es
-values(1,2);

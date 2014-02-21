@@ -1,14 +1,37 @@
 from backend import app
 from flask import jsonify,request,session
 from model.documentmodel import DocumentModel
-# import utils
-# import hashlib
+from utils import auth
 
-@app.route('/document/test', methods=['GET'])
-def testDocument():
-    return jsonify({"ie": "jej"})
-
-@app.route('/document/new', methods=['POST'])
+@app.route('/document', methods=['POST'])
+@auth
 def newDocument():
-    return(jsonify({"User": request.json['user']['email']}))
+    app.logger.info(request.json)
+    m = DocumentModel()
 
+    return(jsonify({"id": m.createDocument(request.json)}))
+
+@app.route('/document', methods=['PUT'])
+@auth
+def editDocument():
+    app.logger.info(request.json)
+    m = DocumentModel()
+
+    return(jsonify({"id": m.editDocument(request.json)}))
+
+@app.route('/document', methods=['DELETE'])
+@auth
+def deleteDocument():
+    app.logger.info(request.json)
+    m = DocumentModel()
+
+    return(jsonify({"id": m.deleteDocument(request.json)}))
+
+
+
+
+
+@app.route('/uploadpdf', methods=['POST'])
+@auth
+def uploadPdf():
+    pass

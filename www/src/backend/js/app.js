@@ -34,7 +34,14 @@ $(function() {
     
     $("body").on("click","a",function(e){
         e.preventDefault();
-        app.router.navigate($(this).attr("href"),{trigger: true});
+        var href = $(this).attr("href");
+        if (href=="#back") {
+            history.back();
+        }
+        else if (href!="" && href!="#") {
+            app.router.navigate($(this).attr("href").substring(3),{trigger: true});
+        }
+        
     });
     
     $("button#logout").click(function(){
@@ -74,10 +81,14 @@ app.ini = function(){
             this._logged = true;
               //Backbone.history.start();root: "/public/search/"
             Backbone.history.start({pushState: true,root: this.basePath });
-            app.router.navigate("user", {trigger: true});
+            //app.router.navigate("user", {trigger: true});
         }
     },this);
-    this._user.fetch();
+    this._user.fetch({
+        error: function(){
+            app.goLogin();
+        }
+    });
 };
 
 app.showView = function(view) {
@@ -115,5 +126,4 @@ app.events.on("menu", function(id){
     $menu.children().removeClass("active");
     $menu.find("#"+id).addClass("active");
 });
-
 

@@ -4,11 +4,17 @@ app.router = Backbone.Router.extend({
     
     /* define the route and function maps for this router */
     routes: {
-        
+        "" : "home",
         "user" : "user",
         "news" : "news",
         "home" : "home",
-        "logout" : "logout",       
+        "logout" : "logout",
+        // default page of doc section
+        "docs": "listDocs",
+        
+        "docs/add" : "addDocument",
+        "docs/edit" : "editDocument",
+        "docs/:id" : "viewDocument",
         //"project/:id": "showProject",
         /* Sample usage: http://example.com/#about */
         "*other"    : "defaultRoute"
@@ -34,6 +40,22 @@ app.router = Backbone.Router.extend({
     
     logout : function(){
         app.logout();
+    },
+    
+    listDocs: function(){
+        app.showView(new app.view.docs.ListView());
+    },
+    
+    viewDocument: function(id){
+        app.showView(new app.view.docs.DocumentView());
+    },
+    
+    addDocument: function(){
+        app.showView(new app.view.docs.FormView());
+    },
+    
+    editDocument: function(id){
+        app.showView(new app.view.docs.FormView());
     },
     
     defaultRoute: function(other){

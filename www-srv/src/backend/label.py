@@ -12,11 +12,12 @@ def getLabels(lang):
     return jsonify({"results": m.getLabels(lang)})
 
 
-@app.route("/label/new", methods=["POST"])
+@app.route("/label/<string:lang>", methods=["POST"])
 @auth
-def newLabel():
+def newLabel(lang):
     """Creates a new label."""
     m = LabelModel()
-    return jsonify({"results": \
-                    m.insertLabel(request.json["label"]["label"], request.json["label"]["language"])})
+    
+    return jsonify({"id": \
+                    m.insertLabel(request.json["label"], lang)})
 

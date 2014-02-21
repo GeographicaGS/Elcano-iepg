@@ -14,14 +14,34 @@ deps.Backend.JS = {
 	}
 	,Core: {
 		src: [
+			// Namespace
+			"backend/js/namespace.js",
 			// Config file
 			"backend/js/config.js",
-			// models
+			
+			
+			// --------------------
+			// ------  Models ------
+			// --------------------
 			"backend/js/model/user_model.js",
-			// views
+			"backend/js/model/label_model.js",
+			
+			// --------------------
+			// --- Collections  ---
+			// --------------------
+			"backend/js/collection/label_collection.js",			
+			// --------------------
+			// ------  Views ------
+			// --------------------
+			// Docs Views
+			"backend/js/view/docs/docs_list_view.js",
+			"backend/js/view/docs/docs_document_view.js",
+			"backend/js/view/docs/docs_form_view.js",
+			// User view
 			"backend/js/view/user_view.js",
 			"backend/js/view/home_view.js",
 			"backend/js/view/news_view.js",
+			
 			// router
 			"backend/js/router.js",
 			// app

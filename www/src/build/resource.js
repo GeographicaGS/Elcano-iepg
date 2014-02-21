@@ -26,11 +26,11 @@ function generateIndex(env,lang,templates,debug){
 		var js = "";
 		
 		for (i in jsThird) {
-			js += getScriptTag("../../../src/" + jsThird[i]) +"\n\n";
+			js += getScriptTag("/src/" + jsThird[i]) +"\n\n";
 		}
 		
 		for (i in jsCore) {
-			js += getScriptTag("../../../src/" + jsCore[i]) +"\n\n";
+			js += getScriptTag("/src/" + jsCore[i]) +"\n\n";
 		}
 		
 		index = index.replace("</body>",js + "</body>");

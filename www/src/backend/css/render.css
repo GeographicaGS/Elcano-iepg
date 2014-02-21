@@ -1,3 +1,11 @@
 /**
 * Here render styles. We should place here styles of classes that will be added via JS in the render process.
 **/
+
+.clabels{
+    display:inline-block;
+}
+
+.hide{
+    display: none;
+}

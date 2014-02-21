@@ -1,0 +1,201 @@
+                Table "www.document_author"
+   Column    |  Type   | Modifiers | Storage | Description 
+-------------+---------+-----------+---------+-------------
+ id_document | integer | not null  | plain   | 
+ id_author   | integer | not null  | plain   | 
+Indexes:
+    "document_author_pkey" PRIMARY KEY, btree (id_document, id_author)
+Foreign-key constraints:
+    "document_author_author_fkey" FOREIGN KEY (id_author) REFERENCES www.author(id_author)
+    "document_author_document_fkey" FOREIGN KEY (id_document) REFERENCES www.document(id_document)
+Has OIDs: no
+
+              Index "www.document_author_pkey"
+   Column    |  Type   | Definition  | Storage | Description 
+-------------+---------+-------------+---------+-------------
+ id_document | integer | id_document | plain   | 
+ id_author   | integer | id_author   | plain   | 
+primary key, btree, for table "www.document_author"
+
+                  Sequence "www.document_id_document_seq"
+    Column     |  Type   |          Value           | Storage | Description 
+---------------+---------+--------------------------+---------+-------------
+ sequence_name | name    | document_id_document_seq | plain   | 
+ last_value    | bigint  | 1                        | plain   | 
+ start_value   | bigint  | 1                        | plain   | 
+ increment_by  | bigint  | 1                        | plain   | 
+ max_value     | bigint  | 9223372036854775807      | plain   | 
+ min_value     | bigint  | 1                        | plain   | 
+ cache_value   | bigint  | 1                        | plain   | 
+ log_cnt       | bigint  | 1                        | plain   | 
+ is_cycled     | boolean | f                        | plain   | 
+ is_called     | boolean | f                        | plain   | 
+
+                Table "www.document_label"
+   Column    |  Type   | Modifiers | Storage | Description 
+-------------+---------+-----------+---------+-------------
+ id_label    | integer | not null  | plain   | 
+ id_document | integer | not null  | plain   | 
+Indexes:
+    "document_label_pkey" PRIMARY KEY, btree (id_label, id_document)
+Foreign-key constraints:
+    "document_label_document_fkey" FOREIGN KEY (id_document) REFERENCES www.document(id_document)
+    "document_label_label_fkey" FOREIGN KEY (id_label) REFERENCES www.label(id_label)
+Has OIDs: no
+
+               Index "www.document_label_pkey"
+   Column    |  Type   | Definition  | Storage | Description 
+-------------+---------+-------------+---------+-------------
+ id_label    | integer | id_label    | plain   | 
+ id_document | integer | id_document | plain   | 
+primary key, btree, for table "www.document_label"
+
+                  Index "www.document_pkey"
+   Column    |  Type   | Definition  | Storage | Description 
+-------------+---------+-------------+---------+-------------
+ id_document | integer | id_document | plain   | 
+primary key, btree, for table "www.document"
+
+
+                                                    Table "www.label"
+  Column  |         Type          |                          Modifiers                           | Storage  | Description 
+----------+-----------------------+--------------------------------------------------------------+----------+-------------
+ id_label | integer               | not null default nextval('www.label_id_label_seq'::regclass) | plain    | 
+ label_en | character varying(50) |                                                              | extended | 
+ label_es | character varying(50) |                                                              | extended | 
+Indexes:
+    "label_pkey" PRIMARY KEY, btree (id_label)
+    "label_en_unique" UNIQUE CONSTRAINT, btree (label_en, label_es)
+Referenced by:
+    TABLE "www.document_label" CONSTRAINT "document_label_label_fkey" FOREIGN KEY (id_label) REFERENCES www.label(id_label)
+    TABLE "www.new_label" CONSTRAINT "new_label_label_fkey" FOREIGN KEY (id_label) REFERENCES www.label(id_label)
+Has OIDs: no
+
+                      Index "www.label_en_unique"
+  Column  |         Type          | Definition | Storage  | Description 
+----------+-----------------------+------------+----------+-------------
+ label_en | character varying(50) | label_en   | extended | 
+ label_es | character varying(50) | label_es   | extended | 
+unique, btree, for table "www.label"
+
+                   Sequence "www.label_id_label_seq"
+    Column     |  Type   |        Value        | Storage | Description 
+---------------+---------+---------------------+---------+-------------
+ sequence_name | name    | label_id_label_seq  | plain   | 
+ last_value    | bigint  | 1                   | plain   | 
+ start_value   | bigint  | 1                   | plain   | 
+ increment_by  | bigint  | 1                   | plain   | 
+ max_value     | bigint  | 9223372036854775807 | plain   | 
+ min_value     | bigint  | 1                   | plain   | 
+ cache_value   | bigint  | 1                   | plain   | 
+ log_cnt       | bigint  | 1                   | plain   | 
+ is_cycled     | boolean | f                   | plain   | 
+ is_called     | boolean | f                   | plain   | 
+
+                 Index "www.label_pkey"
+  Column  |  Type   | Definition | Storage | Description 
+----------+---------+------------+---------+-------------
+ id_label | integer | id_label   | plain   | 
+primary key, btree, for table "www.label"
+
+                                                          Table "www.new"
+     Column      |            Type             |                        Modifiers                         | Storage  | Description 
+-----------------+-----------------------------+----------------------------------------------------------+----------+-------------
+ id_new          | integer                     | not null default nextval('www.new_id_new_seq'::regclass) | plain    | 
+ id_wwwuser      | integer                     |                                                          | plain    | 
+ time            | timestamp without time zone |                                                          | plain    | 
+ title_en        | character varying(500)      |                                                          | extended | 
+ title_es        | character varying(500)      |                                                          | extended | 
+ text_en         | text                        |                                                          | extended | 
+ text_es         | text                        |                                                          | extended | 
+ url_en          | character varying(250)      |                                                          | extended | 
+ url_es          | character varying(250)      |                                                          | extended | 
+ id_news_section | integer                     |                                                          | plain    | 
+Indexes:
+    "new_pkey" PRIMARY KEY, btree (id_new)
+Foreign-key constraints:
+    "new_news_section_fkey" FOREIGN KEY (id_news_section) REFERENCES www.news_section(id_news_section)
+    "new_wwwuser_fkey" FOREIGN KEY (id_wwwuser) REFERENCES www.wwwuser(id_wwwuser)
+Referenced by:
+    TABLE "www.new_label" CONSTRAINT "new_label_new_fkey" FOREIGN KEY (id_new) REFERENCES www.new(id_new)
+Has OIDs: no
+
+                     Sequence "www.new_id_new_seq"
+    Column     |  Type   |        Value        | Storage | Description 
+---------------+---------+---------------------+---------+-------------
+ sequence_name | name    | new_id_new_seq      | plain   | 
+ last_value    | bigint  | 1                   | plain   | 
+ start_value   | bigint  | 1                   | plain   | 
+ increment_by  | bigint  | 1                   | plain   | 
+ max_value     | bigint  | 9223372036854775807 | plain   | 
+ min_value     | bigint  | 1                   | plain   | 
+ cache_value   | bigint  | 1                   | plain   | 
+ log_cnt       | bigint  | 1                   | plain   | 
+ is_cycled     | boolean | f                   | plain   | 
+ is_called     | boolean | f                   | plain   | 
+
+                 Table "www.new_label"
+  Column  |  Type   | Modifiers | Storage | Description 
+----------+---------+-----------+---------+-------------
+ id_new   | integer | not null  | plain   | 
+ id_label | integer | not null  | plain   | 
+Indexes:
+    "new_label_pkey" PRIMARY KEY, btree (id_new, id_label)
+Foreign-key constraints:
+    "new_label_label_fkey" FOREIGN KEY (id_label) REFERENCES www.label(id_label)
+    "new_label_new_fkey" FOREIGN KEY (id_new) REFERENCES www.new(id_new)
+Has OIDs: no
+
+               Index "www.new_label_pkey"
+  Column  |  Type   | Definition | Storage | Description 
+----------+---------+------------+---------+-------------
+ id_new   | integer | id_new     | plain   | 
+ id_label | integer | id_label   | plain   | 
+primary key, btree, for table "www.new_label"
+
+                 Index "www.new_pkey"
+ Column |  Type   | Definition | Storage | Description 
+--------+---------+------------+---------+-------------
+ id_new | integer | id_new     | plain   | 
+primary key, btree, for table "www.new"
+
+                                                            Table "www.news_section"
+     Column      |          Type          |                                 Modifiers                                  | Storage  | Description 
+-----------------+------------------------+----------------------------------------------------------------------------+----------+-------------
+ id_news_section | integer                | not null default nextval('www.news_section_id_news_section_seq'::regclass) | plain    | 
+ description_en  | character varying(100) |                                                                            | extended | 
+ description_es  | character varying(100) |                                                                            | extended | 
+Indexes:
+    "news_section_pkey" PRIMARY KEY, btree (id_news_section)
+Referenced by:
+    TABLE "www.new" CONSTRAINT "new_news_section_fkey" FOREIGN KEY (id_news_section) REFERENCES www.news_section(id_news_section)
+Has OIDs: no
+
+                  Sequence "www.news_section_id_news_section_seq"
+    Column     |  Type   |              Value               | Storage | Description 
+---------------+---------+----------------------------------+---------+-------------
+ sequence_name | name    | news_section_id_news_section_seq | plain   | 
+ last_value    | bigint  | 1                                | plain   | 
+ start_value   | bigint  | 1                                | plain   | 
+ increment_by  | bigint  | 1                                | plain   | 
+ max_value     | bigint  | 9223372036854775807              | plain   | 
+ min_value     | bigint  | 1                                | plain   | 
+ cache_value   | bigint  | 1                                | plain   | 
+ log_cnt       | bigint  | 1                                | plain   | 
+ is_cycled     | boolean | f                                | plain   | 
+ is_called     | boolean | f                                | plain   | 
+
+                    Index "www.news_section_pkey"
+     Column      |  Type   |   Definition    | Storage | Description 
+-----------------+---------+-----------------+---------+-------------
+ id_news_section | integer | id_news_section | plain   | 
+primary key, btree, for table "www.news_section"
+
+
+
+
+
+
+
+
+

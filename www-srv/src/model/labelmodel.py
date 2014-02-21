@@ -22,4 +22,10 @@ class LabelModel(PostgreSQLModel):
         if lang=="en":
             return self.insert("www.label_en", {"label": label}, "id_label_en")
 
-#     def deleteLabelById(self, label_id, lang="es"):
+    def detachLabel(self, id_label, id_document, lang="es"):
+        if lang=="es":
+            q = "delete from www.document_label_es where id_label=% and id_document=%;"
+        if lang=="en":
+            q = "delete from www.document_label_en where id_label=% and id_document=%;"
+
+        return self.query(q, [id_label, id_document]);

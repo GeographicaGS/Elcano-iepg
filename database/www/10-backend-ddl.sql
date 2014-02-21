@@ -10,8 +10,19 @@
 
 create schema www authorization :user;
 
+create table www.translation(
+  key text,
+  en text,
+  es text
+);
+
+alter table www.translation
+add constraint translation_pkey
+primary key(key);
+
+
 create table www.wwwuser(
-  id_wwwuser integer,
+  id_wwwuser serial,
   name varchar(128),
   surname varchar(255),
   password varchar(64),
@@ -149,6 +160,11 @@ primary key (id_document, id_author);
 
 -- Foreign keys
 
+alter table www.document
+add constraint document_user_fkey
+foreign key (last_edit_id_user)
+references www.wwwuser(id_wwwuser);
+
 alter table www.highlight
 add constraint highlight_wwwuser_fkey
 foreign key (last_edit_user)
@@ -187,6 +203,25 @@ references www.author(id_author);
 
 -- Fake data
 
+insert into www.wwwuser(
+  name,
+  surname,
+  password,
+  email,
+  admin,
+  username,
+  language,
+  status)
+values(
+  'Alberto',
+  'Asuero Arroyo',
+  'eac9e8dd8575f4c7831f1f6a72607126',
+  'alberto.asuero@geographica.gs',
+  true,
+  'alasarr',
+  'es',
+  1);
+
 insert into www.label_en(label)
 values('Economy');
 
@@ -204,3 +239,44 @@ values('Energía');
 
 insert into www.label_es(label)
 values('Militar');
+
+insert into www.document(
+  title_en,
+  title_es,
+  theme_en,
+  theme_es,
+  description_en,
+  description_es,
+  pdf_file_en,
+  pdf_file_es,
+  link_en,
+  link_es,
+  last_edit_id_user,
+  last_edit_time,
+  published)
+values(
+  'Title_en',
+  'title_es',
+  'theme_en',
+  'theme_es',
+  'description_en',
+  'description_es',
+  'pdf_file_en',
+  'pdf_file_es',
+  'link_en',
+  'link_es',
+  1,
+  now(),
+  true);
+
+insert into www.document_label_en
+values(1,1);
+
+insert into www.document_label_en
+values(1,2);
+
+insert into www.document_label_es
+values(1,1);
+
+insert into www.document_label_es
+values(1,2);

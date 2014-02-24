@@ -222,8 +222,8 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 .DocAdjunto:hover{ text-decoration: none;}
 .DocAdjunto:hover span{ color:#fdc300;}
 
-.btnDeleteAjunto{ background:url(../img/iconos/delete_bt_ico.png) no-repeat center center; width:24px; height:43px;}
-.btnDeleteAjunto:hover{ background:url(../img/iconos/delete_bt_ico_hover.png) no-repeat center center;}
+.btnDeleteAjunto,.btn-resena-remove{ background:url(../img/iconos/delete_bt_ico.png) no-repeat center center; width:24px; height:43px;}
+.btnDeleteAjunto:hover,.btn-resena-remove:hover{ background:url(../img/iconos/delete_bt_ico_hover.png) no-repeat center center;}
 
 .anadir-bt{ background: url(../img/iconos/anadir_ico.png) no-repeat left top #28282b; color:#fff; line-height: 0.8; padding:5px 5px 5px 20px; font-size:13px; margin-right:10px;}
 .anadir-bt:hover{background: url(../img/iconos/anadir_ico_hover.png) no-repeat left top #28282b; color:#fdc300;}
@@ -251,7 +251,8 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 .btn-resena-more{ background:url(../img/iconos/more_resena_ico.png) no-repeat center center; border-left: 1px solid #d9d9dd; margin-left:5x; width:35px; height:40px; padding-left:10px;}
 .btn-resena-more:hover{ background:url(../img/iconos/more_resena_ico_hover.png) no-repeat center center}
 
-.btGroupResena{ width:80px; float:left}
+
+.btGroupResena{ width:150px; float:left}
 .twitterResena .btn-resena-twitter-edit{float:left; margin-left:10px;}
 
 .cleanP{ color:#a2a2ac; font-size:13px; font-style:italic;}

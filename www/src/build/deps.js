@@ -19,12 +19,15 @@ deps.Backend.JS = {
 			// Config file
 			"backend/js/config.js",
 			
+			"backend/js/validator.js",
+			
 			
 			// --------------------
 			// ------  Models ------
 			// --------------------
 			"backend/js/model/user_model.js",
 			"backend/js/model/label_model.js",
+			"backend/js/model/document_model.js",
 			
 			// --------------------
 			// --- Collections  ---
@@ -41,6 +44,8 @@ deps.Backend.JS = {
 			"backend/js/view/user_view.js",
 			"backend/js/view/home_view.js",
 			"backend/js/view/news_view.js",
+			
+			
 			
 			// router
 			"backend/js/router.js",
@@ -105,3 +110,4 @@ deps.Frontend.CSS = {
 if (typeof exports !== 'undefined') {
 	exports.deps = deps;
 }
+

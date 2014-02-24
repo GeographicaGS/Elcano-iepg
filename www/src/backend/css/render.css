@@ -9,3 +9,23 @@
 .hide{
     display: none;
 }
+
+.alpha{ padding-left: 0px !important;margin-left: 0px !important}
+
+.omega{ padding-right: 0px !important;margin-right: 0px !important}
+
+input[data-error],textarea[data-error]{
+	background-color:#f5bfc1;
+}
+
+#form_error{
+	color: #f00;
+	font-size: 12px;
+	margin-left: 32px;
+	margin-top: 17px;
+
+}
+
+progress#progress_es,progress#progress_en{
+	display: none;
+}

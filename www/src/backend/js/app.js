@@ -7,7 +7,6 @@ Backbone.View.prototype.close = function(){
   if (this.onClose){
     this.onClose();
   }
-  
 }
 
 $(function() {

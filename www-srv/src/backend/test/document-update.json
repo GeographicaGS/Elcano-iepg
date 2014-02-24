@@ -1,0 +1,12 @@
+{
+  "id_document": "1",
+  "title_es": "New Test document ES 2",
+  "title_en": "New Test document EN 2",
+  "labels_es": [1,4],
+  "labels_en": [1,5],
+  "theme_es": "New Theme ES 3",
+  "theme_en": "New Theme EN 2",
+  "description_es": "New Description ES 2",
+  "description_en": "New Description EN 2",
+  "authors": [{"twitter_id": "@iliana"},{"twitter_id": "@jpperez"}]
+}

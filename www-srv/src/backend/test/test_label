@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo
+echo
+echo -------------------
+echo getLabels /label/es
+echo -------------------
+
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X GET http://localhost:5000/label/es
+
+echo
+echo
+echo -------------------
+echo getLabels /label/en
+echo -------------------
+
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X GET http://localhost:5000/label/en
+
+echo
+echo
+echo ------------------
+echo newLabel /label/es
+echo ------------------
+
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"label": "nueva label23"}'  http://localhost:5000/label/es
+
+echo
+echo
+echo ------------------
+echo newLabel /label/en
+echo ------------------
+
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"label": "nueva label23"}'  http://localhost:5000/label/en

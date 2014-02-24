@@ -21,5 +21,3 @@ class LabelModel(PostgreSQLModel):
             return self.insert("www.label_es", {"label": label}, "id_label_es")
         if lang=="en":
             return self.insert("www.label_en", {"label": label}, "id_label_en")
-
-#     def deleteLabelById(self, label_id, lang="es"):

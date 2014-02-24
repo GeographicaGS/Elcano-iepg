@@ -4,14 +4,25 @@
 
 */
 
--- \i 00-config.sql
+\i 00-config.sql
 
--- \c :dbname :user
+\c :dbname :user
 
 create schema www authorization :user;
 
+create table www.translation(
+  key text,
+  en text,
+  es text
+);
+
+alter table www.translation
+add constraint translation_pkey
+primary key(key);
+
+
 create table www.wwwuser(
-  id_wwwuser integer,
+  id_wwwuser serial,
   name varchar(128),
   surname varchar(255),
   password varchar(64),
@@ -56,6 +67,7 @@ primary key(id_highlight);
 
 create table www.author(
   id_author serial,
+  id_document integer,
   name varchar(100),
   position_en varchar(250),
   position_es varchar(250),
@@ -137,17 +149,12 @@ add constraint document_label_es_pkey
 primary key (id_document, id_label_es);
 
 
-create table www.document_author(
-  id_document integer,
-  id_author integer
-);
-
-alter table www.document_author
-add constraint document_author_pkey
-primary key (id_document, id_author);
-
-
 -- Foreign keys
+
+alter table www.document
+add constraint document_user_fkey
+foreign key (last_edit_id_user)
+references www.wwwuser(id_wwwuser);
 
 alter table www.highlight
 add constraint highlight_wwwuser_fkey
@@ -174,33 +181,7 @@ add constraint document_label_es_label_en_fkey
 foreign key (id_label_es)
 references www.label_es(id_label_es);
 
-alter table www.document_author
-add constraint document_author_document_fkey
+alter table www.author
+add constraint author_document_fkey
 foreign key (id_document)
 references www.document(id_document);
-
-alter table www.document_author
-add constraint document_author_author_fkey
-foreign key (id_author)
-references www.author(id_author);
-
-
--- Fake data
-
-insert into www.label_en(label)
-values('Economy');
-
-insert into www.label_en(label)
-values('Energy');
-
-insert into www.label_en(label)
-values('Military');
-
-insert into www.label_es(label)
-values('Economía');
-
-insert into www.label_es(label)
-values('Energía');
-
-insert into www.label_es(label)
-values('Militar');

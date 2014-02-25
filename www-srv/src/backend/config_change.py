@@ -4,4 +4,5 @@ Elcano IEPG configuration.
 cfgBackend = {}
 
 cfgBackend["autoAuth"] = False
-cfgBackend["tmpFolder"] = "/tmp"
+cfgBackend["tmpFolder"] = "/Users/alasarr/dev/elcano-iepg/www/cdn/backend/tmp"
+

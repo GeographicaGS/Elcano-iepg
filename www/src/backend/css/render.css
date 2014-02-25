@@ -11,21 +11,56 @@
 }
 
 .alpha{ padding-left: 0px !important;margin-left: 0px !important}
-
 .omega{ padding-right: 0px !important;margin-right: 0px !important}
+.clear{ clear:both;}
 
 input[data-error],textarea[data-error]{
 	background-color:#f5bfc1;
 }
 
 #form_error{
-	color: #f00;
-	font-size: 12px;
-	margin-left: 32px;
-	margin-top: 17px;
-
+	color: #d60006;
+    font-size: 13px;
+    margin-left: 0px;
+    margin-top: 14px;
+    background-color: #f5bfc1;
+    padding: 0 10px;
+    padding: 2px 8px;
 }
 
 progress#progress_es,progress#progress_en{
 	display: none;
+}
+
+.uploadForm progress{
+    float:left;
+}
+
+.uploadForm .notification{
+    float:right;
+    font-size: 11px;
+    color: #d60006;
+}
+
+.uploadForm input[type='file']{
+    
+    float:left;
+}
+
+.uploadForm input#file_en{
+    margin-left: -10000px;
+}
+
+.uploadForm input#file_es{
+    margin-left: -20000px;
+}
+
+.uploadForm button{
+    float:left;
+}
+
+label.error_form{
+    font-size: 11px;
+    color: #d60006;
+    font-weight: normal;
 }

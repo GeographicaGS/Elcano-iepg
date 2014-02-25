@@ -2,6 +2,11 @@ from backend import app
 from flask import jsonify,request,session
 from model.documentmodel import DocumentModel
 from utils import auth
+from werkzeug.utils import secure_filename
+import werkzeug
+import os
+import hashlib
+import time
 
 @app.route('/document', methods=['POST'])
 @auth
@@ -27,14 +32,16 @@ def deleteDocument():
 
     return(jsonify({"id": m.deleteDocument(request.json)}))
 
+
 def allowedFilePDF(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1] in ["PDF","pdf"]
            
 
-@app.route("/document/upload_pdf".methods="[POST")
+@app.route("/document/upload_pdf",methods=["POST"])
+@auth
 def uploadPDF():
-	try:
+    try:
         file = request.files['file']
         if file and allowedFilePDF(file.filename):
             filename = secure_filename(file.filename)
@@ -43,7 +50,7 @@ def uploadPDF():
             
             file.save(os.path.join(app.config['tmpFolder'], filename))
             
-            return jsonify(  {"filename": filename} )        
+            return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    
     

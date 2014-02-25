@@ -62,8 +62,6 @@ insert into www.document(
   theme_es,
   description_en,
   description_es,
-  pdf_file_en,
-  pdf_file_es,
   link_en,
   link_es,
   last_edit_id_user,
@@ -76,8 +74,6 @@ values(
   'theme_es',
   'description_en',
   'description_es',
-  'pdf_file_en',
-  'pdf_file_es',
   'link_en',
   'link_es',
   1,
@@ -95,3 +91,15 @@ values(1,1);
 
 insert into www.document_label_es
 values(1,2);
+
+insert into www.pdf(id_document, lang, pdf_name)
+values(1, 'EN', 'PDF EN 1');
+
+insert into www.pdf(id_document, lang, pdf_name)
+values(1, 'EN', 'PDF EN 2');
+
+insert into www.pdf(id_document, lang, pdf_name)
+values(1, 'ES', 'PDF ES 1');
+
+insert into www.pdf(id_document, lang, pdf_name)
+values(1, 'ES', 'PDF ES 1');

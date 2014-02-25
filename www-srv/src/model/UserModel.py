@@ -23,7 +23,19 @@ class UserModel(PostgreSQLModel):
             return None
         
         return self.query(sql,[binding]).row()
-    
-   
-    
-    
+
+
+    def newUser(self, data):
+        """Creates a new user."""
+        a = self.insert("www.wwwuser",
+                        {"name": data["name"],
+                         "surname": data["surname"],
+                         "password": data["password"],
+                         "email": data["email"],
+                         "admin": data["admin"],
+                         "username": data["username"],
+                         "language": data["language"],
+                         "status": data["status"]},
+                        returnID="id_wwwuser")
+
+        return a

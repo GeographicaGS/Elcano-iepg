@@ -1,7 +1,14 @@
+"""
+
+Document backend
+
+"""
+
 from backend import app
 from flask import jsonify,request,session
 from model.documentmodel import DocumentModel
 from utils import auth
+import config
 
 @app.route('/document', methods=['POST'])
 @auth
@@ -27,11 +34,19 @@ def deleteDocument():
 
     return(jsonify({"id": m.deleteDocument(request.json)}))
 
-
-
-
-
-@app.route('/uploadpdf', methods=['POST'])
+@app.route('/document', methods=['GET'])
 @auth
-def uploadPdf():
-    pass
+def getDocumentList():
+    app.logger.info(request.json)
+    m = DocumentModel()
+
+    r = m.getDocumentList(request.json, config.cfgBackend["DocumentListLength"])
+
+    app.logger.info(r)
+
+    return(jsonify({"results": r}))
+
+# @app.route('/uploadpdf', methods=['POST'])
+# @auth
+# def uploadPdf():
+#     pass

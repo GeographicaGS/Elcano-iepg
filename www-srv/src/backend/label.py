@@ -3,6 +3,9 @@ from flask import jsonify,request,session
 from model.labelmodel import LabelModel
 from utils import auth
 
+# There is no delete method, remember that labels are deleted by a
+# trigger
+
 @app.route("/label/<string:lang>", methods=["GET"])
 @auth
 def getLabels(lang):
@@ -19,4 +22,3 @@ def newLabel(lang):
     
     return jsonify({"id": \
                     m.insertLabel(request.json["label"], lang)})
-

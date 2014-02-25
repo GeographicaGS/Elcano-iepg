@@ -1,0 +1,23 @@
+{
+		"title_es": "Test document ES",
+		"title_en": "Test document EN",
+		"labels_es": [{"id": "1", "label": "Label A"},
+									{"id": "2", "label": "Label B"},
+									{"id": "4", "label": "Label c"}],
+		"labels_en": [{"id": "1", "label": "Label A"},
+									{"id": "3", "label": "Label B"},
+									{"id": "4", "label": "Label c"}],
+		"theme_es": "Theme ES",
+		"theme_en": "Theme EN",
+		"description_es": "Description ES",
+		"description_en": "Description EN",
+		"authors": ["@iliana", "@jpperez"],
+		"link_es": "Link ES",
+		"link_en": "Link EN",
+		"pdfs_es": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
+								{"name": "pdf_es_2", "hash": "8383e83838283e838238"}, 
+								{"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
+		"pdfs_en": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
+								{"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
+								{"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
+}

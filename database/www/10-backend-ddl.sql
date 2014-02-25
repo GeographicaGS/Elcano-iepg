@@ -87,8 +87,6 @@ create table www.document(
   theme_es text,
   description_en text,
   description_es text,
-  pdf_file_en varchar(500),
-  pdf_file_es varchar(500),
   link_en varchar(500),
   link_es varchar(500),
   last_edit_id_user integer,
@@ -100,6 +98,19 @@ alter table www.document
 add constraint document_pkey
 primary key(id_document);
 
+
+create table www.pdf(
+  id_pdf serial,
+  id_document integer,
+  lang varchar(2),
+  pdf_name varchar(500),
+  hash varchar(100)
+);
+
+alter table www.pdf
+add constraint pdf_pkey
+primary key(id_pdf);
+  
 
 create table www.label_en(
   id_label_en serial,
@@ -183,5 +194,10 @@ references www.label_es(id_label_es);
 
 alter table www.author
 add constraint author_document_fkey
+foreign key (id_document)
+references www.document(id_document);
+
+alter table www.pdf
+add constraint pdf_document_fkey
 foreign key (id_document)
 references www.document(id_document);

@@ -7,7 +7,6 @@ Backbone.View.prototype.close = function(){
   if (this.onClose){
     this.onClose();
   }
-  
 }
 
 $(function() {
@@ -33,6 +32,9 @@ $(function() {
     };
     
     $("body").on("click","a",function(e){
+        if ($(this).attr("target")=="_blank"){
+            return;
+        }
         e.preventDefault();
         var href = $(this).attr("href");
         if (href=="#back") {
@@ -126,4 +128,11 @@ app.events.on("menu", function(id){
     $menu.children().removeClass("active");
     $menu.find("#"+id).addClass("active");
 });
+
+app.scrollTop = function(){
+    var body = $("html, body");
+    body.animate({scrollTop:0}, '500', 'swing', function() { 
+       
+    });
+}
 

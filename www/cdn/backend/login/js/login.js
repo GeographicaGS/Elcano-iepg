@@ -15,7 +15,7 @@ $.fn.serializeObject = function(){
 };
  
 $(function() {
-        var API_URL = "/elcano-iepg/backend-api";
+        var API_URL = "/api";
         
         function goApp() {
             //user already logged in, go to app

@@ -9,6 +9,11 @@ from flask import jsonify,request,session
 from model.documentmodel import DocumentModel
 from utils import auth
 import config
+from werkzeug.utils import secure_filename
+import werkzeug
+import os
+import hashlib
+import time
 
 @app.route('/document', methods=['POST'])
 @auth
@@ -46,7 +51,30 @@ def getDocumentList():
 
     return(jsonify({"results": r}))
 
-# @app.route('/uploadpdf', methods=['POST'])
-# @auth
-# def uploadPdf():
-#     pass
+
+def allowedFilePDF(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1] in ["PDF","pdf"]
+           
+
+@app.route("/document/upload_pdf",methods=["POST"])
+@auth
+def uploadPDF():
+    try:
+        file = request.files['file']
+        if file and allowedFilePDF(file.filename):
+            filename = secure_filename(file.filename)
+            filename, fileExtension = os.path.splitext(filename)
+            filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() + fileExtension
+            
+            file.save(os.path.join(app.config['tmpFolder'], filename))
+            
+            return jsonify(  {"filename": filename} )  
+        
+        return jsonify(  {"error": -1} )    
+    
+    except werkzeug.exceptions.UnsupportedMediaType:
+        return jsonify(  {"error": -2} )
+    
+    except werkzeug.exceptions.RequestEntityTooLarge:
+        return jsonify(  {"error": -3} )

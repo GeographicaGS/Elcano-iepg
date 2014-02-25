@@ -1,0 +1,141 @@
+
+<div class="pull-left">
+    <h1 class="page-header col-md-1"><lang>Documento</lang></h1>
+    <span class="clean pull-left"><lang>* Campos necesarios</lang></span>
+</div>
+<div class="pull-left" id="form_error" style="display:none">
+
+</div>
+<div class="pull-right pr15">
+    <a href="#back" type="button" class="btn btn-l btnlink"><lang>Cancelar</lang></a>
+    <a href="#" type="button" class="btn btn-l save_button"><lang>Guardar documento</lang></a>
+</div>
+
+<hr class="featurette-divider">
+<div class="DestacadosForm">
+    <form role="form">
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for="">título *</label></div>
+            <div class="col-md-10">
+                <input type="text" class="form-control Esimput " name="title_en" placeholder="(<lang>Español</lang>)">
+                <hr class="featurette-divider">
+                <input type="text" class="form-control ENimput" name="title_es" placeholder="(<lang>English</lang>)">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for=""><lang>Etiquetas</lang></label></div>
+            <div class="col-md-10">
+                
+                <!--Spanish labels -->
+                <div id="labels_es" class="ctrl_labels">
+                    <button type="button" class="btn btn-xs anadir-bt"><lang>Añadir</lang></button>
+                    <div class="clabels"><!-- Labels --></div>
+                    <div class="tagForm" style="display: none">
+                        <div class="tagsList"><!--Completed by AJAX--></div>
+                        <div class=" LabelForm labelGreyForm">
+                            <label for="" class="greyLabel"><lang>Nueva etiqueta en español</lang></label>
+                        </div>
+                        <div class="input-group col-md-4">
+                            <input class="form-control add_label_text" type="text">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"><lang>Añadir</lang></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="featurette-divider">
+                    
+                <div id="labels_en" class="ctrl_labels">
+                    <button type="button" class="btn btn-xs anadir-bt" id="ctrl_show_add_en"><lang>Añadir</lang></button>
+                    <div class="clabels"><!-- Labels --></div>
+                    <div class="tagForm" style="display: none">
+                        <div class="tagsList"><!--Completed by AJAX--></div>
+                        <div class=" LabelForm labelGreyForm">
+                           <label for="" class="greyLabel"><lang>Nueva etiqueta en inglés</lang></label>
+                       </div>
+                       <div class="input-group col-md-4">
+                            <input class="form-control add_label_text" type="text">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"><lang>Añadir</lang></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for=""><lang>Tema*</lang></label></div>
+            <div class="col-md-10">
+                <textarea class="form-control Esimput" placeholder="(<lang>Español</lang>)" name="theme_es" rows="3"></textarea>
+                <hr class="featurette-divider">
+                <textarea class="form-control ENimput" placeholder="(<lang>Inglés</lang>)" name="theme_en" rows="3"></textarea>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for="">Resumen*</label></div>
+            <div class="col-md-10">
+                <textarea class="form-control Esimput" placeholder="(<lang>Español</lang>)" name="description_es" rows="6"></textarea>
+                <hr class="featurette-divider">
+                <textarea class="form-control ENimput" placeholder="(<lang>Inglés</lang>)" name="description_en" rows="6"></textarea>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for="">Autoría*</label></div>
+            <div class="col-md-10" id="authors"></div>
+        </div>
+
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for="">Enlaces *</label></div>
+            <div class="col-md-10">
+                <input type="text" class="form-control Esimput " name="link_en" placeholder="(<lang>Español</lang>)">
+                <hr class="featurette-divider">
+                <input type="text" class="form-control ENimput" name="link_es" placeholder="(<lang>English</lang>)">
+            </div>
+        </div>
+
+
+    </form>
+    
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for="">descarga</label></div>
+        
+        <div class="col-md-10">
+            <div id="list_pdf_files"></div>
+            
+            <hr class="featurette-divider" />
+            
+            <form id="upload_form_es" class="uploadForm">
+                <button type="button" class="btn btnDOC" id="upload_pdf_es">Subir fichero PDF (<lang>español</lang>)</button>
+                <input type="file" id="file_es" name="file" />
+                <progress id="progress_es" />
+                <div id="upload_notification_es" class="notification"></div>
+            </form>
+
+            <hr class="featurette-divider clear" />
+
+            <form id="upload_form_en" class="uploadForm">
+                <button type="button" class="btn btnDOC" id="upload_pdf_en">Subir fichero PDF (<lang>inglés</lang>)</button>
+                <input type="file" id="file_en" name="file"  />
+                <progress id="progress_en"/>
+                <div id="upload_notification_en" class="notification"></div>
+            </form>
+
+            <div class="clear"></div>
+
+        </div>
+        
+    </div>
+
+    <div class="pull-left pl15 col-md-11 btn_botton">
+         <div class="col-md-11 pl15">
+            <button type="button" class="btn btn-l save_button" >Guardar documento</button>
+            <button type="button" class="btn btn-l btnlink">Cancelar</button>
+        </div>
+    </div>
+</div>
+            

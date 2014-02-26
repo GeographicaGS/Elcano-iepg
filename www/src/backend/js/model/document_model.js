@@ -5,9 +5,11 @@ app.model.Document = Backbone.Model.extend({
 	validation: function (){
 		return {
 			title_es: {
+				maxLength : 150,
 				requiredGroup: this._titleRequiredGroup
 			},
 			title_en : {
+				maxLength : 150,
 				requiredGroup: this._titleRequiredGroup
 			},
 
@@ -24,10 +26,12 @@ app.model.Document = Backbone.Model.extend({
 				requiredGroup: this._descriptionRequiredGroup
 			},
 			link_es: {
+				maxLength : 500,
 				required: false,
 				pattern : "url"
 			},
 			link_en : {
+				maxLength : 500,
 				required: false,
 				pattern : "url"
 			},
@@ -36,13 +40,17 @@ app.model.Document = Backbone.Model.extend({
 					return "<lang>Field required</lang>";
 				}
 		    }
-			
-			
-
 	}},
 	urlRoot: function() {
         return app.config.API_URL + "/document";
+    },
+    parse : function(response){
+    	response.labels_es  =  new Backbone.Collection(app.renameID(response.labels_es,"id_label","id"));
+    	response.labels_en  =  new Backbone.Collection(app.renameID(response.labels_en,"id_label","id"));
+    	response.pdfs_es  =  new Backbone.Collection(app.renameID(response.pdfs_es,"id_pdf","id"));
+    	response.pdfs_en  =  new Backbone.Collection(app.renameID(response.pdfs_en,"id_pdf","id"));
+    	response.authors =  new Backbone.Collection(app.renameID(response.authors,"id_author","id"));
+
+    	return response;
     }
-	
-  	
 });

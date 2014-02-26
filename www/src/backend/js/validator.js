@@ -370,15 +370,12 @@ Backbone.Validation = (function(_){
 
 	        view.$("#form_error")
 	        	.hide();
-
-	        console.log("Valid");
 	    },
-
+	    
 	    // Gets called when a field in the view becomes invalid.
 	    // Adds a error message.
 	    // Should be overridden with custom functionality.
 	    invalid: function(view, attr, error, selector) {
-	    	console.log("Invalid");
 	      	var $el = view.$('[' + selector + '~="' + attr + '"]');
 
 	        $el.addClass('invalid')

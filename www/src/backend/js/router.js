@@ -13,7 +13,7 @@ app.router = Backbone.Router.extend({
         "docs": "listDocs",
         
         "docs/add" : "addDocument",
-        "docs/edit" : "editDocument",
+        "docs/edit/:id" : "editDocument",
         "docs/:id" : "viewDocument",
         //"project/:id": "showProject",
         /* Sample usage: http://example.com/#about */
@@ -47,7 +47,9 @@ app.router = Backbone.Router.extend({
     },
     
     viewDocument: function(id){
-        app.showView(new app.view.docs.DocumentView());
+        app.showView(new app.view.docs.DocumentView({
+            model : new app.model.Document({"id": id})
+        }));
     },
     
     addDocument: function(){
@@ -55,7 +57,7 @@ app.router = Backbone.Router.extend({
     },
     
     editDocument: function(id){
-        app.showView(new app.view.docs.FormView());
+        app.showView(new app.view.docs.FormView({"id":id}));
     },
     
     defaultRoute: function(other){

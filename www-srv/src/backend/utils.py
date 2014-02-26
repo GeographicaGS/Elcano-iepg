@@ -1,6 +1,7 @@
 from flask import session
 from backend import app
 from functools import wraps
+import cgi
 
 def auth(f):
     """Wraps Authentication"""
@@ -29,3 +30,15 @@ def prettyNumber(number):
         return "0"+str(number)
     else:
         return str(number)
+
+
+def renameKeyDict(dict,oldKeyName,newKeyName):
+    dict[newKeyName]=dict.pop(oldKeyName)
+    return dict;
+
+
+def htmlspecialchars(s):
+    if s:
+        return cgi.escape(s)
+    else:
+        return None

@@ -188,3 +188,37 @@ class DocumentModel(PostgreSQLModel):
         self.insert("www.author",
                     {"id_document": id_document,
                      "twitter_user": data})
+
+
+    def getDocument(self,id_document):
+        """Get Document"""
+        #TODO
+        q = "SELECT * FROM www.document WHERE id_document=%s"
+        return self.query(q,[id_document]).row()
+
+    def getDocumentPDFs(self, id_document):
+        q = "SELECT id_pdf,pdf_name,hash FROM www.document WHERE id_document=%s"
+        return self.query(q,[id_document]).result()
+
+    def getDocumentPDFs(self, id_document,lang):
+        q = "SELECT id_pdf,pdf_name,hash FROM www.pdf WHERE id_document=%s AND lang=%s"
+        return self.query(q,[id_document,lang]).result()
+
+    def getDocumentAuthors(self, id_document):
+        q = "SELECT id_author,twitter_user FROM www.author WHERE id_document=%s"
+        return self.query(q,[id_document]).result()
+
+    def getDocumentLabels(self, id_document,lang):
+        if lang == "es":
+            q = "SELECT dl.id_label_es as id_label,l.label FROM www.document_label_es dl "\
+                    " INNER JOIN  www.label_es l ON dl.id_label_es=l.id_label_es "\
+                    " WHERE id_document=%s"
+        else:
+           q = "SELECT dl.id_label_en as id_label,l.label FROM www.document_label_en dl"\
+                    " INNER JOIN www.label_en l ON dl.id_label_en=l.id_label_en "\
+                    " WHERE id_document=%s"
+
+        
+        return self.query(q,[id_document]).result()
+
+

@@ -3,10 +3,10 @@ from flask import jsonify,request,session
 from model.UserModel import UserModel
 from backend import utils
 import hashlib
+import utils
 
 @app.route('/user', methods = ['GET'])                                            
 def user():
-   
     if not utils.isLogged():        
         return jsonify( { "id" : None})
     else:
@@ -55,7 +55,7 @@ def login():
         # compare password against database        
         u = UserModel().getUserLogin(email=email)
         if u and u['password']==password:
-            session["id_user"] = u["id_user"]
+            session["id_user"] = u["id_wwwuser"]
             session['email'] = email
             session["username"] = u["username"]
             session["name"] = u["name"]

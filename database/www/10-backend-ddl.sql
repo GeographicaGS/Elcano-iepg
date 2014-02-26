@@ -48,13 +48,15 @@ create table www.highlight(
   title_es varchar(50),  
   text_en varchar(500),
   text_es varchar(500),
-  image_en varchar(500),
-  image_es varchar(500),
+  image_name_en varchar(500),
+  image_name_es varchar(500),
+  image_hash_en varchar(150),
+  image_hash_es varchar(150),
   credit_img_en varchar(100),
   credit_img_es varchar(100),
   link_en varchar(500),
   link_es varchar(500),
-  last_edit_user integer,
+  last_edit_id_user integer,
   last_edit_time timestamp,
   published boolean,
   publication_order integer
@@ -169,7 +171,7 @@ references www.wwwuser(id_wwwuser);
 
 alter table www.highlight
 add constraint highlight_wwwuser_fkey
-foreign key (last_edit_user)
+foreign key (last_edit_id_user)
 references www.wwwuser(id_wwwuser);
 
 alter table www.document_label_en

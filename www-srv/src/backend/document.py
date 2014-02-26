@@ -1,3 +1,5 @@
+# coding=UTF8
+
 """
 
 Document backend
@@ -18,26 +20,59 @@ import time
 @app.route('/document', methods=['POST'])
 @auth
 def newDocument():
-    app.logger.info(request.json)
     m = DocumentModel()
+    out = m.createDocument(request.json)
 
-    return(jsonify({"id": m.createDocument(request.json)}))
+    for f in request.json["pdfs_en"]:
+        movePdfFile(f["hash"])
+
+    for f in request.json["pdfs_es"]:
+        movePdfFile(f["hash"])
+
+    return(jsonify({"id": out}))
 
 @app.route('/document', methods=['PUT'])
 @auth
 def editDocument():
-    app.logger.info(request.json)
     m = DocumentModel()
 
-    return(jsonify({"id": m.editDocument(request.json)}))
+    for f in request.json["pdfs_en_new"]:
+        movePdfFile(f["hash"])
+
+    for f in request.json["pdfs_es_new"]:
+        movePdfFile(f["hash"])
+
+    for f in request.json["pdfs_en_dropped"]:
+        deletePdfFile(f["hash"])
+
+    for f in request.json["pdfs_es_dropped"]:
+        deletePdfFile(f["hash"])
+
+    out = m.editDocument(request.json)
+
+    return(jsonify({"id": out}))
+
+
+def deletePdfFile(hash):
+    file = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
+    print("Remove: ", file)
+    # os.remove(file)
+
+
+def movePdfFile(hash):
+    origin = config.cfgBackend["tmpFolder"]+"/"+hash+".pdf"
+    destination = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
+    # os.rename(origin, destination)
+    print("Move: ", origin, destination)
+
 
 @app.route('/document', methods=['DELETE'])
 @auth
 def deleteDocument():
-    app.logger.info(request.json)
     m = DocumentModel()
 
     return(jsonify({"id": m.deleteDocument(request.json)}))
+
 
 @app.route('/document', methods=['GET'])
 @auth
@@ -46,11 +81,9 @@ def getDocumentList():
     m = DocumentModel()
     out = []
 
-    totalSize = m.getDocumentListSize(request.json)
+    totalSize = m.getDocumentListSize(request.args)
 
-    print(request.json["offset"])
-
-    for doc in m.getDocumentList(request.json, config.cfgBackend["DocumentListLength"]):
+    for doc in m.getDocumentList(request.args, config.cfgBackend["DocumentListLength"]):
         thisDoc = dict()
         thisDoc["english"]=False
         thisDoc["spanish"]=False
@@ -85,7 +118,7 @@ def getDocumentList():
 
         out.append(thisDoc)
 
-    return(jsonify({"results": {"listSize": totalSize, "page": request.json["offset"], \
+    return(jsonify({"results": {"listSize": totalSize, "page": request.args["offset"], \
                                 "documentList": out}}))
 
 

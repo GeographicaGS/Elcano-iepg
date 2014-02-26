@@ -8,6 +8,7 @@ app.config.update(
 import user
 import document
 import label
+import highlight
 from config import cfgBackend
 app.config.update(cfgBackend)
 

@@ -24,7 +24,6 @@ def user():
 @utils.auth
 def newUser():
     """Creates a new user."""
-    app.logger.info(request.json)
     m = UserModel()
 
     return(jsonify({"id": m.newUser(request.json)}))

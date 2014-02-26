@@ -7,7 +7,6 @@ def post(url, data):
     """Make POST request. Returns response."""
     return(requests.post(url, data=json.dumps(data), headers=headers))
 
-
 def get(url, data=None):
     """Make GET request. Returns response."""
     if data:
@@ -144,9 +143,9 @@ print(jsonResponse(r01))
 # Lots of dummy documents to test lists
 
 print
-print('Creating 64 dummy documents... be patient!')
+print('Creating 32 dummy documents... be patient!')
 
-for n in range(1, 65):
+for n in range(1, 33):
     data = {
         "title_es": "Test document ES "+str(n),
         "title_en": "Test document EN "+str(n),
@@ -172,7 +171,7 @@ for n in range(1, 65):
 # Edit document: editDocument(), PUT /document
 
 data = {
-    "id_document": "2",
+    "id_document": "4",
     "title_es": "Test document ES 3",
     "title_en": "Test document EN 3",
     "labels_es": [{"id": "1", "label": "Label A"},
@@ -181,14 +180,24 @@ data = {
                   {"id": "3", "label": "Label B"}],
     "theme_es": "Theme ES 3",
     "theme_en": "Theme EN 3",
-    "description_es": "Description ES 3",
-    "description_en": "Description EN 3",
+    "description_es": "éé ES 25",
+    "description_en": "éé ES 25",
     "authors": ["@iliana", "@jpperez"],
     "link_es": "Link ES 3",
     "link_en": "Link EN 3",
-    "pdfs_es": [{"name": "pdf_es_1 3", "hash": "8383e83838283e838238"}, 
-                {"name": "pdf_es_2 3", "hash": "8383e83838283e838238"}],
-    "pdfs_en": [{"name": "pdf_en_2 3", "hash": "8383e83838283e838238"}]
+    "pdfs_es_new": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
+                    {"name": "pdf_es_2", "hash": "8383e83838283e838238"}, 
+                    {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
+    "pdfs_en_new": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
+                    {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
+                    {"name": "pdf_en_3", "hash": "8383e83838283e838238"}],
+    "pdfs_es_dropped": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
+                        {"name": "pdf_es_2", "hash": "8383e83838283e838238"}, 
+                        {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
+    "pdfs_en_dropped": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
+                        {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
+                        {"name": "pdf_en_3", "hash": "8383e83838283e838238"}],
+    "published": "True"
 }
 
 r = put(root+'/document', data)
@@ -211,17 +220,50 @@ print('deleteDocument(), DELETE /document')
 print(jsonResponse(r))
 
 
-# Get document: getDocumentList(), GET /document
+# # Get document: getDocumentList(), GET /document, unfiltered
 
-# data = {
-#     "offset": "1",
-#     "search": "",
-#     "orderbyfield": "title",
-#     "orderbyorder": "asc"
-# }
+r = get(root+"/document?offset=0&search=&orderbyfield=title&orderbyorder=asc")
 
-# r = get(root+"/document", data=data)
+print
+print('getDocumentList(), GET /document, unfiltered')
+print(jsonResponse(r))
 
-# print
-# print('getDocumentList(), GET /document')
-# print(jsonResponse(r))
+
+# Get document: getDocumentList(), GET /document, filtered
+
+data = {
+    "offset": "0",
+    "search": "ES 25",
+    "orderbyfield": "title",
+    "orderbyorder": "asc"
+}
+
+r = get(root+"/document?offset=0&search=%C3%A9%C3%A9%20ES%2025&orderbyfield=title&orderbyorder=asc")
+
+print
+print('getDocumentList(), GET /document, filtered')
+print(jsonResponse(r))
+
+
+# Create highlight: createHighlight(), POST /highlight
+
+data={
+    "title_es": "Hightlight title ES",
+    "title_en": "Hightlight title EN",
+    "text_es": "Text ES",
+    "text_en": "Text EN",
+    "image_name_en": "image_name_en.jpg",
+    "image_name_es": "image_name_es.jpg",
+    "image_hash_en": "3452342354534534234234",
+    "image_hash_es": "3452342354534534234234",
+    "credit_img_es": "Credit IMG ES",
+    "credit_img_en": "Credit IMG EN",
+    "link_es": "Link ES",
+    "link_en": "Link EN"
+}
+
+r = post(root+'/highlight', data)
+
+print
+print('createHighlight(), POST /highlight')
+print(jsonResponse(r))

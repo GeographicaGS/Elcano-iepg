@@ -1,3 +1,5 @@
+# coding=UTF8
+
 """
 
 Document model
@@ -25,7 +27,8 @@ class DocumentModel(PostgreSQLModel):
                          # "last_edit_id_user": session["id_user"]},
                          "last_edit_id_user": "1",
                          "link_en": data["link_en"],
-                         "link_es": data["link_es"]},
+                         "link_es": data["link_es"],
+                         "published": "False"},
                         returnID="id_document")
 
         for label_en in data["labels_en"]:
@@ -68,7 +71,8 @@ class DocumentModel(PostgreSQLModel):
                      # "last_edit_id_user": session["id_user"]},
                      "last_edit_id_user": "1",
                      "link_en": data["link_en"],
-                     "link_es": data["link_es"]},
+                     "link_es": data["link_es"],
+                     "published": data["published"]},
                     {"id_document": data["id_document"]})
 
         q = "delete from www.author where id_document=%s"
@@ -80,8 +84,11 @@ class DocumentModel(PostgreSQLModel):
         q = "delete from www.document_label_es where id_document=%s"
         self.query(q, data["id_document"])
 
-        q = "delete from www.pdf where id_document=%s"
-        self.query(q, data["id_document"])
+        inStr = map(lambda p: p["hash"], data["pdfs_en_dropped"])+ \
+                map(lambda p: p["hash"], data["pdfs_es_dropped"])
+
+        q = "delete from www.pdf where id_document=%s and array[hash]::varchar[] <@ %s::varchar[];";
+        self.query(q, [data["id_document"], inStr])
 
         for label_en in data["labels_en"]:
             self.__attachLabel(label_en["id"], data["id_document"], "en")
@@ -92,10 +99,10 @@ class DocumentModel(PostgreSQLModel):
         for author in data["authors"]:
             self.__createAuthor(author, data["id_document"])
 
-        for pdf in data["pdfs_es"]:
+        for pdf in data["pdfs_es_new"]:
             self.__createPdf("es", pdf["name"], pdf["hash"], data["id_document"])
 
-        for pdf in data["pdfs_en"]:
+        for pdf in data["pdfs_en_new"]:
             self.__createPdf("en", pdf["name"], pdf["hash"], data["id_document"])
 
         return data["id_document"]

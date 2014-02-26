@@ -1,0 +1,16 @@
+{
+		"id_highlight": "1",
+		"title_es": "Hightlight title ES 1",
+		"title_en": "Hightlight title EN 1",
+		"text_es": "Text ES 1",
+		"text_en": "Text EN 1",
+		"new_image_name_en": "image_name_en.jpg",
+		"new_image_name_es": "image_name_es.jpg",
+		"new_image_hash_en": "3452342354534534234234",
+		"new_image_hash_es": "3452342354534534234234",
+		"credit_img_es": "Credit IMG ES",
+		"credit_img_en": "Credit IMG EN",
+		"link_es": "Link ES",
+		"link_en": "Link EN",
+		"published": "True"
+}

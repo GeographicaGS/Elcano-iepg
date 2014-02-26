@@ -21,7 +21,7 @@ class DocumentModel(PostgreSQLModel):
                          "theme_es": data["theme_es"],
                          "description_en": data["description_en"],
                          "description_es": data["description_es"],
-                         "last_edit_time": datetime.datetime.now().isoformat(),
+                         "last_edit_time": datetime.datetime.utcnow().isoformat(),
                          # "last_edit_id_user": session["id_user"]},
                          "last_edit_id_user": "1",
                          "link_en": data["link_en"],

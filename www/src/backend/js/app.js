@@ -136,3 +136,17 @@ app.scrollTop = function(){
     });
 }
 
+app.input = function(str){
+    str = $.trim(str);
+    if (str === "")
+        return null;
+    return str;
+}
+
+app.renameID = function(array,oldID,newID){
+    for (var i=0;i< array.length;i++){
+        array[i][newID] = array[i][oldID];
+        delete array[i][oldID];
+    }
+    return array;
+}

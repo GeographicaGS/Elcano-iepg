@@ -1,6 +1,7 @@
 from flask import session
 from backend import app
 from functools import wraps
+import cgi
 
 def auth(f):
     """Wraps Authentication"""
@@ -22,3 +23,13 @@ def isLogged():
     else:        
         return False
     
+
+def renameKeyDict(dict,oldKeyName,newKeyName):
+    dict[newKeyName]=dict.pop(oldKeyName)
+    return dict;
+
+def htmlspecialchars(s):
+    if s:
+        return cgi.escape(s)
+    else:
+        return None

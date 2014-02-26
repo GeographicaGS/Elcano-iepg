@@ -17,9 +17,9 @@
         <div class="form-group">
             <div class=" col-md-2 LabelForm"><label for="">título *</label></div>
             <div class="col-md-10">
-                <input type="text" class="form-control Esimput " name="title_en" placeholder="(<lang>Español</lang>)">
+                <input type="text" class="form-control Esimput " name="title_es" placeholder="(<lang>Español</lang>)" value="<%= model.title_es %>">
                 <hr class="featurette-divider">
-                <input type="text" class="form-control ENimput" name="title_es" placeholder="(<lang>English</lang>)">
+                <input type="text" class="form-control ENimput" name="title_en" placeholder="(<lang>English</lang>)" value="<%= model.title_en %>">
             </div>
         </div>
         
@@ -69,18 +69,18 @@
         <div class="form-group">
             <div class=" col-md-2 LabelForm"><label for=""><lang>Tema*</lang></label></div>
             <div class="col-md-10">
-                <textarea class="form-control Esimput" placeholder="(<lang>Español</lang>)" name="theme_es" rows="3"></textarea>
+                <textarea class="form-control Esimput" placeholder="(<lang>Español</lang>)" name="theme_es" rows="3"><%= model.theme_es %></textarea>
                 <hr class="featurette-divider">
-                <textarea class="form-control ENimput" placeholder="(<lang>Inglés</lang>)" name="theme_en" rows="3"></textarea>
+                <textarea class="form-control ENimput" placeholder="(<lang>Inglés</lang>)" name="theme_en" rows="3"><%= model.theme_en %></textarea>
             </div>
         </div>
        
         <div class="form-group">
             <div class=" col-md-2 LabelForm"><label for="">Resumen*</label></div>
             <div class="col-md-10">
-                <textarea class="form-control Esimput" placeholder="(<lang>Español</lang>)" name="description_es" rows="6"></textarea>
+                <textarea class="form-control Esimput" placeholder="(<lang>Español</lang>)" name="description_es" rows="6"><%= model.description_es %></textarea>
                 <hr class="featurette-divider">
-                <textarea class="form-control ENimput" placeholder="(<lang>Inglés</lang>)" name="description_en" rows="6"></textarea>
+                <textarea class="form-control ENimput" placeholder="(<lang>Inglés</lang>)" name="description_en" rows="6"><%= model.description_en %></textarea>
             </div>
         </div>
         
@@ -90,11 +90,11 @@
         </div>
 
         <div class="form-group">
-            <div class=" col-md-2 LabelForm"><label for="">Enlaces *</label></div>
+            <div class=" col-md-2 LabelForm"><label for="">Enlaces</label></div>
             <div class="col-md-10">
-                <input type="text" class="form-control Esimput " name="link_en" placeholder="(<lang>Español</lang>)">
+                <input type="text" class="form-control Esimput " name="link_es" placeholder="(<lang>Español</lang>)" value="<%= model.link_es %>">
                 <hr class="featurette-divider">
-                <input type="text" class="form-control ENimput" name="link_es" placeholder="(<lang>English</lang>)">
+                <input type="text" class="form-control ENimput" name="link_en" placeholder="(<lang>English</lang>)"  value="<%= model.link_en %>">
             </div>
         </div>
 

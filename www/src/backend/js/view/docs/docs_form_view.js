@@ -3,14 +3,10 @@ app.view.docs.FormView = Backbone.View.extend({
     _authorsTemplate : _.template( $('#docs_author_template').html() ),
     _pdfsTemplate: _.template($("#docs_pdf_files_data_template").html()),
     _saveRequest : false,
-    initialize: function() {
+
+    initialize: function(options) {
         app.events.trigger("menu","docs");
-        
-        this.authors = new Backbone.Collection({"twitter" : "Twitter"});
-        this.listenTo(this.authors,"add remove",function(){
-            this.renderAuthors();
-        });
-    
+
         this.labels = {};
         this.labels["es"] = new app.collection.Label(null,"es");
         this.labels["en"] = new app.collection.Label(null,"en");
@@ -20,14 +16,31 @@ app.view.docs.FormView = Backbone.View.extend({
             // Nested closure to render each labels
             this._listenToLabel(i);
         }
-
-        this.model = new app.model.Document({
-            "labels_es" : new Backbone.Collection(),
-            "labels_en" : new Backbone.Collection(),
-            "pdfs_es" : new Backbone.Collection(),
-            "pdfs_en" : new Backbone.Collection()
-        });
-
+       
+        if (!options || !options.id){
+        
+            this.model = new app.model.Document({
+                "labels_es" : new Backbone.Collection(),
+                "labels_en" : new Backbone.Collection(),
+                "pdfs_es" : new Backbone.Collection(),
+                "pdfs_en" : new Backbone.Collection(),
+                "authors" : new Backbone.Collection({"twitter_user" : "Twitter"})
+            });
+            this._initialize();
+            
+        }
+        else{
+            var self = this;
+            this.model = new app.model.Document({"id" : options.id});
+            this.model.fetch({
+                success: function(){
+                    self._initialize();
+                }
+            });
+        }
+    },
+    
+    _initialize: function(){
         this.listenTo(this.model.get("pdfs_es"),"add remove", function(){
             this.renderPDFs();
         });
@@ -44,6 +57,9 @@ app.view.docs.FormView = Backbone.View.extend({
             this.renderSelectLabels("en");
         });
 
+        this.listenTo(this.model.get("authors"),"add remove",function(){
+            this.renderAuthors();
+        });
         Backbone.Validation.bind(this/*, {
             valid: function(view, attr) {
               // do something
@@ -55,7 +71,6 @@ app.view.docs.FormView = Backbone.View.extend({
 
         this.render();
     },
-    
     _listenToLabel: function(lang){
         this.listenTo(this.labels[lang],"reset change",function(){
             this.renderLabels(lang);
@@ -135,7 +150,7 @@ app.view.docs.FormView = Backbone.View.extend({
             });
         
             // Close add form
-            this.$("#labels_"+ lang +" .anadir-bt").trigger("click");    
+            //.$("#labels_"+ lang +" .anadir-bt").trigger("click");    
         }
         
     },
@@ -145,7 +160,7 @@ app.view.docs.FormView = Backbone.View.extend({
             $c = lang == "es" ? this.$cLabelsES : this.$cLabelsEN,
             html = "";
 
-        if (labels.length) {
+        if (labels && labels.length) {
             //code
             for(var i=0;i<labels.length;i++){
                 html += " <button type='button' class='btn btn-xs tag-active-bt' id_label="+labels.at(i).get("id") +">"
@@ -168,6 +183,9 @@ app.view.docs.FormView = Backbone.View.extend({
     },
     
     renderLabels: function(lang){
+        if (!this.labels[lang])
+            return;
+        
         var $c = lang == "es" ? this.$labels_es : this.$labels_en;
         var html = "";
         for (var i=0;i<this.labels[lang].length;i++){
@@ -178,7 +196,7 @@ app.view.docs.FormView = Backbone.View.extend({
     },
     
     addAuthor: function(){
-        this.authors.add({twitter: "Twitter"});  
+        this.model.get("authors").add({twitter_user: "Twitter"});  
     },
     
     removeAuthor: function(e){
@@ -186,28 +204,28 @@ app.view.docs.FormView = Backbone.View.extend({
             idx = $e.attr("idx_author");
             
         if (idx>0) {
-            this.authors.remove(this.authors.at(idx));
+            this.model.get("authors").remove(this.model.get("authors").at(idx));
         }
     },
     
     renderAuthors: function(){
-        this.$("#authors").html(this._authorsTemplate({
-            authors : this.authors.toJSON()
-        }));
-        
+        if (this.model.get("authors")){
+            this.$("#authors").html(this._authorsTemplate({
+                authors : this.model.get("authors").toJSON()
+            }));    
+        }
     },
     
     editAuthor: function(e){
         var $e = $(e.target),
             idx = $e.attr("idx_author"),
-            m = this.authors.at(idx),
+            m = this.model.get("authors").at(idx),
             val = $e.val().trim();
             
-        m.set("twitter",val);    
+        m.set("twitter_user",val);    
     },
     
     validate : function(e){
-        console.log("validate");
         if (!this._saveRequest){
             return;
         }
@@ -223,41 +241,49 @@ app.view.docs.FormView = Backbone.View.extend({
     save: function(){
         this._saveRequest = true;
         var data = {
-            "title_en" : $.trim(this.$("input[name='title_en']").val()),
-            "title_es" : $.trim(this.$("input[name='title_es']").val()),
-            "theme_en" : $.trim(this.$("textarea[name='theme_en']").val()),
-            "theme_es" : $.trim(this.$("textarea[name='theme_es']").val()),
-            "description_en" : $.trim(this.$("textarea[name='description_en']").val()),
-            "description_es" : $.trim(this.$("textarea[name='description_es']").val()),
-            "authors": _.filter(_.pluck(this.authors.toJSON(),"twitter"),function (e){
+            "title_en" : app.input(this.$("input[name='title_en']").val()),
+            "title_es" : app.input(this.$("input[name='title_es']").val()),
+            "theme_en" : app.input(this.$("textarea[name='theme_en']").val()),
+            "theme_es" : app.input(this.$("textarea[name='theme_es']").val()),
+            "description_en" : app.input(this.$("textarea[name='description_en']").val()),
+            "description_es" : app.input(this.$("textarea[name='description_es']").val()),
+            "authors": _.filter(_.pluck(this.model.get("authors").toJSON(),"twitter_user"),function (e){
                 return e != "Twitter";
             }),
-            "link_en" : $.trim(this.$("input[name='link_en']").val()),
-            "link_es" : $.trim(this.$("input[name='link_es']").val())
+            "link_en" : app.input(this.$("input[name='link_en']").val()),
+            "link_es" : app.input(this.$("input[name='link_es']").val())
         }
 
         this.model.set(data);
          
         if (this.model.isValid(true)){
             // Save on server
-            this.model.save();
+            this.model.save(null,{
+                success: function(model){
+                    app.router.navigate("docs/" + model.get("id"),{trigger: true});
+                }
+            });
         }
         else{
             app.scrollTop();
         }
     },
     render: function() {
-        
-        this.$el.html(this._template());
+
+        this.$el.html(this._template({
+            model: this.model.toJSON()
+        }));
         this.$labels_es = this.$("#labels_es .tagsList");
         this.$labels_en = this.$("#labels_en .tagsList");
         this.$cLabelsES = this.$("#labels_es .clabels");
         this.$cLabelsEN = this.$("#labels_en .clabels");
         this.$listPDFS = this.$("#list_pdf_files");
+
         this.renderAuthors();
         this.renderSelectLabels("es");
         this.renderSelectLabels("en");
         this.renderPDFs();
+        this.renderLabels();
         return this;
     },
 
@@ -329,8 +355,8 @@ app.view.docs.FormView = Backbone.View.extend({
                 $button.show();
                 
                 self.model.get("pdfs_"+lang).add({
-                    hash: json.filename,
-                    name:name
+                    "hash": json.filename,
+                    "pdf_name":name
                 });   
 
 
@@ -349,10 +375,13 @@ app.view.docs.FormView = Backbone.View.extend({
     },
 
     renderPDFs: function(){
-        this.$listPDFS.html(this._pdfsTemplate({
-            pdfs_es : this.model.get("pdfs_es").toJSON(),
-            pdfs_en : this.model.get("pdfs_en").toJSON()
-        }));
+        if (this.model.get("pdfs_es") && this.model.get("pdfs_en")){
+            this.$listPDFS.html(this._pdfsTemplate({
+                pdfs_es : this.model.get("pdfs_es").toJSON(),
+                pdfs_en : this.model.get("pdfs_en").toJSON()
+            }));    
+        }
+        
     },
 
     deletePDF: function (e){
@@ -364,9 +393,4 @@ app.view.docs.FormView = Backbone.View.extend({
 
         pdfs.remove(pdfs.at(id_pdf));
     }
-
-
-    
-        
-
 });

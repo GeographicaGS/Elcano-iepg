@@ -213,15 +213,15 @@ print(jsonResponse(r))
 
 # Get document: getDocumentList(), GET /document
 
-data = {
-    "offset": "1",
-    "search": "",
-    "orderbyfield": "title",
-    "orderbyorder": "asc"
-}
+# data = {
+#     "offset": "1",
+#     "search": "",
+#     "orderbyfield": "title",
+#     "orderbyorder": "asc"
+# }
 
-r = get(root+"/document", data=data)
+# r = get(root+"/document", data=data)
 
-print
-print('getDocumentList(), GET /document')
-print(jsonResponse(r))
+# print
+# print('getDocumentList(), GET /document')
+# print(jsonResponse(r))

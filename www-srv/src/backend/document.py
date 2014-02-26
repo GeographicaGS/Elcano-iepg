@@ -7,7 +7,7 @@ Document backend
 from backend import app
 from flask import jsonify,request,session
 from model.documentmodel import DocumentModel
-from utils import auth
+from backend.utils import auth, prettyNumber
 import config
 from werkzeug.utils import secure_filename
 import werkzeug
@@ -42,14 +42,51 @@ def deleteDocument():
 @app.route('/document', methods=['GET'])
 @auth
 def getDocumentList():
-    app.logger.info(request.json)
+    """Gets a slice of a document list."""
     m = DocumentModel()
+    out = []
 
-    r = m.getDocumentList(request.json, config.cfgBackend["DocumentListLength"])
+    totalSize = m.getDocumentListSize(request.json)
 
-    app.logger.info(r)
+    print(request.json["offset"])
 
-    return(jsonify({"results": r}))
+    for doc in m.getDocumentList(request.json, config.cfgBackend["DocumentListLength"]):
+        thisDoc = dict()
+        thisDoc["english"]=False
+        thisDoc["spanish"]=False
+        
+        if doc["title_en"]!="" and doc["theme_en"]!="" and doc["description_en"]!="":
+            thisDoc["english"]=True
+            
+        if doc["title_es"]!="" and doc["theme_es"]!="" and doc["description_es"]!="":
+            thisDoc["spanish"]=True
+
+        thisDoc["title"] = doc["title"]
+        t = doc["time"]
+        thisDoc["time"] = prettyNumber(t.year)+"/"+prettyNumber(t.month)+ \
+                          "/"+prettyNumber(t.day)+" - "+prettyNumber(t.hour)+ \
+                          ":"+prettyNumber(t.minute)
+
+        thisDoc["published"] = False        
+
+        if doc["published"] is not None:
+            thisDoc["published"] = True
+
+        authors = []
+        for author in m.getDocumentAuthors(doc["id"]):
+            authors.append(author["twitter_user"])
+
+        thisDoc["authors"] = authors
+
+        thisDoc["attachments"] = False
+        if doc["link_es"]!="" or doc["link_en"]!="" or \
+           len(m.getDocumentPdf(doc["id"]))>0:
+            thisDoc["attachments"] = True
+
+        out.append(thisDoc)
+
+    return(jsonify({"results": {"listSize": totalSize, "page": request.json["offset"], \
+                                "documentList": out}}))
 
 
 def allowedFilePDF(filename):

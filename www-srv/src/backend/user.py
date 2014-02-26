@@ -1,7 +1,7 @@
 from backend import app
 from flask import jsonify,request,session
 from model.UserModel import UserModel
-from utils import auth
+from backend import utils
 import hashlib
 
 @app.route('/user', methods = ['GET'])                                            
@@ -21,7 +21,7 @@ def user():
 
 
 @app.route('/user', methods=['POST'])
-@auth
+@utils.auth
 def newUser():
     """Creates a new user."""
     app.logger.info(request.json)

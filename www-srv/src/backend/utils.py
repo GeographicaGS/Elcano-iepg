@@ -16,9 +16,16 @@ def auth(f):
            
     return decorated_function
 
+
 def isLogged():
     if 'id_user' in session:
         return True
     else:        
         return False
     
+
+def prettyNumber(number):
+    if number<10:
+        return "0"+str(number)
+    else:
+        return str(number)

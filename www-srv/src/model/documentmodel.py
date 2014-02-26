@@ -121,23 +121,54 @@ class DocumentModel(PostgreSQLModel):
         return data["id_document"]
 
 
+    def getDocumentListSize(self, data):
+        """Gets the total size of a list of document."""
+        docs = "select count(*) as c from www.document "
+               
+        s = data["search"]
+        if s:
+            docs += "where title_en ilike '%"+s+"%' or title_es ilike '%"+s+"%' or "+ \
+                    "theme_en ilike '%"+s+"%' or theme_es ilike '%"+s+"%' or "+ \
+                    "description_en ilike '%"+s+"%' or description_es ilike '%"+s+"%' "
+
+        docs += ";"
+        return self.query(docs).row()["c"]
+               
+
     def getDocumentList(self, data, listSize):
         """Gets list of documents."""
-        q = "select id_document as id, coalesce(title_es, title_en) as title, "+ \
-            "last_edit_time as time, "+ \
-            "published from www.document "+ \
-            "order by "+data["orderbyfield"]+" "+data["orderbyorder"]+" "+ \
-            "offset "+str(int(data["offset"])*listSize)+" "+ \
-            "limit "+str(listSize)+";"
+        docs = "select id_document as id, coalesce(title_es, title_en) as title, "+ \
+               "title_en, title_es, theme_en, theme_es, description_en, description_es, "+ \
+               "link_en, link_es, "+ \
+               "last_edit_time as time, "+ \
+               "published from www.document "
+               
+        s = data["search"]
+        if s:
+            docs += "where title_en ilike '%"+s+"%' or title_es ilike '%"+s+"%' or "+ \
+                    "theme_en ilike '%"+s+"%' or theme_es ilike '%"+s+"%' or "+ \
+                    "description_en ilike '%"+s+"%' or description_es ilike '%"+s+"%' "
 
-        print(q)
+        docs += "order by "+data["orderbyfield"]+" "+data["orderbyorder"]+" "+ \
+                "offset "+str(int(data["offset"])*listSize)+" "+ \
+                "limit "+str(listSize)+";"
 
-        # print(self.query(q).result)
-#            print(r)           
+        return self.query(docs).result()
 
 
-        return q
-        
+    def getDocumentAuthors(self, id_document):
+        """Gets the list of authors of a document."""
+        authors = "select * from "+ \
+                  "www.author where id_document="+str(id_document)+";"
+
+        return self.query(authors).result()
+
+
+    def getDocumentPdf(self, id_document):
+        """Gets the list of PDF of a document."""
+        pdf = "select * from www.pdf where id_document="+str(id_document)+";"
+
+        return self.query(pdf).result()
 
 
     def __attachLabel(self, id_label, id_document, language):

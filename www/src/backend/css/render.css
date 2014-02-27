@@ -64,3 +64,9 @@ label.error_form{
     color: #d60006;
     font-weight: normal;
 }
+
+.linkList,.PublicList{
+    width: 27px;
+    height: 24px;
+}
+

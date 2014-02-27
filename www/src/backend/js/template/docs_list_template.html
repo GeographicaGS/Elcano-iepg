@@ -1,10 +1,10 @@
 <h1 class="page-header col-md-1">Documentos</h1>
 <a href="/<lang>lang</lang>/docs/add" type="button" class="btn btn-l">Nuevo</a>
-<button type="button" class="btn btn-l navbar-right searchBT"></button>
-<form class="navbar-form pull-right" style="display:none"> 
+<button type="button" class="btn btn-l navbar-right searchBT" id="ctrl_search"></button>
+<div class="navbar-form pull-right" id="search_form" style="display:none"> 
     <input type="text" class="searchForm col-md-10" placeholder="buscar destacado">
-    <button type="button" class="btn btn-l col-md-1">Buscar</button>
-</form>
+    <button type="button" class="btn btn-l col-md-1" >Buscar</button>
+</div>
 
 
 <hr class="featurette-divider">
@@ -20,43 +20,12 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
-            <%
-             _.each(collection,function(d){ %>
-            <tr>
-                <td><span class="ESTag <%= d.spanish ? "" : "inactivetag" %>">ES</span> <span class="ENTag <%= d.english ? "" : "inactivetag" %>">EN</span></td>
-                <td><a href="/<lang>lang</lang>/docs/<%= d.id %>"><%= d.title %> </a></td>
-                <td>
-                    <a href="http://www.twitter.com/<%= d.authors[0].substring(1) %>" target="_blank">
-                        <%
-                            print(d.authors[0]);
-                            if (d.authors.length > 1) {
-                            %> 
-                                <span class="badge">+ <%= d.authors.length %></span></a>
-                            <%
-                            }
-                        %>
-                    </a>
-                </td>
-                <td class="lastEdition greyTable thRight">
-                    <%= app.dateTimeFormat(d.time) %>
-                </td>
-                <td>
-                    <% if (d.attachments) { %>
-                    <span class="linkList"><img src="/img/iconos/documentIco.png" alt="enlazado"></span>
-                    <% } %>
-                    <% if (d.published) { %>
-                    <span class="PublicList"><img src="/img/iconos/publicICO.png" alt="Publicado"></span>
-                    <% } %>
-                </td>
-            </tr>
-            <% }); %>
-        </tbody>
+        <tbody id="list_data"></tbody>
     </table>
-    <div class="Footertable"><strong>1 – <%= app.config.PAGE_SIZE %></strong> de <%= listSize %> documentos</div>
-    <div class="pull-left pl15 col-md-12 btn_botton">
+    <div class="Footertable"><strong><span id="start_element"></span> – <span id="total_visible_elements"></span></strong> de <span id="total_elements"></span> documentos</div>
+    <div class="pull-left pl15 col-md-12 btn_botton" id="ctrl_more">
          <div class="col-md-2 pl15">
-            <button type="button" class="btn btn-l btn-edit">Más documentos</button>
+            <button type="button" class="btn btn-l btn-edit" id="more">Más documentos</button>
         </div>
     </div>
     

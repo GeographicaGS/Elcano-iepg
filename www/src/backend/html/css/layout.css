@@ -233,6 +233,7 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 
 .tagForm{ background:#fafafb; padding:10px 10px 18px; margin-top:10px;}
 .tagsList{ margin-bottom:38px;}
+.tagsListResult{ margin-bottom: 0}
 .tag-add-bt{background: url(../img/iconos/add_ico.png) no-repeat left center #fdc300; color:#28282b; line-height: 0.8; padding:5px 5px 5px 20px; font-size:13px; margin-right:5px;}
 .tag-add-bt:hover{background: url(../img/iconos/add_ico_hover.png) no-repeat left center #28282b; color:#fff;}
 
@@ -244,6 +245,9 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 .btn-resena-twitter-edit{background:url(../img/iconos/twitter_resena_edit_ico.png) no-repeat center center; width:35px; height:40px;}
 .btn-resena-twitter-edit:hover{background:url(../img/iconos/twitter_resena_edit_ico_hover.png) no-repeat center center;}
 
+.moreInfo span.more{ color:#4d4c51;}
+.ampliar{ border: none; background: none; color red; border-bottom: 1px solid #fdc204; padding: 0; margin-left: 5px;}
+.ampliar:hover{ border-bottom: 1px solid #2b2b2d;}
 .col-false{ width:35.999%}
 
 .inputTwitter{ float:left; width:90%;}
@@ -264,8 +268,14 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 .DestacadosForm .LabelForm label{font-size:13px; text-transform: uppercase; color:#515155; font-weight: normal !important;}
 .DestacadosForm .form-group .featurette-divider{ border-bottom:1px dotted #c7c7cd; margin-top:13px; margin-bottom:13px;}
 
+.esresult span{ color: #D60006}
+.enresult span{ color: #0033FF}
 .DestacadosForm .labelGreyForm{ width:auto; float: left; margin-right:10px; padding-top:10px;}
 .DestacadosForm .labelGreyForm .greyLabel{ text-transform: none; color:#a2a2ac; font-style:normal;}
+
+.result .labelGreyForm .greyLabel{ text-transform: none; color:#515155; font-style:normal;}
+.result .labelGreyForm .greyLabel span{ font-size: 13px; color: #a2a2ac}
+.result .labelGreyForm .greyLabel .moreInfo{ float: right; width: auto;}
 
 .DestacadosForm .labelTwiterResena{}
 

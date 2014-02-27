@@ -38,7 +38,7 @@ headers = {'Accept': 'application/json', 'Content-type': 'application/json'}
 data00 = {
     'name': 'Iliana',
     'surname': 'Olivié',
-    'password': 'eac9e8dd8575f4c7831f1f6a72607126',
+    'password': 'd0209bbd86dfcc7593de226203bb10e7',
     'email': 'iolivie@rielcano.org',
     'admin': 'true',
     'username': 'iolivie',

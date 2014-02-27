@@ -81,6 +81,7 @@ app.view.docs.FormView = Backbone.View.extend({
         // Remove events on close
         this.stopListening();
     },
+
     
     events: {
         "click .ctrl_labels .anadir-bt": "toggleAddLabelUI",

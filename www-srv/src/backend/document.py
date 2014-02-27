@@ -168,6 +168,7 @@ def getDocumentList():
 
     for doc in m.getDocumentList(request.args, config.cfgBackend["DocumentListLength"]):
         thisDoc = dict()
+        thisDoc["id"] = doc["id"]
         thisDoc["english"]=False
         thisDoc["spanish"]=False
         
@@ -178,10 +179,12 @@ def getDocumentList():
             thisDoc["spanish"]=True
 
         thisDoc["title"] = doc["title"]
-        t = doc["time"]
-        thisDoc["time"] = prettyNumber(t.year)+"/"+prettyNumber(t.month)+ \
-                          "/"+prettyNumber(t.day)+" - "+prettyNumber(t.hour)+ \
-                          ":"+prettyNumber(t.minute)
+        thisDoc["time"] = doc["time"]
+
+        #t = doc["time"]
+        #thisDoc["time"] = prettyNumber(t.year)+"/"+prettyNumber(t.month)+ \
+        #                  "/"+prettyNumber(t.day)+" - "+prettyNumber(t.hour)+ \
+        #                  ":"+prettyNumber(t.minute)
 
         thisDoc["published"] = False        
 

@@ -37,6 +37,11 @@ def renameKeyDict(dict,oldKeyName,newKeyName):
     return dict;
 
 
+def hsc(s):
+    """Just an alias."""
+    return htmlspecialchars(s)
+
+
 def htmlspecialchars(s):
     if s:
         return cgi.escape(s)

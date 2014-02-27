@@ -14,9 +14,12 @@ def get(url, data=None):
     else:
         return(requests.get(url, headers=headers))
 
-def delete(url, data):
+def delete(url, data=None):
     """Make DELETE request. Returns response."""
-    return(requests.delete(url, data=json.dumps(data), headers=headers))
+    if data:
+        return(requests.delete(url, data=json.dumps(data), headers=headers))
+    else:
+        return(requests.delete(url, headers=headers))
 
 def put(url, data):
     """Make PUT request. Returns response."""
@@ -88,64 +91,12 @@ for lang in ['en', 'es']:
 
 
 # Create document: newDocument(), POST /document
-
-data00 = {
-    "title_es": "Test document ES 0",
-    "title_en": "Test document EN 0",
-    "labels_es": [{"id": "1", "label": "Label A"},
-                  {"id": "2", "label": "Label B"},
-                  {"id": "4", "label": "Label c"}],
-    "labels_en": [{"id": "1", "label": "Label A"},
-                  {"id": "3", "label": "Label B"},
-                  {"id": "4", "label": "Label c"}],
-    "theme_es": "Theme ES 0",
-    "theme_en": "Theme EN 0",
-    "description_es": "Description ES 0",
-    "description_en": "Description EN 0",
-    "authors": ["@iliana", "@jpperez"],
-    "link_es": "Link ES 0",
-    "link_en": "Link EN 0",
-    "pdfs_es": [{"name": "pdf_es_1 0", "hash": "8383e83838283e838238"}, 
-                {"name": "pdf_es_2 0", "hash": "8383e83838283e838238"}, 
-                {"name": "pdf_es_3 0", "hash": "8383e83838283e838238"}],
-    "pdfs_en": [{"name": "pdf_en_1 0", "hash": "8383e83838283e838238"}, 
-                {"name": "pdf_en_2 0", "hash": "8383e83838283e838238"}, 
-                {"name": "pdf_en_3 0", "hash": "8383e83838283e838238"}]
-}
-
-data01 = {
-    "title_es": "Test document ES 1",
-    "title_en": "Test document EN 1",
-    "labels_es": [{"id": "1", "label": "Label A"},
-                  {"id": "2", "label": "Label B"}],
-    "labels_en": [{"id": "1", "label": "Label A"},
-                  {"id": "4", "label": "Label c"}],
-    "theme_es": "Theme ES 1",
-    "theme_en": "Theme EN 1",
-    "description_es": "Description ES 1",
-    "description_en": "Description EN 1",
-    "authors": ["@iliana"],
-    "link_es": "Link ES 1",
-    "link_en": "Link EN 1",
-    "pdfs_es": [{"name": "pdf_es_1 1", "hash": "8383e83838283e838238"}, 
-                {"name": "pdf_es_3 1", "hash": "8383e83838283e838238"}],
-    "pdfs_en": [{"name": "pdf_en_1 1", "hash": "8383e83838283e838238"}]
-}
-
-r00 = post(root+'/document', data00)
-r01 = post(root+'/document', data01)
-
-print
-print('newDocument(), POST /document')
-print(jsonResponse(r00))
-print(jsonResponse(r01))
-
 # Lots of dummy documents to test lists
 
 print
 print('Creating 32 dummy documents... be patient!')
 
-for n in range(1, 33):
+for n in range(1, 5):
     data = {
         "title_es": "Test document ES "+str(n),
         "title_en": "Test document EN "+str(n),
@@ -160,9 +111,9 @@ for n in range(1, 33):
         "authors": ["@iliana"],
         "link_es": "Link ES "+str(n),
         "link_en": "Link EN "+str(n),
-        "pdfs_es": [{"name": "pdf_es_1 "+str(n), "hash": "8383e83838283e838238"}, 
-                    {"name": "pdf_es_3 "+str(n), "hash": "8383e83838283e838238"}],
-        "pdfs_en": [{"name": "pdf_en_1 "+str(n), "hash": "8383e83838283e838238"}]
+        "pdfs_es": [{"name": "pdf_es_1 "+str(n), "hash": "1111"+str(n)}, 
+                    {"name": "pdf_es_2 "+str(n), "hash": "2222"+str(n)}],
+        "pdfs_en": [{"name": "pdf_en_1 "+str(n), "hash": "3333"+str(n)}]
     }
 
     post(root+'/document', data)
@@ -171,36 +122,29 @@ for n in range(1, 33):
 # Edit document: editDocument(), PUT /document
 
 data = {
-    "id_document": "4",
-    "title_es": "Test document ES 3",
-    "title_en": "Test document EN 3",
+    "title_es": "Test document ES",
+    "title_en": "Test document EN",
     "labels_es": [{"id": "1", "label": "Label A"},
-                  {"id": "4", "label": "Label C"}],
+                  {"id": "2", "label": "Label B"},
+                  {"id": "4", "label": "Label c"}],
     "labels_en": [{"id": "1", "label": "Label A"},
-                  {"id": "3", "label": "Label B"}],
-    "theme_es": "Theme ES 3",
-    "theme_en": "Theme EN 3",
-    "description_es": "éé ES 25",
-    "description_en": "éé ES 25",
+                  {"id": "3", "label": "Label B"},
+                  {"id": "4", "label": "Label c"}],
+    "theme_es": "Theme ES",
+    "theme_en": "Theme EN",
+    "description_es": "Description ES",
+    "description_en": "Description EN",
     "authors": ["@iliana", "@jpperez"],
-    "link_es": "Link ES 3",
-    "link_en": "Link EN 3",
-    "pdfs_es_new": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
-                    {"name": "pdf_es_2", "hash": "8383e83838283e838238"}, 
-                    {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
-    "pdfs_en_new": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
-                    {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
-                    {"name": "pdf_en_3", "hash": "8383e83838283e838238"}],
-    "pdfs_es_dropped": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
-                        {"name": "pdf_es_2", "hash": "8383e83838283e838238"}, 
-                        {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
-    "pdfs_en_dropped": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
-                        {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
-                        {"name": "pdf_en_3", "hash": "8383e83838283e838238"}],
+    "link_es": "Link ES",
+    "link_en": "Link EN",
+    "pdfs_es": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
+                {"name": "pdf_es_3", "hash": "22222"}],
+    "pdfs_en": [{"name": "pdf_en_1", "hash": "33332334"},
+                {"name": "pdf_en_1", "hash": "33332334eer"}], 
     "published": "True"
 }
 
-r = put(root+'/document', data)
+r = put(root+'/document/2', data)
 
 print
 print('editDocument(), PUT /document')
@@ -209,61 +153,57 @@ print(jsonResponse(r))
 
 # Delete document: deleteDocument(), DELETE /document
 
-data = {
-    "id_document": "1"
-}
-
-r = delete(root+"/document", data)
+r = delete(root+"/document/1")
 
 print
 print('deleteDocument(), DELETE /document')
 print(jsonResponse(r))
 
 
-# # Get document: getDocumentList(), GET /document, unfiltered
+# # # Get document: getDocumentList(), GET /document, unfiltered
 
-r = get(root+"/document?offset=0&search=&orderbyfield=title&orderbyorder=asc")
+# r = get(root+"/document?offset=0&search=&orderbyfield=title&orderbyorder=asc")
 
-print
-print('getDocumentList(), GET /document, unfiltered')
-print(jsonResponse(r))
-
-
-# Get document: getDocumentList(), GET /document, filtered
-
-data = {
-    "offset": "0",
-    "search": "ES 25",
-    "orderbyfield": "title",
-    "orderbyorder": "asc"
-}
-
-r = get(root+"/document?offset=0&search=%C3%A9%C3%A9%20ES%2025&orderbyfield=title&orderbyorder=asc")
-
-print
-print('getDocumentList(), GET /document, filtered')
-print(jsonResponse(r))
+# print
+# print('getDocumentList(), GET /document, unfiltered')
+# print(jsonResponse(r))
 
 
-# Create highlight: createHighlight(), POST /highlight
+# # Get document: getDocumentList(), GET /document, filtered
 
-data={
-    "title_es": "Hightlight title ES",
-    "title_en": "Hightlight title EN",
-    "text_es": "Text ES",
-    "text_en": "Text EN",
-    "image_name_en": "image_name_en.jpg",
-    "image_name_es": "image_name_es.jpg",
-    "image_hash_en": "3452342354534534234234",
-    "image_hash_es": "3452342354534534234234",
-    "credit_img_es": "Credit IMG ES",
-    "credit_img_en": "Credit IMG EN",
-    "link_es": "Link ES",
-    "link_en": "Link EN"
-}
+# data = {
+#     "offset": "0",
+#     "search": "ES 25",
+#     "orderbyfield": "title",
+#     "orderbyorder": "asc"
+# }
 
-r = post(root+'/highlight', data)
+# r = get(root+"/document?offset=0&search=%C3%A9%C3%A9%20ES%2025&orderbyfield=title&orderbyorder=asc")
 
-print
-print('createHighlight(), POST /highlight')
-print(jsonResponse(r))
+# print
+# print('getDocumentList(), GET /document, filtered')
+# print(jsonResponse(r))
+
+
+# # Create highlight: createHighlight(), POST /highlight
+
+# data={
+#     "title_es": "Hightlight title ES",
+#     "title_en": "Hightlight title EN",
+#     "text_es": "Text ES",
+#     "text_en": "Text EN",
+#     "image_name_en": "image_name_en.jpg",
+#     "image_name_es": "image_name_es.jpg",
+#     "image_hash_en": "3452342354534534234234",
+#     "image_hash_es": "3452342354534534234234",
+#     "credit_img_es": "Credit IMG ES",
+#     "credit_img_en": "Credit IMG EN",
+#     "link_es": "Link ES",
+#     "link_en": "Link EN"
+# }
+
+# r = post(root+'/highlight', data)
+
+# print
+# print('createHighlight(), POST /highlight')
+# print(jsonResponse(r))

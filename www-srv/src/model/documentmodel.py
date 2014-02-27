@@ -4,6 +4,8 @@
 
 Document model
 
+TODO: check all select * and state the fields.
+
 """
 
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
@@ -49,6 +51,12 @@ class DocumentModel(PostgreSQLModel):
         return a
 
 
+    def deletePdf(self, id_document, hash):
+        """Deletes a PDF."""
+        q = 'delete from www.pdf where id_document=%s and hash=%s;'
+        self.queryCommit(q, [id_document, hash])
+
+
     def __createPdf(self, lang, name, hash, id_document):
         """Creates a PDF document and attaches it to a document."""
         self.insert("www.pdf",
@@ -58,7 +66,7 @@ class DocumentModel(PostgreSQLModel):
                      "hash": hash})
 
 
-    def editDocument(self, data):
+    def editDocument(self, id_document, data, newPdfHashEn, newPdfHashEs):
         """Edits a document."""
         self.update("www.document", 
                     {"title_en": data["title_en"],
@@ -73,59 +81,55 @@ class DocumentModel(PostgreSQLModel):
                      "link_en": data["link_en"],
                      "link_es": data["link_es"],
                      "published": data["published"]},
-                    {"id_document": data["id_document"]})
+                    {"id_document": id_document})
 
         q = "delete from www.author where id_document=%s"
-        self.query(q, data["id_document"])
+        self.queryCommit(q, [id_document])
 
         q = "delete from www.document_label_en where id_document=%s"
-        self.query(q, data["id_document"])
+        self.queryCommit(q, [id_document])
 
         q = "delete from www.document_label_es where id_document=%s"
-        self.query(q, data["id_document"])
-
-        inStr = map(lambda p: p["hash"], data["pdfs_en_dropped"])+ \
-                map(lambda p: p["hash"], data["pdfs_es_dropped"])
-
-        q = "delete from www.pdf where id_document=%s and array[hash]::varchar[] <@ %s::varchar[];";
-        self.query(q, [data["id_document"], inStr])
+        self.queryCommit(q, [id_document])
 
         for label_en in data["labels_en"]:
-            self.__attachLabel(label_en["id"], data["id_document"], "en")
+            self.__attachLabel(label_en["id"], id_document, "en")
 
         for label_es in data["labels_es"]:
-            self.__attachLabel(label_es["id"], data["id_document"], "es")
+            self.__attachLabel(label_es["id"], id_document, "es")
 
         for author in data["authors"]:
-            self.__createAuthor(author, data["id_document"])
+            self.__createAuthor(author, id_document)
 
-        for pdf in data["pdfs_es_new"]:
-            self.__createPdf("es", pdf["name"], pdf["hash"], data["id_document"])
+        for pdf in data["pdfs_es"]:
+            if pdf["hash"] in newPdfHashEs:
+                self.__createPdf("es", pdf["name"], pdf["hash"], id_document)
 
-        for pdf in data["pdfs_en_new"]:
-            self.__createPdf("en", pdf["name"], pdf["hash"], data["id_document"])
+        for pdf in data["pdfs_en"]:
+            if pdf["hash"] in newPdfHashEn:
+                self.__createPdf("en", pdf["name"], pdf["hash"], id_document)
 
-        return data["id_document"]
+        return id_document
 
 
-    def deleteDocument(self, data):
+    def deleteDocument(self, id_document):
         """Deletes a document."""
         q = "delete from www.author where id_document=%s"
-        self.queryCommit(q, data["id_document"])
+        self.queryCommit(q, [id_document])
 
         q = "delete from www.document_label_en where id_document=%s"
-        self.queryCommit(q, data["id_document"])
+        self.queryCommit(q, [id_document])
 
         q = "delete from www.document_label_es where id_document=%s"
-        self.queryCommit(q, data["id_document"])
+        self.queryCommit(q, [id_document])
 
         q = "delete from www.pdf where id_document=%s"
-        self.queryCommit(q, data["id_document"])
+        self.queryCommit(q, [id_document])
 
         q = "delete from www.document where id_document=%s"
-        self.queryCommit(q, data["id_document"])
+        self.queryCommit(q, [id_document])
 
-        return data["id_document"]
+        return id_document
 
 
     def getDocumentListSize(self, data):
@@ -165,17 +169,22 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentAuthors(self, id_document):
         """Gets the list of authors of a document."""
-        authors = "select * from "+ \
-                  "www.author where id_document="+str(id_document)+";"
-
-        return self.query(authors).result()
+        q = "select id_author, twitter_user from www.author where id_document=%s;"
+        return self.query(q, [id_document]).result()
 
 
-    def getDocumentPdf(self, id_document):
-        """Gets the list of PDF of a document."""
-        pdf = "select * from www.pdf where id_document="+str(id_document)+";"
+    def getDocumentPdf(self, id_document, lang=None):
+        """Gets the list of PDF of a document, optionally for a given language."""
+        q = "select id_pdf, pdf_name, hash from www.pdf where id_document=%s"
+        bindings = [id_document]
 
-        return self.query(pdf).result()
+        if lang:
+            q += " and lang=%s;"
+            bindings.append(lang)
+        else:
+            q += ";"
+
+        return self.query(q, bindings).result()
 
 
     def __attachLabel(self, id_label, id_document, language):
@@ -192,23 +201,12 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocument(self,id_document):
         """Get Document"""
-        #TODO
         q = "SELECT * FROM www.document WHERE id_document=%s"
         return self.query(q,[id_document]).row()
 
-    def getDocumentPDFs(self, id_document):
-        q = "SELECT id_pdf,pdf_name,hash FROM www.document WHERE id_document=%s"
-        return self.query(q,[id_document]).result()
 
-    def getDocumentPDFs(self, id_document,lang):
-        q = "SELECT id_pdf,pdf_name,hash FROM www.pdf WHERE id_document=%s AND lang=%s"
-        return self.query(q,[id_document,lang]).result()
-
-    def getDocumentAuthors(self, id_document):
-        q = "SELECT id_author,twitter_user FROM www.author WHERE id_document=%s"
-        return self.query(q,[id_document]).result()
-
-    def getDocumentLabels(self, id_document,lang):
+    def getDocumentLabels(self, id_document, lang):
+        """Get document labels."""
         if lang == "es":
             q = "SELECT dl.id_label_es as id_label,l.label FROM www.document_label_es dl "\
                     " INNER JOIN  www.label_es l ON dl.id_label_es=l.id_label_es "\
@@ -218,7 +216,4 @@ class DocumentModel(PostgreSQLModel):
                     " INNER JOIN www.label_en l ON dl.id_label_en=l.id_label_en "\
                     " WHERE id_document=%s"
 
-        
         return self.query(q,[id_document]).result()
-
-

@@ -33,6 +33,7 @@ deps.Backend.JS = {
 			// --- Collections  ---
 			// --------------------
 			"backend/js/collection/label_collection.js",			
+			"backend/js/collection/document_collection.js",
 			// --------------------
 			// ------  Views ------
 			// --------------------

@@ -5,3 +5,4 @@
 *.komodoproject
 venv
 *.pyc
+*.sublime-*

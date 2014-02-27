@@ -3,14 +3,24 @@ app.view.docs.ListView = Backbone.View.extend({
     
     initialize: function() {
         app.events.trigger("menu","docs");
-        this.render();
+        this.collection = new app.collection.Document();
+        this.collection.fetch({"reset" : true});
+        this.listenTo(this.collection,"reset", function(){
+            this.render();    
+        });
     },
     
     onClose: function(){
         // Remove events on close
+        this.stopListening();
     },
+
     render: function() {
-        this.$el.html(this._template());
+        this.$el.html(this._template({
+            collection : this.collection.toJSON(),
+            listSize : this.collection.listSize
+        }));
         return this;
     }
+
 });

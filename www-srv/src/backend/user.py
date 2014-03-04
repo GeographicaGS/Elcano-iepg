@@ -1,3 +1,5 @@
+# coding=UTF8
+
 from backend import app
 from flask import jsonify,request,session
 from model.UserModel import UserModel

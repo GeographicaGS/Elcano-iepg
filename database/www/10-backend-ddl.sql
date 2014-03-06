@@ -162,7 +162,86 @@ add constraint document_label_es_pkey
 primary key (id_document, id_label_es);
 
 
+create table www.new(
+  id_new serial,
+  id_wwwuser integer,
+  new_time timestamp,
+  title_en varchar(500),
+  title_es varchar(500),
+  text_en text,
+  text_es text,
+  url_en varchar(250),
+  url_es varchar(250),
+  id_news_section integer
+);
+
+alter table www.new
+add constraint new_pkey
+primary key (id_new);
+
+
+create table www.new_label_en(
+  id_new integer,
+  id_label_en integer
+);
+
+alter table www.new_label_en
+add constraint new_label_en_pkey
+primary key (id_new, id_label_en);
+
+
+create table www.new_label_es(
+  id_new integer,
+  id_label_es integer
+);
+
+alter table www.new_label_es
+add constraint new_label_es_pkey
+primary key (id_new, id_label_es);
+
+
+create table www.news_section(
+  id_news_section serial,
+  description_en varchar(100),
+  description_es varchar(100)
+);
+
+alter table www.news_section
+add constraint news_section_pkey
+primary key (id_news_section);
+
+
 -- Foreign keys
+
+alter table www.new_label_es
+add constraint new_label_es_label_es_fkey
+foreign key(id_label_es)
+references www.label_es(id_label_es);
+
+alter table www.new_label_es
+add constraint new_label_es_new_fkey
+foreign key(id_new)
+references www.new(id_new);
+
+alter table www.new_label_en
+add constraint new_label_en_label_en_fkey
+foreign key(id_label_en)
+references www.label_en(id_label_en);
+
+alter table www.new_label_en
+add constraint new_label_en_new_fkey
+foreign key(id_new)
+references www.new(id_new);
+
+alter table www.new
+add constraint new_news_section_fkey
+foreign key (id_news_section)
+references www.news_section(id_news_section);
+
+alter table www.new
+add constraint new_wwwuser_fkey
+foreign key (id_wwwuser)
+references www.wwwuser(id_wwwuser);
 
 alter table www.document
 add constraint document_user_fkey

@@ -128,14 +128,14 @@ def deletePdfFile(hash):
     """Deletes a PDF file from the filesystem."""
     file = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
     print("Remove: ", file)
-    # os.remove(file)
+    os.remove(file)
 
 
 def movePdfFile(hash):
     """Moves a PDF file within the filesystem."""
     origin = config.cfgBackend["tmpFolder"]+"/"+hash+".pdf"
     destination = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
-    # os.rename(origin, destination)
+    os.rename(origin, destination)
     print("Move: ", origin, destination)
 
 

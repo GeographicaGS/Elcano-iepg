@@ -94,13 +94,11 @@ deps.Frontend.JS = {
 
 deps.Frontend.CSS = {
 	ThirdParty:{
-		src : [			
-			
-		]
+		src : []
 	},
 	Core: {
 		src: [
-			"frontend/css/grid.css",
+			"frontend/css/base.css",
 			"frontend/css/render.css",
 			"frontend/css/styles.css",
 		]

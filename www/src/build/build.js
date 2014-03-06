@@ -104,15 +104,33 @@ exports.buildCSS = function (env,callback, version, buildName){
 		fs.writeFileSync(srcPath, newSrc);
 		console.log('\tSaved to ' + srcPath);
 	}
-	
-	var path = pathPart + '.min.css',
-	    oldCompressed = utils.loadSilently(path),		
-	    newCompressed =
-			utils.combineFiles(filesThirdParty)+
-			UglifyCSS.processString(newSrc, {
+
+	var less = require('less'),
+		parser = new(less.Parser),
+		newCssCompressed;
+
+	parser.parse(newSrc, function (e, tree) {
+		if (!tree){
+			// no less CSS less use UglifyCSS
+			newCssCompressed = UglifyCSS.processString(newSrc, {
 				maxLineLen : 500,
 				expandVars : true 
-			}),
+			})
+		}
+		else{
+			newCssCompressed = tree.toCSS({
+				// Minify CSS output
+				compress: true
+			});	
+		}
+		
+	});
+	
+	var path = pathPart + '.min.css',
+	    oldCompressed = utils.loadSilently(path),	
+	    newCompressed =
+			utils.combineFiles(filesThirdParty)+
+			newCssCompressed,
 	    delta = getSizeDelta(newCompressed, oldCompressed);
 
 	

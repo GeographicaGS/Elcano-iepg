@@ -103,3 +103,51 @@ values(1, 'ES', 'PDF ES 1');
 
 insert into www.pdf(id_document, lang, pdf_name)
 values(1, 'ES', 'PDF ES 1');
+
+insert into www.news_section(
+  description_en,
+  description_es)
+values(
+  'Blog',
+  'Blog'
+);
+
+insert into www.news_section(
+  description_en,
+  description_es)
+values(
+  'Media',
+  'En los medios'
+);
+
+insert into www.news_section(
+  description_en,
+  description_es)
+values(
+  'Events',
+  'Actividades'
+);
+
+insert into www.new(
+  id_wwwuser,
+  new_time,
+  title_en,
+  title_es,
+  text_en,
+  text_es,
+  url_en,
+  url_es,
+  id_news_section)
+values(
+  1,
+  now(),
+  'Sample new',
+  'Noticia de ejemplo',
+  'Sample new text',
+  'Texto de la noticia de ejemplo',
+  'http://www.geographica.gs',
+  'http://www.geographica.gs',
+  1);
+
+  
+  

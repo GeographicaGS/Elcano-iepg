@@ -104,29 +104,20 @@ values(1, 'ES', 'PDF ES 1');
 insert into www.pdf(id_document, lang, pdf_name)
 values(1, 'ES', 'PDF ES 1');
 
-insert into www.news_section(
-  description_en,
-  description_es)
-values(
-  'Blog',
-  'Blog'
-);
+copy www.author from stdin with delimiter ',' null '@@null@@';
+1,1,Iliana Olivié,Researcher,Investigadora,@iliana
+2,1,@@null@@,IT Coordinator,Coordinadora IT,@ivanosca
+\.
 
-insert into www.news_section(
-  description_en,
-  description_es)
-values(
-  'Media',
-  'En los medios'
-);
+alter sequence www.author_id_author_seq restart with 3;
 
-insert into www.news_section(
-  description_en,
-  description_es)
-values(
-  'Events',
-  'Actividades'
-);
+copy www.news_section from stdin with delimiter ',';
+1,Blog,Blog
+2,Media,En los medios
+3,Events,Actividades
+\.
+
+alter sequence www.news_section_id_news_section_seq restart with 4;
 
 insert into www.new(
   id_wwwuser,
@@ -149,5 +140,12 @@ values(
   'http://www.geographica.gs',
   1);
 
-  
-  
+copy www.new_label_en from stdin with delimiter ',';
+1,1
+1,2
+\.
+
+copy www.new_label_es from stdin with delimiter ',';
+1,1
+1,2
+\.

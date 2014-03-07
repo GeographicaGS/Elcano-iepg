@@ -132,37 +132,39 @@ class DocumentModel(PostgreSQLModel):
         return id_document
 
 
-    def getDocumentListSize(self, data):
+    def getDocumentListSize(self, search=None):
         """Gets the total size of a list of document."""
-        docs = "select count(*) as c from www.document "
-               
-        s = data["search"]
-        if s:
-            docs += "where title_en ilike '%"+s+"%' or title_es ilike '%"+s+"%' or "+ \
-                    "theme_en ilike '%"+s+"%' or theme_es ilike '%"+s+"%' or "+ \
-                    "description_en ilike '%"+s+"%' or description_es ilike '%"+s+"%' "
+        docs = """select count(*) as c from www.document """
+
+        if search!=None:
+            docs += """
+            where title_en ilike '%{}%' or title_es ilike '%{}%' or 
+            theme_en ilike '%{}%' or theme_es ilike '%{}%' or 
+            description_en ilike '%{}%' or description_es ilike '%{}%'
+            """.format(search, search, search, search, search, search)
 
         docs += ";"
         return self.query(docs).row()["c"]
                
 
-    def getDocumentList(self, data, listSize):
+    def getDocumentList(self, offset, listSize, search=None, orderByField="title", orderByOrder="asc"):
         """Gets list of documents."""
-        docs = "select id_document as id, coalesce(title_es, title_en) as title, "+ \
-               "title_en, title_es, theme_en, theme_es, description_en, description_es, "+ \
-               "link_en, link_es, "+ \
-               "last_edit_time as time, "+ \
-               "published from www.document "
+        docs = """
+        select id_document as id, coalesce(title_es, title_en) as title, 
+        title_en, title_es, theme_en, theme_es, description_en, description_es, 
+        link_en, link_es, last_edit_time as time, published from www.document """
                
-        s = data["search"]
-        if s:
-            docs += "where title_en ilike '%"+s+"%' or title_es ilike '%"+s+"%' or "+ \
-                    "theme_en ilike '%"+s+"%' or theme_es ilike '%"+s+"%' or "+ \
-                    "description_en ilike '%"+s+"%' or description_es ilike '%"+s+"%' "
+        if search!=None:
+            docs += """
+            where title_en ilike '%{}%' or title_es ilike '%{}%' or 
+            theme_en ilike '%{}%' or theme_es ilike '%{}%' or 
+            description_en ilike '%{}%' or description_es ilike '%{}%'
+            """.format(search, search, search, search, search, search)
 
-        docs += "order by "+data["orderbyfield"]+" "+data["orderbyorder"]+" "+ \
-                "offset "+str(int(data["offset"])*listSize)+" "+ \
-                "limit "+str(listSize)+";"
+        docs += """
+        order by {} {} offset {} limit {};
+        """.format(orderByField, orderByOrder, str(int(offset)*listSize), \
+                   str(listSize))
 
         return self.query(docs).result()
 

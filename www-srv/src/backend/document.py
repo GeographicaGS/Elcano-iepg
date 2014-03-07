@@ -9,7 +9,7 @@ Document backend
 from backend import app
 from flask import jsonify,request,session
 from model.documentmodel import DocumentModel
-from backend.utils import auth, prettyNumber, hsc
+from backend.utils import auth, prettyNumber
 import config
 from werkzeug.utils import secure_filename
 import werkzeug
@@ -155,18 +155,24 @@ def getDocumentList():
 
     Gets a slice of a document list. Uses URL arguments:
 
-      offset: page to present
-      search: search criteria
-      orderbyfield: field to order by (currently dummy, set always to "title")
-      orderbyorder: order to order by (currently dummy, set always to "asc")
+      offset: mandatory, page to present
+      search: optional, search criteria
+      orderbyfield: optional, set by default to title
+      orderbyorder: optional, set by default to asc
 
     """
     m = DocumentModel()
     out = []
 
-    totalSize = m.getDocumentListSize(request.args)
+    search = request.args["search"] if "search" in request.args else None
+    orderbyfield = request.args["orderbyfield"] if "orderbyfield" in request.args else "title"
+    orderbyorder = request.args["orderbyorder"] if "orderbyorder" in request.args else "asc"
 
-    for doc in m.getDocumentList(request.args, config.cfgBackend["DocumentListLength"]):
+    totalSize = m.getDocumentListSize(search=search)
+    docs = m.getDocumentList(request.args["offset"], config.cfgBackend["DocumentListLength"], \
+                             search=search, orderByField=orderbyfield, orderByOrder=orderbyorder)
+
+    for doc in docs:
         thisDoc = dict()
         thisDoc["id"] = doc["id"]
         thisDoc["english"]=False
@@ -181,13 +187,7 @@ def getDocumentList():
         thisDoc["title"] = doc["title"]
         thisDoc["time"] = doc["time"]
 
-        #t = doc["time"]
-        #thisDoc["time"] = prettyNumber(t.year)+"/"+prettyNumber(t.month)+ \
-        #                  "/"+prettyNumber(t.day)+" - "+prettyNumber(t.hour)+ \
-        #                  ":"+prettyNumber(t.minute)
-
         thisDoc["published"] = False        
-
         if doc["published"] is not None:
             thisDoc["published"] = True
 
@@ -203,6 +203,8 @@ def getDocumentList():
             thisDoc["attachments"] = True
 
         out.append(thisDoc)
+
+        print(out)
 
     return(jsonify({"results": {"listSize": totalSize, "page": request.args["offset"], \
                                 "documentList": out}}))
@@ -257,14 +259,14 @@ def getDocument(id_document):
 
     json = {
         "id" : d["id_document"],
-        "title_en" : hsc(d["title_en"]),
-        "title_es" : hsc(d["title_es"]),
-        "theme_en" : hsc(d["theme_en"]),
-        "theme_es": hsc(d["theme_es"]),
-        "description_en" : hsc(d["description_en"]),
-        "description_es" : hsc(d["description_es"]),
-        "link_es" : hsc(d["link_es"]),
-        "link_en" : hsc(d["link_en"]),
+        "title_en" : d["title_en"],
+        "title_es" : d["title_es"],
+        "theme_en" : d["theme_en"],
+        "theme_es": d["theme_es"],
+        "description_en" : d["description_en"],
+        "description_es" : d["description_es"],
+        "link_es" : d["link_es"],
+        "link_en" : d["link_en"],
         "published" : True if d["published"] == "t" else False,
         "last_edit_id_user" : d["last_edit_id_user"],
         "last_edit_time" : d["last_edit_time"],

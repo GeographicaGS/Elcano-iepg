@@ -9,7 +9,7 @@ from utils import auth
 @app.route("/label/<string:lang>", methods=["GET"])
 @auth
 def getLabels(lang):
-    """Returns labels."""
+    """Returns labels in the given language (en/es)."""
     m = LabelModel()
     return jsonify({"results": m.getLabels(lang)})
 
@@ -17,7 +17,15 @@ def getLabels(lang):
 @app.route("/label/<string:lang>", methods=["POST"])
 @auth
 def newLabel(lang):
-    """Creates a new label."""
+    """
+
+    Creates a new label in the given language (en/es). JSON:
+
+      {
+        "label": "New label"
+      }
+
+    """
     m = LabelModel()
     
     return jsonify({"id": \

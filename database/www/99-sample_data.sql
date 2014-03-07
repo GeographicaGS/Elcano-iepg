@@ -103,3 +103,49 @@ values(1, 'ES', 'PDF ES 1');
 
 insert into www.pdf(id_document, lang, pdf_name)
 values(1, 'ES', 'PDF ES 1');
+
+copy www.author from stdin with delimiter ',' null '@@null@@';
+1,1,Iliana Olivié,Researcher,Investigadora,@iliana
+2,1,@@null@@,IT Coordinator,Coordinadora IT,@ivanosca
+\.
+
+alter sequence www.author_id_author_seq restart with 3;
+
+copy www.news_section from stdin with delimiter ',';
+1,Blog,Blog
+2,Media,En los medios
+3,Events,Actividades
+\.
+
+alter sequence www.news_section_id_news_section_seq restart with 4;
+
+insert into www.new(
+  id_wwwuser,
+  new_time,
+  title_en,
+  title_es,
+  text_en,
+  text_es,
+  url_en,
+  url_es,
+  id_news_section)
+values(
+  1,
+  now(),
+  'Sample new',
+  'Noticia de ejemplo',
+  'Sample new text',
+  'Texto de la noticia de ejemplo',
+  'http://www.geographica.gs',
+  'http://www.geographica.gs',
+  1);
+
+copy www.new_label_en from stdin with delimiter ',';
+1,1
+1,2
+\.
+
+copy www.new_label_es from stdin with delimiter ',';
+1,1
+1,2
+\.

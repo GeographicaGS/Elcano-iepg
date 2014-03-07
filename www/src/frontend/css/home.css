@@ -1,0 +1,138 @@
+
+#carousel{
+    height: 450px;
+    background: transparent;
+}
+
+#explora{
+    background-color: @yellow;
+    
+    h3{
+        color: @white;
+        text-transform: uppercase;
+        font-size: 14px;
+        margin-top: 25px;
+        .roboto_cond(bold);
+    }
+    
+    #explora_desc{
+        p{
+            margin-top: 15px;
+            line-height: 30px;
+            margin-bottom: @line_height;
+            .roboto(light);
+
+            strong{
+                .roboto(medium);
+                border-bottom: 1px solid @grey;
+            }
+        }
+        button{
+            float:left;
+            color:@white;
+            font-size: 24px;
+            padding: 13px 0 13px 70px;
+            margin-right: 20px;
+            height: 60px;
+             .roboto(medium);
+        }
+
+        button.eco{
+            background: url(../img/icons/economicaBT_ico.png) no-repeat left center;
+        }
+
+        button.military{
+            background: url(../img/icons/militarBT_ico.png) no-repeat left center;
+        }
+
+        button.soft{
+            background: url(../img/icons/blandaBT_ico.png) no-repeat left center;
+        }
+        
+    }
+
+    #explora_sel{
+
+        input#year,input#country{
+            height:45px;
+            line-height: 45px;
+            width: 300px;
+            border:none;
+            margin-top: 10px;
+            cursor:pointer;
+        }
+
+        button.go_explora{
+            background-color: @grey_dark;
+            color:@white;
+            width: 300px;
+            height:45px;
+            line-height: 41px;
+            margin-top: 10px;
+            font-size: 16px;
+
+        }
+
+        button.go_explora:hover{
+            background-color:@red;
+        } 
+
+        .faq{
+            text-align: center;
+            color: #28282b;
+            font-size: 13px;
+            margin: 10px 0px 0 0;
+            display: block;
+            width:300px;
+        }
+
+        .faq:before{
+            content: url("../img/icons/faq_ico.png");
+            position: relative;
+            top: 4px;
+            margin-right: 5px;
+        }   
+    }
+}
+
+#explora.eco{
+    background-color: @blue;
+}
+
+#explora.military{
+    background-color: @green;
+}
+
+#explora.soft{
+    background-color: @orange;
+}
+
+#news{
+
+    background-color: @white;
+
+    .header{
+        border-bottom: 1px solid @grey_light;
+        text-transform: uppercase;
+        margin-top: 36px;
+        height: 45px;
+
+        li{
+            color: @grey_light;
+            font-size: 15px;
+            height: 45px;
+            line-height: 45px;
+            padding: 0 15px;
+            .roboto_cond(bold);
+        }
+
+        li[selected]{
+            color:@red;
+            border-bottom: 1px solid @red;
+        }
+    }
+}
+
+#co_news{
+    min-height: 300px;
+}

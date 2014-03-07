@@ -98,9 +98,10 @@ deps.Frontend.CSS = {
 	},
 	Core: {
 		src: [
+			"frontend/css/reset.css",
 			"frontend/css/base.css",
-			"frontend/css/render.css",
 			"frontend/css/styles.css",
+			"frontend/css/home.css"
 		]
 	}
 };

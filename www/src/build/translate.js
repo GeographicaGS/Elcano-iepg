@@ -128,7 +128,7 @@ exports.translate = function(env,callback){
             if (!k || !dbKeys.hasOwnProperty(k) ) {
                 // key missing
                 for (l in langs){
-                    dict[k][langs[l]] = "<span class='red'>" + k + "</span>";
+                    dict[k][langs[l]] = "<span class='translation_error'>" + k + "</span>";
                 }
             }
             else{
@@ -138,7 +138,7 @@ exports.translate = function(env,callback){
                         dict[k][langs[l]] = dbKeys[k][langs[l]];
                     }
                     else{
-                        dict[k][langs[l]] = "<span class='red'>" + k + "</span>";    
+                        dict[k][langs[l]] = "<span class='translation_error'>" + k + "</span>";    
                     }
                 }
             }

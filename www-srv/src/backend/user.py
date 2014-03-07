@@ -23,7 +23,22 @@ def user():
 @app.route('/user', methods=['POST'])
 @utils.auth
 def newUser():
-    """Creates a new user."""
+    """
+    
+    Creates a new user. JSON:
+
+      {
+        "name": "Iliana",
+        "surname": "Olivié",
+        "password": "eac9e8dd8575f4c7831f1f6a72607126",
+        "email": "iolivie@rielcano.org",
+        "admin": "true",
+        "username": "iolivie",
+        "language": "es",
+        "status": "1"
+      }
+
+    """
     m = UserModel()
 
     return(jsonify({"id": m.newUser(request.json)}))
@@ -34,10 +49,22 @@ def sess_logout():
     session.pop('id_user', None)
     session.pop('profile', None)
     session.pop('username', None)    
+
     
 @app.route('/user/login',methods=['POST'])
 def login():
+    """
     
+    Logs in a user. The JSON is:
+
+      {
+        "email": "jpalcantara@geographica.gs",
+        "password": "jderj"
+      }
+   
+    Password is sent in plain.
+
+    """
     if not request.json  or not "email" in request.json or not "password" in request.json:        
         return jsonify({"Login": False})
     

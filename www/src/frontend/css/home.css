@@ -1,4 +1,3 @@
-
 #carousel{
     height: 450px;
     background: transparent;
@@ -20,6 +19,7 @@
             margin-top: 15px;
             line-height: 30px;
             margin-bottom: @line_height;
+            height: 150px;
             .roboto(light);
 
             strong{
@@ -95,17 +95,28 @@
     }
 }
 
+
 #explora.eco{
     background-color: @blue;
+    color:@white;
 }
 
 #explora.military{
     background-color: @green;
+    color:@white;
 }
 
 #explora.soft{
     background-color: @orange;
+    color:@white;
 }
+
+#explora.eco,#explora.military,#explora.soft{
+    strong{
+        border-bottom: none !important;        
+    }
+}
+
 
 #news{
 

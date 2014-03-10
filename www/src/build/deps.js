@@ -21,7 +21,6 @@ deps.Backend.JS = {
 			
 			"backend/js/validator.js",
 			
-			
 			// --------------------
 			// ------  Models ------
 			// --------------------
@@ -84,9 +83,29 @@ deps.Frontend.JS = {
 	}
 	,Core: {
 		src: [
+			// Namespace
+			"frontend/js/namespace.js",
 			// Config file
 			"frontend/js/config.js",
+
+			// --------------------
+			// ------  Models ------
+			// --------------------
 			
+			// --------------------
+			// --- Collections  ---
+			// --------------------
+			
+			// --------------------
+			// ------  Views ------
+			// --------------------
+			"frontend/js/view/home_view.js",
+			"frontend/js/view/about_view.js",
+
+			// router
+			"frontend/js/router.js",
+			// app
+			"frontend/js/app.js",
 		],
 		desc: "Core library."
 	}

@@ -1,6 +1,7 @@
 
 @roboto : 'Roboto', sans-serif;
 @roboto_cond : 'Roboto Condensed', sans-serif;
+@imgPath : '../img/';
 
 
 /* Color palette */
@@ -172,7 +173,7 @@ header h1{
 }
 
 ul#top_menu li:first-child:before{
-	content: url("../img/icons/faq_ico.png");
+	content: url("@{imgPath}/icons/faq_ico.png");
 	position: relative;
 	top: 4px;
 	margin-right: 2px;
@@ -203,17 +204,18 @@ ul#menu{
 		color:@grey_dark;
 	}
 	li:nth-child(3){
-		background: url("../img/icons/exploraBT_ico.png") no-repeat top left;
+		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat top left;
 		padding-left: 40px;
 	}
 
 	li:nth-child(3):hover{
-		background: url("../img/icons/exploraBT_ico_hover.png") no-repeat top left @yellow;
+		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat top left @yellow;
 		padding-left: 40px;
 	}
 
 	li[selected]{
-		border-bottom: 1px solid @grey_light;
+		border-bottom: 1px solid @white;
+		line-height: 43px;
 	}
 }
 
@@ -229,7 +231,7 @@ button.button{
 
 }
 button.button.go{
-	background: url("../img/icons/btn-chevron-right.png") no-repeat right center @grey_light;
+	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light;
 	padding-right: 33px;
 }
 
@@ -269,7 +271,7 @@ footer{
 
 	p.desc{
 		font-size: 16px;
-		background: url("../img/footer_logoElcano.png") no-repeat left top;
+		background: url("@{imgPath}/footer_logoElcano.png") no-repeat left top;
 		padding: 0px 0 0 88px;
 		.roboto(light);
 
@@ -279,7 +281,7 @@ footer{
 
 		a{
 			display: inline-block;
-			background: url(../img/icons/link_footer_ico.png) no-repeat left center;
+			background: url("@{imgPath}/icons/link_footer_ico.png") no-repeat left center;
 			padding-left: 33px;
 			margin: 21px 0 0 0;
 			height: 25px;
@@ -312,7 +314,7 @@ footer{
 			.roboto(light);
 			height: @line_height;
 			line-height: @line_height;
-			background: url(../img/icons/arrow_link_footer_ico.png) no-repeat left center;
+			background: url("@{imgPath}/icons/arrow_link_footer_ico.png") no-repeat left center;
 			padding-left: 10px;
 			
 		}
@@ -333,7 +335,7 @@ footer{
 			}
 			li:last-child{
 				border-left:1px solid @grey2;
-				background: url("../img/GEO_W12_icon_bygeographica.png") no-repeat right center;
+				background: url("@{imgPath}/GEO_W12_icon_bygeographica.png") no-repeat right center;
 				padding-right: 30px;
 			}
 			li:last-child:before{

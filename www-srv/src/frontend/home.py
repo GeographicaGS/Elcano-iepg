@@ -20,6 +20,20 @@ import collections
 import config
 
 
+@app.route('/home/document', methods=['GET'])
+def getDocument():
+    """Gets details of a document. Uses URL arguments:
+
+      iddocument: mandatory, ID of the requested document
+      lang: mandatory, language for document's metadata
+    """
+    m = HomeModel()
+    pdf = m.getDocumentPdf(request.args["iddocument"])
+    doc = m.getDocument(request.args["iddocument"], request.args["lang"])
+
+    return(jsonify({"details": doc, "pdf": pdf}))
+
+
 @app.route('/home/documentcatalog', methods=['GET'])
 def getDocumentCatalog():
     """Gets a slice of a document list. Uses URL arguments:
@@ -30,57 +44,13 @@ def getDocumentCatalog():
 
     """
     m = HomeModel()
-    out = []
-
     search = request.args["search"] if "search" in request.args else None
-
     totalSize = m.getDocumentCatalogSize(search=search)
-
-    print(totalSize)
-
     docs = m.getDocumentCatalog(request.args["offset"], config.cfgFrontend["DocumentListLength"], \
                              request.args["lang"], search=search)
 
-    print(docs)
+    return(jsonify({"results": docs}))
 
-    # for doc in docs:
-    #     thisDoc = dict()
-    #     thisDoc["id"] = doc["id"]
-    #     thisDoc["english"]=False
-    #     thisDoc["spanish"]=False
-        
-    #     if doc["title_en"]!="" and doc["theme_en"]!="" and doc["description_en"]!="":
-    #         thisDoc["english"]=True
-            
-    #     if doc["title_es"]!="" and doc["theme_es"]!="" and doc["description_es"]!="":
-    #         thisDoc["spanish"]=True
-
-    #     thisDoc["title"] = doc["title"]
-    #     thisDoc["time"] = doc["time"]
-
-    #     thisDoc["published"] = False        
-    #     if doc["published"] is not None:
-    #         thisDoc["published"] = True
-
-    #     authors = []
-    #     for author in m.getDocumentAuthors(doc["id"]):
-    #         authors.append(author["twitter_user"])
-
-    #     thisDoc["authors"] = authors
-
-    #     thisDoc["attachments"] = False
-    #     if doc["link_es"]!="" or doc["link_en"]!="" or \
-    #        len(m.getDocumentPdf(doc["id"]))>0:
-    #         thisDoc["attachments"] = True
-
-    #     out.append(thisDoc)
-
-    #     print(out)
-
-    # return(jsonify({"results": {"listSize": totalSize, "page": request.args["offset"], \
-    #                             "documentList": out}}))
-
-    return("er")
 
 @app.route('/home/countries', methods=['GET'])
 def countries():
@@ -123,8 +93,6 @@ def countries():
 
     od = collections.OrderedDict(sorted(blocks.items()))
 
-    print(od)
-
     return(jsonify(od))
 
 
@@ -144,8 +112,6 @@ def years():
     m = HomeModel()
 
     a = m.years()
-
-    print(a)
 
     return(jsonify({"results": a}))
         

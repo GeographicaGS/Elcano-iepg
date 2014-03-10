@@ -43,7 +43,7 @@ def newUser():
     """
     m = UserModel()
 
-    return(jsonify({"id": m.newUser(request.json)}))
+    return(jsonify(m.newUser(request.json)))
 
 
 def sess_logout():

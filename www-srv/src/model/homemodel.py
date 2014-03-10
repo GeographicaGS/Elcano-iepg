@@ -16,18 +16,113 @@ import datetime
 class HomeModel(PostgreSQLModel):
     """Home model."""
 
+    def getDocument(self, idDocument, lang):
+        """Gets the document details."""
+        doc = """
+        with label_en as(
+          select
+            a.id_document as id_document,
+            array_agg(b.label) as labels
+          from
+            www.document_label_en a
+            inner join www.label_en b
+            on a.id_label_en=b.id_label_en
+          group by id_document),
+        label_es as(
+          select
+            a.id_document as id_document,
+            array_agg(b.label) as labels
+          from
+            www.document_label_es a
+            inner join www.label_es b
+            on a.id_label_es=b.id_label_es
+          group by id_document),
+        authors as(
+          select
+            id_document as id_document,
+            array_agg(coalesce(twitter_user, name)) as author
+          from www.author
+          group by id_document),
+        docs as(
+          select
+            a.id_document,
+            title_{} as title,
+            theme_{} as theme,
+            description_{} as description,
+            a.last_edit_time as time
+          from www.document a
+        )
+        select
+          a.id_document as id,
+          a.title as title,
+          a.theme as theme,
+          a.description as description,
+          a.time as time,
+          b.labels as labels,
+          d.author as authors
+        from
+          docs a inner join 
+          label_{} b on
+          a.id_document=b.id_document inner join
+          authors d on
+          a.id_document=d.id_document
+        where
+          a.id_document=%s""".format(lang, lang, lang, lang)
+
+        return(self.query(doc, bindings=[idDocument]).result())
+
+    def getDocumentPdf(self, idDocument):
+        """Gets the PDF for a given idDocument."""
+        pdf = """
+        select
+          lang,
+          pdf_name,
+          hash
+        from
+          www.pdf
+        where id_document=%s;"""
+
+        return(self.query(pdf, bindings=[idDocument]).result())
+
+
     def getDocumentCatalogSize(self, search=None):
         """Gets the total size of a list of document."""
-        docs = """select count(*) as c from www.document """
+        docs = """
+        with count as(
+        select distinct a.id_document
+        from
+          www.document a inner join
+          www.document_label_en b on
+          a.id_document=b.id_document inner join
+          www.label_en c on
+          b.id_label_en=c.id_label_en inner join
+          www.document_label_es d on
+          a.id_document=d.id_document inner join
+          www.label_es e on
+          d.id_label_es=e.id_label_es inner join
+          www.author f on
+          a.id_document=f.id_document"""
 
         if search!=None:
-            docs += """
-            where title_en ilike '%{}%' or title_es ilike '%{}%' or 
-            theme_en ilike '%{}%' or theme_es ilike '%{}%' or 
-            description_en ilike '%{}%' or description_es ilike '%{}%'
-            """.format(search, search, search, search, search, search)
+            docs+="""
+              where
+                a.title_en ilike '%{}%' or
+                a.title_es ilike '%{}%' or
+                a.theme_en ilike '%{}%' or
+                a.theme_es ilike '%{}%' or
+                a.description_en ilike '%{}%' or
+                a.description_es ilike '%{}%' or
+                c.label ilike '%{}%' or
+                e.label ilike '%{}%' or
+                f.name ilike '%{}%' or
+                f.twitter_user ilike '%{}%'""". \
+            format(search,search,search,search,search,search,search,search,search,search)
 
-        docs += ";"
+        docs+="""
+        )
+        select count(id_document) as c
+        from count;"""
+
         return self.query(docs).row()["c"]
                
 
@@ -65,60 +160,65 @@ class HomeModel(PostgreSQLModel):
         if lang=="es":
             a+="""
             coalesce(title_es, title_en) as title, 
-            coalesce(theme_es, theme_en) as theme """
+            coalesce(theme_es, theme_en) as theme, """
         else:
             a+="""
-            coalesce(title_es, title_en) as title, 
-            coalesce(theme_es, theme_en) as theme """
+            coalesce(title_en, title_es) as title, 
+            coalesce(theme_en, theme_es) as theme, """
 
         a+="""
-          from www.document a)
+            a.last_edit_time as time
+          from www.document a
+        ),
+        selection as (
+          select distinct a.id_document
+          from
+            www.document a inner join
+            www.document_label_en b on
+            a.id_document=b.id_document inner join
+            www.label_en c on
+            b.id_label_en=c.id_label_en inner join
+            www.document_label_es d on
+            a.id_document=d.id_document inner join
+            www.label_es e on
+            d.id_label_es=e.id_label_es inner join
+            www.author f on
+            a.id_document=f.id_document"""
+
+        if search!=None:
+            a+="""
+              where
+                a.title_en ilike '%{}%' or
+                a.title_es ilike '%{}%' or
+                a.theme_en ilike '%{}%' or
+                a.theme_es ilike '%{}%' or
+                a.description_en ilike '%{}%' or
+                a.description_es ilike '%{}%' or
+                c.label ilike '%{}%' or
+                e.label ilike '%{}%' or
+                f.name ilike '%{}%' or
+                f.twitter_user ilike '%{}%'""". \
+            format(search,search,search,search,search,search,search,search,search,search)
+
+        a+="""
+        )
         select
           a.id_document as id,
           a.title as title,
-          a.theme as theme,
+          a.theme as theme,  
+          a.time as time,
           b.labels as labels,
-          c.author as authors
+          d.author as authors
         from
           docs a inner join 
           label_{} b on
           a.id_document=b.id_document inner join
-          authors c on
-          a.id_document=c.id_document;""".format(lang)
+          authors d on
+          a.id_document=d.id_document
+        where
+          a.id_document in (select * from selection);""".format(lang)
 
-        print(a)
-
-
-        # docs+="""
-        # last_edit_time as time, 
-        # from 
-        #   www.document a inner join www.wwwuser b
-        #   on a.last_edit_id_user=b.id_wwwuser"""
-               
-        # if search!=None:
-        #     docs += """
-        #     where title_en ilike '%{}%' or title_es ilike '%{}%' or 
-        #     theme_en ilike '%{}%' or theme_es ilike '%{}%' or 
-        #     description_en ilike '%{}%' or description_es ilike '%{}%'
-        #     """.format(search, search, search, search, search, search)
-
-        # docs += """
-        # order by {} {} offset {} limit {};
-        # """.format(orderByField, orderByOrder, str(int(offset)*listSize), \
-        #            str(listSize))
-
-        # return self.query(docs).result()
-
-        return("kk")
-
-
-
-
-
-        
-
-
-
+        return self.query(a).result()
 
 
     def countries(self, lang, year):
@@ -179,7 +279,7 @@ class HomeModel(PostgreSQLModel):
               group by id, b.name, b.surname, time, title, section
             ) 
             select
-              id,
+              id as id_new_stuff,
               gs__uniquearray(wwwuser) as wwwuser,
               time,
               title,
@@ -213,7 +313,7 @@ class HomeModel(PostgreSQLModel):
               group by id, title, section
             ) 
             select
-              id,
+              id as id_new_stuff,
               gs__uniquearray(wwwuser) as wwwuser,
               time,
               title,
@@ -264,7 +364,7 @@ class HomeModel(PostgreSQLModel):
               group by id, title, section
             ) 
             select
-              id,
+              id as id_new_stuff,
               gs__uniquearray(wwwuser) as wwwuser,
               time,
               title,

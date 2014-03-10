@@ -27,15 +27,20 @@ class UserModel(PostgreSQLModel):
 
     def newUser(self, data):
         """Creates a new user."""
-        a = self.insert("www.wwwuser",
-                        {"name": data["name"],
-                         "surname": data["surname"],
-                         "password": data["password"],
-                         "email": data["email"],
-                         "admin": data["admin"],
-                         "username": data["username"],
-                         "language": data["language"],
-                         "status": data["status"]},
-                        returnID="id_wwwuser")
+        try:
+            a = self.insert("www.wwwuser",
+                            {"name": data["name"],
+                             "surname": data["surname"],
+                             "password": data["password"],
+                             "email": data["email"],
+                             "admin": data["admin"],
+                             "username": data["username"],
+                             "language": data["language"],
+                             "status": data["status"]},
+                            returnID="id_wwwuser")
+
+            a = {"id": a}
+        except:
+            a = {"error": "Duplicated email"}
 
         return a

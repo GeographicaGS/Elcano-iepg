@@ -17,14 +17,15 @@ def getLabels(lang):
 @app.route("/label/<string:lang>", methods=["POST"])
 @auth
 def newLabel(lang):
-    """
+    """Creates a new label in the given language. Needs an argument:
+      
+      lang: mandatory, language (en/es)
 
-    Creates a new label in the given language (en/es). JSON:
+    Needs a JSON:
 
       {
         "label": "New label"
       }
-
     """
     m = LabelModel()
     

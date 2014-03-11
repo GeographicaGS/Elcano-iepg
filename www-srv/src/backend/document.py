@@ -17,13 +17,12 @@ import os
 import hashlib
 import time
 import utils
+import ipdb
 
 @app.route('/document', methods=['POST'])
 @auth
 def newDocument():
-    """
-
-    Creates a document. Needs a JSON in the form:
+    """Creates a document. Needs a JSON in the form:
 
     {
       "title_es": "Test document ES",
@@ -47,9 +46,7 @@ def newDocument():
       "pdfs_en": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
                   {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
                   {"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
-    }
-
-    """
+    }"""
     m = DocumentModel()
     out = m.createDocument(request.json)
 
@@ -127,7 +124,6 @@ def editDocument(id_document):
 def deletePdfFile(hash):
     """Deletes a PDF file from the filesystem."""
     file = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
-    print("Remove: ", file)
     os.remove(file)
 
 
@@ -136,7 +132,6 @@ def movePdfFile(hash):
     origin = config.cfgBackend["tmpFolder"]+"/"+hash+".pdf"
     destination = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
     os.rename(origin, destination)
-    print("Move: ", origin, destination)
 
 
 @app.route('/document/<int:id_document>', methods=['DELETE'])
@@ -204,8 +199,6 @@ def getDocumentList():
 
         out.append(thisDoc)
 
-        print(out)
-
     return(jsonify({"results": {"listSize": totalSize, "page": request.args["offset"], \
                                 "documentList": out}}))
 
@@ -238,6 +231,7 @@ def uploadPDF():
     
     except werkzeug.exceptions.RequestEntityTooLarge:
         return jsonify(  {"error": -3} )
+
 
 @app.route("/document/<int:id_document>", methods=["GET"])
 @auth

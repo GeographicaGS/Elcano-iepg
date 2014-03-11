@@ -44,8 +44,8 @@ unique(email);
 
 create table www.highlight(
   id_highlight serial,
-  title_en varchar(50),
-  title_es varchar(50),  
+  title_en varchar(250),
+  title_es varchar(250),  
   text_en varchar(500),
   text_es varchar(500),
   image_name_en varchar(500),
@@ -54,8 +54,8 @@ create table www.highlight(
   image_hash_es varchar(150),
   credit_img_en varchar(100),
   credit_img_es varchar(100),
-  link_en varchar(500),
-  link_es varchar(500),
+  link_en varchar(1500),
+  link_es varchar(1500),
   last_edit_id_user integer,
   last_edit_time timestamp,
   published boolean,

@@ -18,6 +18,7 @@ import json
 from model.homemodel import HomeModel
 import collections
 import config
+import twitter_helper
 
 
 @app.route('/home/document', methods=['GET'])
@@ -122,7 +123,7 @@ def newStuff():
 
       lang=en/es: mandatory 
 
-      section=Blog/Media/Events/Documents: optional. If absent, sends
+      section=Blog/Media/Events/Documents/Twitter: optional. If absent, sends
       all sections mixed
 
     Returns a JSON in the form:
@@ -142,8 +143,21 @@ def newStuff():
     }"""
     m = HomeModel()
     
-    if "section" in request.args:
-        a = m.newStuff(request.args["lang"], request.args["section"])
+    if "section" in request.args :
+        if request.args["section"]!= "Twitter":
+            a = m.newStuff(request.args["lang"], request.args["section"])
+        else:
+            timeline = twitter_helper.getLatestTweets()
+            a = []
+            for tweet in timeline:
+                a.append({
+                  "id_section" : tweet.id,
+                  "time" : tweet.created_at,
+                  "title" : tweet.text,
+                  "section" : "Blog",
+                  "labels" :[],
+                  "wwwuser" : ["@rielcano"]
+                });
     else:
         a = m.newStuff(request.args["lang"])
 

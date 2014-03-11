@@ -47,7 +47,6 @@ app.detectCurrentLanguage = function(){
 };
 app.ini = function(){
     
-    
     this.lang = this.detectCurrentLanguage();
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
@@ -121,4 +120,25 @@ app.dateTimeFormat = function(dateStr){
     if (minutes < 10) minutes = "0" + minutes;
     
     return day +"/"+month+"/"+year +" - " + hours + ":" + minutes ;
+}
+
+app.urlify = function(text,attr) {
+    console.log(text);
+    var urlRegex = /(https?:\/\/[^\s]+)/g;
+    if (!attr)
+        attr = ""
+    return text.replace(urlRegex, function(url) {
+        url = url.replace("”","");
+        return "<a href='" + url + "'" + attr + ">" + url + "</a>";
+    });
+    // or alternatively
+    // return text.replace(urlRegex, '<a href="$1">$1</a>')
+}
+app.urlify = function(text,attr) {
+    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i;
+    return text.replace(exp,"<a href='$1' "+ attr+ ">$1</a>"); 
+}
+
+app.loadingHTML = function(){
+    return "<div class='loading'>Loading</div>";
 }

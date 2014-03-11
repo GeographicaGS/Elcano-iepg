@@ -95,11 +95,14 @@ deps.Frontend.JS = {
 			// --------------------
 			// --- Collections  ---
 			// --------------------
+			"frontend/js/collection/home/latest_news_collection.js",
 			
 			// --------------------
 			// ------  Views ------
 			// --------------------
-			"frontend/js/view/home_view.js",
+			"frontend/js/view/home/latest_news_view.js",
+			"frontend/js/view/home/home_view.js",
+
 			"frontend/js/view/about_view.js",
 
 			// router

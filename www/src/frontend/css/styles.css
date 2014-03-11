@@ -21,9 +21,13 @@
 html, body{ height:100%;}
 body {
 	.roboto();
-	color:#515155;
+	color:@grey;
 	font-size:16px;
 	line-height:24px;
+}
+
+p,span,div,table{
+	.roboto();
 }
 
 input{
@@ -146,14 +150,25 @@ input[placeholder]{
 	font-family: @roboto_cond;
 }
 
+.roboto_light{.roboto(light);}
+.roboto_cond_bold{.roboto_cond(bold);}
 
-.text_bold{
-	.roboto(bold);
-}
+.text_bold{ .roboto(bold);}
+
+.uppercase{ text-transform: uppercase;}
 
 a:hover{
 	color:@red;
 }
+a.bottom_yellow{
+    color:@grey_dark;
+    border-bottom: 1px solid @yellow;
+    
+}
+a:hover{
+    border-bottom: 1px solid @grey;
+}
+
 
 header > div:first-child{
 	height: 120px;
@@ -273,6 +288,7 @@ footer{
 		font-size: 16px;
 		background: url("@{imgPath}/footer_logoElcano.png") no-repeat left top;
 		padding: 0px 0 0 88px;
+
 		.roboto(light);
 
 		strong{
@@ -347,5 +363,6 @@ footer{
 
 	}
 
+	
 
 }

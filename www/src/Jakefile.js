@@ -53,7 +53,7 @@ task("translate-backend", {async: true}, function () {
 	console.log("\n----------------------------------------");
 	console.log("---------- Translating BACKEND ---------");
 	console.log("----------------------------------------");
-	translate.translate("backend",complete);
+	translate.translate("backend",complete,false);
 });
 
 desc("Translate frontend")
@@ -61,11 +61,31 @@ task("translate-frontend", {async: true}, function () {
 	console.log("\n-----------------------------------------");
 	console.log("---------- Translating FRONTEND ---------");
 	console.log("-----------------------------------------");
-	translate.translate("frontend",complete);
+	translate.translate("frontend",complete,false);
 });
 
 desc("Translate")
-task("translate",["translate-backend","translate-frontend"])
+task("translate",["translate-backend","translate-frontend"]);
+
+
+desc("Translate backend-debug")
+task("translate-backend-debug", {async: true}, function () {
+	console.log("\n----------------------------------------");
+	console.log("---------- Translating BACKEND ---------");
+	console.log("----------------------------------------");
+	translate.translate("backend",complete,true);
+});
+
+desc("Translate frontend-debug")
+task("translate-frontend-debug", {async: true}, function () {
+	console.log("\n-----------------------------------------");
+	console.log("---------- Translating FRONTEND ---------");
+	console.log("-----------------------------------------");
+	translate.translate("frontend",complete,true);
+});
+
+desc("Translate")
+task("translate-debug",["translate-backend-debug","translate-frontend-debug"])
 
 desc("Generate resources backend")
 task("resource-backend", {async: true}, function () {
@@ -111,7 +131,7 @@ task("default", ["build","translate","resource"],function(){
 });
 
 desc("Debug builder")
-task("debug", ["build","translate","resource-debug"],function(){
+task("debug", ["build","translate-debug","resource-debug"],function(){
 	console.log("\n\nDEBUG BUILD COMPLETE SUCCESSFULLY\n\n");
 });
 

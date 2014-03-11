@@ -3,12 +3,14 @@ app.view.Home = Backbone.View.extend({
     
     initialize: function() {
         app.events.trigger("menu","home");
-        this.render();
+        
+        this.latestNews = new app.view.LatestNews();
     },
 
     events:{
         "mouseenter #explora_desc button" : "hoverExploraDesc",
-        "mouseleave #explora_desc button" : "outExploraDesc"
+        "mouseleave #explora_desc button" : "outExploraDesc",
+        "click #news ul li" :"selectNewsMenu"
     },
     
     hoverExploraDesc: function(e){
@@ -31,9 +33,22 @@ app.view.Home = Backbone.View.extend({
         this.$explora_desc.find("p[data-el=default]").show();
     },
 
+    selectNewsMenu: function(e){
+        var $el = $(e.target).closest("li"),
+            idx = $el.parent().children().index($el);
+
+        $el.parent().children().removeAttr("selected");
+        $el.attr("selected",true);
+    
+        this.latestNews.load(idx);
+
+    },
+
     onClose: function(){
         // Remove events on close
         this.stopListening();
+
+        this.latestNews.close();
     },
     
     render: function() {
@@ -41,6 +56,7 @@ app.view.Home = Backbone.View.extend({
         this.$el.html(this._template());
         this.$explora = this.$("#explora");
         this.$explora_desc = this.$("#explora_desc");
+        this.$("#co_news").html(this.latestNews.render().el);
         return this;
     }
 });

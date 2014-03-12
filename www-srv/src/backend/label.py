@@ -28,6 +28,5 @@ def newLabel(lang):
       }
     """
     m = LabelModel()
-    
     return jsonify({"id": \
                     m.insertLabel(request.json["label"], lang)})

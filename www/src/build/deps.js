@@ -42,6 +42,7 @@ deps.Backend.JS = {
 			"backend/js/view/docs/docs_form_view.js",
 			// User view
 			"backend/js/view/user_view.js",
+
 			"backend/js/view/home_view.js",
 			"backend/js/view/news_view.js",
 			
@@ -77,7 +78,8 @@ deps.Frontend.JS = {
 			"frontend/js/lib/jquery-2.0.3.min.js",
 			"frontend/js/lib/underscore-min.js",
 			"frontend/js/lib/backbone-min.js",
-			"frontend/js/lib/d3.v3.min.js",			
+			"frontend/js/lib/d3.v3.min.js",	
+			"frontend/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",			
 		],
 		desc: "Third party library"
 	}
@@ -96,11 +98,13 @@ deps.Frontend.JS = {
 			// --- Collections  ---
 			// --------------------
 			"frontend/js/collection/home/latest_news_collection.js",
+			"frontend/js/collection/home/slider_collection.js",
 			
 			// --------------------
 			// ------  Views ------
 			// --------------------
 			"frontend/js/view/home/latest_news_view.js",
+			"frontend/js/view/home/slider_view.js",
 			"frontend/js/view/home/home_view.js",
 
 			"frontend/js/view/about_view.js",
@@ -116,7 +120,9 @@ deps.Frontend.JS = {
 
 deps.Frontend.CSS = {
 	ThirdParty:{
-		src : []
+		src : [
+			
+		]
 	},
 	Core: {
 		src: [

@@ -54,6 +54,7 @@ exports.buildJS = function (env,callback, version, buildName) {
 
 	console.log('\tUncompressed: ' + bytesToKB(newSrc.length) + srcDelta);
 
+
 	if (newSrc !== oldSrc) {		
 		fs.writeFileSync(srcPath, newSrc);
 		console.log('\tSaved to ' + srcPath);

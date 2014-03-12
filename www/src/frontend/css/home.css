@@ -15,7 +15,7 @@ a.label:hover{
 }
 
 #carousel{
-    height: 450px;
+    min-height: 300px;
     background: transparent;
 }
 
@@ -184,9 +184,195 @@ a.label:hover{
             border-bottom: 1px solid @grey;
         }
     }
-
-
 }
 
 
 
+#slider{
+    position: relative;
+
+    .co_text{
+
+    }
+    .container{
+        
+        position: relative;
+
+       .wrapper_text{
+            position: absolute;
+            bottom:@line_height*3;
+            right:0;
+            z-index:3;
+
+            h3{
+                text-align: right;
+                text-transform: uppercase;
+                .roboto_cond(bold);
+                color:@yellow;
+                font-size: 15px;
+            }
+            h4{
+                text-align: right;
+                color: @grey_light;
+                .roboto(light);
+                font-size: 48px;
+                line-height: 60px;
+                color:@white;
+            }   
+        }
+        .ctrl_images{
+            position: absolute;
+            right:15px;
+            top: 2*@line_height;
+            text-indent: -900px;
+            list-style: circle;
+            z-index:3;
+            
+            li{
+                background-color: @grey;
+                border-radius: 10px;    
+                width: 12px;
+                height: 12px;
+                margin-left: 8px;
+                float:left;
+                cursor: pointer;
+            }
+
+            li[selected]{
+                background-color: @yellow;   
+            }
+
+            
+        }
+        
+    }
+    .co_img{
+       /* height: @slider_height ;*/
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width:100%;
+
+        img{
+            width: 100%;
+            position: absolute;
+        }
+    }
+
+    #circle_back{
+        
+        background: url("../img/slide/fondo_circulo_slider.png") no-repeat left -178px;
+        position: absolute;
+        width: 100%;
+        z-index: 1;
+        bottom: -@line_height;
+    }
+
+    .prev, .next{
+        height: 100%;
+        width: 60px;
+        position: absolute;
+        top: 0;
+        z-index: 4;
+        border-bottom: none !important;
+    }
+    .prev{
+        background: url("../img/slide/chevron-left.png") no-repeat left center;
+        height: 100%;
+        left: 0;
+    }
+
+    .next{
+        background: url("../img/slide/chevron-right.png") no-repeat left center;
+        height: 100%;
+        right:0;
+
+    }
+
+
+}
+@slider_height_min : 300px;
+@slider_height_900 : 378px;
+@slider_height_1200 : 432px;
+@slider_height_1500 : 486px;
+@slider_height_1800 : 540px;
+
+#slider{
+    .co_img{
+        height: @slider_height_min;
+    }
+    .container{
+        height: @slider_height_min;
+    }
+
+    #circle_back{
+        left:316px;
+        height: @slider_height_min+@line_height;
+    }
+}
+
+
+@media all and (min-width: 900px) {
+    #slider{
+        .co_img{
+            height: @slider_height_900 ;
+        }
+
+        .container{
+            height: @slider_height_900;
+        }
+        #circle_back{
+            left:616px;
+            height: @slider_height_900+@line_height;
+        }
+    }
+}
+
+@media all and (min-width: 1200px) {
+    #slider{
+        .co_img{
+            height: @slider_height_1200 ;
+        }
+        .container{
+            height: @slider_height_1200;
+        }
+        #circle_back{
+            left: 770px;
+            height: @slider_height_1200+@line_height;
+        }
+    }
+}
+
+
+@media all and (min-width: 1500px) {
+    #slider{
+        .co_img{
+            height: @slider_height_1500 ;
+        }
+        .container{
+            height: @slider_height_1500;
+        }
+        #circle_back{
+            left: 936px;
+             height: @slider_height_1500+@line_height;
+        }
+    }
+
+}
+
+@media all and (min-width: 1800px) {
+    #slider{
+        .co_img{
+            height: @slider_height_1800 ;
+        }
+        .container{
+            height: @slider_height_1800;
+        }
+        #circle_back{
+            left: 1060px;
+            height: @slider_height_1800+@line_height;
+        }
+    }
+
+}

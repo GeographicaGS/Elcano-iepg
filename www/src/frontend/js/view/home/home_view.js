@@ -5,6 +5,7 @@ app.view.Home = Backbone.View.extend({
         app.events.trigger("menu","home");
         
         this.latestNews = new app.view.LatestNews();
+        this.slider = new app.view.Slider();
     },
 
     events:{
@@ -57,6 +58,7 @@ app.view.Home = Backbone.View.extend({
         this.$explora = this.$("#explora");
         this.$explora_desc = this.$("#explora_desc");
         this.$("#co_news").html(this.latestNews.render().el);
+        this.$("#carousel").html(this.slider.render().el);
         return this;
     }
 });

@@ -47,7 +47,6 @@ def newUser():
 
     """
     m = UserModel()
-
     return(jsonify(m.newUser(request.json)))
 
 

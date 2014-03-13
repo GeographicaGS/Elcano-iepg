@@ -7,4 +7,5 @@ venv
 *.pyc
 *.sublime-*
 config.py
+00-config.sql
 

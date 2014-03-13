@@ -32,6 +32,7 @@ p,span,div,table{
 
 input{
 	padding: 0 10px;
+	border: none;
 	
 }
 input[placeholder]{
@@ -362,7 +363,62 @@ footer{
 		}
 
 	}
+}
 
-	
+.search_header{
+	background-color: @red;
+	height: 95px;
+	color: @white;
 
+	input {
+		height: 42px;
+		line-height: 42px;
+		padding: 0px 10px;
+		width: 100%;
+		margin: 10px 0 0 0px;
+		font-size: 24px;
+		.roboto(light);
+		color: @grey;
+	}
+
+	input[placeholder]{
+
+	}
+
+	#ctrl_filter{
+		color: @yellow;
+		background-color: @grey_dark;
+		height: 20px;
+		line-height: 15px;
+		display: inline-block;
+		margin-left: 10px;
+
+	}
+	#ctrl_filter:hover{
+		
+	}
+}
+
+.list_els{
+	p{
+        a{
+            color:@grey_dark;
+            border-bottom: 1px solid @yellow;
+        }
+        a:hover{
+            border-bottom: 1px solid @grey;
+        }
+    }
+
+    .authors{
+        display: inline;
+        a{
+            color:@grey_dark;
+            border-bottom: 1px solid @yellow;
+            font-size: 13px;
+        }
+        a:hover{
+            border-bottom: 1px solid @grey;
+        }
+    }
 }

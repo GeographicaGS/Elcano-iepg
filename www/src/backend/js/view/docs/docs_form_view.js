@@ -357,7 +357,7 @@ app.view.docs.FormView = Backbone.View.extend({
                 
                 self.model.get("pdfs_"+lang).add({
                     "hash": json.filename,
-                    "pdf_name":name
+                    "name":name
                 });   
 
 

@@ -131,6 +131,8 @@ def movePdfFile(hash):
     """Moves a PDF file within the filesystem."""
     origin = config.cfgBackend["tmpFolder"]+"/"+hash+".pdf"
     destination = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
+    app.logger.info(origin)
+    app.logger.info(destination)
     os.rename(origin, destination)
 
 
@@ -218,9 +220,9 @@ def uploadPDF():
         if file and allowedFilePDF(file.filename):
             filename = secure_filename(file.filename)
             filename, fileExtension = os.path.splitext(filename)
-            filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() + fileExtension
+            filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() 
             
-            file.save(os.path.join(app.config['tmpFolder'], filename))
+            file.save(os.path.join(app.config['tmpFolder'], filename + fileExtension))
             
             return jsonify(  {"filename": filename} )  
         

@@ -12,7 +12,7 @@ La aplicación JS se encuentra en el directorio www y los servicios en www-srv.
 
 En Mac OSX : 
 
-<code>$ sudo pip install virtualenv</code>
+```$ sudo pip install virtualenv```
 
 En Ubuntu:
 

@@ -1,12 +1,14 @@
+# coding=UTF8
+
 from backend import app
 from flask import jsonify,request,session
 from model.UserModel import UserModel
-import utils
+from backend import utils
 import hashlib
+import utils
 
 @app.route('/user', methods = ['GET'])                                            
 def user():
-   
     if not utils.isLogged():        
         return jsonify( { "id" : None})
     else:
@@ -19,15 +21,52 @@ def user():
             "language":session["language"]
         })
 
+
+@app.route('/user', methods=['POST'])
+@utils.auth
+def newUser():
+    """
+    
+    Creates a new user. JSON:
+
+      {
+        "name": "Iliana",
+        "surname": "Olivié",
+        "password": "eac9e8dd8575f4c7831f1f6a72607126",
+        "email": "iolivie@rielcano.org",
+        "admin": "true",
+        "username": "iolivie",
+        "language": "es",
+        "status": "1"
+      }
+
+    """
+    m = UserModel()
+
+    return(jsonify(m.newUser(request.json)))
+
+
 def sess_logout():
     session.pop('email', None)
     session.pop('id_user', None)
     session.pop('profile', None)
     session.pop('username', None)    
+
     
 @app.route('/user/login',methods=['POST'])
 def login():
+    """
     
+    Logs in a user. The JSON is:
+
+      {
+        "email": "jpalcantara@geographica.gs",
+        "password": "jderj"
+      }
+   
+    Password is sent in plain.
+
+    """
     if not request.json  or not "email" in request.json or not "password" in request.json:        
         return jsonify({"Login": False})
     
@@ -45,7 +84,7 @@ def login():
         # compare password against database        
         u = UserModel().getUserLogin(email=email)
         if u and u['password']==password:
-            session["id_user"] = u["id_user"]
+            session["id_user"] = u["id_wwwuser"]
             session['email'] = email
             session["username"] = u["username"]
             session["name"] = u["name"]

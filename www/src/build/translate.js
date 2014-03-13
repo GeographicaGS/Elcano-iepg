@@ -45,7 +45,7 @@ function executeQuery(sql,callback) {
     });
 }
 
-exports.translate = function(env,callback){
+exports.translate = function(env,callback,debug){
     var tmp = utils.getTmpFolder(env),
         templates = fs.readFileSync(tmp+"/main-template-src.html", 'utf8'),
         templatesKeys = getLangTags(templates),
@@ -57,6 +57,8 @@ exports.translate = function(env,callback){
         indexKeys = getLangTags(index),
         
         allKeys = templatesKeys.concat(jsKeys).concat(indexKeys);
+
+        console.log("DEBUG: " + debug);
         
     function getDBKeys(callback){        
         executeQuery("SELECT * from www.translation",function(err,result){
@@ -128,7 +130,14 @@ exports.translate = function(env,callback){
             if (!k || !dbKeys.hasOwnProperty(k) ) {
                 // key missing
                 for (l in langs){
-                    dict[k][langs[l]] = "<span class='red'>" + k + "</span>";
+                    //dict[k][langs[l]] = "<span class='translation_error'>" + k + "</span>";
+                    console.log(debug);
+                    if (debug){
+                        dict[k][langs[l]] = k;
+                    }
+                    else{
+                        dict[k][langs[l]] = "<span class='translation_error'>" + k + "</span>";    
+                    }
                 }
             }
             else{
@@ -138,7 +147,12 @@ exports.translate = function(env,callback){
                         dict[k][langs[l]] = dbKeys[k][langs[l]];
                     }
                     else{
-                        dict[k][langs[l]] = "<span class='red'>" + k + "</span>";    
+                        if (debug){
+                            dict[k][langs[l]] = k;
+                        }
+                        else{
+                            dict[k][langs[l]] = "<span class='translation_error'>" + k + "</span>";    
+                        }
                     }
                 }
             }

@@ -1,0 +1,15 @@
+<%
+    console.log(model);
+%>
+<a href="/<lang>lang</lang>/docs/edit/<%= model.id%>">Editar</a>
+<a href="#" id="delete">Borrar</a>
+<% if (!model.published) {%>
+<a href="#" id="publish">Publicar</a>
+<% } %>
+
+<p>Título ES</p>
+<p><%= model.title_es %></p>
+<p>Título EN</p>
+<p><%= model.title_en %></p>
+
+

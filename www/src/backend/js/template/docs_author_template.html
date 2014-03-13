@@ -1,0 +1,22 @@
+<%
+  i = 0;
+  _.each(authors, function(a){
+    i++;
+%>
+    <div class="resenaGroup col-md-12 col-sm-12">
+        <div class="alpha col-md-5 col-sm-12">
+            <input type="text" class="form-control Esimput author_twitter"  idx_author=<%= i -1%> name="authors" placeholder="<%= a.twitter_user %>" value="<%= a.twitter_user == "Twitter" ? "" : a.twitter_user %>">
+        </div>
+        <div class="btGroupResena">
+            <button type="button" class="btn btn-resena-twitter"></button>
+            <%  if (authors.length>1) { %>
+            <button type="button" class="btn btn-resena-remove" idx_author=<%= i -1%>></button>
+            <% } %>
+            <%  if (i == authors.length) { %>
+            <button type="button" class="btn btn-resena-more" ></button>    
+            <% } %>
+            
+            
+        </div>
+    </div>
+<% }) %>

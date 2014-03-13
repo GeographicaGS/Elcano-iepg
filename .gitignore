@@ -5,3 +5,6 @@
 *.komodoproject
 venv
 *.pyc
+*.sublime-*
+config.py
+

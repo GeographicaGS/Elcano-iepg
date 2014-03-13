@@ -14,14 +14,40 @@ deps.Backend.JS = {
 	}
 	,Core: {
 		src: [
+			// Namespace
+			"backend/js/namespace.js",
 			// Config file
 			"backend/js/config.js",
-			// models
+			
+			"backend/js/validator.js",
+			
+			// --------------------
+			// ------  Models ------
+			// --------------------
 			"backend/js/model/user_model.js",
-			// views
+			"backend/js/model/label_model.js",
+			"backend/js/model/document_model.js",
+			
+			// --------------------
+			// --- Collections  ---
+			// --------------------
+			"backend/js/collection/label_collection.js",			
+			"backend/js/collection/document_collection.js",
+			// --------------------
+			// ------  Views ------
+			// --------------------
+			// Docs Views
+			"backend/js/view/docs/docs_list_view.js",
+			"backend/js/view/docs/docs_document_view.js",
+			"backend/js/view/docs/docs_form_view.js",
+			// User view
 			"backend/js/view/user_view.js",
+
 			"backend/js/view/home_view.js",
 			"backend/js/view/news_view.js",
+			
+			
+			
 			// router
 			"backend/js/router.js",
 			// app
@@ -52,17 +78,41 @@ deps.Frontend.JS = {
 			"frontend/js/lib/jquery-2.0.3.min.js",
 			"frontend/js/lib/underscore-min.js",
 			"frontend/js/lib/backbone-min.js",
-			"frontend/js/lib/d3.v3.min.js",			
-			"frontend/js/lib/jquery-dateFormat.min.js",
-			"frontend/js/lib/bootstrap/bootstrap.min.js"
+			"frontend/js/lib/d3.v3.min.js",	
+			"frontend/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",			
 		],
 		desc: "Third party library"
 	}
 	,Core: {
 		src: [
+			// Namespace
+			"frontend/js/namespace.js",
 			// Config file
 			"frontend/js/config.js",
+
+			// --------------------
+			// ------  Models ------
+			// --------------------
 			
+			// --------------------
+			// --- Collections  ---
+			// --------------------
+			"frontend/js/collection/home/latest_news_collection.js",
+			"frontend/js/collection/home/slider_collection.js",
+			
+			// --------------------
+			// ------  Views ------
+			// --------------------
+			"frontend/js/view/home/latest_news_view.js",
+			"frontend/js/view/home/slider_view.js",
+			"frontend/js/view/home/home_view.js",
+
+			"frontend/js/view/about_view.js",
+
+			// router
+			"frontend/js/router.js",
+			// app
+			"frontend/js/app.js",
 		],
 		desc: "Core library."
 	}
@@ -70,14 +120,16 @@ deps.Frontend.JS = {
 
 deps.Frontend.CSS = {
 	ThirdParty:{
-		src : [			
-			"frontend/js/lib/bootstrap/bootstrap.min.css"
+		src : [
+			
 		]
 	},
 	Core: {
 		src: [
-			"frontend/css/layout.css",
-			"frontend/css/render.css",
+			"frontend/css/reset.css",
+			"frontend/css/base.css",
+			"frontend/css/styles.css",
+			"frontend/css/home.css"
 		]
 	}
 };
@@ -85,3 +137,4 @@ deps.Frontend.CSS = {
 if (typeof exports !== 'undefined') {
 	exports.deps = deps;
 }
+

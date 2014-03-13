@@ -1,0 +1,23 @@
+<%
+i=-1;
+_.each(pdfs_es, function(pdf){
+    i++;
+%>
+<div class="adjunto">
+    <a href="/tmp/<%= pdf.hash %>" class="btn btnDOC DocAdjunto" title="<%= pdf.name %>" target="_blank"><span><%= pdf.pdf_name %> <i>(<lang>español</lang>)</i></span></a>
+    <a href="#" class="btn btnDeleteAjunto pull-right" lang="es" id_pdf="<%= i %>" title="<lang>Eliminar PDF </lang>"></a>
+</div>
+<div class="clear"></div>
+<% }); %>
+
+<%
+i=-1;
+_.each(pdfs_en, function(pdf){
+    i++;
+%>
+<div class="adjunto">
+    <a href="/tmp/<%= pdf.hash %>" class="btn btnDOC DocAdjunto" title="<%= pdf.name %>" target="_blank"><span><%= pdf.pdf_name %> <i>(<lang>inglés</lang>)</i></span></a>
+    <a href="#" class="btn btnDeleteAjunto pull-right" lang="en" id_pdf="<%= i %>" title="<lang>Eliminar PDF </lang>"></a>
+</div>
+<div class="clear"></div>
+<% }); %>

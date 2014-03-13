@@ -60,8 +60,6 @@ class PostgreSQLModel():
         cur = self.conn.cursor()        
         sql = "UPDATE %s SET %s WHERE %s" % (table,setSQLString,whereSQLString)     
         
-        print sql
-        
         cur.execute(sql,data.values()+where.values())
         self.conn.commit()        
     

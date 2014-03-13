@@ -7,7 +7,6 @@ Backbone.View.prototype.close = function(){
   if (this.onClose){
     this.onClose();
   }
-  
 }
 
 $(function() {
@@ -33,8 +32,18 @@ $(function() {
     };
     
     $("body").on("click","a",function(e){
+        if ($(this).attr("target")=="_blank"){
+            return;
+        }
         e.preventDefault();
-        app.router.navigate($(this).attr("href"),{trigger: true});
+        var href = $(this).attr("href");
+        if (href=="#back") {
+            history.back();
+        }
+        else if (href!="" && href!="#") {
+            app.router.navigate($(this).attr("href").substring(3),{trigger: true});
+        }
+        
     });
     
     $("button#logout").click(function(){
@@ -74,10 +83,14 @@ app.ini = function(){
             this._logged = true;
               //Backbone.history.start();root: "/public/search/"
             Backbone.history.start({pushState: true,root: this.basePath });
-            app.router.navigate("user", {trigger: true});
+            //app.router.navigate("user", {trigger: true});
         }
     },this);
-    this._user.fetch();
+    this._user.fetch({
+        error: function(){
+            app.goLogin();
+        }
+    });
 };
 
 app.showView = function(view) {
@@ -116,4 +129,61 @@ app.events.on("menu", function(id){
     $menu.find("#"+id).addClass("active");
 });
 
+app.scrollTop = function(){
+    var body = $("html, body");
+    body.animate({scrollTop:0}, '500', 'swing', function() { 
+       
+    });
+}
 
+app.input = function(str){
+    str = $.trim(str);
+    if (str === "")
+        return null;
+    return str;
+}
+
+app.renameID = function(array,oldID,newID){
+    for (var i=0;i< array.length;i++){
+        array[i][newID] = array[i][oldID];
+        delete array[i][oldID];
+    }
+    return array;
+}
+
+
+app.nl2br = function nl2br(str, is_xhtml) {
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+}
+
+// Tue, 25 Feb 2014 22:32:40 GMT
+app.dateFormat = function(dateStr){
+    var date = new Date(dateStr);
+    
+    var month = date.getMonth() + 1; //Months are zero based
+    var day = date.getUTCDate(); 
+    var year = date.getFullYear();
+    
+    if (day < 10) day = "0" + day;
+    if (month < 10) month = "0" + month;
+    return day +"/"+month+"/"+year;
+}
+
+/* dateStr must be a date in GMT Tue, 25 Feb 2014 22:32:40 GMT*/
+app.dateTimeFormat = function(dateStr){
+    var date = new Date(dateStr);
+    
+    var month = date.getMonth() + 1; //Months are zero based
+    var day = date.getUTCDate(); 
+    var year = date.getFullYear();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    if (hours < 10) hours = "0" + hours;
+    if (minutes < 10) minutes = "0" + minutes;
+    
+    return day +"/"+month+"/"+year +" - " + hours + ":" + minutes ;
+}

@@ -7,3 +7,4 @@ app.config.update(
 )
 
 import user
+import home

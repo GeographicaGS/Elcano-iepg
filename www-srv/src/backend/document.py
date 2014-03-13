@@ -5,7 +5,6 @@
 Document backend
 
 """
-
 from backend import app
 from flask import jsonify,request,session
 from model.documentmodel import DocumentModel
@@ -16,8 +15,7 @@ import werkzeug
 import os
 import hashlib
 import time
-import utils
-import ipdb
+
 
 @app.route('/document', methods=['POST'])
 @auth
@@ -220,7 +218,7 @@ def uploadPDF():
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() + fileExtension
             
-            file.save(os.path.join(app.config['tmpFolder'], filename))
+            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename))
             
             return jsonify(  {"filename": filename} )  
         

@@ -6,51 +6,22 @@ Frontend home services.
 
 
 """
-
 from frontend import app
 from flask import jsonify,request
-from werkzeug.utils import secure_filename
-import werkzeug
-import os
-import hashlib
-import time
-import json
 from model.homemodel import HomeModel
+from model.iepgdatamodel import IepgDataModel
+from model.highlightmodel import HighlightModel
 import collections
 import config
-import twitter_helper
 
 
-@app.route('/home/document', methods=['GET'])
-def getDocument():
-    """Gets details of a document. Uses URL arguments:
+@app.route('/home/slider/<string:lang>', methods=['GET'])
+def getSlider(lang):
+    """Gets the slider's data."""
+    m = HighlightModel()
+    out = m.getSlider(lang, config.cfgFrontend["mediaFolder"])
 
-      iddocument: mandatory, ID of the requested document
-      lang: mandatory, language for document's metadata
-    """
-    m = HomeModel()
-    pdf = m.getDocumentPdf(request.args["iddocument"])
-    doc = m.getDocument(request.args["iddocument"], request.args["lang"])
-
-    return(jsonify({"details": doc, "pdf": pdf}))
-
-
-@app.route('/home/documentcatalog', methods=['GET'])
-def getDocumentCatalog():
-    """Gets a slice of a document list. Uses URL arguments:
-
-      offset: mandatory, page to present
-      lang: mandatory, language
-      search: optional, search criteria
-
-    """
-    m = HomeModel()
-    search = request.args["search"] if "search" in request.args else None
-    totalSize = m.getDocumentCatalogSize(search=search)
-    docs = m.getDocumentCatalog(request.args["offset"], config.cfgFrontend["DocumentListLength"], \
-                             request.args["lang"], search=search)
-
-    return(jsonify({"results": docs}))
+    return(jsonify({"sliders": out}))
 
 
 @app.route('/home/countries', methods=['GET'])
@@ -76,7 +47,7 @@ def countries():
     }
       
     """
-    m = HomeModel()
+    m = IepgDataModel()
     a = m.countries(request.args["lang"], request.args["year"])
     blocks=dict()
     countries = dict()
@@ -110,8 +81,7 @@ def years():
     }
 
     """
-    m = HomeModel()
-
+    m = IepgDataModel()
     a = m.years()
 
     return(jsonify({"results": a}))

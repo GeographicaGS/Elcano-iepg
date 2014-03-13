@@ -1,3 +1,10 @@
+# coding=UTF8
+
+"""
+
+Labels backend.
+
+"""
 from backend import app
 from flask import jsonify,request,session
 from model.labelmodel import LabelModel

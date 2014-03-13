@@ -5,7 +5,6 @@
 Highlight services
 
 """
-
 from backend import app
 from flask import jsonify,request,session
 from model.highlightmodel import HighlightModel
@@ -16,7 +15,6 @@ import config
 import os
 import hashlib
 import time
-import ipdb
 
 
 @app.route('/highlight/setorder', methods=['PUT'])
@@ -130,7 +128,7 @@ def uploadImg():
             filename = secure_filename(file.filename)
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() + fileExtension
-            file.save(os.path.join(app.config['tmpFolder'], filename))
+            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename))
             return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    

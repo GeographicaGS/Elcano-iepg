@@ -9,12 +9,10 @@ Highlight model
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 import datetime
 from flask import session
-import ipdb
 
 
 class HighlightModel(PostgreSQLModel):
     """Highlight model."""
-
     def setHighlightOrder(self, order):
         """Set order among the published highlights."""
         try:
@@ -109,3 +107,24 @@ class HighlightModel(PostgreSQLModel):
         """Gets highlight data."""
         q = "select * from www.highlight where id_highlight=%s"
         return(self.query(q, id_highlight).row())
+
+
+    def getSlider(self, lang, imageRoot):
+        """Get the slider's data in language lang for the home."""
+        sql = """
+        select
+          id_highlight,
+          title_{},
+          text_{},
+          '{}/' || image_hash_{} || '.jpg' as image_file,
+          credit_img_{},
+          link_{}
+        from
+          www.highlight
+        where
+          published
+        order by
+          publication_order;
+        """.format(lang,lang,imageRoot,lang,lang,lang)
+
+        return(self.query(sql).result())

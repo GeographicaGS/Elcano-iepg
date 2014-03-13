@@ -5,7 +5,6 @@ Created on 15/01/2014
 '''
 
 import psycopg2
-
 from config import PostgreSQLConfig
 import psycopg2.extras
 

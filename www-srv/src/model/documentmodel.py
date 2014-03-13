@@ -16,6 +16,211 @@ from flask import session
 class DocumentModel(PostgreSQLModel):
     """Modelo de documento."""
 
+    def getDocumentBackend(self, idDocument, lang):
+        """Gets the document details for the frontend."""
+        doc = """
+        with label_en as(
+          select
+            a.id_document as id_document,
+            array_agg(b.label) as labels
+          from
+            www.document_label_en a
+            inner join www.label_en b
+            on a.id_label_en=b.id_label_en
+          group by id_document),
+        label_es as(
+          select
+            a.id_document as id_document,
+            array_agg(b.label) as labels
+          from
+            www.document_label_es a
+            inner join www.label_es b
+            on a.id_label_es=b.id_label_es
+          group by id_document),
+        authors as(
+          select
+            id_document as id_document,
+            array_agg(coalesce(twitter_user, name)) as author
+          from www.author
+          group by id_document),
+        docs as(
+          select
+            a.id_document,
+            title_{} as title,
+            theme_{} as theme,
+            description_{} as description,
+            a.last_edit_time as time
+          from www.document a
+        )
+        select
+          a.id_document as id,
+          a.title as title,
+          a.theme as theme,
+          a.description as description,
+          a.time as time,
+          b.labels as labels,
+          d.author as authors
+        from
+          docs a inner join 
+          label_{} b on
+          a.id_document=b.id_document inner join
+          authors d on
+          a.id_document=d.id_document
+        where
+          a.id_document=%s""".format(lang, lang, lang, lang)
+
+        return(self.query(doc, bindings=[idDocument]).result())
+
+    def getDocumentPdf(self, idDocument):
+        """Gets the PDF for a given idDocument for the frontend."""
+        pdf = """
+        select
+          lang,
+          pdf_name,
+          hash
+        from
+          www.pdf
+        where id_document=%s;"""
+
+        return(self.query(pdf, bindings=[idDocument]).result())
+
+
+    def getDocumentCatalogSize(self, search=None):
+        """Gets the total size of a list of document for the frontend."""
+        docs = """
+        with count as(
+        select distinct a.id_document
+        from
+          www.document a inner join
+          www.document_label_en b on
+          a.id_document=b.id_document inner join
+          www.label_en c on
+          b.id_label_en=c.id_label_en inner join
+          www.document_label_es d on
+          a.id_document=d.id_document inner join
+          www.label_es e on
+          d.id_label_es=e.id_label_es inner join
+          www.author f on
+          a.id_document=f.id_document"""
+
+        if search!=None:
+            docs+="""
+              where
+                a.title_en ilike '%{}%' or
+                a.title_es ilike '%{}%' or
+                a.theme_en ilike '%{}%' or
+                a.theme_es ilike '%{}%' or
+                a.description_en ilike '%{}%' or
+                a.description_es ilike '%{}%' or
+                c.label ilike '%{}%' or
+                e.label ilike '%{}%' or
+                f.name ilike '%{}%' or
+                f.twitter_user ilike '%{}%'""". \
+            format(search,search,search,search,search,search,search,search,search,search)
+
+        docs+="""
+        )
+        select count(id_document) as c
+        from count;"""
+
+        return self.query(docs).row()["c"]
+               
+
+    def getDocumentCatalog(self, offset, listSize, lang, search=None):
+        """Gets list of documents for the frontend document catalog."""
+        a = """
+        with label_en as(
+          select
+            a.id_document as id_document,
+            array_agg(b.label) as labels
+          from
+            www.document_label_en a
+            inner join www.label_en b
+            on a.id_label_en=b.id_label_en
+          group by id_document),
+        label_es as(
+          select
+            a.id_document as id_document,
+            array_agg(b.label) as labels
+          from
+            www.document_label_es a
+            inner join www.label_es b
+            on a.id_label_es=b.id_label_es
+          group by id_document),
+        authors as(
+          select
+            id_document as id_document,
+            array_agg(coalesce(twitter_user, name)) as author
+          from www.author
+          group by id_document),
+        docs as(
+          select
+            a.id_document,"""
+
+        if lang=="es":
+            a+="""
+            coalesce(title_es, title_en) as title, 
+            coalesce(theme_es, theme_en) as theme, """
+        else:
+            a+="""
+            coalesce(title_en, title_es) as title, 
+            coalesce(theme_en, theme_es) as theme, """
+
+        a+="""
+            a.last_edit_time as time
+          from www.document a
+        ),
+        selection as (
+          select distinct a.id_document
+          from
+            www.document a inner join
+            www.document_label_en b on
+            a.id_document=b.id_document inner join
+            www.label_en c on
+            b.id_label_en=c.id_label_en inner join
+            www.document_label_es d on
+            a.id_document=d.id_document inner join
+            www.label_es e on
+            d.id_label_es=e.id_label_es inner join
+            www.author f on
+            a.id_document=f.id_document"""
+
+        if search!=None:
+            a+="""
+              where
+                a.title_en ilike '%{}%' or
+                a.title_es ilike '%{}%' or
+                a.theme_en ilike '%{}%' or
+                a.theme_es ilike '%{}%' or
+                a.description_en ilike '%{}%' or
+                a.description_es ilike '%{}%' or
+                c.label ilike '%{}%' or
+                e.label ilike '%{}%' or
+                f.name ilike '%{}%' or
+                f.twitter_user ilike '%{}%'""". \
+            format(search,search,search,search,search,search,search,search,search,search)
+
+        a+="""
+        )
+        select
+          a.id_document as id,
+          a.title as title,
+          a.theme as theme,  
+          a.time as time,
+          b.labels as labels,
+          d.author as authors
+        from
+          docs a inner join 
+          label_{} b on
+          a.id_document=b.id_document inner join
+          authors d on
+          a.id_document=d.id_document
+        where
+          a.id_document in (select * from selection);""".format(lang)
+
+        return self.query(a).result()
+
+
     def createDocument(self, data):
         """Creates a new document."""
         a = self.insert("www.document", 
@@ -200,8 +405,8 @@ class DocumentModel(PostgreSQLModel):
                      "twitter_user": data})
 
 
-    def getDocument(self,id_document):
-        """Get Document"""
+    def getDocumentFrontend(self,id_document):
+        """Get Document for the frontend."""
         q = "SELECT * FROM www.document WHERE id_document=%s"
         return self.query(q,[id_document]).row()
 

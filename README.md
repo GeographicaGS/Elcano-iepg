@@ -71,6 +71,14 @@ Si todo ha ido bien debe mostrar:
  * Restarting with reloader
 ```
 
+Para la subida de ficheros el backend necesita de una serie de carpetas, la ubicación de esta carpetas se especifica en los ficheros de configuración. Tenemos que crearlas y darle permisos de escritura al usuario que lanza el backend.
+
+```
+mkdir /Users/alasarr/dev/elcano-iepg/www/cdn/backend/tmp
+mkdir /Users/alasarr/dev/elcano-iepg/www/cdn/media
+chmod 755 /Users/alasarr/dev/elcano-iepg/www/cdn/backend/tmp
+chmod 755 /Users/alasarr/dev/elcano-iepg/www/cdn/media
+```
 
 #### Frontend
 
@@ -96,6 +104,83 @@ Si todo ha ido bien debe mostrar:
  * Restarting with reloader
 ```
 
+### Building aplicación JS
+
+La aplicación JS se compila usando node js y las siguientes librerías.
+
+Instala node JS y ejecuta lo siguiente.
+
+```
+sudo npm install -g jake
+sudo npm install -g uglifyjs
+sudo npm install -g uglifycss
+sudo npm install -g jshint
+sudo npm install -g pg
+sudo npm install -g less
+
+export NODE_PATH=/usr/local/lib/node_modules
+```
+
+Una vez hecho esto ejecuta sobre www/src:
+
+```jake```
+
+O si quieres hacer el build en modo debug
+
+```jake debug```
+
+
+### Configuración de apache
+
+Las aplicaciones están hechas para correr en el raíz del apache. Por eso hay que crear dos virtualhost.
+
+* Frontend: dev.iepg.es que sirve el directorio cdn/frontend.
+* Backend: dev.backend.iepg.es que sirve el directorio cdn/backend.
+
+Para que no haya problemas de cross-origin, tenemos que configurar apache para que haga un proxy al servidor de Flask.
+
+```
+###proxy para frontend
+ProxyPass /api http://127.0.0.1:5000
+###proxy para backend
+ProxyPass /api http://127.0.0.1:5001
+```
+
+También hay que añadirle algunos alias.
+
+```
+Alias /media Alias /src /Users/alasarr/dev/elcano-iepg/cdn/media
+
+# Este solo es necesario si hacemos el build del JS en modo debug
+Alias /src /Users/alasarr/dev/elcano-iepg/www/src
+
+```
+
+Si estas en MacOSX aconsejo que uses MAMP que hace esto mucho más fácil.
+
+Para apache os pongo algunos ficheros de configuración.
+
+```
+<VirtualHost *:80>
+    DocumentRoot "/Users/alasarr/dev/elcano-iepg/cdn/frontend"
+    ServerName dev.iepg.es
+    ErrorLog "/private/var/log/apache2/dev.iepg.es-error_log"
+    CustomLog "/private/var/log/apache2/dev.iepg.es-access_log" common
+    ProxyPass /srv http://127.0.0.1:5000/
+    ProxyPassReverse /srv http://127.0.0.1:5000
+</VirtualHost>
+
+<VirtualHost *:80>
+    DocumentRoot "/Users/alasarr/dev/elcano-iepg/cdn/backend"
+    ServerName dev.backend.iepg.es
+    ErrorLog "/private/var/log/apache2/dev.backend.iepg.es-error_log"
+    CustomLog "/private/var/log/apache2/dev.backend.iepg.es-access_log" common
+    ProxyPass /srv http://127.0.0.1:5001/
+    ProxyPassReverse /srv http://127.0.0.1:5001
+</VirtualHost>
+```
+
+Si todo a ido bien tendremos el frontend en dev.iepg.es y el backend en dev.backend.iepg.es
 
 ## Backend
 

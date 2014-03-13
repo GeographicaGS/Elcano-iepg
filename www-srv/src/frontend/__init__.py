@@ -1,8 +1,4 @@
 from flask import Flask
-import home
-import documentcatalog
-import document
-
 
 app = Flask(__name__)
 app.config.update(
@@ -11,6 +7,9 @@ app.config.update(
     PORT=5001
 )
 
+import home
+import documentcatalog
+import document
 
 @app.route('/', methods = ['GET'])                                            
 def alive():

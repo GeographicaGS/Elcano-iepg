@@ -1,2 +1,3 @@
 src/backend/config.py
+src/frontend/config.py
 src/model/base/PostgreSQL/config.py

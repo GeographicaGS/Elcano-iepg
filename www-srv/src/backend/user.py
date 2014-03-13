@@ -1,11 +1,16 @@
 # coding=UTF8
 
+"""
+
+User backend.
+
+"""
 from backend import app
 from flask import jsonify,request,session
-from model.UserModel import UserModel
-from backend import utils
+from model.usermodel import UserModel
 import hashlib
 import utils
+
 
 @app.route('/user', methods = ['GET'])                                            
 def user():
@@ -42,8 +47,7 @@ def newUser():
 
     """
     m = UserModel()
-
-    return(jsonify({"id": m.newUser(request.json)}))
+    return(jsonify(m.newUser(request.json)))
 
 
 def sess_logout():

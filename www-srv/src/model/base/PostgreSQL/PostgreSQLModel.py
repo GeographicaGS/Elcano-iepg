@@ -5,7 +5,6 @@ Created on 15/01/2014
 '''
 
 import psycopg2
-
 from config import PostgreSQLConfig
 import psycopg2.extras
 
@@ -59,8 +58,6 @@ class PostgreSQLModel():
             
         cur = self.conn.cursor()        
         sql = "UPDATE %s SET %s WHERE %s" % (table,setSQLString,whereSQLString)     
-        
-        print sql
         
         cur.execute(sql,data.values()+where.values())
         self.conn.commit()        

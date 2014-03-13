@@ -3,6 +3,7 @@ cdn/backend/en/index.html
 cdn/frontend/es/index.html
 cdn/frontend/en/index.html
 cdn/backend/tmp
+cdn/media/
 main.min.js
 main.min.css
 src/build/tmp

@@ -1,3 +1,10 @@
+# coding=UTF8
+
+"""
+
+Labels backend.
+
+"""
 from backend import app
 from flask import jsonify,request,session
 from model.labelmodel import LabelModel
@@ -17,16 +24,16 @@ def getLabels(lang):
 @app.route("/label/<string:lang>", methods=["POST"])
 @auth
 def newLabel(lang):
-    """
+    """Creates a new label in the given language. Needs an argument:
+      
+      lang: mandatory, language (en/es)
 
-    Creates a new label in the given language (en/es). JSON:
+    Needs a JSON:
 
       {
         "label": "New label"
       }
-
     """
     m = LabelModel()
-    
     return jsonify({"id": \
                     m.insertLabel(request.json["label"], lang)})

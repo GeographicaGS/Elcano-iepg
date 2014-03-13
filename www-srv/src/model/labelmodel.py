@@ -1,13 +1,18 @@
-"""
-Label model.
+# coding=UTF8
+
 """
 
+Label model.
+
+"""
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
+
 
 class LabelModel(PostgreSQLModel):
     """Model for labels."""
 
     def getLabels(self, lang="es"):
+        """Returns labels in the given language."""
         if lang=="es":
             q = "select id_label_es as id, label from www.label_es;"
         if lang=="en":
@@ -17,7 +22,15 @@ class LabelModel(PostgreSQLModel):
 
 
     def insertLabel(self, label, lang="es"):
+        """Inserts a label."""
         if lang=="es":
             return self.insert("www.label_es", {"label": label}, "id_label_es")
         if lang=="en":
             return self.insert("www.label_en", {"label": label}, "id_label_en")
+
+
+    def getLabels(self, lang):
+        """Get the list of labels for lang for the document catalog in the frontend."""
+        sql = "select * from www.label_{} order by label;".format(lang)
+
+        return(self.query(sql).result())

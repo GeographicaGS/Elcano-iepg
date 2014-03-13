@@ -99,6 +99,7 @@ deps.Frontend.JS = {
 			// --------------------
 			"frontend/js/collection/home/latest_news_collection.js",
 			"frontend/js/collection/home/slider_collection.js",
+			"frontend/js/collection/docs/docs_collection.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -106,6 +107,7 @@ deps.Frontend.JS = {
 			"frontend/js/view/home/latest_news_view.js",
 			"frontend/js/view/home/slider_view.js",
 			"frontend/js/view/home/home_view.js",
+			"frontend/js/view/docs/docs_list_view.js",
 
 			"frontend/js/view/about_view.js",
 

@@ -4,15 +4,14 @@ app.router = Backbone.Router.extend({
     
     langRoutes : {
         "_link home" : {"en":"home","es": "inicio" },
-        "_link about": {"en": "about","es" : "acerca_de" }
+        "_link about": {"en": "about","es" : "acerca_de" },
+        "_link docs": {"en": "documents","es" : "documentos" },
 
     },
 
     /* define the route and function maps for this router */
     routes: {
             "" : "home",
-
-
 
             //"project/:id": "showProject",
             /* Sample usage: http://example.com/#about */
@@ -26,6 +25,7 @@ app.router = Backbone.Router.extend({
     initialize: function(options) {
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link about"][app.lang], "about");
+        this.route(this.langRoutes["_link docs"][app.lang], "docs");
     
         //return obj
     },
@@ -36,7 +36,10 @@ app.router = Backbone.Router.extend({
 
     about : function(){
         app.showView(new app.view.About());
+    },
+
+    docs: function(){
+        app.showView(new app.view.DocsList());   
     }
-    
     
 });

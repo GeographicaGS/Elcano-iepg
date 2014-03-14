@@ -16,7 +16,7 @@ import config
 
 
 @app.route('/home/slider/<string:lang>', methods=['GET'])
-def getSlider(lang):
+def getSliderFrontend(lang):
     """Gets the slider's data."""
     m = HighlightModel()
     out = m.getSlider(lang, config.cfgFrontend["mediaFolder"])

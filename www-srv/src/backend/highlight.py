@@ -2,7 +2,7 @@
 
 """
 
-Highlight services
+Highlight services for the administration backend.
 
 """
 from backend import app
@@ -15,6 +15,81 @@ import config
 import os
 import hashlib
 import time
+
+
+@app.route('/highlight/catalog', methods=['GET'])
+@auth
+def getPublishedHighlightCatalog():
+    """Gets the highlight's catalog. request.args:
+
+      search: search criteria, optional"""
+    m = HighlightModel()
+    total, published, results = m.getNotPublishedHighlightCatalogBackend(0,5,"jd")
+    out = []
+
+    for r in results:
+        h = {}
+
+        if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
+            h["english"] = True
+        else:
+            h["english"] = False
+
+        if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
+            h["spanish"] = True
+        else:
+            h["spanish"] = False
+
+        h["title"] = r["title"]
+        h["text"] = r["text"]
+        h["edit"] = r["last_edit_time"]
+        h["link_en"] = r["link_en"]
+        h["link_es"] = r["link_es"]
+        h["published"] = r["published"]
+        h["publication_order"] = r["publication_order"]
+
+        out.append(h)
+
+    return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
+
+
+@app.route('/highlight/unpublishedcatalog', methods=['GET'])
+@auth
+def getUnpublishedHighlightCatalog():
+    """Gets the unpublished highlight's catalog. request.args:
+
+      search: search criteria, optional"""
+    m = HighlightModel()
+    listSize = config.cfgBackend["UnpublishedHighlightCatalogBackend"]
+    if "search" in request.args:
+        hsearch = request.args["search"]
+    else:
+        hsearch = None
+
+    total, published, results = m.getUnpublishedHighlightCatalogBackend(0,listSize,search=hsearch) 
+    out = []
+
+    for r in results:
+        h = {}
+
+        if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
+            h["english"] = True
+        else:
+            h["english"] = False
+
+        if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
+            h["spanish"] = True
+        else:
+            h["spanish"] = False
+
+        h["title"] = r["title"]
+        h["text"] = r["text"]
+        h["edit"] = r["last_edit_time"]
+        h["link_en"] = r["link_en"]
+        h["link_es"] = r["link_es"]
+        out.append(h)
+
+    return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
 
 
 @app.route('/highlight/setorder', methods=['PUT'])
@@ -43,16 +118,6 @@ def togglePublishHighlight(id):
 
     return(jsonify({"new_status": out}))
 
-
-@app.route('/highlight/active/<string:lang>', methods=['GET'])
-@auth
-def getActiveHighlight():
-    """Returns the list of active highlights. Requires parameters:
-
-        lang: mandatory, en/es
-    """
-    m = HighlightModel()
-    
 
 @app.route('/highlight', methods=['POST'])
 @auth
@@ -138,3 +203,14 @@ def uploadImg():
     
     except werkzeug.exceptions.RequestEntityTooLarge:
         return jsonify(  {"error": -3} )
+
+
+@app.route("/highlight/reorder/<string:lang>",methods=["GET"])
+@auth
+def getToReorder(lang):
+    """Gets active highlights to reorder in the backend. Parameters:
+
+      lang: en/es, mandatory"""
+    m = HighlightModel()
+    return(jsonify({"highlights": m.getSliderBackend(lang)}))
+

@@ -10,9 +10,110 @@ from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 import datetime
 from flask import session
 
+import ipdb
+
 
 class HighlightModel(PostgreSQLModel):
     """Highlight model."""
+    def getPublishedHighlightCatalogBackend(self):
+        """Gets the highlight catalog."""
+        sql = """
+        select count(id_highlight) as c
+        from www.highlight
+        where published;
+        """
+
+        count = self.query(sql).row()["c"]
+
+        sql = """
+        select count(published) as c
+        from www.highlight
+        where published;
+        """
+
+        published = self.query(sql).row()["c"]
+
+        sql = """
+        select
+          coalesce(title_es,title_en) as title,
+          coalesce(text_es, text_en) as text,
+          title_en,
+          title_es,
+          text_en,
+          text_es,
+          image_hash_en,
+          image_hash_es,
+          last_edit_time,
+          link_en,
+          link_es,
+          published,
+          publication_order
+        from
+          www.highlight
+        where published
+        order by
+          last_edit_time;"""
+
+        return(count,published,self.query(sql).result())
+
+
+    def getUnpublishedHighlightCatalogBackend(self, offset, listSize, search=None):
+        """Gets the highlight catalog."""
+        sql = """
+        select count(id_highlight) as c
+        from www.highlight
+        where not published 
+        """
+
+        ipdb.set_trace()
+
+        if search:
+            search = '%'+search+'%'
+            sql += """
+            and (
+            title_en ilike %s)"""
+
+            # or
+            # title_es ilike %s or
+            # text_en ilike
+
+        sql += ";"
+
+        if search:
+            count = self.query(sql, bindings=[search]).row()["c"]
+        else:
+            count = self.query(sql).row()["c"]
+
+        sql = """
+        select count(published) as c
+        from www.highlight
+        where not published;
+        """
+
+        published = self.query(sql).row()["c"]
+
+        sql = """
+        select
+          coalesce(title_es,title_en) as title,
+          coalesce(text_es, text_en) as text,
+          title_en,
+          title_es,
+          text_en,
+          text_es,
+          image_hash_en,
+          image_hash_es,
+          last_edit_time,
+          link_en,
+          link_es
+        from
+          www.highlight
+        where not published
+        order by
+          last_edit_time;"""
+
+        return(count,published,self.query(sql).result())
+
+
     def setHighlightOrder(self, order):
         """Set order among the published highlights."""
         try:
@@ -109,8 +210,27 @@ class HighlightModel(PostgreSQLModel):
         return(self.query(q, id_highlight).row())
 
 
-    def getSlider(self, lang, imageRoot):
-        """Get the slider's data in language lang for the home."""
+    def getSliderBackend(self, lang):
+        """Get the slider's data in language lang for the backend, active and
+        ordered, to reorder them."""
+        sql = """
+        select
+          id_highlight as id,
+          title_{} as title,
+          publication_order as order
+        from
+          www.highlight
+        where
+          published
+        order by
+          publication_order;
+        """.format(lang)
+
+        return(self.query(sql).result())
+
+
+    def getSliderFrontend(self, lang, imageRoot):
+        """Get the slider's data in language lang for the home, active and ordered."""
         sql = """
         select
           id_highlight,

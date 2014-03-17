@@ -19,7 +19,7 @@ import config
 def getSliderFrontend(lang):
     """Gets the slider's data."""
     m = HighlightModel()
-    out = m.getSlider(lang, config.cfgFrontend["mediaFolder"])
+    out = m.getSliderFrontend(lang, config.cfgFrontend["mediaFolder"])
 
     return(jsonify({"sliders": out}))
 

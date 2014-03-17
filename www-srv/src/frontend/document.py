@@ -19,15 +19,15 @@ def getDocumentLabels(lang):
     return(jsonify({"labels": m.getLabels(lang)}))
 
 
-@app.route('/document', methods=['GET'])
-def getDocument():
+@app.route('/document/<int:idDocument>/<string:lang>', methods=['GET'])
+def getDocument(idDocument, lang):
     """Gets details of a document. Uses URL arguments:
 
-      iddocument: mandatory, ID of the requested document
+      idDocument: mandatory, ID of the requested document
       lang: mandatory, language for document's metadata
     """
     m = DocumentModel()
-    pdf = m.getDocumentPdf(request.args["iddocument"])
-    doc = m.getDocumentBackend(request.args["iddocument"], request.args["lang"])
+    pdf = m.getDocumentPdf(idDocument)
+    doc = m.getDocumentBackend(idDocument, lang)
 
     return(jsonify({"details": doc, "pdf": pdf}))

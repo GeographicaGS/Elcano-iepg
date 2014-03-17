@@ -16,80 +16,92 @@ import os
 import hashlib
 import time
 
+import ipdb
 
-@app.route('/highlight/catalog', methods=['GET'])
-@auth
-def getPublishedHighlightCatalog():
-    """Gets the highlight's catalog. request.args:
 
-      search: search criteria, optional"""
-    m = HighlightModel()
-    total, published, results = m.getNotPublishedHighlightCatalogBackend(0,5,"jd")
-    out = []
+# @app.route('/highlight/publishedcatalog', methods=['GET'])
+# @auth
+# def getPublishedHighlightCatalog():
+#     """Gets the highlight's catalog. request.args:
 
-    for r in results:
-        h = {}
+#       search: search criteria, optional"""
+#     m = HighlightModel()
+#     total, published, results = m.getHighlightCatalogBackend(0,5,"jd")
+#     out = []
 
-        if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
-            h["english"] = True
-        else:
-            h["english"] = False
+#     for r in results:
+#         h = {}
 
-        if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
-            h["spanish"] = True
-        else:
-            h["spanish"] = False
+#         if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
+#             h["english"] = True
+#         else:
+#             h["english"] = False
 
-        h["title"] = r["title"]
-        h["text"] = r["text"]
-        h["edit"] = r["last_edit_time"]
-        h["link_en"] = r["link_en"]
-        h["link_es"] = r["link_es"]
-        h["published"] = r["published"]
-        h["publication_order"] = r["publication_order"]
+#         if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
+#             h["spanish"] = True
+#         else:
+#             h["spanish"] = False
 
-        out.append(h)
+#         h["title"] = r["title"]
+#         h["text"] = r["text"]
+#         h["edit"] = r["last_edit_time"]
+#         h["link_en"] = r["link_en"]
+#         h["link_es"] = r["link_es"]
+#         h["published"] = r["published"]
+#         h["publication_order"] = r["publication_order"]
 
-    return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
+#         out.append(h)
+
+#     return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
 
 
 @app.route('/highlight/unpublishedcatalog', methods=['GET'])
 @auth
 def getUnpublishedHighlightCatalog():
-    """Gets the unpublished highlight's catalog. request.args:
+    """Gets the unpublished highlight catalog. request.args:
 
-      search: search criteria, optional"""
+      page: page to show, mandatory
+      search: search criteria, optional
+
+    """
+    return getHighlightCatalog(False, page=request.args("page"), search=request.args("search"))
+        
+
+def getHighlightCatalog(published, page=None, search=None):
+    """Gets the highlight's catalog."""
     m = HighlightModel()
-    listSize = config.cfgBackend["UnpublishedHighlightCatalogBackend"]
-    if "search" in request.args:
-        hsearch = request.args["search"]
-    else:
-        hsearch = None
 
-    total, published, results = m.getUnpublishedHighlightCatalogBackend(0,listSize,search=hsearch) 
+    ipdb.set_trace()
+
+    if page!=None:
+        listSize = config.cfgBackend["UnpublishedHighlightCatalogBackendListLength"]
+    else:
+        listSize = None
+
+    total, results = m.getHighlightCatalogBackend(published,page=page,listSize=listSize,search=search) 
     out = []
 
-    for r in results:
-        h = {}
+    # for r in results:
+    #     h = {}
 
-        if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
-            h["english"] = True
-        else:
-            h["english"] = False
+    #     if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
+    #         h["english"] = True
+    #     else:
+    #         h["english"] = False
 
-        if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
-            h["spanish"] = True
-        else:
-            h["spanish"] = False
+    #     if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
+    #         h["spanish"] = True
+    #     else:
+    #         h["spanish"] = False
 
-        h["title"] = r["title"]
-        h["text"] = r["text"]
-        h["edit"] = r["last_edit_time"]
-        h["link_en"] = r["link_en"]
-        h["link_es"] = r["link_es"]
-        out.append(h)
+    #     h["title"] = r["title"]
+    #     h["text"] = r["text"]
+    #     h["edit"] = r["last_edit_time"]
+    #     h["link_en"] = r["link_en"]
+    #     h["link_es"] = r["link_es"]
+    #     out.append(h)
 
-    return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
+    # return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
 
 
 @app.route('/highlight/setorder', methods=['PUT'])
@@ -203,14 +215,3 @@ def uploadImg():
     
     except werkzeug.exceptions.RequestEntityTooLarge:
         return jsonify(  {"error": -3} )
-
-
-@app.route("/highlight/reorder/<string:lang>",methods=["GET"])
-@auth
-def getToReorder(lang):
-    """Gets active highlights to reorder in the backend. Parameters:
-
-      lang: en/es, mandatory"""
-    m = HighlightModel()
-    return(jsonify({"highlights": m.getSliderBackend(lang)}))
-

@@ -273,3 +273,9 @@ def getDocument(id_document):
     }
 
     return jsonify(json)
+
+
+@app.route("/document/<int:id_document>/toggle_publish", methods=["GET"])
+@auth
+def togglePublish(id_document):
+    return jsonify({"result" : "Done"})

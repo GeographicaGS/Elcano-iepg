@@ -91,19 +91,6 @@ class DocumentModel(PostgreSQLModel):
 
         return(self.query(doc, bindings=[idDocument]).result())
 
-    def getDocumentPdf(self, idDocument):
-        """Gets the PDF for a given idDocument for the frontend."""
-        pdf = """
-        select
-          lang,
-          pdf_name,
-          hash
-        from
-          www.pdf
-        where id_document=%s;"""
-
-        return(self.query(pdf, bindings=[idDocument]).result())
-
 
     def getDocumentCatalogSize(self, search=None):
         """Gets the total size of a list of document for the frontend."""
@@ -401,7 +388,7 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentPdf(self, id_document, lang=None):
         """Gets the list of PDF of a document, optionally for a given language."""
-        q = "select id_pdf, pdf_name, hash from www.pdf where id_document=%s"
+        q = "select id_pdf, pdf_name as name, hash from www.pdf where id_document=%s"
         bindings = [id_document]
 
         if lang:

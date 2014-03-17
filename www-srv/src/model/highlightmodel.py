@@ -191,35 +191,42 @@ class HighlightModel(PostgreSQLModel):
                      "image_name_es": data["new_image_name_es"],
                      "image_hash_es": data["new_image_hash_es"],
                      "last_edit_id_user": session["id_user"],
-                     "last_edit_time": datetime.datetime.utcnow().isoformat(),
-                     "published": data["published"]},
+                     "last_edit_time": datetime.datetime.utcnow().isoformat()},
                     {"id_highlight": data["id_highlight"]})
 
         return data["id_highlight"]
 
 
     def getHighlight(self, id_highlight):
-        """Gets highlight data."""
+        """Gets highlight full data."""
         q = "select * from www.highlight where id_highlight=%s"
-        return(self.query(q, id_highlight).row())
+        return(self.query(q, bindings=[id_highlight]).row())
 
 
-    def getSliderFrontend(self, lang, imageRoot):
+    def getSliderFrontend(self, lang):
         """Get the slider's data in language lang for the home, active and ordered."""
         sql = """
         select
           id_highlight,
-          title_{},
-          text_{},
-          '{}/' || image_hash_{} || '.jpg' as image_file,
-          credit_img_{},
-          link_{}
+          title_{} as title,
+          text_{} as text,
+          image_hash_{} || '.jpg' as image_file,
+          credit_img_{} as credit_img,
+          link_{} as link
         from
           www.highlight
         where
           published
         order by
           publication_order;
-        """.format(lang,lang,imageRoot,lang,lang,lang)
+        """.format(lang,lang,lang,lang,lang)
 
         return(self.query(sql).result())
+
+
+    def deleteHighlight(self, idHighlight):
+        """Deletes a highlight by ID."""
+        sql = "delete from www.highlight where id_highlight=%s"
+
+        self.queryCommit(sql, bindings=[idHighlight])
+        return(True)

@@ -15,45 +15,32 @@ import config
 import os
 import hashlib
 import time
+import cons
 
-import ipdb
+
+@app.route('/highlight/delete/<int:idHighlight>', methods=['DELETE'])
+@auth
+def deleteHighlight(idHighlight):
+    """Deletes a highlight by ID passed in the URL."""
+    m = HighlightModel()
+
+    return(jsonify({"deleted": m.deleteHighlight(idHighlight)}))
 
 
-# @app.route('/highlight/publishedcatalog', methods=['GET'])
-# @auth
-# def getPublishedHighlightCatalog():
-#     """Gets the highlight's catalog. request.args:
+@app.route('/highlight/<int:idHighlight>', methods=['GET'])
+@auth
+def getHighlight(idHighlight):
+    """Gets a highlight by ID in the URL."""
+    m = HighlightModel()
 
-#       search: search criteria, optional"""
-#     m = HighlightModel()
-#     total, published, results = m.getHighlightCatalogBackend(0,5,"jd")
-#     out = []
+    return(jsonify(m.getHighlight(idHighlight)))
 
-#     for r in results:
-#         h = {}
 
-#         if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
-#             h["english"] = True
-#         else:
-#             h["english"] = False
-
-#         if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
-#             h["spanish"] = True
-#         else:
-#             h["spanish"] = False
-
-#         h["title"] = r["title"]
-#         h["text"] = r["text"]
-#         h["edit"] = r["last_edit_time"]
-#         h["link_en"] = r["link_en"]
-#         h["link_es"] = r["link_es"]
-#         h["published"] = r["published"]
-#         h["publication_order"] = r["publication_order"]
-
-#         out.append(h)
-
-#     return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
-
+@app.route('/highlight/publishedcatalog', methods=['GET'])
+@auth
+def getPublishedHighlightCatalog():
+    """Gets the highlight's published catalog."""
+    return __getHighlightCatalog(True)
 
 @app.route('/highlight/unpublishedcatalog', methods=['GET'])
 @auth
@@ -67,10 +54,10 @@ def getUnpublishedHighlightCatalog():
     page = request.args["page"] if "page" in request.args else None
     search = request.args["search"] if "search" in request.args else None
     
-    return getHighlightCatalog(False, page=page, search=search)
+    return __getHighlightCatalog(False, page=page, search=search)
         
 
-def getHighlightCatalog(published, page=None, search=None):
+def __getHighlightCatalog(published, page=None, search=None):
     """Gets the highlight's catalog."""
     m = HighlightModel()
 
@@ -102,7 +89,7 @@ def getHighlightCatalog(published, page=None, search=None):
         h["link_es"] = r["link_es"]
         out.append(h)
 
-    return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
+    return(jsonify({"totalHighlights": total, "highlights": out}))
 
 
 @app.route('/highlight/setorder', methods=['PUT'])
@@ -152,31 +139,53 @@ def createHightlight():
         "credit_img_es": "credit_img_es"
     }"""
     m = HighlightModel()
-    out = m.createHighlight(request.json)
+    
+    try:
+        moveImgFile(request.json["image_hash_en"])
+        moveImgFile(request.json["image_hash_es"])
 
-    moveImgFile(request.json["image_hash_en"])
-    moveImgFile(request.json["image_hash_es"])
-
-    return(jsonify({"id_highlight": out}))
+        out = m.createHighlight(request.json)
+        return(jsonify({"id_highlight": out}))
+    except:
+        return(jsonify(cons.errors["-1"]))
 
 
 @app.route('/highlight', methods=['PUT'])
 @auth
 def editHightlight():
-    """Edits a highlight."""
+    """Edits a highlight. Gets a JSON in the form:
+
+    {
+        "id_highlight": 3,
+        "title_en": "title_en",
+        "title_es": "title_es",
+        "text_en": "text_en",
+        "text_es": "text_es",
+        "new_image_name_en": "new_image_name_en",
+        "new_image_name_es": "new_image_name_es",
+        "new_image_hash_en": "new_image_hash_en",
+        "new_image_hash_es": "new_image_hash_es",
+        "link_en": "link_en",
+        "link_es": "link_es",
+        "credit_img_en": "credit_img_en",
+        "credit_img_es": "credit_img_es",
+    }"""
     m = HighlightModel()
     oldHighlight = m.getHighlight(request.json["id_highlight"])
 
-    if oldHighlight["image_hash_en"]!=request.json["new_image_hash_en"]:
-        deleteImgFile(oldHighlight["image_hash_en"])
-        moveImgFile(request.json["new_image_hash_en"])        
+    try:
+        if oldHighlight["image_hash_en"]!=request.json["new_image_hash_en"]:
+            deleteImgFile(oldHighlight["image_hash_en"])
+            moveImgFile(request.json["new_image_hash_en"])        
 
-    if oldHighlight["image_hash_es"]!=request.json["new_image_hash_es"]:
-        deleteImgFile(oldHighlight["image_hash_es"])
-        moveImgFile(request.json["new_image_hash_es"])
+        if oldHighlight["image_hash_es"]!=request.json["new_image_hash_es"]:
+            deleteImgFile(oldHighlight["image_hash_es"])
+            moveImgFile(request.json["new_image_hash_es"])
 
-    out = m.editHighlight(request.json)
-    return(jsonify({"result": {"id_highlight": out}}))
+        out = m.editHighlight(request.json)
+        return(jsonify({"result": {"id_highlight": out}}))
+    except:
+        return(jsonify(errors.errors["-1"]))
 
 
 def deleteImgFile(hash):

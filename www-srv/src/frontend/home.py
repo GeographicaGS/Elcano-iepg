@@ -13,14 +13,17 @@ from model.iepgdatamodel import IepgDataModel
 from model.highlightmodel import HighlightModel
 import collections
 import config
+import cons
 
 
 @app.route('/home/slider/<string:lang>', methods=['GET'])
 def getSliderFrontend(lang):
     """Gets the slider's data."""
-    m = HighlightModel()
-    out = m.getSliderFrontend(lang, config.cfgFrontend["mediaFolder"])
+    if lang not in cons.lang:
+        return(jsonify(cons.errors["-1"]))
 
+    m = HighlightModel()
+    out = m.getSliderFrontend(lang)
     return(jsonify({"sliders": out}))
 
 

@@ -1,6 +1,3 @@
-<a href="/<lang>lang</lang>/docs/edit/<%= model.id%>">Editar</a>
-
-
 <div class="pull-left">
     <h1 class="page-header col-md-1"><lang>Documento</lang></h1>
     <button type="button" class="btn btn-l activeES ESbt"><lang>Español</lang></button> 
@@ -96,7 +93,7 @@
                 </div>
             </div>
        
-            <hr class="featurette-divider">
+            <div class="clear"></div>
             <% }); %>
          
         </div>
@@ -106,15 +103,25 @@
         <div class=" col-md-2 LabelForm"><label for="">descarga</label></div>
         
         <div class="col-md-10">
-            <% 
-            model.pdfs_es.each(function(p){ %>
-            <div class="adjunto">
-                <a href="/media/<%= p.get("hash") %>.pdf" class="btn btnDOC DocAdjunto" title="<%= p.get("name") %>.pdf" target="_blank">
-                    <span><%= p.get("name") %></span>
-                </a>
-            </div>
+            <% model.pdfs_es.each(function(p){ %>
+                <div class="adjunto">
+                    <a href="/media/<%= p.get("hash") %>.pdf" class="btn btnDOC DocAdjunto" title="<%= p.get("name") %>.pdf" target="_blank">
+                        <span><%= p.get("name") %><i> (<lang>spanish</lang>)</i></span>
+                    </a>
+                </div>
+             
             <% }); %>
+
             <hr class="featurette-divider">
+
+            <% model.pdfs_en.each(function(p){ %>
+                <div class="adjunto">
+                    <a href="/media/<%= p.get("hash") %>.pdf" class="btn btnDOC DocAdjunto" title="<%= p.get("name") %>.pdf" target="_blank">
+                        <span><%= p.get("name") %> <i> (<lang>english</lang>)</i></span>
+                    </a>
+                </div>
+            <% }); %>
+          
             
         </div>
     </div>

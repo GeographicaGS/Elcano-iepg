@@ -400,9 +400,16 @@ class DocumentModel(PostgreSQLModel):
 
 
     def __createAuthor(self, data, id_document):
-        self.insert("www.author",
-                    {"id_document": id_document,
-                     "twitter_user": data})
+        if "twitter_user" in data:
+            self.insert("www.author",
+                        {"id_document": id_document,
+                         "twitter_user": data["twitter_user"]})
+        else:
+            self.insert("www.author",
+                        {"id_document": id_document,
+                         "name": data["name"],
+                         "position_en": data["position_en"],
+                         "position_es": data["position_es"]})
 
 
     def getDocumentFrontend(self,id_document):

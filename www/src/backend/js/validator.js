@@ -590,7 +590,7 @@ Backbone.Validation = (function(_){
 	      // Validates that the value has to be a string with length equal to or less than
 	      // the max length value specified
 	      maxLength: function(value, attr, maxLength, model) {
-	        if (!_.isString(value) || value.length > maxLength) {
+	        if (value && (!_.isString(value) || value.length > maxLength)) {
 	          return this.format(defaultMessages.maxLength, this.formatLabel(attr, model), maxLength);
 	        }
 	      },

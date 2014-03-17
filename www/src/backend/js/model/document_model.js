@@ -1,7 +1,7 @@
 app.model.Document = Backbone.Model.extend({
 	_titleRequiredGroup : [ "title_es","title_en"],
 	_themeRequiredGroup : [ "theme_es","theme_en"],
-	_descriptionRequiredGroup : [ "theme_es","theme_en"],
+	_descriptionRequiredGroup : [ "description_es","description_en"],
 	validation: function (){
 		return {
 			title_es: {

@@ -233,8 +233,12 @@ app.view.docs.FormView = Backbone.View.extend({
 
         var $e = $(e.target),
             name = $e.attr("name");
-        this.model.set(name,$.trim($e.val()));
-        this.model.isValid(true);
+
+        if (name!="authors"){
+            this.model.set(name,$.trim($e.val()));
+            this.model.isValid(true);    
+        }
+        
 
 
     },
@@ -248,9 +252,9 @@ app.view.docs.FormView = Backbone.View.extend({
             "theme_es" : app.input(this.$("textarea[name='theme_es']").val()),
             "description_en" : app.input(this.$("textarea[name='description_en']").val()),
             "description_es" : app.input(this.$("textarea[name='description_es']").val()),
-            "authors": _.filter(_.pluck(this.model.get("authors").toJSON(),"twitter_user"),function (e){
+            /*"authors": _.filter(_.pluck(this.model.get("authors").toJSON(),"twitter_user"),function (e){
                 return e != "Twitter";
-            }),
+            }),*/
             "link_en" : app.input(this.$("input[name='link_en']").val()),
             "link_es" : app.input(this.$("input[name='link_es']").val())
         }
@@ -258,6 +262,14 @@ app.view.docs.FormView = Backbone.View.extend({
         this.model.set(data);
          
         if (this.model.isValid(true)){
+
+            // let's filter all empty twitters
+
+            var authorsFilter = this.model.get("authors").filter(function(el) {
+              return el.get("twitter_user") != "Twitter";
+            });
+            this.model.set("authors",new Backbone.Collection(authorsFilter));
+
             // Save on server
             this.model.save(null,{
                 success: function(model){

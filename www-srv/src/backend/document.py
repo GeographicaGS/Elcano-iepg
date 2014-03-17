@@ -35,7 +35,7 @@ def newDocument():
       "theme_en": "Theme EN",
       "description_es": "Description ES",
       "description_en": "Description EN",
-      "authors": ["@iliana", "@jpperez"],
+      "authors": [{"twitter_user":@iliana"}, {"twitter_user":@jpperez"}],
       "link_es": "Link ES",
       "link_en": "Link EN",
       "pdfs_es": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 

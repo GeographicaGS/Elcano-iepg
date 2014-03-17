@@ -64,14 +64,15 @@ def getUnpublishedHighlightCatalog():
       search: search criteria, optional
 
     """
-    return getHighlightCatalog(False, page=request.args("page"), search=request.args("search"))
+    page = request.args["page"] if "page" in request.args else None
+    search = request.args["search"] if "search" in request.args else None
+    
+    return getHighlightCatalog(False, page=page, search=search)
         
 
 def getHighlightCatalog(published, page=None, search=None):
     """Gets the highlight's catalog."""
     m = HighlightModel()
-
-    ipdb.set_trace()
 
     if page!=None:
         listSize = config.cfgBackend["UnpublishedHighlightCatalogBackendListLength"]
@@ -81,27 +82,27 @@ def getHighlightCatalog(published, page=None, search=None):
     total, results = m.getHighlightCatalogBackend(published,page=page,listSize=listSize,search=search) 
     out = []
 
-    # for r in results:
-    #     h = {}
+    for r in results:
+        h = {}
 
-    #     if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
-    #         h["english"] = True
-    #     else:
-    #         h["english"] = False
+        if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
+            h["english"] = True
+        else:
+            h["english"] = False
 
-    #     if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
-    #         h["spanish"] = True
-    #     else:
-    #         h["spanish"] = False
+        if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
+            h["spanish"] = True
+        else:
+            h["spanish"] = False
 
-    #     h["title"] = r["title"]
-    #     h["text"] = r["text"]
-    #     h["edit"] = r["last_edit_time"]
-    #     h["link_en"] = r["link_en"]
-    #     h["link_es"] = r["link_es"]
-    #     out.append(h)
+        h["title"] = r["title"]
+        h["text"] = r["text"]
+        h["edit"] = r["last_edit_time"]
+        h["link_en"] = r["link_en"]
+        h["link_es"] = r["link_es"]
+        out.append(h)
 
-    # return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
+    return(jsonify({"totalHighlights": total, "totalPublished": published, "highlights": out}))
 
 
 @app.route('/highlight/setorder', methods=['PUT'])

@@ -28,6 +28,6 @@ def getDocument(idDocument, lang):
     """
     m = DocumentModel()
     pdf = m.getDocumentPdf(idDocument)
-    doc = m.getDocumentBackend(idDocument, lang)
+    doc = m.getDocumentFrontend(idDocument, lang)
 
     return(jsonify({"details": doc, "pdf": pdf}))

@@ -103,24 +103,36 @@
         <div class=" col-md-2 LabelForm"><label for="">descarga</label></div>
         
         <div class="col-md-10">
-            <% model.pdfs_es.each(function(p){ %>
-                <div class="adjunto">
-                    <a href="/media/<%= p.get("hash") %>.pdf" class="btn btnDOC DocAdjunto" title="<%= p.get("name") %>.pdf" target="_blank">
-                        <span><%= p.get("name") %><i> (<lang>spanish</lang>)</i></span>
-                    </a>
-                </div>
-             
-            <% }); %>
 
-            <hr class="featurette-divider">
+            <% if (!model.pdfs_es.length && !model.pdfs_es.length) { %>
+                <p><lang>No hay ficheros para descargar en este documento</lang></p>
 
-            <% model.pdfs_en.each(function(p){ %>
-                <div class="adjunto">
-                    <a href="/media/<%= p.get("hash") %>.pdf" class="btn btnDOC DocAdjunto" title="<%= p.get("name") %>.pdf" target="_blank">
-                        <span><%= p.get("name") %> <i> (<lang>english</lang>)</i></span>
-                    </a>
-                </div>
-            <% }); %>
+            <% } else { %>
+                <% model.pdfs_es.each(function(p){ %>
+                    <div class="adjunto">
+                        <a href="/media/<%= p.get("hash") %>.pdf" class="btn btnDOC DocAdjunto" title="<%= p.get("name") %>.pdf" target="_blank">
+                            <span><%= p.get("name") %><i> (<lang>spanish</lang>)</i></span>
+                        </a>
+                    </div>
+                 
+                <% 
+                }); 
+
+                if (model.pdfs_es.length && model.pdfs_en.length ) { %>
+                    <hr class="featurette-divider">
+                <% } %>
+
+                
+
+                <% model.pdfs_en.each(function(p){ %>
+                    <div class="adjunto">
+                        <a href="/media/<%= p.get("hash") %>.pdf" class="btn btnDOC DocAdjunto" title="<%= p.get("name") %>.pdf" target="_blank">
+                            <span><%= p.get("name") %> <i> (<lang>english</lang>)</i></span>
+                        </a>
+                    </div>
+                <% }); %>
+
+            <% } %>
           
             
         </div>

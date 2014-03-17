@@ -222,7 +222,7 @@ def uploadPDF():
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() 
 
-            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename))
+            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename + ".pdf"))
             return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    

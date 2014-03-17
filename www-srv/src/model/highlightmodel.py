@@ -167,22 +167,26 @@ class HighlightModel(PostgreSQLModel):
         return(self.query(q, id_highlight).row())
 
 
-    def getSliderFrontend(self, lang, imageRoot):
+    def getSliderFrontend(self, lang):
         """Get the slider's data in language lang for the home, active and ordered."""
+
+        if lang != "es" and lang != "en":
+            raise Exception("Unknow language")
+
         sql = """
-        select
-          id_highlight,
-          title_{},
-          text_{},
-          '{}/' || image_hash_{} || '.jpg' as image_file,
-          credit_img_{},
-          link_{}
-        from
-          www.highlight
-        where
-          published
-        order by
-          publication_order;
-        """.format(lang,lang,imageRoot,lang,lang,lang)
+                select
+                  id_highlight,
+                  title_{},
+                  text_{},
+                  image_hash_{} || '.jpg' as image_file,
+                  credit_img_{},
+                  link_{}
+                from
+                  www.highlight
+                where
+                  published
+                order by
+                  publication_order;
+                """.format(lang,lang,lang,lang,lang)
 
         return(self.query(sql).result())

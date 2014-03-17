@@ -7,24 +7,44 @@ app.view.Slider = Backbone.View.extend({
     _firstAnimation : true,
     initialize: function() {        
         this.collection = new app.collection.Slider();
-        this.collection.set([
-            {
-                "slogan" : "Nueva edición 2012",
-                "text" : "Índice Elcano de Presencia Global 2012",
-                "img": "slide/slide1.png"
-            },
-            {
-                "slogan" : "Nueva edición 2013",
-                "text" : "Índice Elcano de Presencia Global 2013",
-                "img": "slide/slide2.png"
-            },
-            {
-                "slogan" : "Nueva edición 2014",
-                "text" : "Índice Elcano de Presencia Global 2014",
-                "img": "slide/slide3.png"
-            }
-        ]);
+        // this.collection.set([
+        //     {
+        //         "slogan" : "Nueva edición 2012",
+        //         "text" : "Índice Elcano de Presencia Global 2012",
+        //         "img": "slide/slide1.png"
+        //     },
+        //     {
+        //         "slogan" : "Nueva edición 2013",
+        //         "text" : "Índice Elcano de Presencia Global 2013",
+        //         "img": "slide/slide2.png"
+        //     },
+        //     {
+        //         "slogan" : "Nueva edición 2014",
+        //         "text" : "Índice Elcano de Presencia Global 2014",
+        //         "img": "slide/slide3.png"
+        //     }
+        // ]);
+        var self = this;
+        this.collection.fetch({"reset": true});
 
+        this.listenToOnce(this.collection,"reset",function(){
+                self._initialize();
+        });
+    },
+
+    _initialize: function(){
+        var imgs = "";
+        var lis = ""
+        this.collection.each(function(model, index) {
+            imgs += "<img src='/media/" + model.get("image_file") + "' data-img-idx="+ index +" style='opacity:0' />";
+            lis += "<li data-idx='"+ index + "'></li>";
+        });
+
+        this.$co_imgs.html(imgs);
+
+        this.$ctrl_images.html(lis);
+
+        this.drawSlide();
     },
 
     events:{
@@ -146,19 +166,7 @@ app.view.Slider = Backbone.View.extend({
         this.$wrapper_text = this.$(".wrapper_text");
         this.$circle_back = this.$("#circle_back");
 
-        var imgs = "";
-        var lis = ""
-        this.collection.each(function(model, index) {
-            imgs += "<img src='/img/" + model.get("img") + "' data-img-idx="+ index +" style='opacity:0' />";
-            lis += "<li data-idx='"+ index + "'></li>";
-        });
-
-        this.$co_imgs.html(imgs);
-
-        this.$ctrl_images.html(lis);
-
-
-        this.drawSlide();
+     
 
         return this;
     }

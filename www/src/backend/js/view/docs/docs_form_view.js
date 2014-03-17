@@ -272,6 +272,7 @@ app.view.docs.FormView = Backbone.View.extend({
 
             // Save on server
             this.model.save(null,{
+                saved: true,
                 success: function(model){
                     app.router.navigate("docs/" + model.get("id"),{trigger: true});
                 }

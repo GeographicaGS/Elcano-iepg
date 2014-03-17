@@ -33,47 +33,84 @@ class HighlightModel(PostgreSQLModel):
             search = '%'+search+'%'
             sql += """
             and (
-            title_en ilike %s)"""
-
-            # or
-            # title_es ilike %s or
-            # text_en ilike
+            title_en ilike %s or
+            title_es ilike %s or
+            text_en ilike %s or
+            text_es ilike %s or
+            image_name_en ilike %s or
+            image_name_es ilike %s or
+            credit_img_en ilike %s or
+            credit_img_es ilike %s)"""
 
         sql += ";"
 
         if search:
-            count = self.query(sql, bindings=[search]).row()["c"]
+            count = self.query(sql, bindings=[search,search,search,search,search,search,search,search]).row()["c"]
         else:
             count = self.query(sql).row()["c"]
 
-        # sql = """
-        # select count(published) as c
-        # from www.highlight
-        # where not published;
-        # """
+        sql = """
+        select
+          coalesce(title_es,title_en) as title,
+          coalesce(text_es, text_en) as text,
+          title_en,
+          title_es,
+          text_en,
+          text_es,
+          image_hash_en,
+          image_hash_es,
+          last_edit_time,
+          link_en,
+          link_es
+        from
+          www.highlight
+        """
 
-        # published = self.query(sql).row()["c"]
+        if published:
+            sql += """
+            where published
+            """
+        else:
+            sql += """
+            where not published
+            """
 
-        # sql = """
-        # select
-        #   coalesce(title_es,title_en) as title,
-        #   coalesce(text_es, text_en) as text,
-        #   title_en,
-        #   title_es,
-        #   text_en,
-        #   text_es,
-        #   image_hash_en,
-        #   image_hash_es,
-        #   last_edit_time,
-        #   link_en,
-        #   link_es
-        # from
-        #   www.highlight
-        # where not published
-        # order by
-        #   last_edit_time;"""
+        if search:
+            search = '%'+search+'%'
+            sql += """
+            and (
+            title_en ilike %s or
+            title_es ilike %s or
+            text_en ilike %s or
+            text_es ilike %s or
+            image_name_en ilike %s or
+            image_name_es ilike %s or
+            credit_img_en ilike %s or
+            credit_img_es ilike %s)"""
 
-        # return(count,published,self.query(sql).result())
+        if page and listSize:
+            sql += """
+            offset %s limit %s
+            """
+
+        sql += ";"
+
+        if search:
+            if page and listSize:
+                results = self.query(sql, bindings=[search,search,search, \
+                                                    search,search,search,search, \
+                                                    search,page,listSize]).result()
+            else:
+                results = self.query(sql, bindings=[search,search,search, \
+                                                    search,search,search,search, \
+                                                    search]).result()
+        else:
+            if page and listSize:
+                results = self.query(sql, bindings=[page,listSize]).result()
+            else:
+                results = self.query(sql).result()
+
+        return(count, results)
 
 
     def setHighlightOrder(self, order):

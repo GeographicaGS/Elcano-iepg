@@ -245,7 +245,7 @@ def getDocument(id_document):
     m = DocumentModel()
 
     # Get data from Database
-    d = m.getDocument(id_document)
+    d = m.getDocumentBackend(id_document)
     pdfs_es = m.getDocumentPdf(id_document,"es")
     pdfs_en = m.getDocumentPdf(id_document,"en")
     authors = m.getDocumentAuthors(id_document)

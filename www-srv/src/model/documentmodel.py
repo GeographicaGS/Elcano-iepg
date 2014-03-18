@@ -89,7 +89,7 @@ class DocumentModel(PostgreSQLModel):
         where
             a.id_document=%s"""
 
-        return(self.query(doc, bindings=[idDocument]).result())
+        return(self.query(doc, bindings=[idDocument]).row())
 
 
     def getDocumentCatalogSize(self, search=None):
@@ -110,27 +110,32 @@ class DocumentModel(PostgreSQLModel):
           www.author f on
           a.id_document=f.id_document"""
 
-        if search!=None:
+        if search:
+            search = "%"+search+"%"
             docs+="""
               where
-                a.title_en ilike '%{}%' or
-                a.title_es ilike '%{}%' or
-                a.theme_en ilike '%{}%' or
-                a.theme_es ilike '%{}%' or
-                a.description_en ilike '%{}%' or
-                a.description_es ilike '%{}%' or
-                c.label ilike '%{}%' or
-                e.label ilike '%{}%' or
-                f.name ilike '%{}%' or
-                f.twitter_user ilike '%{}%'""". \
-            format(search,search,search,search,search,search,search,search,search,search)
+                a.title_en ilike %s or
+                a.title_es ilike %s or
+                a.theme_en ilike %s or
+                a.theme_es ilike %s or
+                a.description_en ilike %s or
+                a.description_es ilike %s or
+                c.label ilike %s or
+                e.label ilike %s or
+                f.name ilike %s or
+                f.twitter_user ilike %s"""
 
         docs+="""
         )
         select count(id_document) as c
         from count;"""
 
-        return self.query(docs).row()["c"]
+        if search:
+            return self.query(docs, bindings=[ \
+                                               search, search, search, search, search, \
+                                               search, search, search, search, search]).row()["c"]
+        else:
+            return self.query(docs).row()["c"]
                
 
     def getDocumentCatalog(self, offset, listSize, lang, search=None):
@@ -192,20 +197,20 @@ class DocumentModel(PostgreSQLModel):
             www.author f on
             a.id_document=f.id_document"""
 
-        if search!=None:
+        if search:
+            search = "%"+search+"%"
             a+="""
               where
-                a.title_en ilike '%{}%' or
-                a.title_es ilike '%{}%' or
-                a.theme_en ilike '%{}%' or
-                a.theme_es ilike '%{}%' or
-                a.description_en ilike '%{}%' or
-                a.description_es ilike '%{}%' or
-                c.label ilike '%{}%' or
-                e.label ilike '%{}%' or
-                f.name ilike '%{}%' or
-                f.twitter_user ilike '%{}%'""". \
-            format(search,search,search,search,search,search,search,search,search,search)
+                a.title_en ilike %s or
+                a.title_es ilike %s or
+                a.theme_en ilike %s or
+                a.theme_es ilike %s or
+                a.description_en ilike %s or
+                a.description_es ilike %s or
+                c.label ilike %s or
+                e.label ilike %s or
+                f.name ilike %s or
+                f.twitter_user ilike %s"""
 
         a+="""
         )
@@ -223,9 +228,16 @@ class DocumentModel(PostgreSQLModel):
           authors d on
           a.id_document=d.id_document
         where
-          a.id_document in (select * from selection);""".format(lang)
+          a.id_document in (select * from selection)
+        offset %s limit %s;""".format(lang)
 
-        return self.query(a).result()
+        if search:
+            return self.query(a, bindings=[ \
+                                            search, search, search, search, search, \
+                                            search, search, search, search, search, \
+                                            offset*listSize, listSize]).result()
+        else:
+            return self.query(a, bindings=[offset*listSize, listSize]).result()
 
 
     def createDocument(self, data):
@@ -365,19 +377,27 @@ class DocumentModel(PostgreSQLModel):
         title_en, title_es, theme_en, theme_es, description_en, description_es, 
         link_en, link_es, last_edit_time as time, published from www.document """
                
-        if search!=None:
+        if search:
+            search = '%'+search+'%'
             docs += """
-            where title_en ilike '%{}%' or title_es ilike '%{}%' or 
-            theme_en ilike '%{}%' or theme_es ilike '%{}%' or 
-            description_en ilike '%{}%' or description_es ilike '%{}%'
-            """.format(search, search, search, search, search, search)
+            where title_en ilike %s or title_es ilike %s or 
+            theme_en ilike %s or theme_es ilike %s or 
+            description_en ilike %s or description_es ilike %s
+            """
 
         docs += """
-        order by {} {} offset {} limit {};
-        """.format(orderByField, orderByOrder, str(int(offset)*listSize), \
-                   str(listSize))
+        order by {} {} offset %s limit %s;
+        """.format(orderByField, orderByOrder)
 
-        return self.query(docs).result()
+        print docs
+
+        if search:
+            return self.query(docs, bindings=[ \
+                                               search, search, search, search, search, search, \
+                                               int(offset)*listSize, \
+                                               listSize]).result()
+        else:
+            return self.query(docs, bindings=[int(offset)*listSize, listSize]).result()
 
 
     def getDocumentAuthors(self, id_document):

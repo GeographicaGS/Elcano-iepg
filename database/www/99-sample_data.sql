@@ -120,3 +120,33 @@ copy www.highlight from stdin with delimiter ',' null '@@';
 
 alter sequence www.highlight_id_highlight_seq restart with 6;
 
+
+-- News
+copy www.new from stdin with delimiter '|' null '@@';
+1|1|2014-01-02|New EGPI edition|Nueva edición IEPG|Elcano Royal Institute publish a new edition of the Elcano Global Presence Index.|El Real Instituto Elcano publica la nueva edición del Índice de Presencia Global.|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/p rensa/ruedasprensa/presentacion_iepg-2ed|2
+2|1|2013-11-05|EGPI coverage in El País|El País dedica un reportaje al IEPG|Spanish newspaper El País covers extensively the results and conclusions of the last Elcano Global Presence Index edition.|El País repasa en un extenso artículo los resultados y conclusiones de la última edición del Índice Elcano de Presencia Global.|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|2
+3|1|2014-03-04|Elcano Global Presence Index Presentation Event|Evento de presentación del Índice de Presencia Global Elcano|The Elcano Royal Institute will held in its premises the presentation event of the Elcano Global Presence Index, 2014 edition.|El Real Instituto Elcano presentará en su sede el Índice Elcano de Presencia Global, edición de 2014.|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|3
+4|1|2014-02-15|Towards an United States of Europe? A view from the perspective of the Elcano Global Presence Index|¿Hacia unos Estados Unidos de Europa? Una visión desde el Índice Elcano de Presencia Global|Elcano Global Presence Index' conclusions points in a direction of desmitifying common obstacles perceived in an eventual creation of a true European federation.|Las conclusiones del Índice Elcano de Presencia Global apuntan a que una eventual federación europea sea posible en contra de lo que muchos creen.|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|1
+5|1|2014-02-18|Ukraine in the EU: impact upon the Elcano Global Presence Index|Ucrania como miembro de la Unión Europea: impacto sobre el Índice Elcano de Presencia Global|In this article the impact upon the Elcano Global Presence Index of Ukraine joining the EU as a full-fledge member is analyzed.|En este artículo analizamos el impacto que puede tener sobre el Índice Elcano de Presencia Global el eventual ingreso de Ucrania como miembro de pleno derecho de la UE.|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|1
+6|1|2014-03-23|New interactive tool for exploring the Elcano Global Presence Index|Nueva herramienta interactiva para explorar el Índice Elcano de Presencia Global|The brand new Elcano Global Presence Index web site includes a powerful interactive tool to browse the Index results.|El nuevo sitio web del Índice Elcano de Presencia Global incluye una poderosa herramienta interactiva para explorar los resultados del Índice.|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|http://www.realinstitutoelcano.org/wps/portal/rielcano/PrensaVista?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/prensa/ruedasprensa/presentacion_iepg-2ed|1
+\.
+
+alter sequence www.new_id_new_seq restart with 7;
+
+copy www.new_label_en from stdin with delimiter '|' null '@@';
+1|1
+1|3
+2|11
+4|1
+4|6
+5|6
+\.
+
+copy www.new_label_es from stdin with delimiter '|' null '@@';
+1|1
+1|3
+2|11
+4|1
+4|6
+5|6
+\.

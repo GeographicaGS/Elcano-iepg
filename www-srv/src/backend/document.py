@@ -185,7 +185,7 @@ def getDocumentList():
         thisDoc["time"] = doc["time"]
 
         thisDoc["published"] = False        
-        if doc["published"] is not None:
+        if doc["published"]!=None:
             thisDoc["published"] = True
 
         authors = []

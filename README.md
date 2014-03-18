@@ -149,7 +149,7 @@ ProxyPass /api http://127.0.0.1:5001
 También hay que añadirle algunos alias.
 
 ```
-Alias /media Alias /src /Users/alasarr/dev/elcano-iepg/cdn/media
+Alias /media /Users/alasarr/dev/elcano-iepg/www/cdn/media
 
 # Este solo es necesario si hacemos el build del JS en modo debug
 Alias /src /Users/alasarr/dev/elcano-iepg/www/src

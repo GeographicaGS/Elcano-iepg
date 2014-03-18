@@ -204,7 +204,13 @@ class HighlightModel(PostgreSQLModel):
 
 
     def getSliderFrontend(self, lang):
-        """Get the slider's data in language lang for the home, active and ordered."""
+        """Get the slider's data in language lang for the home, active and ordered.
+        TODO: SQL injection.
+        """
+
+        if lang != "es" and lang != "en":
+            raise Exception("Unknow language")
+
         sql = """
         select
           id_highlight,

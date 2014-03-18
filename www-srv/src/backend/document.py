@@ -240,7 +240,7 @@ def uploadPDF():
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() 
 
-            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename))
+            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename + ".pdf"))
             return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    
@@ -291,3 +291,9 @@ def getDocument(id_document):
     }
 
     return jsonify(json)
+
+
+@app.route("/document/<int:id_document>/toggle_publish", methods=["GET"])
+@auth
+def togglePublish(id_document):
+    return jsonify({"result" : "Done"})

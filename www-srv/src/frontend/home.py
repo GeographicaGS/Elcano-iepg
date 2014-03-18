@@ -28,7 +28,7 @@ def getSliderFrontend(lang):
 
     m = HighlightModel()
     out = m.getSliderFrontend(lang)
-    return(jsonify({"sliders": out}))
+    return(jsonify({"results": out}))
 
 
 @app.route('/home/countries', methods=['GET'])

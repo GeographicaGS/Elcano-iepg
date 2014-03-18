@@ -11,14 +11,10 @@ app.view.docs.FormView = Backbone.View.extend({
         this.labels["es"] = new app.collection.Label(null,"es");
         this.labels["en"] = new app.collection.Label(null,"en");
 
-        for (i in this.labels){
-            this.labels[i].fetch({reset: true});
-            // Nested closure to render each labels
-            this._listenToLabel(i);
-        }
+     
        
         if (!options || !options.id){
-        
+            
             this.model = new app.model.Document({
                 "labels_es" : new Backbone.Collection(),
                 "labels_en" : new Backbone.Collection(),
@@ -41,6 +37,9 @@ app.view.docs.FormView = Backbone.View.extend({
     },
     
     _initialize: function(){
+
+     
+
         this.listenTo(this.model.get("pdfs_es"),"add remove", function(){
             this.renderPDFs();
         });
@@ -70,6 +69,13 @@ app.view.docs.FormView = Backbone.View.extend({
         },*/);
 
         this.render();
+
+        for (i in this.labels){
+            this.labels[i].fetch({reset: true});
+            // Nested closure to render each labels
+            this._listenToLabel(i);
+        }
+
     },
     _listenToLabel: function(lang){
         this.listenTo(this.labels[lang],"reset change",function(){
@@ -272,6 +278,7 @@ app.view.docs.FormView = Backbone.View.extend({
 
             // Save on server
             this.model.save(null,{
+                saved: true,
                 success: function(model){
                     app.router.navigate("docs/" + model.get("id"),{trigger: true});
                 }

@@ -8,8 +8,9 @@ app.collection.Slider = Backbone.Collection.extend({
     },
     url : function() {
        
-        return app.config.API_URL + "/home/newstuff" + "?lang=" + app.lang + section;
+        return app.config.API_URL + "/home/slider/" + app.lang ;
     },
+
     parse: function(response){
         return response.results;
     }

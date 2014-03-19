@@ -16,8 +16,6 @@ import collections
 import config
 import cons
 
-import ipdb
-
 
 @app.route('/home/slider/<string:lang>', methods=['GET'])
 def getSliderFrontend(lang):
@@ -107,7 +105,7 @@ def newStuff():
     {
         "news":[{
     	    "id": "1",
-    	    "user": "Iliana Olivié",
+    	    "wwwuser": "Iliana Olivié",
     	    "time": "201401101027",
 	    "title": "¿El auge del resto? Apuntes sobre la presencia
 	    global de América Latina, Asia y el Magreb y Oriente Medio",
@@ -117,8 +115,6 @@ def newStuff():
     	        {"id": "2", "label": "Economía"}]
         }]
     }
-
-    TODO: revisar, lo de las labels es feo de narices.
     """
     m = HomeModel()
 
@@ -136,6 +132,13 @@ def newStuff():
             stuff = m.newStuffSections(request.args["lang"], request.args["section"])
         elif request.args["section"]=="Documents":
             stuff = m.newStuffDocuments(request.args["lang"])
+        elif request.args["section"]=="Twitter":
+
+            import ipdb
+            ipdb.set_trace()
+
+            stuff = helpers.twitterGetLatestTweets()
+            return(jsonify({"results": stuff}))
     else:
         stuff = m.newStuffAll(request.args["lang"])
 
@@ -147,6 +150,6 @@ def newStuff():
                     if str(a["id"])==str(l):
                         lab.append(a)
 
-    s["label"] = lab
+        s["label"] = lab
 
     return(jsonify({"results": stuff}))

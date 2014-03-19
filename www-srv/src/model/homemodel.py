@@ -148,4 +148,3 @@ class HomeModel(PostgreSQLModel):
         from a;""".format(lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang)
 
         return(self.query(sql).result())
-

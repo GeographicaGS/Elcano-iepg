@@ -15,16 +15,32 @@ class HomeModel(PostgreSQLModel):
     """Home model."""
     def newStuff(self, lang, section=None):
         """Access news for the home's new stuff control."""
+        sql = """
+        select
+          id_label_{} as id_label,
+          label
+        from
+          www.label_{};
+        """.format(lang, lang)
+
+        labels = self.query(sql).result()
+
         if section in ["Blog", "Media", "Events"]:
             a = """
             with a as(
               select
                 a.id_new::integer as id,
                 array[(b.name || ' ' || b.surname)]::varchar[] as wwwuser,
-                new_time::timestamp as time,
-                title_{}::varchar as title,
+                new_time::timestamp as time,"""
+
+            if lang=="en":
+                a+="coalesce(title_en, title_es)::varchar as title,"
+            else:
+                a+="coalesce(title_es, title_en)::varchar as title,"
+                
+            a+="""
                 description_{}::varchar as section,
-                array_agg(label)::varchar[] as label
+                array_agg(d.id_label_{})::varchar[] as label
               from
                 www.new a inner join www.wwwuser b
                 on a.id_wwwuser=b.id_wwwuser
@@ -57,10 +73,16 @@ class HomeModel(PostgreSQLModel):
                   then b.twitter_user
                   else b.name
                   end)::varchar[] as wwwuser,
-                last_edit_time::timestamp as time,
-                title_{}::varchar as title,
+                last_edit_time::timestamp as time,"""
+
+            if lang=="en":
+                a+="coalesce(title_en, title_es)::varchar as title,"
+            else:
+                a+="coalesce(title_es, title_en)::varchar as title,"
+            
+            a+="""
                 'Document'::varchar as section,
-                array_agg(d.label)::varchar[] as label
+                array_agg(d.id_label_{})::varchar[] as label
               from
                 www.document a inner join www.author b
                 on a.id_document=b.id_document
@@ -87,19 +109,25 @@ class HomeModel(PostgreSQLModel):
               select
                 a.id_new::integer as id,
                 array[(b.name || ' ' || b.surname)]::varchar[] as wwwuser,
-                new_time::timestamp as time,
-                title_en::varchar as title,
-                description_en::varchar as section,
-                array_agg(label)::varchar[] as label
+                new_time::timestamp as time,"""
+
+            if lang=="en":
+                a+="coalesce(title_en, title_es)::varchar as title,"
+            else:
+                a+="coalesce(title_es, title_en)::varchar as title,"
+
+            a += """
+                description_{}::varchar as section,
+                array_agg(d.id_label_{})::varchar[] as label
               from
                 www.new a inner join www.wwwuser b
                 on a.id_wwwuser=b.id_wwwuser
                 inner join www.news_section c
                 on a.id_news_section=c.id_news_section
-                left join www.new_label_en d 
+                left join www.new_label_{} d 
                 on a.id_new=d.id_new
-                left join www.label_en e
-                on d.id_label_en=e.id_label_en
+                left join www.label_{} e
+                on d.id_label_{}=e.id_label_{}
               group by id, b.name, b.surname, time, title, section
               union
               select
@@ -108,17 +136,23 @@ class HomeModel(PostgreSQLModel):
                   then b.twitter_user
                   else b.name
                   end)::varchar[] as wwwuser,
-                last_edit_time::timestamp as time,
-                title_en::varchar as title,
+                last_edit_time::timestamp as time,""".format(lang,lang,lang,lang,lang,lang)
+
+            if lang=="en":
+                a+="coalesce(title_en, title_es)::varchar as title,"
+            else:
+                a+="coalesce(title_es, title_en)::varchar as title,"
+
+            a += """
                 'Document'::varchar as section,
-                array_agg(d.label)::varchar[] as label
+                array_agg(d.id_label_{})::varchar[] as label
               from
                 www.document a inner join www.author b
                 on a.id_document=b.id_document
-                left join www.document_label_en c
+                left join www.document_label_{} c
                 on a.id_document=c.id_document
-                left join www.label_en d
-                on c.id_label_en=d.id_label_en
+                left join www.label_{} d
+                on c.id_label_{}=d.id_label_{}
               group by id, title, section
             ) 
             select
@@ -131,6 +165,8 @@ class HomeModel(PostgreSQLModel):
             from a
             order by time desc
             limit 5;
-            """.format(lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang)
+            """.format(lang,lang,lang,lang,lang)
 
-        return(self.query(a).result())
+            print(a)
+
+        return(labels, self.query(a).result())

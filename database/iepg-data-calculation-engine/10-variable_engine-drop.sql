@@ -8,9 +8,7 @@
 
 \c :dbname :user
 
-\i 99-export_data.sql
-
-drop schema iepg_data cascade;
+drop schema if exists iepg_data cascade;
 
 \c :dbname :superuser
 

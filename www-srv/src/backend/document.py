@@ -15,6 +15,10 @@ import werkzeug
 import os
 import hashlib
 import time
+import cons
+
+
+import ipdb
 
 
 @app.route('/document', methods=['POST'])
@@ -48,15 +52,19 @@ def newDocument():
                   {"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
     }"""
     m = DocumentModel()
-    out = m.createDocument(request.json)
 
-    for f in request.json["pdfs_en"]:
-        movePdfFile(f["hash"])
+    try: 
+        for f in request.json["pdfs_en"]:
+            movePdfFile(f["hash"])
 
-    for f in request.json["pdfs_es"]:
-        movePdfFile(f["hash"])
+        for f in request.json["pdfs_es"]:
+            movePdfFile(f["hash"])
 
-    return(jsonify({"id": out}))
+        out = m.createDocument(request.json)
+        return(jsonify({"id": out}))
+    except: 
+        return(jsonify(cons.errors["-1"]))
+
 
 @app.route('/document/<int:id_document>', methods=['PUT'])
 @auth
@@ -155,7 +163,7 @@ def getDocumentList():
       offset: mandatory, page to present
       search: optional, search criteria
       orderbyfield: optional, set by default to title
-      orderbyorder: optional, set by default to asc
+      orderbyorder: optional, asc / desc, set by default to asc
 
     """
     m = DocumentModel()
@@ -164,6 +172,14 @@ def getDocumentList():
     search = request.args["search"] if "search" in request.args else None
     orderbyfield = request.args["orderbyfield"] if "orderbyfield" in request.args else "title"
     orderbyorder = request.args["orderbyorder"] if "orderbyorder" in request.args else "asc"
+
+    if "orderbyorder" in request.args:
+        if request.args["orderbyorder"] not in cons.orderBy:
+            return(jsonify(cons.errors["-2"]))
+
+    if "orderbyfield" in request.args:
+        if request.args["orderbyfield"] not in cons.documentOrderFields:
+            return(jsonify(cons.errors["-3"]))
 
     totalSize = m.getDocumentListSize(search=search)
     docs = m.getDocumentList(request.args["offset"], config.cfgBackend["DocumentListLength"], \
@@ -183,10 +199,7 @@ def getDocumentList():
 
         thisDoc["title"] = doc["title"]
         thisDoc["time"] = doc["time"]
-
-        thisDoc["published"] = False        
-        if doc["published"] is not None:
-            thisDoc["published"] = True
+        thisDoc["published"] = doc["published"]
 
         authors = []
         for author in m.getDocumentAuthors(doc["id"]):
@@ -194,10 +207,15 @@ def getDocumentList():
 
         thisDoc["authors"] = authors
 
+        # ipdb.set_trace()
+
         thisDoc["attachments"] = False
-        if doc["link_es"]!="" or doc["link_en"]!="" or \
-           len(m.getDocumentPdf(doc["id"]))>0:
+        if len(m.getDocumentPdf(doc["id"]))>0:
             thisDoc["attachments"] = True
+
+        thisDoc["links"] = False
+        if doc["link_es"]!=None or doc["link_en"]!=None:
+            thisDoc["links"] = True
 
         out.append(thisDoc)
 

@@ -13,14 +13,21 @@ from model.iepgdatamodel import IepgDataModel
 from model.highlightmodel import HighlightModel
 import collections
 import config
+import cons
+
+
+
+import ipdb
 
 
 @app.route('/home/slider/<string:lang>', methods=['GET'])
 def getSliderFrontend(lang):
     """Gets the slider's data."""
+    if lang not in cons.lang:
+        return(jsonify(cons.errors["-1"]))
+
     m = HighlightModel()
     out = m.getSliderFrontend(lang)
-
     return(jsonify({"results": out}))
 
 
@@ -89,7 +96,7 @@ def years():
 
 @app.route('/home/newstuff', methods=['GET'])
 def newStuff():
-    """Returns new stuff for the new stuff control. Accepts parameters:
+    """Returns new stuff for the new stuff control. Accepts request.args:
 
       lang=en/es: mandatory 
 
@@ -107,15 +114,22 @@ def newStuff():
 	    global de América Latina, Asia y el Magreb y Oriente Medio",
     	    "section": "Blog",
     	    "labels": [
-                {"label": "IEPG"},
-    	        {"label": "Economía"}]
+                {"id": "1", "label": "IEPG"},
+    	        {"id": "2", "label": "Economía"}]
         }]
     }"""
     m = HomeModel()
     
+    if request.args["lang"] not in cons.lang:
+        return(jsonify(cons.errors["-1"]))
+
+    if "section" in request.args:
+        if request.args["section"] not in cons.newsSections:
+            return(jsonify(cons.errors["-2"]))
+
     if "section" in request.args :
         if request.args["section"]!= "Twitter":
-            a = m.newStuff(request.args["lang"], request.args["section"])
+            labels, stuff = m.newStuff(request.args["lang"], request.args["section"])
         else:
             timeline = twitter_helper.getLatestTweets()
             a = []
@@ -129,6 +143,25 @@ def newStuff():
                   "wwwuser" : ["@rielcano"]
                 });
     else:
-        a = m.newStuff(request.args["lang"])
 
-    return(jsonify({"results": a}))
+        labels, stuff = m.newStuff(request.args["lang"])
+
+
+
+    for s in stuff:
+
+        # ipdb.set_trace()
+
+        lab = []
+        if s["label"]!=[None]:
+            for l in s["label"]:
+                for a in labels:
+                    if str(a["id_label"]) == str(l):
+                        lab.append(a)
+
+        s["label"] = lab
+                    
+
+
+
+    return(jsonify({"results": stuff}))

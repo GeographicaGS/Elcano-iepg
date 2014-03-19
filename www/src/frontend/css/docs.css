@@ -1,0 +1,22 @@
+.doc_detail{
+    .summary{
+        background: #f3f3f4 url("@{imgPath}ELC_icon_cerrar_resumen.png") no-repeat right bottom;
+        padding: @line_height @line_height 2*@line_height @line_height;
+    }
+    .author_desc{
+        padding: @line_height;
+        background: @grey_light2 url("@{imgPath}ELC_img_bg_discos.png") no-repeat right center;
+        margin-top: 2*@line_height;
+        margin-bottom: @line_height;
+        .avatar{
+            border-radius: 100px;
+            width: 73px;
+            height: 73px;
+            margin: 10px 0 0 20px;
+        }
+
+        .button.go{
+            float:right;
+        }
+    }
+}

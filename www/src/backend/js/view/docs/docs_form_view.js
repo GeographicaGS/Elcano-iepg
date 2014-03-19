@@ -112,7 +112,10 @@ app.view.docs.FormView = Backbone.View.extend({
             $file.trigger("click");
         },
         "change input[type='file']" : "uploadPDF",
-        "click .btnDeleteAjunto": "deletePDF"
+        "click .btnDeleteAjunto": "deletePDF",
+        "click  .cancel" : function(){
+            app.router.navigate("docs",{trigger: true});
+        }
     },
 
     toggleAddLabelUI: function(e){

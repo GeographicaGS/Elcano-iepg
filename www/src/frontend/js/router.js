@@ -26,6 +26,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link about"][app.lang], "about");
         this.route(this.langRoutes["_link docs"][app.lang], "docs");
+        this.route(this.langRoutes["_link docs"][app.lang] + "/:id", "doc");
     
         //return obj
     },
@@ -33,13 +34,16 @@ app.router = Backbone.Router.extend({
     home: function(){
         app.showView(new app.view.Home());
     },
-
     about : function(){
         app.showView(new app.view.About());
     },
 
     docs: function(){
         app.showView(new app.view.DocsList());   
+    },
+
+    doc: function(id){
+        app.showView(new app.view.Document({"id": id}));
     }
     
 });

@@ -9,7 +9,7 @@ app.collection.Docs = Backbone.Collection.extend({
     },
     url : function() {
         var search = this.search ? "&search=" + this.search : "";
-        return app.config.API_URL + "/home/documentcatalog" + "?lang=" + app.lang + "&offset=" + this.offset + search;
+        return app.config.API_URL + "/documentcatalog" + "?lang=" + app.lang + "&offset=" + this.offset + search;
     },
     parse: function(response){
         return response.results;

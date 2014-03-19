@@ -6,13 +6,30 @@ app.view.DocsList = Backbone.View.extend({
     initialize: function() {
         app.events.trigger("menu","docs");
         this.collection = new app.collection.Docs();
-        this.collection.fetch({reset: true});
+       
         this.listenTo(this.collection,"reset", function(){
             this.renderPageList();    
         });
+
+        this.filtersCollection = new app.collection.Label();
+        
+        this.listenTo(this.filtersCollection,"reset", function(){
+            this.renderFilters();    
+        });
+
+        this.currentFilters = new Backbone.Collection();
+
+        this.listenTo(this.currentFilters,"change reset add remove",function(){
+            this.filtersChanged();
+        });
+
+        this.collection.fetch({reset: true});
+        this.filtersCollection.fetch({reset: true});
+        this.render();
+
     },
     events:{
-        "click #more" : "nextPage",
+        "click #ctrl_more" : "nextPage",
         "keyup .search_header input": function(e){
             if (e.keyCode==27){
                 this.$searchInput.val("");
@@ -29,6 +46,10 @@ app.view.DocsList = Backbone.View.extend({
                 }, app.config.SEARCH_TIMER);    
             }
         },
+        "click #ctrl_filter": "ctrlFilterClick",
+        "click #all_filters .label, .list_els .label": "addFilter",
+        "click #sel_filters .label" : "removeFilter",
+        "click #go_initial_list": "goInitialList"
     },
 
     onClose: function(){
@@ -59,6 +80,8 @@ app.view.DocsList = Backbone.View.extend({
         this.$searchInput = this.$(".search_header input");
         this.$controlMore = this.$("#ctrl_more");
         this.$listData = this.$(".list_els");
+        this.$allFilters = this.$("#all_filters");
+        this.$selFilters = this.$("#sel_filters");
         return this;
     },
 
@@ -88,4 +111,52 @@ app.view.DocsList = Backbone.View.extend({
         else
             this.$controlMore.show();
     },
+
+    ctrlFilterClick : function(){
+        if (this.$allFilters.is(":visible")){
+            this.$allFilters.fadeOut(300);
+        }
+        else{
+            this.$allFilters.fadeIn(300);
+        }
+    },
+    renderFilters : function(){
+        var html = "";
+
+        this.filtersCollection.each(function(m){
+            html += "<a href='#' class='label' data-id-filter=" + m.get("id")+ ">+ " + m.get("label") + "</a>";
+        });
+
+        this.$allFilters.html(html);
+    },
+
+    addFilter: function(e){
+        var $e = $(e.target),
+            id = $e.attr("data-id-filter");
+
+        this.currentFilters.add(this.filtersCollection.get(id));
+
+    },
+
+    removeFilter: function(e){
+        var $e = $(e.target),
+            id = $e.attr("data-id-filter");
+
+        this.currentFilters.remove(id);
+
+    },
+
+    filtersChanged: function(){
+        var html = "";
+        this.currentFilters.each(function(m){
+            html += "<a href='#' class='label' data-id-filter=" + m.get("id")+ ">+ " + m.get("label") + "</a>";
+        });
+        this.$selFilters.html(html);
+        this.search();
+    },
+
+    goInitialList: function(){
+        this.$searchInput.val("");
+        this.search();
+    }
 });

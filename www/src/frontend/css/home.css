@@ -1,18 +1,4 @@
-a.label{
-    display: inline-block;
-    color:@grey_dark;
-    margin-right: 7px;
-    padding: 0 5px;
-    line-height: 20px;
-    height:20px;
-    background-color: @yellow;
-    font-size: 13px;
-}
 
-a.label:hover{
-    background-color: @red;
-    color:@white !important;
-}
 
 #carousel{
     min-height: 300px;
@@ -194,11 +180,23 @@ a.label:hover{
             h4{
                 text-align: right;
                 color: @grey_light;
-                .roboto(light);
-                font-size: 48px;
-                line-height: 60px;
+                .roboto(thin);
+                font-size: 40px;
+                line-height: 45px;
                 color:@white;
+                overflow:hidden;
             }   
+        }
+
+        .copyright{
+            position: absolute;
+            left:0;
+            bottom: 10px;
+            .roboto();
+            font-size: 11px;
+            color: @white;
+            z-index: 3;
+            text-shadow: #000 0px 2px 2px;
         }
         .ctrl_images{
             position: absolute;
@@ -277,8 +275,10 @@ a.label:hover{
 @slider_height_1200 : 432px;
 @slider_height_1500 : 486px;
 @slider_height_1800 : 540px;
+@slider_line_height : 45px;
 
 #slider{
+    cursor: pointer;
     .co_img{
         height: @slider_height_min;
     }
@@ -286,10 +286,15 @@ a.label:hover{
         height: @slider_height_min;
     }
 
+    h4{
+            max-height: @slider_line_height*3 ;
+        }
+
     #circle_back{
         left:316px;
         height: @slider_height_min+@line_height;
     }
+
 }
 
 
@@ -303,8 +308,16 @@ a.label:hover{
             height: @slider_height_900;
         }
         #circle_back{
-            left:616px;
+            left:516px;
             height: @slider_height_900+@line_height;
+        }
+        
+        .prev{
+            background: url("../img/slide/ELC_flecha_slider_min_ant.png") no-repeat 10px center;
+        }
+
+        .next{
+            background: url("../img/slide/ELC_flecha_slider_min_sig.png") no-repeat 36px center;
         }
     }
 }
@@ -318,8 +331,20 @@ a.label:hover{
             height: @slider_height_1200;
         }
         #circle_back{
-            left: 770px;
+            left: 680px;
             height: @slider_height_1200+@line_height;
+
+        }
+        h4{
+            max-height: @slider_line_height*4 ;
+        }
+
+        .prev{
+            background: url("../img/slide/chevron-left.png") no-repeat left center;
+        }
+
+        .next{
+            background: url("../img/slide/chevron-right.png") no-repeat left center;
         }
     }
 }
@@ -334,8 +359,18 @@ a.label:hover{
             height: @slider_height_1500;
         }
         #circle_back{
-            left: 936px;
-             height: @slider_height_1500+@line_height;
+            left: 866px;
+            height: @slider_height_1500+@line_height;
+        }
+        h4{
+            max-height: @slider_line_height*6 ;
+        }
+        .prev{
+            background: url("../img/slide/chevron-left.png") no-repeat left center;
+        }
+
+        .next{
+            background: url("../img/slide/chevron-right.png") no-repeat left center;
         }
     }
 
@@ -349,10 +384,23 @@ a.label:hover{
         .container{
             height: @slider_height_1800;
         }
-        #circle_back{
-            left: 1060px;
-            height: @slider_height_1800+@line_height;
-        }
-    }
 
+        #circle_back{
+            left: 980px;
+            height: @slider_height_1800+@line_height;
+            background: url("../img/slide/fondo_circulo_slider_1092.png") no-repeat left -178px;
+        }
+
+        h4{
+            max-height: @slider_line_height*7 ;
+        }
+        .prev{
+            background: url("../img/slide/chevron-left.png") no-repeat left center;
+        }
+
+        .next{
+            background: url("../img/slide/chevron-right.png") no-repeat left center;
+        }
+
+    }
 }

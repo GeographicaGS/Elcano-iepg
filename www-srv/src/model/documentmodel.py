@@ -89,7 +89,7 @@ class DocumentModel(PostgreSQLModel):
         where
             a.id_document=%s"""
 
-        return(self.query(doc, bindings=[idDocument]).result())
+        return(self.query(doc, bindings=[idDocument]).row())
 
 
     def getDocumentCatalogSize(self, search=None):

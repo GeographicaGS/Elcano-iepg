@@ -30,9 +30,15 @@ app.view.Slider = Backbone.View.extend({
         this.listenToOnce(this.collection,"reset",function(){
                 self._initialize();
         });
+
+        $(window).resize(function(){
+            self.resizeMe();
+        })
     },
 
     _initialize: function(){
+        this.render();
+
         var imgs = "";
         var lis = ""
         this.collection.each(function(model, index) {
@@ -45,12 +51,23 @@ app.view.Slider = Backbone.View.extend({
         this.$ctrl_images.html(lis);
 
         this.drawSlide();
+
+        this.resizeMe();
+    },
+
+    resizeMe: function(){
+        this.$circle_back.width($(window).width()-this.$circle_back.position().left);
     },
 
     events:{
        "click .next" : "next",
        "click .prev" : "prev",
-       "click .ctrl_images" : "goPos"
+       "click .ctrl_images" : "goPos",
+       "click #slider": "goLink"
+    },
+
+    goLink: function(){
+        window.open(this.collection.at(this._idx).get("link"),'_blank');
     },
 
     drawSlide: function(){
@@ -100,9 +117,9 @@ app.view.Slider = Backbone.View.extend({
             },500,'easeInExpo',function(){
                 var m = self.collection.at(self._idx);
 
-                self.$wrapper_text.find("h3").html(m.get("slogan"));
+                self.$wrapper_text.find("h3").html(m.get("title"));
                 self.$wrapper_text.find("h4").html(m.get("text"));
-
+                self.$copyright.html(m.get("credit_img"));
                 self.$wrapper_text.animate({
                     right: 0
                 },600,'easeOutExpo');
@@ -116,7 +133,9 @@ app.view.Slider = Backbone.View.extend({
                 
                 self.$circle_back.animate({
                      "left": "-=" + (circle_back_animation_offset - 0 /*security gap */)+ "px" 
-                },300,'easeOutExpo');
+                },300,'easeOutExpo',function(){
+                    $(this).css("left","");
+                });
             });
         }
         else{
@@ -130,13 +149,15 @@ app.view.Slider = Backbone.View.extend({
         },this._msSlide);
     },
 
-    next: function(){
+    next: function(e){
+        e.stopPropagation();
         this._idx++;
         this._idx = (this._idx % this.collection.length);
         this.drawSlide();
     },
 
-    prev: function(){
+    prev: function(e){
+        e.stopPropagation();
         if (this._idx>0){
             this._idx--;
             this._idx = (this._idx % this.collection.length);
@@ -148,6 +169,7 @@ app.view.Slider = Backbone.View.extend({
     },
     
     goPos: function(e){
+        e.stopPropagation();
         this._idx = parseInt($(e.target).attr("data-idx"));
         this.drawSlide();
     },
@@ -165,8 +187,8 @@ app.view.Slider = Backbone.View.extend({
         this.$ctrl_images = this.$(".ctrl_images");
         this.$wrapper_text = this.$(".wrapper_text");
         this.$circle_back = this.$("#circle_back");
+        this.$copyright = this.$(".copyright");
 
-     
 
         return this;
     }

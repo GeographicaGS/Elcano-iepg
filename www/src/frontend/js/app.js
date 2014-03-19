@@ -63,9 +63,9 @@ app.showView = function(view) {
     }
  
     this.currentView = view;
-    this.currentView.render();    
+    //this.currentView.render();    
  
-   this.$main.html(this.currentView.el);  
+    this.$main.html(this.currentView.el);  
   
 }
 
@@ -123,22 +123,21 @@ app.dateTimeFormat = function(dateStr){
 }
 
 app.urlify = function(text,attr) {
-    console.log(text);
-    var urlRegex = /(https?:\/\/[^\s]+)/g;
-    if (!attr)
-        attr = ""
-    return text.replace(urlRegex, function(url) {
-        url = url.replace("”","");
-        return "<a href='" + url + "'" + attr + ">" + url + "</a>";
-    });
-    // or alternatively
-    // return text.replace(urlRegex, '<a href="$1">$1</a>')
-}
-app.urlify = function(text,attr) {
+    if (!text){
+        return ""
+    }
     var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i;
     return text.replace(exp,"<a href='$1' "+ attr+ ">$1</a>"); 
 }
 
 app.loadingHTML = function(){
     return "<div class='loading'>Loading</div>";
+}
+
+app.renameID = function(array,oldID,newID){
+    for (var i=0;i< array.length;i++){
+        array[i][newID] = array[i][oldID];
+        delete array[i][oldID];
+    }
+    return array;
 }

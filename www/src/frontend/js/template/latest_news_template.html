@@ -25,7 +25,8 @@
                 <span class="fleft red uppercase mr5 size_13 roboto_cond_bold"><%= d.section %></span>
                 <% } %>
 
-                <% _.each(d.label,function(l){ %>
+                <% _.each(d.label,function(l){ 
+                    console.log(l); %>
                     <a class="label" href="#"><%= l %></a/>
                 <%  }); %>
             </p>

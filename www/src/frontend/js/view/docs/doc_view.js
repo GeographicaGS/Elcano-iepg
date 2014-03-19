@@ -10,6 +10,7 @@ app.view.Document = Backbone.View.extend({
                 self.render();
             }
         });
+        this.$el.html(app.loadingHTML());
     },
 
     onClose: function(){

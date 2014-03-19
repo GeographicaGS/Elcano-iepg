@@ -14,7 +14,9 @@
 
     <button class="button go mth2" id="go_initial_list" ><lang>Volver a la lista inicial</lang></button>
 <% } %>
-<% _.each(collection,function(d){ %>
+<%
+
+ _.each(collection,function(d){ %>
     <div class="row mt12">
         <div class="col-md-2 size_15 text_bold grey ">
             <span class="size_13 grey_light roboto_light"><%= app.dateTimeFormat(d.time) %><br/><lang>Por</lang></span>
@@ -28,14 +30,14 @@
                         print(", ");
                     }
                 %>
-                    <a href="http://www.twitter.com/<%= a.substring(1)%>"  target="_blank"><%= a %></a>
+                    <a href="#" data-id-author="<%= a %>"><%= a %></a>
                 <% });%>
             </div>
         </div>
                 
         <div class="col-md-10">
             <p class="size_18 grey_dark roboto_light">
-                <a href="/<lang>lang</lang>/<lang>_link docs</lang>/<%=d.id %>" class="simple"><%= app.urlify(d.title,"target=_blank") %></a>
+                <a href="/<lang>lang</lang>/<lang>_link doc</lang>/<%=d.id %>" class="simple"><%= app.urlify(d.title,"target=_blank") %></a>
             </p>
             <p class="size_13 grey">
                <%= app.urlify(d.theme,"target=_blank") %>

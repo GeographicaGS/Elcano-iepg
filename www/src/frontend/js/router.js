@@ -6,6 +6,7 @@ app.router = Backbone.Router.extend({
         "_link home" : {"en":"home","es": "inicio" },
         "_link about": {"en": "about","es" : "acerca_de" },
         "_link docs": {"en": "documents","es" : "documentos" },
+        "_link doc": {"en": "document","es" : "documento" },
 
     },
 
@@ -28,9 +29,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link about"][app.lang], "about");
         this.route(this.langRoutes["_link docs"][app.lang]+"(/:filter)(/:author)", "docs");
         this.route(this.langRoutes["_link docs"][app.lang]+"/", "docs");
-        //this.route(this.langRoutes["_link doc"][app.lang] + "/:id", "doc");
-    
-        //return obj
+        this.route(this.langRoutes["_link doc"][app.lang]+"/:id", "doc");
     },
     
     home: function(){

@@ -242,6 +242,7 @@ ul#menu{
 	li[selected]{
 		border-bottom: 1px solid @white;
 		line-height: 43px;
+		color: @white;
 	}
 }
 
@@ -451,13 +452,20 @@ a.label:hover{
 			text-decoration:line-through;
 		}
 	}
+
+	#n_resultados{
+    	float:right;
+    	font-size: 13px;
+    	color: @white;
+    	margin-right: 10px;
+    	.roboto();
+    	strong{
+    		.roboto(bold);
+    	}
+    }
 }
 
-
-
 .list_els{
-
-
 	p{
         a{
             color:@grey_dark;
@@ -467,16 +475,16 @@ a.label:hover{
             border-bottom: 1px solid @grey;
         }
     }
+}
 
-    .authors{
-        display: inline;
-        a{
-            color:@grey_dark;
-            border-bottom: 1px solid @yellow;
-            font-size: 13px;
-        }
-        a:hover{
-            border-bottom: 1px solid @grey;
-        }
+.authors{
+    display: inline;
+    a{
+        color:@grey_dark;
+        border-bottom: 1px solid @yellow;
+        font-size: 13px;
+    }
+    a:hover{
+        border-bottom: 1px solid @grey;
     }
 }

@@ -2,18 +2,14 @@
     <div class="row mt12">
         <div class="col-md-2 size_15 text_bold grey ">
             <span class="size_13 grey_light "><%= app.dateTimeFormat(d.time) %><br/><lang>Por</lang></span>
-            <div class="authors">
-                <% 
-                i = 0;
-                _.each(d.wwwuser,function(a){
-                    i++;
-                    if (i>1){
-                        print(", ");
-                    }
-                %>
-
-                    <a href="#" ><%= a %></a>
-                <% });%>
+            <div class="authors ">
+                <% if (section != "Twitter") { %>
+                    <span class="size_13 grey_dark"><%= d.wwwuser %></span>
+                <% } else { %>
+                <a href="https://www.twitter.com/<%= d.wwwuser.substring(1)%>" target="_blank">
+                    <%=d.wwwuser%>
+                </a>
+                <% } %>
             </div>
         </div>
                 
@@ -25,9 +21,9 @@
                 <span class="fleft red uppercase mr5 size_13 roboto_cond_bold"><%= d.section %></span>
                 <% } %>
 
-                <% _.each(d.label,function(l){ %>
+                <% _.each(d.labels,function(l){ %>
 
-                    <a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%= l.id_label %>"><%= l.label %></a/>
+                    <a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%= l.id %>"><%= l.label %></a/>
                 <%  }); %>
             </p>
         </div>

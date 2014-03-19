@@ -31,11 +31,11 @@ class HomeModel(PostgreSQLModel):
         with a as(
         select
         a.id_new::integer as id,
-        array[(b.name || ' ' || b.surname)]::varchar[] as wwwuser,
+        (b.name || ' ' || b.surname)::varchar as wwwuser,
         new_time::timestamp as time,
         title_{} as title,
         description_{}::varchar as section,
-        array_agg(d.id_label_{})::varchar[] as label
+        array_agg(d.id_label_{})::varchar[] as labels
         from
         www.new a inner join www.wwwuser b
         on a.id_wwwuser=b.id_wwwuser
@@ -54,7 +54,7 @@ class HomeModel(PostgreSQLModel):
         time,
         title,
         section,
-        label
+        labels
         from a
         where section='{}'
         order by time desc;
@@ -69,11 +69,11 @@ class HomeModel(PostgreSQLModel):
         with a as(
         select
         a.id_document::integer as id,
-        array[(b.name || ' ' || b.surname)]::varchar[] as wwwuser,
+        (b.name || ' ' || b.surname)::varchar as wwwuser,
         last_edit_time::timestamp as time,
         title_{} as title,
         'Documents'::varchar as section,
-        array_agg(d.id_label_{})::varchar[] as label
+        array_agg(d.id_label_{})::varchar[] as labels
         from
         www.document a inner join www.wwwuser b
         on a.last_edit_id_user=b.id_wwwuser
@@ -90,7 +90,7 @@ class HomeModel(PostgreSQLModel):
         time,
         title,
         section,
-        label
+        labels
         from a
         order by time desc;
         """.format(lang,lang,lang,lang,lang,lang)
@@ -105,11 +105,11 @@ class HomeModel(PostgreSQLModel):
         select * from(
         select
         a.id_new::integer as id,
-        array[(b.name || ' ' || b.surname)]::varchar[] as wwwuser,
+        (b.name || ' ' || b.surname)::varchar as wwwuser,
         new_time::timestamp as time,
         title_{} as title,
         description_{}::varchar as section,
-        array_agg(d.id_label_{})::varchar[] as label
+        array_agg(d.id_label_{})::varchar[] as labels
         from
         www.new a inner join www.wwwuser b
         on a.id_wwwuser=b.id_wwwuser
@@ -123,11 +123,11 @@ class HomeModel(PostgreSQLModel):
         union
         select
         a.id_document::integer as id,
-        array[(b.name || ' ' || b.surname)]::varchar[] as wwwuser,
+        (b.name || ' ' || b.surname) as wwwuser,
         last_edit_time::timestamp as time,
         title_{} as title,
         'Documents'::varchar as section,
-        array_agg(d.id_label_{})::varchar[] as label
+        array_agg(d.id_label_{})::varchar[] as labels
         from
         www.document a inner join www.wwwuser b
         on a.last_edit_id_user=b.id_wwwuser
@@ -144,7 +144,7 @@ class HomeModel(PostgreSQLModel):
         time,
         title,
         section,
-        label
+        labels
         from a;""".format(lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang)
 
         return(self.query(sql).result())

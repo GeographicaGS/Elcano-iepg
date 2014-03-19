@@ -133,23 +133,28 @@ def newStuff():
         elif request.args["section"]=="Documents":
             stuff = m.newStuffDocuments(request.args["lang"])
         elif request.args["section"]=="Twitter":
-
-            import ipdb
-            ipdb.set_trace()
-
-            stuff = helpers.twitterGetLatestTweets()
-            return(jsonify({"results": stuff}))
+            timeline = helpers.twitterGetLatestTweets()
+            stuff = []
+            for tweet in timeline:
+                stuff.append({
+                    "id" : tweet.id,
+                    "time" : tweet.created_at,
+                    "title" : tweet.text,
+                    "section" : "Twitter",
+                    "labels" :[],
+                    "wwwuser" : "@rielcano"
+                })
     else:
         stuff = m.newStuffAll(request.args["lang"])
 
     for s in stuff:
         lab = []
-        if s["label"]!=[None]:
-            for l in s["label"]:
+        if s["labels"]!=[None]:
+            for l in s["labels"]:
                 for a in labels:
                     if str(a["id"])==str(l):
                         lab.append(a)
 
-        s["label"] = lab
+        s["labels"] = lab
 
     return(jsonify({"results": stuff}))

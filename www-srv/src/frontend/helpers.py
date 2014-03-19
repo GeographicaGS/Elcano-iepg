@@ -55,7 +55,7 @@ auth.set_access_token(cfgFrontend["twitter_token"], cfgFrontend["twitter_token_s
 def twitterGetLatestTweets():
     """Get tweets."""
     api = tweepy.API(auth)
-    return api.user_timeline(count=5,screen_name="rielcano")
+    return api.user_timeline(count=cons.maxTweets,screen_name="rielcano")
 
 
 def twitterGetUserInfo(screen_name):

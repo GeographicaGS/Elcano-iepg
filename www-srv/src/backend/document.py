@@ -18,9 +18,6 @@ import time
 import cons
 
 
-import ipdb
-
-
 @app.route('/document', methods=['POST'])
 @auth
 def newDocument():
@@ -206,9 +203,6 @@ def getDocumentList():
             authors.append(author["twitter_user"])
 
         thisDoc["authors"] = authors
-
-        # ipdb.set_trace()
-
         thisDoc["attachments"] = False
         if len(m.getDocumentPdf(doc["id"]))>0:
             thisDoc["attachments"] = True

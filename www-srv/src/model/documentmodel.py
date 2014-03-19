@@ -162,9 +162,6 @@ class DocumentModel(PostgreSQLModel):
           a.id_document in (select * from selection)
         offset %s limit %s;""".format(lang)
 
-        import ipdb
-        ipdb.set_trace()
-
         if search:
             return self.query(a, bindings=[ \
                                             search, search, search, search, search, \

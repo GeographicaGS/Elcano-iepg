@@ -24,9 +24,11 @@ app.router = Backbone.Router.extend({
 
     initialize: function(options) {
         this.route(this.langRoutes["_link home"][app.lang], "home");
+        this.route(this.langRoutes["_link home"][app.lang]+"/", "home");
         this.route(this.langRoutes["_link about"][app.lang], "about");
-        this.route(this.langRoutes["_link docs"][app.lang], "docs");
-        this.route(this.langRoutes["_link docs"][app.lang] + "/:id", "doc");
+        this.route(this.langRoutes["_link docs"][app.lang]+"(/:filter)(/:author)", "docs");
+        this.route(this.langRoutes["_link docs"][app.lang]+"/", "docs");
+        //this.route(this.langRoutes["_link doc"][app.lang] + "/:id", "doc");
     
         //return obj
     },
@@ -38,12 +40,27 @@ app.router = Backbone.Router.extend({
         app.showView(new app.view.About());
     },
 
-    docs: function(){
-        app.showView(new app.view.DocsList());   
+    docs: function(filter,author){
+        if (filter=="null" || !filter){
+            filter = null;
+        }
+
+        if (!author){
+            author = null;
+        }
+        
+        app.showView(new app.view.DocsList({
+            "filter" : filter,
+            "author": author,
+        }));
     },
 
     doc: function(id){
         app.showView(new app.view.Document({"id": id}));
+    },
+
+    defaultRoute: function(){
+        alert("not found");
     }
     
 });

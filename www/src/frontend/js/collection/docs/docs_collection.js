@@ -3,7 +3,7 @@ var app = app || {};
 app.collection.Docs = Backbone.Collection.extend({
     model: Backbone.Model,
     search: null,
-    offset: null,
+    offset: 0,
     initialize: function(models, options) {
 
     },
@@ -12,6 +12,7 @@ app.collection.Docs = Backbone.Collection.extend({
         return app.config.API_URL + "/documentcatalog" + "?lang=" + app.lang + "&offset=" + this.offset + search;
     },
     parse: function(response){
+        this.listSize = response.listSize;
         return response.results;
     }
     

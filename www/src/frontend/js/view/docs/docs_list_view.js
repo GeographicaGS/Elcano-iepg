@@ -67,7 +67,7 @@ app.view.DocsList = Backbone.View.extend({
 
     nextPage: function(){
         this._page++;
-        this.collection.offset = this._page;
+        this.collection.offset = this._page* app.config.PAGE_SIZE ;
         this.listenToOnce(this.collection,"sync",function(){
             this.renderPageList();
         });
@@ -96,10 +96,12 @@ app.view.DocsList = Backbone.View.extend({
             collection: subcollection
         });
 
-        if (!this._page)
+        if (!this._page){
             this.$listData.html(html);
-        else
+        }
+        else{
             this.$listData.append(html);
+        }
 
         if ((this._page && !this.collection.length)
             ||

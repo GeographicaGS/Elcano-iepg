@@ -35,6 +35,6 @@ def getDocumentCatalog():
     docs = m.getDocumentCatalog(request.args["offset"], config.cfgFrontend["DocumentListLength"], \
                              request.args["lang"], search=search)
 
-    return(jsonify({"documents": docs, "listsize": totalSize}))
+    return(jsonify({"results": docs, "listSize": totalSize}))
 
 

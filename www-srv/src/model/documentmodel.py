@@ -162,13 +162,16 @@ class DocumentModel(PostgreSQLModel):
           a.id_document in (select * from selection)
         offset %s limit %s;""".format(lang)
 
+        import ipdb
+        ipdb.set_trace()
+
         if search:
             return self.query(a, bindings=[ \
                                             search, search, search, search, search, \
                                             search, search, search, search, search, \
-                                            offset*listSize, listSize]).result()
+                                            int(offset)*int(listSize), int(listSize)]).result()
         else:
-            return self.query(a, bindings=[offset*listSize, listSize]).result()
+            return self.query(a, bindings=[int(offset)*int(listSize), int(listSize)]).result()
 
 
     def createDocument(self, data):

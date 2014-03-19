@@ -29,12 +29,10 @@ def getDocumentCatalog():
         return(jsonify(cons.errors["-3"]))
 
     m = DocumentModel()
-    search = request.args["search"] if "search" in request.args else None
+    fsearch = request.args["search"] if "search" in request.args else None
 
-    totalSize = m.getDocumentCatalogSize(search=search)
+    totalSize = m.getDocumentCatalogSize(search=fsearch)
     docs = m.getDocumentCatalog(request.args["offset"], config.cfgFrontend["DocumentListLength"], \
-                             request.args["lang"], search=search)
+                             request.args["lang"], search=fsearch)
 
     return(jsonify({"results": docs, "listSize": totalSize}))
-
-

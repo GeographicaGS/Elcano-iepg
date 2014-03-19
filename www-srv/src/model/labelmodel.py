@@ -27,10 +27,3 @@ class LabelModel(PostgreSQLModel):
             return self.insert("www.label_es", {"label": label}, "id_label_es")
         if lang=="en":
             return self.insert("www.label_en", {"label": label}, "id_label_en")
-
-
-    def getLabels(self, lang):
-        """Get the list of labels for lang for the document catalog in the frontend."""
-        sql = "select * from www.label_{} order by label;".format(lang)
-
-        return(self.query(sql).result())

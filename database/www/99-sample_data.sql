@@ -55,15 +55,15 @@ alter sequence www.document_id_document_seq restart with 9;
 
 -- Authors
 copy www.author from stdin with delimiter ',' null '@@@@';
-1,1,@@@@,@@@@,@@@@,@yerenafernandez
+1,1,Yerena Fernández,Titular Researcher,Investigadora principal,@@@@
 2,1,@@@@,@@@@,@@@@,@jesuspardo
 3,2,@@@@,@@@@,@@@@,@wchislett
 4,3,@@@@,@@@@,@@@@,@imolina
 5,4,@@@@,@@@@,@@@@,@rfuentesbracamontes
-6,5,Iliana Olivié,Researcher,Investigadora,@iliana
-7,6,Iliana Olivié,Researcher,Investigadora,@iliana
-8,7,Iliana Olivié,Researcher,Investigadora,@iliana
-9,8,Iliana Olivié,Researcher,Investigadora,@iliana
+6,5,Iliana Olivié,Researcher,Investigadora,@iolivie
+7,6,Iliana Olivié,Researcher,Investigadora,@iolivie
+8,7,Iliana Olivié,Researcher,Investigadora,@iolivie
+9,8,Iliana Olivié,Researcher,Investigadora,@iolivie
 \.
 
 alter sequence www.author_id_author_seq restart with 10;

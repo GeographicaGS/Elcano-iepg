@@ -11,11 +11,10 @@ from flask import jsonify,request
 from model.homemodel import HomeModel
 from model.iepgdatamodel import IepgDataModel
 from model.highlightmodel import HighlightModel
+import helpers
 import collections
 import config
 import cons
-
-
 
 import ipdb
 
@@ -117,9 +116,12 @@ def newStuff():
                 {"id": "1", "label": "IEPG"},
     	        {"id": "2", "label": "Economía"}]
         }]
-    }"""
+    }
+
+    TODO: revisar, lo de las labels es feo de narices.
+    """
     m = HomeModel()
-    
+
     if request.args["lang"] not in cons.lang:
         return(jsonify(cons.errors["-1"]))
 
@@ -127,41 +129,24 @@ def newStuff():
         if request.args["section"] not in cons.newsSections:
             return(jsonify(cons.errors["-2"]))
 
-    if "section" in request.args :
-        if request.args["section"]!= "Twitter":
-            labels, stuff = m.newStuff(request.args["lang"], request.args["section"])
-        else:
-            timeline = twitter_helper.getLatestTweets()
-            a = []
-            for tweet in timeline:
-                a.append({
-                  "id_section" : tweet.id,
-                  "time" : tweet.created_at,
-                  "title" : tweet.text,
-                  "section" : "Blog",
-                  "labels" :[],
-                  "wwwuser" : ["@rielcano"]
-                });
+    labels = m.getLabels(request.args["lang"])
+
+    if "section" in request.args:
+        if request.args["section"] in ["Blog", "Media", "Events"]:
+            stuff = m.newStuffSections(request.args["lang"], request.args["section"])
+        elif request.args["section"]=="Documents":
+            stuff = m.newStuffDocuments(request.args["lang"])
     else:
-
-        labels, stuff = m.newStuff(request.args["lang"])
-
-
+        stuff = m.newStuffAll(request.args["lang"])
 
     for s in stuff:
-
-        # ipdb.set_trace()
-
         lab = []
         if s["label"]!=[None]:
             for l in s["label"]:
                 for a in labels:
-                    if str(a["id_label"]) == str(l):
+                    if str(a["id"])==str(l):
                         lab.append(a)
 
-        s["label"] = lab
-                    
-
-
+    s["label"] = lab
 
     return(jsonify({"results": stuff}))

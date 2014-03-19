@@ -296,4 +296,11 @@ def getDocument(id_document):
 @app.route("/document/<int:id_document>/toggle_publish", methods=["GET"])
 @auth
 def togglePublish(id_document):
-    return jsonify({"result" : "Done"})
+    """Toggles the published status of a document."""
+    m = DocumentModel()
+    status = m.togglePublish(id_document)
+
+    if status==None:
+        return jsonify(cons.errors["-4"])
+    else:
+        return jsonify({"result" : status})

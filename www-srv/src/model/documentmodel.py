@@ -5,6 +5,7 @@
 Document model
 
 TODO: check all select * and state the fields.
+TODO: check for SQL injection.
 
 """
 
@@ -16,79 +17,9 @@ from flask import session
 class DocumentModel(PostgreSQLModel):
     """Modelo de documento."""
 
-    def getDocumentFrontend(self, idDocument, lang):
-        """Gets the document details for the frontend."""
-        doc = """
-        with label_en as(
-            select
-                a.id_document as id_document,
-                array_agg(b.label) as labels
-            from
-                www.document_label_en a
-                inner join www.label_en b
-                on a.id_label_en=b.id_label_en
-            group by id_document),
-        label_es as(
-            select
-                a.id_document as id_document,
-                array_agg(b.label) as labels
-            from
-                www.document_label_es a
-                inner join www.label_es b
-                on a.id_label_es=b.id_label_es
-            group by id_document),
-        authors as(
-            select
-                id_document as id_document,
-                array_agg(coalesce(twitter_user, name)) as author
-            from www.author
-            group by id_document),
-        docs as(
-            select
-                a.id_document,"""
-
-        if lang=="en":
-            doc += "coalesce(title_en, title_es) as title,"
-        else:
-            doc += "coalesce(title_es, title_en) as title,"
-
-        if lang=="en":
-            doc += "coalesce(theme_en, theme_es) as theme,"
-        else:
-            doc += "coalesce(theme_es, theme_en) as theme,"
-
-        if lang=="en":
-            doc += "coalesce(description_en, description_es) as description,"
-        else:
-            doc += "coalesce(description_es, description_en) as description,"
-
-        doc += """
-                a.last_edit_time as time
-            from www.document a
-        )
-        select
-            a.id_document as id,
-            a.title as title,
-            a.theme as theme,
-            a.description as description,
-            a.time as time,
-            b.labels as labels,
-            d.author as authors
-        from
-            docs a inner join """
-
-        if lang=="en":
-            doc += "label_en b on"
-        else:
-            doc += "label_es b on"
-
-        doc += """
-            a.id_document=b.id_document inner join
-            authors d on
-            a.id_document=d.id_document
-        where
-            a.id_document=%s"""
-
+    def getDocumentData(self, idDocument):
+        """Gets the document full data."""
+        doc = "select * from www.document where id_document=%s"
         return(self.query(doc, bindings=[idDocument]).row())
 
 
@@ -402,13 +333,13 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentAuthors(self, id_document):
         """Gets the list of authors of a document."""
-        q = "select id_author, twitter_user from www.author where id_document=%s;"
+        q = "select * from www.author where id_document=%s;"
         return self.query(q, [id_document]).result()
 
 
     def getDocumentPdf(self, id_document, lang=None):
         """Gets the list of PDF of a document, optionally for a given language."""
-        q = "select id_pdf, pdf_name as name, hash from www.pdf where id_document=%s"
+        q = "select id_pdf as id, id_document, lang, pdf_name, hash from www.pdf where id_document=%s"
         bindings = [id_document]
 
         if lang:
@@ -439,8 +370,8 @@ class DocumentModel(PostgreSQLModel):
                          "position_es": data["position_es"]})
 
 
-    def getDocumentBackend(self,id_document):
-        """Get Document for the frontend."""
+    def getDocumentBackend(self, id_document):
+        """Get Document for the backend."""
         q = "SELECT * FROM www.document WHERE id_document=%s"
         return self.query(q,[id_document]).row()
 
@@ -457,3 +388,20 @@ class DocumentModel(PostgreSQLModel):
                     " WHERE id_document=%s"
 
         return self.query(q,[id_document]).result()
+
+
+    def togglePublish(self, id_document):
+        """Toggles the publish status of id_document."""
+        try:
+            q = """
+            select published from www.document
+            where id_document=%s;"""
+
+            status = self.query(q, bindings=[id_document]).row()["published"]
+        
+            self.update("www.document",
+                        {"published": not status},
+                        {"id_document": id_document})
+            return not status
+        except:
+            return None

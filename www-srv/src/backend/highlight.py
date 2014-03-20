@@ -82,14 +82,16 @@ def __getHighlightCatalog(published, page=None, search=None):
         else:
             h["spanish"] = False
 
+        h["id"] = r["id_highlight"]
         h["title"] = r["title"]
         h["text"] = r["text"]
         h["edit"] = r["last_edit_time"]
-        h["link_en"] = r["link_en"]
-        h["link_es"] = r["link_es"]
+        # No need of the following links
+        #h["link_en"] = r["link_en"]
+        #h["link_es"] = r["link_es"]
         out.append(h)
 
-    return(jsonify({"totalHighlights": total, "highlights": out}))
+    return(jsonify({"listSize": total, "results": out}))
 
 
 @app.route('/highlight/setorder', methods=['PUT'])

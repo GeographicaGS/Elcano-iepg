@@ -33,6 +33,9 @@ deps.Backend.JS = {
 			// --------------------
 			"backend/js/collection/label_collection.js",			
 			"backend/js/collection/document_collection.js",
+			"backend/js/collection/highlighs_published_collection.js",
+			"backend/js/collection/highlighs_unpublished_collection.js",
+			
 			// --------------------
 			// ------  Views ------
 			// --------------------
@@ -43,7 +46,7 @@ deps.Backend.JS = {
 			// User view
 			"backend/js/view/user_view.js",
 
-			"backend/js/view/home_view.js",
+			"backend/js/view/highlights/highlights_list_view.js",
 			"backend/js/view/news_view.js",
 
 

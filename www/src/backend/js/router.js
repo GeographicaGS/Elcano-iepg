@@ -7,7 +7,7 @@ app.router = Backbone.Router.extend({
         "" : "home",
         "user" : "user",
         "news" : "news",
-        "home" : "home",
+        "highlight" : "highlight",
         "logout" : "logout",
         // default page of doc section
         "docs": "listDocs",
@@ -34,8 +34,8 @@ app.router = Backbone.Router.extend({
         app.showView(new app.view.NewsView());
     },
     
-    home: function(){
-        app.showView(new app.view.HomeView());
+    highlight: function(){
+        app.showView(new app.view.HighlightView());
     },
     
     logout : function(){

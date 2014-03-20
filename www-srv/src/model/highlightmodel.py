@@ -51,6 +51,7 @@ class HighlightModel(PostgreSQLModel):
 
         sql = """
         select
+          id_highlight,
           coalesce(title_es,title_en) as title,
           coalesce(text_es, text_en) as text,
           title_en,

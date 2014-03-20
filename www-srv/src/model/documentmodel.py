@@ -16,7 +16,6 @@ from flask import session
 
 class DocumentModel(PostgreSQLModel):
     """Modelo de documento."""
-
     def getDocumentData(self, idDocument):
         """Gets the document full data."""
         doc = "select * from www.document where id_document=%s"
@@ -69,106 +68,108 @@ class DocumentModel(PostgreSQLModel):
             return self.query(docs).row()["c"]
                
 
-    def getDocumentCatalog(self, offset, listSize, lang, search=None):
+    def getDocumentCatalog(self, offset, listSize, lang, search=None, labels=None):
         """Gets list of documents for the frontend document catalog."""
-        a = """
-        with label_en as(
-          select
-            a.id_document as id_document,
-            array_agg(b.label) as labels
-          from
-            www.document_label_en a
-            inner join www.label_en b
-            on a.id_label_en=b.id_label_en
-          group by id_document),
-        label_es as(
-          select
-            a.id_document as id_document,
-            array_agg(b.label) as labels
-          from
-            www.document_label_es a
-            inner join www.label_es b
-            on a.id_label_es=b.id_label_es
-          group by id_document),
-        authors as(
-          select
-            id_document as id_document,
-            array_agg(coalesce(twitter_user, name)) as author
-          from www.author
-          group by id_document),
-        docs as(
-          select
-            a.id_document,"""
+        sql = 
 
-        if lang=="es":
-            a+="""
-            coalesce(title_es, title_en) as title, 
-            coalesce(theme_es, theme_en) as theme, """
-        else:
-            a+="""
-            coalesce(title_en, title_es) as title, 
-            coalesce(theme_en, theme_es) as theme, """
+        # a = """
+        # with label_en as(
+        #   select
+        #     a.id_document as id_document,
+        #     array_agg(b.label) as labels
+        #   from
+        #     www.document_label_en a
+        #     inner join www.label_en b
+        #     on a.id_label_en=b.id_label_en
+        #   group by id_document),
+        # label_es as(
+        #   select
+        #     a.id_document as id_document,
+        #     array_agg(b.label) as labels
+        #   from
+        #     www.document_label_es a
+        #     inner join www.label_es b
+        #     on a.id_label_es=b.id_label_es
+        #   group by id_document),
+        # authors as(
+        #   select
+        #     id_document as id_document,
+        #     array_agg(coalesce(twitter_user, name)) as author
+        #   from www.author
+        #   group by id_document),
+        # docs as(
+        #   select
+        #     a.id_document,"""
 
-        a+="""
-            a.last_edit_time as time
-          from www.document a
-        ),
-        selection as (
-          select distinct a.id_document
-          from
-            www.document a inner join
-            www.document_label_en b on
-            a.id_document=b.id_document inner join
-            www.label_en c on
-            b.id_label_en=c.id_label_en inner join
-            www.document_label_es d on
-            a.id_document=d.id_document inner join
-            www.label_es e on
-            d.id_label_es=e.id_label_es inner join
-            www.author f on
-            a.id_document=f.id_document"""
+        # if lang=="es":
+        #     a+="""
+        #     coalesce(title_es, title_en) as title, 
+        #     coalesce(theme_es, theme_en) as theme, """
+        # else:
+        #     a+="""
+        #     coalesce(title_en, title_es) as title, 
+        #     coalesce(theme_en, theme_es) as theme, """
 
-        if search:
-            search = "%"+search+"%"
-            a+="""
-              where
-                a.title_en ilike %s or
-                a.title_es ilike %s or
-                a.theme_en ilike %s or
-                a.theme_es ilike %s or
-                a.description_en ilike %s or
-                a.description_es ilike %s or
-                c.label ilike %s or
-                e.label ilike %s or
-                f.name ilike %s or
-                f.twitter_user ilike %s"""
+        # a+="""
+        #     a.last_edit_time as time
+        #   from www.document a
+        # ),
+        # selection as (
+        #   select distinct a.id_document
+        #   from
+        #     www.document a inner join
+        #     www.document_label_en b on
+        #     a.id_document=b.id_document inner join
+        #     www.label_en c on
+        #     b.id_label_en=c.id_label_en inner join
+        #     www.document_label_es d on
+        #     a.id_document=d.id_document inner join
+        #     www.label_es e on
+        #     d.id_label_es=e.id_label_es inner join
+        #     www.author f on
+        #     a.id_document=f.id_document"""
 
-        a+="""
-        )
-        select
-          a.id_document as id,
-          a.title as title,
-          a.theme as theme,  
-          a.time as time,
-          b.labels as labels,
-          d.author as authors
-        from
-          docs a inner join 
-          label_{} b on
-          a.id_document=b.id_document inner join
-          authors d on
-          a.id_document=d.id_document
-        where
-          a.id_document in (select * from selection)
-        offset %s limit %s;""".format(lang)
+        # if search:
+        #     search = "%"+search+"%"
+        #     a+="""
+        #       where
+        #         a.title_en ilike %s or
+        #         a.title_es ilike %s or
+        #         a.theme_en ilike %s or
+        #         a.theme_es ilike %s or
+        #         a.description_en ilike %s or
+        #         a.description_es ilike %s or
+        #         c.label ilike %s or
+        #         e.label ilike %s or
+        #         f.name ilike %s or
+        #         f.twitter_user ilike %s"""
 
-        if search:
-            return self.query(a, bindings=[ \
-                                            search, search, search, search, search, \
-                                            search, search, search, search, search, \
-                                            int(offset)*int(listSize), int(listSize)]).result()
-        else:
-            return self.query(a, bindings=[int(offset)*int(listSize), int(listSize)]).result()
+        # a+="""
+        # )
+        # select
+        #   a.id_document as id,
+        #   a.title as title,
+        #   a.theme as theme,  
+        #   a.time as time,
+        #   b.labels as labels,
+        #   d.author as authors
+        # from
+        #   docs a inner join 
+        #   label_{} b on
+        #   a.id_document=b.id_document inner join
+        #   authors d on
+        #   a.id_document=d.id_document
+        # where
+        #   a.id_document in (select * from selection)
+        # offset %s limit %s;""".format(lang)
+
+        # if search:
+        #     return self.query(a, bindings=[ \
+        #                                     search, search, search, search, search, \
+        #                                     search, search, search, search, search, \
+        #                                     int(offset)*int(listSize), int(listSize)]).result()
+        # else:
+        #     return self.query(a, bindings=[int(offset)*int(listSize), int(listSize)]).result()
 
 
     def createDocument(self, data):
@@ -335,6 +336,12 @@ class DocumentModel(PostgreSQLModel):
         """Gets the list of authors of a document."""
         q = "select * from www.author where id_document=%s;"
         return self.query(q, [id_document]).result()
+
+    
+    def getPdfData(self, idPdf):
+        """Gets data of a PDF."""
+        sql = "select * from www.pdf where id_pdf=%s;"
+        return(self.query(sql, bindings=[idPdf]).row())
 
 
     def getDocumentPdf(self, id_document, lang=None):

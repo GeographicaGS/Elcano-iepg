@@ -11,7 +11,7 @@ from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 class LabelModel(PostgreSQLModel):
     """Model for labels."""
 
-    def getLabels(self, lang="es"):
+    def getLabels(self, lang):
         """Returns labels in the given language."""
         if lang=="es":
             q = "select id_label_es as id, label from www.label_es;"

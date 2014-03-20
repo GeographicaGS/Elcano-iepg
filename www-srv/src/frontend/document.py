@@ -7,11 +7,27 @@ Frontend document services.
 
 """
 from frontend import app
-from flask import jsonify,request
+from flask import jsonify,request,send_file
 from model.documentmodel import DocumentModel
 from model.labelmodel import LabelModel
 import cons
 import helpers
+import config
+
+
+@app.route('/download/pdf', methods=['GET'])
+def downloadPdf():
+    """Downloads a PDF. request.args:
+
+    idPdf: mandatory, PDF ID.
+
+    """
+    m = DocumentModel()
+    pdf = m.getPdfData(request.args["idPdf"])
+    
+    return(send_file(config.cfgFrontend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
+                     mimetype="application/pdf", attachment_filename=pdf["pdf_name"]+".pdf", \
+                     as_attachment=True))
 
 
 @app.route('/document/label/<string:lang>', methods=['GET'])

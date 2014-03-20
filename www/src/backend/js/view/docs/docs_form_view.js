@@ -11,14 +11,10 @@ app.view.docs.FormView = Backbone.View.extend({
         this.labels["es"] = new app.collection.Label(null,"es");
         this.labels["en"] = new app.collection.Label(null,"en");
 
-        for (i in this.labels){
-            this.labels[i].fetch({reset: true});
-            // Nested closure to render each labels
-            this._listenToLabel(i);
-        }
+     
        
         if (!options || !options.id){
-        
+            
             this.model = new app.model.Document({
                 "labels_es" : new Backbone.Collection(),
                 "labels_en" : new Backbone.Collection(),
@@ -41,6 +37,9 @@ app.view.docs.FormView = Backbone.View.extend({
     },
     
     _initialize: function(){
+
+     
+
         this.listenTo(this.model.get("pdfs_es"),"add remove", function(){
             this.renderPDFs();
         });
@@ -70,6 +69,13 @@ app.view.docs.FormView = Backbone.View.extend({
         },*/);
 
         this.render();
+
+        for (i in this.labels){
+            this.labels[i].fetch({reset: true});
+            // Nested closure to render each labels
+            this._listenToLabel(i);
+        }
+
     },
     _listenToLabel: function(lang){
         this.listenTo(this.labels[lang],"reset change",function(){
@@ -106,7 +112,10 @@ app.view.docs.FormView = Backbone.View.extend({
             $file.trigger("click");
         },
         "change input[type='file']" : "uploadPDF",
-        "click .btnDeleteAjunto": "deletePDF"
+        "click .btnDeleteAjunto": "deletePDF",
+        "click  .cancel" : function(){
+            app.router.navigate("docs",{trigger: true});
+        }
     },
 
     toggleAddLabelUI: function(e){
@@ -233,8 +242,12 @@ app.view.docs.FormView = Backbone.View.extend({
 
         var $e = $(e.target),
             name = $e.attr("name");
-        this.model.set(name,$.trim($e.val()));
-        this.model.isValid(true);
+
+        if (name!="authors"){
+            this.model.set(name,$.trim($e.val()));
+            this.model.isValid(true);    
+        }
+        
 
 
     },
@@ -248,9 +261,9 @@ app.view.docs.FormView = Backbone.View.extend({
             "theme_es" : app.input(this.$("textarea[name='theme_es']").val()),
             "description_en" : app.input(this.$("textarea[name='description_en']").val()),
             "description_es" : app.input(this.$("textarea[name='description_es']").val()),
-            "authors": _.filter(_.pluck(this.model.get("authors").toJSON(),"twitter_user"),function (e){
+            /*"authors": _.filter(_.pluck(this.model.get("authors").toJSON(),"twitter_user"),function (e){
                 return e != "Twitter";
-            }),
+            }),*/
             "link_en" : app.input(this.$("input[name='link_en']").val()),
             "link_es" : app.input(this.$("input[name='link_es']").val())
         }
@@ -258,8 +271,17 @@ app.view.docs.FormView = Backbone.View.extend({
         this.model.set(data);
          
         if (this.model.isValid(true)){
+
+            // let's filter all empty twitters
+
+            var authorsFilter = this.model.get("authors").filter(function(el) {
+              return el.get("twitter_user") != "Twitter";
+            });
+            this.model.set("authors",new Backbone.Collection(authorsFilter));
+
             // Save on server
             this.model.save(null,{
+                saved: true,
                 success: function(model){
                     app.router.navigate("docs/" + model.get("id"),{trigger: true});
                 }
@@ -357,7 +379,7 @@ app.view.docs.FormView = Backbone.View.extend({
                 
                 self.model.get("pdfs_"+lang).add({
                     "hash": json.filename,
-                    "pdf_name":name
+                    "name":name
                 });   
 
 

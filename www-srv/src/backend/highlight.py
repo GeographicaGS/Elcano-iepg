@@ -2,10 +2,9 @@
 
 """
 
-Highlight services
+Highlight services for the administration backend.
 
 """
-
 from backend import app
 from flask import jsonify,request,session
 from model.highlightmodel import HighlightModel
@@ -16,7 +15,81 @@ import config
 import os
 import hashlib
 import time
-import ipdb
+import cons
+
+
+@app.route('/highlight/delete/<int:idHighlight>', methods=['DELETE'])
+@auth
+def deleteHighlight(idHighlight):
+    """Deletes a highlight by ID passed in the URL."""
+    m = HighlightModel()
+
+    return(jsonify({"deleted": m.deleteHighlight(idHighlight)}))
+
+
+@app.route('/highlight/<int:idHighlight>', methods=['GET'])
+@auth
+def getHighlight(idHighlight):
+    """Gets a highlight by ID in the URL."""
+    m = HighlightModel()
+
+    return(jsonify(m.getHighlight(idHighlight)))
+
+
+@app.route('/highlight/publishedcatalog', methods=['GET'])
+@auth
+def getPublishedHighlightCatalog():
+    """Gets the highlight's published catalog."""
+    return __getHighlightCatalog(True)
+
+@app.route('/highlight/unpublishedcatalog', methods=['GET'])
+@auth
+def getUnpublishedHighlightCatalog():
+    """Gets the unpublished highlight catalog. request.args:
+
+      page: page to show, mandatory
+      search: search criteria, optional
+
+    """
+    page = request.args["page"] if "page" in request.args else None
+    search = request.args["search"] if "search" in request.args else None
+    
+    return __getHighlightCatalog(False, page=page, search=search)
+        
+
+def __getHighlightCatalog(published, page=None, search=None):
+    """Gets the highlight's catalog."""
+    m = HighlightModel()
+
+    if page!=None:
+        listSize = config.cfgBackend["UnpublishedHighlightCatalogBackendListLength"]
+    else:
+        listSize = None
+
+    total, results = m.getHighlightCatalogBackend(published,page=page,listSize=listSize,search=search) 
+    out = []
+
+    for r in results:
+        h = {}
+
+        if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
+            h["english"] = True
+        else:
+            h["english"] = False
+
+        if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
+            h["spanish"] = True
+        else:
+            h["spanish"] = False
+
+        h["title"] = r["title"]
+        h["text"] = r["text"]
+        h["edit"] = r["last_edit_time"]
+        h["link_en"] = r["link_en"]
+        h["link_es"] = r["link_es"]
+        out.append(h)
+
+    return(jsonify({"totalHighlights": total, "highlights": out}))
 
 
 @app.route('/highlight/setorder', methods=['PUT'])
@@ -46,16 +119,6 @@ def togglePublishHighlight(id):
     return(jsonify({"new_status": out}))
 
 
-@app.route('/highlight/active/<string:lang>', methods=['GET'])
-@auth
-def getActiveHighlight():
-    """Returns the list of active highlights. Requires parameters:
-
-        lang: mandatory, en/es
-    """
-    m = HighlightModel()
-    
-
 @app.route('/highlight', methods=['POST'])
 @auth
 def createHightlight():
@@ -76,31 +139,53 @@ def createHightlight():
         "credit_img_es": "credit_img_es"
     }"""
     m = HighlightModel()
-    out = m.createHighlight(request.json)
+    
+    try:
+        moveImgFile(request.json["image_hash_en"])
+        moveImgFile(request.json["image_hash_es"])
 
-    moveImgFile(request.json["image_hash_en"])
-    moveImgFile(request.json["image_hash_es"])
-
-    return(jsonify({"id_highlight": out}))
+        out = m.createHighlight(request.json)
+        return(jsonify({"id_highlight": out}))
+    except:
+        return(jsonify(cons.errors["-1"]))
 
 
 @app.route('/highlight', methods=['PUT'])
 @auth
 def editHightlight():
-    """Edits a highlight."""
+    """Edits a highlight. Gets a JSON in the form:
+
+    {
+        "id_highlight": 3,
+        "title_en": "title_en",
+        "title_es": "title_es",
+        "text_en": "text_en",
+        "text_es": "text_es",
+        "new_image_name_en": "new_image_name_en",
+        "new_image_name_es": "new_image_name_es",
+        "new_image_hash_en": "new_image_hash_en",
+        "new_image_hash_es": "new_image_hash_es",
+        "link_en": "link_en",
+        "link_es": "link_es",
+        "credit_img_en": "credit_img_en",
+        "credit_img_es": "credit_img_es",
+    }"""
     m = HighlightModel()
     oldHighlight = m.getHighlight(request.json["id_highlight"])
 
-    if oldHighlight["image_hash_en"]!=request.json["new_image_hash_en"]:
-        deleteImgFile(oldHighlight["image_hash_en"])
-        moveImgFile(request.json["new_image_hash_en"])        
+    try:
+        if oldHighlight["image_hash_en"]!=request.json["new_image_hash_en"]:
+            deleteImgFile(oldHighlight["image_hash_en"])
+            moveImgFile(request.json["new_image_hash_en"])        
 
-    if oldHighlight["image_hash_es"]!=request.json["new_image_hash_es"]:
-        deleteImgFile(oldHighlight["image_hash_es"])
-        moveImgFile(request.json["new_image_hash_es"])
+        if oldHighlight["image_hash_es"]!=request.json["new_image_hash_es"]:
+            deleteImgFile(oldHighlight["image_hash_es"])
+            moveImgFile(request.json["new_image_hash_es"])
 
-    out = m.editHighlight(request.json)
-    return(jsonify({"result": {"id_highlight": out}}))
+        out = m.editHighlight(request.json)
+        return(jsonify({"result": {"id_highlight": out}}))
+    except:
+        return(jsonify(errors.errors["-1"]))
 
 
 def deleteImgFile(hash):
@@ -130,7 +215,7 @@ def uploadImg():
             filename = secure_filename(file.filename)
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() + fileExtension
-            file.save(os.path.join(app.config['tmpFolder'], filename))
+            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename))
             return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    

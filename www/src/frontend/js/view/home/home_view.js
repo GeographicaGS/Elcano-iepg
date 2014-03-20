@@ -6,6 +6,7 @@ app.view.Home = Backbone.View.extend({
         
         this.latestNews = new app.view.LatestNews();
         this.slider = new app.view.Slider();
+        this.render();
     },
 
     events:{
@@ -57,8 +58,8 @@ app.view.Home = Backbone.View.extend({
         this.$el.html(this._template());
         this.$explora = this.$("#explora");
         this.$explora_desc = this.$("#explora_desc");
-        this.$("#co_news").html(this.latestNews.render().el);
-        this.$("#carousel").html(this.slider.render().el);
+        this.$("#co_news").html(this.latestNews.el);
+        this.$("#carousel").html(this.slider.el);
         return this;
     }
 });

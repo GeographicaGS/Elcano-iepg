@@ -25,6 +25,16 @@ body {
 	font-size:16px;
 	line-height:24px;
 }
+a.simple{
+	border-bottom: none !important;
+	text-decoration: none !important;
+}
+
+a.simple:hover{
+	border-bottom: 1px solid @yellow !important;
+	text-decoration: none !important;
+}
+
 
 p,span,div,table{
 	.roboto();
@@ -32,6 +42,7 @@ p,span,div,table{
 
 input{
 	padding: 0 10px;
+	border: none;
 	
 }
 input[placeholder]{
@@ -169,6 +180,11 @@ a:hover{
     border-bottom: 1px solid @grey;
 }
 
+header{
+	a#top_logo:hover{
+		border-bottom: none;
+	}
+}
 
 header > div:first-child{
 	height: 120px;
@@ -217,6 +233,7 @@ ul#menu{
 	li:hover,li a:hover{
 		background-color: @yellow;
 		color:@grey_dark;
+		border-bottom: none;
 	}
 	li:nth-child(3){
 		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat top left;
@@ -231,27 +248,29 @@ ul#menu{
 	li[selected]{
 		border-bottom: 1px solid @white;
 		line-height: 43px;
+		color: @white;
 	}
 }
 
-button.button{
+.button{
 	display: inline-block;
 	height: 45px;
 	line-height: 45px;
 	background-color: @grey_light;
-	color: @white;
+	color: @white ;
 	font-size: 16px;
 	padding: 0px 13px;
 	.roboto(medium);
 
 }
-button.button.go{
+
+.button.go{
 	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light;
 	padding-right: 33px;
 }
 
-button.button:hover{
-	
+.button:hover{
+	color: @white;
     background-color:@grey_dark;
         
 }
@@ -268,6 +287,7 @@ button.button:hover{
 .sep_grey2{
 	.sep(@grey2);
 }
+
 footer{
 	background: @grey;
 	color:@grey_light;
@@ -362,7 +382,117 @@ footer{
 		}
 
 	}
+}
 
-	
+a.label{
+    display: inline-block;
+    color:@grey_dark;
+    margin-right: 7px;
+    padding: 0 5px;
+    line-height: 20px;
+    height:20px;
+    background-color: @yellow;
+    font-size: 13px;
+    cursor: pointer;
+}
 
+a.label:hover{
+    background-color: @red;
+    color:@white;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.search_header{
+	min-height: 95px;
+	color: @white;
+	background: @red url("@{imgPath}ELC_img_bg_discos.png") no-repeat right center;
+
+	input {
+		height: 42px;
+		line-height: 42px;
+		padding: 0px 10px;
+		width: 100%;
+		margin: 10px 0 0 0px;
+		font-size: 24px;
+		.roboto(light);
+		color: @grey;
+	}
+
+	input[placeholder]{
+
+	}
+
+	#ctrl_filter{
+		color: @white;
+		height: 22px;
+		line-height: 15px;
+		display: inline-block;
+		margin-left: 10px;
+		background: @grey_dark url("@{imgPath}ELC_icon_filtrar_tags.png") no-repeat 5px center;
+		padding-left: 18px;
+	}
+	#ctrl_filter:hover{
+		background: @grey_dark url("@{imgPath}ELC_icon_filtrar_tags_hover.png") no-repeat 5px center;	
+		color: @yellow;
+	}
+
+	#all_filters{
+		margin: 30px 0px @line_height 0;
+		line-height: 33px;
+
+		a.label:hover{
+			
+			background-color: #000 !important;
+		}
+
+	}
+
+	#sel_filters{
+		margin-left: 10px;
+		margin-top: -2px;
+		a.label{
+			background-color: @white;
+			color:@red;
+		}
+
+		a.label:hover{
+			text-decoration:line-through;
+		}
+	}
+
+	#n_resultados{
+    	float:right;
+    	font-size: 13px;
+    	color: @white;
+    	margin-right: 10px;
+    	.roboto();
+    	strong{
+    		.roboto(bold);
+    	}
+    }
+}
+
+.list_els{
+	p{
+        a{
+            color:@grey_dark;
+            border-bottom: 1px solid @yellow;
+        }
+        a:hover{
+            border-bottom: 1px solid @grey;
+        }
+    }
+}
+
+.authors{
+    display: inline;
+    a{
+        color:@grey_dark;
+        border-bottom: 1px solid @yellow;
+        font-size: 13px;
+    }
+    a:hover{
+        border-bottom: 1px solid @grey;
+    }
 }

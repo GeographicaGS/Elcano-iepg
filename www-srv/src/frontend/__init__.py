@@ -1,4 +1,5 @@
 from flask import Flask
+
 app = Flask(__name__)
 app.config.update(
     DEBUG=True,
@@ -6,5 +7,10 @@ app.config.update(
     PORT=5001
 )
 
-import user
 import home
+import documentcatalog
+import document
+
+@app.route('/', methods = ['GET'])                                            
+def alive():
+    return jsonify( { "status" : "running"})

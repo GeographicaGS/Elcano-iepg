@@ -5,6 +5,7 @@
 Document model
 
 TODO: check all select * and state the fields.
+TODO: check for SQL injection.
 
 """
 
@@ -15,6 +16,160 @@ from flask import session
 
 class DocumentModel(PostgreSQLModel):
     """Modelo de documento."""
+
+    def getDocumentData(self, idDocument):
+        """Gets the document full data."""
+        doc = "select * from www.document where id_document=%s"
+        return(self.query(doc, bindings=[idDocument]).row())
+
+
+    def getDocumentCatalogSize(self, search=None):
+        """Gets the total size of a list of document for the frontend."""
+        docs = """
+        with count as(
+        select distinct a.id_document
+        from
+          www.document a inner join
+          www.document_label_en b on
+          a.id_document=b.id_document inner join
+          www.label_en c on
+          b.id_label_en=c.id_label_en inner join
+          www.document_label_es d on
+          a.id_document=d.id_document inner join
+          www.label_es e on
+          d.id_label_es=e.id_label_es inner join
+          www.author f on
+          a.id_document=f.id_document"""
+
+        if search:
+            search = "%"+search+"%"
+            docs+="""
+              where
+                a.title_en ilike %s or
+                a.title_es ilike %s or
+                a.theme_en ilike %s or
+                a.theme_es ilike %s or
+                a.description_en ilike %s or
+                a.description_es ilike %s or
+                c.label ilike %s or
+                e.label ilike %s or
+                f.name ilike %s or
+                f.twitter_user ilike %s"""
+
+        docs+="""
+        )
+        select count(id_document) as c
+        from count;"""
+
+        if search:
+            return self.query(docs, bindings=[ \
+                                               search, search, search, search, search, \
+                                               search, search, search, search, search]).row()["c"]
+        else:
+            return self.query(docs).row()["c"]
+               
+
+    def getDocumentCatalog(self, offset, listSize, lang, search=None):
+        """Gets list of documents for the frontend document catalog."""
+        a = """
+        with label_en as(
+          select
+            a.id_document as id_document,
+            array_agg(b.label) as labels
+          from
+            www.document_label_en a
+            inner join www.label_en b
+            on a.id_label_en=b.id_label_en
+          group by id_document),
+        label_es as(
+          select
+            a.id_document as id_document,
+            array_agg(b.label) as labels
+          from
+            www.document_label_es a
+            inner join www.label_es b
+            on a.id_label_es=b.id_label_es
+          group by id_document),
+        authors as(
+          select
+            id_document as id_document,
+            array_agg(coalesce(twitter_user, name)) as author
+          from www.author
+          group by id_document),
+        docs as(
+          select
+            a.id_document,"""
+
+        if lang=="es":
+            a+="""
+            coalesce(title_es, title_en) as title, 
+            coalesce(theme_es, theme_en) as theme, """
+        else:
+            a+="""
+            coalesce(title_en, title_es) as title, 
+            coalesce(theme_en, theme_es) as theme, """
+
+        a+="""
+            a.last_edit_time as time
+          from www.document a
+        ),
+        selection as (
+          select distinct a.id_document
+          from
+            www.document a inner join
+            www.document_label_en b on
+            a.id_document=b.id_document inner join
+            www.label_en c on
+            b.id_label_en=c.id_label_en inner join
+            www.document_label_es d on
+            a.id_document=d.id_document inner join
+            www.label_es e on
+            d.id_label_es=e.id_label_es inner join
+            www.author f on
+            a.id_document=f.id_document"""
+
+        if search:
+            search = "%"+search+"%"
+            a+="""
+              where
+                a.title_en ilike %s or
+                a.title_es ilike %s or
+                a.theme_en ilike %s or
+                a.theme_es ilike %s or
+                a.description_en ilike %s or
+                a.description_es ilike %s or
+                c.label ilike %s or
+                e.label ilike %s or
+                f.name ilike %s or
+                f.twitter_user ilike %s"""
+
+        a+="""
+        )
+        select
+          a.id_document as id,
+          a.title as title,
+          a.theme as theme,  
+          a.time as time,
+          b.labels as labels,
+          d.author as authors
+        from
+          docs a inner join 
+          label_{} b on
+          a.id_document=b.id_document inner join
+          authors d on
+          a.id_document=d.id_document
+        where
+          a.id_document in (select * from selection)
+        offset %s limit %s;""".format(lang)
+
+        if search:
+            return self.query(a, bindings=[ \
+                                            search, search, search, search, search, \
+                                            search, search, search, search, search, \
+                                            int(offset)*int(listSize), int(listSize)]).result()
+        else:
+            return self.query(a, bindings=[int(offset)*int(listSize), int(listSize)]).result()
+
 
     def createDocument(self, data):
         """Creates a new document."""
@@ -153,30 +308,38 @@ class DocumentModel(PostgreSQLModel):
         title_en, title_es, theme_en, theme_es, description_en, description_es, 
         link_en, link_es, last_edit_time as time, published from www.document """
                
-        if search!=None:
+        if search:
+            search = '%'+search+'%'
             docs += """
-            where title_en ilike '%{}%' or title_es ilike '%{}%' or 
-            theme_en ilike '%{}%' or theme_es ilike '%{}%' or 
-            description_en ilike '%{}%' or description_es ilike '%{}%'
-            """.format(search, search, search, search, search, search)
+            where title_en ilike %s or title_es ilike %s or 
+            theme_en ilike %s or theme_es ilike %s or 
+            description_en ilike %s or description_es ilike %s
+            """
 
         docs += """
-        order by {} {} offset {} limit {};
-        """.format(orderByField, orderByOrder, str(int(offset)*listSize), \
-                   str(listSize))
+        order by {} {} offset %s limit %s;
+        """.format(orderByField, orderByOrder)
 
-        return self.query(docs).result()
+        print docs
+
+        if search:
+            return self.query(docs, bindings=[ \
+                                               search, search, search, search, search, search, \
+                                               int(offset)*listSize, \
+                                               listSize]).result()
+        else:
+            return self.query(docs, bindings=[int(offset)*listSize, listSize]).result()
 
 
     def getDocumentAuthors(self, id_document):
         """Gets the list of authors of a document."""
-        q = "select id_author, twitter_user from www.author where id_document=%s;"
+        q = "select * from www.author where id_document=%s;"
         return self.query(q, [id_document]).result()
 
 
     def getDocumentPdf(self, id_document, lang=None):
         """Gets the list of PDF of a document, optionally for a given language."""
-        q = "select id_pdf, pdf_name, hash from www.pdf where id_document=%s"
+        q = "select id_pdf as id, id_document, lang, pdf_name, hash from www.pdf where id_document=%s"
         bindings = [id_document]
 
         if lang:
@@ -195,13 +358,20 @@ class DocumentModel(PostgreSQLModel):
 
 
     def __createAuthor(self, data, id_document):
-        self.insert("www.author",
-                    {"id_document": id_document,
-                     "twitter_user": data})
+        if "twitter_user" in data:
+            self.insert("www.author",
+                        {"id_document": id_document,
+                         "twitter_user": data["twitter_user"]})
+        else:
+            self.insert("www.author",
+                        {"id_document": id_document,
+                         "name": data["name"],
+                         "position_en": data["position_en"],
+                         "position_es": data["position_es"]})
 
 
-    def getDocument(self,id_document):
-        """Get Document"""
+    def getDocumentBackend(self, id_document):
+        """Get Document for the backend."""
         q = "SELECT * FROM www.document WHERE id_document=%s"
         return self.query(q,[id_document]).row()
 
@@ -218,3 +388,20 @@ class DocumentModel(PostgreSQLModel):
                     " WHERE id_document=%s"
 
         return self.query(q,[id_document]).result()
+
+
+    def togglePublish(self, id_document):
+        """Toggles the publish status of id_document."""
+        try:
+            q = """
+            select published from www.document
+            where id_document=%s;"""
+
+            status = self.query(q, bindings=[id_document]).row()["published"]
+        
+            self.update("www.document",
+                        {"published": not status},
+                        {"id_document": id_document})
+            return not status
+        except:
+            return None

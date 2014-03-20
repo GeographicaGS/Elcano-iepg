@@ -1,8 +1,12 @@
-"""
-Label model.
+# coding=UTF8
+
 """
 
+Label model.
+
+"""
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
+
 
 class LabelModel(PostgreSQLModel):
     """Model for labels."""

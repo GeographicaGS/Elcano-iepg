@@ -45,9 +45,8 @@ deps.Backend.JS = {
 
 			"backend/js/view/home_view.js",
 			"backend/js/view/news_view.js",
-			
-			
-			
+
+
 			// router
 			"backend/js/router.js",
 			// app
@@ -93,12 +92,15 @@ deps.Frontend.JS = {
 			// --------------------
 			// ------  Models ------
 			// --------------------
+			"frontend/js/model/docs/document_model.js",
 			
 			// --------------------
 			// --- Collections  ---
 			// --------------------
 			"frontend/js/collection/home/latest_news_collection.js",
 			"frontend/js/collection/home/slider_collection.js",
+			"frontend/js/collection/docs/docs_collection.js",
+			"frontend/js/collection/docs/label_collection.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -106,8 +108,12 @@ deps.Frontend.JS = {
 			"frontend/js/view/home/latest_news_view.js",
 			"frontend/js/view/home/slider_view.js",
 			"frontend/js/view/home/home_view.js",
+			"frontend/js/view/docs/docs_list_view.js",
+			"frontend/js/view/docs/doc_view.js",
 
 			"frontend/js/view/about_view.js",
+			"frontend/js/view/error_view.js",
+			"frontend/js/view/notfound_view.js",
 
 			// router
 			"frontend/js/router.js",
@@ -129,7 +135,8 @@ deps.Frontend.CSS = {
 			"frontend/css/reset.css",
 			"frontend/css/base.css",
 			"frontend/css/styles.css",
-			"frontend/css/home.css"
+			"frontend/css/home.css",
+			"frontend/css/docs.css"
 		]
 	}
 };

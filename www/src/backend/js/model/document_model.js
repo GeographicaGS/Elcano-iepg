@@ -1,7 +1,7 @@
 app.model.Document = Backbone.Model.extend({
 	_titleRequiredGroup : [ "title_es","title_en"],
 	_themeRequiredGroup : [ "theme_es","theme_en"],
-	_descriptionRequiredGroup : [ "theme_es","theme_en"],
+	_descriptionRequiredGroup : [ "description_es","description_en"],
 	validation: function (){
 		return {
 			title_es: {
@@ -44,7 +44,10 @@ app.model.Document = Backbone.Model.extend({
 	urlRoot: function() {
         return app.config.API_URL + "/document";
     },
-    parse : function(response){
+    parse : function(response,options){
+
+    	if ( options.saved ) return response;
+
     	response.labels_es  =  new Backbone.Collection(app.renameID(response.labels_es,"id_label","id"));
     	response.labels_en  =  new Backbone.Collection(app.renameID(response.labels_en,"id_label","id"));
     	response.pdfs_es  =  new Backbone.Collection(app.renameID(response.pdfs_es,"id_pdf","id"));

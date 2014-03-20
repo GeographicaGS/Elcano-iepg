@@ -877,6 +877,7 @@ ul.inlblock li{ display: inline-block}
 .size_18{font-size:18px;}
 .size_24{font-size:24px;}
 .size_26{font-size:26px;}
+.size_32{font-size:32px;}
 
 .translation_error{
   color:inherit;
@@ -909,5 +910,12 @@ ul.inlblock li{ display: inline-block}
 
 .mth1{ margin-top: @line_height;}
 .mbh1{ margin-bottom: @line_height;}
+
+.mth2{ margin-top:  @line_height*2}
+.mbh2{ margin-bottom: @line_height *2;}
+
+.mth3{ margin-top:  @line_height*3}
+.mbh3{ margin-bottom: @line_height *3;}
+
 .mtbh1{ margin: @line_height 0;}
 

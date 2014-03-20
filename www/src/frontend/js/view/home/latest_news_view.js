@@ -47,10 +47,9 @@ app.view.LatestNews = Backbone.View.extend({
     },
     
     render: function() {
-
         this.$el.html(this._template({
-            collection: this.collection.toJSON(),
-            section : this.collection.section
+             collection: this.collection.toJSON(),
+             section : this.collection.section
         }));
         return this;
     }

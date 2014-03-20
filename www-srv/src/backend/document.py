@@ -5,7 +5,6 @@
 Document backend
 
 """
-
 from backend import app
 from flask import jsonify,request,session
 from model.documentmodel import DocumentModel
@@ -16,8 +15,8 @@ import werkzeug
 import os
 import hashlib
 import time
-import utils
-import ipdb
+import cons
+
 
 @app.route('/document', methods=['POST'])
 @auth
@@ -37,7 +36,9 @@ def newDocument():
       "theme_en": "Theme EN",
       "description_es": "Description ES",
       "description_en": "Description EN",
-      "authors": ["@iliana", "@jpperez"],
+      "authors": [{"twitter_user": "@iliana"}, {"twitter_user": "@jpperez"}, 
+                  {"name": "Charles Powell", "position_en": "Director of the Elcano Royal Institute",
+                   "position_es": "Director del Real Instituto Elcano"}],
       "link_es": "Link ES",
       "link_en": "Link EN",
       "pdfs_es": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
@@ -48,15 +49,19 @@ def newDocument():
                   {"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
     }"""
     m = DocumentModel()
-    out = m.createDocument(request.json)
 
-    for f in request.json["pdfs_en"]:
-        movePdfFile(f["hash"])
+    try: 
+        for f in request.json["pdfs_en"]:
+            movePdfFile(f["hash"])
 
-    for f in request.json["pdfs_es"]:
-        movePdfFile(f["hash"])
+        for f in request.json["pdfs_es"]:
+            movePdfFile(f["hash"])
 
-    return(jsonify({"id": out}))
+        out = m.createDocument(request.json)
+        return(jsonify({"id": out}))
+    except: 
+        return(jsonify(cons.errors["-1"]))
+
 
 @app.route('/document/<int:id_document>', methods=['PUT'])
 @auth
@@ -131,6 +136,8 @@ def movePdfFile(hash):
     """Moves a PDF file within the filesystem."""
     origin = config.cfgBackend["tmpFolder"]+"/"+hash+".pdf"
     destination = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
+    app.logger.info(origin)
+    app.logger.info(destination)
     os.rename(origin, destination)
 
 
@@ -153,7 +160,7 @@ def getDocumentList():
       offset: mandatory, page to present
       search: optional, search criteria
       orderbyfield: optional, set by default to title
-      orderbyorder: optional, set by default to asc
+      orderbyorder: optional, asc / desc, set by default to asc
 
     """
     m = DocumentModel()
@@ -162,6 +169,14 @@ def getDocumentList():
     search = request.args["search"] if "search" in request.args else None
     orderbyfield = request.args["orderbyfield"] if "orderbyfield" in request.args else "title"
     orderbyorder = request.args["orderbyorder"] if "orderbyorder" in request.args else "asc"
+
+    if "orderbyorder" in request.args:
+        if request.args["orderbyorder"] not in cons.orderBy:
+            return(jsonify(cons.errors["-2"]))
+
+    if "orderbyfield" in request.args:
+        if request.args["orderbyfield"] not in cons.documentOrderFields:
+            return(jsonify(cons.errors["-3"]))
 
     totalSize = m.getDocumentListSize(search=search)
     docs = m.getDocumentList(request.args["offset"], config.cfgBackend["DocumentListLength"], \
@@ -181,21 +196,20 @@ def getDocumentList():
 
         thisDoc["title"] = doc["title"]
         thisDoc["time"] = doc["time"]
-
-        thisDoc["published"] = False        
-        if doc["published"] is not None:
-            thisDoc["published"] = True
+        thisDoc["published"] = doc["published"]
 
         authors = []
         for author in m.getDocumentAuthors(doc["id"]):
             authors.append(author["twitter_user"])
 
         thisDoc["authors"] = authors
-
         thisDoc["attachments"] = False
-        if doc["link_es"]!="" or doc["link_en"]!="" or \
-           len(m.getDocumentPdf(doc["id"]))>0:
+        if len(m.getDocumentPdf(doc["id"]))>0:
             thisDoc["attachments"] = True
+
+        thisDoc["links"] = False
+        if doc["link_es"]!=None or doc["link_en"]!=None:
+            thisDoc["links"] = True
 
         out.append(thisDoc)
 
@@ -218,10 +232,9 @@ def uploadPDF():
         if file and allowedFilePDF(file.filename):
             filename = secure_filename(file.filename)
             filename, fileExtension = os.path.splitext(filename)
-            filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() + fileExtension
-            
-            file.save(os.path.join(app.config['tmpFolder'], filename))
-            
+            filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() 
+
+            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename + ".pdf"))
             return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    
@@ -244,7 +257,7 @@ def getDocument(id_document):
     m = DocumentModel()
 
     # Get data from Database
-    d = m.getDocument(id_document)
+    d = m.getDocumentBackend(id_document)
     pdfs_es = m.getDocumentPdf(id_document,"es")
     pdfs_en = m.getDocumentPdf(id_document,"en")
     authors = m.getDocumentAuthors(id_document)
@@ -272,3 +285,16 @@ def getDocument(id_document):
     }
 
     return jsonify(json)
+
+
+@app.route("/document/<int:id_document>/toggle_publish", methods=["GET"])
+@auth
+def togglePublish(id_document):
+    """Toggles the published status of a document."""
+    m = DocumentModel()
+    status = m.togglePublish(id_document)
+
+    if status==None:
+        return jsonify(cons.errors["-4"])
+    else:
+        return jsonify({"result" : status})

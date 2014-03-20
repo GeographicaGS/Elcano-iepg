@@ -6,51 +6,26 @@ Frontend home services.
 
 
 """
-
 from frontend import app
 from flask import jsonify,request
-from werkzeug.utils import secure_filename
-import werkzeug
-import os
-import hashlib
-import time
-import json
 from model.homemodel import HomeModel
+from model.iepgdatamodel import IepgDataModel
+from model.highlightmodel import HighlightModel
+import helpers
 import collections
 import config
-import twitter_helper
+import cons
 
 
-@app.route('/home/document', methods=['GET'])
-def getDocument():
-    """Gets details of a document. Uses URL arguments:
+@app.route('/home/slider/<string:lang>', methods=['GET'])
+def getSliderFrontend(lang):
+    """Gets the slider's data."""
+    if lang not in cons.lang:
+        return(jsonify(cons.errors["-1"]))
 
-      iddocument: mandatory, ID of the requested document
-      lang: mandatory, language for document's metadata
-    """
-    m = HomeModel()
-    pdf = m.getDocumentPdf(request.args["iddocument"])
-    doc = m.getDocument(request.args["iddocument"], request.args["lang"])
-
-    return(jsonify({"details": doc, "pdf": pdf}))
-
-
-@app.route('/home/documentcatalog', methods=['GET'])
-def getDocumentCatalog():
-    """Gets a slice of a document list. Uses URL arguments:
-
-      offset: mandatory, page to present
-      lang: mandatory, language
-      search: optional, search criteria
-
-    """
-    m = HomeModel()
-    search = request.args["search"] if "search" in request.args else None
-    totalSize = m.getDocumentCatalogSize(search=search)
-    docs = m.getDocumentCatalog(request.args["offset"], config.cfgFrontend["DocumentListLength"], \
-                             request.args["lang"], search=search)
-
-    return(jsonify({"results": docs}))
+    m = HighlightModel()
+    out = m.getSliderFrontend(lang)
+    return(jsonify({"results": out}))
 
 
 @app.route('/home/countries', methods=['GET'])
@@ -76,7 +51,7 @@ def countries():
     }
       
     """
-    m = HomeModel()
+    m = IepgDataModel()
     a = m.countries(request.args["lang"], request.args["year"])
     blocks=dict()
     countries = dict()
@@ -110,8 +85,7 @@ def years():
     }
 
     """
-    m = HomeModel()
-
+    m = IepgDataModel()
     a = m.years()
 
     return(jsonify({"results": a}))
@@ -119,7 +93,7 @@ def years():
 
 @app.route('/home/newstuff', methods=['GET'])
 def newStuff():
-    """Returns new stuff for the new stuff control. Accepts parameters:
+    """Returns new stuff for the new stuff control. Accepts request.args:
 
       lang=en/es: mandatory 
 
@@ -131,34 +105,56 @@ def newStuff():
     {
         "news":[{
     	    "id": "1",
-    	    "user": "Iliana Olivié",
+    	    "wwwuser": "Iliana Olivié",
     	    "time": "201401101027",
 	    "title": "¿El auge del resto? Apuntes sobre la presencia
 	    global de América Latina, Asia y el Magreb y Oriente Medio",
     	    "section": "Blog",
     	    "labels": [
-                {"label": "IEPG"},
-    	        {"label": "Economía"}]
+                {"id": "1", "label": "IEPG"},
+    	        {"id": "2", "label": "Economía"}]
         }]
-    }"""
+    }
+    """
     m = HomeModel()
-    
-    if "section" in request.args :
-        if request.args["section"]!= "Twitter":
-            a = m.newStuff(request.args["lang"], request.args["section"])
-        else:
-            timeline = twitter_helper.getLatestTweets()
-            a = []
-            for tweet in timeline:
-                a.append({
-                  "id_section" : tweet.id,
-                  "time" : tweet.created_at,
-                  "title" : tweet.text,
-                  "section" : "Blog",
-                  "labels" :[],
-                  "wwwuser" : ["@rielcano"]
-                });
-    else:
-        a = m.newStuff(request.args["lang"])
 
-    return(jsonify({"results": a}))
+    if request.args["lang"] not in cons.lang:
+        return(jsonify(cons.errors["-1"]))
+
+    if "section" in request.args:
+        if request.args["section"] not in cons.newsSections:
+            return(jsonify(cons.errors["-2"]))
+
+    labels = m.getLabels(request.args["lang"])
+
+    if "section" in request.args:
+        if request.args["section"] in ["Blog", "Media", "Events"]:
+            stuff = m.newStuffSections(request.args["lang"], request.args["section"])
+        elif request.args["section"]=="Documents":
+            stuff = m.newStuffDocuments(request.args["lang"])
+        elif request.args["section"]=="Twitter":
+            timeline = helpers.twitterGetLatestTweets()
+            stuff = []
+            for tweet in timeline:
+                stuff.append({
+                    "id" : tweet.id,
+                    "time" : tweet.created_at,
+                    "title" : tweet.text,
+                    "section" : "Twitter",
+                    "labels" :[],
+                    "wwwuser" : "@rielcano"
+                })
+    else:
+        stuff = m.newStuffAll(request.args["lang"])
+
+    for s in stuff:
+        lab = []
+        if s["labels"]!=[None]:
+            for l in s["labels"]:
+                for a in labels:
+                    if str(a["id"])==str(l):
+                        lab.append(a)
+
+        s["labels"] = lab
+
+    return(jsonify({"results": stuff}))

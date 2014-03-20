@@ -1,11 +1,12 @@
-'''
-Created on 15/01/2014
+# coding=UTF8
 
-@author: alasarr
-'''
+"""
 
+User model.
+
+"""
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
-import base
+
 
 class UserModel(PostgreSQLModel):
     

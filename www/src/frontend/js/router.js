@@ -13,7 +13,8 @@ app.router = Backbone.Router.extend({
     /* define the route and function maps for this router */
     routes: {
             "" : "home",
-
+            "notfound" : "notfound",
+            "error" : "error",
             //"project/:id": "showProject",
             /* Sample usage: http://example.com/#about */
             "*other"    : "defaultRoute"
@@ -59,7 +60,15 @@ app.router = Backbone.Router.extend({
     },
 
     defaultRoute: function(){
-        alert("not found");
+        app.showView(new app.view.NotFound());
+    },
+
+    notfound: function(){
+        app.showView(new app.view.NotFound());
+    },
+
+    error: function(){
+        app.showView(new app.view.Error());
     }
     
 });

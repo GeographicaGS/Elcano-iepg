@@ -14,7 +14,28 @@
         </div>
                 
         <div class="col-md-10">
-            <p class="size_18 grey_dark roboto_light"><%= app.urlify(d.title,"target=_blank") %></p>
+            <p class="size_18 grey_dark roboto_light">
+                <% 
+                    link = "";
+                    switch (d.section)
+                    {
+                        case "Documents":
+                            link = "/<lang>lang</lang>/<lang>_link doc</lang>/" + d.id;
+                            break;
+                    }
+
+                    if (link){
+                    %>
+                        <a href="<%= link%>" class="simple">
+                            <%= app.urlify(d.title,"target=_blank") %>
+                        </a>
+                    <%
+                    } else { %>
+                        <%= app.urlify(d.title,"target=_blank") %>
+                    <% 
+                    } 
+                %>
+            </p>
             <div class="l1"></div>
             <p>
                 <% if (!section) { %>

@@ -180,6 +180,11 @@ a:hover{
     border-bottom: 1px solid @grey;
 }
 
+header{
+	a#top_logo:hover{
+		border-bottom: none;
+	}
+}
 
 header > div:first-child{
 	height: 120px;
@@ -228,6 +233,7 @@ ul#menu{
 	li:hover,li a:hover{
 		background-color: @yellow;
 		color:@grey_dark;
+		border-bottom: none;
 	}
 	li:nth-child(3){
 		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat top left;
@@ -251,19 +257,20 @@ ul#menu{
 	height: 45px;
 	line-height: 45px;
 	background-color: @grey_light;
-	color: @white;
+	color: @white ;
 	font-size: 16px;
 	padding: 0px 13px;
 	.roboto(medium);
 
 }
+
 .button.go{
 	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light;
 	padding-right: 33px;
 }
 
 .button:hover{
-	
+	color: @white;
     background-color:@grey_dark;
         
 }
@@ -280,6 +287,7 @@ ul#menu{
 .sep_grey2{
 	.sep(@grey2);
 }
+
 footer{
 	background: @grey;
 	color:@grey_light;
@@ -396,9 +404,9 @@ a.label:hover{
 }
 
 .search_header{
-	background-color: @red;
 	min-height: 95px;
 	color: @white;
+	background: @red url("@{imgPath}ELC_img_bg_discos.png") no-repeat right center;
 
 	input {
 		height: 42px;

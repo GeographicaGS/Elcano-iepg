@@ -215,13 +215,38 @@ Aquí las notas de la configuración de la API.
 
 Aquí las notas de la aplicación web.
 
+### Maquetación
+
+En el directorio www/src/frontend/design van las maquetaciones de los ficheros.
+
+La idea es que sobre este directorio se creen los htmls de cada sección, los programadores se encargan de coger estos ficheros y darle vida, una vez que lo hayan procesado, el fichero se mete en la carpeta processed.
+
+####Reglas de maquetación
+
+1) Los ficheros css se crean o se modifican sobre la carpeta www/src/frontend/css.
+2) El index.html es el fichero de plantilla, no se le añaden ni librerías ni nuevos estilos.
+3) Si se cambia algo en el base.css o reset.css hay que consultarlo con Alberto Asuero.
+4) El fichero styles.css tiene los estilos globales de la página.
+5) Los estilos propios de una sección van en un fichero aparte.
+6) Las imagenes están en el directorio www/cdn/frontend
+
+####Build
+Dentro de la carpeta build.js hay un fichero <b>build.js</b> que se encarga de hacer el build. Lo que hace este fichero es coger todos los css que estan en la variable deps.css, hacerle el procesado de less y dejarlo en el fichero main.css que es el que cargan las plantillas.
+
+El fichero <b>builder-watcher.js</b> detecta cuando editamos un fichero dentro de la carpeta www/src/frontend/css y ejecuta un build.
+
+#### Configuración de apache
+
+Para que todo funcione hay que poner el root de apache apuntando a www/src/frontend/design y configurar el Alias para las imágenes como se muestra a continuación.
+
+Al virtual host debemos de ponerle
+```
+Alias /img /Users/alasarr/dev/elcano-iepg/www/cdn/frontend/img
+```
+
 #### Configuración
 
 Aquí las notas de la configuración de la web.
-
-
-## Building
-
 
 
 

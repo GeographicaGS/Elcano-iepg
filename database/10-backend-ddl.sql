@@ -5,8 +5,7 @@
 */
 
 \i 00-config.sql
-
-\c :dbname :user
+\c :dbname :user :host :port
 
 create schema www authorization :user;
 

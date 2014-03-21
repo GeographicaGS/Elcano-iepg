@@ -1,3 +1,6 @@
+\i 00-config.sql
+\c :dbname :user :host :port
+
 insert into www.translation VALUES ('Añadir','Add','Añadir');
 insert into www.translation VALUES ('lang','en','es'); 
 insert into www.translation VALUES ('_link home','home','inicio');

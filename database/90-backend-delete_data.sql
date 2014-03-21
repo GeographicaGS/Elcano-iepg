@@ -4,6 +4,9 @@
 
 */
 
+\i ../00-config
+\c :dbname :user :host :port
+
 \echo www.author
 delete from www.author;
 alter sequence www.author_id_author_seq restart with 1;

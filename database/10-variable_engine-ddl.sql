@@ -5,8 +5,7 @@
 */
 
 \i 00-config.sql
-
-\c :dbname :user
+\c :dbname :user :host :port
 
 create schema iepg_data authorization :user;
 
@@ -137,7 +136,7 @@ references iepg_data.master_country(id_master_country);
 -- insert into iepg_data.project_role
 -- values(1, 'Context variable');
 
-\c :dbname :superuser
+\c :dbname :superuser :host :port
 
 copy iepg_data.master_country
 from :'copy_master_country'
@@ -156,4 +155,4 @@ csv header quote '"';
 
 analyze;
 
-\c :dbname :user
+\c :dbname :user :host :port

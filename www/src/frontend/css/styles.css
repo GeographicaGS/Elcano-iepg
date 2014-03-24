@@ -33,6 +33,7 @@ a.simple{
 a.simple:hover{
 	border-bottom: 1px solid @yellow !important;
 	text-decoration: none !important;
+	color:inherit !important;
 }
 
 
@@ -163,6 +164,7 @@ input[placeholder]{
 
 .roboto_light{.roboto(light);}
 .roboto_cond_bold{.roboto_cond(bold);}
+.roboto_bold{.roboto(bold);}
 
 .text_bold{ .roboto(bold);}
 
@@ -260,19 +262,42 @@ ul#menu{
 	color: @white ;
 	font-size: 16px;
 	padding: 0px 13px;
-	.roboto(medium);
+	cursor: pointer;
+	.roboto();
 
+	strong{
+		.roboto(bold);
+	}
+}
+
+
+
+
+
+.button.white{
+	background-color: @white;
+	color:@grey_light;
+	border:1px solid;
 }
 
 .button.go{
-	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light;
+	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light ;
+	padding-right: 33px;
+}
+
+.button.more_info{
+	background: url("@{imgPath}/ELC_icon_boton_enlace.png") no-repeat right center @white ;
+	padding-right: 33px;
+}
+
+.button.download{
+	background: url("@{imgPath}/ELC_icon_boton_descarga.png") no-repeat right center @grey_light ;
 	padding-right: 33px;
 }
 
 .button:hover{
 	color: @white;
     background-color:@grey_dark;
-        
 }
 
 .sep(@color){
@@ -287,6 +312,8 @@ ul#menu{
 .sep_grey2{
 	.sep(@grey2);
 }
+
+
 
 footer{
 	background: @grey;

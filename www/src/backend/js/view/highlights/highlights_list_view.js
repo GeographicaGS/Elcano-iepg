@@ -25,8 +25,6 @@ app.view.highlights.ListView = Backbone.View.extend({
     },
     events: {
         "click #more" : "nextPage",
-        "click #ctrl_search" : "showSearchUI",
-        "blur #search_form input" : "closeSearchUI",
         "keyup #search_form input": function(e){
             if (e.keyCode==27){
                 this.$searchInput.val("");
@@ -129,6 +127,7 @@ app.view.highlights.ListView = Backbone.View.extend({
         this.$totalElements = this.$("#total_elements");
         this.$totalVisibleElements = this.$("#total_visible_elements");
         this.$startElement = this.$("#start_element");
+        this.$searchInput = this.$searchForm.find("input");
 
         return this;
     },
@@ -136,6 +135,7 @@ app.view.highlights.ListView = Backbone.View.extend({
     search: function(){
         this.collectionUnpublished.search = $.trim(this.$searchInput.val());
         this._page = 0;
+        this.collectionUnpublished.page = this._page;
         this.collectionUnpublished.fetch({"reset" : true},{});
     },
 

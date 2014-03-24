@@ -4,7 +4,7 @@ app.router = Backbone.Router.extend({
     
     /* define the route and function maps for this router */
     routes: {
-        "" : "home",
+        "" : "highlightList",
         "user" : "user",
         "news" : "news",
         "logout" : "logout",

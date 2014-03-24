@@ -1,10 +1,6 @@
 <h1 class="page-header col-md-1">Portada</h1>
 <a href="/<lang>lang</lang>/highlights/add" type="button" class="btn btn-l">Nuevo destacado</a>
-<button type="button" class="btn btn-l navbar-right searchBT" id="ctrl_search"></button>
-<div class="navbar-form pull-right" id="search_form" style="display:none"> 
-    <input type="text" class="searchForm col-md-10" placeholder="buscar destacado">
-    <button type="button" class="btn btn-l col-md-1" >Buscar</button>
-</div>
+
 
 <hr class="featurette-divider">
 <div class="table-responsive">
@@ -21,6 +17,13 @@
 
         <tbody id="published"></tbody>
     </table>
+
+
+    <div id="search_form"> 
+        <input type="text" class="searchForm col-md-10" placeholder="buscar destacado inactivo">
+        <button type="button" class="btn btn-l col-md-1" >Buscar</button>
+        <div class="clear"></div>
+    </div>
 
     <h2 class="inactiveDes">Destacados inactivos</h2>
     <table class="table table-hover">

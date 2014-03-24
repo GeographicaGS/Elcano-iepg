@@ -10,46 +10,92 @@ from frontend import app
 from flask import jsonify,request
 from model.documentmodel import DocumentModel
 from model.labelmodel import LabelModel
+import model.helpers
 import config
 import cons
+from operator import itemgetter
 
 
 @app.route('/documentcatalog', methods=['GET'])
 def getDocumentCatalog():
-    """Gets a slice of a document list. Uses URL arguments:
+    """Gets a slice of a document list. request.args:
 
-      offset: mandatory, page to present
+      page: mandatory, page to present
       lang: mandatory, language (en / es)
       search: optional, search criteria
       filterbylabel: optional, comma-separated list of labels ID to filter with
 
     """
-    if request.args["lang"] not in cons.lang:
-        return(jsonify(cons.errors["-1"]))
-    
-    if not request.args["offset"].isdigit():
-        return(jsonify(cons.errors["-3"]))
 
-    if "filterbylabel" in request.args:
-        labels = request.args["filterbylabel"].split(",")
-        print(labels)
-        for i in labels:
-            if not i.isdigit():
-                return(jsonify(cons.errors["-5"]))
+
 
     m = DocumentModel()
-    l = LabelModel()
-    langLabels = l.getLabels(request.args["lang"])
-
-    
-
+    lang = request.args["lang"]
+    page = int(request.args["page"])
     fsearch = request.args["search"] if "search" in request.args else None
+    flabels = request.args["filterbylabel"] if "filterbylabel" in request.args else None
 
-    totalSize = m.getDocumentCatalogSize(search=fsearch)
-    docs = m.getDocumentCatalog(request.args["offset"], config.cfgFrontend["DocumentListLength"], \
-                             request.args["lang"], search=fsearch)
+    try:
+        if fsearch:
+            a = m.searchInLabels(lang, fsearch)["id_document"]
+            searchLabels = set(a) if a else set([])
 
-    return(jsonify({"results": docs, "listSize": totalSize}))
+            a = m.searchInAuthors(fsearch)["id_document"]
+            authors = set(a) if a else set([])
+        else:
+            searchLabels = set([])
+            authors = set([])
 
+        if flabels:
+            a = m.filterByLabels(lang, flabels)["id_document"]
+            filterLabels = set(a) if a else set([])
 
+        a = m.searchInDocument(lang, fsearch)["id_document"]
+        docs = set(a) if a else set([])
+    except model.helpers.ElcanoError as e:
+        return jsonify(e.dict())
 
+    if flabels:
+        docs = docs.union(searchLabels).union(authors).intersection(filterLabels)
+    else:
+        docs = docs.union(searchLabels).union(authors)
+
+    out=[]
+    
+    for i in list(docs):
+        try:
+            docDetail = m.getDocumentDetails(lang, i)
+            docAuthors = m.getDocumentAuthors(i)
+            docLabels = m.getDocumentLabels(i, lang)
+        except model.helpers.ElcanoError as e:
+            return jsonify(e.dict())
+
+        doc = dict()
+        doc["id"] = docDetail["id_document"]
+        doc["title"] = docDetail["title"]
+        doc["theme"] = docDetail["theme"]
+        doc["time"] = docDetail["last_edit_time"]
+        doc["authors"] = []
+        doc["labels"] = []
+
+        for a in docAuthors:
+            au = dict()
+            au["id"] = a["id_author"]
+            au["name"] = a["name"]
+            au["twitter_user"] = a["twitter_user"]
+            doc["authors"].append(au)
+
+        for l in docLabels:
+            la = dict()
+            la["id"] = l["id_label"]
+            la["label"] = l["label"]
+            doc["labels"].append(la)
+
+        out.append(doc)
+        
+    sortedOut = sorted(out, key=itemgetter("time"), reverse=True)
+
+    return(jsonify({"results": sortedOut[page*cons.documentCatalogListSize: \
+                                         (page*cons.documentCatalogListSize)+ \
+                                         cons.documentCatalogListSize], \
+                    "listSize": len(sortedOut)}))

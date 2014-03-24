@@ -7,14 +7,20 @@ app.router = Backbone.Router.extend({
         "" : "home",
         "user" : "user",
         "news" : "news",
-        "highlight" : "highlight",
         "logout" : "logout",
-        // default page of doc section
-        "docs": "listDocs",
         
+        // Documents section
+        "docs": "listDocs",
         "docs/add" : "addDocument",
         "docs/edit/:id" : "editDocument",
         "docs/:id" : "viewDocument",
+
+        // Highlight section
+        "highlights" : "highlightList",
+        "highlights/add" : "addHighlight",
+        "highlights/edit/:id" : "editHighlight",
+        "highlights/:id" : "highlightDetail",
+        
         //"project/:id": "showProject",
         /* Sample usage: http://example.com/#about */
         "*other"    : "defaultRoute"
@@ -32,10 +38,6 @@ app.router = Backbone.Router.extend({
     
     news: function(){
         app.showView(new app.view.NewsView());
-    },
-    
-    highlight: function(){
-        app.showView(new app.view.HighlightView());
     },
     
     logout : function(){
@@ -62,5 +64,23 @@ app.router = Backbone.Router.extend({
     
     defaultRoute: function(other){
         console.log('Invalid. You attempted to reach:' + other);
-    }
+    },
+
+    highlightList: function(){
+        app.showView(new app.view.highlights.ListView());
+    },
+
+    highlightDetail: function(id){
+        app.showView(new app.view.highlights.DetailView({
+            model : new app.model.Highlight({"id": id})
+        }));
+    },
+
+    addHighlight: function(){
+        app.showView(new app.view.highlights.FormView());
+    },
+    
+    editHighlight: function(id){
+        app.showView(new app.view.highlights.FormView({"id":id}));
+    },
 });

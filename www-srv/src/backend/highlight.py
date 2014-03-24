@@ -18,7 +18,7 @@ import time
 import cons
 
 
-@app.route('/highlight/delete/<int:idHighlight>', methods=['DELETE'])
+@app.route('/highlight/<int:idHighlight>', methods=['DELETE'])
 @auth
 def deleteHighlight(idHighlight):
     """Deletes a highlight by ID passed in the URL."""
@@ -147,18 +147,17 @@ def createHightlight():
         moveImgFile(request.json["image_hash_es"])
 
         out = m.createHighlight(request.json)
-        return(jsonify({"id_highlight": out}))
+        return(jsonify({"id": out}))
     except:
         return(jsonify(cons.errors["-1"]))
 
 
-@app.route('/highlight', methods=['PUT'])
+@app.route('/highlight/<int:id_highlight>', methods=['PUT'])
 @auth
-def editHightlight():
+def editHightlight(id_highlight):
     """Edits a highlight. Gets a JSON in the form:
 
     {
-        "id_highlight": 3,
         "title_en": "title_en",
         "title_es": "title_es",
         "text_en": "text_en",
@@ -173,7 +172,7 @@ def editHightlight():
         "credit_img_es": "credit_img_es",
     }"""
     m = HighlightModel()
-    oldHighlight = m.getHighlight(request.json["id_highlight"])
+    oldHighlight = m.getHighlight(id_highlight)
 
     try:
         if oldHighlight["image_hash_en"]!=request.json["new_image_hash_en"]:
@@ -216,8 +215,8 @@ def uploadImg():
         if file and allowedFileImg(file.filename):
             filename = secure_filename(file.filename)
             filename, fileExtension = os.path.splitext(filename)
-            filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() + fileExtension
-            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename))
+            filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() 
+            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename + fileExtension))
             return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    

@@ -6,9 +6,9 @@ Document model
 
 TODO: check all select * and state the fields.
 TODO: check for SQL injection.
+TODO: check for data validation
 
 """
-
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 import datetime
 from flask import session
@@ -21,52 +21,6 @@ class DocumentModel(PostgreSQLModel):
         """Gets the document full data."""
         doc = "select * from www.document where id_document=%s"
         return(self.query(doc, bindings=[idDocument]).row())
-
-
-    # def getDocumentCatalogSize(self, search=None):
-    #     """Gets the total size of a list of document for the frontend."""
-    #     docs = """
-    #     with count as(
-    #     select distinct a.id_document
-    #     from
-    #       www.document a inner join
-    #       www.document_label_en b on
-    #       a.id_document=b.id_document inner join
-    #       www.label_en c on
-    #       b.id_label_en=c.id_label_en inner join
-    #       www.document_label_es d on
-    #       a.id_document=d.id_document inner join
-    #       www.label_es e on
-    #       d.id_label_es=e.id_label_es inner join
-    #       www.author f on
-    #       a.id_document=f.id_document"""
-
-    #     if search:
-    #         search = "%"+search+"%"
-    #         docs+="""
-    #           where
-    #             a.title_en ilike %s or
-    #             a.title_es ilike %s or
-    #             a.theme_en ilike %s or
-    #             a.theme_es ilike %s or
-    #             a.description_en ilike %s or
-    #             a.description_es ilike %s or
-    #             c.label ilike %s or
-    #             e.label ilike %s or
-    #             f.name ilike %s or
-    #             f.twitter_user ilike %s"""
-
-    #     docs+="""
-    #     )
-    #     select count(id_document) as c
-    #     from count;"""
-
-    #     if search:
-    #         return self.query(docs, bindings=[ \
-    #                                            search, search, search, search, search, \
-    #                                            search, search, search, search, search]).row()["c"]
-    #     else:
-    #         return self.query(docs).row()["c"]
 
 
     def searchInLabels(self, lang, search):

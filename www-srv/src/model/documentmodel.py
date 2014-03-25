@@ -12,7 +12,7 @@ TODO: check for SQL injection.
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 import datetime
 from flask import session
-import helpers
+from helpers import DataValidator
 
 
 class DocumentModel(PostgreSQLModel):
@@ -71,7 +71,9 @@ class DocumentModel(PostgreSQLModel):
 
     def searchInLabels(self, lang, search):
         """Returns ID of documents attached to a given label expressed in search."""
-        helpers.checkLang(lang)
+        dv = DataValidator()
+        dv.checkLang(lang)
+
         sql = """
         select
         gs__uniquearray(array_agg(dl.id_document)::int[]) as id_document
@@ -120,7 +122,8 @@ class DocumentModel(PostgreSQLModel):
 
     def filterByLabels(self, lang, labels):
         """Gets the list of documents ID whose labels ID includes the target one."""
-        helpers.checkIntList(labels.split(","))
+        dv = DataValidator()
+        dv.checkIntList(labels.split(","))
         
         sql = """
         with a as(
@@ -146,7 +149,9 @@ class DocumentModel(PostgreSQLModel):
     def searchInDocument(self, lang, search=None):
         """Gets the list of document ID, optionally with a search in title,
         theme or description."""
-        helpers.checkLang(lang)
+        dv = DataValidator()
+        dv.checkLang(lang)
+
         sql = """
         select
           gs__uniquearray(array_agg(id_document)::int[]) as id_document
@@ -173,8 +178,9 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentDetails(self, lang, idDocument):
         """Gets details of documents for the frontend document catalog by ID."""
-        helpers.checkLang(lang)
-        helpers.checkNumber(idDocument)
+        dv = DataValidator()
+        dv.checkLang(lang)
+        dv.checkNumber(idDocument)
 
         sql = """
         select

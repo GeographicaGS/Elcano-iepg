@@ -157,6 +157,38 @@ class NewModel(PostgreSQLModel):
             return(set([]))
 
 
+    def getNewDetails(self, id_new):
+        """Returns details of a new by ID."""
+        sql = """
+        select
+        id_new,
+        a.id_wwwuser,
+        c.name,
+        c.surname,
+        c.email,
+        c.username,
+        new_time,
+        title_en,
+        title_es,
+        text_en,
+        text_es,
+        url_en,
+        url_es,
+        a.id_news_section,
+        b.description_en,
+        b.description_es,
+        published
+        from
+        www.new a inner join
+        www.news_section b on 
+        a.id_news_section=b.id_news_section inner join 
+        www.wwwuser c on
+        a.id_wwwuser=c.id_wwwuser
+        where id_new=%s;
+        """
+        return(self.query(sql, [id_new]).row())
+
+
     def __attachLabel(self, id_label, id_new, lang):
         """Attach a label to a new."""
         sql = self.insert("www.new_label_{}".format(lang),
@@ -168,4 +200,3 @@ class NewModel(PostgreSQLModel):
         """Detaches all labels from a new."""
         sql = "delete from www.new_label_{} where id_new=%s;".format(lang)
         self.queryCommit(sql, bindings=[id_new])
-        

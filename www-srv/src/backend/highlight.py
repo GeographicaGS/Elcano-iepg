@@ -186,7 +186,7 @@ def editHightlight(id_highlight):
         out = m.editHighlight(request.json)
         return(jsonify({"result": {"id_highlight": out}}))
     except:
-        return(jsonify(errors.errors["-1"]))
+        return(jsonify(cons.errors["-1"]))
 
 
 def deleteImgFile(hash):

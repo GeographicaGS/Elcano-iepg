@@ -21,5 +21,6 @@ class LabelModel(PostgreSQLModel):
 
     def insertLabel(self, label, lang="es"):
         """Inserts a label."""
-        helpers.checkLang(lang)
+        dv = DataValidator()
+        dv.checkLang(lang)
         return self.insert("www.label_{}".format(lang), {"label": label}, "id_label_{}".format(lang))

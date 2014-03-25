@@ -12,7 +12,7 @@ TODO: check for SQL injection.
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 import datetime
 from flask import session
-import helpers
+from helpers import DataValidator
 
 
 class DocumentModel(PostgreSQLModel):
@@ -71,7 +71,9 @@ class DocumentModel(PostgreSQLModel):
 
     def searchInLabels(self, lang, search):
         """Returns ID of documents attached to a given label expressed in search."""
-        helpers.checkLang(lang)
+        dv = DataValidator()
+        dv.checkLang(lang)
+
         sql = """
         select
         gs__uniquearray(array_agg(dl.id_document)::int[]) as id_document
@@ -120,7 +122,8 @@ class DocumentModel(PostgreSQLModel):
 
     def filterByLabels(self, lang, labels):
         """Gets the list of documents ID whose labels ID includes the target one."""
-        helpers.checkIntList(labels.split(","))
+        dv = DataValidator()
+        dv.checkIntList(labels.split(","))
         
         sql = """
         with a as(
@@ -146,7 +149,9 @@ class DocumentModel(PostgreSQLModel):
     def searchInDocument(self, lang, search=None):
         """Gets the list of document ID, optionally with a search in title,
         theme or description."""
-        helpers.checkLang(lang)
+        dv = DataValidator()
+        dv.checkLang(lang)
+
         sql = """
         select
           gs__uniquearray(array_agg(id_document)::int[]) as id_document
@@ -173,8 +178,9 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentDetails(self, lang, idDocument):
         """Gets details of documents for the frontend document catalog by ID."""
-        helpers.checkLang(lang)
-        helpers.checkNumber(idDocument)
+        dv = DataValidator()
+        dv.checkLang(lang)
+        dv.checkNumber(idDocument)
 
         sql = """
         select
@@ -324,7 +330,7 @@ class DocumentModel(PostgreSQLModel):
         return self.query(docs).row()["c"]
                
 
-    def getDocumentList(self, offset, listSize, search=None, orderByField="title", orderByOrder="asc"):
+    def getDocumentList(self, page, listSize, search=None, orderByField="title", orderByOrder="asc"):
         """Gets list of documents."""
         docs = """
         select id_document as id, coalesce(title_es, title_en) as title, 
@@ -348,10 +354,10 @@ class DocumentModel(PostgreSQLModel):
         if search:
             return self.query(docs, bindings=[ \
                                                search, search, search, search, search, search, \
-                                               int(offset)*listSize, \
+                                               int(page)*listSize, \
                                                listSize]).result()
         else:
-            return self.query(docs, bindings=[int(offset)*listSize, listSize]).result()
+            return self.query(docs, bindings=[int(page)*listSize, listSize]).result()
 
 
     def getDocumentAuthors(self, id_document):
@@ -368,10 +374,11 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentPdf(self, idDocument, lang=None):
         """Gets the list of PDF of a document, optionally for a given language."""
+        dv = DataValidator()
 
         if lang:
-            helpers.checkLang(lang)
-        helpers.checkNumber(idDocument)
+            dv.checkLang(lang)
+        dv.checkNumber(idDocument)
 
         q = "select id_pdf as id, id_document, lang, pdf_name as name, hash from www.pdf where id_document=%s"
         bindings = [idDocument]
@@ -412,8 +419,9 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentLabels(self, idDocument, lang):
         """Get document labels."""
-        helpers.checkLang(lang)
-        helpers.checkNumber(idDocument)
+        dv = DataValidator()
+        dv.checkLang(lang)
+        dv.checkNumber(idDocument)
 
         q = "SELECT dl.id_label_{} as id_label, l.label FROM www.document_label_{} dl "\
             " INNER JOIN  www.label_{} l ON dl.id_label_{}=l.id_label_{} "\

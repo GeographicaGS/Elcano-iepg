@@ -179,6 +179,8 @@ def getDocumentList():
       orderbyfield: optional, set by default to title
       orderbyorder: optional, asc / desc, set by default to asc
 
+    TODO: modify data validation
+
     """
     m = DocumentModel()
     out = []
@@ -196,7 +198,7 @@ def getDocumentList():
             return(jsonify(cons.errors["-3"]))
 
     totalSize = m.getDocumentListSize(search=search)
-    docs = m.getDocumentList(request.args["offset"], config.cfgBackend["DocumentListLength"], \
+    docs = m.getDocumentList(request.args["page"], config.cfgBackend["DocumentListLength"], \
                              search=search, orderByField=orderbyfield, orderByOrder=orderbyorder)
 
     for doc in docs:
@@ -230,7 +232,7 @@ def getDocumentList():
 
         out.append(thisDoc)
 
-    return(jsonify({"results": {"listSize": totalSize, "page": request.args["offset"], \
+    return(jsonify({"results": {"listSize": totalSize, "page": request.args["page"], \
                                 "documentList": out}}))
 
 

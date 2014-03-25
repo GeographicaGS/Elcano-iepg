@@ -49,7 +49,7 @@ def getDocumentCatalog():
 
         a = m.searchInDocument(lang, fsearch)["id_document"]
         docs = set(a) if a else set([])
-    except model.helpers.ElcanoError as e:
+    except ElcanoError as e:
         return jsonify(e.dict())
 
     if flabels:
@@ -64,7 +64,7 @@ def getDocumentCatalog():
             docDetail = m.getDocumentDetails(lang, i)
             docAuthors = m.getDocumentAuthors(i)
             docLabels = m.getDocumentLabels(i, lang)
-        except model.helpers.ElcanoError as e:
+        except ElcanoError as e:
             return jsonify(e.dict())
 
         doc = dict()

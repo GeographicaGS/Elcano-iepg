@@ -368,11 +368,12 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentPdf(self, idDocument, lang=None):
         """Gets the list of PDF of a document, optionally for a given language."""
+
         if lang:
             helpers.checkLang(lang)
         helpers.checkNumber(idDocument)
 
-        q = "select id_pdf as id, id_document, lang, pdf_name, hash from www.pdf where id_document=%s"
+        q = "select id_pdf as id, id_document, lang, pdf_name as name, hash from www.pdf where id_document=%s"
         bindings = [idDocument]
 
         if lang:

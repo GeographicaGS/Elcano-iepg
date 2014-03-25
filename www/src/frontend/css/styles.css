@@ -33,6 +33,7 @@ a.simple{
 a.simple:hover{
 	border-bottom: 1px solid @yellow !important;
 	text-decoration: none !important;
+	color:inherit !important;
 }
 
 
@@ -163,6 +164,7 @@ input[placeholder]{
 
 .roboto_light{.roboto(light);}
 .roboto_cond_bold{.roboto_cond(bold);}
+.roboto_bold{.roboto(bold);}
 
 .text_bold{ .roboto(bold);}
 
@@ -180,6 +182,11 @@ a:hover{
     border-bottom: 1px solid @grey;
 }
 
+header{
+	a#top_logo:hover{
+		border-bottom: none;
+	}
+}
 
 header > div:first-child{
 	height: 120px;
@@ -228,6 +235,7 @@ ul#menu{
 	li:hover,li a:hover{
 		background-color: @yellow;
 		color:@grey_dark;
+		border-bottom: none;
 	}
 	li:nth-child(3){
 		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat top left;
@@ -242,6 +250,7 @@ ul#menu{
 	li[selected]{
 		border-bottom: 1px solid @white;
 		line-height: 43px;
+		color: @white;
 	}
 }
 
@@ -250,21 +259,45 @@ ul#menu{
 	height: 45px;
 	line-height: 45px;
 	background-color: @grey_light;
-	color: @white;
+	color: @white ;
 	font-size: 16px;
 	padding: 0px 13px;
-	.roboto(medium);
+	cursor: pointer;
+	.roboto();
 
+	strong{
+		.roboto(bold);
+	}
 }
+
+
+
+
+
+.button.white{
+	background-color: @white;
+	color:@grey_light;
+	border:1px solid;
+}
+
 .button.go{
-	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light;
+	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light ;
+	padding-right: 33px;
+}
+
+.button.more_info{
+	background: url("@{imgPath}/ELC_icon_boton_enlace.png") no-repeat right center @white ;
+	padding-right: 33px;
+}
+
+.button.download{
+	background: url("@{imgPath}/ELC_icon_boton_descarga.png") no-repeat right center @grey_light ;
 	padding-right: 33px;
 }
 
 .button:hover{
-	
+	color: @white;
     background-color:@grey_dark;
-        
 }
 
 .sep(@color){
@@ -279,6 +312,9 @@ ul#menu{
 .sep_grey2{
 	.sep(@grey2);
 }
+
+
+
 footer{
 	background: @grey;
 	color:@grey_light;
@@ -395,9 +431,9 @@ a.label:hover{
 }
 
 .search_header{
-	background-color: @red;
 	min-height: 95px;
 	color: @white;
+	background: @red url("@{imgPath}ELC_img_bg_discos.png") no-repeat right center;
 
 	input {
 		height: 42px;
@@ -451,13 +487,20 @@ a.label:hover{
 			text-decoration:line-through;
 		}
 	}
+
+	#n_resultados{
+    	float:right;
+    	font-size: 13px;
+    	color: @white;
+    	margin-right: 10px;
+    	.roboto();
+    	strong{
+    		.roboto(bold);
+    	}
+    }
 }
 
-
-
 .list_els{
-
-
 	p{
         a{
             color:@grey_dark;
@@ -467,16 +510,48 @@ a.label:hover{
             border-bottom: 1px solid @grey;
         }
     }
+}
 
-    .authors{
-        display: inline;
-        a{
-            color:@grey_dark;
-            border-bottom: 1px solid @yellow;
-            font-size: 13px;
-        }
-        a:hover{
-            border-bottom: 1px solid @grey;
-        }
+.authors{
+    display: inline;
+    a{
+        color:@grey_dark;
+        border-bottom: 1px solid @yellow;
+        font-size: 13px;
     }
+    a:hover{
+        border-bottom: 1px solid @grey;
+    }
+}
+
+.co_popup{
+    position: absolute;
+    right:0;
+    bottom: 20px;
+    z-index: 10;
+
+    .popup_content{
+        background: @white;
+        box-shadow: 0 5px 10px 0px #666;
+    }
+
+    .arrow{
+        width: 43px;
+        height: 46px;
+        overflow: hidden;
+        float: right;
+        margin-right: 19px;
+    }
+
+    .arrow:after{
+        content: "";
+        width: 24px;
+        height: 70px;
+        -webkit-transform: rotate(-45deg);
+        float: right;
+        background-color: #fff;
+        margin-top: -30px;
+        box-shadow: 0 5px 10px 5px #666;
+   }
+
 }

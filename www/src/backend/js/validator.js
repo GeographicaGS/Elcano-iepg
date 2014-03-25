@@ -386,10 +386,15 @@ Backbone.Validation = (function(_){
 	        	.show();
 
 	        if (error.indexOf("required") == -1){
-	        	$el.after("<label class='error_form'>" + error + "</label>");	
+	        	if ($el.siblings("label.error_form").length){
+	        		$el.siblings("label.error_form").html(error);
+	        	}
+	        	else{
+	        		$el.after("<label class='error_form'>" + error + "</label>");		
+	        	}
+	        	
 	        }
 
-	        //app.scrollTop();
 	       
 
 	    }

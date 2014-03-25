@@ -1,0 +1,51 @@
+<h1 class="page-header col-md-1">Portada</h1>
+<a href="/<lang>lang</lang>/highlights/add" type="button" class="btn btn-l">Nuevo destacado</a>
+
+
+<hr class="featurette-divider">
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr class="row">
+                <th class="col-md-1"><span class="ESTag">ES</span> <span class="ENTag">EN</span></th>
+                <th class="col-md-3">Epígrafe</th>
+                <th class="col-md-4">título</th>
+                <th class="col-md-3 thRight">ultima edición</th>
+                <th class="thRight col-md-1">orden</th>
+            </tr>
+        </thead>
+
+        <tbody id="published"></tbody>
+    </table>
+
+
+    <div id="search_form"> 
+        <input type="text" class="searchForm col-md-10" placeholder="buscar destacado inactivo">
+        <button type="button" class="btn btn-l col-md-1" >Buscar</button>
+        <div class="clear"></div>
+    </div>
+
+    <h2 class="inactiveDes">Destacados inactivos</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr class="row">
+                <th class="col-md-1"><span class="ESTag">ES</span> <span class="ENTag">EN</span></th>
+                <th class="col-md-3">Epígrafe</th>
+                <th class="col-md-4">título</th>
+                <th class="col-md-3 thRight">ultima edición</th>
+                <th class="thRight col-md-1"></th>
+            </tr>
+        </thead>
+        <tbody id="unpublished"></tbody>
+    </table> 
+
+    <div class="Footertable">
+        <strong><span id="start_element"></span> – <span id="total_visible_elements"></span></strong> de <span id="total_elements"></span> destacados
+        </div>
+    <div class="pull-left pl15 col-md-12 btn_botton">
+         <div class="col-md-2 pl15">
+            <button type="button" class="btn btn-l btn-edit" id="more">Más destacados</button>
+        </div>
+    </div>
+    
+</div>

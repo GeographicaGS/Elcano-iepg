@@ -1,94 +1,135 @@
-<% 
+<% console.log(model) %>
 
-d = model.details;
-console.log(model) %>
-<div class="container mth1 doc_detail">
-    <div class="col-md-2 col-sm-12">
-        <h4 class="red size_16 mth1"><lang>Documento</lang></h4>
-        <div class="roboto_bold grey_light size_11 uppercase mth1">
-            <lang>Etiquetas</lang>
-        </div>
-        <ul id="labels">
-            <% _.each(d.labels,function(l){ %>
-                <li class="mb"><a class="label" href=""> <%= l %></a></li>
-            <% }); %>
-        </ul>
-    </div>
-    <div class="col-md-10 col-sm-12">
-        <div class="row">
-            <div class="col-md-11">
-                <p class="size_13 grey_light"><%= app.dateTimeFormat(d.time) %></p>
-                <h4 class="roboto_light red size_32 mt"><%= d.title %></h4>
-                <div class="mth2">
-                    <span class="size_13 grey_light roboto_light"><lang>Por</lang></span>
-                    <div class="inlblock authors">
-                        <% 
-                        i = 0;
-                        _.each(d.authors,function(a){
-                            i++;
-                            if (i>1){
-                                print(", ");
-                            }
-                        %>
-                            <a href="http://www.twitter.com/<%= a.substring(1)%>"  target="_blank"><%= a %></a>
-                        <% });%>
-                    </div>
+<div class="container  doc_detail">
+    
+    <div class="col-md-10 col-sm-12 " id="co_detail">
+        <div class="row pth1">
+            <div class="col-md-2 col-sm-12">
+                <h4 class="red size_16 mth1"><lang>Documento</lang></h4>
+                <div class="roboto_bold grey_light size_11 uppercase mth1">
+                    <lang>Etiquetas</lang>
                 </div>
-               
+                <ul id="labels">
+                    <% _.each(model.labels,function(l){ %>
+                        <li class="mb"><a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%=l.id_label %>"> <%= l.label %></a></li>
+                    <% }); %>
+                </ul>
             </div>
-            <div class="col-md-1">
-                <!-- Social links -->
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="mth2 mbh1 roboto_bold size_11 grey_light uppercase">
-                    <lang>TEMA</lang>
-                </div>
-                <p class="roboto_light size_18 grey">
-                    <%= d.theme %>
-                </p>
-
-                <div class="summary mth2">
-                    <div class="mbh1 roboto_bold size_11 grey_light uppercase">
-                        <lang>RESUMEN</lang>
-                    </div>
-                    <p class="roboto_light size_18 grey">
-                        <%= d.description %>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-12">
-                <div class="author_desc">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <img class="avatar" src="https://pbs.twimg.com/profile_images/2716128092/dbcdb11f8c9ecfab61180b1ad9647794_bigger.jpeg" />
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-11">
+                        <p class="size_13 grey_light"><%= app.dateTimeFormat(new Date()) %></p>
+                        <h2><%= model.title %> </h2>
+                        <div class="mth2">
+                            <span class="size_13 grey_light roboto_light"><lang>Por</lang></span>
+                            <div class="inlblock authors">
+                                <% 
+                                i = 0;
+                                _.each(model.authors,function(a){
+                                    i++;
+                                    if (i>1){
+                                        print(", ");
+                                    }
+                                %>
+                                    <a href="/<lang>lang</lang>/<lang>_link docs</lang>/null/<%= a.twitter_user %>" ><%= a.twitter_user %></a>
+                                <% });%>
+                            </div>
                         </div>
+                       
+                    </div>
+                    <div class="col-md-1">
+                        <!-- Social links -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="sep mth2"></div>
+
+                        <div class="mbh1 roboto_bold size_11 grey_light uppercase">
+                            <lang>TEMA</lang>
+                        </div>
+                        <p class="roboto_light size_14 grey">
+                            <%= model.theme %>
+                        </p>
+
+                        <div class="sep mth1"></div>
+
                         
-                        <div class="col-md-7">
-                            <p class="roboto_bold size_16 grey_dark">Iliana Olivié</p>
-                            <p class="roboto_bold size_13 grey">
-                            Investigadora principal del Real Instituto Elcano y coordinadora del Proyecto Índice Elcano de Presencia Global
-                            </p>
-                            <p class="mth1 roboto_bold size_13 grey">
-                                <a href="" target="_blank" class="fleft">@iolive</a>
-                                <img class="fleft" />
-                                <div class="clear"></div>
-                            </p>
-                        </div>
-
-                        <div class="col-md-2 col-md-offset-1">
-                            <a class="button go" href="#" target="_blank" ><lang>Más</lang>...</a>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row mth2 mbh2">
+            <div class="col-md-12">
+                <p class="roboto size_16 grey">
+                    <%= model.description %>
+                </p>
+            </div>
+        </div>
+
+        <% _.each(model.pdf,function(p){ %>
+            <div class="row mb">
+                <div class="col-md-12">
+                    <a class="button download" href="/media/<%=p.hash %>.pdf" target="_blank">
+                        <strong>Descargar</strong>
+                        <%= p.name %>
+                    </a>
+                </div>
+            </div>
+        <% }); %>
+
+        <div class="sep mth2 mbh1"></div>
+
+        <% if (model.link){ %>
+            <div class="row ">
+                <div class="col-md-12">
+                    <a class="button white more_info" href="<%= model.link%>" target="_blank">
+                        <lang>Ampliar información</lang>...
+                    </a>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="l1"></div>
+
+        <% _.each(model.authors,function(a){ %>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="author_desc">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img class="avatar" src="<%= a.image %>" />
+                            </div>
+                            
+                            <div class="col-md-7">
+                                <p class="roboto_bold size_16 grey_dark"><%= a.name %></p>
+                                <p class="roboto size_13 grey">
+                                <%= a.position %>
+                                </p>
+                                <p class="mth1 roboto size_13 grey">
+                                    <a href="" target="_blank" class="fleft"><%= a.twitter_user %></a>
+                                    <img class="fleft mt2 ml5" src="/img/ELC_icon_twitter_autor.png" />
+                                    <div class="clear"></div>
+                                </p>
+                            </div>
+
+                            <div class="col-md-2 col-md-offset-1">
+                                <a class="button go" href="/<lang>lang</lang>/<lang>_link docs</lang>/null/<%= a.twitter_user %>" >
+                                    <lang>Más</lang>...
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } ); %>
+
+        <div class="l2"></div>
+    </div>
+
+    <div class="col-md-2 col-sm-12 " id="latestDocs">
 
     </div>
 </div>

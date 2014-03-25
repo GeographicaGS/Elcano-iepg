@@ -103,6 +103,7 @@ deps.Frontend.JS = {
 			// ------  Models ------
 			// --------------------
 			"frontend/js/model/docs/document_model.js",
+			"frontend/js/model/home/countries_model.js",
 			
 			// --------------------
 			// --- Collections  ---
@@ -118,6 +119,7 @@ deps.Frontend.JS = {
 			"frontend/js/view/home/latest_news_view.js",
 			"frontend/js/view/home/slider_view.js",
 			"frontend/js/view/home/home_view.js",
+			"frontend/js/view/home/country_popup_view.js",
 			"frontend/js/view/docs/docs_list_view.js",
 			"frontend/js/view/docs/doc_view.js",
 

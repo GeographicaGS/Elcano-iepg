@@ -25,20 +25,30 @@ $(function() {
     });
 
     $("body").on("click","a",function(e){
-        if ($(this).attr("target")=="_blank"){
+        var href = $(this).attr("href");
+        if ($(this).attr("target")=="_blank" || href=="/es" || href=="/en"){
             return;
         }
+
         e.preventDefault();
-        var href = $(this).attr("href");
         if (href=="#back") {
             history.back();
         }
+
         else if (href!="" && href!="#") {
             app.router.navigate($(this).attr("href").substring(3),{trigger: true});
         }
-        
     });
 
+    $("body").on("click","#ctrl_language",function(e){
+        var $el = $("#menu_language");
+        if ($el.is(":visible")){
+            $el.fadeOut(300);
+        }
+        else{
+            $el.fadeIn(300);
+        }
+    });
    
     app.ini();
 
@@ -68,6 +78,12 @@ app.detectCurrentLanguage = function(){
 app.ini = function(){
     
     this.lang = this.detectCurrentLanguage();
+    if (this.lang == "es"){
+        $("#menu_language li:nth-child(1)").attr("selected",true);
+    }
+    else{
+        $("#menu_language li:nth-child(2)").attr("selected",true);
+    }
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
     this.$main = $("main");

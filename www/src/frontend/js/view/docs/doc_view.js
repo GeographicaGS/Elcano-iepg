@@ -17,7 +17,7 @@ app.view.Document = Backbone.View.extend({
 
     _initialize: function(){
         this.latestDocs = new app.collection.LatestNews();
-        this.latestDocs.section = "Documents";
+        this.latestDocs.section = 4;
         this.listenTo(this.latestDocs,"reset",function(){
             this.renderLatestDocs();
         });

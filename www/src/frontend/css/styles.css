@@ -269,7 +269,11 @@ ul#menu{
 	.roboto_cond();
 
 	li{
-		padding: 0 10px;
+        a{
+            padding: 0 10px;
+            height: 100%;
+            display: inline-block;
+        }
 	}
 
 	li:hover,li a:hover{
@@ -292,6 +296,8 @@ ul#menu{
 		line-height: 43px;
 		color: @white;
 	}
+
+
 }
 
 .button{

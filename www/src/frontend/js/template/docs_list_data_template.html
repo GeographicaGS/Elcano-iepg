@@ -30,7 +30,7 @@
                         print(", ");
                     }
                 %>
-                    <a href="#" data-id-author="<%= a %>"><%= a %></a>
+                    <a href="#" data-id-author="<%= a.twitter_user %>"><%= a.twitter_user %></a>
                 <% });%>
             </div>
         </div>
@@ -46,7 +46,7 @@
             <p>
 
                 <% _.each(d.labels,function(l){ %>
-                    <a class="label" href="#" data-id-filter=""><%= l %></a/>
+                    <a class="label" href="#" data-id-filter="<%= l.id%>"><%= l.label %></a/>
                 <%  }); %>
             </p>
         </div>

@@ -11,21 +11,23 @@ from flask import jsonify,request
 from model.homemodel import HomeModel
 from model.iepgdatamodel import IepgDataModel
 from model.highlightmodel import HighlightModel
+from model.labelmodel import LabelModel
 import helpers
 import collections
 import config
 import cons
-
+from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage
 
 @app.route('/home/slider/<string:lang>', methods=['GET'])
 def getSliderFrontend(lang):
     """Gets the slider's data."""
-    if lang not in cons.lang:
-        return(jsonify(cons.errors["-1"]))
-
     m = HighlightModel()
-    out = m.getSliderFrontend(lang)
-    return(jsonify({"results": out}))
+    
+    try:
+        out = m.getSliderFrontend(lang)
+        return(jsonify({"results": out}))
+    except ElcanoErrorBadLanguage as e:
+        return(jsonify(e.dict()))
 
 
 @app.route('/home/countries', methods=['GET'])
@@ -96,8 +98,7 @@ def newStuff():
     """Returns new stuff for the new stuff control. Accepts request.args:
 
       lang=en/es: mandatory 
-
-      section=Blog/Media/Events/Documents/Twitter: optional. If absent, sends
+      section= 1=Blog/2=Media/3=Events/4=Documents/5=Twitter: optional. If absent, sends
       all sections mixed
 
     Returns a JSON in the form:
@@ -117,35 +118,36 @@ def newStuff():
     }
     """
     m = HomeModel()
+    l = LabelModel()
+    lang = request.args["lang"]
+    section = int(request.args["section"]) if "section" in request.args else None
 
-    if request.args["lang"] not in cons.lang:
-        return(jsonify(cons.errors["-1"]))
-
-    if "section" in request.args:
-        if request.args["section"] not in cons.newsSections:
-            return(jsonify(cons.errors["-2"]))
-
-    labels = m.getLabels(request.args["lang"])
-
-    if "section" in request.args:
-        if request.args["section"] in ["Blog", "Media", "Events"]:
-            stuff = m.newStuffSections(request.args["lang"], request.args["section"])
-        elif request.args["section"]=="Documents":
-            stuff = m.newStuffDocuments(request.args["lang"])
-        elif request.args["section"]=="Twitter":
-            timeline = helpers.twitterGetLatestTweets()
-            stuff = []
-            for tweet in timeline:
-                stuff.append({
-                    "id" : tweet.id,
-                    "time" : tweet.created_at,
-                    "title" : tweet.text,
-                    "section" : "Twitter",
-                    "labels" :[],
-                    "wwwuser" : "@rielcano"
-                })
-    else:
-        stuff = m.newStuffAll(request.args["lang"])
+    try:
+        labels = l.getLabels(lang)
+        if section:
+            if section in [1,2,3]:
+                stuff = m.newStuffSections(lang, section)
+            elif section==4:
+                stuff = m.newStuffDocuments(lang)
+            elif section==5:
+                timeline = helpers.twitterGetLatestTweets()
+                stuff = []
+                for tweet in timeline:
+                    stuff.append({
+                        "id" : tweet.id,
+                        "time" : tweet.created_at,
+                        "title" : tweet.text,
+                        "section" : "Twitter",
+                        "labels" :[],
+                        "wwwuser" : "@rielcano"
+                    })
+            else:
+                e = ElcanoErrorBadNewsSection(section)
+                return(jsonify(e.dict()))
+        else:
+            stuff = m.newStuffAll(lang)
+    except ElcanoError as e:
+        return(jsonify(e.dict()))
 
     for s in stuff:
         lab = []

@@ -6,8 +6,9 @@ Document backend
 
 """
 from backend import app
-from flask import jsonify,request,session
+from flask import jsonify,request,session,send_file
 from model.documentmodel import DocumentModel
+from model.helpers import DataValidator
 from backend.utils import auth, prettyNumber
 import config
 from werkzeug.utils import secure_filename
@@ -16,6 +17,22 @@ import os
 import hashlib
 import time
 import cons
+
+
+@app.route('/download/pdf', methods=['GET'])
+@auth
+def downloadPdf():
+    """Downloads a PDF. request.args:
+
+    idPdf: mandatory, PDF ID.
+
+    """
+    m = DocumentModel()
+    pdf = m.getPdfData(request.args["idPdf"])
+    
+    return(send_file(config.cfgBackend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
+                     mimetype="application/pdf", attachment_filename=pdf["pdf_name"]+".pdf", \
+                     as_attachment=True))
 
 
 @app.route('/document', methods=['POST'])
@@ -157,7 +174,7 @@ def getDocumentList():
 
     Gets a slice of a document list. Uses URL arguments:
 
-      offset: mandatory, page to present
+      page: mandatory, page to present
       search: optional, search criteria
       orderbyfield: optional, set by default to title
       orderbyorder: optional, asc / desc, set by default to asc

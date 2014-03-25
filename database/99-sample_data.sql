@@ -1,3 +1,6 @@
+\i 00-config.sql
+\c :dbname :user :host :port
+
 -- Sample data
 
 -- Label EN

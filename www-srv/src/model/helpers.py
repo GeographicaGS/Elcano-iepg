@@ -64,6 +64,6 @@ class DataValidator():
     def checkIntList(self, n):
         """Checks that a list is composed exclusively by integers."""
         for i in n:
-            checkNumber(i)
+            self.checkNumber(i)
 
         return None

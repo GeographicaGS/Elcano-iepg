@@ -330,7 +330,7 @@ class DocumentModel(PostgreSQLModel):
         return self.query(docs).row()["c"]
                
 
-    def getDocumentList(self, offset, listSize, search=None, orderByField="title", orderByOrder="asc"):
+    def getDocumentList(self, page, listSize, search=None, orderByField="title", orderByOrder="asc"):
         """Gets list of documents."""
         docs = """
         select id_document as id, coalesce(title_es, title_en) as title, 
@@ -354,10 +354,10 @@ class DocumentModel(PostgreSQLModel):
         if search:
             return self.query(docs, bindings=[ \
                                                search, search, search, search, search, search, \
-                                               int(offset)*listSize, \
+                                               int(page)*listSize, \
                                                listSize]).result()
         else:
-            return self.query(docs, bindings=[int(offset)*listSize, listSize]).result()
+            return self.query(docs, bindings=[int(page)*listSize, listSize]).result()
 
 
     def getDocumentAuthors(self, id_document):

@@ -11,6 +11,7 @@ import user
 import document
 import label
 import highlight
+import new
 
 @app.route('/', methods = ['GET'])                                            
 def alive():

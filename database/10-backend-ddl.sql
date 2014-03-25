@@ -171,7 +171,8 @@ create table www.new(
   text_es text,
   url_en varchar(250),
   url_es varchar(250),
-  id_news_section integer
+  id_news_section integer,
+  published boolean
 );
 
 alter table www.new

@@ -10,7 +10,7 @@ from frontend import app
 from flask import jsonify,request
 from model.documentmodel import DocumentModel
 from model.labelmodel import LabelModel
-import model.helpers
+from model.helpers import ElcanoError
 import config
 import cons
 from operator import itemgetter
@@ -26,9 +26,6 @@ def getDocumentCatalog():
       filterbylabel: optional, comma-separated list of labels ID to filter with
 
     """
-
-
-
     m = DocumentModel()
     lang = request.args["lang"]
     page = int(request.args["page"])

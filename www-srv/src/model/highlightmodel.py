@@ -9,6 +9,7 @@ Highlight model
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 import datetime
 from flask import session
+from helpers import DataValidator
 
 
 class HighlightModel(PostgreSQLModel):
@@ -207,24 +208,24 @@ class HighlightModel(PostgreSQLModel):
         """Get the slider's data in language lang for the home, active and ordered.
         TODO: SQL injection.
         """
-
-        if lang != "es" and lang != "en":
-            raise Exception("Unknow language")
-
+        dv = DataValidator()
+        dv.checkLang(lang)
         sql = """
         select
-          id_highlight,
-          title_{} as title,
-          text_{} as text,
-          image_hash_{} || '.jpg' as image_file,
-          credit_img_{} as credit_img,
-          link_{} as link
+        id_highlight,
+        title_{} as title,
+        text_{} as text,
+        image_hash_{} || '.jpg' as image_file,
+        credit_img_{} as credit_img,
+        link_{} as link,
+        published,
+        publication_order
         from
-          www.highlight
+        www.highlight
         where
-          published
+        published and publication_order is not null
         order by
-          publication_order;
+        publication_order;
         """.format(lang,lang,lang,lang,lang)
 
         return(self.query(sql).result())

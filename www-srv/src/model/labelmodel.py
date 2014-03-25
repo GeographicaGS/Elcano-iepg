@@ -6,14 +6,15 @@ Label model.
 
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
-import helpers
+from helpers import DataValidator
 
 
 class LabelModel(PostgreSQLModel):
     """Model for labels."""
     def getLabels(self, lang):
         """Returns labels in the given language."""
-        helpers.checkLang(lang)
+        dv = DataValidator()
+        dv.checkLang(lang)
         q = "select id_label_{} as id, label from www.label_{};".format(lang, lang)
         return self.query(q).result()
 

@@ -10,7 +10,4 @@ errors = {
 }
 
 lang = ["en", "es"]
-
-newsSections = ["Blog", "Media", "Events", "Documents", "Twitter"]
-
 maxTweets = 15

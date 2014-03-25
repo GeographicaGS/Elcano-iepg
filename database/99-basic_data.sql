@@ -27,7 +27,7 @@ values(
 copy www.news_section from stdin with delimiter ',';
 1,Blog,Blog
 2,Media,En los medios
-3,Events,Actividades
+3,Events,Eventos
 \.
 
 alter sequence www.news_section_id_news_section_seq restart with 4;

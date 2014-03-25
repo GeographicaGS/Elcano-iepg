@@ -374,10 +374,11 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentPdf(self, idDocument, lang=None):
         """Gets the list of PDF of a document, optionally for a given language."""
+        dv = DataValidator()
 
         if lang:
-            helpers.checkLang(lang)
-        helpers.checkNumber(idDocument)
+            dv.checkLang(lang)
+        dv.checkNumber(idDocument)
 
         q = "select id_pdf as id, id_document, lang, pdf_name as name, hash from www.pdf where id_document=%s"
         bindings = [idDocument]
@@ -418,8 +419,9 @@ class DocumentModel(PostgreSQLModel):
 
     def getDocumentLabels(self, idDocument, lang):
         """Get document labels."""
-        helpers.checkLang(lang)
-        helpers.checkNumber(idDocument)
+        dv = DataValidator()
+        dv.checkLang(lang)
+        dv.checkNumber(idDocument)
 
         q = "SELECT dl.id_label_{} as id_label, l.label FROM www.document_label_{} dl "\
             " INNER JOIN  www.label_{} l ON dl.id_label_{}=l.id_label_{} "\

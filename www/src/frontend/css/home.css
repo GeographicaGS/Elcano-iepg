@@ -55,13 +55,75 @@
 
     #explora_sel{
 
-        input#year,input#country{
+        input#country,#co_year{
             height:45px;
             line-height: 45px;
             width: 300px;
             border:none;
             margin-top: 10px;
             cursor:pointer;
+        }
+
+        #co_year{
+            background: url("@{imgPath}ELC_icon_ediciones_form.png") no-repeat right 10px center @white;
+            padding-left: 10px;
+            position: relative;
+
+            
+
+            /*.co_popup:after{
+                content: "";
+                border-left: 30px solid transparent;
+                border-top: 30px solid @white;
+                width: 0;
+                height: 0;
+                float: right;
+                margin-right: 15px;
+               
+            }*/
+
+
+
+            #popup_year{
+        
+                width: 140px;
+
+                .popup_content{
+                    
+                    h6{
+                        font-size: 16px;
+                        .roboto(light);
+                        border-bottom: 1px solid @red;
+                        height: 44px;
+                        line-height: 44px;
+                        color:@red;
+                        padding: 0 10px;
+                    }
+
+                    ul{
+                        li{
+                            padding: 0 10px 0 44px;
+
+                            a{
+                                display: block;
+                                height: 44px;
+                                line-height: 44px;
+                                border-bottom: 1px solid @grey_light2;
+                                color:@grey_dark;
+                                .roboto();
+                                font-size: 16px;
+                            }
+                        }
+
+                        li:last-child a{
+                            border-bottom: none;
+                        }
+                        li[selected]{
+                            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left 10px center;
+                        }
+                    }
+                }
+            }
         }
 
         button.go_explora{

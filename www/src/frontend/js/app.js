@@ -14,7 +14,16 @@ $(function() {
     String.prototype.endsWith = function(suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
-    
+
+    $(document).ajaxError(function(event, jqxhr, settings, exception) {
+        if (jqxhr.status == 404) {
+            app.router.navigate("notfound",{trigger: true});
+        } 
+        else {
+            app.router.navigate("error",{trigger: true});
+        }
+    });
+
     $("body").on("click","a",function(e){
         if ($(this).attr("target")=="_blank"){
             return;
@@ -30,9 +39,20 @@ $(function() {
         
     });
 
+   
     app.ini();
+
+    $(document).resize(function(){
+        app.resizeMe();
+    });
+
+    app.resizeMe();
     
 });
+
+app.resizeMe = function(){
+    $("main").css("min-height",$(window).height() - $("footer").height() - $("header").height());
+};
 
 app.detectCurrentLanguage = function(){
     // Detect lang analyzing the URL

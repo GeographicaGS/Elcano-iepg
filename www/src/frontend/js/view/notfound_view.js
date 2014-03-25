@@ -1,5 +1,5 @@
-app.view.HomeView = Backbone.View.extend({
-    _template : _.template( $('#home_template').html() ),
+app.view.NotFound = Backbone.View.extend({
+    _template : _.template( $('#notfound_template').html() ),
     
     initialize: function() {
         app.events.trigger("menu","home");
@@ -8,9 +8,11 @@ app.view.HomeView = Backbone.View.extend({
     
     onClose: function(){
         // Remove events on close
+        this.stopListening();
     },
     
     render: function() {
+        
         this.$el.html(this._template());
         return this;
     }

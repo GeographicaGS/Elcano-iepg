@@ -1,0 +1,22 @@
+<h4 class="roboto_bold size_11 grey_light uppercase"><lang>destacados</lang></h4>
+<% _.each(latest, function(d){
+
+    if (d.id == id){
+        return;
+    }
+    %>
+    <p class="roboto_bold size_13 grey_dark mth1">
+        <a class="simple" href="/<lang>lang</lang>/<lang>_link doc</lang>/<%=d.id%>"><%= d.title%></a>
+    </p>
+
+    <div>
+        <span class="roboto_light size_13 grey_light "><%= app.dateTimeFormat(d.time) %><br/><lang>Por</lang></span>
+        <span class="roboto size_13 grey_dark">
+            <%= d.wwwuser %>
+        </span>
+    </div>
+
+    <div class="sep mth1"></div>
+
+
+<% }); %>

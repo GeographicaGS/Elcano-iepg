@@ -1,5 +1,10 @@
 <h4 class="roboto_bold size_11 grey_light uppercase"><lang>destacados</lang></h4>
-<% _.each(latest, function(d){ %>
+<% _.each(latest, function(d){
+
+    if (d.id == id){
+        return;
+    }
+    %>
     <p class="roboto_bold size_13 grey_dark mth1">
         <a class="simple" href="/<lang>lang</lang>/<lang>_link doc</lang>/<%=d.id%>"><%= d.title%></a>
     </p>

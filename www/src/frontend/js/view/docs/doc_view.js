@@ -41,7 +41,8 @@ app.view.Document = Backbone.View.extend({
 
     renderLatestDocs: function(){
        this.$latestDocs.html(this._templateLatestDocs({
-            latest: this.latestDocs.toJSON()
+            latest: this.latestDocs.toJSON(),
+            id: this.model.get("id")
        }));
        return this;
     }

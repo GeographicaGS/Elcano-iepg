@@ -523,3 +523,35 @@ a.label:hover{
         border-bottom: 1px solid @grey;
     }
 }
+
+.co_popup{
+    position: absolute;
+    right:0;
+    bottom: 20px;
+    z-index: 10;
+
+    .popup_content{
+        background: @white;
+        box-shadow: 0 5px 10px 0px #666;
+    }
+
+    .arrow{
+        width: 43px;
+        height: 46px;
+        overflow: hidden;
+        float: right;
+        margin-right: 19px;
+    }
+
+    .arrow:after{
+        content: "";
+        width: 24px;
+        height: 70px;
+        -webkit-transform: rotate(-45deg);
+        float: right;
+        background-color: #fff;
+        margin-top: -30px;
+        box-shadow: 0 5px 10px 5px #666;
+   }
+
+}

@@ -34,7 +34,30 @@ directas en el exterior.</lang>
 
         <div class="col-md-4 col-md-offset-1" id="explora_sel">
             <h3>Explora el índice</h3>
-            <input type="date" id="year" placeholder="Año (2012, 2011, 2013)"/>
+            <div id="co_year">
+                <div id="year">
+                    2012
+                </div>
+                <div class="co_popup"  id="popup_year" style="display:none">
+                    <div class="popup_content">
+                        <h6><lang>Años</lang></h6>
+                        <ul>
+                            <li><a href="#">2007</a></li>
+                            <li><a href="#">2008</a></li>
+                            <li><a href="#">2009</a></li>
+                            <li><a href="#">2010</a></li>
+                            <li><a href="#">2011</a></li>
+                            <li selected><a href="#">2012</a></li>
+                            <li><a href="#">2013</a></li>
+                            <li><a href="#">2014</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="arrow"></div>
+                    
+                </div>
+            </div>
+            
             <input type="text" id="country" placeholder="País (por ejemplo, España)"/>
             <button class="go_explora"><lang>Calcular</lang></button>
             <a href="" class="faq"><lang>Preguntas más frecuentes</lang></a>

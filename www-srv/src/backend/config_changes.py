@@ -1,14 +1,7 @@
-"""
-Elcano IEPG configuration.
-"""
-cfgBackend = {}
+# """
+# Elcano IEPG configuration.
+# """
 
-cfgBackend["autoAuth"] = False
+# cfgBackend["DocumentListLength"] = 16
 
-cfgBackend["DocumentListLength"] = 16
-
-cfgBackend["tmpFolder"] = "/Users/alasarr/dev/elcano-iepg/www/cdn/backend/tmp"
-
-cfgBackend["mediaFolder"] = "/Users/alasarr/dev/elcano-iepg/www/cdn/media"
-
-cfgBackend["UnpublishedHighlightCatalogBackendListLength"] = 10
+# cfgBackend["UnpublishedHighlightCatalogBackendListLength"] = 10

@@ -18,7 +18,6 @@ def auth(f):
              return f(*args, **kwargs)
         else:
            return "Not authorized", 401
-           
     return decorated_function
 
 

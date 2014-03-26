@@ -83,14 +83,14 @@ app.view.DocsList = Backbone.View.extend({
     search: function(){
         this.collection.search = $.trim(this.$searchInput.val());
         this.collection.filter = _.pluck(this.currentFilters.toJSON(),"id");
-        this.collection.offset = 0;
+        this.collection.page = 0;
         this._page = 0;
         this.collection.fetch({"reset" : true},{});
     },
 
     nextPage: function(){
         this._page++;
-        this.collection.offset = this._page;
+        this.collection.page = this._page;
         this.listenToOnce(this.collection,"sync",function(){
             this.renderPageList();
         });
@@ -187,7 +187,7 @@ app.view.DocsList = Backbone.View.extend({
 
     goInitialList: function(){
         this.$searchInput.val("");
-        this.search();
+        this.currentFilters.reset();
     },
 
     clickAuthor : function(e){

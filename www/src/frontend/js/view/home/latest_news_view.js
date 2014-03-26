@@ -15,27 +15,28 @@ app.view.LatestNews = Backbone.View.extend({
 
     load: function(idx){
        
-        switch(idx){
-            case 0: 
-                this.collection.section = null;
-                break;
+        // switch(idx){
+        //     case 0: 
+        //         this.collection.section = null;
+        //         break;
               
-            case 1:
-                this.collection.section = "Blog";
-                break;
-            case 2:
-                this.collection.section = "Media";
-                break;
-            case 3: 
-                this.collection.section = "Events";
-                break;
-            case 4: 
-                this.collection.section = "Documents";
-                break;
-            case 5:
-                this.collection.section = "Twitter";
-                break;
-        }
+        //     case 1:
+        //         this.collection.section = "Blog";
+        //         break;
+        //     case 2:
+        //         this.collection.section = "Media";
+        //         break;
+        //     case 3: 
+        //         this.collection.section = "Events";
+        //         break;
+        //     case 4: 
+        //         this.collection.section = "Documents";
+        //         break;
+        //     case 5:
+        //         this.collection.section = "Twitter";
+        //         break;
+        // }
+        this.collection.section = idx;
         this.$el.html(app.loadingHTML());
         this.collection.fetch({"reset":true});
     },

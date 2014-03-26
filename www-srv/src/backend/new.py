@@ -49,10 +49,10 @@ def createNew():
         for l in j["labels_es"]:
             labels_es.append(l["id"])
 
-    return(jsonify({"id_new": m.createNew(j["title_en"], j["title_es"], \
-                                          j["text_en"], j["text_es"], \
-                                          j["url_en"], j["url_es"], \
-                                          j["news_section"], labels_en, labels_es)}))
+    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"], \
+                                      j["text_en"], j["text_es"], \
+                                      j["url_en"], j["url_es"], \
+                                      j["news_section"], labels_en, labels_es)}))
 
 
 @app.route('/new/<int:id>', methods=['PUT'])
@@ -80,7 +80,7 @@ def updateNew(id):
     """
     m = NewModel()
     j = request.json
-    return(jsonify({"id_new": m.editNew(id, j["title_en"], j["title_es"], \
+    return(jsonify({"id": m.editNew(id, j["title_en"], j["title_es"], \
                                         j["text_en"], j["text_es"], \
                                         j["url_en"], j["url_es"], \
                                         j["news_section"], j["labels_en"], j["labels_es"])}))
@@ -91,15 +91,15 @@ def updateNew(id):
 def deleteNew(id):
     """Deletes the new with ID id."""
     m = NewModel()
-    return(jsonify({"id_new": m.deleteNew(id)}))
+    return(jsonify({"id": m.deleteNew(id)}))
 
 
-@app.route('/new/toggle_published/<int:id>', methods=['PUT'])
+@app.route('/new/togglepublish/<int:id>', methods=['PUT'])
 @auth
 def newTogglePublish(id):
     """Toggles published status of the new with ID id."""
     m = NewModel()
-    return(jsonify({"id_new": m.togglePublish(id)}))
+    return(jsonify({"id": m.togglePublish(id)}))
     
 
 @app.route('/new', methods=['GET'])
@@ -149,8 +149,8 @@ def getNew(id):
     newsDetail = nm.getNewDetails(id)
     if not newsDetail:
         return(jsonify({"error": "News not found"}), 404)
-    labelsEn = nm.getLabelsForNew(newsDetail["id_new"], "en")
-    labelsEs = nm.getLabelsForNew(newsDetail["id_new"], "es")
+    labelsEn = nm.getLabelsForNew(newsDetail["id"], "en")
+    labelsEs = nm.getLabelsForNew(newsDetail["id"], "es")
     newsDetail["label_en"] = labelsEn
     newsDetail["label_es"] = labelsEs
 

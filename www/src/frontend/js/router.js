@@ -9,6 +9,8 @@ app.router = Backbone.Router.extend({
         "_link doc": {"en": "document","es" : "documento" },
         "_link contact": {"en": "contact","es" : "contacto" },
         "_link news": {"en": "news","es" : "noticias" },
+        "_link about infr": {"en": "infrastructure","es" : "infraestructura" },
+        "_link about meth": {"en": "methodologic","es" : "metodologia" }
     },
 
     /* define the route and function maps for this router */
@@ -17,6 +19,7 @@ app.router = Backbone.Router.extend({
             "notfound" : "notfound",
             "faq" : "faq",
             "error" : "error",
+            "explora" : "explora",
             //"project/:id": "showProject",
             /* Sample usage: http://example.com/#about */
             "*other"    : "defaultRoute"
@@ -36,13 +39,30 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link contact"][app.lang], "contact");
         this.route(this.langRoutes["_link news"][app.lang]+"(/:filter)", "news");
         this.route(this.langRoutes["_link news"][app.lang]+"/", "news");
+        this.route(this.langRoutes["_link about infr"][app.lang], "aboutInfr");
+        this.route(this.langRoutes["_link about meth"][app.lang], "aboutMeth");
     },
     
     home: function(){
         app.showView(new app.view.Home());
     },
+
     about : function(){
-        app.showView(new app.view.About());
+        app.showView(new app.view.About({
+            "section" : "ppal"
+        }));
+    },
+
+    aboutInfr : function(){
+        app.showView(new app.view.About({
+            "section" : "infr"
+        }));
+    },
+
+    aboutMeth : function(){
+        app.showView(new app.view.About({
+            "section" : "meth"
+        }));
     },
 
     docs: function(filter,author){
@@ -53,7 +73,7 @@ app.router = Backbone.Router.extend({
         if (!author){
             author = null;
         }
-        
+
         app.showView(new app.view.DocsList({
             "filter" : filter,
             "author": author,
@@ -93,6 +113,11 @@ app.router = Backbone.Router.extend({
 
     faq: function(){
         app.showView(new app.view.FAQ());
+    },
+
+    explora: function(){
+        alert("Funcionalidad en desarrollo");
     }
+
     
 });

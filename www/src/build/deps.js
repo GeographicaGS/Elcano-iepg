@@ -78,8 +78,7 @@ deps.Backend.CSS = {
 	},
 	Core: {
 		src: [
-			"backend/html/css/layout.css",
-			"backend/css/render.css",
+			"backend/css/styles.css"
 		]
 	}
 };
@@ -131,11 +130,12 @@ deps.Frontend.JS = {
 
 			"frontend/js/view/news/news_list_view.js",
 
-			"frontend/js/view/about_view.js",
 			"frontend/js/view/error_view.js",
 			"frontend/js/view/notfound_view.js",
 			"frontend/js/view/contact_view.js",
 			"frontend/js/view/faq_view.js",
+
+			"frontend/js/view/about/about_view.js",
 
 			// router
 			"frontend/js/router.js",

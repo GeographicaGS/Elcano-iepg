@@ -653,7 +653,9 @@ a.label:hover{
             cursor: pointer;
         }
     }
+}
 
+.static_data_page{
     h6,p{
         .roboto(bold);
         font-size: 16px;
@@ -663,5 +665,45 @@ a.label:hover{
 
     p{
         .roboto();
+    }
+}
+
+.about {
+    .desc{
+        font-size: 14px;
+    }
+    ul{
+        margin: 2*@line_height 10px 0 20px ;
+        li{
+            padding-left: 50px;
+            min-height: 60px;
+            margin-top: @line_height;
+        }
+    }
+    ul.areas{
+        li:nth-child(1){
+            background: url("@{imgPath}ELC_icono_presencia_economica.png") no-repeat left top;
+            strong{
+                color:@blue;
+            }
+        }
+        li:nth-child(2){
+            background: url("@{imgPath}ELC_icono_presencia_militar.png") no-repeat left top;
+            strong{
+                color:@green;
+            }
+        }
+        li:nth-child(3){
+            background: url("@{imgPath}ELC_icono_presencia_blanda.png") no-repeat left top;
+            strong{
+                color:@orange;
+            }
+        }
+    }
+
+    ul.util{
+        li{
+            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left top;
+        }
     }
 }

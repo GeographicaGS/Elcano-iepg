@@ -45,8 +45,8 @@ app.view.docs.ListView = Backbone.View.extend({
     search: function(){
         this.collection.search = $.trim(this.$searchInput.val());
         this._page = 0;
+        this.collection.page = this._page;
         this.collection.fetch({"reset" : true},{});
-
     },
 
     nextPage: function(){

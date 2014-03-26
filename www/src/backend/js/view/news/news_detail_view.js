@@ -1,4 +1,4 @@
-app.view.docs.DetailView = Backbone.View.extend({
+app.view.news.DetailView = Backbone.View.extend({
     _template : _.template( $('#news_detail_template').html() ),
     _modelFetched : false,
     initialize: function() {
@@ -9,7 +9,7 @@ app.view.docs.DetailView = Backbone.View.extend({
             success: function() {
                 self._modelFetched = true;
                 self.render();
-              }
+            }
         });
         
     },
@@ -23,10 +23,10 @@ app.view.docs.DetailView = Backbone.View.extend({
         "click #delete" : "delete",
     },
 
-   togglePublish : function(e){
+    togglePublish : function(e){
         var self = this;
         $.ajax({
-            url: app.config.API_URL + "/news/togglepublish/" + this.model.get("id"),
+            url: app.config.API_URL + "/new/togglepublish/" + this.model.get("id"),
             type: "PUT",
             success: function(){
                 if (self.model.get("published")){
@@ -41,7 +41,6 @@ app.view.docs.DetailView = Backbone.View.extend({
                 }
             }
         });
-        
     },
 
     delete: function(e){
@@ -54,6 +53,7 @@ app.view.docs.DetailView = Backbone.View.extend({
             })
         };
     },  
+
     render: function() {
         if (!this._modelFetched){
             return this;

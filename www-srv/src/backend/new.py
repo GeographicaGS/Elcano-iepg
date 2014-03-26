@@ -71,7 +71,7 @@ def updateNew(id):
     """
     m = NewModel()
     j = request.json
-    return(jsonify({"id_new": m.editNew(id, j["title_en"], j["title_es"], \
+    return(jsonify({"id": m.editNew(id, j["title_en"], j["title_es"], \
                                         j["text_en"], j["text_es"], \
                                         j["url_en"], j["url_es"], \
                                         j["news_section"], j["labels_en"], j["labels_es"])}))
@@ -82,15 +82,15 @@ def updateNew(id):
 def deleteNew(id):
     """Deletes the new with ID id."""
     m = NewModel()
-    return(jsonify({"id_new": m.deleteNew(id)}))
+    return(jsonify({"id": m.deleteNew(id)}))
 
 
-@app.route('/new/toggle_published/<int:id>', methods=['PUT'])
+@app.route('/new/togglepublish/<int:id>', methods=['PUT'])
 @auth
 def newTogglePublish(id):
     """Toggles published status of the new with ID id."""
     m = NewModel()
-    return(jsonify({"id_new": m.togglePublish(id)}))
+    return(jsonify({"id": m.togglePublish(id)}))
     
 
 @app.route('/new', methods=['GET'])
@@ -113,11 +113,11 @@ def getNewCatalog():
     for new in ids:
         out = dict()
         d = m.getNewDetails(new)
-        if d["title_en"] and d["text_en"] and d["url_en"] and d["description_en"]:
+        if d["title_en"] and d["text_en"] and d["url_en"]:
             out["english"]=True
         else:
             out["english"]=False
-        if d["title_es"] and d["text_es"] and d["url_es"] and d["description_es"]:
+        if d["title_es"] and d["text_es"] and d["url_es"]:
             out["spanish"]=True
         else:
             out["spanish"]=False
@@ -125,7 +125,7 @@ def getNewCatalog():
                        d["title_en"] if d["title_en"]!=None else "Sin título"
         out["time"] = d["new_time"]
         out["published"] = d["published"]
-        out["id"] = d["id_new"]
+        out["id"] = d["id"]
         news.append(out)
 
     return(jsonify({"results": sorted(news, key=itemgetter("title"), cmp=locale.strcoll)\
@@ -140,8 +140,8 @@ def getNew(id):
     newsDetail = nm.getNewDetails(id)
     if not newsDetail:
         return(jsonify({"error": "News not found"}), 404)
-    labelsEn = nm.getLabelsForNew(newsDetail["id_new"], "en")
-    labelsEs = nm.getLabelsForNew(newsDetail["id_new"], "es")
+    labelsEn = nm.getLabelsForNew(newsDetail["id"], "en")
+    labelsEs = nm.getLabelsForNew(newsDetail["id"], "es")
     newsDetail["label_en"] = labelsEn
     newsDetail["label_es"] = labelsEs
 

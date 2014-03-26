@@ -4,7 +4,7 @@ app.view.news.ListView = Backbone.View.extend({
     _page : 0,
     _timeout: null,
     initialize: function() {
-        app.events.trigger("menu","docs");
+        app.events.trigger("menu","news");
         this.collection = new app.collection.New();
         this.collection.fetch({"reset" : true},{});
         this.listenTo(this.collection,"reset", function(){

@@ -161,7 +161,7 @@ class NewModel(PostgreSQLModel):
         """Returns details of a new by ID."""
         sql = """
         select
-        id_new,
+        id_new as id,
         a.id_wwwuser,
         c.name as username,
         c.surname as usersurname,

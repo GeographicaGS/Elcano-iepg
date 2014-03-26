@@ -173,20 +173,23 @@ def editHightlight(id_highlight):
     }"""
     m = HighlightModel()
     oldHighlight = m.getHighlight(id_highlight)
+    app.logger.info(oldHighlight)
 
-    try:
-        if oldHighlight["image_hash_en"]!=request.json["new_image_hash_en"]:
-            deleteImgFile(oldHighlight["image_hash_en"])
-            moveImgFile(request.json["new_image_hash_en"])        
+    #try:
+    if oldHighlight["image_hash_en"]!=request.json["image_hash_en"]:
+        app.logger.info("here");
+        deleteImgFile(oldHighlight["image_hash_en"])
+        moveImgFile(request.json["image_hash_en"])        
 
-        if oldHighlight["image_hash_es"]!=request.json["new_image_hash_es"]:
-            deleteImgFile(oldHighlight["image_hash_es"])
-            moveImgFile(request.json["new_image_hash_es"])
+    if oldHighlight["image_hash_es"]!=request.json["image_hash_es"]:
+        app.logger.info("here2");
+        deleteImgFile(oldHighlight["image_hash_es"])
+        moveImgFile(request.json["image_hash_es"])
 
-        out = m.editHighlight(request.json)
-        return(jsonify({"result": {"id_highlight": out}}))
-    except:
-        return(jsonify(cons.errors["-1"]))
+    out = m.editHighlight(request.json)
+    return(jsonify({"result": {"id_highlight": out}}))
+    #except:
+    #    return(jsonify(cons.errors["-1"]))
 
 
 def deleteImgFile(hash):

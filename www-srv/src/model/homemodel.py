@@ -10,10 +10,25 @@ TODO: review SQL parsing. Use bindings.
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 from helpers import DataValidator
+from datetime import datetime
+from psycopg2 import IntegrityError
 
 
 class HomeModel(PostgreSQLModel):
     """Home model."""
+    def newEmail(self, email):
+        """Inserts a new email into the mailing list."""
+        try:
+            out = self.insert("www.email_list",
+                              {"email": email,
+                               "time": datetime.utcnow().isoformat()},
+                              returnID="email")
+        
+            return(out)
+        except IntegrityError as e:
+            return({"error": "duplicated email"})
+        
+
     def newStuffSections(self, lang, section):
         """Access new for the home's new stuff control for Blog, Media, and Events."""
         dv = DataValidator()

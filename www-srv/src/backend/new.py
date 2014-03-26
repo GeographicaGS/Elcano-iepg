@@ -29,8 +29,8 @@ def createNew():
     "url_en": "url_en",
     "url_es": "url_es",
     "news_section": 1,
-    "labels_en": [1,2,3,4],
-    "labels_es": [2,3,4,5]
+    "labels_en": [{"id": 1, "label": "US"}, {}...],
+    "labels_es": [{"id": 1, "label": "EEUU"}, {}...]
     }
 
     where news_section are:
@@ -40,10 +40,19 @@ def createNew():
     """
     m = NewModel()
     j = request.json
+    if j["labels_en"]:
+        labels_en = []
+        for l in j["labels_en"]:
+            labels_en.append(l["id"])
+    if j["labels_es"]:
+        labels_es = []
+        for l in j["labels_es"]:
+            labels_es.append(l["id"])
+
     return(jsonify({"id_new": m.createNew(j["title_en"], j["title_es"], \
                                           j["text_en"], j["text_es"], \
                                           j["url_en"], j["url_es"], \
-                                          j["news_section"], j["labels_en"], j["labels_es"])}))
+                                          j["news_section"], labels_en, labels_es)}))
 
 
 @app.route('/new/<int:id>', methods=['PUT'])
@@ -113,11 +122,11 @@ def getNewCatalog():
     for new in ids:
         out = dict()
         d = m.getNewDetails(new)
-        if d["title_en"] and d["text_en"] and d["url_en"] and d["description_en"]:
+        if d["title_en"] and d["text_en"] and d["url_en"]:
             out["english"]=True
         else:
             out["english"]=False
-        if d["title_es"] and d["text_es"] and d["url_es"] and d["description_es"]:
+        if d["title_es"] and d["text_es"] and d["url_es"]:
             out["spanish"]=True
         else:
             out["spanish"]=False
@@ -125,7 +134,7 @@ def getNewCatalog():
                        d["title_en"] if d["title_en"]!=None else "Sin título"
         out["time"] = d["new_time"]
         out["published"] = d["published"]
-        out["id"] = d["id_new"]
+        out["id"] = d["id"]
         news.append(out)
 
     return(jsonify({"results": sorted(news, key=itemgetter("title"), cmp=locale.strcoll)\

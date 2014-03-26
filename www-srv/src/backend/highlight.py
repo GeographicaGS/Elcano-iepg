@@ -60,7 +60,6 @@ def getUnpublishedHighlightCatalog():
 def __getHighlightCatalog(published, page=None, search=None):
     """Gets the highlight's catalog."""
     m = HighlightModel()
-
     if page!=None:
         listSize = config.cfgBackend["UnpublishedHighlightCatalogBackendListLength"]
     else:
@@ -71,24 +70,18 @@ def __getHighlightCatalog(published, page=None, search=None):
 
     for r in results:
         h = {}
-
         if r["title_en"]!=None and r["text_en"]!=None and r["image_hash_en"]!=None:
             h["english"] = True
         else:
             h["english"] = False
-
         if r["title_es"]!=None and r["text_es"]!=None and r["image_hash_es"]!=None:
             h["spanish"] = True
         else:
             h["spanish"] = False
-
         h["id"] = r["id_highlight"]
         h["title"] = r["title"]
         h["text"] = r["text"]
         h["edit"] = r["last_edit_time"]
-        # No need of the following links
-        #h["link_en"] = r["link_en"]
-        #h["link_es"] = r["link_es"]
         out.append(h)
 
     return(jsonify({"listSize": total, "results": out}))

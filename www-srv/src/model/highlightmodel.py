@@ -101,14 +101,16 @@ class HighlightModel(PostgreSQLModel):
             if page and listSize:
                 results = self.query(sql, bindings=[search,search,search, \
                                                     search,search,search,search, \
-                                                    search,page,listSize]).result()
+                                                    search,(int(page)*listSize),listSize]).result()
             else:
                 results = self.query(sql, bindings=[search,search,search, \
                                                     search,search,search,search, \
                                                     search]).result()
         else:
             if page and listSize:
-                results = self.query(sql, bindings=[page,listSize]).result()
+                print(page, listSize)
+
+                results = self.query(sql, bindings=[(int(page)*listSize),listSize]).result()
             else:
                 results = self.query(sql).result()
 

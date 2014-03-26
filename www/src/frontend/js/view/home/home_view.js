@@ -11,7 +11,7 @@ app.view.Home = Backbone.View.extend({
         });
         this.render();
     },
-
+    
     events:{
         "mouseenter #explora_desc button" : "hoverExploraDesc",
         "mouseleave #explora_desc button" : "outExploraDesc",

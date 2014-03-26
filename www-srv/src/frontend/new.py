@@ -50,6 +50,7 @@ def getNewCatalogFrontend():
             newsDetails["title"]=newsDetails.pop("title_"+lang)
             newsDetails["text"]=newsDetails.pop("text_"+lang)
             newsDetails["url"]=newsDetails.pop("url_"+lang)
+            newsDetails["section"] = newsDetails.pop("section_"+lang)
             out.append(newsDetails)
 
         sortedOut = sorted(out, key=itemgetter("title"), cmp=locale.strcoll)

@@ -8,12 +8,14 @@ app.router = Backbone.Router.extend({
         "_link docs": {"en": "documents","es" : "documentos" },
         "_link doc": {"en": "document","es" : "documento" },
         "_link contact": {"en": "contact","es" : "contacto" },
+        "_link news": {"en": "news","es" : "noticias" },
     },
 
     /* define the route and function maps for this router */
     routes: {
             "" : "home",
             "notfound" : "notfound",
+            "faq" : "faq",
             "error" : "error",
             //"project/:id": "showProject",
             /* Sample usage: http://example.com/#about */
@@ -32,6 +34,8 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link docs"][app.lang]+"/", "docs");
         this.route(this.langRoutes["_link doc"][app.lang]+"/:id", "doc");
         this.route(this.langRoutes["_link contact"][app.lang], "contact");
+        this.route(this.langRoutes["_link news"][app.lang]+"(/:filter)", "news");
+        this.route(this.langRoutes["_link news"][app.lang]+"/", "news");
     },
     
     home: function(){
@@ -74,6 +78,21 @@ app.router = Backbone.Router.extend({
 
     contact: function(){
         app.showView(new app.view.Contact());
+    },
+
+    news: function(filter,author){
+        if (filter=="null" || !filter){
+            filter = null;
+        }
+
+       
+        app.showView(new app.view.NewsList({
+            "filter" : filter
+        }));
+    },
+
+    faq: function(){
+        app.showView(new app.view.FAQ());
     }
     
 });

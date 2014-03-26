@@ -249,13 +249,14 @@ class NewModel(PostgreSQLModel):
         DataValidator().checkLang(lang)
         sql = """
         select
-        b.*
+        b.id_label_{} as id,
+        b.label
         from
         www.new_label_{} a inner join
         www.label_{} b on
         a.id_label_{}=b.id_label_{}
         where id_new=%s;
-        """.format(lang,lang,lang,lang)
+        """.format(lang,lang,lang,lang,lang)
         return(self.query(sql, [idNew]).result())
 
 

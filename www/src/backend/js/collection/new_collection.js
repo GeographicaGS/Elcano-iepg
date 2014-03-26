@@ -13,6 +13,6 @@ app.collection.New = Backbone.Collection.extend({
 
     parse: function(response){
         this.listSize = response.results.listSize;
-        return response.results.documentList;
+        return response.results.data;
     }
 });

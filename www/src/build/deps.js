@@ -117,6 +117,7 @@ deps.Frontend.JS = {
 			"frontend/js/collection/home/slider_collection.js",
 			"frontend/js/collection/docs/docs_collection.js",
 			"frontend/js/collection/docs/label_collection.js",
+			"frontend/js/collection/news/news_collection.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -126,13 +127,15 @@ deps.Frontend.JS = {
 			"frontend/js/view/home/home_view.js",
 			"frontend/js/view/home/country_popup_view.js",
 			"frontend/js/view/docs/docs_list_view.js",
-			"frontend/js/view/docs/doc_view.js",
+			"frontend/js/view/docs/docs_detail_view.js",
+
+			"frontend/js/view/news/news_list_view.js",
 
 			"frontend/js/view/about_view.js",
 			"frontend/js/view/error_view.js",
 			"frontend/js/view/notfound_view.js",
-
 			"frontend/js/view/contact_view.js",
+			"frontend/js/view/faq_view.js",
 
 			// router
 			"frontend/js/router.js",

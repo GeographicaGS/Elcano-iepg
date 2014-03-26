@@ -2,7 +2,7 @@ app.view.NotFound = Backbone.View.extend({
     _template : _.template( $('#notfound_template').html() ),
     
     initialize: function() {
-        app.events.trigger("menu","home");
+        app.events.trigger("menu","");
         this.render();
     },
     

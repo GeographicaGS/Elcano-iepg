@@ -3,7 +3,7 @@ app.view.Contact = Backbone.View.extend({
     pos : new google.maps.LatLng(40.431215,-3.679846),
     
     initialize: function() {
-        app.events.trigger("menu","home");
+        app.events.trigger("menu","");
         this.render();
     },
     

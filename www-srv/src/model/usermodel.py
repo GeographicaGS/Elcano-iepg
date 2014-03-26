@@ -45,3 +45,23 @@ class UserModel(PostgreSQLModel):
             a = {"error": "Duplicated email"}
 
         return a
+
+
+    def getUserData(self, id):
+        """Returns non-sensitive data for user ID id."""
+        sql = """
+        select
+        id_wwwuser,
+        name,
+        surname,
+        email,
+        admin,
+        username,
+        language,
+        status
+        from
+        www.wwwuser
+        where
+        id_wwwuser=%s;
+        """
+        return(self.query(sql, [id]).result())

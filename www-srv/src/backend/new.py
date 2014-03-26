@@ -6,8 +6,9 @@ News administration backend
 
 """
 from backend import app
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 from model.newmodel import NewModel
+from model.usermodel import UserModel
 from backend.utils import auth
 from operator import itemgetter
 import locale
@@ -129,3 +130,19 @@ def getNewCatalog():
 
     return(jsonify({"results": sorted(news, key=itemgetter("title"), cmp=locale.strcoll)\
                     [cons.newsCatalogPageSize*page:cons.newsCatalogPageSize*(page+1)]}))
+
+
+@app.route('/new/<int:id>', methods=['GET'])
+@auth
+def getNew(id):
+    """Gets details of a new."""
+    nm = NewModel()
+    newsDetail = nm.getNewDetails(id)
+    if not newsDetail:
+        return(jsonify({"error": "News not found"}), 404)
+    labelsEn = nm.getLabelsForNew(newsDetail["id_new"], "en")
+    labelsEs = nm.getLabelsForNew(newsDetail["id_new"], "es")
+    newsDetail["label_en"] = labelsEn
+    newsDetail["label_es"] = labelsEs
+
+    return(jsonify(newsDetail))

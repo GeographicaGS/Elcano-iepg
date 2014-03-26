@@ -157,16 +157,16 @@ class NewModel(PostgreSQLModel):
             return(set([]))
 
 
-    def getNewDetails(self, id_new):
+    def getNewDetails(self, idNew):
         """Returns details of a new by ID."""
         sql = """
         select
         id_new,
         a.id_wwwuser,
-        c.name,
-        c.surname,
-        c.email,
-        c.username,
+        c.name as username,
+        c.surname as usersurname,
+        c.email as useremail,
+        c.username as userusername,
         new_time,
         title_en,
         title_es,
@@ -175,8 +175,8 @@ class NewModel(PostgreSQLModel):
         url_en,
         url_es,
         a.id_news_section,
-        b.description_en,
-        b.description_es,
+        b.description_en as section_en,
+        b.description_es as section_es,
         published
         from
         www.new a inner join
@@ -186,7 +186,22 @@ class NewModel(PostgreSQLModel):
         a.id_wwwuser=c.id_wwwuser
         where id_new=%s;
         """
-        return(self.query(sql, [id_new]).row())
+        return(self.query(sql, [idNew]).row())
+
+
+    def getLabelsForNew(self, idNew, lang):
+        """Returns the labels for new idNew and language lang."""
+        DataValidator().checkLang(lang)
+        sql = """
+        select
+        b.*
+        from
+        www.new_label_{} a inner join
+        www.label_{} b on
+        a.id_label_{}=b.id_label_{}
+        where id_new=%s;
+        """.format(lang,lang,lang,lang)
+        return(self.query(sql, [idNew]).result())
 
 
     def __attachLabel(self, id_label, id_new, lang):

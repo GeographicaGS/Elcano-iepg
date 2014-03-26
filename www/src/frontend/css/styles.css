@@ -18,6 +18,7 @@
 @white :#fff;
 
 
+
 html, body{ height:100%;}
 body {
 	.roboto();
@@ -33,9 +34,18 @@ a.simple{
 a.simple:hover{
 	border-bottom: 1px solid @yellow !important;
 	text-decoration: none !important;
-	color:inherit !important;
 }
 
+a.nostyle{
+    color:inherit !important;
+    border-bottom: none !important;
+    text-decoration: none !important;
+}
+a.nostyle:hover{
+    border-bottom: none !important;
+    text-decoration: none !important;
+    color:inherit !important;
+}
 
 p,span,div,table{
 	.roboto();
@@ -172,15 +182,20 @@ input[placeholder]{
 
 a:hover{
 	color:@red;
-}
-a.bottom_yellow{
-    color:@grey_dark;
-    border-bottom: 1px solid @yellow;
-    
-}
-a:hover{
     border-bottom: 1px solid @grey;
 }
+
+a.bottom_yellow{
+    color: @grey_dark;
+    border-bottom: 1px solid @yellow;
+}
+
+a.bottom_yellow:hover{
+    color: @grey_dark;
+    border-bottom: 1px solid @yellow;
+}
+
+
 
 header{
 	a#top_logo:hover{
@@ -316,10 +331,6 @@ ul#menu{
 	}
 }
 
-
-
-
-
 .button.white{
 	background-color: @white;
 	color:@grey_light;
@@ -332,13 +343,13 @@ ul#menu{
 }
 
 .button.more_info{
-	background: url("@{imgPath}/ELC_icon_boton_enlace.png") no-repeat right center @white ;
-	padding-right: 33px;
+	background: url("@{imgPath}/ELC_icon_boton_enlace.png") no-repeat right 10px center @white ;
+	padding-right: 43px;
 }
 
 .button.download{
-	background: url("@{imgPath}/ELC_icon_boton_descarga.png") no-repeat right center @grey_light ;
-	padding-right: 33px;
+	background: url("@{imgPath}/ELC_icon_boton_descarga.png") no-repeat right 10px center @grey_light ;
+	padding-right: 43px;
 }
 
 .button:hover{
@@ -359,6 +370,9 @@ ul#menu{
 	.sep(@grey2);
 }
 
+.sep_grey_dark{
+    .sep(@grey_dark);
+}
 
 
 footer{
@@ -600,4 +614,30 @@ a.label:hover{
         box-shadow: 0 5px 10px 5px #666;
    }
 
+}
+
+.loading{
+    margin-top: 3*@line_height;
+    margin-bottom: 3*@line_height;
+    background: url("../img/ELC_icon_loading_white.gif") no-repeat left top;
+    .roboto(light);
+    padding: 15px 0 0 62px;
+    font-size: 16px;
+    height: 60px;
+}
+
+.contact{
+    #map{
+        height: 345px;
+        width: 100%;
+    }
+
+    .last_iepg{
+        border-left: 1px solid @grey_light2;
+        min-height: 500px;
+    }
+
+    .block{
+        padding-right: 100px;
+    }
 }

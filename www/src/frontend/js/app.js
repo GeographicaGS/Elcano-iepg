@@ -167,7 +167,13 @@ app.urlify = function(text,attr) {
 }
 
 app.loadingHTML = function(){
-    return "<div class='loading'>Loading</div>";
+    return "<div class='container'>"
+            +   "<div class='row'>"
+            +       "<div class='grid-md-10 col-md-offset-2'>"
+            +           "<div class='loading'><lang>Loading</lang></div>"
+            +       "</div>"
+            +   "</div>"
+            + "</div>" ;
 }
 
 app.renameID = function(array,oldID,newID){

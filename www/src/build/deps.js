@@ -132,6 +132,8 @@ deps.Frontend.JS = {
 			"frontend/js/view/error_view.js",
 			"frontend/js/view/notfound_view.js",
 
+			"frontend/js/view/contact_view.js",
+
 			// router
 			"frontend/js/router.js",
 			// app

@@ -7,7 +7,7 @@ app.router = Backbone.Router.extend({
         "_link about": {"en": "about","es" : "acerca_de" },
         "_link docs": {"en": "documents","es" : "documentos" },
         "_link doc": {"en": "document","es" : "documento" },
-
+        "_link contact": {"en": "contact","es" : "contacto" },
     },
 
     /* define the route and function maps for this router */
@@ -31,6 +31,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link docs"][app.lang]+"(/:filter)(/:author)", "docs");
         this.route(this.langRoutes["_link docs"][app.lang]+"/", "docs");
         this.route(this.langRoutes["_link doc"][app.lang]+"/:id", "doc");
+        this.route(this.langRoutes["_link contact"][app.lang], "contact");
     },
     
     home: function(){
@@ -69,6 +70,10 @@ app.router = Backbone.Router.extend({
 
     error: function(){
         app.showView(new app.view.Error());
+    },
+
+    contact: function(){
+        app.showView(new app.view.Contact());
     }
     
 });

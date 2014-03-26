@@ -129,4 +129,8 @@ a{
 }
 
 button:focus {outline:0;}
+address{
+    font-style: normal;    
+}
+
 

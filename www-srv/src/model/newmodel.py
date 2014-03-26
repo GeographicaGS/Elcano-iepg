@@ -28,11 +28,12 @@ class NewModel(PostgreSQLModel):
                           "published": False},
                          returnID="id_new")
 
-        for label in labels_en:
-            self.__attachLabel(label, id, "en")
-
-        for label in labels_es:
-            self.__attachLabel(label, id, "es")
+        if labels_en:
+            for label in labels_en:
+                self.__attachLabel(label, id, "en")
+        if labels_es:
+            for label in labels_es:
+                self.__attachLabel(label, id, "es")
         
         return(id)
 
@@ -55,11 +56,12 @@ class NewModel(PostgreSQLModel):
         self.__detachLabels(id_new, "en")
         self.__detachLabels(id_new, "es")
 
-        for label in labels_en:
-            self.__attachLabel(label, id_new, "en")
-
-        for label in labels_es:
-            self.__attachLabel(label, id_new, "es")
+        if labels_en:
+            for label in labels_en:
+                self.__attachLabel(label, id_new, "en")
+        if labels_es:
+            for label in labels_es:
+                self.__attachLabel(label, id_new, "es")
         
         return(id_new)
 
@@ -123,7 +125,7 @@ class NewModel(PostgreSQLModel):
         sql = """
         with a as(
         select
-        a.id_new,
+        a.id_new as id_new,
         d.label as label_en,
         e.label as label_es
         from

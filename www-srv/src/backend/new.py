@@ -29,8 +29,8 @@ def createNew():
     "url_en": "url_en",
     "url_es": "url_es",
     "news_section": 1,
-    "labels_en": [1,2,3,4],
-    "labels_es": [2,3,4,5]
+    "labels_en": [{"id": 1, "label": "US"}, {}...],
+    "labels_es": [{"id": 1, "label": "EEUU"}, {}...]
     }
 
     where news_section are:
@@ -40,10 +40,20 @@ def createNew():
     """
     m = NewModel()
     j = request.json
-    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"], \
+
+    if j["labels_en"]:
+        labels_en = []
+        for l in j["labels_en"]:
+            labels_en.append(l["id"])
+    if j["labels_es"]:
+        labels_es = []
+        for l in j["labels_es"]:
+            labels_es.append(l["id"])
+
+    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"], \:
                                           j["text_en"], j["text_es"], \
                                           j["url_en"], j["url_es"], \
-                                          j["news_section"], j["labels_en"], j["labels_es"])}))
+                                          j["news_section"], labels_en, labels_es)}))
 
 
 @app.route('/new/<int:id>', methods=['PUT'])

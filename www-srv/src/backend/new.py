@@ -35,7 +35,7 @@ def createNew():
     """
     m = NewModel()
     j = request.json
-    return(jsonify({"id_new": m.createNew(j["title_en"], j["title_es"], \
+    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"], \
                                           j["text_en"], j["text_es"], \
                                           j["url_en"], j["url_es"], \
                                           j["news_section"], j["labels_en"], j["labels_es"])}))

@@ -187,7 +187,7 @@ app.view.DocsList = Backbone.View.extend({
 
     goInitialList: function(){
         this.$searchInput.val("");
-        this.search();
+        this.currentFilters.reset();
     },
 
     clickAuthor : function(e){

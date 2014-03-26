@@ -4,4 +4,5 @@ app.collection = {};
 app.view = {};
 app.view.docs = {};
 app.view.highlights = {};
+app.view.news = {};
 app.validators = {};

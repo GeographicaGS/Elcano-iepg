@@ -6,7 +6,7 @@ app.router = Backbone.Router.extend({
     routes: {
         "" : "highlightList",
         "user" : "user",
-        "news" : "news",
+        
         "logout" : "logout",
         
         // Documents section
@@ -20,7 +20,13 @@ app.router = Backbone.Router.extend({
         "highlights/add" : "addHighlight",
         "highlights/edit/:id" : "editHighlight",
         "highlights/:id" : "highlightDetail",
-        
+
+        // news" : "news",
+        "news" : "newsList",
+        "news/add" : "addNews",
+        "news/edit/:id" : "editNews",
+        "news/:id" : "newsDetail",
+
         //"project/:id": "showProject",
         /* Sample usage: http://example.com/#about */
         "*other"    : "defaultRoute"
@@ -81,6 +87,35 @@ app.router = Backbone.Router.extend({
     },
     
     editHighlight: function(id){
-        app.showView(new app.view.highlights.FormView({"id":id}));
+        app.showView(new app.view.highlights.FormView({
+            "id":id
+        }));
     },
+
+    /*
+           "news" : "newsList",
+        "news/add" : "addNews",
+        "news/edit/:id" : "editNews",
+        "news/:id" : "newsDetail",
+
+    */
+    newsList: function(){
+        app.showView(new app.view.news.ListView());
+    },
+
+    addNews: function(){
+        app.showView(new app.view.news.FormView());
+    },
+
+    editNews: function(id){
+        app.showView(new app.view.news.FormView({
+            "id" : id 
+        }));
+    },
+
+    newsDetail: function(id){
+        app.showView(new app.view.news.DetailView({
+            model : new app.model.New({"id": id})
+        }));
+    }
 });

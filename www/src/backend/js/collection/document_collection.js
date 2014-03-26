@@ -1,5 +1,3 @@
-var app = app || {};
-
 app.collection.Document = Backbone.Collection.extend({
     model: Backbone.Model,
     offset : 0,

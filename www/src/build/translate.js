@@ -58,7 +58,6 @@ exports.translate = function(env,callback,debug){
         
         allKeys = templatesKeys.concat(jsKeys).concat(indexKeys);
 
-        console.log("DEBUG: " + debug);
         
     function getDBKeys(callback){        
         executeQuery("SELECT * from www.translation",function(err,result){
@@ -131,7 +130,7 @@ exports.translate = function(env,callback,debug){
                 // key missing
                 for (l in langs){
                     //dict[k][langs[l]] = "<span class='translation_error'>" + k + "</span>";
-                    console.log(debug);
+                    
                     if (debug){
                         dict[k][langs[l]] = k;
                     }

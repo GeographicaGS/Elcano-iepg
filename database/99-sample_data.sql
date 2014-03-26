@@ -58,7 +58,7 @@ alter sequence www.document_id_document_seq restart with 9;
 
 -- Authors
 copy www.author from stdin with delimiter ',' null '@@@@';
-1,1,Yerena Fernández,Titular Researcher,Investigadora principal,@@@@
+1,1,Yerena Fernández,Titular Researcher,Investigadora principal,@yfernandez
 2,1,@@@@,@@@@,@@@@,@jesuspardo
 3,2,@@@@,@@@@,@@@@,@wchislett
 4,3,@@@@,@@@@,@@@@,@imolina

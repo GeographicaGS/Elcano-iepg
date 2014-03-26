@@ -38,6 +38,12 @@ class ElcanoErrorNotANumber(ElcanoError):
         ElcanoError.__init__(self, -2, str(expr), "Not a number.")
 
 
+class ElcanoErrorNotBoolean(ElcanoError):
+    """Not a boolean error."""
+    def __init__(self, expr):
+        ElcanoError.__init__(self, -4, str(expr), "Not boolean.")
+
+
 class DataValidator():
     """Data validator."""
     def checkLang(self, lang):
@@ -67,3 +73,11 @@ class DataValidator():
             self.checkNumber(i)
 
         return None
+
+    def checkBoolean(self, n):
+        """Checks if n is boolean."""
+        if n==True:
+            return None
+        if n==False:
+            return None
+        raise ElcanoErrorNotBoolean(str(n))

@@ -19,12 +19,10 @@ from operator import itemgetter
 @app.route('/documentcatalog', methods=['GET'])
 def getDocumentCatalog():
     """Gets a slice of a document list. request.args:
-
-      page: mandatory, page to present
-      lang: mandatory, language (en / es)
-      search: optional, search criteria
-      filterbylabel: optional, comma-separated list of labels ID to filter with
-
+    page: mandatory, page to present
+    lang: mandatory, language (en / es)
+    search: optional, search criteria
+    filterbylabel: optional, comma-separated list of labels ID to filter with
     """
     m = DocumentModel()
     lang = request.args["lang"]
@@ -58,7 +56,6 @@ def getDocumentCatalog():
         docs = docs.union(searchLabels).union(authors)
 
     out=[]
-    
     for i in list(docs):
         try:
             docDetail = m.getDocumentDetails(lang, i)
@@ -95,4 +92,4 @@ def getDocumentCatalog():
     return(jsonify({"results": sortedOut[page*cons.documentCatalogListSize: \
                                          (page*cons.documentCatalogListSize)+ \
                                          cons.documentCatalogListSize], \
-                    "listSize": len(sortedOut)}))
+                    "listSize": len(sortedOut), "page": page}))

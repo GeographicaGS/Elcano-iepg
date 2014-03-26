@@ -1,10 +1,7 @@
 # coding=UTF8
 
 """
-
 Frontend home services.
-
-
 """
 from frontend import app
 from flask import jsonify,request
@@ -17,6 +14,16 @@ import collections
 import config
 import cons
 from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage
+
+
+@app.route('/home/email', methods=['POST'])
+def postEmail():
+    """Inserts an email into the list. request.args:
+    email: mandatory
+    """
+    m = HomeModel()
+    return(jsonify({"email": m.newEmail(request.args["email"])}))
+
 
 @app.route('/home/slider/<string:lang>', methods=['GET'])
 def getSliderFrontend(lang):

@@ -1,12 +1,11 @@
 # coding=UTF8
 
 """
-
 Label model.
-
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 from helpers import DataValidator
+from psycopg2 import IntegrityError
 
 
 class LabelModel(PostgreSQLModel):
@@ -23,4 +22,8 @@ class LabelModel(PostgreSQLModel):
         """Inserts a label."""
         dv = DataValidator()
         dv.checkLang(lang)
-        return self.insert("www.label_{}".format(lang), {"label": label}, "id_label_{}".format(lang))
+        try:
+            return self.insert("www.label_{}".format(lang), {"label": label}, "id_label_{}".format(lang))
+        except IntegrityError as e:
+            return({"error": "Duplicated label"})
+

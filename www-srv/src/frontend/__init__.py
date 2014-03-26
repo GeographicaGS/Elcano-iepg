@@ -10,6 +10,7 @@ app.config.update(
 import home
 import documentcatalog
 import document
+import new
 
 @app.route('/', methods = ['GET'])                                            
 def alive():

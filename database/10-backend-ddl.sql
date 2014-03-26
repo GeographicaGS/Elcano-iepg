@@ -211,6 +211,16 @@ add constraint news_section_pkey
 primary key (id_news_section);
 
 
+create table www.email_list(
+  email varchar(250),
+  time timestamp
+);
+
+alter table www.email_list
+add constraint email_list_pkey
+primary key(email);
+
+
 -- Foreign keys
 
 alter table www.new_label_es

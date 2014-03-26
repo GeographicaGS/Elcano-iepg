@@ -170,20 +170,21 @@ class DocumentModel(PostgreSQLModel):
                          "published": "False"},
                         returnID="id_document")
 
-        for label_en in data["labels_en"]:
-            self.__attachLabel(label_en["id"], a, "en")
-
-        for label_es in data["labels_es"]:
-            self.__attachLabel(label_es["id"], a, "es")
-
-        for author in data["authors"]:
-            self.__createAuthor(author, a)
-
-        for pdf in data["pdfs_es"]:
-            self.__createPdf("es", pdf["name"], pdf["hash"], a)
-
-        for pdf in data["pdfs_en"]:
-            self.__createPdf("en", pdf["name"], pdf["hash"], a)
+        if data["labels_en"]:
+            for label_en in data["labels_en"]:
+                self.__attachLabel(label_en["id"], a, "en")
+        if data["labels_es"]:
+            for label_es in data["labels_es"]:
+                self.__attachLabel(label_es["id"], a, "es")
+        if data["authors"]:
+            for author in data["authors"]:
+                self.__createAuthor(author, a)
+        if data["pdfs_es"]:
+            for pdf in data["pdfs_es"]:
+                self.__createPdf("es", pdf["name"], pdf["hash"], a)
+        if data["pdfs_en"]:
+            for pdf in data["pdfs_en"]:
+                self.__createPdf("en", pdf["name"], pdf["hash"], a)
 
         return a
 

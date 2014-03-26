@@ -12,6 +12,47 @@ import datetime
 
 class NewModel(PostgreSQLModel):
     """New's model."""
+    def filterByLabels(self, lang, labels):
+        """Gets the list of news ID whose labels ID includes the target one."""
+        DataValidator().checkLang(lang)
+        DataValidator().checkIntList(labels.split(","))
+
+        sql = """
+        with a as(
+        select
+        a.id_new as id,
+        gs__uniquearray(array_agg(id_label_{})::int[]) as labels
+        from
+        www.new a inner join
+        www.new_label_{} b on
+        a.id_new=b.id_new
+        where published
+        group by
+        id
+        )
+        select
+        gs__uniquearray(array_agg(id)::int[]) as id
+        from a
+        where
+        array[""".format(lang,lang)+labels+"""]::int[] <@ labels;"""
+
+        m = self.query(sql).row()["id"]
+        return(set(m) if m!=None else set([]))
+
+
+    def getNewsSections(self, lang):
+        """Returns the sections of news in lang."""
+        DataValidator().checkLang(lang)
+        sql = """
+        select
+        id_news_section as id,
+        description_{}
+        from
+        www.news_section;
+        """.format(lang)
+        return(self.query(sql).result())
+
+
     def createNew(self, title_en, title_es, text_en, text_es, url_en, url_es, news_section, \
                   labels_en, labels_es):
         """Create new."""
@@ -92,17 +133,21 @@ class NewModel(PostgreSQLModel):
             return None
 
     
-    def searchNewsByFeatures(self, search):
+    def searchNewsByFeatures(self, search, published):
         """Returns a set with the ID of news that satisfies the search
         criteria on text, and title."""
+        DataValidator().checkBoolean(published)
         sql = """
+        with a as(
         select
-        array_agg(id_new) as ids
+        id_new,
+        published
         from
         www.new
         where
+        published=%s and
         """
-        bi = []
+        bi = [published]
         for s in search.split(","):
             sql += """
             (title_en ilike %s or
@@ -112,7 +157,13 @@ class NewModel(PostgreSQLModel):
             """
             bi.extend(["%"+s+"%", "%"+s+"%", "%"+s+"%", "%"+s+"%"])
 
-        sql = sql.rstrip(" and\n")+";"
+        sql = sql.rstrip(" and\n")+")"
+        sql += """
+        select
+        array_agg(id_new) as ids
+        from
+        a;"""
+
         m = self.query(sql, bi).row()["ids"]
         if m:
             return(set(m))
@@ -120,12 +171,13 @@ class NewModel(PostgreSQLModel):
             return(set([]))
 
 
-    def searchNewsByLabel(self, search):
+    def searchNewsByLabel(self, search, published):
         """Returns a set with the ID of news that satisfies the search criteria on labels."""
         sql = """
         with a as(
         select
         a.id_new as id_new,
+        a.published as published,
         d.label as label_en,
         e.label as label_es
         from
@@ -137,13 +189,14 @@ class NewModel(PostgreSQLModel):
         www.label_en d on
         b.id_label_en=d.id_label_en inner join
         www.label_es e on
-        c.id_label_es=e.id_label_es)
+        c.id_label_es=e.id_label_es
+        where a.published=%s)
         select
         array_agg(id_new) as ids
         from a
         where
         """
-        bi = []
+        bi = [published]
         for s in search.split(","):
             sql += """
             label_en ilike %s or

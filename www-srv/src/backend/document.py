@@ -66,18 +66,24 @@ def newDocument():
                   {"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
     }"""
     m = DocumentModel()
+    j = request.json
 
-    try: 
-        for f in request.json["pdfs_en"]:
+    if [j["title_es"], j["title_en"], j["theme_es"], j["theme_en"], 
+        j["description_es"], j["description_en"]]==\
+        [None, None, None, None, None, None] or \
+        [j["title_es"], j["title_en"], j["theme_es"], j["theme_en"], 
+        j["description_es"], j["description_en"]]==\
+        ["","","","","",""]:
+        return(jsonify({"Error": "void document"}))
+
+    if j["pdfs_en"]:
+        for f in j["pdfs_en"]:
             movePdfFile(f["hash"])
-
-        for f in request.json["pdfs_es"]:
+    if j["pdfs_es"]:
+        for f in j["pdfs_es"]:
             movePdfFile(f["hash"])
-
-        out = m.createDocument(request.json)
-        return(jsonify({"id": out}))
-    except: 
-        return(jsonify(cons.errors["-1"]))
+    out = m.createDocument(j)
+    return(jsonify({"id": out}))
 
 
 @app.route('/document/<int:id_document>', methods=['PUT'])
@@ -232,8 +238,8 @@ def getDocumentList():
 
         out.append(thisDoc)
 
-    return(jsonify({"results": {"listSize": totalSize, "page": request.args["page"], \
-                                "documentList": out}}))
+    return(jsonify({"results": {"listSize": totalSize, "page": int(request.args["page"]), \
+                                "data": out}}))
 
 
 def allowedFilePDF(filename):
@@ -269,41 +275,41 @@ def uploadPDF():
 @auth
 def getDocument(id_document):
     """
-
     Gets a document. Just state the id_document in the URL.
-
     """
     m = DocumentModel()
 
     # Get data from Database
     d = m.getDocumentBackend(id_document)
-    pdfs_es = m.getDocumentPdf(id_document,"es")
-    pdfs_en = m.getDocumentPdf(id_document,"en")
-    authors = m.getDocumentAuthors(id_document)
-    labels_es = m.getDocumentLabels(id_document,"es")
-    labels_en = m.getDocumentLabels(id_document,"en")
+    if d:
+        pdfs_es = m.getDocumentPdf(id_document,"es")
+        pdfs_en = m.getDocumentPdf(id_document,"en")
+        authors = m.getDocumentAuthors(id_document)
+        labels_es = m.getDocumentLabels(id_document,"es")
+        labels_en = m.getDocumentLabels(id_document,"en")
 
-    json = {
-        "id" : d["id_document"],
-        "title_en" : d["title_en"],
-        "title_es" : d["title_es"],
-        "theme_en" : d["theme_en"],
-        "theme_es": d["theme_es"],
-        "description_en" : d["description_en"],
-        "description_es" : d["description_es"],
-        "link_es" : d["link_es"],
-        "link_en" : d["link_en"],
-        "published" : True if d["published"] == "t" else False,
-        "last_edit_id_user" : d["last_edit_id_user"],
-        "last_edit_time" : d["last_edit_time"],
-        "pdfs_es" : pdfs_es,
-        "pdfs_en" : pdfs_en,
-        "labels_es" : labels_es,
-        "labels_en" : labels_en,
-        "authors" : authors
-    }
-
-    return jsonify(json)
+        json = {
+            "id" : d["id_document"],
+            "title_en" : d["title_en"],
+            "title_es" : d["title_es"],
+            "theme_en" : d["theme_en"],
+            "theme_es": d["theme_es"],
+            "description_en" : d["description_en"],
+            "description_es" : d["description_es"],
+            "link_es" : d["link_es"],
+            "link_en" : d["link_en"],
+            "published" : True if d["published"] == "t" else False,
+            "last_edit_id_user" : d["last_edit_id_user"],
+            "last_edit_time" : d["last_edit_time"],
+            "pdfs_es" : pdfs_es,
+            "pdfs_en" : pdfs_en,
+            "labels_es" : labels_es,
+            "labels_en" : labels_en,
+            "authors" : authors
+        }
+        return jsonify(json)
+    else:
+        return(jsonify({"error": "Document not found."}))
 
 
 @app.route("/document/<int:id_document>/toggle_publish", methods=["GET"])

@@ -6,9 +6,14 @@ News administration backend
 
 """
 from backend import app
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 from model.newmodel import NewModel
+from model.usermodel import UserModel
 from backend.utils import auth
+from operator import itemgetter
+import locale
+import cons
+
 
 @app.route('/new', methods=['POST'])
 @auth
@@ -97,11 +102,47 @@ def getNewCatalog():
     """
     m = NewModel()
     search = request.args["search"] if "search" in request.args else None
-    page = request.args["page"]
+    page = int(request.args["page"])
 
-    s = m.searchNewsByFeatures("a,st")
-    t = m.searchNewsByLabel("politics,energy")
-    print(s)
-    print(t)
+    if search:
+        ids = m.searchNewsByFeatures(search).union(m.searchNewsByLabel(search))
+    else:
+        ids = m.searchNewsByFeatures("")
 
-    return(jsonify({"kk": "er"}))
+    news = []
+    for new in ids:
+        out = dict()
+        d = m.getNewDetails(new)
+        if d["title_en"] and d["text_en"] and d["url_en"] and d["description_en"]:
+            out["english"]=True
+        else:
+            out["english"]=False
+        if d["title_es"] and d["text_es"] and d["url_es"] and d["description_es"]:
+            out["spanish"]=True
+        else:
+            out["spanish"]=False
+        out["title"] = d["title_es"] if d["title_es"]!=None else \
+                       d["title_en"] if d["title_en"]!=None else "Sin título"
+        out["time"] = d["new_time"]
+        out["published"] = d["published"]
+        out["id"] = d["id_new"]
+        news.append(out)
+
+    return(jsonify({"results": sorted(news, key=itemgetter("title"), cmp=locale.strcoll)\
+                    [cons.newsCatalogPageSize*page:cons.newsCatalogPageSize*(page+1)]}))
+
+
+@app.route('/new/<int:id>', methods=['GET'])
+@auth
+def getNew(id):
+    """Gets details of a new."""
+    nm = NewModel()
+    newsDetail = nm.getNewDetails(id)
+    if not newsDetail:
+        return(jsonify({"error": "News not found"}), 404)
+    labelsEn = nm.getLabelsForNew(newsDetail["id_new"], "en")
+    labelsEs = nm.getLabelsForNew(newsDetail["id_new"], "es")
+    newsDetail["label_en"] = labelsEn
+    newsDetail["label_es"] = labelsEs
+
+    return(jsonify(newsDetail))

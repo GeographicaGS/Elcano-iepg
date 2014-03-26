@@ -12,7 +12,10 @@ import document
 import label
 import highlight
 import new
+import locale
 
 @app.route('/', methods = ['GET'])                                            
 def alive():
     return jsonify( { "status" : "running"})
+
+locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")

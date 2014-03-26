@@ -157,6 +157,53 @@ class NewModel(PostgreSQLModel):
             return(set([]))
 
 
+    def getNewDetails(self, idNew):
+        """Returns details of a new by ID."""
+        sql = """
+        select
+        id_new,
+        a.id_wwwuser,
+        c.name as username,
+        c.surname as usersurname,
+        c.email as useremail,
+        c.username as userusername,
+        new_time,
+        title_en,
+        title_es,
+        text_en,
+        text_es,
+        url_en,
+        url_es,
+        a.id_news_section,
+        b.description_en as section_en,
+        b.description_es as section_es,
+        published
+        from
+        www.new a inner join
+        www.news_section b on 
+        a.id_news_section=b.id_news_section inner join 
+        www.wwwuser c on
+        a.id_wwwuser=c.id_wwwuser
+        where id_new=%s;
+        """
+        return(self.query(sql, [idNew]).row())
+
+
+    def getLabelsForNew(self, idNew, lang):
+        """Returns the labels for new idNew and language lang."""
+        DataValidator().checkLang(lang)
+        sql = """
+        select
+        b.*
+        from
+        www.new_label_{} a inner join
+        www.label_{} b on
+        a.id_label_{}=b.id_label_{}
+        where id_new=%s;
+        """.format(lang,lang,lang,lang)
+        return(self.query(sql, [idNew]).result())
+
+
     def __attachLabel(self, id_label, id_new, lang):
         """Attach a label to a new."""
         sql = self.insert("www.new_label_{}".format(lang),
@@ -168,4 +215,3 @@ class NewModel(PostgreSQLModel):
         """Detaches all labels from a new."""
         sql = "delete from www.new_label_{} where id_new=%s;".format(lang)
         self.queryCommit(sql, bindings=[id_new])
-        

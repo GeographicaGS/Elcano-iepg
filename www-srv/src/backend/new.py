@@ -50,10 +50,11 @@ def createNew():
         for l in j["labels_es"]:
             labels_es.append(l["id"])
 
-    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"], \:
-                                          j["text_en"], j["text_es"], \
-                                          j["url_en"], j["url_es"], \
-                                          j["news_section"], labels_en, labels_es)}))
+    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"], \
+                                      j["text_en"], j["text_es"], \
+                                      j["url_en"], j["url_es"], \
+                                      j["news_section"], labels_en, labels_es)}))
+
 
 
 @app.route('/new/<int:id>', methods=['PUT'])

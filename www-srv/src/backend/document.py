@@ -232,8 +232,8 @@ def getDocumentList():
 
         out.append(thisDoc)
 
-    return(jsonify({"results": {"listSize": totalSize, "page": request.args["page"], \
-                                "documentList": out}}))
+    return(jsonify({"results": {"listSize": totalSize, "page": int(request.args["page"]), \
+                                "data": out}}))
 
 
 def allowedFilePDF(filename):

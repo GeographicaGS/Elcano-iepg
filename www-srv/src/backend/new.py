@@ -13,6 +13,7 @@ from backend.utils import auth
 from operator import itemgetter
 import locale
 import cons
+from model.helpers import ElcanoError
 
 
 @app.route('/new', methods=['POST'])
@@ -114,9 +115,9 @@ def getNewCatalog():
     page = int(request.args["page"])
 
     if search:
-        ids = m.searchNewsByFeatures(search).union(m.searchNewsByLabel(search))
+        ids = m.searchNewsByFeatures(search, False).union(m.searchNewsByLabel(search, False))
     else:
-        ids = m.searchNewsByFeatures("")
+        ids = m.searchNewsByFeatures("", False)
 
     news = []
     for new in ids:
@@ -137,9 +138,9 @@ def getNewCatalog():
         out["id"] = d["id"]
         news.append(out)
 
-    return(jsonify({"listSize": len(news), \
-                    "results": sorted(news, key=itemgetter("title"), cmp=locale.strcoll)\
-                    [cons.newsCatalogPageSize*page:cons.newsCatalogPageSize*(page+1)]}))
+    return(jsonify({"results": {"page": page, "listSize": len(news), \
+                                "data": sorted(news, key=itemgetter("title"), cmp=locale.strcoll)\
+                                [cons.newsCatalogPageSize*page:cons.newsCatalogPageSize*(page+1)]}}))
 
 
 @app.route('/new/<int:id>', methods=['GET'])
@@ -156,3 +157,14 @@ def getNew(id):
     newsDetail["label_es"] = labelsEs
 
     return(jsonify(newsDetail))
+
+
+@app.route('/new/sections/<string:lang>', methods=['GET'])
+@auth
+def getNewsSections(lang):
+    """Gets the sections for news."""
+    nm = NewModel()
+    try:
+        return(jsonify({"results": nm.getNewsSections(lang)}))
+    except ElcanoError as e:
+        return(jsonify(e.dict()))

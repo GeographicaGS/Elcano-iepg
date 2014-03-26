@@ -138,9 +138,16 @@ class HighlightModel(PostgreSQLModel):
           www.highlight
         where
           id_highlight=%s;"""
-
         pub = self.query(a, bindings=[id]).row()["published"]
 
+        a = """
+        select
+        max(publication_order)
+        from
+        www.highlight;
+        """
+        max = int(self.query(a).row()["max"])
+        max = max+1 if max!=None else 0
         if pub:
             self.update("www.highlight",
                         {"published": False,
@@ -149,9 +156,8 @@ class HighlightModel(PostgreSQLModel):
         else:
             self.update("www.highlight",
                         {"published": True,
-                         "publication_order": None},
+                         "publication_order": max},
                         {"id_highlight": id})
-
         return(not pub)
 
 

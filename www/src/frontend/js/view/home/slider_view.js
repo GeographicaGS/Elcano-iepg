@@ -55,8 +55,14 @@ app.view.Slider = Backbone.View.extend({
         this.resizeMe();
     },
 
+    _resizeImage: function(){
+        var $img = this.$co_img.find("img"),
+            top =  ($img.height() - this.$co_img.height()) / 2;
+        $img.css("top", (-1* top) + "px");
+    },
     resizeMe: function(){
         this.$circle_back.width($(window).width()-this.$circle_back.position().left);
+        this._resizeImage();
     },
 
     events:{
@@ -79,10 +85,11 @@ app.view.Slider = Backbone.View.extend({
         var $img = this.$co_imgs.find("img[data-img-idx="+this._idx+"]"),
             loaded = $img[0].complete;
 
+
         this.$ctrl_images.children().removeAttr("selected");
         this.$ctrl_images.find("li:nth-child("+(this._idx +1)+")").attr("selected",true);
         
-        if (false && !loaded){
+        if (!loaded){
             var self = this;
             $img.load(function(){
                 self._drawSlide($img);
@@ -95,12 +102,17 @@ app.view.Slider = Backbone.View.extend({
 
     _drawSlide: function($img){
 
-        var oldImage = this.$co_img.find("img");
-        var newImage = $img.clone();
-
+        var oldImage = this.$co_img.find("img"),
+            newImage = $img.clone();
+        
         this.$co_img.append(newImage);
+        
+        var top =  (newImage.height() - this.$co_img.height()) / 2;
+        newImage.css("top", (-1* top) + "px");
+
         newImage.animate({ opacity: 1 }, 'slow',function(){
             oldImage.remove();
+           
         });
         
         // no animation on start

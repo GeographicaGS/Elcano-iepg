@@ -49,7 +49,15 @@ $(function() {
             $el.fadeIn(300);
         }
     });
+
+    $("body").on("mouseenter","#menu li[data-has-submenu]",function(e){
+        $(this).find("ul").fadeIn(300);
+    });
    
+    $("body").on("mouseleave","#menu li[data-has-submenu]",function(e){
+        $(this).find("ul").fadeOut(300);
+    });
+
     app.ini();
 
     $(document).resize(function(){

@@ -281,13 +281,36 @@ ul#menu{
 	height: 45px;
 	line-height: 45px;
 	cursor: pointer;
-	.roboto_cond();
-
+	
 	li{
+        position: relative;
         a{
             padding: 0 10px;
             height: 100%;
             display: inline-block;
+            color: #d6d6d6;
+            .roboto_cond();
+
+        }
+
+        ul{
+            position: absolute;
+            top: 44px;
+            left: 0;
+            z-index:20;
+            li{
+                height: 2*@line_height;
+                line-height: 2*@line_height;
+                background-color: @grey_dark;
+                border-top: 1px solid @grey_light;
+                display: block;
+                width: 157px;
+
+                a{
+                    .roboto_cond();
+                    color: #d6d6d6;
+                }
+            }
         }
 	}
 
@@ -296,12 +319,12 @@ ul#menu{
 		color:@grey_dark;
 		border-bottom: none;
 	}
-	li:nth-child(3){
+	> li:nth-child(3){
 		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat top left;
 		padding-left: 40px;
 	}
 
-	li:nth-child(3):hover{
+	> li:nth-child(3):hover{
 		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat top left @yellow;
 		padding-left: 40px;
 	}

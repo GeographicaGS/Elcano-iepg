@@ -8,7 +8,7 @@ insert into www.translation VALUES ('_link docs','documents','documentos');
 insert into www.translation VALUES ('_link doc','document','documento'); 
 insert into www.translation VALUES ('_link contact','contact','contacto');
 insert into www.translation VALUES ('_link news','news','noticias'); 
-insert into www.translation VALUES ('_link about infr','infrastructure','infraestructura');
+insert into www.translation VALUES ('_link about infr','structure','estructura');
 insert into www.translation VALUES ('_link about meth','methodologic', 'metodologia');
 
 insert into www.translation VALUES ('Económica','Economic','Económica');

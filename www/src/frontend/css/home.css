@@ -55,13 +55,203 @@
 
     #explora_sel{
 
-        input#year,input#country{
+        #co_country,#co_year{
             height:45px;
             line-height: 45px;
             width: 300px;
             border:none;
             margin-top: 10px;
             cursor:pointer;
+            padding-left: 10px;
+            position: relative;
+
+        }
+        
+        #country,#year{
+            color:@grey !important;
+        }
+        #co_country{
+            background: url("@{imgPath}ELC_icon_paises_form.png") no-repeat right 10px center @white;
+            .popup_content{
+                width: 390px;
+
+                .header{
+                    display: table;
+                    width: 100%;
+
+                    h6{
+                        .roboto(light);
+                        font-size: 16px;
+                        height:45px;
+                        line-height: 45px;
+                        display:table-cell;
+                        color:@grey_light;
+                        border-bottom: 1px solid @grey_light;
+                        padding-left: 42px;
+                    }
+
+                    h6.global{
+                        border-right:1px solid @grey_light;
+                        background: url("@{imgPath}ELC_icon_iepg2_form.png") no-repeat 10px center #f3f3f4; 
+                    }
+
+                    h6.global[selected]{
+                        background: url("@{imgPath}ELC_icon_iepg1_form.png") no-repeat  10px center @white;
+                        color:@red;
+                        border-bottom: 1px solid @red;
+                    }
+
+                    h6.eu{
+                        background: url("@{imgPath}ELC_icon_iepe2_form.png") no-repeat 10px center #f3f3f4; 
+                    }
+
+                    h6.eu[selected]{
+                        background: url("@{imgPath}ELC_icon_iepe1_form.png") no-repeat  10px center @white;
+                        color:@blue;
+                        border-bottom: 1px solid @blue;
+                    }
+                }
+
+                .level_1{
+                    height:220px;
+                    overflow: scroll;
+
+                    ul {
+                        li{
+                            height:45px;
+                            line-height: 45px;
+                            border-bottom: 1px solid @grey_light2;
+                            margin: 0 10px;
+                            .roboto(light);
+                            font-size: 16px;
+                            color:@grey_dark;
+                            background: url("@{imgPath}ELC_icon_acceder_form.png") no-repeat right center;
+                        }
+
+                        li:last-child{
+                            border-bottom: none;
+                        }
+                    }
+                }
+
+                .level_2{
+                    .header_l2{
+
+                        .goback{
+                            color:@grey_dark;
+                            .roboto(light);
+                            font-size: 16px;
+                            background: url("@{imgPath}ELC_icon_atras_form.png") no-repeat left center;
+                            line-height: 45px;
+                            float: left;
+                            padding-left: 37px;
+
+                        }
+                        
+                        height:45px;
+                        margin:0 10px;
+                        border-bottom: 1px solid @grey_light;
+                    }
+                    
+                    ul {
+                        height:175px;
+                        overflow: scroll;
+
+                        li{
+                            height:45px;
+                            line-height: 45px;
+                           
+                            margin: 0 10px;
+                            color:@grey_dark;
+                            padding-left: 42px;
+
+                            a{
+                                display: block;
+                                height:45px;
+                                line-height: 45px;
+                                border-bottom: 1px solid @grey_light2;
+                                font-size: 16px;
+                                .roboto(medium);
+                                padding: 0px 10px;
+                            }
+
+                            a:hover{
+                                color:@red;
+                            }   
+                        }
+                        
+                        li:hover{
+                            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat 10px center;
+                            color:@red !important;
+                        }
+
+                        li[selected]{
+                            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat 10px center;
+                            color:@red;
+                        }
+
+                    }
+
+
+                }
+
+                .counter{
+                    float: right;
+                    border-radius: 10px;
+                    color:@white;
+                    height: 22px;
+                    padding: 0px 9px;
+                    background-color: @grey_light;
+                    margin: 12px 28px 0 0;
+                    line-height: 23px;
+                }
+            }
+
+        }
+
+        #co_year{
+            background: url("@{imgPath}ELC_icon_ediciones_form.png") no-repeat right 10px center @white;
+            
+            #popup_year{
+        
+                width: 140px;
+
+                .popup_content{
+                    
+                    h6{
+                        font-size: 16px;
+                        .roboto(light);
+                        border-bottom: 1px solid @red;
+                        height: 44px;
+                        line-height: 44px;
+                        color:@red;
+                        padding: 0 10px;
+                    }
+
+                    ul{
+                        li{
+                            padding: 0 10px 0 44px;
+
+                            a{
+                                display: block;
+                                height: 44px;
+                                line-height: 44px;
+                                border-bottom: 1px solid @grey_light2;
+                                color:@grey_dark;
+                                .roboto();
+                                font-size: 16px;
+                            }
+                        }
+
+                        li:last-child a{
+                            border-bottom: none;
+                        }
+                        li[selected]{
+                            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left 10px center;
+                        }
+                    }
+                }
+            }
         }
 
         button.go_explora{
@@ -81,11 +271,14 @@
 
         .faq{
             text-align: center;
-            color: #28282b;
-            font-size: 13px;
+           
             margin: 10px 0px 0 0;
-            display: block;
             width:300px;
+
+            a{ 
+                color: @grey_dark;
+                font-size: 13px;
+            }
         }
 
         .faq:before{

@@ -9,24 +9,32 @@ TODO: review SQL parsing. Use bindings.
 
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
+from helpers import DataValidator
+from datetime import datetime
+from psycopg2 import IntegrityError
 
 
 class HomeModel(PostgreSQLModel):
     """Home model."""
-    def getLabels(self, lang):
-        """Gets labels in one language."""
-        sql = """
-        select
-          id_label_{} as id,
-          label
-        from
-          www.label_{};
-        """.format(lang, lang)
-
-        return(self.query(sql).result())
+    def newEmail(self, email):
+        """Inserts a new email into the mailing list."""
+        try:
+            out = self.insert("www.email_list",
+                              {"email": email,
+                               "time": datetime.utcnow().isoformat()},
+                              returnID="email")
+        
+            return(out)
+        except IntegrityError as e:
+            return({"error": "duplicated email"})
+        
 
     def newStuffSections(self, lang, section):
         """Access new for the home's new stuff control for Blog, Media, and Events."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+        dv.checkNewsSection(section)
+
         a = """
         with a as(
         select
@@ -34,6 +42,7 @@ class HomeModel(PostgreSQLModel):
         (b.name || ' ' || b.surname)::varchar as wwwuser,
         new_time::timestamp as time,
         title_{} as title,
+        a.id_news_section as id_section,
         description_{}::varchar as section,
         array_agg(d.id_label_{})::varchar[] as labels
         from
@@ -45,26 +54,31 @@ class HomeModel(PostgreSQLModel):
         on a.id_new=d.id_new
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
-        group by id, b.name, b.surname, time, title, section
-        limit 5
+        group by id, b.name, b.surname, time, title, id_section, section
         ) 
         select
-        row_number() over (order by time) as id,
+        id,
         wwwuser,
         time,
         title,
         section,
         labels
         from a
-        where section='{}'
-        order by time desc;
+        where id_section={}
+        order by time desc
+        limit 5;
         """.format(lang,lang,lang,lang,lang,lang,lang,section)
     
+        print a
+
         return(self.query(a).result())
 
 
     def newStuffDocuments(self, lang):
         """Gets new documents for the home's new stuff control for Documents."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+
         a = """
         with a as(
         select
@@ -82,17 +96,17 @@ class HomeModel(PostgreSQLModel):
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
         group by id, b.name, b.surname, time, title, section
-        limit 5
         ) 
         select
-        row_number() over (order by time) as id,
+        id,
         wwwuser,
         time,
         title,
         section,
         labels
         from a
-        order by time desc;
+        order by time desc
+        limit 5;
         """.format(lang,lang,lang,lang,lang,lang)
 
         return(self.query(a).result())
@@ -100,6 +114,9 @@ class HomeModel(PostgreSQLModel):
 
     def newStuffAll(self, lang):
         """Gets new stuff for all sections except Twitter."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+
         sql = """
         with a as(
         select * from(
@@ -136,15 +153,15 @@ class HomeModel(PostgreSQLModel):
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
         group by id, b.name, b.surname, time, title, section) ab
-        order by time desc
-        limit 5)
+        order by time desc)
         select
-        row_number() over (order by time) as id,
+        id as id_section,
         wwwuser,
         time,
         title,
         section,
         labels
-        from a;""".format(lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang)
+        from a
+        limit 5;""".format(lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang)
 
         return(self.query(sql).result())

@@ -1,0 +1,29 @@
+
+<%
+i = 0;
+_.each(collection,function(d){ 
+    i++;
+%>
+<tr class="row" data-id-highlight="<%= d.id %>">
+    <td class="col-md-1">
+        <span class="ESTag <%= d.spanish ? "" : "inactivetag" %>">ES</span> 
+        <span class="ENTag <%= d.english ? "" : "inactivetag" %>">EN</span>
+    </td>
+
+    <td class="col-md-3">
+        <a href="/<lang>lang</lang>/highlights/<%= d.id%>"><%= d.title %></a>
+    </td>
+    <td class="col-md-4">
+        <a href="/<lang>lang</lang>/highlights/<%= d.id%>"><%= d.text %></a>
+    </td>
+    <td class="col-md-3 lastEdition greyTable thRight">
+        <%= app.dateTimeFormat(d.edit) %>
+    </td>
+
+    <td class="orden greyTable thRight col-md-1">
+        <% if (published) { %>
+            <%= i %>/<%= collection.length %>
+        <% } %>
+    </td>
+</tr>
+<% }); %>

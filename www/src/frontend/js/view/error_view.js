@@ -2,7 +2,7 @@ app.view.Error = Backbone.View.extend({
     _template : _.template( $('#error_template').html() ),
     
     initialize: function() {
-        app.events.trigger("menu","home");
+        app.events.trigger("menu","");
         this.render();
     },
     

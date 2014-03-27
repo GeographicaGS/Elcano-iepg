@@ -1,0 +1,45 @@
+<%
+ if (!collection.length) {%>
+    <h4 class="roboto_light size_24 red mth2"><lang>La búsqueda no obtuvo ningún resultado.</lang></h4>
+
+    <p class="roboto_light grey size_18 mth2">
+        <lang>Te sugerimos que</lang>: <br/><br/>
+        <lang>1. Si ha completado el formulario de búsqueda de documentos, comprueba que las palabras 
+    están escritas correctamente.</lang><br/><br/>
+
+        <lang>2. Si tiene algún filtro aplicado, prueba eliminando alguna etiqueta o todas.</lang>
+        <br/>
+
+      
+    </p>
+
+    <button class="button go mth2" id="go_initial_list" ><lang>Volver a la lista inicial</lang></button>
+<% 
+
+} 
+
+ _.each(collection,function(d){ %>
+    <div class="row mt12">
+        <div class="col-md-2 size_15 text_bold grey ">
+            <span class="size_13 grey_light roboto_light"><%= app.dateTimeFormat(d.new_time) %><br/></span>
+        </div>
+                
+        <div class="col-md-10">
+            <p class="size_18 grey_dark roboto_light">
+                <a href="<%= d.url%>" class="simple" target="_blank"><%= app.urlify(d.title,"target=_blank") %></a>
+            </p>
+            <p class="size_13 grey">
+               <%= app.urlify(d.text,"target=_blank") %>
+            </p>
+            <div class="l1"></div>
+            <p>
+                <span class="fleft red uppercase mr5 size_13 roboto_cond_bold"><%= d.section %></span>
+                <% _.each(d.labels,function(l){ %>
+                    <a class="label" href="#" data-id-filter="<%= l.id%>"><%= l.label %></a/>
+                <%  }); %>
+            </p>
+        </div>
+
+    </div>
+    <div class="sep mtbh1"></div>
+<% }); %>

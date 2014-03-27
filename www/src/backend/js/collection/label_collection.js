@@ -10,7 +10,6 @@ app.collection.Label = Backbone.Collection.extend({
         return app.config.API_URL + "/label/" + this.lang;
     },
     parse: function(response){
-        app.renameID(response.results,"id_label_"+this.lang,"id");
         return response.results;
     }
 });

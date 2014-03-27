@@ -18,6 +18,7 @@
 @white :#fff;
 
 
+
 html, body{ height:100%;}
 body {
 	.roboto();
@@ -35,6 +36,16 @@ a.simple:hover{
 	text-decoration: none !important;
 }
 
+a.nostyle{
+    color:inherit !important;
+    border-bottom: none !important;
+    text-decoration: none !important;
+}
+a.nostyle:hover{
+    border-bottom: none !important;
+    text-decoration: none !important;
+    color:inherit !important;
+}
 
 p,span,div,table{
 	.roboto();
@@ -163,6 +174,7 @@ input[placeholder]{
 
 .roboto_light{.roboto(light);}
 .roboto_cond_bold{.roboto_cond(bold);}
+.roboto_bold{.roboto(bold);}
 
 .text_bold{ .roboto(bold);}
 
@@ -170,20 +182,65 @@ input[placeholder]{
 
 a:hover{
 	color:@red;
-}
-a.bottom_yellow{
-    color:@grey_dark;
-    border-bottom: 1px solid @yellow;
-    
-}
-a:hover{
     border-bottom: 1px solid @grey;
 }
+
+a.bottom_yellow{
+    color: @grey_dark;
+    border-bottom: 1px solid @yellow;
+}
+
+a.bottom_yellow:hover{
+    color: @grey_dark;
+    border-bottom: 1px solid @yellow;
+}
+
+
 
 header{
 	a#top_logo:hover{
 		border-bottom: none;
 	}
+
+    .container{
+        position: relative;
+    }
+
+    #menu_language{
+        position: absolute;
+        top: 40px;
+        right: 0;
+        z-index: 10;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px 2px rgba(60,60,60,0.5);
+
+
+        li{
+            padding: 0 10px 0 33px;
+
+            a{
+                display: block;
+                height: 44px;
+                line-height: 44px;
+                border-bottom: 1px solid @grey_light2;
+                color:@grey_dark;
+                .roboto();
+                font-size: 13px;
+            }
+        }
+        li[selected]{
+            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left 10px center;
+            background-size: 16px 16px;
+            
+        }
+        
+        li[selected] a{
+            color: @red !important;
+        }
+
+
+    
+    }
 }
 
 header > div:first-child{
@@ -224,10 +281,37 @@ ul#menu{
 	height: 45px;
 	line-height: 45px;
 	cursor: pointer;
-	.roboto_cond();
-
+	
 	li{
-		padding: 0 10px;
+        position: relative;
+        a{
+            padding: 0 10px;
+            height: 100%;
+            display: inline-block;
+            color: #d6d6d6;
+            .roboto_cond();
+
+        }
+
+        ul{
+            position: absolute;
+            top: 44px;
+            left: 0;
+            z-index:20;
+            li{
+                height: 2*@line_height;
+                line-height: 2*@line_height;
+                background-color: @grey_dark;
+                border-top: 1px solid @grey_light;
+                display: block;
+                width: 157px;
+
+                a{
+                    .roboto_cond();
+                    color: #d6d6d6;
+                }
+            }
+        }
 	}
 
 	li:hover,li a:hover{
@@ -235,12 +319,12 @@ ul#menu{
 		color:@grey_dark;
 		border-bottom: none;
 	}
-	li:nth-child(3){
+	> li:nth-child(3){
 		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat top left;
 		padding-left: 40px;
 	}
 
-	li:nth-child(3):hover{
+	> li:nth-child(3):hover{
 		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat top left @yellow;
 		padding-left: 40px;
 	}
@@ -250,6 +334,8 @@ ul#menu{
 		line-height: 43px;
 		color: @white;
 	}
+
+
 }
 
 .button{
@@ -260,19 +346,38 @@ ul#menu{
 	color: @white ;
 	font-size: 16px;
 	padding: 0px 13px;
-	.roboto(medium);
+	cursor: pointer;
+	.roboto();
 
+	strong{
+		.roboto(bold);
+	}
+}
+
+.button.white{
+	background-color: @white;
+	color:@grey_light;
+	border:1px solid;
 }
 
 .button.go{
-	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light;
+	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light ;
 	padding-right: 33px;
+}
+
+.button.more_info{
+	background: url("@{imgPath}/ELC_icon_boton_enlace.png") no-repeat right 10px center @white ;
+	padding-right: 43px;
+}
+
+.button.download{
+	background: url("@{imgPath}/ELC_icon_boton_descarga.png") no-repeat right 10px center @grey_light ;
+	padding-right: 43px;
 }
 
 .button:hover{
 	color: @white;
     background-color:@grey_dark;
-        
 }
 
 .sep(@color){
@@ -287,6 +392,11 @@ ul#menu{
 .sep_grey2{
 	.sep(@grey2);
 }
+
+.sep_grey_dark{
+    .sep(@grey_dark);
+}
+
 
 footer{
 	background: @grey;
@@ -494,5 +604,129 @@ a.label:hover{
     }
     a:hover{
         border-bottom: 1px solid @grey;
+    }
+}
+
+.co_popup{
+    position: absolute;
+    right:0;
+    bottom: 27px;
+    z-index: 10;
+
+    .popup_content{
+        background: @white;
+        box-shadow: 0 5px 10px 0px #666;
+    }
+
+    .arrow{
+        width: 43px;
+        height: 35px;
+        overflow: hidden;
+        float: right;
+        margin-right: 19px;
+    }
+
+    .arrow:after{
+        content: "";
+        width: 24px;
+        height: 70px;
+        -webkit-transform: rotate(-45deg);
+        float: right;
+        background-color: #fff;
+        margin-top: -30px;
+        box-shadow: 0 5px 10px 5px #666;
+   }
+
+}
+
+.loading{
+    margin-top: 3*@line_height;
+    margin-bottom: 3*@line_height;
+    background: url("../img/ELC_icon_loading_white.gif") no-repeat left top;
+    .roboto(light);
+    padding: 15px 0 0 62px;
+    font-size: 16px;
+    height: 60px;
+}
+
+.contact{
+    #map{
+        height: 345px;
+        width: 100%;
+    }
+    .last_iepg{
+    border-left: 1px solid @grey_light2;
+        min-height: 500px;
+    }
+
+    .block{
+        padding-right: 100px;
+    }
+}
+
+.frame_border{
+    border-right:1px solid @grey_light2;
+}
+
+.faq {
+    .index{
+        li{
+            font-size:  14px;
+            color: @grey_dark;
+            cursor: pointer;
+        }
+    }
+}
+
+.static_data_page{
+    h6,p{
+        .roboto(bold);
+        font-size: 16px;
+        color:@grey;
+        margin-top:2*@line_height;
+    }
+
+    p{
+        .roboto();
+    }
+}
+
+.about {
+    .desc{
+        font-size: 14px;
+    }
+    ul{
+        margin: 2*@line_height 10px 0 20px ;
+        li{
+            padding-left: 50px;
+            min-height: 60px;
+            margin-top: @line_height;
+        }
+    }
+    ul.areas{
+        li:nth-child(1){
+            background: url("@{imgPath}ELC_icono_presencia_economica.png") no-repeat left top;
+            strong{
+                color:@blue;
+            }
+        }
+        li:nth-child(2){
+            background: url("@{imgPath}ELC_icono_presencia_militar.png") no-repeat left top;
+            strong{
+                color:@green;
+            }
+        }
+        li:nth-child(3){
+            background: url("@{imgPath}ELC_icono_presencia_blanda.png") no-repeat left top;
+            strong{
+                color:@orange;
+            }
+        }
+    }
+
+    ul.util{
+        li{
+            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left top;
+        }
     }
 }

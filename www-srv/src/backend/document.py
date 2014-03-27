@@ -6,8 +6,9 @@ Document backend
 
 """
 from backend import app
-from flask import jsonify,request,session
+from flask import jsonify,request,session,send_file
 from model.documentmodel import DocumentModel
+from model.helpers import DataValidator
 from backend.utils import auth, prettyNumber
 import config
 from werkzeug.utils import secure_filename
@@ -16,6 +17,22 @@ import os
 import hashlib
 import time
 import cons
+
+
+@app.route('/download/pdf', methods=['GET'])
+@auth
+def downloadPdf():
+    """Downloads a PDF. request.args:
+
+    idPdf: mandatory, PDF ID.
+
+    """
+    m = DocumentModel()
+    pdf = m.getPdfData(request.args["idPdf"])
+    
+    return(send_file(config.cfgBackend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
+                     mimetype="application/pdf", attachment_filename=pdf["pdf_name"]+".pdf", \
+                     as_attachment=True))
 
 
 @app.route('/document', methods=['POST'])
@@ -49,18 +66,24 @@ def newDocument():
                   {"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
     }"""
     m = DocumentModel()
+    j = request.json
 
-    try: 
-        for f in request.json["pdfs_en"]:
+    if [j["title_es"], j["title_en"], j["theme_es"], j["theme_en"], 
+        j["description_es"], j["description_en"]]==\
+        [None, None, None, None, None, None] or \
+        [j["title_es"], j["title_en"], j["theme_es"], j["theme_en"], 
+        j["description_es"], j["description_en"]]==\
+        ["","","","","",""]:
+        return(jsonify({"Error": "void document"}))
+
+    if j["pdfs_en"]:
+        for f in j["pdfs_en"]:
             movePdfFile(f["hash"])
-
-        for f in request.json["pdfs_es"]:
+    if j["pdfs_es"]:
+        for f in j["pdfs_es"]:
             movePdfFile(f["hash"])
-
-        out = m.createDocument(request.json)
-        return(jsonify({"id": out}))
-    except: 
-        return(jsonify(cons.errors["-1"]))
+    out = m.createDocument(j)
+    return(jsonify({"id": out}))
 
 
 @app.route('/document/<int:id_document>', methods=['PUT'])
@@ -157,10 +180,12 @@ def getDocumentList():
 
     Gets a slice of a document list. Uses URL arguments:
 
-      offset: mandatory, page to present
+      page: mandatory, page to present
       search: optional, search criteria
       orderbyfield: optional, set by default to title
       orderbyorder: optional, asc / desc, set by default to asc
+
+    TODO: modify data validation
 
     """
     m = DocumentModel()
@@ -179,7 +204,7 @@ def getDocumentList():
             return(jsonify(cons.errors["-3"]))
 
     totalSize = m.getDocumentListSize(search=search)
-    docs = m.getDocumentList(request.args["offset"], config.cfgBackend["DocumentListLength"], \
+    docs = m.getDocumentList(request.args["page"], config.cfgBackend["DocumentListLength"], \
                              search=search, orderByField=orderbyfield, orderByOrder=orderbyorder)
 
     for doc in docs:
@@ -213,8 +238,8 @@ def getDocumentList():
 
         out.append(thisDoc)
 
-    return(jsonify({"results": {"listSize": totalSize, "page": request.args["offset"], \
-                                "documentList": out}}))
+    return(jsonify({"results": {"listSize": totalSize, "page": int(request.args["page"]), \
+                                "data": out}}))
 
 
 def allowedFilePDF(filename):
@@ -250,41 +275,41 @@ def uploadPDF():
 @auth
 def getDocument(id_document):
     """
-
     Gets a document. Just state the id_document in the URL.
-
     """
     m = DocumentModel()
 
     # Get data from Database
     d = m.getDocumentBackend(id_document)
-    pdfs_es = m.getDocumentPdf(id_document,"es")
-    pdfs_en = m.getDocumentPdf(id_document,"en")
-    authors = m.getDocumentAuthors(id_document)
-    labels_es = m.getDocumentLabels(id_document,"es")
-    labels_en = m.getDocumentLabels(id_document,"en")
+    if d:
+        pdfs_es = m.getDocumentPdf(id_document,"es")
+        pdfs_en = m.getDocumentPdf(id_document,"en")
+        authors = m.getDocumentAuthors(id_document)
+        labels_es = m.getDocumentLabels(id_document,"es")
+        labels_en = m.getDocumentLabels(id_document,"en")
 
-    json = {
-        "id" : d["id_document"],
-        "title_en" : d["title_en"],
-        "title_es" : d["title_es"],
-        "theme_en" : d["theme_en"],
-        "theme_es": d["theme_es"],
-        "description_en" : d["description_en"],
-        "description_es" : d["description_es"],
-        "link_es" : d["link_es"],
-        "link_en" : d["link_en"],
-        "published" : True if d["published"] == "t" else False,
-        "last_edit_id_user" : d["last_edit_id_user"],
-        "last_edit_time" : d["last_edit_time"],
-        "pdfs_es" : pdfs_es,
-        "pdfs_en" : pdfs_en,
-        "labels_es" : labels_es,
-        "labels_en" : labels_en,
-        "authors" : authors
-    }
-
-    return jsonify(json)
+        json = {
+            "id" : d["id_document"],
+            "title_en" : d["title_en"],
+            "title_es" : d["title_es"],
+            "theme_en" : d["theme_en"],
+            "theme_es": d["theme_es"],
+            "description_en" : d["description_en"],
+            "description_es" : d["description_es"],
+            "link_es" : d["link_es"],
+            "link_en" : d["link_en"],
+            "published" : True if d["published"] == "t" else False,
+            "last_edit_id_user" : d["last_edit_id_user"],
+            "last_edit_time" : d["last_edit_time"],
+            "pdfs_es" : pdfs_es,
+            "pdfs_en" : pdfs_en,
+            "labels_es" : labels_es,
+            "labels_en" : labels_en,
+            "authors" : authors
+        }
+        return jsonify(json)
+    else:
+        return(jsonify({"error": "Document not found."}))
 
 
 @app.route("/document/<int:id_document>/toggle_publish", methods=["GET"])

@@ -7,11 +7,27 @@ Frontend document services.
 
 """
 from frontend import app
-from flask import jsonify,request
+from flask import jsonify,request,send_file,make_response
 from model.documentmodel import DocumentModel
 from model.labelmodel import LabelModel
 import cons
 import helpers
+import config
+
+
+@app.route('/download/pdf', methods=['GET'])
+def downloadPdf():
+    """Downloads a PDF. request.args:
+
+    idPdf: mandatory, PDF ID.
+
+    """
+    m = DocumentModel()
+    pdf = m.getPdfData(request.args["idPdf"])
+    
+    return(send_file(config.cfgFrontend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
+                     mimetype="application/pdf", attachment_filename=pdf["pdf_name"]+".pdf", \
+                     as_attachment=True))
 
 
 @app.route('/document/label/<string:lang>', methods=['GET'])
@@ -27,6 +43,11 @@ def getDocument(idDocument, lang):
 
       idDocument: mandatory, ID of the requested document
       lang: mandatory, language for document's metadata
+
+      TODO: revisar los coalesce. Según lo último que hablamos, se
+      íban a rellenar todos los campos o el documento era impublicable.
+
+      TODO: cambiar los errores a make_response.
     """
     if lang not in cons.lang:
         return(jsonify(cons.errors["-1"]))
@@ -47,8 +68,11 @@ def getDocument(idDocument, lang):
     out["pdf"]=pdf
 
     doc = m.getDocumentData(idDocument)
+    if doc==None:
+        return make_response(jsonify({"error": "Document not found"}), 404)
 
     out["id"] = doc["id_document"]
+    out["time"] = doc["last_edit_time"]
     if lang=="en":
         out["description"] = helpers.coalesce([doc["description_en"], doc["description_es"]])
         out["theme"] = helpers.coalesce([doc["theme_en"], doc["theme_es"]])

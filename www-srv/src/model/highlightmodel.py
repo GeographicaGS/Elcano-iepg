@@ -9,6 +9,7 @@ Highlight model
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 import datetime
 from flask import session
+from helpers import DataValidator
 
 
 class HighlightModel(PostgreSQLModel):
@@ -51,6 +52,7 @@ class HighlightModel(PostgreSQLModel):
 
         sql = """
         select
+          id_highlight,
           coalesce(title_es,title_en) as title,
           coalesce(text_es, text_en) as text,
           title_en,
@@ -99,14 +101,16 @@ class HighlightModel(PostgreSQLModel):
             if page and listSize:
                 results = self.query(sql, bindings=[search,search,search, \
                                                     search,search,search,search, \
-                                                    search,page,listSize]).result()
+                                                    search,(int(page)*listSize),listSize]).result()
             else:
                 results = self.query(sql, bindings=[search,search,search, \
                                                     search,search,search,search, \
                                                     search]).result()
         else:
             if page and listSize:
-                results = self.query(sql, bindings=[page,listSize]).result()
+                print(page, listSize)
+
+                results = self.query(sql, bindings=[(int(page)*listSize),listSize]).result()
             else:
                 results = self.query(sql).result()
 
@@ -134,9 +138,16 @@ class HighlightModel(PostgreSQLModel):
           www.highlight
         where
           id_highlight=%s;"""
-
         pub = self.query(a, bindings=[id]).row()["published"]
 
+        a = """
+        select
+        max(publication_order)
+        from
+        www.highlight;
+        """
+        max = int(self.query(a).row()["max"])
+        max = max+1 if max!=None else 0
         if pub:
             self.update("www.highlight",
                         {"published": False,
@@ -145,9 +156,8 @@ class HighlightModel(PostgreSQLModel):
         else:
             self.update("www.highlight",
                         {"published": True,
-                         "publication_order": None},
+                         "publication_order": max},
                         {"id_highlight": id})
-
         return(not pub)
 
 
@@ -186,10 +196,10 @@ class HighlightModel(PostgreSQLModel):
                      "credit_img_es": data["credit_img_es"],
                      "link_en": data["link_en"],
                      "link_es": data["link_es"],
-                     "image_name_en": data["new_image_name_en"],
-                     "image_hash_en": data["new_image_hash_en"],
-                     "image_name_es": data["new_image_name_es"],
-                     "image_hash_es": data["new_image_hash_es"],
+                     "image_name_en": data["image_name_en"],
+                     "image_hash_en": data["image_hash_en"],
+                     "image_name_es": data["image_name_es"],
+                     "image_hash_es": data["image_hash_es"],
                      "last_edit_id_user": session["id_user"],
                      "last_edit_time": datetime.datetime.utcnow().isoformat()},
                     {"id_highlight": data["id_highlight"]})
@@ -207,24 +217,24 @@ class HighlightModel(PostgreSQLModel):
         """Get the slider's data in language lang for the home, active and ordered.
         TODO: SQL injection.
         """
-
-        if lang != "es" and lang != "en":
-            raise Exception("Unknow language")
-
+        dv = DataValidator()
+        dv.checkLang(lang)
         sql = """
         select
-          id_highlight,
-          title_{} as title,
-          text_{} as text,
-          image_hash_{} || '.jpg' as image_file,
-          credit_img_{} as credit_img,
-          link_{} as link
+        id_highlight,
+        title_{} as title,
+        text_{} as text,
+        image_hash_{} || '.jpg' as image_file,
+        credit_img_{} as credit_img,
+        link_{} as link,
+        published,
+        publication_order
         from
-          www.highlight
+        www.highlight
         where
-          published
+        published and publication_order is not null
         order by
-          publication_order;
+        publication_order;
         """.format(lang,lang,lang,lang,lang)
 
         return(self.query(sql).result())

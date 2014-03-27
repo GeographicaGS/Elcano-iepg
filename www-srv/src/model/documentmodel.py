@@ -6,169 +6,152 @@ Document model
 
 TODO: check all select * and state the fields.
 TODO: check for SQL injection.
+TODO: check for data validation
 
 """
-
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 import datetime
 from flask import session
+from helpers import DataValidator
 
 
 class DocumentModel(PostgreSQLModel):
     """Modelo de documento."""
-
     def getDocumentData(self, idDocument):
         """Gets the document full data."""
         doc = "select * from www.document where id_document=%s"
         return(self.query(doc, bindings=[idDocument]).row())
 
 
-    def getDocumentCatalogSize(self, search=None):
-        """Gets the total size of a list of document for the frontend."""
-        docs = """
-        with count as(
-        select distinct a.id_document
+    def searchInLabels(self, lang, search):
+        """Returns ID of documents attached to a given label expressed in search."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+
+        sql = """
+        select
+        gs__uniquearray(array_agg(dl.id_document)::int[]) as id_document
         from
-          www.document a inner join
-          www.document_label_en b on
-          a.id_document=b.id_document inner join
-          www.label_en c on
-          b.id_label_en=c.id_label_en inner join
-          www.document_label_es d on
-          a.id_document=d.id_document inner join
-          www.label_es e on
-          d.id_label_es=e.id_label_es inner join
-          www.author f on
-          a.id_document=f.id_document"""
+        www.document_label_{} dl inner join
+        www.label_{} l on dl.id_label_{}=l.id_label_{}
+        where
+        """.format(lang,lang,lang,lang)
 
-        if search:
-            search = "%"+search+"%"
-            docs+="""
-              where
-                a.title_en ilike %s or
-                a.title_es ilike %s or
-                a.theme_en ilike %s or
-                a.theme_es ilike %s or
-                a.description_en ilike %s or
-                a.description_es ilike %s or
-                c.label ilike %s or
-                e.label ilike %s or
-                f.name ilike %s or
-                f.twitter_user ilike %s"""
+        bi = []
+        for i in search.split(","):
+            sql += "label ilike %s or "
+            bi.append("%"+i+"%")
 
-        docs+="""
-        )
-        select count(id_document) as c
-        from count;"""
+        sql = sql.rstrip(" or ")+";"
+        return(self.query(sql, bindings=bi).row())
 
-        if search:
-            return self.query(docs, bindings=[ \
-                                               search, search, search, search, search, \
-                                               search, search, search, search, search]).row()["c"]
+
+    def searchInAuthors(self, search):
+        """Gets the list of documents ID on a search by author name and Twitter user."""
+        sql = """
+        select gs__uniquearray(array_agg(id_document)::int[]) as id_document
+        from
+        www.author
+        where
+        """
+        if search is None:
+            return None
+
+        bi = []
+        for i in search.split(","):
+            sql += """
+            (name ilike %s or
+            twitter_user ilike %s) or
+            """
+            bi.extend(["%"+i+"%","%"+i+"%"])
+
+        sql = sql.rstrip(" or\n")+";"
+        out = self.query(sql, bindings=bi).row()
+
+        if out:
+            return(out)
         else:
-            return self.query(docs).row()["c"]
-               
+            return None
 
-    def getDocumentCatalog(self, offset, listSize, lang, search=None):
-        """Gets list of documents for the frontend document catalog."""
-        a = """
-        with label_en as(
-          select
-            a.id_document as id_document,
-            array_agg(b.label) as labels
-          from
-            www.document_label_en a
-            inner join www.label_en b
-            on a.id_label_en=b.id_label_en
-          group by id_document),
-        label_es as(
-          select
-            a.id_document as id_document,
-            array_agg(b.label) as labels
-          from
-            www.document_label_es a
-            inner join www.label_es b
-            on a.id_label_es=b.id_label_es
-          group by id_document),
-        authors as(
-          select
-            id_document as id_document,
-            array_agg(coalesce(twitter_user, name)) as author
-          from www.author
-          group by id_document),
-        docs as(
-          select
-            a.id_document,"""
 
-        if lang=="es":
-            a+="""
-            coalesce(title_es, title_en) as title, 
-            coalesce(theme_es, theme_en) as theme, """
-        else:
-            a+="""
-            coalesce(title_en, title_es) as title, 
-            coalesce(theme_en, theme_es) as theme, """
-
-        a+="""
-            a.last_edit_time as time
-          from www.document a
-        ),
-        selection as (
-          select distinct a.id_document
-          from
-            www.document a inner join
-            www.document_label_en b on
-            a.id_document=b.id_document inner join
-            www.label_en c on
-            b.id_label_en=c.id_label_en inner join
-            www.document_label_es d on
-            a.id_document=d.id_document inner join
-            www.label_es e on
-            d.id_label_es=e.id_label_es inner join
-            www.author f on
-            a.id_document=f.id_document"""
-
-        if search:
-            search = "%"+search+"%"
-            a+="""
-              where
-                a.title_en ilike %s or
-                a.title_es ilike %s or
-                a.theme_en ilike %s or
-                a.theme_es ilike %s or
-                a.description_en ilike %s or
-                a.description_es ilike %s or
-                c.label ilike %s or
-                e.label ilike %s or
-                f.name ilike %s or
-                f.twitter_user ilike %s"""
-
-        a+="""
+    def filterByLabels(self, lang, labels):
+        """Gets the list of documents ID whose labels ID includes the target one."""
+        dv = DataValidator()
+        dv.checkIntList(labels.split(","))
+        
+        sql = """
+        with a as(
+        select
+        a.id_document as id,
+        gs__uniquearray(array_agg(id_label_{})::int[]) as labels
+        from
+        www.document a inner join
+        www.document_label_{} b on
+        a.id_document=b.id_document
+        group by
+        id
         )
         select
-          a.id_document as id,
-          a.title as title,
-          a.theme as theme,  
-          a.time as time,
-          b.labels as labels,
-          d.author as authors
-        from
-          docs a inner join 
-          label_{} b on
-          a.id_document=b.id_document inner join
-          authors d on
-          a.id_document=d.id_document
+        gs__uniquearray(array_agg(id)::int[]) as id_document
+        from a
         where
-          a.id_document in (select * from selection)
-        offset %s limit %s;""".format(lang)
+        array[""".format(lang,lang)+labels+"""]::int[] <@ labels;"""
 
+        return(self.query(sql).row())
+
+
+    def searchInDocument(self, lang, search=None):
+        """Gets the list of document ID, optionally with a search in title,
+        theme or description."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+
+        sql = """
+        select
+          gs__uniquearray(array_agg(id_document)::int[]) as id_document
+        from
+          www.document
+        """
+
+        bi = []
         if search:
-            return self.query(a, bindings=[ \
-                                            search, search, search, search, search, \
-                                            search, search, search, search, search, \
-                                            int(offset)*int(listSize), int(listSize)]).result()
-        else:
-            return self.query(a, bindings=[int(offset)*int(listSize), int(listSize)]).result()
+            sql += "where"
+            for s in search.split(","):
+                sql += """
+                (title_{} ilike %s or
+                theme_{} ilike %s or
+                description_{} ilike %s) or
+                """.format(lang,lang,lang)
+                bi.extend(["%"+s+"%","%"+s+"%","%"+s+"%"])
+        
+            sql = sql.rstrip(" or\n")
+
+        sql += ";"
+        return(self.query(sql, bindings=bi).row())
+
+
+    def getDocumentDetails(self, lang, idDocument):
+        """Gets details of documents for the frontend document catalog by ID."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+        dv.checkNumber(idDocument)
+
+        sql = """
+        select
+        id_document,
+        title_{} as title,
+        theme_{} as theme,
+        description_{} as description,
+        link_{} as link,
+        last_edit_id_user,
+        last_edit_time,
+        published
+        from
+        www.document
+        where
+        id_document=%s;""".format(lang,lang,lang,lang)
+
+        return(self.query(sql, bindings=[idDocument]).row())
 
 
     def createDocument(self, data):
@@ -187,20 +170,21 @@ class DocumentModel(PostgreSQLModel):
                          "published": "False"},
                         returnID="id_document")
 
-        for label_en in data["labels_en"]:
-            self.__attachLabel(label_en["id"], a, "en")
-
-        for label_es in data["labels_es"]:
-            self.__attachLabel(label_es["id"], a, "es")
-
-        for author in data["authors"]:
-            self.__createAuthor(author, a)
-
-        for pdf in data["pdfs_es"]:
-            self.__createPdf("es", pdf["name"], pdf["hash"], a)
-
-        for pdf in data["pdfs_en"]:
-            self.__createPdf("en", pdf["name"], pdf["hash"], a)
+        if data["labels_en"]:
+            for label_en in data["labels_en"]:
+                self.__attachLabel(label_en["id"], a, "en")
+        if data["labels_es"]:
+            for label_es in data["labels_es"]:
+                self.__attachLabel(label_es["id"], a, "es")
+        if data["authors"]:
+            for author in data["authors"]:
+                self.__createAuthor(author, a)
+        if data["pdfs_es"]:
+            for pdf in data["pdfs_es"]:
+                self.__createPdf("es", pdf["name"], pdf["hash"], a)
+        if data["pdfs_en"]:
+            for pdf in data["pdfs_en"]:
+                self.__createPdf("en", pdf["name"], pdf["hash"], a)
 
         return a
 
@@ -301,7 +285,7 @@ class DocumentModel(PostgreSQLModel):
         return self.query(docs).row()["c"]
                
 
-    def getDocumentList(self, offset, listSize, search=None, orderByField="title", orderByOrder="asc"):
+    def getDocumentList(self, page, listSize, search=None, orderByField="title", orderByOrder="asc"):
         """Gets list of documents."""
         docs = """
         select id_document as id, coalesce(title_es, title_en) as title, 
@@ -325,10 +309,10 @@ class DocumentModel(PostgreSQLModel):
         if search:
             return self.query(docs, bindings=[ \
                                                search, search, search, search, search, search, \
-                                               int(offset)*listSize, \
+                                               int(page)*listSize, \
                                                listSize]).result()
         else:
-            return self.query(docs, bindings=[int(offset)*listSize, listSize]).result()
+            return self.query(docs, bindings=[int(page)*listSize, listSize]).result()
 
 
     def getDocumentAuthors(self, id_document):
@@ -336,11 +320,23 @@ class DocumentModel(PostgreSQLModel):
         q = "select * from www.author where id_document=%s;"
         return self.query(q, [id_document]).result()
 
+    
+    def getPdfData(self, idPdf):
+        """Gets data of a PDF."""
+        sql = "select * from www.pdf where id_pdf=%s;"
+        return(self.query(sql, bindings=[idPdf]).row())
 
-    def getDocumentPdf(self, id_document, lang=None):
+
+    def getDocumentPdf(self, idDocument, lang=None):
         """Gets the list of PDF of a document, optionally for a given language."""
-        q = "select id_pdf as id, id_document, lang, pdf_name, hash from www.pdf where id_document=%s"
-        bindings = [id_document]
+        dv = DataValidator()
+
+        if lang:
+            dv.checkLang(lang)
+        dv.checkNumber(idDocument)
+
+        q = "select id_pdf as id, id_document, lang, pdf_name as name, hash from www.pdf where id_document=%s"
+        bindings = [idDocument]
 
         if lang:
             q += " and lang=%s;"
@@ -376,18 +372,16 @@ class DocumentModel(PostgreSQLModel):
         return self.query(q,[id_document]).row()
 
 
-    def getDocumentLabels(self, id_document, lang):
+    def getDocumentLabels(self, idDocument, lang):
         """Get document labels."""
-        if lang == "es":
-            q = "SELECT dl.id_label_es as id_label,l.label FROM www.document_label_es dl "\
-                    " INNER JOIN  www.label_es l ON dl.id_label_es=l.id_label_es "\
-                    " WHERE id_document=%s"
-        else:
-           q = "SELECT dl.id_label_en as id_label,l.label FROM www.document_label_en dl"\
-                    " INNER JOIN www.label_en l ON dl.id_label_en=l.id_label_en "\
-                    " WHERE id_document=%s"
+        dv = DataValidator()
+        dv.checkLang(lang)
+        dv.checkNumber(idDocument)
 
-        return self.query(q,[id_document]).result()
+        q = "SELECT dl.id_label_{} as id_label, l.label FROM www.document_label_{} dl "\
+            " INNER JOIN  www.label_{} l ON dl.id_label_{}=l.id_label_{} "\
+            " WHERE id_document=%s".format(lang,lang,lang,lang,lang)
+        return self.query(q,[idDocument]).result()
 
 
     def togglePublish(self, id_document):

@@ -247,9 +247,6 @@ app.view.docs.FormView = Backbone.View.extend({
             this.model.set(name,$.trim($e.val()));
             this.model.isValid(true);    
         }
-        
-
-
     },
 
     save: function(){

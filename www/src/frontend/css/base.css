@@ -911,6 +911,9 @@ ul.inlblock li{ display: inline-block}
 .mth1{ margin-top: @line_height;}
 .mbh1{ margin-bottom: @line_height;}
 
+.pth1{ padding-top: @line_height;}
+.pbh1{ padding-bottom: @line_height;}
+
 .mth2{ margin-top:  @line_height*2}
 .mbh2{ margin-bottom: @line_height *2;}
 

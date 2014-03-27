@@ -1,0 +1,38 @@
+<div class="popup_content">
+    <div class="header">
+        <h6 class="global" selected><lang>Presencia Global</lang></h6>
+        <h6 class="eu"><lang>Presencia Europea</lang></h6>
+    </div>
+    <div class="level_1">
+        <ul>
+            <% for (continent in model) { %>
+                <li data-l1="<%=continent%>">
+                    <span class="fleft ml"><%=continent%></span>
+                    <span class="counter"><%= model[continent].countries.length %></span>
+                </li>
+            <% } %>     
+        </ul>
+    </div>
+
+    <% for (continent in model) { %>
+        <div class="level_2" style="display:none" data-l1="<%=continent%>">
+            <div class="header_l2">
+                <div class="goback"><%=continent%></div>
+                <div class="counter"><%= model[continent].countries.length %></div>
+            </div>
+            <ul>
+                <% for (var i=0;i<model[continent].countries.length;i++) { 
+                        var sel = country==model[continent].countries[i] ? "selected" : "";
+                    %>
+                    <li <%= sel%> data-l2="<%= model[continent].countries[i] %>">
+                        <a href="#">
+                            <%= model[continent].countries[i] %>
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    <% } %>
+</div>
+
+<div class="arrow"></div>

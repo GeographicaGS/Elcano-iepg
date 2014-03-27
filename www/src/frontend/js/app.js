@@ -25,21 +25,39 @@ $(function() {
     });
 
     $("body").on("click","a",function(e){
-        if ($(this).attr("target")=="_blank"){
+        var href = $(this).attr("href");
+        if ($(this).attr("target")=="_blank" || href=="/es" || href=="/en"){
             return;
         }
+
         e.preventDefault();
-        var href = $(this).attr("href");
         if (href=="#back") {
             history.back();
         }
+
         else if (href!="" && href!="#") {
             app.router.navigate($(this).attr("href").substring(3),{trigger: true});
         }
-        
     });
 
+    $("body").on("click","#ctrl_language",function(e){
+        var $el = $("#menu_language");
+        if ($el.is(":visible")){
+            $el.fadeOut(300);
+        }
+        else{
+            $el.fadeIn(300);
+        }
+    });
+
+    $("body").on("mouseenter","#menu li[data-has-submenu]",function(e){
+        $(this).find("ul").fadeIn(300);
+    });
    
+    $("body").on("mouseleave","#menu li[data-has-submenu]",function(e){
+        $(this).find("ul").fadeOut(300);
+    });
+
     app.ini();
 
     $(document).resize(function(){
@@ -68,6 +86,12 @@ app.detectCurrentLanguage = function(){
 app.ini = function(){
     
     this.lang = this.detectCurrentLanguage();
+    if (this.lang == "es"){
+        $("#menu_language li:nth-child(1)").attr("selected",true);
+    }
+    else{
+        $("#menu_language li:nth-child(2)").attr("selected",true);
+    }
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
     this.$main = $("main");
@@ -105,6 +129,13 @@ app.scrollTop = function(){
        
     });
 }
+
+app.scrollToEl = function($el){
+    $('html, body').animate({
+        scrollTop: $el.offset().top
+    }, 500);    
+}
+
 
 app.nl2br = function nl2br(str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
@@ -151,7 +182,13 @@ app.urlify = function(text,attr) {
 }
 
 app.loadingHTML = function(){
-    return "<div class='loading'>Loading</div>";
+    return "<div class='container'>"
+            +   "<div class='row'>"
+            +       "<div class='grid-md-10 col-md-offset-2'>"
+            +           "<div class='loading'><lang>Loading</lang></div>"
+            +       "</div>"
+            +   "</div>"
+            + "</div>" ;
 }
 
 app.renameID = function(array,oldID,newID){

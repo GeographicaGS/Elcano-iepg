@@ -1,5 +1,3 @@
-var app = app || {};
-
 app.collection.Slider = Backbone.Collection.extend({
     model: Backbone.Model,
 

@@ -1,5 +1,3 @@
-var app = app || {};
-
 app.collection.LatestNews = Backbone.Collection.extend({
     model: Backbone.Model,
     section : null,

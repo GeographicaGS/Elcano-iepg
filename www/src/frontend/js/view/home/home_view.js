@@ -6,13 +6,19 @@ app.view.Home = Backbone.View.extend({
         
         this.latestNews = new app.view.LatestNews();
         this.slider = new app.view.Slider();
+        this.countryPopup = new app.view.CountryPopup({
+            parent: this
+        });
         this.render();
     },
-
+    
     events:{
         "mouseenter #explora_desc button" : "hoverExploraDesc",
         "mouseleave #explora_desc button" : "outExploraDesc",
-        "click #news ul li" :"selectNewsMenu"
+        "click #news ul li" :"selectNewsMenu",
+        "click #year" : "togglePopupYear",
+        "click #popup_year a" : "selectYear",
+        "click #country": "togglePopupCountry"
     },
     
     hoverExploraDesc: function(e){
@@ -60,6 +66,54 @@ app.view.Home = Backbone.View.extend({
         this.$explora_desc = this.$("#explora_desc");
         this.$("#co_news").html(this.latestNews.el);
         this.$("#carousel").html(this.slider.el);
+        this.$popupCountry = this.$("#popup_country");
+        this.$popupCountry.html(this.countryPopup.el);
+        this.$popupYear = this.$("#popup_year");
+
+        this.$year = this.$("#year");
+        this.$country = this.$("#country");
         return this;
+    },
+
+    togglePopupYear: function(){
+        //this.$popupYear.fadeIn(300);
+        if (this.$popupYear.is(":visible")){
+            //this.$popupYear.slideUp(300);
+            this.$popupYear.fadeOut(300);
+        }
+        else{
+            //this.$popupYear.slideDown(300);
+            this.$popupYear.fadeIn(300);
+        }
+    },
+
+    selectYear: function(e){
+        var $e = $(e.target),
+            year = parseInt($e.html());
+
+        this.$year.html(year);
+        this.togglePopupYear();
+        $e.parent().siblings().removeAttr("selected");
+        $e.parent().attr("selected",true);
+
+    },
+
+    togglePopupCountry: function(){
+        //this.$popupYear.fadeIn(300);
+        if (this.$popupCountry.is(":visible")){
+            //this.$popupYear.slideUp(300);
+            this.$popupCountry.fadeOut(300);
+        }
+        else{
+            //this.$popupYear.slideDown(300);
+            this.$popupCountry.fadeIn(300);
+        }
+    },
+
+    selectCountry: function(country){
+        this.togglePopupCountry();
+        this.$country.html(country);
     }
+
+
 });

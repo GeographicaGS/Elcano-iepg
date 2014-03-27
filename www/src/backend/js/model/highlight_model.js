@@ -2,21 +2,20 @@ app.model.Highlight = Backbone.Model.extend({
     validation: function (){
         return {
             title_es: {
-                maxLength : 25,
-
+                maxLength : 35,
                 required: true
             },
             title_en : {
-                maxLength : 25,
+                maxLength : 35,
                 required: true
             },
 
             text_es : {
-                maxLength : 45,
+                maxLength : 80,
                 required: true
             },
             text_en : {
-                maxLength : 45,
+                maxLength : 80,
                 required: true
             },
             link_es: {

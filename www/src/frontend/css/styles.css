@@ -655,8 +655,13 @@ a.label:hover{
         width: 100%;
     }
     .last_iepg{
-    border-left: 1px solid @grey_light2;
+        border-left: 1px solid @grey_light2;
         min-height: 500px;
+
+
+        img{
+            border: 1px solid @grey_light2 ;
+        }
     }
 
     .block{
@@ -728,5 +733,16 @@ a.label:hover{
         li{
             background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left top;
         }
+    }
+}
+
+.last_iepg{
+    img{
+        border: 1px solid @grey_light2 ;
+    }
+    span{
+        line-height: @line_height;
+        display: block;
+        margin-bottom:5px;
     }
 }

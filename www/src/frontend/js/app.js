@@ -114,7 +114,7 @@ app.showView = function(view) {
     //this.currentView.render();    
  
     this.$main.html(this.currentView.el);  
-  
+    app.scrollTop();
 }
 
 app.events = {};

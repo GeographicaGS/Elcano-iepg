@@ -53,9 +53,16 @@ app.view.Contact = Backbone.View.extend({
             position: this.pos
         });     
     },
+    
     render: function() {
         this.$el.html(this._template());
         this._drawMap();
+        var self= this;
+        setTimeout(function(){
+            google.maps.event.trigger(self._map, "resize");
+        },1000);
+
+        
         return this;
     }
 });

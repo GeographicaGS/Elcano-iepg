@@ -134,6 +134,8 @@ deps.Frontend.JS = {
 			"frontend/js/view/notfound_view.js",
 			"frontend/js/view/contact_view.js",
 			"frontend/js/view/faq_view.js",
+			"frontend/js/view/legal_view.js",
+			"frontend/js/view/privacity_view.js",
 
 			"frontend/js/view/about/about_view.js",
 

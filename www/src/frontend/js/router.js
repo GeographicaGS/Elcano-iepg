@@ -20,6 +20,8 @@ app.router = Backbone.Router.extend({
             "faq" : "faq",
             "error" : "error",
             "explora" : "explora",
+            "legal" : "legal",
+            "privacity" : "privacity",
             //"project/:id": "showProject",
             /* Sample usage: http://example.com/#about */
             "*other"    : "defaultRoute"
@@ -117,6 +119,14 @@ app.router = Backbone.Router.extend({
 
     explora: function(){
         alert("Funcionalidad en desarrollo");
+    },
+
+    privacity: function(){
+        app.showView(new app.view.Privacity());
+    },
+
+    legal: function(){
+        app.showView(new app.view.Legal());
     }
 
     

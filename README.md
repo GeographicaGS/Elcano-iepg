@@ -33,6 +33,8 @@ Una vez dentro del entorno virtual instalamos los paquetes necesarios con pip.
 ```
 $ pip install Flask
 $ pip install psycopg2
+#only to debug purpose
+$ pip install tweepy
 $ pip install ipdb
 ```
 

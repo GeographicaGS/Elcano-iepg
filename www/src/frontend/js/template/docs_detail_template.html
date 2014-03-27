@@ -1,5 +1,3 @@
-<% console.log(model) %>
-
 <div class="container  doc_detail">
     
     <div class="col-md-10 col-sm-12 " id="co_detail">
@@ -109,7 +107,7 @@
                                 <%= a.position %>
                                 </p>
                                 <p class="mth1 roboto size_13 grey">
-                                    <a href="" target="_blank" class="fleft"><%= a.twitter_user %></a>
+                                    <a href="http://www.twitter.com/<%= a.twitter_user.substring(1)%>" target="_blank" class="fleft nostyle"><%= a.twitter_user %></a>
                                     <img class="fleft mt2 ml5" src="/img/ELC_icon_twitter_autor.png" />
                                     <div class="clear"></div>
                                 </p>

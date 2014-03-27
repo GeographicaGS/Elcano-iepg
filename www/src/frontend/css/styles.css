@@ -316,9 +316,9 @@ ul#menu{
         }
 	}
 
-	li:hover,li a:hover{
+	li a:hover{
 		background-color: @yellow;
-		color:@grey_dark;
+		color:@grey_dark ;
 		border-bottom: none;
 	}
 

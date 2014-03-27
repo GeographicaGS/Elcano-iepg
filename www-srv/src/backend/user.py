@@ -9,6 +9,7 @@ from backend import app
 from flask import jsonify,request,session
 from model.usermodel import UserModel
 import utils
+import hashlib
 
 
 @app.route('/user', methods = ['GET'])                                            
@@ -81,7 +82,8 @@ def login():
         # get user input
         email = request.json['email']
         password = request.json['password']
-        
+         # do password hash
+        password = hashlib.md5(password).hexdigest()
         # compare password against database        
         u = UserModel().getUserLogin(email=email)
         if u and u['password']==password:

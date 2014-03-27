@@ -287,9 +287,9 @@ ul#menu{
         a{
             padding: 0 10px;
             height: 100%;
-            display: inline-block;
             color: #d6d6d6;
             .roboto_cond();
+            float:left;
 
         }
 
@@ -309,6 +309,8 @@ ul#menu{
                 a{
                     .roboto_cond();
                     color: #d6d6d6;
+                    display: block;
+                    width: 100%;
                 }
             }
         }
@@ -319,14 +321,15 @@ ul#menu{
 		color:@grey_dark;
 		border-bottom: none;
 	}
+
 	> li:nth-child(3){
-		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat top left;
-		padding-left: 40px;
+		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat left 3px;
+		padding-left: 35px;
 	}
 
 	> li:nth-child(3):hover{
-		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat top left @yellow;
-		padding-left: 40px;
+		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat left 3px @yellow;
+		padding-left: 35px;
 	}
 
 	li[selected]{

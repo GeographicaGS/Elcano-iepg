@@ -55,14 +55,8 @@ app.view.Slider = Backbone.View.extend({
         this.resizeMe();
     },
 
-    _resizeImage: function(){
-        var $img = this.$co_img.find("img"),
-            top =  ($img.height() - this.$co_img.height()) / 2;
-        $img.css("top", (-1* top) + "px");
-    },
     resizeMe: function(){
         this.$circle_back.width($(window).width()-this.$circle_back.position().left);
-        this._resizeImage();
     },
 
     events:{
@@ -107,12 +101,8 @@ app.view.Slider = Backbone.View.extend({
         
         this.$co_img.append(newImage);
         
-        var top =  (newImage.height() - this.$co_img.height()) / 2;
-        newImage.css("top", (-1* top) + "px");
-
         newImage.animate({ opacity: 1 }, 'slow',function(){
             oldImage.remove();
-           
         });
         
         // no animation on start

@@ -428,6 +428,14 @@
         img{
             width: 100%;
             position: absolute;
+            position: absolute;
+            left: -100%;
+            right: -100%;
+            top: -100%;
+            bottom: -100%;
+            margin: auto;
+            min-height: 100%;
+            min-width: 100%;
         }
     }
 
@@ -467,10 +475,7 @@
 @slider_height_1024 : 360px;
 @slider_height_1280 : 420px;
 @slider_height_1680 : 480px;
-
 @slider_line_height : 45px;
-
-
 
 #slider{
     cursor: pointer;

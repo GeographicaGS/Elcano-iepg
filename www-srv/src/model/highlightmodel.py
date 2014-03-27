@@ -146,8 +146,8 @@ class HighlightModel(PostgreSQLModel):
         from
         www.highlight;
         """
-        max = int(self.query(a).row()["max"])
-        max = max+1 if max!=None else 0
+        max = self.query(a).row()["max"]
+        max = int(max+1) if max!=None else 0
         if pub:
             self.update("www.highlight",
                         {"published": False,

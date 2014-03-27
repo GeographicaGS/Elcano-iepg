@@ -145,9 +145,12 @@ class NewModel(PostgreSQLModel):
         from
         www.new
         where
-        published=%s and
         """
-        bi = [published]
+        if published:
+            sql+="""
+            published and
+            """
+        bi = []
         for s in search.split(","):
             sql += """
             (title_en ilike %s or
@@ -190,13 +193,21 @@ class NewModel(PostgreSQLModel):
         b.id_label_en=d.id_label_en inner join
         www.label_es e on
         c.id_label_es=e.id_label_es
-        where a.published=%s)
+        """
+        if published:
+            sql+="""
+            where published)
+            """
+        else:
+            sql+=")"
+        sql+=
+        """
         select
         array_agg(id_new) as ids
         from a
         where
         """
-        bi = [published]
+        bi = []
         for s in search.split(","):
             sql += """
             label_en ilike %s or

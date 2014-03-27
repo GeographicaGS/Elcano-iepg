@@ -58,6 +58,10 @@ $(function() {
         $(this).find("ul").fadeOut(300);
     });
 
+    $("body").on("click","#menu li[data-has-submenu],#menu li[data-submenu]",function(e){
+        $(this).closest("[data-has-submenu]").find("ul").fadeOut(300);
+    });
+
     app.ini();
 
     $(document).resize(function(){

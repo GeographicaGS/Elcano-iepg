@@ -9,7 +9,7 @@ app.router = Backbone.Router.extend({
         "_link doc": {"en": "document","es" : "documento" },
         "_link contact": {"en": "contact","es" : "contacto" },
         "_link news": {"en": "news","es" : "noticias" },
-        "_link about infr": {"en": "infrastructure","es" : "infraestructura" },
+        "_link about infr": {"en": "structure","es" : "estructura" },
         "_link about meth": {"en": "methodologic","es" : "metodologia" }
     },
 

@@ -121,6 +121,16 @@ sudo npm install -g less
 export NODE_PATH=/usr/local/lib/node_modules
 ```
 
+Ahora creamos los ficheros de configuración
+``` 
+# configuración del builder
+cp build/config.changes.js build/config.js
+# configuración del backend
+cp backend/js/config.changes.js backend/js/config.js
+# configuración del frontend
+cp frontend/js/config.changes.js frontend/js/config.js
+```
+
 Una vez hecho esto ejecuta sobre www/src:
 
 ```jake```

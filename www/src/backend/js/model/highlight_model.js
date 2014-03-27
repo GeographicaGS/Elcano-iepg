@@ -2,11 +2,11 @@ app.model.Highlight = Backbone.Model.extend({
     validation: function (){
         return {
             title_es: {
-                maxLength : 35,
+                maxLength : 40,
                 required: true
             },
             title_en : {
-                maxLength : 35,
+                maxLength : 40,
                 required: true
             },
 
@@ -31,13 +31,12 @@ app.model.Highlight = Backbone.Model.extend({
 
             credit_img_es: {
                 maxLength : 50,
-                required: false,
-                pattern : "url"
+                required: false
+                
             },
             credit_img_en : {
                 maxLength : 50,
-                required: false,
-                pattern : "url"
+                required: false
             },
 
             image_hash_es: function(value) {

@@ -15,7 +15,7 @@
     
     <div class="form-group">
         <div class=" col-md-2 LabelForm"><label for=""><lang>Epígrafe</lang> * 
-        <span class="clean pull-left">35 caracteres máx.</span></label></div>
+        <span class="clean pull-left">40 caracteres máx.</span></label></div>
         <div class="col-md-10">
             <input type="text" class="form-control Esimput " placeholder="(<lang>Español</lang>)" name="title_es" value="<%= model.title_es %>">
             <hr class="featurette-divider">
@@ -41,9 +41,9 @@
             <form lang="en" id="co_image_en" class="uploadImage"></form>
         </div>
         <div class="col-md-5">
-            <input type="text" class="form-control Esimput " id="" placeholder=" Créditos (Español)">
+            <input type="text" class="form-control Esimput " id="" placeholder="Créditos (Español)"  name="credit_img_es" value="<%= model.credit_img_es %>">
             <hr class="featurette-divider">
-            <input type="text" class="form-control ENimput" id="" placeholder=" Créditos (English)">
+            <input type="text" class="form-control ENimput" id="" placeholder="Créditos (English)" name="credit_img_en" value="<%= model.credit_img_en %>">
         </div>
     </div>
    

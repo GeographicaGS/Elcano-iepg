@@ -200,8 +200,8 @@ class NewModel(PostgreSQLModel):
             """
         else:
             sql+=")"
-        sql+=
-        """
+
+        sql+="""
         select
         array_agg(id_new) as ids
         from a

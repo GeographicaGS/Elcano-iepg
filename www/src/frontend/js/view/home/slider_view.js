@@ -105,6 +105,7 @@ app.view.Slider = Backbone.View.extend({
             oldImage.remove();
         });
         
+
         // no animation on start
         if (!this._firstAnimation){
              var  
@@ -118,7 +119,6 @@ app.view.Slider = Backbone.View.extend({
                 right : -wrapper_text_animation_offset - 20 /*security gap */
             },500,'easeInExpo',function(){
                 var m = self.collection.at(self._idx);
-
                 self.$wrapper_text.find("h3").html(m.get("title"));
                 self.$wrapper_text.find("h4").html(m.get("text"));
                 self.$copyright.html(m.get("credit_img"));
@@ -142,6 +142,10 @@ app.view.Slider = Backbone.View.extend({
         }
         else{
             this._firstAnimation = false;
+            var m = this.collection.at(this._idx);
+            this.$wrapper_text.find("h3").html(m.get("title"));
+            this.$wrapper_text.find("h4").html(m.get("text"));
+            this.$copyright.html(m.get("credit_img"));
         }
        
 

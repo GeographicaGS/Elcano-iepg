@@ -138,7 +138,7 @@
 
                 .level_1{
                     height:271px;
-                    overflow: scroll;
+                    overflow-y: auto;
 
                     ul {
                         li{

@@ -608,12 +608,26 @@ a.label:hover{
         }
     }
 
+
+    .stamp{
+        line-height: @line_height;
+        font-size: 13px;
+        color: @grey_light;
+        .date{
+            .roboto();
+        }
+
+        .user{
+            .roboto();
+            color:@grey_dark;   
+        }
+    }
+
     @media (max-width: @md_res){
         .stamp{
             br {
                 display: none;
             }
-          
         }
     }
     

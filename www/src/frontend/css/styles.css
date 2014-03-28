@@ -284,6 +284,7 @@ ul#menu{
 	
 	li{
         position: relative;
+        float:left;
         a{
             padding: 0 10px;
             height: 100%;
@@ -330,12 +331,17 @@ ul#menu{
 	> li:nth-child(3):hover{
 		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat left 3px @yellow;
 		padding-left: 35px;
+        a{
+            color:@grey_dark ;
+        }
+        
 	}
 
 	li[selected]{
-		border-bottom: 1px solid @white;
-		line-height: 43px;
-		color: @white;
+		border-bottom: 1px solid #fff;
+        line-height: 44px;
+        color: #fff;
+        margin-top: 0px;
 	}
 
 
@@ -495,6 +501,11 @@ footer{
 		}
 
 	}
+    @media (max-width: @md_res){
+        .nav_menu{
+            display: none;
+        }
+    }
 }
 
 a.label{
@@ -596,6 +607,16 @@ a.label:hover{
             border-bottom: 1px solid @grey;
         }
     }
+
+    @media (max-width: @md_res){
+        .stamp{
+            br {
+                display: none;
+            }
+          
+        }
+    }
+    
 }
 
 .authors{

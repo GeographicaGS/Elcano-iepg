@@ -26,7 +26,7 @@ html{
   padding-right: @margin_gap;
 }
 
-.max960{
+.maxFixWidth{
     max-width: 1024px;
 }
 

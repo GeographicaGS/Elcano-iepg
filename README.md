@@ -1,4 +1,9 @@
-# Elcano IEPG
+=======
+elcano-iepg
+===========
+
+Web del Índice Elcano de presencia global del Real Instituo Elcano
+
 
 ## About
 
@@ -259,8 +264,3 @@ Alias /img /Users/alasarr/dev/elcano-iepg/www/cdn/frontend/img
 #### Configuración
 
 Aquí las notas de la configuración de la web.
-
-
-
-
-

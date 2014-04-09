@@ -13,4 +13,4 @@ errors = {
 
 orderBy = ["asc", "desc"]
 documentOrderFields = ["title"]
-newsCatalogPageSize = 10
+newsCatalogPageSize = 16

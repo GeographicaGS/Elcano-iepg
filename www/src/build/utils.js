@@ -54,7 +54,7 @@ exports.getTmpFolder = getTmpFolder;
 
 function getDeps(env)
 {
-	return env == "backend" ? deps.Backend : deps.Frontend;
+	return env == "backend" ? deps.Backend : env == "frontend" ? deps.Frontend : deps.Explora;
 }
 exports.getDeps = getDeps;
 

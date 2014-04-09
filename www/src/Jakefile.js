@@ -45,8 +45,17 @@ task("build-frontend", {async: true}, function () {
 	build.buildJS('frontend',buildCSS);
 });
 
-desc("Build frontend and backend");
-task("build",["build-backend","build-frontend"]);
+desc("Combine and compress source files for explora");
+task("build-explora", {async: true}, function () {
+	console.log("\n--------------------------------------");
+	console.log("---------- BUILDING EXPLORA ---------");
+	console.log("--------------------------------------");
+	utils.createDirIfNotExist(utils.tmp + "/explora");	
+	build.buildJS('explora',buildCSS);
+});
+
+desc("Build frontend, backend and explora");
+task("build",["build-backend","build-frontend","build-explora"]);
 
 desc("Translate backend")
 task("translate-backend", {async: true}, function () {
@@ -64,8 +73,16 @@ task("translate-frontend", {async: true}, function () {
 	translate.translate("frontend",complete,false);
 });
 
+desc("Translate explora")
+task("translate-explora", {async: true}, function () {
+	console.log("\n-----------------------------------------");
+	console.log("---------- Translating EXPLORA ---------");
+	console.log("-----------------------------------------");
+	translate.translate("explora",complete,false);
+});
+
 desc("Translate")
-task("translate",["translate-backend","translate-frontend"]);
+task("translate",["translate-backend","translate-frontend","translate-explora"]);
 
 
 desc("Translate backend-debug")
@@ -84,8 +101,16 @@ task("translate-frontend-debug", {async: true}, function () {
 	translate.translate("frontend",complete,true);
 });
 
+desc("Translate explora-debug")
+task("translate-explora-debug", {async: true}, function () {
+	console.log("\n-----------------------------------------");
+	console.log("---------- Translating EXPLORA ---------");
+	console.log("-----------------------------------------");
+	translate.translate("explora",complete,true);
+});
+
 desc("Translate")
-task("translate-debug",["translate-backend-debug","translate-frontend-debug"])
+task("translate-debug",["translate-backend-debug","translate-frontend-debug","translate-explora"])
 
 desc("Generate resources backend")
 task("resource-backend", {async: true}, function () {
@@ -94,6 +119,7 @@ task("resource-backend", {async: true}, function () {
 	console.log("-----------------------------------------------");
 	resource.create("backend",complete,false);
 });
+
 desc("Generate resources frontend")
 task("resource-frontend", {async: true}, function () {
 	console.log("\n------------------------------------------------");
@@ -102,8 +128,16 @@ task("resource-frontend", {async: true}, function () {
 	resource.create("frontend",complete,false);
 });
 
+desc("Generate resources explora")
+task("resource-explora", {async: true}, function () {
+	console.log("\n------------------------------------------------");
+	console.log("---------- BUILDING EXPLORA RESOURCES ---------");
+	console.log("------------------------------------------------");
+	resource.create("explora",complete,false);
+});
+
 desc("Generate resources")
-task("resource", ["resource-backend","resource-frontend"]);
+task("resource", ["resource-backend","resource-frontend","resource-explora"]);
 
 
 desc("Generate resources backend debug")
@@ -113,6 +147,7 @@ task("resource-backend-debug", {async: true}, function () {
 	console.log("-----------------------------------------------");
 	resource.create("backend",complete,true);
 });
+
 desc("Generate resources frontend debug")
 task("resource-frontend-debug", {async: true}, function () {
 	console.log("\n------------------------------------------------");
@@ -121,8 +156,16 @@ task("resource-frontend-debug", {async: true}, function () {
 	resource.create("frontend",complete,true);
 });
 
+desc("Generate resources explora debug")
+task("resource-explora-debug", {async: true}, function () {
+	console.log("\n------------------------------------------------");
+	console.log("---------- BUILDING EXPLORA RESOURCES ---------");
+	console.log("------------------------------------------------");
+	resource.create("explora",complete,true);
+});
+
 desc("Generate resources")
-task("resource-debug", ["resource-backend-debug","resource-frontend-debug"]);
+task("resource-debug", ["resource-backend-debug","resource-frontend-debug","resource-explora-debug"]);
 
 
 desc("Production builder")
@@ -135,6 +178,35 @@ task("debug", ["build","translate-debug","resource-debug"],function(){
 	console.log("\n\nDEBUG BUILD COMPLETE SUCCESSFULLY\n\n");
 });
 
+desc("Build backend")
+task("build-backend-alone",["build-backend","translate-backend","resource-backend"],function(){
+	console.log("\n\nBUILD BACKEND COMPLETE SUCCESSFULLY\n\n");
+});
+
+desc("Build backend DEBUG")
+task("build-backend-alone-debug",["build-backend","translate-backend-debug","resource-backend-debug"],function(){
+	console.log("\n\nDEBUG BUILD BACKEND COMPLETE SUCCESSFULLY\n\n");
+});
+
+desc("Build frontend")
+task("build-frontend-alone",["build-frontend","translate-frontend","resource-frontend"],function(){
+	console.log("\n\nBUILD FRONTEND COMPLETE SUCCESSFULLY\n\n");
+});
+
+desc("Build frontend DEBUG")
+task("build-frontend-alone-debug",["build-frontend","translate-frontend-debug","resource-frontend-debug"],function(){
+	console.log("\n\nDEBUG BUILD FRONTEND COMPLETE SUCCESSFULLY\n\n");
+});
+
+desc("Build explora")
+task("build-explora-alone",["build-explora","translate-explora","resource-explora"],function(){
+	console.log("\n\nBUILD EXPLORA COMPLETE SUCCESSFULLY\n\n");
+});
+
+desc("Build explora DEBUG")
+task("build-explora-alone-debug",["build-explora","translate-explora-debug","resource-explora-debug"],function(){
+	console.log("\n\nDEBUG BUILD EXPLORA COMPLETE SUCCESSFULLY\n\n");
+});
 
 jake.addListener("complete", function () {
   process.exit();

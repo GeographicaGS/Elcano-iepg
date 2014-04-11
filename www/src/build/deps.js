@@ -198,7 +198,16 @@ deps.Explora.JS = {
 			// --------------------
 			// ------  Views ------
 			// --------------------
-
+			// "explora/js/view/common/BarView.js",
+			// "explora/js/view/common/SliderDoblePointView.js",
+			// "explora/js/view/common/SliderIntervalView.js",
+			// "explora/js/view/common/SliderSinglePointView.js",
+			// "explora/js/view/common/SliderView.js",
+			"explora/js/view/home/home_view.js",
+			"explora/js/view/tools/tool-view.js", 
+			"explora/js/view/tools/cardToolView.js",
+			// "explora/js/view/tools/rankingToolView.js",
+			
 			// router
 			"explora/js/router.js",
 			// app

@@ -198,6 +198,8 @@ a.bottom_yellow:hover{
 
 
 header{
+	background-color:@grey_dark;
+
 	a#top_logo:hover{
 		border-bottom: none;
 	}
@@ -790,3 +792,5 @@ a.label:hover{
         margin-bottom:5px;
     }
 }
+
+#main_nav{display:none;}

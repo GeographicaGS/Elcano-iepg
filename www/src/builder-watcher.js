@@ -1,7 +1,7 @@
 var watch = require('node-watch');
 var exec = require('child_process').exec;
 
-var param = (process.argv.length == 3 && process.argv[2]=="debug") ? "debug" : "",
+var param = (process.argv.length == 3 && process.argv[2]=="-debug") ? "-debug" : "",
     mode = " - [ Mode " + (param ? param : "production") + " ]";
     
 console.log("Watching "+ mode );

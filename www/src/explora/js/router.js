@@ -1,20 +1,16 @@
 var app = app || {};
-
 app.router = Backbone.Router.extend({
-    
     langRoutes : {
-        
+        "_link home" : {"en":"home","es": "inicio" }
     },
-
-    /* define the route and function maps for this router */
     routes: {
-        "" : "home"   
+         "": "home"
     },
-    initialize: function(options) { 
+    initialize: function(options) {
         this.route(this.langRoutes["_link home"][app.lang], "home");
+        this.route(this.langRoutes["_link home"][app.lang]+"/", "home");
     },
-    home: function(){
+    home : function(){
         app.showView(new app.view.Home());
-    },
-    
+    }
 });

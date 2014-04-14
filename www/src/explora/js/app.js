@@ -1,8 +1,9 @@
 var app = app || {};
 app.events = {};
 _.extend(app.events , Backbone.Events);
-
+app.defaults = {};
 app.ini = function(){
+    app.ctx = app.defaults;
     this.lang=this.detectCurrentLanguage();
     this.router = new app.router();
     this.lang=='es' ? console.debug('selector idioma es') : console.debug('selector idioma en');

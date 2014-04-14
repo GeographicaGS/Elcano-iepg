@@ -130,12 +130,6 @@ references iepg_data.master_country(id_master_country);
 
 -- Copy data
 
--- insert into iepg_data.project_role
--- values(0, 'Core IEPG data');
-
--- insert into iepg_data.project_role
--- values(1, 'Context variable');
-
 \c :dbname :superuser :host :port
 
 copy iepg_data.master_country

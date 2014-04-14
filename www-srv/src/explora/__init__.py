@@ -1,16 +1,13 @@
 from flask import Flask,jsonify
-
+import config
 app = Flask(__name__)
 app.config.update(
-    DEBUG=True,
-    SECRET_KEY='oN;2R@a-Y&opIY',
-    PORT=5001
+    DEBUG=True
 )
 
-import home
-import documentcatalog
-import document
-import new
+app.config["SECRET_KEY"] = config.cfgExplora["SECRET_KEY"]
+
+import country
 
 @app.route('/', methods = ['GET'])                                            
 def alive():

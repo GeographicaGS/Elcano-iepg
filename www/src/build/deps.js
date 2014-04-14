@@ -188,21 +188,29 @@ deps.Explora.JS = {
 			// --------------------
 			// ------  Models ------
 			// --------------------
-
+			"explora/js/model/tools/country_tool_model.js",
 
 			
 			// --------------------
 			// --- Collections  ---
 			// --------------------
+
+			"explora/js/collection/filter.js",
 			
 			// --------------------
 			// ------  Views ------
 			// --------------------
 			"explora/js/view/base_view.js",
+			
+			// Tools views -- Commmon
 			"explora/js/view/tools/tool_view.js", 
 			"explora/js/view/tools/common/countries_view.js",
 			"explora/js/view/tools/common/slider_view.js",
 			"explora/js/view/tools/common/slider_singlepoint_view.js",
+
+			// Tools views
+			"explora/js/view/tools/country_tool_view.js",
+
 			"explora/js/view/filter_view.js",
 			"explora/js/view/notfound_view.js",
 			"explora/js/view/error_view.js",

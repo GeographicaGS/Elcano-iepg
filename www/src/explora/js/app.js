@@ -10,6 +10,16 @@ app.filters = [];
 app.baseView = null;
 
 
+Backbone.View.prototype.close = function(){
+    this.remove();
+    this.unbind();
+  
+    if (this.onClose){
+        this.onClose();
+    }
+}
+
+
 $(function(){
 
     $("body").on("click","a",function(e){
@@ -38,7 +48,6 @@ $(function(){
 
 
 app.ini = function(){
-    app.ctx = app.defaults;
     this.lang = this.detectCurrentLanguage();
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
@@ -57,7 +66,7 @@ app.detectCurrentLanguage = function(){
 };
 
 app.getGlobalContext = function(){
-    this.app.context.data;
+    return this.context.data;
 };
 
 app.showViewInExtraPanel = function(view) {
@@ -91,12 +100,28 @@ app.scrollTop = function(){
     body.animate({scrollTop:0}, '500', 'swing', function() { 
        
     });
-}
+};
 
 app.scrollToEl = function($el){
     $('html, body').animate({
         scrollTop: $el.offset().top
     }, 500);    
+};
+
+app.variableToString = function(variable){
+    switch(variable){
+        case 1:
+            return "Índice Elcano de Presencia Global";
+        case 2:
+            return "Índice Elcano de Presencia Europea";
+
+        // TODO complete this mapping 
+        default:
+            return "No definida"
+    }
 }
+
+
+
 
 

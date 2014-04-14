@@ -3,29 +3,37 @@ app.view.tools.Plugin = Backbone.View.extend({
     el: "#tool",
 
     initialize: function() {
-        this.slider = new app.view.tools.common.SliderSinglePoint();
+        this.slider = new app.view.tools.common.Slider();
         this.countries = new app.view.tools.common.Countries();
     }, 
     
+    fetchData: function(){
+        // This method must be overwritten.
+        this.renderAsync();
+    },
+
     getGlobalContext: function(){
-        // leemos el conexto de la aplicacion del local store
-        app.getGlobalContext();
+        // Read the global context
+        return app.getGlobalContext();
     },
 
-    setLocalContext: function(){
-
-    },
-
     getLocalContext: function(){
-
+        // Read the local context
+        if (!this.ctx){
+            // If the context is not defined, let's get it from local storage.
+            this.ctx = _.clone(app.getGlobalContext());
+        }
+        return this.ctx;
     },
 
-    setContext: function(){
-
-    },
+    // This method modifies the global context with the values in the local context.
+    // It also stores the new context in localStorage.
+    copyToGlobalContext: function(){
+        app.context.setContext(this.ctx);
+    },  
 
     renderTool: function(){
-        // draw the tool. This method must be overwritten
+        // Draw the tool. This method must be overwritten
         this.$el.html("Generic tool");        
     },
 
@@ -50,22 +58,32 @@ app.view.tools.Plugin = Backbone.View.extend({
         }
     },
 
-
-
     hideTool: function(){
 
     },
 
-    render: function(){
+    renderAsync: function(){
+        // render Tool and render Map need data to work. So this will be called asynchronously
         this.renderTool();
+        this.renderMap();
+    },
+
+    render: function(){  
+        this.$el.html("Loading");
+        this.fetchData();
         this.slider.render();
         this.countries.render();
-
     },
+
     onClose: function(){
        // Remove events on close
        this.stopListening();
-    }
+    },
+
+    // Refresh the tool. A new data request is performed. This will redraw Map and Tool.
+    refresh: function(){
+        this.fetchData();
+    }
 });
 
 

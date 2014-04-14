@@ -2,7 +2,7 @@ app.view.Base = Backbone.View.extend({
     el: "#base",
     // _template : _.template($('#home_template').html()),
     initialize: function() {  
-        this.toolView = new app.view.tools.Plugin();
+        this.toolView = new app.view.tools.CountryPlugin();
         this.render();
     },
     events: {

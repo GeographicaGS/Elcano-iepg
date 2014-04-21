@@ -46,6 +46,19 @@ $(function(){
     app.ini();
 });
 
+app.resize = function(){
+    var h = $(window).height()-this.$header.outerHeight(true) - this.$footer.outerHeight(true);
+    this.$main.height(h);
+
+    var toolDataMarginAndPadding = this.$tool_data.outerHeight(true) - this.$tool_data.height();
+
+    this.$tool_data.height($(window).height() - this.$footer.outerHeight(true) - this.$tool_data.offset().top 
+            - toolDataMarginAndPadding);
+
+    //this.$tool_data.width( $(window).width() -  this.originLeft - 20).height();
+
+    
+}
 
 app.ini = function(){
     this.lang = this.detectCurrentLanguage();
@@ -53,10 +66,21 @@ app.ini = function(){
     this.basePath = this.config.BASE_PATH + this.lang;
     this.$extraPanel = $("#extra_panel");
     this.$popup = $("#popup");
+    this.$main = $("main");
+    this.$header = $("header");
+    this.$footer = $("footer");
+    this.$tool_data = $("#tool_data");
+    this.$tool = $("#tool");
 
     Backbone.history.start({pushState: true,root: this.basePath });
 
     app.context.restoreSavedContext();
+
+    app.resize();
+
+    $(window).resize(function(){
+        app.resize();
+    });
 };
 
 app.detectCurrentLanguage = function(){

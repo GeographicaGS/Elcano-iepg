@@ -1,6 +1,9 @@
-<h6>
-Ficha PAIS, Variable <%= app.variableToString(ctx.variables[0]) %>, <%=model.name %> Año <%= model.year %>
-</h6>
+<div class="header_tool" data-variable=1>
+    
+    <span id="tool_name"><lang>Ficha país</span>
+    <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %>, <%=model.name %> </span>
+    <span id="tool_year">Año <%= model.year %></span>
+</div>
 
 <p>
     <%= model.summary %>

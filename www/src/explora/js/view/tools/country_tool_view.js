@@ -10,7 +10,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
 		this.model = new app.model.tools.country({
 			"id" : "ESP",
-			"year" : new Date(this.getGlobalContext().slider.current).getFullYear()
+			"year" : new Date(this.getGlobalContext().slider.current).getFullYear(),
+			"variable" : this.getGlobalContext().variables[0]
 		});
 
     },

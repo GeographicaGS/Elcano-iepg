@@ -1,6 +1,6 @@
 app.view.tools.Plugin = Backbone.View.extend({
     ctx: null,
-    el: "#tool",
+    el: "#tool_data",
 
     initialize: function() {
         this.slider = new app.view.tools.common.Slider();
@@ -40,23 +40,6 @@ app.view.tools.Plugin = Backbone.View.extend({
     renderMap: function(){
         // draw the map. This method must be overwritten
     },
-
-    hideCountryBar : function(){
-        this.slider.el.hide();
-    },
-
-    showCountryBar : function(){
-        this.slider.el.show();
-    },
-
-    toggleCountryBar: function(){
-        if (this.slider.is(":visible")){
-            this.hideCountryBar();
-        }
-        else{
-            this.showCountryBar();
-        }
-    },
 
     hideTool: function(){
 

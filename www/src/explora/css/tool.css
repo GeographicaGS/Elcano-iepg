@@ -1,0 +1,57 @@
+#tool_data{
+    overflow-y: scroll;
+    padding-bottom: 20px;
+    margin-top:10px;
+    background-color: @white;
+    .toolBoxshadow();
+
+    .header_tool{
+        line-height: 53px;
+        min-height: 53px;
+        .close{
+
+        }
+
+        .min{
+
+        }
+
+        #tool_name,#tool_title,#tool_year{
+            float:left;
+        }
+
+        #tool_name{
+            height:100%;
+            border-left:1px solid @white;
+            padding-left: 10px;
+            .roboto_cond(bold);
+            font-size: 14px;
+            color:@grey_dark;
+            text-transform: uppercase;
+        }
+
+        #tool_title{
+            .roboto();
+            font-size: 18px;
+            color:@red;
+            margin-left: 10px;
+        }
+
+        #tool_year{
+            .roboto(bold);
+            font-size: 13px;
+            color:@white;
+            background-color: @red;
+            border:1px solid @white;
+            line-height: 20px;
+            margin: 16px 0 0 10px;
+            padding: 0 5px;
+
+        }
+    }
+
+    .header_tool[data-variable='1']{
+        background: url("@{imgPath}variables/ELC_variable_iepg_cab.svg") no-repeat @variable_iepg left 5px center;
+        padding-left: 58px;
+    }
+}

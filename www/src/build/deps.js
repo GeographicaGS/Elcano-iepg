@@ -237,8 +237,7 @@ deps.Explora.CSS = {
 			"explora/css/reset.css",
 			"explora/css/base.css",
 			"explora/css/styles.css",
-			"explora/css/home.css",
-			"explora/css/docs.css"
+			"explora/css/tool.css",
 		]
 	}
 };

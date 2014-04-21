@@ -21,7 +21,8 @@ create table iepg_data.master_country(
   short_name_en_order varchar(500),
   short_name_es_order varchar(500),
   short_name_en varchar(500),
-  short_name_es varchar(500),
+  short_name_es1 varchar(500),
+  short_name_es2 varchar(500),
   date_in date,
   date_out date,
   country boolean

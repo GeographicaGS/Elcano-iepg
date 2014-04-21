@@ -15,6 +15,8 @@ insert into www.translation VALUES ('Económica','Economic','Económica');
 insert into www.translation VALUES ('Militar','Military','Militar');
 insert into www.translation VALUES ('Blanda','Soft','Blanda');
 
+insert into www.translation VALUES ('Copyright TEXT','2014 &copy; Real Instituto Elcano','2014 &copy; Real Instituto Elcano');
+
 insert into www.translation VALUES ('_faq title 1', '¿Qué mide el Índice Elcano de Presencia Global?','¿Qué mide el Índice Elcano de Presencia Global?');
 insert into www.translation VALUES ('_faq text 1', 'Este índice mide la presencia global. Por presencia global entendemos la proyección exterior efectiva real de 
 los países (exportaciones realizadas, turistas recibidos, competiciones deportivas internacionales ganadas)','Este índice mide la presencia global. Por presencia global entendemos la proyección exterior efectiva real de 
@@ -171,4 +173,94 @@ nivel, independientemente del área a la que pertenezcan. Consulte el resumen de
 de las respuestas recibidas.</p>');
 UPDATE www.translation SET en=es WHERE key ='_about body meth';
 
+
+insert into www.translation VALUES('_privacity title','Política de privacidad','Política de privacidad');
+insert into www.translation (key,es) VALUES('_privacity body',
+    '<h6>Sed ut perspiciatis unde omnis iste natus error sit voluptatem </h6>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt 
+    explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur 
+    magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia
+     dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut 
+     labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem 
+     ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure 
+     reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum 
+     fugiat quo voluptas nulla pariatur?</p>
+
+     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt 
+    explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur 
+    magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia
+     dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut 
+     labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem 
+     ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure 
+     reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum 
+     fugiat quo voluptas nulla pariatur?</p>
+
+     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt 
+    explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur 
+    magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia
+     dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut 
+     labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem 
+     ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure 
+     reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum 
+     fugiat quo voluptas nulla pariatur?</p>
+
+     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt 
+    explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur 
+    magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia
+     dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut 
+     labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem 
+     ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure 
+     reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum 
+     fugiat quo voluptas nulla pariatur?</p>'
+);
+UPDATE www.translation SET en=es WHERE key ='_privacity body';
+
+insert into www.translation VALUES('_legal title','Información Legal','Información Legal');
+insert into www.translation (key,es) VALUES('_legal body',
+    '<h6>Sed ut perspiciatis unde omnis iste natus error sit voluptatem </h6>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt 
+    explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur 
+    magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia
+     dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut 
+     labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem 
+     ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure 
+     reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum 
+     fugiat quo voluptas nulla pariatur?</p>
+
+     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt 
+    explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur 
+    magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia
+     dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut 
+     labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem 
+     ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure 
+     reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum 
+     fugiat quo voluptas nulla pariatur?</p>
+
+     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt 
+    explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur 
+    magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia
+     dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut 
+     labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem 
+     ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure 
+     reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum 
+     fugiat quo voluptas nulla pariatur?</p>
+
+     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+    totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt 
+    explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur 
+    magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia
+     dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut 
+     labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem 
+     ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure 
+     reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum 
+     fugiat quo voluptas nulla pariatur?</p>'
+);
+UPDATE www.translation SET en=es WHERE key ='_legal body';
 

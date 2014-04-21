@@ -1,6 +1,11 @@
 @margin_gap : 10px;
 @line_height : 18px;
 
+@sm_res : 768px;
+@md_res : 992px;
+@lg_res : 1200px;
+
+
 html{
   line-height: @line_height;
 }
@@ -20,6 +25,11 @@ html{
   padding-left: @margin_gap;
   padding-right: @margin_gap;
 }
+
+.maxFixWidth{
+    max-width: 1024px;
+}
+
 @media (min-width: 768px) {
   .container {
     width: 750px;
@@ -921,4 +931,10 @@ ul.inlblock li{ display: inline-block}
 .mbh3{ margin-bottom: @line_height *3;}
 
 .mtbh1{ margin: @line_height 0;}
+
+.lh1{
+  line-height: @line_height;
+}
+
+
 

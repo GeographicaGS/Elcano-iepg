@@ -134,6 +134,8 @@ deps.Frontend.JS = {
 			"frontend/js/view/notfound_view.js",
 			"frontend/js/view/contact_view.js",
 			"frontend/js/view/faq_view.js",
+			"frontend/js/view/legal_view.js",
+			"frontend/js/view/privacity_view.js",
 
 			"frontend/js/view/about/about_view.js",
 
@@ -159,6 +161,76 @@ deps.Frontend.CSS = {
 			"frontend/css/styles.css",
 			"frontend/css/home.css",
 			"frontend/css/docs.css"
+		]
+	}
+};
+
+
+deps.Explora = {};
+deps.Explora.JS = {
+	ThirdParty:{
+		src: [
+			"explora/js/lib/jquery-2.0.3.min.js",
+			"explora/js/lib/underscore-min.js",
+			"explora/js/lib/backbone-min.js",
+			"explora/js/lib/d3.v3.min.js",	
+			"explora/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",			
+		],
+		desc: "Third party library"
+	}
+	,Core: {
+		src: [
+			// Namespace
+			"explora/js/namespace.js",
+			// Config file
+			"explora/js/config.js",
+
+			// --------------------
+			// ------  Models ------
+			// --------------------
+
+
+			
+			// --------------------
+			// --- Collections  ---
+			// --------------------
+			
+			// --------------------
+			// ------  Views ------
+			// --------------------
+			"explora/js/view/base_view.js",
+			"explora/js/view/tools/tool_view.js", 
+			"explora/js/view/tools/common/countries_view.js",
+			"explora/js/view/tools/common/slider_view.js",
+			"explora/js/view/tools/common/slider_singlepoint_view.js",
+			"explora/js/view/filter_view.js",
+			"explora/js/view/notfound_view.js",
+			"explora/js/view/error_view.js",
+
+			// context object
+			"explora/js/context.js",
+			// router
+			"explora/js/router.js",
+			// app
+			"explora/js/app.js",
+		],
+		desc: "Core library."
+	}
+};
+
+deps.Explora.CSS = {
+	ThirdParty:{
+		src : [
+			
+		]
+	},
+	Core: {
+		src: [
+			"explora/css/reset.css",
+			"explora/css/base.css",
+			"explora/css/styles.css",
+			"explora/css/home.css",
+			"explora/css/docs.css"
 		]
 	}
 };

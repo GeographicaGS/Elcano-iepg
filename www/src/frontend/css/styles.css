@@ -284,12 +284,13 @@ ul#menu{
 	
 	li{
         position: relative;
+        float:left;
         a{
             padding: 0 10px;
             height: 100%;
-            display: inline-block;
             color: #d6d6d6;
             .roboto_cond();
+            float:left;
 
         }
 
@@ -309,30 +310,38 @@ ul#menu{
                 a{
                     .roboto_cond();
                     color: #d6d6d6;
+                    display: block;
+                    width: 100%;
                 }
             }
         }
 	}
 
-	li:hover,li a:hover{
+	li a:hover{
 		background-color: @yellow;
-		color:@grey_dark;
+		color:@grey_dark ;
 		border-bottom: none;
 	}
+
 	> li:nth-child(3){
-		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat top left;
-		padding-left: 40px;
+		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat left 3px;
+		padding-left: 35px;
 	}
 
 	> li:nth-child(3):hover{
-		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat top left @yellow;
-		padding-left: 40px;
+		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat left 3px @yellow;
+		padding-left: 35px;
+        a{
+            color:@grey_dark ;
+        }
+        
 	}
 
 	li[selected]{
-		border-bottom: 1px solid @white;
-		line-height: 43px;
-		color: @white;
+		border-bottom: 1px solid #fff;
+        line-height: 44px;
+        color: #fff;
+        margin-top: 0px;
 	}
 
 
@@ -492,6 +501,11 @@ footer{
 		}
 
 	}
+    @media (max-width: @md_res){
+        .nav_menu{
+            display: none;
+        }
+    }
 }
 
 a.label{
@@ -593,6 +607,37 @@ a.label:hover{
             border-bottom: 1px solid @grey;
         }
     }
+
+
+    .stamp{
+        line-height: @line_height;
+        font-size: 13px;
+        color: @grey_light;
+        .date{
+            .roboto();
+        }
+
+        .user{
+            .roboto();
+            color:@grey_dark;   
+        }
+    }
+
+
+
+    @media (max-width: @md_res){
+
+        .title{
+            margin-top: 10px;
+        }
+
+        .stamp{
+            br {
+                display: none;
+            }
+        }
+    }
+    
 }
 
 .authors{
@@ -655,8 +700,13 @@ a.label:hover{
         width: 100%;
     }
     .last_iepg{
-    border-left: 1px solid @grey_light2;
+        border-left: 1px solid @grey_light2;
         min-height: 500px;
+
+
+        img{
+            border: 1px solid @grey_light2 ;
+        }
     }
 
     .block{
@@ -728,5 +778,16 @@ a.label:hover{
         li{
             background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left top;
         }
+    }
+}
+
+.last_iepg{
+    img{
+        border: 1px solid @grey_light2 ;
+    }
+    span{
+        line-height: @line_height;
+        display: block;
+        margin-bottom:5px;
     }
 }

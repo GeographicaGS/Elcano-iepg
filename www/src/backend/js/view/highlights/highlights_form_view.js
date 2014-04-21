@@ -3,7 +3,7 @@ app.view.highlights.FormView = Backbone.View.extend({
     _templateImage : _.template( $('#highlights_form_image_template').html() ),
     _maxImageSize : 8, // 8MB
     _imageWidth : 1920,
-    _imageHeight : 540,
+    _imageMinHeight : 480,
     _saveRequest : false,
 
     initialize: function(options) {
@@ -164,11 +164,11 @@ app.view.highlights.FormView = Backbone.View.extend({
                 var width = img.width,
                     height = img.height;
 
-                if (self._imageWidth == width && self._imageHeight){
+                if (self._imageWidth == width && self._imageMinHeight<=height){
                     self._upload(lang,name);
                 }
                 else{
-                    $unot.html("<lang>Tamaño de imagen incorrecto, el tamaño tiene que ser de %sx%s</lang>");
+                    $unot.html("<lang>Tamaño de imagen incorrecto, el ancho tiene que ser de 1920px y el alto mayor que 480px</lang>");
                     setTimeout(function(){
                         $unot.html("");
                     },3000);

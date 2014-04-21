@@ -1,10 +1,11 @@
 <% _.each(collection,function(d){ %>
     <div class="row mt12">
-        <div class="col-md-2 size_15 text_bold grey ">
-            <span class="size_13 grey_light "><%= app.dateTimeFormat(d.time) %><br/><lang>Por</lang></span>
+        <div class="col-md-2 stamp">
+
+            <span class="date"><%= app.dateTimeFormat(d.time) %>&nbsp;&nbsp;<br/><lang>Por</lang></span>
             <div class="authors ">
                 <% if (section != "Twitter") { %>
-                    <span class="size_13 grey_dark"><%= d.wwwuser %></span>
+                    <span class="user"><%= d.wwwuser %></span>
                 <% } else { %>
                 <a href="https://www.twitter.com/<%= d.wwwuser.substring(1)%>" target="_blank">
                     <%=d.wwwuser%>

@@ -1,7 +1,8 @@
 app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_template : _.template( $('#country_tool_template').html() ),
 
-    initialize: function() {
+    initialize: function(options) {
+
 		this.slider = new app.view.tools.common.SliderSinglePoint({
 			"plugin": this
 		});
@@ -16,6 +17,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
     },
 
+    _events: {
+        "click #tool_name" : ""
+    },
+
 	fetchData: function(){
 		// Fetch model from de server
         var self = this;
@@ -29,7 +34,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     renderTool: function(){
 		this.$el.html(this._template({
             ctx: this.getGlobalContext(),
-            model: this.model.toJSON(),
+            model: this.model.toJSON()
         }));
     },
 

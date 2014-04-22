@@ -10,11 +10,20 @@ app.view.tools.common.Slider = Backbone.View.extend({
     },
 
 	render: function(){
-
+        this.$el.show();
     },
 
     onClose: function(){
-        // Remove events on close
-        this.stopListening(); 
-    } 	
+    
+    },
+
+    close: function(){
+        this.stopListening();
+
+        this.$el.html("").hide();
+  
+        if (this.onClose){
+            this.onClose();
+        }
+    }
 }); 

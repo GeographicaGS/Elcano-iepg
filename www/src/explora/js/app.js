@@ -23,6 +23,7 @@ Backbone.View.prototype.close = function(){
 $(function(){
 
     $("body").on("click","a",function(e){
+        console.log("here");
         var attr = $(this).attr("jslink"),
             href = $(this).attr("href");
 

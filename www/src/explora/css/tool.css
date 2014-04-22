@@ -8,13 +8,16 @@
     .header_tool{
         line-height: 53px;
         min-height: 53px;
+        
         .close{
-
+            background: url("@{imgPath}ELC_icon_descartar_herramienta.svg") no-repeat left top;
+            width: 30px;
+            height: 25px;
+            margin: 13px 20px 0 0;
+            float:right;
         }
 
-        .min{
 
-        }
 
         #tool_name,#tool_title,#tool_year{
             float:left;

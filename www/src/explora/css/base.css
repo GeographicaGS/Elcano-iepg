@@ -936,5 +936,7 @@ ul.inlblock li{ display: inline-block}
   line-height: @line_height;
 }
 
+.uppercase{ text-transform: uppercase;}
+
 
 

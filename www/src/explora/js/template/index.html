@@ -16,61 +16,46 @@
     <![endif]-->
   </head>
 <body>
-    <header >
-        <div class="container">
-            <a id="top_logo" href="#" class="fleft"     title="Real Instituto Elcano Royal institute">
-                <img src="/img//footer_logoElcano.png"  alt="Real Instituto Elcano Royal institute">
-            </a>
-            <nav id="main_nav">
-                <ul class="inlblock size_14" id="menu"> 
-                    <li selected>
-                        <a data-menu="home" href="/<lang>lang</lang>/<lang>_link home</lang>"><lang>Portada<lang></a>
-                    </li>
-                    <li data-has-submenu>
-                        <a data-menu="about" href="/<lang>lang</lang>/<lang>_link about</lang>"><lang>Qué es</lang></a>
-                        <ul style="display:none" >
-                             <li>
-                                <a data-submenu="about" href="/<lang>lang</lang>/<lang>_link about</lang>"><lang>Definición del proyecto</lang></a>
-                            </li>
-                            <li>
-                                <a data-submenu="infr" href="/<lang>lang</lang>/<lang>_link about infr</lang>"><lang>Estructura del IEPG</lang></a>
-                            </li>
-                            <li>
-                                <a data-submenu="meth" href="/<lang>lang</lang>/<lang>_link about meth</lang>"><lang>Metodología</lang></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="/<lang>lang</lang>/explora"><lang>Explora</lang></a>
-                    </li>
-                    <li>
-                        <a data-menu="docs" href="/<lang>lang</lang>/<lang>_link docs</lang>"><lang>Documentos y publicaciones</lang></a>
-                    </li>
-                    <li>
-                        <a data-menu="news" href="/<lang>lang</lang>/<lang>_link news</lang>"><lang>Noticias</lang></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <div class="clear"></div>
+    <header>
+
+        <a id="top_logo" href="#" title="Real Instituto Elcano Royal institute">
+            <img src="/img/ELC_simbolo_cab.svg" alt="Real Instituto Elcano Royal institute">
+        </a>
+       
+        <h2>
+            <lang>Índice Elcano de Presencia Global</lang>
+        </h2>
+        <h1>
+            <span><lang>Explora</lang> </span>
+        </h1>
     </header>
     <main>
         <div id="base">
 
             <div id="control_area">
-                <a id="ctrl_filter" href="#" >Control de filtros</a>
+                <a id="ctrl_tool"  class="open" href="#"></a>
+
                 <div id="control_panel">
-                    
+                    <ul>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                    </ul>
+                    <div id="add_tool">
+                        <a href="/<lang>lang</lang>/toolselector" jslink></a>
+                        <span class="uppercase"><lang>tools</lang></span>
+                    </div>
                 </div>
+
             </div>
 
-            <div id="main_content">       
+            <div id="tool">       
                 <div id="country_panel"></div>
-                <div id="tool"></div>
-                <div id="map"></div>
+                <div id="tool_data"></div>
             </div>
 
         </div>
+
+        <div id="map"></div>
         <div id="extra_panel" style="display:none"></div>
 
         <div id="popup" style="display:none"></div>

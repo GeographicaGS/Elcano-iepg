@@ -5,10 +5,10 @@ app.config.update(
     DEBUG=True
 )
 
-app.config["SECRET_KEY"] = config.cfgExplora["SECRET_KEY"]
+app.config["SECRET_KEY"] = config.SECRET_KEY
 
 import country
 
-@app.route('/', methods = ['GET'])                                            
+@app.route('/', methods = ['GET'])
 def alive():
     return jsonify( { "status" : "running"})

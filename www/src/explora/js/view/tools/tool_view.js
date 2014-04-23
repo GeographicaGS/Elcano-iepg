@@ -12,6 +12,13 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.renderAsync();
     },
 
+    // Don't use Backbone events property.
+    // The reason for that is that we've several tools in memory at the same time, all the tools share the same DOM element.
+    // Events are apply on render and disable on hideTool
+    _events: {
+        
+    },
+
     getGlobalContext: function(){
         // Read the global context
         return app.getGlobalContext();
@@ -42,7 +49,7 @@ app.view.tools.Plugin = Backbone.View.extend({
     },
 
     hideTool: function(){
-
+        this.undelegateEvents();
     },
 
     renderAsync: function(){
@@ -52,16 +59,30 @@ app.view.tools.Plugin = Backbone.View.extend({
     },
 
     render: function(){  
-        this.$el.html("Loading");
+        this.delegateEvents(this._events); 
+        this.$el.show().html("Loading");
         this.fetchData();
         this.slider.render();
         this.countries.render();
     },
 
     onClose: function(){
-       // Remove events on close
-       this.stopListening();
+       //call when close the view
     },
+
+    close: function(){
+        this.stopListening();
+
+        this.$el.html("").hide();
+
+  
+        if (this.onClose){
+            this.onClose();
+        }
+
+        this.slider.close();
+        this.countries.close();
+    },
 
     // Refresh the tool. A new data request is performed. This will redraw Map and Tool.
     refresh: function(){

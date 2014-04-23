@@ -210,13 +210,16 @@ deps.Explora.JS = {
 
 			// Tools views
 			"explora/js/view/tools/country_tool_view.js",
+			"explora/js/view/tools/ranking_tool_view.js",
+
+			// Tools context object
+			"explora/js/view/tools/context.js",
 
 			"explora/js/view/filter_view.js",
 			"explora/js/view/notfound_view.js",
 			"explora/js/view/error_view.js",
 
-			// context object
-			"explora/js/context.js",
+			
 			// router
 			"explora/js/router.js",
 			// app

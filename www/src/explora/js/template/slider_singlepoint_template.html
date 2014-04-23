@@ -1,7 +1,7 @@
 <ul>
 
-<%_.each(this.dataGlobalCtx.dates,function(d){ %>
-    <%= new Date(d).getFullYear() %>
+<%_.each(app.config.slider,function(d){ %>
+    <%= d.getFullYear() %>
 <% }); %>
 
 </ul>

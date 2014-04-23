@@ -1,8 +1,11 @@
 app.view.tools.Plugin = Backbone.View.extend({
-    ctx: null,
+    // Local context, it stores the global context used in the last render of the tool
+    _latestCtx: null,
     el: "#tool_data",
+    type: null,
 
     initialize: function() {
+
         this.slider = new app.view.tools.common.Slider();
         this.countries = new app.view.tools.common.Countries();
     }, 
@@ -21,23 +24,37 @@ app.view.tools.Plugin = Backbone.View.extend({
 
     getGlobalContext: function(){
         // Read the global context
-        return app.getGlobalContext();
+        return app.context;
     },
 
-    getLocalContext: function(){
+    getLatestContext: function(){
         // Read the local context
-        if (!this.ctx){
+        if (!this._latestCtx){
+            this._latestCtx = new app.view.tools.context();
             // If the context is not defined, let's get it from local storage.
-            this.ctx = _.clone(app.getGlobalContext());
+            this._latestCtx.data = localStorage.getItem("latest_context_" + this.type);
+
+            if (!this._latestCtx.data){
+                this.copyGlobalContextToLatestContext();
+            }
         }
-        return this.ctx;
+
+        return this._latestCtx;
     },
 
-    // This method modifies the global context with the values in the local context.
-    // It also stores the new context in localStorage.
-    copyToGlobalContext: function(){
-        app.context.setContext(this.ctx);
-    },  
+    prepareForRender: function(){
+        // This method must be overriden. It prepares the tool for render.
+        // The global context will be analyzed and it will be update with the required properties of each tool.
+        // That required properties will be recover from the localContext if exist, if not these properties will have the default values.
+    },
+
+
+    copyGlobalContextToLatestContext: function(){
+        //     app.context.setContext(this.ctx);
+        //this._latestCtx.data = _.clone(this.getGlobalContext().data);
+        this._latestCtx.data = $.extend(true, {}, this.getGlobalContext().data);
+         
+     },  
 
     renderTool: function(){
         // Draw the tool. This method must be overwritten
@@ -59,6 +76,7 @@ app.view.tools.Plugin = Backbone.View.extend({
     },
 
     render: function(){  
+        this.prepareForRender();
         this.delegateEvents(this._events); 
         this.$el.show().html("Loading");
         this.fetchData();
@@ -88,6 +106,10 @@ app.view.tools.Plugin = Backbone.View.extend({
     refresh: function(){
         this.fetchData();
     }
+
+
+
+
 });
 
 

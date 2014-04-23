@@ -23,7 +23,7 @@ Backbone.View.prototype.close = function(){
 $(function(){
 
     $("body").on("click","a",function(e){
-        console.log("here");
+        
         var attr = $(this).attr("jslink"),
             href = $(this).attr("href");
 
@@ -44,7 +44,23 @@ $(function(){
         if (jqxhr.status == 404) { app.router.navigate("notfound",{trigger: true});} 
         else { app.router.navigate("error",{trigger: true});}
     });
-    app.ini();
+
+    $.getJSON('http://freegeoip.net/json/', function(location) {
+      // example where I update content on the page.
+      // jQuery('#city').html(location.city);
+      // jQuery('#region-code').html(location.region_code);
+      // jQuery('#region-name').html(location.region_name);
+      // jQuery('#areacode').html(location.areacode);
+      // jQuery('#ip').html(location.ip);
+      // jQuery('#zipcode').html(location.zipcode);
+      // jQuery('#longitude').html(location.longitude);
+      // jQuery('#latitude').html(location.latitude);
+      // jQuery('#country-name').html(location.country_name);
+      // jQuery('#country-code').html(location.country_code);
+        app.country = location.country_code;
+        app.ini();
+    });
+   
 });
 
 app.resize = function(){
@@ -62,6 +78,8 @@ app.resize = function(){
 }
 
 app.ini = function(){
+
+
     this.lang = this.detectCurrentLanguage();
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
@@ -73,15 +91,20 @@ app.ini = function(){
     this.$tool_data = $("#tool_data");
     this.$tool = $("#tool");
 
-    Backbone.history.start({pushState: true,root: this.basePath });
+    // create the context
+    this.context = new app.view.tools.context();
+    this.context.restoreSavedContext();
 
-    app.context.restoreSavedContext();
+    this.baseView = new app.view.Base();
+    this.baseView.render();
 
-    app.resize();
+    this.resize();
 
     $(window).resize(function(){
         app.resize();
     });
+
+    Backbone.history.start({pushState: true,root: this.basePath });
 };
 
 app.detectCurrentLanguage = function(){
@@ -90,8 +113,9 @@ app.detectCurrentLanguage = function(){
     return null;
 };
 
-app.getGlobalContext = function(){
-    return this.context.data;
+app.getJSURL = function(url){
+    url = url ? "/" + url : "";
+    return "/" + app.detectCurrentLanguage() + url;
 };
 
 app.showViewInExtraPanel = function(view) {

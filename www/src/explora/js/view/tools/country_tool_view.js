@@ -68,7 +68,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                 // the first on the list will be the selected
                 ctx.countries.selection = [ctx.countries.list[0]];
             }
-
         }
         else{
             // All except the first one will be removed.
@@ -90,10 +89,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                 ctx.slider = [firstPoint];
             }
             else{
-                // set the current date
+                // set the last year
                 ctx.slider = [{
                     "type" : "Point",
-                    "date" : new Date()
+                    "date" : app.config.SLIDER[app.config.SLIDER.length-1]
                 }];
             }
         }

@@ -42,7 +42,7 @@ app.view.tools.context = function(){
     // It saves the context in the local storage
     this.saveContext = function(){
         localStorage.setItem("context",
-            JSON.stringify(data)
+            JSON.stringify(this.data)
         );
     };
 
@@ -50,7 +50,7 @@ app.view.tools.context = function(){
     this.restoreSavedContext = function(){
         var tmp = localStorage.getItem("context");
         if (tmp){
-            this.data = tmp;    
+            this.data = JSON.parse(tmp);    
         }
 
         if (!this.data.countries.list.length){

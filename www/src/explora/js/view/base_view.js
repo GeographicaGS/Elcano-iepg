@@ -179,15 +179,25 @@ app.view.Base = Backbone.View.extend({
             tool = new app.view.tools.CountryPlugin();
 
         // is the current country in the global context? 
-        if (ctx.data.countries.indexOf(id_country)==-1){
+        if (ctx.data.countries.list.indexOf(id_country)==-1){
             // This country is not in the global context. Let's add it
-            ctx.data.countries.slice(0,0,id_country);
+            ctx.data.countries.list.push(id_country);
         }
-        else{
 
+        if (ctx.data.countries.selection.length!=1 || ctx.data.countries.selection[0] !=id_country){
+            // This country is not selected in the current context
+            ctx.data.countries.selection = [id_country];
         }
+
+        ctx.data.variables[0] = parseInt(id_variable);
+        ctx.data.countries.slider = [{
+            "type": "Point",
+            "date" : new Date(year + "01-01")
+        }];
 
         // let's store the context.
         ctx.saveContext();
+
+        this.addTool(tool,true);
     }
 });

@@ -9,7 +9,7 @@ import hashlib
 
 from config import MemcachedConfig
 
-if MemcachedConfig.enabled:
+if MemcachedConfig["enabled"] == True:
     import memcache
 
 def cacheWrapper(funcName, *args, **kwargs):

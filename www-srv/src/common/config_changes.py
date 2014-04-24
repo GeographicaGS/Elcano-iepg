@@ -6,4 +6,4 @@ Configuration
 backend = {'tmpFolder': '/home/git/elcano-iepg/www/cdn/backend/tmp', \
            'mediaFolder': '/home/git/elcano-iepg/www/cdn/media'}
 
-MemcachedConfig = {'enabled': True, 'host': 'localhost', 'port': '11211', 'expiration': 30}
+MemcachedConfig = {'enabled': False, 'host': 'localhost', 'port': '11211', 'expiration': 30}

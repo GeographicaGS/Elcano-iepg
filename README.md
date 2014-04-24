@@ -140,12 +140,15 @@ cp frontend/js/config.changes.js frontend/js/config.js
 
 Una vez hecho esto ejecuta sobre www/src:
 
-```jake```
+```
+jake
+```
 
 O si quieres hacer el build en modo debug
 
-```jake debug```
-
+```
+jake debug
+```
 
 ### Configuración de apache
 

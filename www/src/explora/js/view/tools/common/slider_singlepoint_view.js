@@ -9,19 +9,14 @@ app.view.tools.common.SliderSinglePoint = app.view.tools.common.Slider.extend({
         // We do nothing with the local context, all is done with the global context.
         // We'll do it in the future
         this.$el.html(this._template({
-            ctx: this.plugin.getGlobalContext(),
+            ctx: this.plugin.getGlobalContext().data,
         }));
         
     },
 
     changeCurrent: function(){
-        // Context change
-        // this.dataLocalCtx.current = ...
-        // this.copyToGlobalContext();
-
         // Change the date, let's re-render the tool.
         this.plugin.refreshTool();
-
 
     }
 

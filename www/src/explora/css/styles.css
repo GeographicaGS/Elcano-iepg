@@ -330,7 +330,8 @@ main{
 #tool{
     z-index: 3;
     left: 70px;
-    margin-right: 20px;
+    right: 20px;
+    /*margin-right: 20px;*/
 
     #country_panel {
         height:90px;

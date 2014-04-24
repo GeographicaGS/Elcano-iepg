@@ -1,10 +1,25 @@
 app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
-    initialize: function() {
+    _template : _.template( $('#ranking_tool_template').html() ),
 
+    type: "ranking",
+    initialize: function() {
+        this.slider = new app.view.tools.common.SliderSinglePoint({
+            "plugin": this
+        });
+
+        this.countries = new app.view.tools.common.Countries({
+            "plugin": this
+        });
     },
 
-    renderTool: function(){
+    _events: {
+       
+    },
 
+    renderTool: function(){
+        this.$el.html(this._template({
+            ctx: this.getGlobalContext().data,
+        }));
     },
 
     renderMap: function(){

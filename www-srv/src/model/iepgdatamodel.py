@@ -9,12 +9,12 @@ TODO: review SQL parsing. Use bindings.
 
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
-
+from common.errorhandling import DataValidator
 
 class IepgDataModel(PostgreSQLModel):
     """IEPG data manipulation model."""
     def countries(self, lang, year):
-        """Returns the list of geopolitical blocks and its countries for a language and a year."""
+        """Returns the list of geopolitical blocks and its countries for a language and a year, for home page."""
         a = """
         select
           a.id_country,
@@ -45,3 +45,20 @@ class IepgDataModel(PostgreSQLModel):
         from iepg_data.iepg_final_data order by year desc;"""
 
         return(self.query(a).result())
+
+    def countryFilter(self, lang):
+        """Returns the list of countries for country filter."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+        sql = """
+        select distinct
+        iso_3166_1_2_code as id,
+        short_name_{}1 as name,
+        short_name_{}_order
+        from
+        iepg_data.iepg_final_data a inner join
+        iepg_data.master_country b on
+        a.id_country=b.id_master_country
+        where country
+        order by short_name_{}_order;""".format(lang, lang, lang)
+        return(self.query(sql).result())

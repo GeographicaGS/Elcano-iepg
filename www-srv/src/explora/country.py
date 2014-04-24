@@ -10,8 +10,8 @@ from flask import jsonify,request,send_file,make_response
 from model.test import TestModel
 from common.helpers import cacheWrapper
 import cons
-
-
+import model.iepgdatamodel
+from common.errorhandling import ElcanoApiRestError
 
 @app.route('/country/<string:country>/<int:year>/<int:variable>/<string:lang>', methods=['GET'])
 def country(country,year,variable,lang):
@@ -28,7 +28,13 @@ def country(country,year,variable,lang):
 
 
 
-@app.route('/test/<int:n>', methods=['GET'])
-def test(n):
-    m = TestModel()
-    return(jsonify({"ere": cacheWrapper(m.getTable, n)}))
+# Those are the ones
+
+@ app.route('/countryfilter/<string:lang>', methods=['GET'])
+def countryFilter(lang):
+    m = model.iepgdatamodel.IepgDataModel()
+    try:
+        return(jsonify({"results": cacheWrapper(m.countryFilter, lang)}))
+    except ElcanoApiRestError as e:
+        return(jsonify(e.toDict()))
+    

@@ -379,5 +379,16 @@ main{
    
 }
 
+.fancybox-skin {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border: 1px solid #d3d3d3;
+}
 
+.fancybox-opened .fancybox-skin {
+    -webkit-box-shadow: 0 1px 7px -1px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 1px 7px -1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 7px -1px rgba(0, 0, 0, 0.5);
+}
 

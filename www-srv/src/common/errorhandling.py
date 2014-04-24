@@ -53,3 +53,9 @@ class DataValidator():
         if n==False:
             return None
         raise ElcanoApiRestError("Not a boolean.", status=200, payload={"Boolean": n})
+
+    def checkVariable(self, n):
+        """Checks a variable name."""
+        if n in const.variables:
+            return None
+        raise ElcanoApiRestError("Unknown variable.", status=200, payload={"Variable": n})

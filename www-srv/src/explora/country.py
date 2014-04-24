@@ -11,6 +11,7 @@ from common.helpers import cacheWrapper
 import cons
 import model.iepgdatamodel
 from common.errorhandling import ElcanoApiRestError
+from common.const import variables, years
 
 @app.route('/country/<string:country>/<int:year>/<int:variable>/<string:lang>', methods=['GET'])
 def country(country,year,variable,lang):
@@ -27,10 +28,29 @@ def country(country,year,variable,lang):
 
 # Those are the ones
 
-@ app.route('/countryfilter/<string:lang>', methods=['GET'])
+@app.route('/countryfilter/<string:lang>', methods=['GET'])
 def countryFilter(lang):
     m = model.iepgdatamodel.IepgDataModel()
     try:
         return(jsonify({"results": cacheWrapper(m.countryFilter, lang)}))
+    except ElcanoApiRestError as e:
+        return(jsonify(e.toDict()))
+
+
+@app.route('/countrysheet/<string:lang>/<string:countryCode>', methods=['GET'])
+def countrySheet(lang, countryCode):
+    """Retrieves all the data, for all years, and for a single country, to render the country sheet."""
+    m = model.iepgdatamodel.IepgDataModel()
+    if "filter" in request.args:
+        filter=request.args["filter"].split(",")
+    try:
+        data = dict()
+        for year in years:
+            y = dict()
+            for var,item in variables.items():
+                y[item["name_en"]]=cacheWrapper(m.ranking, countryCode, var, year, filter=filter)
+            y["comment"]=cacheWrapper(m.getIepgComment, lang, countryCode, year)
+            data[year]=y
+        return(jsonify({"results": data}))
     except ElcanoApiRestError as e:
         return(jsonify(e.toDict()))

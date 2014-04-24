@@ -82,6 +82,7 @@ un203;203;CZE;CZ;Czech Republic;República Checa;Czech Republic;República Checa
 un204;204;BEN;;Benin;Benín;Benin;Benín;Benin;Benín;Benin;Benin;Benín;Benín;Porto-Novo;XOF;Franc;229;BJ;BEN;204;.bj;;;t;
 un208;208;DNK;DK;Denmark;Dinamarca;Denmark;Dinamarca;Denmark;Dinamarca;Denmark;Denmark;Dinamarca;Dinamarca;Copenhagen;DKK;Krone;45;DK;DNK;208;.dk;;;t;
 un212;212;DMA;;Dominica;Dominica;Dominica;Dominica;Dominica;Dominica;Dominica;Dominica;Dominica;Dominica;Roseau;XCD;Dollar;-766;DM;DMA;212;.dm;;;t;
+un380;380;ITA;IT;Italy;Italia;Italy;Italia;Italy;Italia;Italy;Italy;Italia;Italia;Rome;EUR;Euro;39;IT;ITA;380;.it;;;t;
 un214;214;DOM;;Dominican Republic;República Dominicana;Dominican Republic;República Dominicana;Dominican Republic;República Dominicana;Dominican Republic;Dominican Republic;República Dominicana;República Dominicana;Santo Domingo;DOP;Peso;+1-809 and 1-829;DO;DOM;214;.do;;;t;
 un132;132;CPV;;Cabo Verde;Cabo Verde;Cabo Verde;Cabo Verde;Cabo Verde;Cabo Verde;Cabo Verde;Cape Verde;Cabo Verde;Cabo Verde;Praia;CVE;Escudo;238;CV;CPV;132;.cv;;;t;
 un178;178;COG;;Congo (Republic of the);Congo (República del);Republic of the Congo;República del Congo;Congo;Congo;Congo;Congo;Congo;Congo;Brazzaville;XAF;Franc;242;CG;COG;178;.cg;;;t;
@@ -126,7 +127,6 @@ un356;356;IND;;India;India;India;India;India;India;India;India;India;India;New D
 un360;360;IDN;;Indonesia;Indonesia;Indonesia;Indonesia;Indonesia;Indonesia;Indonesia;Indonesia;Indonesia;Indonesia;Jakarta;IDR;Rupiah;62;ID;IDN;360;.id;;;t;
 un372;372;IRL;IE;Ireland;Irlanda;Ireland;Irlanda;Ireland;Irlanda;Ireland;Ireland;Irlanda;Irlanda;Dublin;EUR;Euro;353;IE;IRL;372;.ie;;;t;
 un376;376;ISR;IL;Israel;Israel;Israel;Israel;Israel;Israel;Israel;Israel;Israel;Israel;Jerusalem;ILS;Shekel;972;IL;ISR;376;.il;;;t;
-un380;380;ITA;IT;Italy;Italia;Italy;Italia;Italy;Italia;Italy;Italy;Italia;Italia;Rome;EUR;Euro;39;IT;ITA;380;.it;;;t;
 un388;388;JAM;;Jamaica;Jamaica;Jamaica;Jamaica;Jamaica;Jamaica;Jamaica;Jamaica;Jamaica;Jamaica;Kingston;JMD;Dollar;-875;JM;JAM;388;.jm;;;t;
 un392;392;JPN;JP;Japan;Japón;Japan;Japón;Japan;Japón;Japan;Japan;Japón;Japón;Tokyo;JPY;Yen;81;JP;JPN;392;.jp;;;t;
 un400;400;JOR;JO;Jordan;Jordania;Jordan;Jordania;Jordan;Jordania;Jordan;Jordan;Jordania;Jordania;Amman;JOD;Dinar;962;JO;JOR;400;.jo;;;t;
@@ -265,7 +265,6 @@ eu905;;;;European Neighbourhood Policy (ENP)-South;Política de Vecindad de la U
 un498;498;MDA;;Moldova (Republic of);Moldavia (República de);Republic of Moldova;República de Moldova;Moldova ;Moldavia;Moldova;Moldova;Moldavia;Moldavia;Chisinau;MDL;Leu;373;MD;MDA;498;.md;;;t;
 un807;807;MKD;MK;Macedonia (The former Yugoslav Republic of);Macedonia (ex República Yugoslava de) ;The former Yugoslav Republic of Macedonia;ex República Yugoslava de Macedonia;Macedonia ;Macedonia ;Macedonia;Macedonia;Macedonia;Macedonia;Skopje;MKD;Denar;389;MK;MKD;807;.mk;;;t;
 eu901;;;;European Free Trade Association (EFTA);Asociación Europea de Libre Comercio;European Free Trade Association (EFTA);Asociación Europea de Libre Comercio;EFTA;AELC;EFTA;EFTA;AELC;AELC;;;;;;;;;;;f;
-eu900;;;;European Union (EU);Unión Europea;European Union (EU);Unión Europea;EU;UE;EU;EU;UE;Unión Europea;;;;;;;;;;;f;
 un862;862;VEN;;Venezuela (Bolivarian Republic of);Venezuela (República Bolivariana de);Bolivarian Republic of Venezuela;República Bolivariana de Venezuela;Venezuela ;Venezuela;Venezuela;Venezuela;Venezuela ;Venezuela;Caracas;VEB;Bolivar;58;VE;VEN;862;.ve;;;t;
 un826;826;GBR;UK;United Kingdom of Great Britain and Northern Ireland;Reino Unido de Gran Bretaña y Norte de Irlanda;United Kingdom of Great Britain and Northern Ireland;Reino Unido de Gran Bretaña y Norte de Irlanda;UK;RU;United Kingdom;UK;Reino Unido;Reino Unido;London;GBP;Pound;44;GB;GBR;826;.uk;;;t;
 un710;710;ZAF;;South Africa;Sudáfrica;South Africa;Sudáfrica;South Africa;Sudáfrica;South Africa;South Africa;Sudáfrica;Sudáfrica;Pretoria (administrative), Cape Town (legislative), and Bloemfontein (judical);ZAR;Rand;27;ZA;ZAF;710;.za;;;t;
@@ -275,3 +274,4 @@ un419;419;;;America (Latin America and the Caribbean);América Latina y El Carib
 un704;704;VNM;;Viet Nam;Viet Nam;Viet Nam;Viet Nam;Viet Nam;Viet Nam;Viet Nam;Vietnam;Viet Nam;Vietnam;Hanoi;VND;Dong;84;VN;VNM;704;.vn;;;t;
 un583;583;FSM;;Micronesia (Federated States of);Micronesia (Estados Federados de);Federated States of Micronesia;Estados Federados de Micronesia;Micronesia;Micronesia;Micronesia;Micronesia;Micronesia;Micronesia;;;;;;;;;;;t;
 un663;663;MAF;;Saint-Martin (French part);San Martín (parte francesa);Saint-Martin (French part);San Martín (parte francesa);Saint-Martin (French part);San Martín (parte francesa);Saint-Martin (French part);Saint-Martin;San Martín (parte francesa);San Martín;;;;;;;;;;;t;
+eu900;;;;European Union (EU);Unión Europea;European Union (EU);Unión Europea;EU;UE;European Union;EU;Unión Europea;Unión Europea;;;;;;;;;;;f;

@@ -82,6 +82,30 @@ foreign key (id_parent)
 references iepg_data.master_country(id_master_country);
 
 
+create table iepg_data.pob_pib(
+  id_master_country character varying(10),
+  pob_1990 float,
+  pib_1990 float, 
+  pob_1995 float, 
+  pib_1995 float, 
+  pob_2000 float, 
+  pib_2000 float, 
+  pob_2005 float, 
+  pib_2005 float, 
+  pob_2010 float, 
+  pib_2010 float, 
+  pob_2011 float, 
+  pib_2011 float, 
+  pob_2012 float, 
+  pib_2012 float, 
+  pob_2013 float,
+  pib_2013 float);
+
+alter table iepg_data.pob_pib
+add constraint pob_pib_pkey
+primary key(id_master_country);
+
+
 -- Variable metadata
 
 create table iepg_data.metadata_variable(
@@ -154,6 +178,11 @@ csv header quote '"';
 
 copy iepg_data.iepg_final_data
 from :'copy_iepg_final_data'
+with delimiter ';'
+csv header quote '"';
+
+copy iepg_data.pob_pib
+from :'copy_pob_pib'
 with delimiter ';'
 csv header quote '"';
 

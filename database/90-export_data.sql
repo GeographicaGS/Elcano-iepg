@@ -16,4 +16,9 @@ to :'copy_iepg_final_data'
 with delimiter ';'
 csv header quote '"';
 
+copy iepg_data.pob_pib
+to :'copy_pob_pib'
+with delimiter ';'
+csv header quote '"';
+
 \c :dbname :user :host :port

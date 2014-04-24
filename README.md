@@ -1,4 +1,9 @@
-# Elcano IEPG
+=======
+elcano-iepg
+===========
+
+Web del Índice Elcano de presencia global del Real Instituo Elcano
+
 
 ## About
 
@@ -33,6 +38,8 @@ Una vez dentro del entorno virtual instalamos los paquetes necesarios con pip.
 ```
 $ pip install Flask
 $ pip install psycopg2
+#only to debug purpose
+$ pip install tweepy
 $ pip install ipdb
 ```
 
@@ -119,6 +126,16 @@ sudo npm install -g pg
 sudo npm install -g less
 
 export NODE_PATH=/usr/local/lib/node_modules
+```
+
+Ahora creamos los ficheros de configuración
+``` 
+# configuración del builder
+cp build/config.changes.js build/config.js
+# configuración del backend
+cp backend/js/config.changes.js backend/js/config.js
+# configuración del frontend
+cp frontend/js/config.changes.js frontend/js/config.js
 ```
 
 Una vez hecho esto ejecuta sobre www/src:
@@ -250,8 +267,3 @@ Alias /img /Users/alasarr/dev/elcano-iepg/www/cdn/frontend/img
 #### Configuración
 
 Aquí las notas de la configuración de la web.
-
-
-
-
-

@@ -18,8 +18,8 @@ from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBad
 
 @app.route('/home/email', methods=['POST'])
 def postEmail():
-    """Inserts an email into the list. request.args:
-    email: mandatory
+    """Inserts an email into the list. request.args: 
+      email: mandatory
     """
     m = HomeModel()
     return(jsonify({"email": m.newEmail(request.args["email"])}))

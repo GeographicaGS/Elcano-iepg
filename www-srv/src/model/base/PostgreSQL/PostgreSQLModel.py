@@ -7,6 +7,8 @@ Created on 15/01/2014
 import psycopg2
 from config import PostgreSQLConfig
 import psycopg2.extras
+import memcache
+import hashlib
 
 class Result():
     def __init__(self,cur):
@@ -21,7 +23,9 @@ class Result():
 
 class PostgreSQLModel():
     def __init__(self):
-        self.conn = psycopg2.connect(host=PostgreSQLConfig['host'],dbname=PostgreSQLConfig['db'],port=PostgreSQLConfig['port'],user=PostgreSQLConfig['user'],password=PostgreSQLConfig['passwd'])
+        self.conn = psycopg2.connect(host=PostgreSQLConfig['host'],dbname=PostgreSQLConfig['db'], \
+                                     port=PostgreSQLConfig['port'],user=PostgreSQLConfig['user'], \
+                                     password=PostgreSQLConfig['passwd'])
         
     def query(self,sql,bindings=None):
         cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -36,7 +40,8 @@ class PostgreSQLModel():
     def insert(self,table,data,returnID=None):
         cur = self.conn.cursor()
         returnIDSQL = "RETURNING " + returnID  if returnID else ""
-        sql = "INSERT INTO %s (%s) VALUES (%s) %s" % (table,",".join(data.keys()),",".join(["%s" for e in data.keys()]),returnIDSQL)     
+        sql = "INSERT INTO %s (%s) VALUES (%s) %s" % (table,",".join(data.keys()),",". \
+                                                      join(["%s" for e in data.keys()]),returnIDSQL)     
         
         cur.execute(sql,data.values())
         self.conn.commit()

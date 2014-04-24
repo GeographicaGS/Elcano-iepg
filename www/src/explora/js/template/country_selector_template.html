@@ -1,0 +1,35 @@
+<div class="conteiner-fluid">
+
+    <div class="row">
+        <h3 class="col-md-6">
+            <lang>Países del Índice Elcano</lang>
+        </h3>
+
+        <div class="col-md-6">
+            <span id="n_selected"></span>
+            <span>Cancelar</span>
+            <a href="#" class="button"><lang>Hecho</lang></a>
+        </div>
+    </div>
+
+    <div id="countries_plain">
+        <%
+        var interval = collection.size() / 3;
+        %>
+        <ul class="flag_wrapper col-md-4">
+            <% _.each(collection.slice(0,interval,function (d){ %>
+                <li code="<%=d.id %>"  style="background-image:url('/img/flags/<%= d.id%>.svg')"><%= d.name %></li>
+            <% }); %>
+        </ul>
+        <ul class="flag_wrapper col-md-4">
+            <% _.each(collection.slice(0,interval,function (d){ %>
+                <li code="<%=d.id %>"  style="background-image:url('/img/flags/<%= d.id%>.svg')"><%= d.name %></li>
+            <% }); %>
+        </ul>
+         <ul class="flag_wrapper col-md-4">
+            <% _.each(collection.slice(0,interval,function (d){ %>
+                <li code="<%=d.id %>"  style="background-image:url('/img/flags/<%= d.id%>.svg')"><%= d.name %></li>
+            <% }); %>
+        </ul>
+    </div>
+</div>

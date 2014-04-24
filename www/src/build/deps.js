@@ -174,7 +174,8 @@ deps.Explora.JS = {
 			"explora/js/lib/underscore-min.js",
 			"explora/js/lib/backbone-min.js",
 			"explora/js/lib/d3.v3.min.js",	
-			"explora/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",			
+			"explora/js/lib/fancybox/source/jquery.fancybox.pack.js"
+
 		],
 		desc: "Third party library"
 	}
@@ -194,7 +195,7 @@ deps.Explora.JS = {
 			// --------------------
 			// --- Collections  ---
 			// --------------------
-
+			"explora/js/collection/countries.js",
 			"explora/js/collection/filter.js",
 			
 			// --------------------
@@ -215,6 +216,7 @@ deps.Explora.JS = {
 			// Tools context object
 			"explora/js/view/tools/context.js",
 
+			"explora/js/view/country_selector_view.js",
 			"explora/js/view/filter_view.js",
 			"explora/js/view/notfound_view.js",
 			"explora/js/view/error_view.js",
@@ -232,7 +234,7 @@ deps.Explora.JS = {
 deps.Explora.CSS = {
 	ThirdParty:{
 		src : [
-			
+			"explora/js/lib/fancybox/source/jquery.fancybox.css"
 		]
 	},
 	Core: {

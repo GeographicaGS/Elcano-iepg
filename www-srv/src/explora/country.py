@@ -38,3 +38,17 @@ def countryFilter(lang):
     except ElcanoApiRestError as e:
         return(jsonify(e.toDict()))
     
+
+@app.route('/countries_toremove/<string:lang>', methods=['GET'])
+def countries_toremove(lang):
+    return jsonify({
+        "results" : [{
+                "id_country" : "ES",
+                "name": "España",
+            },
+            {
+                "id_country" : "FR",
+                "name": "France",
+            }
+            ]
+        })

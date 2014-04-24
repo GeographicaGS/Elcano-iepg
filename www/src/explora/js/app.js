@@ -19,7 +19,6 @@ Backbone.View.prototype.close = function(){
     }
 }
 
-
 $(function(){
 
     $("body").on("click","a",function(e){
@@ -169,6 +168,24 @@ app.variableToString = function(variable){
             return "No definida"
     }
 }
+
+app.fancyboxOpts = function(){
+
+    return   {
+        padding : 0,
+        autoHeight : true,
+        autoSize : false,
+        width : "90%",
+        maxWidth : 960,
+        helpers : {
+            overlay : {
+                css : {
+                    'background' : 'rgba(255, 255, 255, 0.85)'
+                }
+            }
+        }
+    }  
+} 
 
 
 

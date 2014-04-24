@@ -6,8 +6,11 @@ Common helpers.
 
 """
 import hashlib
-import memcache
+
 from config import MemcachedConfig
+
+if MemcachedConfig.enabled:
+    import memcache
 
 def cacheWrapper(funcName, *args, **kwargs):
     """Cache wrapping helper."""

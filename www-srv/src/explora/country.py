@@ -7,7 +7,6 @@ Explora country services.
 """
 from explora import app
 from flask import jsonify,request,send_file,make_response
-from model.test import TestModel
 from common.helpers import cacheWrapper
 import cons
 import model.iepgdatamodel
@@ -26,8 +25,6 @@ def country(country,year,variable,lang):
 
 
 
-
-
 # Those are the ones
 
 @ app.route('/countryfilter/<string:lang>', methods=['GET'])
@@ -37,18 +34,3 @@ def countryFilter(lang):
         return(jsonify({"results": cacheWrapper(m.countryFilter, lang)}))
     except ElcanoApiRestError as e:
         return(jsonify(e.toDict()))
-    
-
-@app.route('/countries_toremove/<string:lang>', methods=['GET'])
-def countries_toremove(lang):
-    return jsonify({
-        "results" : [{
-                "id_country" : "ES",
-                "name": "España",
-            },
-            {
-                "id_country" : "FR",
-                "name": "France",
-            }
-            ]
-        })

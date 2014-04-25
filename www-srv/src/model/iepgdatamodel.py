@@ -19,15 +19,15 @@ class IepgDataModel(PostgreSQLModel):
         """Returns the list of geopolitical blocks and its countries for a language and a year, for home page."""
         a = """
         select
-          a.id_country,
+          a.id_master_country,
           b.full_name_{} as country_name,
           f.full_name_{} as block_name
         from
           iepg_data.iepg_final_data a 
           inner join iepg_data.master_country b
-          on a.id_country=b.id_master_country
+          on a.id_master_country=b.id_master_country
           inner join iepg_data.country_relation c
-          on a.id_country=c.id_child
+          on a.id_master_country=c.id_child
           inner join iepg_data.master_country d
           on c.id_parent=d.id_master_country
           inner join iepg_data.country_relation e
@@ -60,7 +60,7 @@ class IepgDataModel(PostgreSQLModel):
         from
         iepg_data.iepg_final_data a inner join
         iepg_data.master_country b on
-        a.id_country=b.id_master_country
+        a.id_master_country=b.id_master_country
         where country
         order by short_name_{}_order;""".format(lang, lang, lang)
         return(self.query(sql).result())

@@ -11,7 +11,7 @@ from common.helpers import cacheWrapper
 import cons
 import model.iepgdatamodel
 from common.errorhandling import ElcanoApiRestError
-from common.const import variables, years
+from common.const import context_variables, iepg_variables, years
 
 @app.route('/country/<string:country>/<int:year>/<int:variable>/<string:lang>', methods=['GET'])
 def country(country,year,variable,lang):
@@ -38,16 +38,36 @@ def countryFilter(lang):
 
 @app.route('/countrysheet/<string:lang>/<string:countryCode>', methods=['GET'])
 def countrySheet(lang, countryCode):
-    """Retrieves all the data, for all years, and for a single country, to render the country sheet."""
+    """Retrieves all the data, for all years, and for a single country, to render the country sheet.
+    Service call:
+
+      /countrysheet/es/US?filter=US,DK,ES
+    
+    """
     m = model.iepgdatamodel.IepgDataModel()
+    filter = None
     if "filter" in request.args:
         filter=request.args["filter"].split(",")
     try:
         data = dict()
         for year in years:
             y = dict()
-            for var,item in variables.items():
-                y[item["name_en"]]=cacheWrapper(m.ranking, countryCode, var, year, filter=filter)
+            iepg_var = dict()
+            for var,item in iepg_variables.items():
+                if filter:
+                    iepg_var[item["name_en"]]=cacheWrapper(m.ranking, lang, countryCode, 
+                                                           var, year, filter=filter)
+                else:
+                    iepg_var[item["name_en"]]=cacheWrapper(m.ranking, lang, countryCode, var, year)
+            context_var = dict()
+            for var,item in context_variables.items():
+                if filter:
+                    context_var[item["name_en"]]=cacheWrapper(m.ranking, lang, countryCode, 
+                                                              var, year, filter=filter)
+                else:
+                    context_var[item["name_en"]]=cacheWrapper(m.ranking, lang, countryCode, var, year)
+            y["iepg_variables"] = iepg_var
+            y["context_var"] = context_var
             y["comment"]=cacheWrapper(m.getIepgComment, lang, countryCode, year)
             data[year]=y
         return(jsonify({"results": data}))

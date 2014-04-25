@@ -7,7 +7,7 @@ lang = ["en", "es"]
 
 years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]
 
-variables = {
+iepg_variables = {
     "energy": {
         "type": "iepg",
         "name_en": "Energy",
@@ -127,7 +127,9 @@ variables = {
         "name_en": "IEPG",
         "name_es": "IEPG",
         "table": "iepg_data.iepg_final_data",
-        "column": "iepg"},
+        "column": "iepg"}}
+
+context_variables = {
     "population": {
         "type": "context",
         "name_en": "Population",

@@ -10,7 +10,7 @@ TODO: review SQL parsing. Use bindings.
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 from common.errorhandling import DataValidator
-from common.const import variables
+from common.const import iepg_variables, context_variables
 
 
 class IepgDataModel(PostgreSQLModel):
@@ -19,15 +19,15 @@ class IepgDataModel(PostgreSQLModel):
         """Returns the list of geopolitical blocks and its countries for a language and a year, for home page."""
         a = """
         select
-          a.id_country,
+          a.id_master_country,
           b.full_name_{} as country_name,
           f.full_name_{} as block_name
         from
           iepg_data.iepg_final_data a 
           inner join iepg_data.master_country b
-          on a.id_country=b.id_master_country
+          on a.id_master_country=b.id_master_country
           inner join iepg_data.country_relation c
-          on a.id_country=c.id_child
+          on a.id_master_country=c.id_child
           inner join iepg_data.master_country d
           on c.id_parent=d.id_master_country
           inner join iepg_data.country_relation e
@@ -60,16 +60,19 @@ class IepgDataModel(PostgreSQLModel):
         from
         iepg_data.iepg_final_data a inner join
         iepg_data.master_country b on
-        a.id_country=b.id_master_country
+        a.id_master_country=b.id_master_country
         where country
         order by short_name_{}_order;""".format(lang, lang, lang)
         return(self.query(sql).result())
 
-    def ranking(self, countryCode, variable, year, filter=None):
+    def ranking(self, lang, countryCode, variable, year, filter=None):
         """Returns the ranking and the value for a variable and a country."""
         dv = DataValidator()
         dv.checkVariable(variable)
-        var = variables[variable]
+        if variable in iepg_variables:
+            var = iepg_variables[variable]
+        if variable in context_variables:
+            var = context_variables[variable]
 
         if filter:
             f = "array["
@@ -80,8 +83,10 @@ class IepgDataModel(PostgreSQLModel):
             sql = """
             select
             c.iso_3166_1_2_code as code,
+            '{}' as variable,
             b.ranking as ranking,
-            a.{} as value
+            a.{} as value,
+            %s as year
             from
             {} a inner join
             (
@@ -103,13 +108,14 @@ class IepgDataModel(PostgreSQLModel):
             a.id_master_country=c.id_master_country
             where c.iso_3166_1_2_code=%s
             order by ranking;
-            """.format(var["column"], var["table"], var["column"], var["column"], var["column"],
-                       var["table"], f, var["column"], var["column"])
-            return(self.query(sql, bindings=[year, year, countryCode]).result())
+            """.format(var["name_"+lang], var["column"], var["table"], var["column"], 
+                       var["column"], var["column"], var["table"], f, var["column"], var["column"])
+            return(self.query(sql, bindings=[year, year, year, countryCode]).result())
         else:
             sql = """
             select
             a.iso_3166_1_2_code as code,
+            '{}' as variable,
             b.ranking,
             b.{} as value,
             %s as year
@@ -140,7 +146,7 @@ class IepgDataModel(PostgreSQLModel):
             a.id_master_country=b.id_master_country
             where a.iso_3166_1_2_code=%s
             order by b.ranking;
-            """.format(var["column"], var["column"], var["column"], var["column"], 
+            """.format(var["name_"+lang], var["column"], var["column"], var["column"], var["column"], 
                        var["column"], var["table"], var["column"], var["table"], 
                        var["column"], var["column"])
             return(self.query(sql, bindings=[year, year, year, countryCode]).result())

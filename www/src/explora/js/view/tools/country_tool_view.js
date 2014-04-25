@@ -7,13 +7,29 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             "plugin" : this
         });
 
-		this.countries = new app.view.tools.common.Countries({
-            "plugin" : this
-        });
+		this.countries = new app.view.tools.common.Countries();
+
     },
 
     _events: {
        
+    },
+
+    _setListeners: function(){
+        app.view.tools.Plugin.prototype._setListeners.apply(this);
+
+        this.listenTo(app.events,"countryclick",function(id_country){
+            //TOREMOVE
+            console.log("countryclick at app.view.tools.CountryPlugin");
+
+            var ctx = this.getGlobalContext();
+            ctx.data.countries.selection = [id_country];
+            ctx.saveContext();
+            // The context has changed, let's store the changes in localStore
+            this.getGlobalContext().saveContext();
+            // Render again the countries with the new context
+            this.render();
+        });
     },
 
 	fetchData: function(){
@@ -27,7 +43,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	},
 
     renderTool: function(){
-		this.$el.html(this._template({
+        //TOREMOVE
+        console.log("Render app.view.tools.CountryPlugin");
+		
+        this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
             model: this.model.toJSON()
         }));

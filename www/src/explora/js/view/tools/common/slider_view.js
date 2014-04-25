@@ -5,9 +5,19 @@ app.view.tools.common.Slider = Backbone.View.extend({
         this.plugin = options.plugin;
     },
 
-	render: function(){
-        this.$el.show();
-    },
+    _setListeners: function(){
+       
+    },
+
+    bringToFront: function(){
+        this.delegateEvents(this._events); 
+        this._setListeners();
+    },
+
+    bringToBack: function(){
+        this.undelegateEvents();
+        this.stopListening();
+    },
 
     onClose: function(){
     
@@ -16,10 +26,16 @@ app.view.tools.common.Slider = Backbone.View.extend({
     close: function(){
         this.stopListening();
 
+
+
         this.$el.html("").hide();
   
         if (this.onClose){
             this.onClose();
         }
-    }
+    },
+
+    render: function(){
+        this.$el.show();
+    },
 }); 

@@ -41,11 +41,11 @@ def countries_toremove(lang):
                 "name": "Estados Unidos",
             },
             {
-                "id_country" : "AL",
+                "id_country" : "DE",
                 "name": "Alemania",
             },
             {
-                "id_country" : "CH",
+                "id_country" : "CN",
                 "name": "China",
             },
             {

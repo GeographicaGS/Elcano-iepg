@@ -20,9 +20,6 @@ app.view.Base = Backbone.View.extend({
     },
 
     render: function() {
-        if (this.currentTool){
-            this.currentTool.render();    
-        }
             
         var html = "";
         for (var i=0;i<this.tools.length;i++){
@@ -50,8 +47,11 @@ app.view.Base = Backbone.View.extend({
         this.tools.push(tool);
         if (bringToFront){
             this.currentTool = tool;
+            this.currentTool.bringToFront();
         }
+
         this.render();
+        
         return this;
     },
 
@@ -90,7 +90,6 @@ app.view.Base = Backbone.View.extend({
     },
 
     toggleTools: function(e){
-       
 
         var $e = $(e.target),
             ml;
@@ -120,27 +119,24 @@ app.view.Base = Backbone.View.extend({
         return this;
     },
 
-    // goToVisible: function(e){
-    //     e.preventDefault();
-    //     var $e = $(e.target),
-    //         idx = $e.attr("idx-tool");
-
-    //     this.bringToFront(this.tools[idx]);
-    // },
-
-
-    bringToFront: function(tool){
+    bringToolToFront: function(tool){
         // Just for security
         if (!tool) return;
 
+        if (tool == this.currentTool) return;
+
         if (this.currentTool){
-            this.currentTool.hideTool();
+            // move to back the current tool
+            this.currentTool.bringToBack();
         }
         this.currentTool = tool;
+        this.currentTool.bringToFront();
+
+        // let's call render to update the menu
         this.render();
     },
 
-    bringToolToFront: function(type){
+    bringToolToFrontByType: function(type){
         var tool = this._searchToolByType(type);
         if (!tool){
             // The user has requested a tool but it's not loaded. Let's load it.
@@ -157,7 +153,7 @@ app.view.Base = Backbone.View.extend({
             this.addTool(tool,true);
         }
         else{
-            this.bringToFront(tool);    
+            this.bringToolToFront(tool);    
         }
 
         

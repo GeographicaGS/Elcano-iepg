@@ -1,6 +1,14 @@
 
-    <ul>
-           
+    <ul class="country_bar">
+        <%_.each(ctx.countries.list,function(c){ 
+            sel = ctx.countries.selection.indexOf(c) != -1 ? "selected" : "";
+            %>
+            <li>
+                <a href="#" title="<%= c %>" code="<%= c %>"  <%= sel %>>
+                    <img src="/img/flags/<%= c%>.svg"/>
+                </a>
+            </li>
+        <% }); %>
     </ul>
 
     <a id="ctrl_countries" href="#">

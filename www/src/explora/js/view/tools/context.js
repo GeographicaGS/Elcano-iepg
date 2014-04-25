@@ -56,6 +56,8 @@ app.view.tools.context = function(){
         if (!this.data.countries.list.length){
             this.data.countries.list = [(app.country ? app.country : "ES")];
         }
+        // temporal workaround, to fix
+        this.data.slider[0].date = new Date();
     },
 
     this.getFirstSliderElement= function(type){
@@ -67,5 +69,16 @@ app.view.tools.context = function(){
 
         return null;
     };
+
+    this.removeInvalidSelected = function(){
+        for (var i=0;i<this.data.countries.selection.length;i++){
+            var index = this.data.countries.list.indexOf(this.data.countries.selection[i]);
+            if (index == -1) {
+                this.data.countries.selection.splice(i, 1);
+            }
+        }    
+        
+        
+    }
 
 };

@@ -31,12 +31,7 @@ app.view.tools.Plugin = Backbone.View.extend({
         // Read the local context
         if (!this._latestCtx){
             this._latestCtx = new app.view.tools.context();
-            // If the context is not defined, let's get it from local storage.
-            this._latestCtx.data = localStorage.getItem("latest_context_" + this.type);
-
-            if (!this._latestCtx.data){
-                this.copyGlobalContextToLatestContext();
-            }
+            this.copyGlobalContextToLatestContext();
         }
 
         return this._latestCtx;
@@ -52,9 +47,13 @@ app.view.tools.Plugin = Backbone.View.extend({
     copyGlobalContextToLatestContext: function(){
         //     app.context.setContext(this.ctx);
         //this._latestCtx.data = _.clone(this.getGlobalContext().data);
-        this._latestCtx.data = $.extend(true, {}, this.getGlobalContext().data);
-         
-     },  
+        this._latestCtx.data = $.extend(true, {}, this.getGlobalContext().data);     
+    },  
+
+    saveAllContexts : function(){
+        this.getGlobalContext().saveContext();
+        this.copyGlobalContextToLatestContext();
+    },
 
     renderTool: function(){
         // Draw the tool. This method must be overwritten
@@ -65,8 +64,31 @@ app.view.tools.Plugin = Backbone.View.extend({
         // draw the map. This method must be overwritten
     },
 
-    hideTool: function(){
+    _setListeners: function(){
+        this.listenTo(app.events,"contextchange:countries",function(){
+            //TOREMOVE
+            console.log("contextchange:countries at app.view.tools.Plugin");
+            // The context has changed, let's store the changes in localStore
+            this.getGlobalContext().saveContext();
+            // Render again the countries with the new context
+            this.countries.render();
+        });
+
+    },
+
+    bringToFront: function(){
+        this._setListeners();
+        this.delegateEvents(this._events); 
+        this.slider.bringToFront();
+        this.countries.bringToFront();
+        this.render();
+    },
+
+    bringToBack: function(){
         this.undelegateEvents();
+        this.slider.bringToBack();
+        this.countries.bringToBack();
+        this.stopListening();
     },
 
     renderAsync: function(){
@@ -75,9 +97,9 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.renderMap();
     },
 
-    render: function(){  
+    /* NEVER CALL RENDER directly, call bringToFront */ 
+    render: function(){  
         this.prepareForRender();
-        this.delegateEvents(this._events); 
         this.$el.show().html("Loading");
         this.fetchData();
         this.slider.render();
@@ -93,7 +115,6 @@ app.view.tools.Plugin = Backbone.View.extend({
 
         this.$el.html("").hide();
 
-  
         if (this.onClose){
             this.onClose();
         }
@@ -106,9 +127,6 @@ app.view.tools.Plugin = Backbone.View.extend({
     refresh: function(){
         this.fetchData();
     }
-
-
-
 
 });
 

@@ -27,7 +27,7 @@ app.router = Backbone.Router.extend({
     },
 
     bringToolToFront: function(type){
-        app.baseView.bringToolToFront(type);
+        app.baseView.bringToolToFrontByType(type);
     },
 
     notfound : function(){

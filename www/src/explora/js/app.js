@@ -1,7 +1,5 @@
 var app = app || {};
-app.events = {};
-_.extend(app.events , Backbone.Events);
-app.defaults = {};
+
 
 // variables. Array of countries with the countries to filter by
 app.filters = [];
@@ -91,7 +89,7 @@ app.ini = function(){
     this.$tool = $("#tool");
 
     // create the context
-    this.context = new app.view.tools.context();
+    this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
 
     this.baseView = new app.view.Base();
@@ -169,6 +167,10 @@ app.variableToString = function(variable){
     }
 }
 
+app.isSMDevice = function(){
+    return ($(window).width()<992);
+}
+
 app.fancyboxOpts = function(){
 
     return   {
@@ -177,6 +179,7 @@ app.fancyboxOpts = function(){
         autoSize : false,
         width : "90%",
         maxWidth : 960,
+        closeBtn : false,
         helpers : {
             overlay : {
                 css : {
@@ -186,6 +189,14 @@ app.fancyboxOpts = function(){
         }
     }  
 } 
+
+app.events = {};
+_.extend(app.events , Backbone.Events);
+
+app.events.on("closepopup", function(popupView) {
+    popupView.close();
+}); 
+
 
 
 

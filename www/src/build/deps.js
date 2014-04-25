@@ -174,7 +174,8 @@ deps.Explora.JS = {
 			"explora/js/lib/underscore-min.js",
 			"explora/js/lib/backbone-min.js",
 			"explora/js/lib/d3.v3.min.js",	
-			"explora/js/lib/fancybox/source/jquery.fancybox.pack.js"
+			"explora/js/lib/fancybox/source/jquery.fancybox.pack.js",
+			"explora/js/lib/sprintf.min.js"
 
 		],
 		desc: "Third party library"

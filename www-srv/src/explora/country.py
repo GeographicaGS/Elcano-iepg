@@ -25,6 +25,36 @@ def country(country,year,variable,lang):
     })
 
 
+@app.route('/countries_toremove/<string:lang>', methods=['GET'])
+def countries_toremove(lang):
+    return jsonify({
+        "results" : [{
+                "id_country" : "ES",
+                "name": "España",
+            },
+            {
+                "id_country" : "FR",
+                "name": "France",
+            },
+            {
+                "id_country" : "US",
+                "name": "Estados Unidos",
+            },
+            {
+                "id_country" : "DE",
+                "name": "Alemania",
+            },
+            {
+                "id_country" : "CN",
+                "name": "China",
+            },
+            {
+                "id_country" : "RU",
+                "name": "Rusia",
+            },
+            ]
+        })
+
 
 # Those are the ones
 

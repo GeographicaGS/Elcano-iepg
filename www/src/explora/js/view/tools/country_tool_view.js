@@ -7,16 +7,43 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             "plugin" : this
         });
 
-		this.countries = new app.view.tools.common.Countries({
-            "plugin" : this
-        });
+		this.countries = new app.view.tools.common.Countries();
+
     },
 
     _events: {
        
     },
 
+    _setListeners: function(){
+        app.view.tools.Plugin.prototype._setListeners.apply(this);
+
+        this.listenTo(app.events,"countryclick",function(id_country){
+            //TOREMOVE
+            console.log("countryclick at app.view.tools.CountryPlugin");
+
+            var ctx = this.getGlobalContext();
+            ctx.data.countries.selection = [id_country];
+            ctx.saveContext();
+            // The context has changed, let's store the changes in localStore
+            this.getGlobalContext().saveContext();
+            // Render again the countries with the new context
+            this.render();
+        });
+    },
+
+
+    /* Fetch data for the current country*/
 	fetchData: function(){
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+            
+        this.model = new app.model.tools.country({
+            "id" : ctx.countries.selection[0],
+            "year" : ctx.slider[0].date.getFullYear(),
+            "variable" : ctx.variables[0]
+        });
+
 		// Fetch model from de server
         var self = this;
         this.model.fetch({
@@ -26,15 +53,19 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         });
 	},
 
+    /* Render the tool */
     renderTool: function(){
-		this.$el.html(this._template({
+        //TOREMOVE
+        console.log("Render app.view.tools.CountryPlugin");
+		
+        this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
             model: this.model.toJSON()
         }));
     },
 
     renderMap: function(){
-        // draw the map
+        //TODO
     },
 
     onClose: function(){
@@ -42,7 +73,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this.stopListening();
     },
 
-    prepareForRender: function(){
+    /* 
+        This method adapt the glob
+    */
+    adaptGlobalContext: function(){
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
@@ -99,11 +133,19 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         // update the latest context
         this.copyGlobalContextToLatestContext();
+    },
 
-        this.model = new app.model.tools.country({
-            "id" : ctx.countries.selection[0],
-            "year" : ctx.slider[0].date.getFullYear(),
-            "variable" : ctx.variables[0]
-        });
+    setURL: function(){
+        // This method transforms the current context of the tool in a valid URL.
+        //country/:id_country/:id_variable/:year
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            country = ctx.countries.selection[0],
+            variable = ctx.variables[0],
+            year = ctx.slider[0].date.getFullYear();
+
+
+         app.router.navigate("country/" + country + "/" + variable + "/" + year, {trigger: false});
     }
+    
 });

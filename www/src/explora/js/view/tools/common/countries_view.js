@@ -3,33 +3,41 @@ app.view.tools.common.Countries = Backbone.View.extend({
     _template : _.template( $('#country_bar_template').html() ),
 
     initialize: function(options){
-        this.plugin = options.plugin;
+        
     },
 
     _events: {
-        "click #ctrl_countries": "launchCountriesSelector"
+        "click #ctrl_countries": "launchCountriesSelector",
+        "click ul.country_bar a": "clickCountry"
     },
 
-    launchCountriesSelector: function(){
-        this.countrySelector = new app.view.CountrySelector();
-       
+    _setListeners: function(){
+    
+    },
+
+    bringToFront: function(){
+        this.delegateEvents(this._events); 
+        this._setListeners();
+    },
+
+    bringToBack: function(){
+        this.undelegateEvents();
+        this.stopListening();
     },
 
     render: function(){
-        this.delegateEvents(this._events);
-
+        //TOREMOVE
+        console.log("Render app.view.tools.common.Countries");
         this.$el.show().html(this._template({
-            ctx: this.plugin.getGlobalContext().data,
+            ctx: app.context.data,
         }));
     },
 
     onClose: function(){
 
     },
-
+    
     close: function(){
-        this.stopListening();
-
         this.undelegateEvents();
     
         this.$el.html("").hide();
@@ -38,4 +46,22 @@ app.view.tools.common.Countries = Backbone.View.extend({
             this.onClose();
         }
     },
+
+    launchCountriesSelector: function(){
+        console.log("launchCountriesSelector");
+        this.countrySelector = new app.view.CountrySelector();
+       
+    },
+
+    clickCountry: function(e){
+        e.preventDefault();
+
+        var $e = $(e.target).closest("a"),
+            code = $e.attr("code");
+
+        if (code){
+            app.events.trigger("countryclick",code);
+        }
+        
+    }
 }); 

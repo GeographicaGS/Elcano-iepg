@@ -1,4 +1,6 @@
-app.view.tools.context = function(){
+app.view.tools.context = function(id){
+    // ID of the context
+    this.id = id;
     
     this.data = {
         "countries": {
@@ -41,14 +43,14 @@ app.view.tools.context = function(){
         
     // It saves the context in the local storage
     this.saveContext = function(){
-        localStorage.setItem("context",
+        localStorage.setItem("context-"+id,
             JSON.stringify(this.data)
         );
     };
 
     // Restore the context from local store
     this.restoreSavedContext = function(){
-        var tmp = localStorage.getItem("context");
+        var tmp = localStorage.getItem("context-"+id);
         if (tmp){
             this.data = JSON.parse(tmp);    
         }
@@ -56,6 +58,9 @@ app.view.tools.context = function(){
         if (!this.data.countries.list.length){
             this.data.countries.list = [(app.country ? app.country : "ES")];
         }
+        // temporal workaround, to fix
+        this.data.slider = [{ "type" : "Point"}];
+        this.data.slider[0].date = new Date();
     },
 
     this.getFirstSliderElement= function(type){
@@ -67,5 +72,16 @@ app.view.tools.context = function(){
 
         return null;
     };
+
+    this.removeInvalidSelected = function(){
+        for (var i=0;i<this.data.countries.selection.length;i++){
+            var index = this.data.countries.list.indexOf(this.data.countries.selection[i]);
+            if (index == -1) {
+                this.data.countries.selection.splice(i, 1);
+            }
+        }    
+        
+        
+    }
 
 };

@@ -4,7 +4,6 @@ app.router = Backbone.Router.extend({
     },
 
     routes: {
-        "": "base",
         "notfound" : "notfound",
         "error" : "error",
         "tool/:type" : "bringToolToFront",
@@ -20,14 +19,8 @@ app.router = Backbone.Router.extend({
         // this.route(this.langRoutes["_link home"][app.lang]+"/", "home");
     },
 
-    base : function(){
-        // Do nothing
-        app.baseView.addTool(new app.view.tools.CountryPlugin(),true);
-        app.baseView.addTool(new app.view.tools.RankingPlugin(),false);
-    },
-
-    bringToolToFront: function(type){
-        app.baseView.bringToolToFront(type);
+    bringToolToFront: function(type,dos){
+        app.baseView.bringToolToFrontByType(type);
     },
 
     notfound : function(){

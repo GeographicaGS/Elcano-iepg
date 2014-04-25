@@ -84,26 +84,14 @@ references iepg_data.master_country(id_master_country);
 
 create table iepg_data.pob_pib(
   id_master_country character varying(10),
-  pob_1990 float,
-  pib_1990 float, 
-  pob_1995 float, 
-  pib_1995 float, 
-  pob_2000 float, 
-  pib_2000 float, 
-  pob_2005 float, 
-  pib_2005 float, 
-  pob_2010 float, 
-  pib_2010 float, 
-  pob_2011 float, 
-  pib_2011 float, 
-  pob_2012 float, 
-  pib_2012 float, 
-  pob_2013 float,
-  pib_2013 float);
+  date_in date,
+  date_out date,
+  population integer,
+  pib float);
 
 alter table iepg_data.pob_pib
 add constraint pob_pib_pkey
-primary key(id_master_country);
+primary key(id_master_country, date_in);
 
 
 -- Variable metadata
@@ -127,7 +115,7 @@ primary key (id_variable);
 
 
 create table iepg_data.iepg_final_data(
-  id_country varchar(10),
+  id_master_country varchar(10),
   date_in date,
   date_out date,
   energy float,
@@ -154,12 +142,52 @@ create table iepg_data.iepg_final_data(
 
 alter table iepg_data.iepg_final_data
 add constraint iepg_final_data_pkey
-primary key (id_country, date_in);
+primary key (id_master_country, date_in);
 
 alter table iepg_data.iepg_final_data
 add constraint iepg_final_data_master_country_fkey
-foreign key (id_country)
+foreign key (id_master_country)
 references iepg_data.master_country(id_master_country);
+
+
+create table iepg_data.iepg_comment(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  comment text
+);
+
+alter table iepg_data.iepg_comment
+add constraint iepg_comment_pkey
+primary key (id_master_country, date_in);
+
+
+-- Views
+
+create view iepg_data.iepg_countries as
+select distinct 
+  a.id_master_country,
+  b.short_name_en1,
+  b.short_name_es1
+from
+  iepg_data.iepg_final_data a inner join
+  iepg_data.master_country b on
+  a.id_master_country=b.id_master_country
+where country
+order by id_master_country;
+
+
+create view iepg_data.iepg_blocks as
+select distinct 
+  a.id_master_country,
+  b.short_name_en1,
+  b.short_name_es1
+from
+  iepg_data.iepg_final_data a inner join
+  iepg_data.master_country b on
+  a.id_master_country=b.id_master_country
+where not country
+order by id_master_country;
 
 
 -- Copy data
@@ -184,6 +212,11 @@ csv header quote '"';
 copy iepg_data.pob_pib
 from :'copy_pob_pib'
 with delimiter ';'
+csv header quote '"';
+
+copy iepg_data.iepg_comment
+from :'copy_iepg_comment'
+with delimiter '|'
 csv header quote '"';
 
 analyze;

@@ -10,6 +10,8 @@ TODO: review SQL parsing. Use bindings.
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 from common.errorhandling import DataValidator
+from common.const import variables
+
 
 class IepgDataModel(PostgreSQLModel):
     """IEPG data manipulation model."""
@@ -62,3 +64,100 @@ class IepgDataModel(PostgreSQLModel):
         where country
         order by short_name_{}_order;""".format(lang, lang, lang)
         return(self.query(sql).result())
+
+    def ranking(self, countryCode, variable, year, filter=None):
+        """Returns the ranking and the value for a variable and a country."""
+        dv = DataValidator()
+        dv.checkVariable(variable)
+        var = variables[variable]
+
+        if filter:
+            f = "array["
+            for fi in filter:
+                f=f+"'"+fi+"',"
+            f = f.rstrip(",")+"]::varchar[]"
+
+            sql = """
+            select
+            c.iso_3166_1_2_code as code,
+            b.ranking as ranking,
+            a.{} as value
+            from
+            {} a inner join
+            (
+            select
+            row_number() over (order by {} desc) as ranking,
+            {}
+            from (
+            select
+            {}
+            from
+            {} a inner join
+            iepg_data.master_country b on
+            a.id_master_country=b.id_master_country
+            where
+            array[b.iso_3166_1_2_code]::varchar[] <@ {} and
+            date_part('year', a.date_in)=%s
+            ) as f) as b on a.{}=b.{} and date_part('year', a.date_in)=%s inner join
+            iepg_data.master_country c on
+            a.id_master_country=c.id_master_country
+            where c.iso_3166_1_2_code=%s
+            order by ranking;
+            """.format(var["column"], var["table"], var["column"], var["column"], var["column"],
+                       var["table"], f, var["column"], var["column"])
+            return(self.query(sql, bindings=[year, year, countryCode]).result())
+        else:
+            sql = """
+            select
+            a.iso_3166_1_2_code as code,
+            b.ranking,
+            b.{} as value,
+            %s as year
+            from 
+            iepg_data.master_country a inner join (
+            select
+            b.id_master_country,
+            a.ranking,
+            a.{}
+            from (
+            select
+            row_number() over (order by {} desc) as ranking,
+            {}
+            from (
+            select distinct
+            {}
+            from
+            {}
+            where
+            date_part('year', date_in)=%s and {} is not null and 
+            id_master_country in(
+            select id_master_country
+            from iepg_data.iepg_countries)
+            ) as f
+            ) as a inner join 
+            {} b on
+            a.{}=b.{} and date_part('year', b.date_in)=%s) b on
+            a.id_master_country=b.id_master_country
+            where a.iso_3166_1_2_code=%s
+            order by b.ranking;
+            """.format(var["column"], var["column"], var["column"], var["column"], 
+                       var["column"], var["table"], var["column"], var["table"], 
+                       var["column"], var["column"])
+            return(self.query(sql, bindings=[year, year, year, countryCode]).result())
+
+
+    def getIepgComment(self, lang, countryCode, year):
+        """Returns the IEPG comment for the given country and year."""
+        sql = """
+        select
+        a.iso_3166_1_2_code as code,
+        date_part('year', b.date_in) as year,
+        b.comment
+        from
+        iepg_data.master_country a inner join
+        iepg_data.iepg_comment b on
+        a.id_master_country=b.id_master_country
+        where
+        a.iso_3166_1_2_code=%s and date_part('year', b.date_in)=%s;"""
+
+        return(self.query(sql, bindings=[countryCode, year]).result())

@@ -17,6 +17,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     },
 
     renderTool: function(){
+     //TOREMOVE
+        console.log("Render app.view.tools.RankingPlugin");
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
         }));

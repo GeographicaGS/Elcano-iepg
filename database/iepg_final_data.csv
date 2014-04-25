@@ -1,4 +1,4 @@
-id_country;date_in;date_out;energy;primary_goods;manufactures;services;investments;troops;military_equipment;migrations;tourism;sports;culture;information;technology;science;education;cooperation;economic_presence;military_presence;soft_presence;iepg
+id_master_country;date_in;date_out;energy;primary_goods;manufactures;services;investments;troops;military_equipment;migrations;tourism;sports;culture;information;technology;science;education;cooperation;economic_presence;military_presence;soft_presence;iepg
 un276;1990-01-01;1990-12-31;29.32801904;215.2570747;315.7198475;122.8169202;35;0;26;138.6527933;222.0441874;720.1063165;9.018321385;0;636.1278255;136.7241869;162.0921583;285.3223571;133.7543243;12.74;231.3097331;159.2675204
 un024;1990-01-01;1990-12-31;19.22403041;1.804588533;0.449137925;0.213391129;0;1.512218727;2;0.782864551;0;6.402053616;0;0;0;0.008790668;0.01362437;0;3.833829527;1.751231551;0.521291367;1.976846297
 un682;1990-01-01;1990-12-31;211.0677121;2.956413796;2.767374913;5.952668471;1;0;17;110.7833104;10.77327914;16.74383253;0;0;0.035291419;3.258407541;18.78346486;127.233414;40.55911071;8.33;27.48511531;29.38841511

@@ -32,7 +32,18 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         });
     },
 
+
+    /* Fetch data for the current country*/
 	fetchData: function(){
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+            
+        this.model = new app.model.tools.country({
+            "id" : ctx.countries.selection[0],
+            "year" : ctx.slider[0].date.getFullYear(),
+            "variable" : ctx.variables[0]
+        });
+
 		// Fetch model from de server
         var self = this;
         this.model.fetch({
@@ -42,6 +53,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         });
 	},
 
+    /* Render the tool */
     renderTool: function(){
         //TOREMOVE
         console.log("Render app.view.tools.CountryPlugin");
@@ -53,7 +65,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     renderMap: function(){
-        // draw the map
+        //TODO
     },
 
     onClose: function(){
@@ -61,7 +73,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this.stopListening();
     },
 
-    prepareForRender: function(){
+    /* 
+        This method adapt the glob
+    */
+    adaptGlobalContext: function(){
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
@@ -118,11 +133,19 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         // update the latest context
         this.copyGlobalContextToLatestContext();
+    },
 
-        this.model = new app.model.tools.country({
-            "id" : ctx.countries.selection[0],
-            "year" : ctx.slider[0].date.getFullYear(),
-            "variable" : ctx.variables[0]
-        });
+    setURL: function(){
+        // This method transforms the current context of the tool in a valid URL.
+        //country/:id_country/:id_variable/:year
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            country = ctx.countries.selection[0],
+            variable = ctx.variables[0],
+            year = ctx.slider[0].date.getFullYear();
+
+
+         app.router.navigate("country/" + country + "/" + variable + "/" + year, {trigger: false});
     }
+    
 });

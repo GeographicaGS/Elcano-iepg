@@ -341,8 +341,8 @@ main{
         #add_tool{
             a{
                 background: url("@{imgPath}ELC_icon_abrir_herramientas.svg") no-repeat center center;
-                width:55px;
-                height: 55px;        
+                width:54px;
+                height: 54px;        
             }
             span{
                  display: block;
@@ -356,14 +356,24 @@ main{
         ul{
             li{
                 a{ 
-                    background-color: @grey_dark;
+                    background-color: @white;
                     text-align: center;
                     font-size: 15px;
                     .roboto_cond();
-                    color:@white;
+                    color: @grey_dark;
                     margin-bottom: 2px;
+                    border-right:1px solid @grey_dark;
+                    border-top:1px solid @grey_dark;
+                    border-bottom:1px solid @grey_dark;
                 }
 
+            }
+            li[selected] a {
+                background-color: @grey_dark;
+                color: @white;
+                border-right:1px solid transparent;
+                border-top:1px solid transparent;
+                border-bottom:1px solid grey_light;
             }
         }
     }

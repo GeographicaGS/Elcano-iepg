@@ -11,6 +11,26 @@ app.view.Base = Backbone.View.extend({
         this.$control_panel = this.$("#control_panel");
         this.$panelTools = this.$control_panel.find("ul");
 
+        // Load default tools
+        var localTools =  localStorage.getItem("tools");
+
+        if (localTools){
+            localTools = JSON.parse(localTools);
+            listTools = localTools.tools;
+            for (var i=0;i<listTools.length;i++){
+                var tool = this._getInstanceViewByType(listTools[i]);
+                var bringToFront = listTools[i] == localTools.selected ? true : false;
+                this.addTool(tool,bringToFront);
+            }
+        }
+        else{
+            // if no information in local store load the country tool
+            tool = new app.view.tools.CountryPlugin();
+            this.addTool(tool,true);
+
+            tool = new app.view.tools.RankingPlugin();
+            this.addTool(tool,true);
+        }
     },
 
     events: {
@@ -20,10 +40,12 @@ app.view.Base = Backbone.View.extend({
     },
 
     render: function() {
-            
+        // TOREMOVE
+        console.log("Render app.view.Base");
         var html = "";
         for (var i=0;i<this.tools.length;i++){
-            html += "<li><a href='" + app.getJSURL("tool/" + this.tools[i].type) + "' jslink>" + (i+1) + "</a></li>";
+            var sel = this.currentTool == this.tools[i] ? "selected" : "";
+            html += "<li " + sel + "><a href='" + app.getJSURL("tool/" + this.tools[i].type) + "' jslink>" + (i+1) + "</a></li>";
         }
 
         this.$panelTools.html(html);
@@ -41,16 +63,24 @@ app.view.Base = Backbone.View.extend({
     },
     
     addTool: function(tool,bringToFront){
+        console.log("Add tool "+ tool.type);
          // Just for security
         if (!tool) return;
 
-        this.tools.push(tool);
+        // Never add a tool twice
+        if (this.tools.indexOf(tool) == -1){
+            this.tools.push(tool);    
+        }
+
         if (bringToFront){
             this.currentTool = tool;
             this.currentTool.bringToFront();
         }
 
         this.render();
+
+        // save the tool status in localstore
+        this.saveToolStatus();
         
         return this;
     },
@@ -87,6 +117,9 @@ app.view.Base = Backbone.View.extend({
                 this.render();
             }
         }
+
+        // save the tool status in localstore
+        this.saveToolStatus();
     },
 
     toggleTools: function(e){
@@ -123,8 +156,6 @@ app.view.Base = Backbone.View.extend({
         // Just for security
         if (!tool) return;
 
-        if (tool == this.currentTool) return;
-
         if (this.currentTool){
             // move to back the current tool
             this.currentTool.bringToBack();
@@ -136,20 +167,21 @@ app.view.Base = Backbone.View.extend({
         this.render();
     },
 
+    _getInstanceViewByType: function(type){
+        switch(type)
+        {
+            case "country":
+                return new app.view.tools.CountryPlugin();
+            case "ranking":
+                return new app.view.tools.RankingPlugin();
+        }
+
+    },
     bringToolToFrontByType: function(type){
         var tool = this._searchToolByType(type);
         if (!tool){
             // The user has requested a tool but it's not loaded. Let's load it.
-            switch(type)
-            {
-                case "country":
-                    tool = new app.view.tools.CountryPlugin();
-                    break;
-                case "ranking":
-                    tool = new app.view.tools.RankingPlugin();
-                    break;
-            }
-
+            tool = this._getInstanceViewByType(type);
             this.addTool(tool,true);
         }
         else{
@@ -172,8 +204,10 @@ app.view.Base = Backbone.View.extend({
 
     loadCountryTool: function(id_country,id_variable,year){
         var ctx = app.context,
-            tool = new app.view.tools.CountryPlugin();
+            // First check if the tool is already loaded
+            tool = this._searchToolByType("country");
 
+        
         // is the current country in the global context? 
         if (ctx.data.countries.list.indexOf(id_country)==-1){
             // This country is not in the global context. Let's add it
@@ -194,6 +228,23 @@ app.view.Base = Backbone.View.extend({
         // let's store the context.
         ctx.saveContext();
 
-        this.addTool(tool,true);
+        if (!tool){
+            // tool not already loaded
+            tool = new app.view.tools.CountryPlugin();
+            this.addTool(tool,true);
+        }
+        else{
+            this.bringToolToFront(tool);   
+        }
+    },
+
+    // This method will be called when a tool is added or removed
+    saveToolStatus: function(){
+        localStorage.setItem("tools",
+            JSON.stringify({
+                "tools" : _.map(this.tools, function(t){ return t.type; }),
+                "selected" : this.currentTool ? this.currentTool.type : "" 
+            })   
+        );
     }
 });

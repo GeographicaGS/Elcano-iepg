@@ -89,7 +89,7 @@ app.ini = function(){
     this.$tool = $("#tool");
 
     // create the context
-    this.context = new app.view.tools.context();
+    this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
 
     this.baseView = new app.view.Base();

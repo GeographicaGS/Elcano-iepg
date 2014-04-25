@@ -360,20 +360,22 @@ main{
                     text-align: center;
                     font-size: 15px;
                     .roboto_cond();
-                    color: @grey_dark;
+                    
                     margin-bottom: 2px;
-                    border-right:1px solid @grey_dark;
-                    border-top:1px solid @grey_dark;
-                    border-bottom:1px solid @grey_dark;
+                    background-color: @grey_dark;
+                    color: @white;
+                    border-right:1px solid transparent;
+                    border-top:1px solid transparent;
+                    border-bottom:1px solid grey_light;
                 }
 
             }
             li[selected] a {
-                background-color: @grey_dark;
-                color: @white;
-                border-right:1px solid transparent;
-                border-top:1px solid transparent;
-                border-bottom:1px solid grey_light;
+                color: @grey_dark;
+                background-color: @white;
+                border-right:1px solid @grey_dark;
+                border-top:1px solid @grey_dark;
+                border-bottom:1px solid @grey_dark;
             }
         }
     }

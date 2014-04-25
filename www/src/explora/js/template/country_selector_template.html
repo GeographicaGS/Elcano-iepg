@@ -38,10 +38,10 @@
             %>
             <ul class="flag_wrapper col-md-4 col-sm-6">
                 <% _.each(collection.slice(interval*i,interval*(i+1)),function (d){
-                    sel = ctx.countries.list.indexOf(d.id_country) != -1 ? "selected" : "";
+                    sel = ctx.countries.list.indexOf(d.id) != -1 ? "selected" : "";
                  %>
-                    <li code="<%=d.id_country %>" <%= sel %> title="<%= d.name %>">
-                        <img src="/img/flags/<%= d.id_country%>.svg" />
+                    <li code="<%=d.id %>" <%= sel %> title="<%= d.name %>">
+                        <img src="/img/flags/<%= d.id %>.svg" />
                         <span><%= d.name %></span>
                         <div class="clear"></div>
                     </li>

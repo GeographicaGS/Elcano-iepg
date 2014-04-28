@@ -86,7 +86,7 @@ iepg_variables = {
         "name_es": "Tecnología",
         "table": "iepg_data.iepg_final_data",
         "column": "technology"},
-    "Science": {
+    "science": {
         "type": "iepg",
         "name_en": "Science",
         "name_es": "Ciencia",

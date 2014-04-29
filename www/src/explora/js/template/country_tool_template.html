@@ -1,15 +1,95 @@
-<div class="header_tool" data-variable=1>
-    <a class="close" href="#"></a>
-    <span id="tool_name"><lang>Ficha país</span>
-    <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %>, <%=model.name %> </span>
-    <span id="tool_year">Año <%= model.year %></span>
+<%
+    variable = model.iepg_variables[ctx.variables[0]][0];
+    GDP = model.context_var.GDP[0];
+    population = model.context_var.Population[0];
+%>
+
+<div id="country_tool">
+    <div class="header_tool" data-variable=1>
+        <a class="close" href="#"></a>
+        <span id="tool_name"><lang>Ficha país</span>
+        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %>, <%=app.countryToString(ctx.countries.selection[0]) %> </span>
+        <span id="tool_year">Año <%= model.year %></span>
+
+
+    </div>
+    <div class="container-fluid">
+        <div class="row mth1">
+            <div class="col-sm-6 col-md-6">
+                <div class="row ">
+                    <div class="col-sm-3 col-md-3">
+                        <span class="grey uppercase size_11"><lang>Índice Elcano de Presencia Global</lang></span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <span class="grey size_21"><%= variable.value %></span>
+                    </div>
+                    <div class="col-sm-5 col-md-5 co_ranking">
+                        <span><%= sprintf("<lang>Puesto</lang> %d", variable.ranking) %></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="sep"></div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-sm-3 col-md-3">
+                        <span class="grey uppercase size_11"><lang>PIB</lang></span>
+                        <span class="grey_light uppercase size_11">[US$]</span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <span class="grey size_16"><%= GDP.value %></span>
+                    </div>
+                    <div class="col-sm-5 col-md-5 co_ranking">
+                        <span><%= sprintf("<lang>%dº del mundo</lang>", GDP.ranking) %></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="sep"></div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-sm-3 col-md-3">
+                        <span class="grey uppercase size_11"><lang>Población</lang></span>
+                        <span class="grey_light uppercase size_11">[<lang>hab</lang>]</span>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <span class="grey size_16"><%= population.value %></span>
+                    </div>
+                    <div class="col-sm-5 col-md-5 co_ranking">
+                        <span><%= sprintf("<lang>%dº del mundo</lang>", population.ranking) %></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="sep"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span class="grey uppercase size_11"><lang>Resumen</lang></span>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <p class="size_16"><%= model.comment[0].comment %></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-6 col-md-6">
+                <div class="chart"></div>
+            </div>
+        </div>
+        
+    </div>
 
 
 </div>
-<div class="container-fluid">
-<p>
-    <%= model.summary %>
-</p>
-</div>
-
-

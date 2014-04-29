@@ -58,10 +58,18 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         //TOREMOVE
         console.log("Render app.view.tools.CountryPlugin");
 		
+        var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
+
+        year = 2013;
+
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
-            model: this.model.toJSON()
+            model: this.model.toJSON()[year],
         }));
+
+        this.$chart = this.$(".chart");
+
+        this._drawD3Chart();
     },
 
     renderMap: function(){
@@ -146,6 +154,203 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
 
          app.router.navigate("country/" + country + "/" + variable + "/" + year, {trigger: false});
+    },
+
+    _drawD3Chart: function(){
+        var width = this.$chart.width(),
+            height = this.$chart.height(),
+            radius = Math.min(width, height) / 2;
+
+        var x = d3.scale.linear()
+            .range([0, 2 * Math.PI]);
+
+        var y = d3.scale.sqrt()
+            .range([0, radius]);
+
+        var color = d3.scale.category20c();
+
+        var svg = d3.select(".chart").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
+
+        var partition = d3.layout.partition()
+            .value(function(d) { return d.size; });
+
+        var arc = d3.svg.arc()
+            .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+            .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+            .innerRadius(function(d) { return Math.max(0, y(d.y)); })
+            .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+
+
+
+        d3.select(self.frameElement).style("height", height + "px");
+
+        // Interpolate the scales!
+        function arcTween(d) {
+          var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+              yd = d3.interpolate(y.domain(), [d.y, 1]),
+              yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
+          return function(d, i) {
+            return i
+                ? function(t) { return arc(d); }
+                : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
+          };
+        }
+
+        
+        // d3.json("/flare.json", function(error, root) {
+          
+        // });
+
+        var root = this._buildModelTree(),
+            path = svg.selectAll("path")
+              .data(partition.nodes(root))
+            .enter().append("path")
+              .attr("d", arc)
+              .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+              .on("click", click);
+
+          function click(d) {
+            path.transition()
+              .duration(750)
+              .attrTween("d", arcTween(d));
+          }
+
+    },
+
+    _buildModelTree: function(year){
+
+        var variables = this.model.get(year).iepg_variables;
+        return {
+            "name": "iepg",
+            "children" : [{
+                "name" : "economic_presence",
+                "children": [{
+                    "name" : "energy",
+                    "size" : variables.energy.value
+                },
+                {
+                    "name" : "primary_goods",
+                    "size" : variables.primary_goods.value
+                },
+                {
+                    "name" : "manufactures",
+                    "size" : variables.manufactures.value
+                },
+                 {
+                    "name" : "services",
+                    "size" : variables.services.value
+                },
+                 {
+                    "name" : "investments",
+                    "size" : variables.investments.value
+                }
+                ]
+            },{
+                "name" : "military_presence",
+                "children": [{
+                        "name" : "troops",
+                        "size" : variables.troops.value
+                    },{
+                        "name" : "military_equipment",
+                        "size" : variables.military_equipment.value
+                    }]
+            },{
+                "name" : "soft_presence",
+                "children": [{
+                        "name" : "migrations",
+                        "size" : variables.migrations.value
+                    },{
+                        "name" : "tourism",
+                        "size" : variables.tourism.value
+                    },{
+                        "name" : "sports",
+                        "size" : variables.sports.value
+                    },{
+                        "name" : "culture",
+                        "size" : variables.culture.value
+                    },{
+                        "name" : "information",
+                        "size" : variables.information.value
+                    },{
+                        "name" : "technology",
+                        "size" : variables.technology.value
+                    },{
+                        "name" : "science",
+                        "size" : variables.science.value
+                    },{
+                        "name" : "education",
+                        "size" : variables.education.value
+                    },{
+                        "name" : "cooperation",
+                        "size" : variables.cooperation.value
+                    }]
+            }
+
+            ]
+        }
+    },
+
+    _drawD3Chart2: function(){
+
+        var width = this.$chart.width(),
+            height = this.$chart.height(),
+            radius = Math.min(width, height) / 2;
+
+        var x = d3.scale.linear()
+            .range([0, 2 * Math.PI]);
+
+        var y = d3.scale.sqrt()
+            .range([0, radius]);
+
+        var color = d3.scale.category20c();
+
+        var svg = d3.select(".chart").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
+
+        var partition = d3.layout.partition()
+            .value(function(d) { return d.size; });
+
+        var arc = d3.svg.arc()
+            .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+            .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+            .innerRadius(function(d) { return Math.max(0, y(d.y)); })
+            .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+
+        d3.json("/flare.json", function(error, root) {
+          var path = svg.selectAll("path")
+              .data(partition.nodes(root))
+            .enter().append("path")
+              .attr("d", arc)
+              .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+              .on("click", click);
+
+          function click(d) {
+            path.transition()
+              .duration(750)
+              .attrTween("d", arcTween(d));
+          }
+        });
+
+        d3.select(self.frameElement).style("height", height + "px");
+
+        // Interpolate the scales!
+        function arcTween(d) {
+          var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+              yd = d3.interpolate(y.domain(), [d.y, 1]),
+              yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
+          return function(d, i) {
+            return i
+                ? function(t) { return arc(d); }
+                : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
+          };
+        }
     }
     
 });

@@ -12,7 +12,7 @@ app.view.tools.context = function(id){
         // List of the current slider in the context. 
         "slider": [],
         // List of variables
-        "variables": [1],    
+        "variables": ["IEPG"],    
     };
 
 

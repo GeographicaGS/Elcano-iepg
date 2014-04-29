@@ -22,6 +22,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
         }));
+
     },
 
     renderMap: function(){

@@ -58,3 +58,25 @@
         padding-left: 58px;
     }
 }
+
+#country_tool {
+
+    .co_ranking{
+        text-align: right;
+    }
+
+    .sep{
+        height:1px;
+        background-color: @grey_light;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .chart{
+        height : 300px;
+        path {
+            stroke: #fff;
+            fill-rule: evenodd;
+        }
+    }   
+}

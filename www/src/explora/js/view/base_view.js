@@ -219,7 +219,7 @@ app.view.Base = Backbone.View.extend({
             ctx.data.countries.selection = [id_country];
         }
 
-        ctx.data.variables[0] = parseInt(id_variable);
+        ctx.data.variables[0] = id_variable;
         ctx.data.countries.slider = [{
             "type": "Point",
             "date" : new Date(year + "01-01")

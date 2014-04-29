@@ -76,7 +76,6 @@ app.resize = function(){
 
 app.ini = function(){
 
-
     this.lang = this.detectCurrentLanguage();
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
@@ -156,7 +155,8 @@ app.scrollToEl = function($el){
 
 app.variableToString = function(variable){
     switch(variable){
-        case 1:
+        case "IEPG":
+        case "iepg":
             return "Índice Elcano de Presencia Global";
         case 2:
             return "Índice Elcano de Presencia Europea";
@@ -166,6 +166,21 @@ app.variableToString = function(variable){
             return "No definida"
     }
 }
+
+
+app.countryToString = function(id_country){
+    switch(id_country){
+        case "ES":
+            return "España";
+        case "EN":
+            return "Inglaterra";
+
+        // TODO complete this mapping 
+        default:
+            return "No country name found";
+    }
+}
+
 
 app.isSMDevice = function(){
     return ($(window).width()<992);

@@ -55,20 +55,26 @@ def countrySheet(lang, countryCode):
             iepg_var = dict()
             for var,item in iepg_variables.items():
                 if filter:
-                    iepg_var[item["name_en"]]=cacheWrapper(m.ranking, lang, countryCode, 
+                    rankData = cacheWrapper(m.ranking, lang, countryCode, 
                                                            var, year, filter=filter)
                 else:
-                    iepg_var[item["name_en"]]=cacheWrapper(m.ranking, lang, countryCode, var, year)
+                    rankData = cacheWrapper(m.ranking, lang, countryCode, var, year)
+                    
+                iepg_var[var] = rankData[0]
+
             context_var = dict()
             for var,item in context_variables.items():
                 if filter:
-                    context_var[item["name_en"]]=cacheWrapper(m.ranking, lang, countryCode, 
+                    rankData = cacheWrapper(m.ranking, lang, countryCode, 
                                                               var, year, filter=filter)
                 else:
-                    context_var[item["name_en"]]=cacheWrapper(m.ranking, lang, countryCode, var, year)
+                    rankData = cacheWrapper(m.ranking, lang, countryCode, var, year)
+
+                context_var[var] = rankData[0]
+
             y["iepg_variables"] = iepg_var
             y["context_var"] = context_var
-            y["comment"]=cacheWrapper(m.getIepgComment, lang, countryCode, year)
+            y["comment"] = cacheWrapper(m.getIepgComment, lang, countryCode, year)[0]
             data[year]=y
         return(jsonify({"results": data}))
     except ElcanoApiRestError as e:

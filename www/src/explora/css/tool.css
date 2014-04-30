@@ -73,10 +73,66 @@
     }
 
     .chart{
-        height : 300px;
+        height : 200px;
         path {
             stroke: #fff;
             fill-rule: evenodd;
         }
+
+        path:hover {
+          fill: @grey_dark !important;
+          cursor: pointer;
+        }
     }   
+
+    .legend{
+        position: absolute;
+        right: 35px;
+        top: 0;
+        background-color: #fff;
+        
+        li{
+            font-size: 11px;
+            color: @grey;  
+            margin-left: 18px;  
+            padding-left: 10px;
+        }
+
+        li::before{ 
+            content: "";
+            float: left;
+            height: 12px;
+            width: 12px;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        li:nth-child(1){
+            .roboto(bold);
+            margin-left: 0px;  
+        }
+
+        li:nth-child(1)::before{ 
+            background-color: @variable_iepg;
+        }
+
+        li:nth-child(2)::before{ 
+            background-color: @variable_eco;
+        }
+
+        li:nth-child(3)::before{ 
+            background-color: @variable_militar;
+        }
+
+        li:nth-child(4)::before{ 
+            background-color: @variable_soft;
+        }
+
+    }
+    .flag{
+        height: 25px;
+        width: 25px;
+        float:left;
+        margin-top: 5px;
+    }
 }

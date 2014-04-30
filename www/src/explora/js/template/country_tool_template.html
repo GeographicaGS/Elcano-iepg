@@ -1,17 +1,18 @@
 <%
-    variable = model.iepg_variables[ctx.variables[0]][0];
-    GDP = model.context_var.GDP[0];
-    population = model.context_var.Population[0];
+    variable = model.iepg_variables[ctx.variables[0]];
+    gdp = model.context_var.gdp;
+    population = model.context_var.population;
+    country = ctx.countries.selection[0];
+    year = ctx.slider[0].date.getFullYear();
+
 %>
 
 <div id="country_tool">
     <div class="header_tool" data-variable=1>
         <a class="close" href="#"></a>
         <span id="tool_name"><lang>Ficha país</span>
-        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %>, <%=app.countryToString(ctx.countries.selection[0]) %> </span>
-        <span id="tool_year">Año <%= model.year %></span>
-
-
+        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %>, <%= app.countryToString(country) %> </span>
+        <span id="tool_year">Año <%= year %></span>
     </div>
     <div class="container-fluid">
         <div class="row mth1">
@@ -21,7 +22,8 @@
                         <span class="grey uppercase size_11"><lang>Índice Elcano de Presencia Global</lang></span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <span class="grey size_21"><%= variable.value %></span>
+                        <img src="/img/flags/<%= country %>.svg" class="flag" />
+                        <span class="grey size_21 fleft mt7 ml"><%= sprintf("%0.2f",variable.value) %></span>
                     </div>
                     <div class="col-sm-5 col-md-5 co_ranking">
                         <span><%= sprintf("<lang>Puesto</lang> %d", variable.ranking) %></span>
@@ -40,10 +42,10 @@
                         <span class="grey_light uppercase size_11">[US$]</span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <span class="grey size_16"><%= GDP.value %></span>
+                        <span class="grey size_16"><%= parseInt(gdp.value).toLocaleString() %></span>
                     </div>
                     <div class="col-sm-5 col-md-5 co_ranking">
-                        <span><%= sprintf("<lang>%dº del mundo</lang>", GDP.ranking) %></span>
+                        <span><%= sprintf("<lang>%dº del mundo</lang>", gdp.ranking) %></span>
                     </div>
                 </div>
 
@@ -59,7 +61,7 @@
                         <span class="grey_light uppercase size_11">[<lang>hab</lang>]</span>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                        <span class="grey size_16"><%= population.value %></span>
+                        <span class="grey size_16"><%= parseInt(population.value).toLocaleString() %></span>
                     </div>
                     <div class="col-sm-5 col-md-5 co_ranking">
                         <span><%= sprintf("<lang>%dº del mundo</lang>", population.ranking) %></span>
@@ -78,7 +80,7 @@
                     </div>
 
                     <div class="col-xs-12">
-                        <p class="size_16"><%= model.comment[0].comment %></p>
+                        <p class="size_16"><%= model.comment.comment %></p>
                     </div>
                 </div>
 
@@ -86,6 +88,12 @@
 
             <div class="col-sm-6 col-md-6">
                 <div class="chart"></div>
+                <ul class="legend">
+                    <li><lang>Presencia Global</lang></li>
+                    <li><lang>Presencia Económica</lang></li>
+                    <li><lang>Presencia Militar</lang></li>
+                    <li><lang>Presencia Blanda</lang></li>
+                </ul>
             </div>
         </div>
         

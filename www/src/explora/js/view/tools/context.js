@@ -1,3 +1,14 @@
+Date.prototype.toJSON = function() {
+    return 'date:' + (+this);
+}
+
+function revive(k, v) {
+    if (typeof v == 'string' && v.indexOf('date:') == 0) {
+        return new Date(+(v.slice(5)));
+    }
+    return v;
+}
+
 app.view.tools.context = function(id){
     // ID of the context
     this.id = id;
@@ -12,7 +23,7 @@ app.view.tools.context = function(id){
         // List of the current slider in the context. 
         "slider": [],
         // List of variables
-        "variables": ["IEPG"],    
+        "variables": ["iepg"],    
     };
 
 
@@ -43,24 +54,31 @@ app.view.tools.context = function(id){
         
     // It saves the context in the local storage
     this.saveContext = function(){
-        localStorage.setItem("context-"+id,
+        localStorage.setItem("context-"+this.id,
             JSON.stringify(this.data)
         );
     };
 
     // Restore the context from local store
     this.restoreSavedContext = function(){
-        var tmp = localStorage.getItem("context-"+id);
+        var tmp = localStorage.getItem("context-"+this.id);
         if (tmp){
-            this.data = JSON.parse(tmp);    
+            //this.data = JSON.parse(tmp);  
+            this.data = JSON.parse(tmp,revive);  
         }
 
         if (!this.data.countries.list.length){
             this.data.countries.list = [(app.country ? app.country : "ES")];
         }
-        // temporal workaround, to fix
-        this.data.slider = [{ "type" : "Point"}];
-        this.data.slider[0].date = new Date();
+
+        if (!this.data.slider.length){
+            this.data.slider = [{
+                "type" : "Point",
+                "date" : app.config.SLIDER[app.config.SLIDER.length -1]
+            }]
+        }
+        
+    
     },
 
     this.getFirstSliderElement= function(type){
@@ -82,6 +100,10 @@ app.view.tools.context = function(id){
         }    
         
         
+    },
+
+    this.clear = function(){
+        localStorage.removeItem("context-"+this.id);
     }
 
 };

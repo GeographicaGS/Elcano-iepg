@@ -131,12 +131,21 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.renderMap();
     },
 
-    /* NEVER CALL RENDER directly, Use bringToFront */ 
-    render: function(){  
+    /* NEVER CALL RENDER directly, Use bringToFront.
+        DONT' OVERWRITTE THIS METHOD
+    */ 
+    render: function(fetchData){  
         this.adaptGlobalContext();
         this.setURL();
         this.$el.show().html("Loading");
-        this.fetchData();
+
+        if (fetchData === false){
+            this.renderAsync();
+        }
+        else{
+            this.fetchData();    
+        }
+        
         this.slider.render();
         this.countries.render();
     },

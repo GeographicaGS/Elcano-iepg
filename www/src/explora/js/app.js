@@ -69,8 +69,7 @@ app.resize = function(){
     this.$tool_data.height($(window).height() - this.$footer.outerHeight(true) - this.$tool_data.offset().top 
             - toolDataMarginAndPadding);
 
-    //this.$tool_data.width( $(window).width() -  this.originLeft - 20).height();
-    
+    this.map.resize();
 }
 
 app.ini = function(){
@@ -90,14 +89,20 @@ app.ini = function(){
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
 
+    app.map.initialize();
+    
     this.baseView = new app.view.Base();
     this.baseView.render();
+
+    
 
     this.resize();
 
     $(window).resize(function(){
         app.resize();
     });
+
+    
 
     Backbone.history.start({pushState: true,root: this.basePath });
 };

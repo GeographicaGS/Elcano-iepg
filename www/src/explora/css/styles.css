@@ -287,7 +287,9 @@ main{
 
 }
 
-#base,#map{
+#map{
+    background-color: #e3e3e6;
+    z-index:1;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -295,16 +297,11 @@ main{
     left: 0;
 }
 
-#map{
-    background-color: #e3e3e6;
-    z-index:1;
-}
-
 #base{
-    z-index: 2;
-    position: absolute;
-    left: 0;
-    top: 0;
+    float:left;
+    height: 100%;
+    
+
 }
 
 #control_area,#tool{
@@ -396,6 +393,7 @@ main{
     left: 70px;
     right: 20px;
     /*margin-right: 20px;*/
+    pointer-events: none;
 
     #country_panel {
         height:90px;

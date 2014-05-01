@@ -1,8 +1,11 @@
+var map;
+
 app.view.Base = Backbone.View.extend({
     el: "#base",
     tools :[],
     currentTool : null,
     _variableSelectorView : null,
+    _map : null,
     initialize: function() {  
 
         this.$tool = $("#tool");
@@ -32,6 +35,9 @@ app.view.Base = Backbone.View.extend({
             tool = new app.view.tools.RankingPlugin();
             this.addTool(tool,true);
         }
+
+        
+
     },
 
     events: {
@@ -64,6 +70,10 @@ app.view.Base = Backbone.View.extend({
         }
     },
     
+    getMap: function(){
+        return this._map;
+    },
+
     getTools: function(){
         return this.tools;
     },
@@ -160,9 +170,10 @@ app.view.Base = Backbone.View.extend({
             this.$control_panel.fadeIn(300);
             var self = this;
             this.$tool.animate({"left": this.originLeft},function(){
-                console.log("complete");
-                $(this).find("#tool_data").css('width', 'auto')
+                $(this).find("#tool_data").css('width', 'auto');
             });
+
+
         }
 
         return this;

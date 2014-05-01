@@ -173,10 +173,11 @@ deps.Explora.JS = {
 			"explora/js/lib/jquery-2.0.3.min.js",
 			"explora/js/lib/underscore-min.js",
 			"explora/js/lib/backbone-min.js",
-			"explora/js/lib/d3.v3.min.js",	
+			"explora/js/lib/d3.v3.min.js",
 			"explora/js/lib/fancybox/source/jquery.fancybox.pack.js",
-			"explora/js/lib/sprintf.min.js"
-
+			"explora/js/lib/sprintf.min.js",
+			"explora/js/lib/leaflet-0.7.2.js",
+			"explora/js/lib/countries.geojson"
 		],
 		desc: "Third party library"
 	}
@@ -225,7 +226,8 @@ deps.Explora.JS = {
 			"explora/js/view/notfound_view.js",
 			"explora/js/view/error_view.js",
 
-			
+			//map
+			"explora/js/map.js",
 			// router
 			"explora/js/router.js",
 			// app
@@ -238,11 +240,13 @@ deps.Explora.JS = {
 deps.Explora.CSS = {
 	ThirdParty:{
 		src : [
-			"explora/js/lib/fancybox/source/jquery.fancybox.css"
+			"explora/js/lib/fancybox/source/jquery.fancybox.css",
+
 		]
 	},
 	Core: {
 		src: [
+			"explora/js/lib/leaflet-0.7.2.css",
 			"explora/css/reset.css",
 			"explora/css/base.css",
 			"explora/css/styles.css",

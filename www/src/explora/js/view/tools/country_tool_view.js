@@ -3,11 +3,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     type: "country",
 
     initialize: function(options) {
-		this.slider = new app.view.tools.common.SliderSinglePoint({
-            "plugin" : this
-        });
+		this.slider = new app.view.tools.common.SliderSinglePoint();
 
 		this.countries = new app.view.tools.common.Countries();
+
+        
 
     },
 
@@ -85,7 +85,14 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
     renderMap: function(){
         //TODO
+        this.mapLayer = L.marker(L.latLng(48.99,-104.05)).addTo(app.map.getMap())
+            .bindPopup('A pretty CSS3 popup. <br> Easily customizable.')
+            .openPopup();
     },
+
+    clearMap: function(){
+        app.map.getMap().removeLayer(this.mapLayer);
+    },
 
     onClose: function(){
         // Remove events on close

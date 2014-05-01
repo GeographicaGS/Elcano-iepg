@@ -1,12 +1,12 @@
-<div class="header_tool" data-variable=1>
+<div class="header" data-variable=<%=ctx.variables[0]%>>
     <a class="close" href="#"></a>
-    <span id="tool_name"><lang>Ranking</span>
+    <span id="tool_name"><lang>Ranking</lang></span>
     <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %></span>
-    <span id="tool_year">2013</span>
-
-
+    <span id="tool_year"><lang>Año</lang><%= ctx.slider[0].date.getFullYear()%></span>
 </div>
-   <div class="chart"></div>
-<p>
-    Prueba
-</p>
+
+<div class="body">
+    <p>
+        Herramienta en desarrollo
+    </p>
+</div>

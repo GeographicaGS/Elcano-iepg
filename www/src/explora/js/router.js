@@ -33,6 +33,10 @@ app.router = Backbone.Router.extend({
 
     country: function(id_country,id_variable,year){
         app.baseView.loadCountryTool(id_country,id_variable,year);
-    }
+    },
+
+
+
+
 
 });

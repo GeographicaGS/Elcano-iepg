@@ -70,7 +70,6 @@ app.resize = function(){
             - toolDataMarginAndPadding);
 
     //this.$tool_data.width( $(window).width() -  this.originLeft - 20).height();
-
     
 }
 
@@ -167,7 +166,6 @@ app.variableToString = function(variable){
     }
 }
 
-
 app.countryToString = function(id_country){
     switch(id_country){
         case "ES":
@@ -181,7 +179,6 @@ app.countryToString = function(id_country){
     }
 }
 
-
 app.isSMDevice = function(){
     return ($(window).width()<992);
 }
@@ -190,7 +187,7 @@ app.fancyboxOpts = function(){
 
     return   {
         padding : 0,
-        autoHeight : true,
+        autoHeight : false,
         autoSize : false,
         width : "90%",
         maxWidth : 960,

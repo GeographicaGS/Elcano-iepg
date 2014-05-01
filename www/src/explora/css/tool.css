@@ -5,9 +5,15 @@
     background-color: @white;
     .toolBoxshadow();
 
-    .header_tool{
+    position: relative;
+
+    .header{
         line-height: 53px;
-        min-height: 53px;
+        height: 53px;
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 100%;
         
         .close{
             background: url("@{imgPath}ELC_icon_descartar_herramienta.svg") no-repeat left top;
@@ -53,9 +59,17 @@
         }
     }
 
-    .header_tool[data-variable='1']{
+    .header[data-variable='iepg']{
         background: url("@{imgPath}variables/ELC_variable_iepg_cab.svg") no-repeat @variable_iepg left 5px center;
         padding-left: 58px;
+    }
+
+     .body{
+        overflow-y : auto;
+        position: absolute;
+        top: 53px;
+        bottom: 0;
+        width: 100%;
     }
 }
 
@@ -86,9 +100,7 @@
     }   
 
     .legend{
-        position: absolute;
-        right: 35px;
-        top: 0;
+        float: right;
         background-color: #fff;
         
         li{
@@ -129,6 +141,7 @@
         }
 
     }
+    
     .flag{
         height: 25px;
         width: 25px;

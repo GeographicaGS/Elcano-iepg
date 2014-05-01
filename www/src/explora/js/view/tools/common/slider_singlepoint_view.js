@@ -9,13 +9,13 @@ app.view.tools.common.SliderSinglePoint = app.view.tools.common.Slider.extend({
         "click a.point" : "changeYear"
     },
     render: function(){
-      console.log("Render app.view.tools.common.SliderSinglePoint");
+        console.log("Render app.view.tools.common.SliderSinglePoint");
 
-
-       
         this.$el.html(this._template({
             ctx: app.context.data,
         }));
+
+        this.$el.show();
         
     },
 

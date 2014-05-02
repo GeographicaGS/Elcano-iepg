@@ -264,3 +264,44 @@ insert into www.translation (key,es) VALUES('_legal body',
 );
 UPDATE www.translation SET en=es WHERE key ='_legal body';
 
+
+INSERT INTO www.translation (key,es) VALUES ('Ficha país descripción TEXTO','Ante libero quam proin, leo nec sollicitudin in 
+nec. Cum lectus sed sed, dolor donec nulla 
+urna, sed justo accumsan, vestibulum turpis 
+ultrices massa. Nam vitae imperdiet et enim 
+sodales. Venenatis wisi justo accumsan. 
+Consequat ac porta, semper blandit nec 
+morbi, posuere in turpis');
+
+UPDATE www.translation SET en=es WHERE key ='Ficha país descripción TEXTO';
+
+INSERT INTO www.translation (key,es) VALUES ('Ranking descripción TEXTO','Ante libero quam proin, leo nec sollicitudin in 
+nec. Cum lectus sed sed, dolor donec nulla 
+urna, sed justo accumsan, vestibulum turpis 
+ultrices massa. Nam vitae imperdiet et enim 
+sodales. Venenatis wisi justo accumsan. 
+Consequat ac porta, semper blandit nec 
+morbi, posuere in turpis');
+
+UPDATE www.translation SET en=es WHERE key ='Ranking descripción TEXTO';
+
+INSERT INTO www.translation (key,es) VALUES ('Contribuciones de presencia descripción TEXTO','Ante libero quam proin, leo nec sollicitudin in 
+nec. Cum lectus sed sed, dolor donec nulla 
+urna, sed justo accumsan, vestibulum turpis 
+ultrices massa. Nam vitae imperdiet et enim 
+sodales. Venenatis wisi justo accumsan. 
+Consequat ac porta, semper blandit nec 
+morbi, posuere in turpis');
+
+UPDATE www.translation SET en=es WHERE key ='Contribuciones de presencia descripción TEXTO';
+
+INSERT INTO www.translation (key,es) VALUES ('Cuotas de presencia descripción TEXTO','Ante libero quam proin, leo nec sollicitudin in 
+nec. Cum lectus sed sed, dolor donec nulla 
+urna, sed justo accumsan, vestibulum turpis 
+ultrices massa. Nam vitae imperdiet et enim 
+sodales. Venenatis wisi justo accumsan. 
+Consequat ac porta, semper blandit nec 
+morbi, posuere in turpis');
+
+UPDATE www.translation SET en=es WHERE key ='Cuotas de presencia descripción TEXTO';
+

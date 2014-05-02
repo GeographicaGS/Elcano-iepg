@@ -1,5 +1,8 @@
 var app = app || {};
 
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
 
 // variables. Array of countries with the countries to filter by
 app.filters = [];
@@ -69,13 +72,10 @@ app.resize = function(){
     this.$tool_data.height($(window).height() - this.$footer.outerHeight(true) - this.$tool_data.offset().top 
             - toolDataMarginAndPadding);
 
-    //this.$tool_data.width( $(window).width() -  this.originLeft - 20).height();
-
-    
+    this.map.resize();
 }
 
 app.ini = function(){
-
 
     this.lang = this.detectCurrentLanguage();
     this.router = new app.router();
@@ -92,14 +92,20 @@ app.ini = function(){
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
 
+    app.map.initialize();
+    
     this.baseView = new app.view.Base();
     this.baseView.render();
+
+    
 
     this.resize();
 
     $(window).resize(function(){
         app.resize();
     });
+
+    
 
     Backbone.history.start({pushState: true,root: this.basePath });
 };
@@ -156,7 +162,8 @@ app.scrollToEl = function($el){
 
 app.variableToString = function(variable){
     switch(variable){
-        case 1:
+        case "IEPG":
+        case "iepg":
             return "Índice Elcano de Presencia Global";
         case 2:
             return "Índice Elcano de Presencia Europea";
@@ -167,6 +174,18 @@ app.variableToString = function(variable){
     }
 }
 
+app.countryToString = function(id_country){
+    for (var i=0;i<countriesGeoJSON.features.length;i++){
+
+        if (countriesGeoJSON.features[i].properties.code == id_country){
+            return countriesGeoJSON.features[i].properties["name_"+app.lang];
+        }
+    }
+    
+    return "No country name found";
+    
+}
+
 app.isSMDevice = function(){
     return ($(window).width()<992);
 }
@@ -175,7 +194,7 @@ app.fancyboxOpts = function(){
 
     return   {
         padding : 0,
-        autoHeight : true,
+        autoHeight : false,
         autoSize : false,
         width : "90%",
         maxWidth : 960,

@@ -5,18 +5,28 @@ app.view.tools.common.SliderSinglePoint = app.view.tools.common.Slider.extend({
         app.view.tools.common.Slider.prototype.initialize.apply(this,[options]);
     },
 
+    _events: {
+        "click a.point" : "changeYear"
+    },
     render: function(){
-        // We do nothing with the local context, all is done with the global context.
-        // We'll do it in the future
+        console.log("Render app.view.tools.common.SliderSinglePoint");
+
         this.$el.html(this._template({
-            ctx: this.plugin.getGlobalContext().data,
+            ctx: app.context.data,
         }));
+
+        this.$el.show();
         
     },
 
-    changeCurrent: function(){
-        // Change the date, let's re-render the tool.
-        this.plugin.refreshTool();
+    changeYear: function(e){
+        e.preventDefault();
+        
+        var $el = $(e.target),
+            year = $el.attr("year");
+
+        // Change the date, let's fire this event
+        app.events.trigger("slider:singlepointclick",year);
 
     }
 

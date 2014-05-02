@@ -4,6 +4,7 @@ app.router = Backbone.Router.extend({
     },
 
     routes: {
+        "": "root",
         "notfound" : "notfound",
         "error" : "error",
         "tool/:type" : "bringToolToFront",
@@ -17,6 +18,10 @@ app.router = Backbone.Router.extend({
     initialize: function(options) {
         // this.route(this.langRoutes["_link home"][app.lang], "home");
         // this.route(this.langRoutes["_link home"][app.lang]+"/", "home");
+    },
+
+    root: function(){
+
     },
 
     bringToolToFront: function(type,dos){
@@ -33,6 +38,10 @@ app.router = Backbone.Router.extend({
 
     country: function(id_country,id_variable,year){
         app.baseView.loadCountryTool(id_country,id_variable,year);
-    }
+    },
+
+
+
+
 
 });

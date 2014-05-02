@@ -1,7 +1,11 @@
+var map;
+
 app.view.Base = Backbone.View.extend({
     el: "#base",
     tools :[],
     currentTool : null,
+    _variableSelectorView : null,
+    _map : null,
     initialize: function() {  
 
         this.$tool = $("#tool");
@@ -18,7 +22,7 @@ app.view.Base = Backbone.View.extend({
             localTools = JSON.parse(localTools);
             listTools = localTools.tools;
             for (var i=0;i<listTools.length;i++){
-                var tool = this._getInstanceViewByType(listTools[i]);
+                var tool = this.getInstanceViewByType(listTools[i]);
                 var bringToFront = listTools[i] == localTools.selected ? true : false;
                 this.addTool(tool,bringToFront);
             }
@@ -31,12 +35,16 @@ app.view.Base = Backbone.View.extend({
             tool = new app.view.tools.RankingPlugin();
             this.addTool(tool,true);
         }
+
+        
+
     },
 
     events: {
         "click #ctrl_tool" : "toggleTools",
         //"click #control_panel a" : "goToVisible",
-        "click .header_tool .close": "removeCurrentTool"
+        "click .header .close": "removeCurrentTool",
+        "click #add_tool a": "showAddToolView"
     },
 
     render: function() {
@@ -62,6 +70,23 @@ app.view.Base = Backbone.View.extend({
         }
     },
     
+    getMap: function(){
+        return this._map;
+    },
+
+    getTools: function(){
+        return this.tools;
+    },
+
+    getToolByType: function(type){
+        for (var i=0;i<this.tools.length;i++){
+            if (this.tools[i].type == type){
+                return this.tools[i];
+            }
+        }
+        return null;
+    },
+
     addTool: function(tool,bringToFront){
         console.log("Add tool "+ tool.type);
          // Just for security
@@ -109,6 +134,7 @@ app.view.Base = Backbone.View.extend({
             // Let's try to load the first view
             if (this.tools.length>0){
                 this.currentTool = this.tools[0];
+                this.currentTool.bringToFront();
                 this.render();    
             }
             else{
@@ -144,9 +170,10 @@ app.view.Base = Backbone.View.extend({
             this.$control_panel.fadeIn(300);
             var self = this;
             this.$tool.animate({"left": this.originLeft},function(){
-                console.log("complete");
-                $(this).find("#tool_data").css('width', 'auto')
+                $(this).find("#tool_data").css('width', 'auto');
             });
+
+
         }
 
         return this;
@@ -163,25 +190,34 @@ app.view.Base = Backbone.View.extend({
         this.currentTool = tool;
         this.currentTool.bringToFront();
 
+
         // let's call render to update the menu
         this.render();
+
+        // save the tool status in localstore
+        this.saveToolStatus();
     },
 
-    _getInstanceViewByType: function(type){
+    getInstanceViewByType: function(type){
         switch(type)
         {
             case "country":
                 return new app.view.tools.CountryPlugin();
             case "ranking":
                 return new app.view.tools.RankingPlugin();
+            case "contributions":
+                return new app.view.tools.ContributionsPlugin();
+            case "quotes":
+                return new app.view.tools.QuotesPlugin();            
         }
 
     },
+    
     bringToolToFrontByType: function(type){
         var tool = this._searchToolByType(type);
         if (!tool){
             // The user has requested a tool but it's not loaded. Let's load it.
-            tool = this._getInstanceViewByType(type);
+            tool = this.getInstanceViewByType(type);
             this.addTool(tool,true);
         }
         else{
@@ -219,7 +255,7 @@ app.view.Base = Backbone.View.extend({
             ctx.data.countries.selection = [id_country];
         }
 
-        ctx.data.variables[0] = parseInt(id_variable);
+        ctx.data.variables[0] = id_variable;
         ctx.data.countries.slider = [{
             "type": "Point",
             "date" : new Date(year + "01-01")
@@ -246,5 +282,15 @@ app.view.Base = Backbone.View.extend({
                 "selected" : this.currentTool ? this.currentTool.type : "" 
             })   
         );
+    },
+
+    showAddToolView: function(e){
+        e.preventDefault();
+        if (this._variableSelectorView){
+            this._variableSelectorView.close();
+        }
+
+        this._variableSelectorView = new app.view.VariableSelector(); 
+        
     }
 });

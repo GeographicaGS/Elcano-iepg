@@ -122,21 +122,20 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.slider.bringToBack();
         this.countries.bringToBack();
         this.stopListening();
+        this.clearMap();
     },
 
-    /* This method should be call to render the map once the data is ready */
-    renderAsync: function(){
-        // render Tool and render Map need data to work. So this will be called asynchronously
-        this.renderTool();
-        this.renderMap();
-    },
-
-    /* NEVER CALL RENDER directly, Use bringToFront */ 
+    /* NEVER CALL RENDER directly, Use bringToFront.
+        DONT' OVERWRITTE THIS METHOD
+    */ 
     render: function(){  
         this.adaptGlobalContext();
         this.setURL();
         this.$el.show().html("Loading");
-        this.fetchData();
+
+        this.renderTool();
+        this.renderMap();
+
         this.slider.render();
         this.countries.render();
     },
@@ -157,12 +156,19 @@ app.view.tools.Plugin = Backbone.View.extend({
 
         this.slider.close();
         this.countries.close();
+        this.clearMap();
     },
 
     /* Refresh the tool. A new data request is performed. This will redraw Map and Tool. */
     refresh: function(){
         this.fetchData();
+    },
+
+    clearMap: function(){
+        
     }
+
+
 
 });
 

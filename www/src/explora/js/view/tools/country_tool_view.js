@@ -1,14 +1,12 @@
 app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_template : _.template( $('#country_tool_template').html() ),
     type: "country",
+    _forceFetchDataTool : true,
+    _forceFetchDataMap : true,
 
     initialize: function(options) {
-		this.slider = new app.view.tools.common.SliderSinglePoint({
-            "plugin" : this
-        });
-
+		this.slider = new app.view.tools.common.SliderSinglePoint();
 		this.countries = new app.view.tools.common.Countries();
-
     },
 
     _events: {
@@ -27,46 +25,96 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             ctx.saveContext();
             // The context has changed, let's store the changes in localStore
             this.getGlobalContext().saveContext();
-            // Render again the countries with the new context
+            // Render again the tool with the new context
+            this._forceFetchDataTool = true;
+            this.render();
+        });
+
+        this.listenTo(app.events,"slider:singlepointclick",function(year){
+            var ctx = this.getGlobalContext();
+            ctx.data.slider = [{
+                "date" : new Date(year),
+                "type" : "Point"
+            }];
+            ctx.saveContext();
+            // The context has changed, let's store the changes in localStore
+            this.getGlobalContext().saveContext();
+            // Render again the tool without fetch data
+            this._forceFetchDataTool = false;
             this.render();
         });
     },
 
-
     /* Fetch data for the current country*/
-	fetchData: function(){
+	_fetchDataTool: function(cb){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
-            
+
+        
         this.model = new app.model.tools.country({
             "id" : ctx.countries.selection[0],
             "year" : ctx.slider[0].date.getFullYear(),
             "variable" : ctx.variables[0]
         });
 
-		// Fetch model from de server
+        // Fetch model from de server
         var self = this;
         this.model.fetch({
             success: function() {
-                self.renderAsync();
+               self._renderToolAsync();
             }
         });
+        
 	},
+
+    _renderToolAsync: function(){
+        var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
+
+        this.$el.html(this._template({
+            ctx: this.getGlobalContext().data,
+            model: this.model.toJSON()[year],
+        }));
+
+        this.$chart = this.$(".chart");
+
+        this._drawD3Chart(year);
+    },
 
     /* Render the tool */
     renderTool: function(){
         //TOREMOVE
         console.log("Render app.view.tools.CountryPlugin");
-		
-        this.$el.html(this._template({
-            ctx: this.getGlobalContext().data,
-            model: this.model.toJSON()
-        }));
+        // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
+        if (this._forceFetchDataTool){
+            this._fetchDataTool(this._renderToolAsync);
+        }
+        else{
+            this._renderToolAsync();
+        }
     },
 
     renderMap: function(){
         //TODO
+        data = {
+            "ESP" : 33,
+            "FRA" : 38,
+            "ITA" : 25,
+            "DEU" : 50,
+            "CAN" : 60,
+            "GBR" : 50,
+            "USA" : 100,
+            "CHN" : 90,
+            "RUS" : 85,
+            "AUT" : 50,
+            "PRT" : 40,
+            "SAU" : 13
+        };
+        //this.mapLayer = app.map.getMap().drawChoropleth(data);
     },
+
+    clearMap: function(){
+        //app.map.getMap().removeLayer(this.mapLayer);
+    },
 
     onClose: function(){
         // Remove events on close
@@ -144,8 +192,199 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             variable = ctx.variables[0],
             year = ctx.slider[0].date.getFullYear();
 
-
          app.router.navigate("country/" + country + "/" + variable + "/" + year, {trigger: false});
+    },
+
+    _drawD3Chart: function(year){
+        var width = this.$chart.width(),
+            height = 250,
+            radius = Math.min(width, height) / 2;
+
+        var x = d3.scale.linear()
+            .range([0, 2 * Math.PI]);
+
+        var y = d3.scale.sqrt()
+            .range([0, radius]);
+
+        var color = d3.scale.category20c();
+
+        var svg = d3.select(".chart").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + (height / 2 ) + ")")
+            .attr("class", "variable");
+
+        var partition = d3.layout.partition()
+            .value(function(d) { return d.size; });
+
+        var arc = d3.svg.arc()
+            .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+            .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+            .innerRadius(function(d) { return Math.max(0, y(d.y)); })
+            .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+
+        d3.select(self.frameElement).style("height", height + "px");
+
+        // Interpolate the scales!
+        function arcTween(d) {
+          var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+              yd = d3.interpolate(y.domain(), [d.y, 1]),
+              yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
+          return function(d, i) {
+            return i
+                ? function(t) { return arc(d); }
+                : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
+          };
+        }
+
+        var div = d3.select("body").append("div")   
+        .attr("class", "tooltip")               
+        .style("opacity", 0);
+
+        var obj = this;
+
+
+        var root = this._buildModelTree(year),
+            path = svg.selectAll("path")
+              .data(partition.nodes(root))
+            .enter().append("path")
+              .attr("d", arc)
+              .style("fill", function(d) { return d.color; })
+            .on("click", click)
+            .on("mouseover", function(d) {     
+                div.transition()        
+                    .duration(200)      
+                    .style("opacity", 1);      
+                div.html(obj._htmlToolTip(d.name))  
+                    .style("left", (d3.event.pageX) + "px")     
+                    .style("top", (d3.event.pageY - 28) + "px");    
+                })                  
+            .on("mouseout", function(d) {       
+                div.transition()        
+                    .duration(500)      
+                    .style("opacity", 0);   
+            });
+        
+
+          function click(d) {
+            path.transition()
+              .duration(750)
+              .attrTween("d", arcTween(d));
+          }
+    },
+
+    _htmlToolTip: function(variable){
+        var year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
+            variable = this.model.get(year).iepg_variables[variable];
+
+            html = "<div>" 
+                    +   "<span>" + variable.ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +   "<span>" + year + "</span>"
+                    +   "<div class='clear'></div>"
+                    + "</div>"
+                    + "<div>" 
+                    +   "<span>" + variable.variable + "</span>"
+                    +   "<span>" + sprintf("%0.2f",variable.value) + "</span>"
+                    +   "<div class='clear'></div>"
+                    +"</div>"
+
+        return html;
+
+    },
+
+    _buildModelTree: function(year){
+
+        var variables = this.model.get(year).iepg_variables;
+        return {
+            "name" : "iepg",
+            "color" : "#fdc300",
+            "children" : [{
+                "name" : "economic_presence",
+                "color" : "#2b85d0",
+                "children": [{
+                    "name" : "energy",
+                    "size" : variables.energy.value,
+                    "color" : "#4191d5"
+                },
+                {
+                    "name" : "primary_goods",
+                    "size" : variables.primary_goods.value,
+                    "color" : "#559dd9"
+                },
+                {
+                    "name" : "manufactures",
+                    "size" : variables.manufactures.value,
+                    "color" : "#6baade"
+                },
+                 {
+                    "name" : "services",
+                    "size" : variables.services.value,
+                    "color" : "#80b6e3"
+                },
+                {
+                    "name" : "investments",
+                    "size" : variables.investments.value,
+                    "color" : "#95c2e7"
+                }
+                ]
+            },{
+                "name" : "military_presence",
+                "color" : "#669900",
+                "children": [{
+                        "name" : "troops",
+                        "size" : variables.troops.value,
+                        "color" : "#76a318"
+                    },{
+                        "name" : "military_equipment",
+                        "size" : variables.military_equipment.value,
+                        "color" : "#85ad33"
+
+                    }]
+            },{
+                "name" : "soft_presence",
+                "color" : "#ff9000",
+                "children": [{
+                        "name" : "migrations",
+                        "size" : variables.migrations.value,
+                        "color" : "#ff960d",
+                    },{
+                        "name" : "tourism",
+                        "size" : variables.tourism.value,
+                        "color" : "#ff9b1a"
+                    },{
+                        "name" : "sports",
+                        "size" : variables.sports.value,
+                        "color" : "#ffa126"
+                    },{
+                        "name" : "culture",
+                        "size" : variables.culture.value,
+                        "color": "#ffa633"
+                    },{
+                        "name" : "information",
+                        "size" : variables.information.value,
+                        "color" : "#ffac40"
+                    },{
+                        "name" : "technology",
+                        "size" : variables.technology.value,
+                        "color" : "#ffb24d"
+                     },{
+                        "name" : "science",
+                        "size" : variables.science.value,
+                        "color" : "#ffb759"
+                    },{
+                        "name" : "education",
+                        "size" : variables.education.value,
+                        "color" : "#ffbc66"
+                    },{
+                        "name" : "cooperation",
+                        "size" : variables.cooperation.value,
+                        "color" : "#ffc273"
+                    }]
+            }
+
+            ]
+        }
     }
     
 });

@@ -4,7 +4,7 @@ app.collection.Countries = Backbone.Collection.extend({
     },
     
     url : function() {
-        return app.config.API_URL + "/countries_toremove/" + app.lang;
+        return app.config.API_URL + "/countryfilter/" + app.lang;
     },
 
     parse: function(response){

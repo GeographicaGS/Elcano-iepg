@@ -61,3 +61,11 @@ class DataValidator():
         if n in const.context_variables:
             return None
         raise ElcanoApiRestError("Unknown variable.", status=200, payload={"Variable": n})
+
+    def checkYear(self, n):
+        """Checks a year."""
+        if n in const.years:
+            return None
+        raise ElcanoApiRestError("Unknown year.", status=200, payload={"Year": n})
+
+

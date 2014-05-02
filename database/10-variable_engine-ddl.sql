@@ -154,12 +154,32 @@ create table iepg_data.iepg_comment(
   id_master_country varchar(10),
   date_in date,
   date_out date,
-  comment text
+  comment text,
+  language varchar(2)
 );
 
 alter table iepg_data.iepg_comment
 add constraint iepg_comment_pkey
-primary key (id_master_country, date_in);
+primary key (id_master_country, date_in, language);
+
+
+create table iepg_data.country_geom(
+  gid integer,
+  iso_3166_1_2_code varchar(2),
+  name varchar(500)
+);
+
+alter table iepg_data.country_geom
+add constraint country_geom_pkey
+primary key (gid);
+
+select addgeometrycolumn(
+  'iepg_data',
+  'country_geom', 
+  'geom',
+  4326,
+  'MULTIPOLYGON',
+  2);
 
 
 -- Views
@@ -218,6 +238,12 @@ copy iepg_data.iepg_comment
 from :'copy_iepg_comment'
 with delimiter '|'
 csv header quote '"';
+
+copy iepg_data.country_geom
+from :'copy_country_geom'
+with delimiter '|'
+csv header quote '"';
+
 
 analyze;
 

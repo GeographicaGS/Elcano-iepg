@@ -6,11 +6,11 @@ Common helpers.
 
 """
 import hashlib
-
 from config import MemcachedConfig
-
+from flask import jsonify
 if MemcachedConfig["enabled"] == True:
     import memcache
+
 
 def cacheWrapper(funcName, *args, **kwargs):
     """Cache wrapping helper."""
@@ -26,3 +26,16 @@ def cacheWrapper(funcName, *args, **kwargs):
             return(out)
     else:
         return(funcName(*args, **kwargs))
+
+def baseMapData():
+    m = basemap.GeometryData()
+    geomData = cacheWrapper(m.geometryData)
+    out = dict()
+    for r in geomData:
+        data = dict()
+        data["name_en"] = r["name_en"]
+        data["name_es"] = r["name_es"]
+        data["geojson"] = r["geojson"]
+        out[r["iso_3166_1_2_code"]] = data
+
+    return(jsonify(out))

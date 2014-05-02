@@ -164,6 +164,49 @@ class IepgDataModel(PostgreSQLModel):
         iepg_data.iepg_comment b on
         a.id_master_country=b.id_master_country
         where
-        a.iso_3166_1_2_code=%s and date_part('year', b.date_in)=%s;"""
+        a.iso_3166_1_2_code=%s and date_part('year', b.date_in)=%s and language=%s;"""
 
-        return(self.query(sql, bindings=[countryCode, year]).result())
+        return(self.query(sql, bindings=[countryCode, year, lang]).result())
+
+
+    def variableData(self, variable, year, filter=None, toolFilter=None):
+        """Returns variable data for a year."""
+        dv = DataValidator()
+        dv.checkVariable(variable)
+        dv.checkYear(year)
+        if variable in iepg_variables:
+            var = iepg_variables[variable]
+        if variable in context_variables:
+            var = context_variables[variable]
+
+        if filter:
+            f = "("
+            for fi in filter:
+                f=f+"'"+fi+"',"
+            f = f.rstrip(",")+")"
+
+        if toolFilter:
+            tf = "("
+            for fi in toolFilter:
+                tf=tf+"'"+fi+"',"
+            tf = tf.rstrip(",")+")"
+
+        sql = """
+        select
+        a.iso_3166_1_2_code as code,
+        {} as value
+        from
+        iepg_data.master_country a inner join
+        {} b on
+        a.id_master_country=b.id_master_country
+        where date_part('YEAR', b.date_in)=%s
+        """.format(var["column"], var["table"])
+
+        if toolFilter:
+            sql += " and iso_3166_1_2_code in {}".format(tf)
+
+        if filter:
+            sql += " and iso_3166_1_2_code in {}".format(f)
+                
+        sql += ';'
+        return(self.query(sql, bindings=[year]).result())

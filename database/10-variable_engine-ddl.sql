@@ -150,6 +150,42 @@ foreign key (id_master_country)
 references iepg_data.master_country(id_master_country);
 
 
+create table iepg_data.iepe_final_data(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_presence float,
+  military_presence float,
+  soft_presence float,
+  iepe float
+);
+
+alter table iepg_data.iepe_final_data
+add constraint iepe_final_data_pkey
+primary key (id_master_country, date_in);
+
+alter table iepg_data.iepe_final_data
+add constraint iepe_final_data_master_country_fkey
+foreign key (id_master_country)
+references iepg_data.master_country(id_master_country);
+
+
 create table iepg_data.iepg_comment(
   id_master_country varchar(10),
   date_in date,
@@ -241,6 +277,11 @@ csv header quote '"';
 
 copy iepg_data.country_geom
 from :'copy_country_geom'
+with delimiter '|'
+csv header quote '"';
+
+copy iepg_data.iepe_final_data
+from :'copy_iepe_final_data'
 with delimiter '|'
 csv header quote '"';
 

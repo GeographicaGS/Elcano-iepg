@@ -10,7 +10,7 @@ TODO: review SQL parsing. Use bindings.
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 from common.errorhandling import DataValidator
-from common.const import iepg_variables, context_variables
+from common.const import variables
 
 
 class IepgDataModel(PostgreSQLModel):
@@ -69,10 +69,7 @@ class IepgDataModel(PostgreSQLModel):
         """Returns the ranking and the value for a variable and a country."""
         dv = DataValidator()
         dv.checkVariable(variable)
-        if variable in iepg_variables:
-            var = iepg_variables[variable]
-        if variable in context_variables:
-            var = context_variables[variable]
+        var = variables[variable]
 
         if filter:
             f = "array["

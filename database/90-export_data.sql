@@ -31,4 +31,10 @@ to :'copy_country_geom'
 with delimiter '|'
 csv header quote '"';
 
+copy iepg_data.iepe_final_data
+to :'copy_iepe_final_data'
+with delimiter '|'
+csv header quote '"';
+
+
 \c :dbname :user :host :port

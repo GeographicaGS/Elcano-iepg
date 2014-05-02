@@ -12,7 +12,7 @@ import cons
 import json
 from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError
-from common.const import context_variables, iepg_variables, years
+from common.const import variables, years
 
 @app.route('/country/<string:country>/<int:year>/<int:variable>/<string:lang>', methods=['GET'])
 def country(country,year,variable,lang):

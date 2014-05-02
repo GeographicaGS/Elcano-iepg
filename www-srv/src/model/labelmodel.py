@@ -18,12 +18,13 @@ class LabelModel(PostgreSQLModel):
         return self.query(q).result()
 
 
-    def insertLabel(self, label, lang="es"):
+    def insertLabel(self, label, lang):
         """Inserts a label."""
         dv = DataValidator()
         dv.checkLang(lang)
-        try:
-            return self.insert("www.label_{}".format(lang), {"label": label}, "id_label_{}".format(lang))
-        except IntegrityError as e:
-            return({"error": "Duplicated label"})
-
+        sql = "select id_label_{} as id from www.label_{} where label=%s;".format(lang, lang)
+        id = self.query(sql, bindings=[label]).row()
+        if id:
+            return(id["id"])
+        else:
+            return(self.insert("www.label_{}".format(lang), {"label": label}, "id_label_{}".format(lang)))

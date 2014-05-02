@@ -46,8 +46,6 @@ app.view.CountrySelector = Backbone.View.extend({
             n_selected : n_selected,
         }));
 
-   
-
         this.$n_selected = this.$("#n_selected");
 
         return this;

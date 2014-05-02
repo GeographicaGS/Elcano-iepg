@@ -31,6 +31,10 @@ app.map = {
 
     getMap: function(){
         return this._map;
+    },
+
+    drawChoropleth : function(data){
+
     }
 
     

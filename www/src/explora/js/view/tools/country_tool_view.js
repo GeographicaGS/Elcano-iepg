@@ -1,14 +1,12 @@
 app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_template : _.template( $('#country_tool_template').html() ),
     type: "country",
+    _forceFetchDataTool : true,
+    _forceFetchDataMap : true,
 
     initialize: function(options) {
 		this.slider = new app.view.tools.common.SliderSinglePoint();
-
 		this.countries = new app.view.tools.common.Countries();
-
-        
-
     },
 
     _events: {
@@ -28,6 +26,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             // The context has changed, let's store the changes in localStore
             this.getGlobalContext().saveContext();
             // Render again the tool with the new context
+            this._forceFetchDataTool = true;
             this.render();
         });
 
@@ -41,36 +40,34 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             // The context has changed, let's store the changes in localStore
             this.getGlobalContext().saveContext();
             // Render again the tool without fetch data
-            this.render(false);
+            this._forceFetchDataTool = false;
+            this.render();
         });
     },
 
-
     /* Fetch data for the current country*/
-	fetchData: function(){
+	_fetchDataTool: function(cb){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
-            
+
+        
         this.model = new app.model.tools.country({
             "id" : ctx.countries.selection[0],
             "year" : ctx.slider[0].date.getFullYear(),
             "variable" : ctx.variables[0]
         });
 
-		// Fetch model from de server
+        // Fetch model from de server
         var self = this;
         this.model.fetch({
             success: function() {
-                self.renderAsync();
+               self._renderToolAsync();
             }
         });
+        
 	},
 
-    /* Render the tool */
-    renderTool: function(){
-        //TOREMOVE
-        console.log("Render app.view.tools.CountryPlugin");
-		
+    _renderToolAsync: function(){
         var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
 
         this.$el.html(this._template({
@@ -81,17 +78,34 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this.$chart = this.$(".chart");
 
         this._drawD3Chart(year);
+    },
+
+    /* Render the tool */
+    renderTool: function(){
+        //TOREMOVE
+        console.log("Render app.view.tools.CountryPlugin");
+        // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
+        if (this._forceFetchDataTool){
+            this._fetchDataTool(this._renderToolAsync);
+        }
+        else{
+            this._renderToolAsync();
+        }
+        
     },
 
     renderMap: function(){
         //TODO
-        this.mapLayer = L.marker(L.latLng(48.99,-104.05)).addTo(app.map.getMap())
-            .bindPopup('A pretty CSS3 popup. <br> Easily customizable.')
-            .openPopup();
+        data = {
+            "ESP" :  30,
+            "FRA" : 28,
+            "ITA" : 40
+        }
+        //this.mapLayer = app.map.getMap().drawChoropleth(data);
     },
 
     clearMap: function(){
-        app.map.getMap().removeLayer(this.mapLayer);
+        //app.map.getMap().removeLayer(this.mapLayer);
     },
 
     onClose: function(){
@@ -216,6 +230,13 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
           };
         }
 
+        var div = d3.select("body").append("div")   
+        .attr("class", "tooltip")               
+        .style("opacity", 0);
+
+        var obj = this;
+
+
         var root = this._buildModelTree(year),
             path = svg.selectAll("path")
               .data(partition.nodes(root))
@@ -223,6 +244,19 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
               .attr("d", arc)
               .style("fill", function(d) { return d.color; })
             .on("click", click)
+            .on("mouseover", function(d) {     
+                div.transition()        
+                    .duration(200)      
+                    .style("opacity", 1);      
+                div.html(obj._htmlToolTip(d.name))  
+                    .style("left", (d3.event.pageX) + "px")     
+                    .style("top", (d3.event.pageY - 28) + "px");    
+                })                  
+            .on("mouseout", function(d) {       
+                div.transition()        
+                    .duration(500)      
+                    .style("opacity", 0);   
+            });
         
 
           function click(d) {
@@ -230,8 +264,24 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
               .duration(750)
               .attrTween("d", arcTween(d));
           }
+    },
 
-        
+    _htmlToolTip: function(variable){
+        var year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
+            variable = this.model.get(year).iepg_variables[variable];
+
+            html = "<div>" 
+                    +   "<span>" + variable.ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +   "<span>" + year + "</span>"
+                    +   "<div class='clear'></div>"
+                    + "</div>"
+                    + "<div>" 
+                    +   "<span>" + variable.variable + "</span>"
+                    +   "<span>" + sprintf("%0.2f",variable.value) + "</span>"
+                    +   "<div class='clear'></div>"
+                    +"</div>"
+
+        return html;
 
     },
 

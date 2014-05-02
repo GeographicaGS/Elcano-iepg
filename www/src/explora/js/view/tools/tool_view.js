@@ -125,28 +125,17 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.clearMap();
     },
 
-    /* This method should be call to render the map once the data is ready */
-    renderAsync: function(){
-        // render Tool and render Map need data to work. So this will be called asynchronously
-        this.renderTool();
-        this.renderMap();
-    },
-
     /* NEVER CALL RENDER directly, Use bringToFront.
         DONT' OVERWRITTE THIS METHOD
     */ 
-    render: function(fetchData){  
+    render: function(){  
         this.adaptGlobalContext();
         this.setURL();
         this.$el.show().html("Loading");
 
-        if (fetchData === false){
-            this.renderAsync();
-        }
-        else{
-            this.fetchData();    
-        }
-        
+        this.renderTool();
+        this.renderMap();
+
         this.slider.render();
         this.countries.render();
     },

@@ -1,5 +1,8 @@
 var app = app || {};
 
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
 
 // variables. Array of countries with the countries to filter by
 app.filters = [];
@@ -172,16 +175,15 @@ app.variableToString = function(variable){
 }
 
 app.countryToString = function(id_country){
-    switch(id_country){
-        case "ES":
-            return "España";
-        case "EN":
-            return "Inglaterra";
+    for (var i=0;i<countriesGeoJSON.features.length;i++){
 
-        // TODO complete this mapping 
-        default:
-            return "No country name found";
+        if (countriesGeoJSON.features[i].properties.code == id_country){
+            return countriesGeoJSON.features[i].properties["name_"+app.lang];
+        }
     }
+    
+    return "No country name found";
+    
 }
 
 app.isSMDevice = function(){

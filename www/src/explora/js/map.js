@@ -1,6 +1,9 @@
 app.map = {
     _baseLayer: null,
-    
+
+    _choroplethColors : ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C","#FEB24C","#FFEDA0"],
+    CHOROPLETH_INTERVALS : 5,
+
     initialize : function(){
 
         this._map = L.map('map',{
@@ -34,7 +37,7 @@ app.map = {
     },
 
     drawChoropleth : function(data){
-
+        
     }
 
     

@@ -91,16 +91,24 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         else{
             this._renderToolAsync();
         }
-        
     },
 
     renderMap: function(){
         //TODO
         data = {
-            "ESP" :  30,
-            "FRA" : 28,
-            "ITA" : 40
-        }
+            "ESP" : 33,
+            "FRA" : 38,
+            "ITA" : 25,
+            "DEU" : 50,
+            "CAN" : 60,
+            "GBR" : 50,
+            "USA" : 100,
+            "CHN" : 90,
+            "RUS" : 85,
+            "AUT" : 50,
+            "PRT" : 40,
+            "SAU" : 13
+        };
         //this.mapLayer = app.map.getMap().drawChoropleth(data);
     },
 

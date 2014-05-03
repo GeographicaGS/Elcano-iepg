@@ -207,7 +207,16 @@ app.fancyboxOpts = function(){
             }
         }
     }  
-} 
+};
+
+app.findCountry = function(id_country){
+    for (var i=0;i<countriesGeoJSON.features.length;i++){
+
+        if (countriesGeoJSON.features[i].properties.code == id_country){
+            return countriesGeoJSON.features[i];
+        }
+    }
+}
 
 app.events = {};
 _.extend(app.events , Backbone.Events);

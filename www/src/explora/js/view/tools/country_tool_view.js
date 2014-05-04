@@ -27,6 +27,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             this.getGlobalContext().saveContext();
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
+            this._forceFetchDataMap = false;
             this.render();
         });
 
@@ -39,8 +40,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             ctx.saveContext();
             // The context has changed, let's store the changes in localStore
             this.getGlobalContext().saveContext();
-            // Render again the tool without fetch data
+            // Render again the tool 
             this._forceFetchDataTool = false;
+            this._forceFetchDataMap = true;
+
             this.render();
         });
     },
@@ -127,11 +130,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     clearMap: function(){
-        if (this.mapLayer){
-            app.map.getMap().removeLayer(this.mapLayer);
-            this.mapLayer = null;    
-        }
-        
+        app.map.removeChoropleth();
     },
 
     onClose: function(){

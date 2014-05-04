@@ -3,6 +3,7 @@ app.map = {
     _baseLayer: null,
     _choroplethColors : ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C"],
     CHOROPLETH_INTERVALS : 5,
+    _choroplethOVerlay : null,
 
     initialize : function(){
 
@@ -39,6 +40,9 @@ app.map = {
     drawChoropleth : function(data){
         // Just for security
         if (!data || !data.length) return;
+
+        // Remove previous choropleth, needed for redraws
+        this.removeChoropleth();
 
         var bigJSON = [],
             values = _.pluck(data,"value"),
@@ -171,6 +175,24 @@ app.map = {
 
         legend.addTo(this._map);
 
+        this._choroplethOVerlay = {
+            "geoJson" : l,
+            "legend" : legend,
+            "info" : info
+        };
+
         return l;
+    },
+
+    removeChoropleth: function(){
+       
+        if (this._choroplethOVerlay){   
+            this._map.removeLayer(this._choroplethOVerlay["geoJson"]);
+            this._choroplethOVerlay["info"].removeFrom(this._map);
+            this._choroplethOVerlay["legend"].removeFrom(this._map);
+            this._choroplethOVerlay = null;
+        }
+
     }   
+
 }

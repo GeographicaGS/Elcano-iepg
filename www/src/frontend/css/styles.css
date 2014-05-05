@@ -25,7 +25,9 @@ body {
 	color:@grey;
 	font-size:16px;
 	line-height:24px;
+    min-width: 768px !important; 
 }
+
 a.simple{
 	border-bottom: none !important;
 	text-decoration: none !important;

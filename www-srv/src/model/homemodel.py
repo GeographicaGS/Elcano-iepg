@@ -54,6 +54,7 @@ class HomeModel(PostgreSQLModel):
         on a.id_new=d.id_new
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
+        where a.published
         group by id, b.name, b.surname, time, title, id_section, section
         ) 
         select
@@ -68,9 +69,6 @@ class HomeModel(PostgreSQLModel):
         order by time desc
         limit 5;
         """.format(lang,lang,lang,lang,lang,lang,lang,section)
-    
-        print a
-
         return(self.query(a).result())
 
 

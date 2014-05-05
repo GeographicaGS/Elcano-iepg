@@ -4,7 +4,7 @@ app.view.Base = Backbone.View.extend({
     el: "#base",
     tools :[],
     currentTool : null,
-    _variableSelectorView : null,
+    _toolSelectorView : null,
     _map : null,
     initialize: function() {  
 
@@ -286,11 +286,11 @@ app.view.Base = Backbone.View.extend({
 
     showAddToolView: function(e){
         e.preventDefault();
-        if (this._variableSelectorView){
-            this._variableSelectorView.close();
+        if (this._toolSelectorView){
+            this._toolSelectorView.close();
         }
 
-        this._variableSelectorView = new app.view.VariableSelector(); 
+        this._toolSelectorView = new app.view.ToolSelector(); 
         
     }
 });

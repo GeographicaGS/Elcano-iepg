@@ -40,8 +40,7 @@
             float:left;
             color:@white;
             font-size: 24px;
-            padding: 13px 0 13px 70px;
-            margin-right: 20px;
+            padding: 13px 20px 13px 70px;
             height: 60px;
              .roboto(medium);
         }

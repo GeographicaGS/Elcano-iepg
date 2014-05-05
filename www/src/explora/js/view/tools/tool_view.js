@@ -28,8 +28,8 @@ app.view.tools.Plugin = Backbone.View.extend({
             console.log("contextchange:countries at app.view.tools.Plugin");
             // The context has changed, let's store the changes in localStore
             this.getGlobalContext().saveContext();
-            // Render again the countries with the new context
-            this.countries.render();
+            // Render again
+            this.render();
         });
 
     },

@@ -69,10 +69,11 @@
             <div class="esresult">
                 <span class="clean pull-left">es</span>
                 <div>
-                    <img src="/img/iconos/linkIco.png" />
-                    <a href="<%= model.url_es %>" class="ml5 simple_link"  
+                    <img  class="fleft" src="/img/iconos/linkIco.png" />
+                    <a href="<%= model.url_es %>" class="fleft ml5 simple_link link_tab"  
                         target="_blank">
-                        <lang>Abrir enlace en una nueva pestaña</lang>
+                        <div class="fleft"><lang>Abrir enlace en una nueva pestaña</lang></div>
+                        <div class="fleft ellipsis"> - <%= model.url_es %>] </div>
                     </a>
                 </div>
             </div>
@@ -82,10 +83,11 @@
             <div class="enresult">
                 <span class="clean pull-left">en</span>
                 <div>
-                    <img src="/img/iconos/linkIco.png" />
-                    <a href="<%= model.url_en %>" class="ml5 simple_link"  
-                        target="_blank">
-                        <lang>Abrir enlace en una nueva pestaña</lang>
+                    <img class="fleft" src="/img/iconos/linkIco.png" />
+                    <a  href="<%= model.url_en %>" class="fleft ml5 simple_link link_tab"  
+                        target="_blank" >
+                        <div class="fleft"><lang>Abrir enlace en una nueva pestaña</lang></div>
+                        <div class="fleft ellipsis"> - <%= model.url_en %>] </div>
                     </a>
                 </div>
             </div>

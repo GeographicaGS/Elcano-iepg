@@ -54,6 +54,8 @@ app.model.Document = Backbone.Model.extend({
     	response.pdfs_en  =  new Backbone.Collection(app.renameID(response.pdfs_en,"id_pdf","id"));
     	response.authors =  new Backbone.Collection(app.renameID(response.authors,"id_author","id"));
 
+        
+
     	return response;
     }
 });

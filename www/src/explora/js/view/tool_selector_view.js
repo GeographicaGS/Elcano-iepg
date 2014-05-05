@@ -1,5 +1,5 @@
-app.view.VariableSelector = Backbone.View.extend({
-    _template : _.template( $('#variable_selector_template').html() ),
+app.view.ToolSelector = Backbone.View.extend({
+    _template : _.template( $('#tool_selector_template').html() ),
     // Stack to stored the selection stack
     _toolsSelectedStack : null,
     initialize: function(options){
@@ -15,7 +15,7 @@ app.view.VariableSelector = Backbone.View.extend({
 
         this._toolsSelectedStack = [];
 
-        // At tools to the stack.
+        // Add tools to the stack.
         for (var i=0;i<app.baseView.getTools().length;i++){
             var tool = app.baseView.getTools()[i];
             // Don't add the current tool, this will be added at the top
@@ -48,7 +48,7 @@ app.view.VariableSelector = Backbone.View.extend({
     },
 
     render: function(){
-        console.log("Render app.view.VariableSelector");
+        console.log("Render app.view.ToolSelector");
 
         this.$el.html(this._template({
             ctx: app.context.data,
@@ -152,8 +152,6 @@ app.view.VariableSelector = Backbone.View.extend({
             this._addToolToTopStack(tool);
 
         }
-
-
 
         this.refreshCounterElements();
     }

@@ -14,7 +14,22 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     _setListeners: function(){
-        app.view.tools.Plugin.prototype._setListeners.apply(this);
+        //app.view.tools.Plugin.prototype._setListeners.apply(this);
+
+        this.listenTo(app.events,"contextchange:countries",function(){
+            //TOREMOVE
+            console.log("contextchange:countries at app.view.tools.CountryPlugin");
+            // The context has changed, let's store the changes in localStore
+            this.getGlobalContext().saveContext();
+            if (!app.context.data.countries.selection.length){
+                // Let's force a re-render because we need to adapt the context.
+                this.render();
+            }
+            else{
+                // No need of re-render, Let's refresh the list of countries
+                this.countries.render();
+            }
+        });
 
         this.listenTo(app.events,"countryclick",function(id_country){
             //TOREMOVE
@@ -98,11 +113,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         this._drawD3Chart(year);
 
-        //this._forceFetchDataTool = false;
+        this._forceFetchDataTool = false;
     },
 
     _renderMapAsync: function(){
-        //self._forceFetchDataTool = false;
+        this._forceFetchDataTool = false;
         this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON());
     },
 
@@ -260,7 +275,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         .style("opacity", 0);
 
         var obj = this;
-
 
         var root = this._buildModelTree(year),
             path = svg.selectAll("path")

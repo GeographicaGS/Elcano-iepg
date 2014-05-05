@@ -110,7 +110,7 @@ task("translate-explora-debug", {async: true}, function () {
 });
 
 desc("Translate")
-task("translate-debug",["translate-backend-debug","translate-frontend-debug","translate-explora"])
+task("translate-debug",["translate-backend-debug","translate-frontend-debug","translate-explora-debug"])
 
 desc("Generate resources backend")
 task("resource-backend", {async: true}, function () {

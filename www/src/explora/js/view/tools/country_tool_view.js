@@ -27,6 +27,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             this.getGlobalContext().saveContext();
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
+            this._forceFetchDataMap = false;
             this.render();
         });
 
@@ -39,14 +40,16 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             ctx.saveContext();
             // The context has changed, let's store the changes in localStore
             this.getGlobalContext().saveContext();
-            // Render again the tool without fetch data
+            // Render again the tool 
             this._forceFetchDataTool = false;
+            this._forceFetchDataMap = true;
+
             this.render();
         });
     },
 
     /* Fetch data for the current country*/
-	_fetchDataTool: function(cb){
+	_fetchDataTool: function(){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
 
@@ -64,8 +67,24 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                self._renderToolAsync();
             }
         });
-        
 	},
+
+    _fetchDataMap: function(){
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+        // Fetch the collection from the server
+        this.mapCollection = new app.collection.CountryToolMap([],{
+            "variable" :  ctx.variables[0],
+            "date" : ctx.slider[0].date.getFullYear()
+        });
+        
+        this.listenTo(this.mapCollection,"reset",this._renderMapAsync);
+
+        this.mapCollection.fetch({"reset":true});
+
+    },
 
     _renderToolAsync: function(){
         var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
@@ -78,6 +97,13 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this.$chart = this.$(".chart");
 
         this._drawD3Chart(year);
+
+        //this._forceFetchDataTool = false;
+    },
+
+    _renderMapAsync: function(){
+        //self._forceFetchDataTool = false;
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON());
     },
 
     /* Render the tool */
@@ -86,7 +112,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         console.log("Render app.view.tools.CountryPlugin");
         // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
         if (this._forceFetchDataTool){
-            this._fetchDataTool(this._renderToolAsync);
+            this._fetchDataTool();
         }
         else{
             this._renderToolAsync();
@@ -94,26 +120,17 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     renderMap: function(){
-        //TODO
-        data = {
-            "ESP" : 33,
-            "FRA" : 38,
-            "ITA" : 25,
-            "DEU" : 50,
-            "CAN" : 60,
-            "GBR" : 50,
-            "USA" : 100,
-            "CHN" : 90,
-            "RUS" : 85,
-            "AUT" : 50,
-            "PRT" : 40,
-            "SAU" : 13
-        };
-        //this.mapLayer = app.map.getMap().drawChoropleth(data);
+        if (this._forceFetchDataMap){
+
+            this._fetchDataMap();
+        }
+        else{
+            this._renderMapAsync();
+        }
     },
 
     clearMap: function(){
-        //app.map.getMap().removeLayer(this.mapLayer);
+        app.map.removeChoropleth();
     },
 
     onClose: function(){

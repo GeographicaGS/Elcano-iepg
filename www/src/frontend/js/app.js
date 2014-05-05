@@ -100,6 +100,8 @@ app.ini = function(){
     else{
         $("#menu_language li:nth-child(2)").attr("selected",true);
     }
+
+    $("#lang_marker").html(this.lang);
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
     this.$main = $("main");

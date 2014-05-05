@@ -113,11 +113,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         this._drawD3Chart(year);
 
-        //this._forceFetchDataTool = false;
+        this._forceFetchDataTool = false;
     },
 
     _renderMapAsync: function(){
-        //self._forceFetchDataTool = false;
+        this._forceFetchDataTool = false;
         this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON());
     },
 

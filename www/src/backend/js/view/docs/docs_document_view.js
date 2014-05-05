@@ -55,6 +55,7 @@ app.view.docs.DocumentView = Backbone.View.extend({
             return this;
         }
 
+        
         this.$el.html(this._template({
             model: this.model.toJSON()
         }));

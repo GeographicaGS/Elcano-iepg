@@ -36,15 +36,14 @@ app.view.Base = Backbone.View.extend({
             this.addTool(tool,true);
         }
 
-        
-
     },
 
     events: {
         "click #ctrl_tool" : "toggleTools",
         //"click #control_panel a" : "goToVisible",
         "click .header .close": "removeCurrentTool",
-        "click #add_tool a": "showAddToolView"
+        "click #add_tool a": "showAddToolView",
+        "click #ctrl_filter" : "showAddFilterSelectorView"
     },
 
     render: function() {
@@ -238,7 +237,7 @@ app.view.Base = Backbone.View.extend({
         return null;
     },
 
-    loadCountryTool: function(id_country,id_variable,year){
+    loadCountryTool: function(id_country,id_variable,year,filters){
         var ctx = app.context,
             // First check if the tool is already loaded
             tool = this._searchToolByType("country");
@@ -254,6 +253,20 @@ app.view.Base = Backbone.View.extend({
             // This country is not selected in the current context
             ctx.data.countries.selection = [id_country];
         }
+
+        // Do we have filters?
+        if (filters){
+            var filters = filters.split(",");
+
+            // is the country in the filters? If not let's add it
+            if (filters.indexOf(id_country) == -1){
+                filters.push(id_country);    
+            }
+            app.setFilters(filters);
+        }
+
+
+
 
         ctx.data.variables[0] = id_variable;
         ctx.data.countries.slider = [{
@@ -292,5 +305,17 @@ app.view.Base = Backbone.View.extend({
 
         this._toolSelectorView = new app.view.ToolSelector(); 
         
-    }
+    },
+
+    showAddFilterSelectorView: function(e){
+        //e.preventDefault();
+        if (this._filterSelectorView){
+            this._filterSelectorView.close();
+        }
+
+        this._filterSelectorView = new app.view.FilterSelector(); 
+        
+    },
+
+    
 });

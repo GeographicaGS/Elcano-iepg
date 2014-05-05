@@ -1,7 +1,7 @@
 app.model.tools.country = Backbone.Model.extend({
 
     url: function(){
-        return this.urlRoot() + "/" + app.lang +  "/" + this.get("id") + "?";
+        return this.urlRoot() + "/" + app.lang +  "/" + this.get("id") + "?filter=" + app.getFilters().join(",");
     },
 
     urlRoot: function() {

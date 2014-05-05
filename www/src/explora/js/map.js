@@ -40,6 +40,8 @@ app.map = {
 
     /* This method created a choropleth Map with the data supplied in the parameter */ 
     drawChoropleth : function(data){
+
+        var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
         // Just for security
         if (!data || !data.length) return;
 
@@ -70,13 +72,13 @@ app.map = {
         function getColor(d){
 
             if (d == max){
-                return _this._choroplethColors[ _this.CHOROPLETH_INTERVALS-1];
+                return _this._choroplethColors[ n_intervals-1];
             }
             else if (d==min){
                 return _this._choroplethColors[0];
             }
             else{
-                var index = parseInt(  ((d-min) *  _this.CHOROPLETH_INTERVALS) /
+                var index = parseInt(  ((d-min) *  n_intervals) /
                                     rangeData );
                 return _this._choroplethColors[index];
             }
@@ -137,7 +139,7 @@ app.map = {
         var info = L.control();
 
         info.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this._div = L.DomUtil.create('div', 'info data'); // create a div with a class "info"
             this.update();
             return this._div;
         };
@@ -162,14 +164,14 @@ app.map = {
             var div = L.DomUtil.create('div', 'info legend'),
                 grades = [],
                 labels = [],
-                inc = parseInt(max/_this.CHOROPLETH_INTERVALS);
+                inc = parseInt(max/n_intervals);
 
-            for (var i=0;i<_this.CHOROPLETH_INTERVALS;i++){
+            for (var i=0;i<n_intervals;i++){
                 grades.push(parseInt(i*inc + min));
             }
 
             // loop through our density intervals and generate a label with a colored square for each interval
-             for (var i=0;i<_this.CHOROPLETH_INTERVALS;i++){
+             for (var i=0;i<n_intervals;i++){
                 div.innerHTML +=
                     '<i style="background:' + getColor(grades[i] +1) + '"></i> ' +
                     grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');

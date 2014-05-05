@@ -8,7 +8,7 @@ app.collection.CountryToolMap = Backbone.Collection.extend({
     },
     
     url : function() {
-        return app.config.API_URL + "/mapdata/" + this._variable +  "/" + this._date;
+        return app.config.API_URL + "/mapdata/" + this._variable +  "/" + this._date + "?filter=" + app.getFilters().join(",");
     },
 
     parse: function(response){

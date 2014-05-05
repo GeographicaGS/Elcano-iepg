@@ -521,3 +521,24 @@ progress.upload{
     margin-top: 6px;
 }
 
+.ellipsis{
+    width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link_tab span{
+    color: #28282b;
+    
+}
+.link_tab .ellipsis{
+  font-size: 12px;
+  color: #515155;
+}
+
+
+.fleft{
+  float:left;
+}
+

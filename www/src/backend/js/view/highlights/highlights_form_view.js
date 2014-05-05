@@ -135,6 +135,7 @@ app.view.highlights.FormView = Backbone.View.extend({
             $unot =  this.$("#upload_notification_"+lang);
                     
         if (["image/jpeg"].indexOf(type) == -1 ){
+            alert("here");
             $unot.html("<lang>Suba una image JPEG</lang>");
             setTimeout(function(){
                 $unot.html("");

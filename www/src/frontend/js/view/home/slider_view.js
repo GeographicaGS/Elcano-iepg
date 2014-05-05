@@ -77,7 +77,7 @@ app.view.Slider = Backbone.View.extend({
         }
 
         var $img = this.$co_imgs.find("img[data-img-idx="+this._idx+"]"),
-            loaded = $img.length >0 ? $img[0].complete : false;
+            loaded = $img.length >0 ? $img[0].complete : true;
 
 
         this.$ctrl_images.children().removeAttr("selected");

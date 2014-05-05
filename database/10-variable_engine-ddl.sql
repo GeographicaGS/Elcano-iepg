@@ -218,6 +218,20 @@ select addgeometrycolumn(
   2);
 
 
+create table iepg_data.iepe_quotes(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  global_quote float,
+  economic_quote float,
+  soft_quote float
+);
+
+alter table iepg_data.iepe_quotes
+add constraint iepe_quotes_pkey
+primary key (id_master_country, date_in);
+
+
 -- Views
 
 create view iepg_data.iepg_countries as

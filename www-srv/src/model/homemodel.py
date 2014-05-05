@@ -44,6 +44,7 @@ class HomeModel(PostgreSQLModel):
         title_{} as title,
         a.id_news_section as id_section,
         description_{}::varchar as section,
+        a.url_{} as link,
         array_agg(d.id_label_{})::varchar[] as labels
         from
         www.new a inner join www.wwwuser b
@@ -62,13 +63,14 @@ class HomeModel(PostgreSQLModel):
         wwwuser,
         time,
         title,
+        link,
         section,
         labels
         from a
         where id_section={}
         order by time desc
         limit 5;
-        """.format(lang,lang,lang,lang,lang,lang,lang,section)
+        """.format(lang,lang,lang,lang,lang,lang,lang,lang,section)
         return(self.query(a).result())
 
 
@@ -82,9 +84,10 @@ class HomeModel(PostgreSQLModel):
         select
         a.id_document::integer as id,
         (b.name || ' ' || b.surname)::varchar as wwwuser,
+        null as link,
         last_edit_time::timestamp as time,
         title_{} as title,
-        'Documents'::varchar as section,
+        '{}'::varchar as section,
         array_agg(d.id_label_{})::varchar[] as labels
         from
         www.document a inner join www.wwwuser b
@@ -100,12 +103,15 @@ class HomeModel(PostgreSQLModel):
         wwwuser,
         time,
         title,
+        link,
         section,
         labels
         from a
         order by time desc
         limit 5;
-        """.format(lang,lang,lang,lang,lang,lang)
+        """.format(lang,
+                   "Documents" if lang=='en' else "Documentos",
+                   lang,lang,lang,lang,lang)
 
         return(self.query(a).result())
 
@@ -122,6 +128,7 @@ class HomeModel(PostgreSQLModel):
         a.id_new::integer as id,
         (b.name || ' ' || b.surname)::varchar as wwwuser,
         new_time::timestamp as time,
+        a.url_{} as link,
         title_{} as title,
         description_{}::varchar as section,
         array_agg(d.id_label_{})::varchar[] as labels
@@ -140,8 +147,9 @@ class HomeModel(PostgreSQLModel):
         a.id_document::integer as id,
         (b.name || ' ' || b.surname) as wwwuser,
         last_edit_time::timestamp as time,
+        null as link,
         title_{} as title,
-        'Documents'::varchar as section,
+        '{}'::varchar as section,
         array_agg(d.id_label_{})::varchar[] as labels
         from
         www.document a inner join www.wwwuser b
@@ -157,9 +165,14 @@ class HomeModel(PostgreSQLModel):
         wwwuser,
         time,
         title,
+        link,
         section,
         labels
         from a
-        limit 5;""".format(lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang)
+        limit 5;""".format(lang,lang,lang,lang,lang,lang,lang,lang,lang,
+                           "Documents" if lang=='en' else "Documentos",
+                           lang,lang,lang,lang,lang)
+
+        print(sql)
 
         return(self.query(sql).result())

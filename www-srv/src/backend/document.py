@@ -10,7 +10,7 @@ from flask import jsonify,request,session,send_file
 from model.documentmodel import DocumentModel
 from model.helpers import DataValidator
 from backend.utils import auth, prettyNumber
-import config
+from common.config import backend
 from werkzeug.utils import secure_filename
 import werkzeug
 import os
@@ -30,7 +30,7 @@ def downloadPdf():
     m = DocumentModel()
     pdf = m.getPdfData(request.args["idPdf"])
     
-    return(send_file(config.cfgBackend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
+    return(send_file(backend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
                      mimetype="application/pdf", attachment_filename=pdf["pdf_name"]+".pdf", \
                      as_attachment=True))
 
@@ -151,14 +151,14 @@ def editDocument(id_document):
 
 def deletePdfFile(hash):
     """Deletes a PDF file from the filesystem."""
-    file = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
+    file = backend["mediaFolder"]+"/"+hash+".pdf"
     os.remove(file)
 
 
 def movePdfFile(hash):
     """Moves a PDF file within the filesystem."""
-    origin = config.cfgBackend["tmpFolder"]+"/"+hash+".pdf"
-    destination = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
+    origin = backend["tmpFolder"]+"/"+hash+".pdf"
+    destination = backend["mediaFolder"]+"/"+hash+".pdf"
     app.logger.info(origin)
     app.logger.info(destination)
     os.rename(origin, destination)
@@ -204,7 +204,7 @@ def getDocumentList():
             return(jsonify(cons.errors["-3"]))
 
     totalSize = m.getDocumentListSize(search=search)
-    docs = m.getDocumentList(request.args["page"], config.cfgBackend["DocumentListLength"], \
+    docs = m.getDocumentList(request.args["page"], backend["DocumentListLength"], \
                              search=search, orderByField=orderbyfield, orderByOrder=orderbyorder)
 
     for doc in docs:
@@ -259,7 +259,7 @@ def uploadPDF():
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() 
 
-            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename + ".pdf"))
+            file.save(os.path.join(backend['tmpFolder'], filename + ".pdf"))
             return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    

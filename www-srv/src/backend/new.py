@@ -140,8 +140,8 @@ def getNewCatalog():
         out["id"] = d["id"]
         news.append(out)
 
-    return(jsonify({"results": {"page": page, "listSize": len(news), \
-                                "data": sorted(news, key=itemgetter("title"), cmp=locale.strcoll)\
+    return(jsonify({"results": {"page": page, "listSize": len(news),
+                                "data": sorted(news, key=itemgetter("time"), reverse=True)\
                                 [cons.newsCatalogPageSize*page:cons.newsCatalogPageSize*(page+1)]}}))
 
 

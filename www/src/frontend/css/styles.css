@@ -208,6 +208,10 @@ header{
         position: relative;
     }
 
+    #lang_marker{
+        text-transform: uppercase;
+    }
+
     #menu_language{
         position: absolute;
         top: 40px;

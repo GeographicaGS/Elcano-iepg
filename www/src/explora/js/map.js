@@ -29,6 +29,7 @@ app.map = {
         this._baseLayer.addTo(this._map);  
     },
 
+    /* Resize the map */ 
     resize: function(){
         this._map.invalidateSize(true);
     },
@@ -37,6 +38,7 @@ app.map = {
         return this._map;
     },
 
+    /* This method created a choropleth Map with the data supplied in the parameter */ 
     drawChoropleth : function(data){
         // Just for security
         if (!data || !data.length) return;
@@ -150,10 +152,13 @@ app.map = {
 
         info.addTo(this._map);
 
+        // Let's add a legend for the map. 
+
         var legend = L.control({position: 'bottomright'});
 
         legend.onAdd = function (map) {
 
+            // Create the legend element inside the DOM.
             var div = L.DomUtil.create('div', 'info legend'),
                 grades = [],
                 labels = [],

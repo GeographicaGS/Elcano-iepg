@@ -8,7 +8,7 @@
  }
  _.each(collection,function(d){ %>
 <tr>
-    <td><span class="ESTag <%= d.spanish ? "" : "inactivetag" %>">ES</span> <span class="ENTag <%= d.english ? "" : "inactivetag" %>">EN</span></td>
+    <!-- <td><span class="ESTag <%= d.spanish ? "" : "inactivetag" %>">ES</span> <span class="ENTag <%= d.english ? "" : "inactivetag" %>">EN</span></td> -->
     <td><a href="/<lang>lang</lang>/news/<%= d.id %>"><%= d.title %> </a></td>
     
     <td class="lastEdition greyTable thRight">

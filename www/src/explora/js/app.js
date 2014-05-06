@@ -269,6 +269,9 @@ app.events.on("filterschanged", function(filters) {
     app.filterschanged(filters);
 }); 
 
+app.clearData = function(){
+    localStorage.clear();
+}
 
 
 

@@ -140,8 +140,8 @@ def getNewCatalog():
         out["id"] = d["id"]
         news.append(out)
 
-    return(jsonify({"results": {"page": page, "listSize": len(news), \
-                                "data": sorted(news, key=itemgetter("title"), cmp=locale.strcoll)\
+    return(jsonify({"results": {"page": page, "listSize": len(news),
+                                "data": sorted(news, key=itemgetter("time"), reverse=True)\
                                 [cons.newsCatalogPageSize*page:cons.newsCatalogPageSize*(page+1)]}}))
 
 
@@ -155,8 +155,8 @@ def getNew(id):
         return(jsonify({"error": "News not found"}), 404)
     labelsEn = nm.getLabelsForNew(newsDetail["id"], "en")
     labelsEs = nm.getLabelsForNew(newsDetail["id"], "es")
-    newsDetail["label_en"] = labelsEn
-    newsDetail["label_es"] = labelsEs
+    newsDetail["labels_en"] = labelsEn
+    newsDetail["labels_es"] = labelsEs
 
     return(jsonify(newsDetail))
 

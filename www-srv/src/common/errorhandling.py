@@ -56,9 +56,7 @@ class DataValidator():
 
     def checkVariable(self, n):
         """Checks a variable name."""
-        if n in const.iepg_variables:
-            return None
-        if n in const.context_variables:
+        if n in const.variables:
             return None
         raise ElcanoApiRestError("Unknown variable.", status=200, payload={"Variable": n})
 

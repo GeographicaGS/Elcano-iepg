@@ -304,8 +304,6 @@ class DocumentModel(PostgreSQLModel):
         order by {} {} offset %s limit %s;
         """.format(orderByField, orderByOrder)
 
-        print docs
-
         if search:
             return self.query(docs, bindings=[ \
                                                search, search, search, search, search, search, \

@@ -117,6 +117,7 @@ def newStuff():
     	    "time": "201401101027",
 	    "title": "¿El auge del resto? Apuntes sobre la presencia
 	    global de América Latina, Asia y el Magreb y Oriente Medio",
+            "link": "http://www.geographica.gs",
     	    "section": "Blog",
     	    "labels": [
                 {"id": "1", "label": "IEPG"},

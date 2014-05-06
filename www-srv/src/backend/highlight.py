@@ -11,7 +11,7 @@ from model.highlightmodel import HighlightModel
 from utils import auth
 from werkzeug.utils import secure_filename
 import werkzeug
-import config
+from common.config import backend
 import os
 import hashlib
 import time
@@ -61,7 +61,7 @@ def __getHighlightCatalog(published, page=None, search=None):
     """Gets the highlight's catalog."""
     m = HighlightModel()
     if page!=None:
-        listSize = config.cfgBackend["UnpublishedHighlightCatalogBackendListLength"]
+        listSize = backend["UnpublishedHighlightCatalogBackendListLength"]
     else:
         listSize = None
 
@@ -186,20 +186,20 @@ def editHightlight(id_highlight):
 
 
 def deleteImgFile(hash):
-    file = config.cfgBackend["mediaFolder"]+"/"+hash+".jpg"
+    file = backend["mediaFolder"]+"/"+hash+".jpg"
     os.remove(file)
 
 
 def moveImgFile(hash):
-    origin = config.cfgBackend["tmpFolder"]+"/"+hash+".jpg"
-    destination = config.cfgBackend["mediaFolder"]+"/"+hash+".jpg"
+    origin = backend["tmpFolder"]+"/"+hash+".jpg"
+    destination = backend["mediaFolder"]+"/"+hash+".jpg"
     os.rename(origin, destination)
 
 
 def allowedFileImg(filename):
     """Image file extensions allowed to upload."""
     return '.' in filename and \
-        filename.rsplit('.', 1)[1] in ["jpg"]
+        filename.rsplit('.', 1)[1] in ["jpg", "jpeg"]
 
 
 @app.route("/highlight/upload_img",methods=["POST"])
@@ -212,7 +212,7 @@ def uploadImg():
             filename = secure_filename(file.filename)
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() 
-            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename + fileExtension))
+            file.save(os.path.join(backend['tmpFolder'], filename + fileExtension))
             return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    

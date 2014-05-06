@@ -4,11 +4,10 @@ String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
-// variables. Array of countries with the countries to filter by
-app.filters = [];
-
 // Link to the base view
 app.baseView = null;
+
+app.filters = [];
 
 
 Backbone.View.prototype.close = function(){
@@ -92,12 +91,20 @@ app.ini = function(){
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
 
+    this.filters =  localStorage.getItem("filters");
+    if (!this.filters){
+        this.filters = [];
+    }
+    else{
+        this.filters = JSON.parse(this.filters);
+    }
+
+    this.refreshFiltersCtrl();
+
     app.map.initialize();
     
     this.baseView = new app.view.Base();
     this.baseView.render();
-
-    
 
     this.resize();
 
@@ -216,8 +223,41 @@ app.findCountry = function(id_country){
             return countriesGeoJSON.features[i];
         }
     }
-}
+};
 
+app.getFilters = function(){
+    return this.filters;
+};
+
+app.setFilters = function(filters){
+    this.filters = filters;
+    localStorage.setItem("filters", JSON.stringify(this.filters));
+};
+
+    
+app.filterschanged = function(filters){
+    this.setFilters(filters);
+
+    // we've to remove from the context the countries which are not present in the filter
+    this.context.removeCountriesNotPresentInFilter();
+    this.context.saveContext();
+
+    if (app.baseView.currentTool){
+        app.baseView.currentTool.forceFetchDataOnNextRender().render();
+    }
+  
+    this.refreshFiltersCtrl();
+};
+
+app.refreshFiltersCtrl =  function(){
+    if (this.filters.length){
+        $("#ctrl_filter").addClass("enable");
+    }
+    else{
+        $("#ctrl_filter").removeClass("enable");   
+    }
+};
+      
 app.events = {};
 _.extend(app.events , Backbone.Events);
 
@@ -225,6 +265,13 @@ app.events.on("closepopup", function(popupView) {
     popupView.close();
 }); 
 
+app.events.on("filterschanged", function(filters) {
+    app.filterschanged(filters);
+}); 
+
+app.clearData = function(){
+    localStorage.clear();
+}
 
 
 

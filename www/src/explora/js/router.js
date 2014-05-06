@@ -8,7 +8,7 @@ app.router = Backbone.Router.extend({
         "notfound" : "notfound",
         "error" : "error",
         "tool/:type" : "bringToolToFront",
-        "country/:id_country/:id_variable/:year" : "country",
+        "country/:id_country/:id_variable/:year(/:filters)" : "country",
         "*other"    : "notfound"
             /* This is a default route that also uses a *splat. Consider the
             default route a wildcard for URLs that are either not matched or where
@@ -36,8 +36,8 @@ app.router = Backbone.Router.extend({
         app.showViewInExtraPanel(new app.view.Error());
     },
 
-    country: function(id_country,id_variable,year){
-        app.baseView.loadCountryTool(id_country,id_variable,year);
+    country: function(id_country,id_variable,year,filters){
+        app.baseView.loadCountryTool(id_country,id_variable,year,filters);
     },
 
 

@@ -3,6 +3,8 @@ app.view.tools.Plugin = Backbone.View.extend({
     _latestCtx: null,
     el: "#tool_data",
     type: null,
+    _forceFetchDataTool : true,
+    _forceFetchDataMap : true,
 
     initialize: function() {
         this.slider = new app.view.tools.common.Slider();
@@ -51,23 +53,27 @@ app.view.tools.Plugin = Backbone.View.extend({
     },
 
     /* 
+        DEPRECATED
         Recover data from a server. It always should call to renderAsync when the data is received.
         RenderMap and RenderTool are called by RenderAsync, but it should be called only when data is received.
      */
-    fetchData: function(){
-        // This method must be overwritten.
-        this.renderAsync();
-    },
+    // fetchData: function(){
+    //     // This method must be overwritten.
+    //     this.renderAsync();
+    // },
 
     /* Render the tool, here the code to render the tool data. Lots of work here, so should have the data before call this method */
     renderTool: function(){
         // Draw the tool. This method must be overwritten
-        this.$el.html("Generic tool");        
+        this.$el.html("Generic tool");      
+
+        return this;  
     },
 
     /* Render the map, here the code to render the map data. Lots of work here, so should have the data before call this method */
     renderMap: function(){
         // draw the map. This method must be overwritten
+        return this;
     },
 
     // End methods to overwrite
@@ -93,12 +99,16 @@ app.view.tools.Plugin = Backbone.View.extend({
         // save context in local store   
         this._latestCtx.saveContext();
 
+        return this;
+
     },  
 
     /* This method save all context in localstore */
     saveAllContexts : function(){
         this.getGlobalContext().saveContext();
         this.copyGlobalContextToLatestContext();
+
+        return this;
     },
 
     /* 
@@ -111,6 +121,8 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.slider.bringToFront();
         this.countries.bringToFront();
         this.render();
+
+        return this;
     },
 
     /* 
@@ -123,10 +135,12 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.countries.bringToBack();
         this.stopListening();
         this.clearMap();
+
+        return this;
     },
 
-    /* NEVER CALL RENDER directly, Use bringToFront.
-        DONT' OVERWRITTE THIS METHOD
+    /* 
+        Draw the tool
     */ 
     render: function(){  
         this.adaptGlobalContext();
@@ -138,7 +152,17 @@ app.view.tools.Plugin = Backbone.View.extend({
 
         this.slider.render();
         this.countries.render();
+
+        return this;
     },
+
+    forceFetchDataOnNextRender: function(){
+        this._forceFetchDataTool = true;
+        this._forceFetchDataMap = true;
+
+        return this;
+    },
+
 
     onClose: function(){
        //call when close the view
@@ -159,10 +183,12 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.clearMap();
     },
 
-    /* Refresh the tool. A new data request is performed. This will redraw Map and Tool. */
-    refresh: function(){
-        this.fetchData();
-    },
+    /* 
+        DEPRECATED USE  forceFetchDataOnNextRender + render
+        Refresh the tool. A new data request is performed. This will redraw Map and Tool. */
+    // refresh: function(){
+    //     this.fetchData();
+    // },
 
     clearMap: function(){
         

@@ -1,8 +1,7 @@
 app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_template : _.template( $('#country_tool_template').html() ),
     type: "country",
-    _forceFetchDataTool : true,
-    _forceFetchDataMap : true,
+  
 
     initialize: function(options) {
 		this.slider = new app.view.tools.common.SliderSinglePoint();
@@ -72,7 +71,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this.model = new app.model.tools.country({
             "id" : ctx.countries.selection[0],
             "year" : ctx.slider[0].date.getFullYear(),
-            "variable" : ctx.variables[0]
+            "variable" : ctx.variables[0],
         });
 
         // Fetch model from de server
@@ -125,13 +124,29 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     renderTool: function(){
         //TOREMOVE
         console.log("Render app.view.tools.CountryPlugin");
-        // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
-        if (this._forceFetchDataTool){
-            this._fetchDataTool();
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+
+        if (!ctx.countries.selection.length){
+            // it happens when remove the latest element from the filter
+            this.$el.html(this._template({
+                ctx: this.getGlobalContext().data,
+                model: null,
+            }));
         }
         else{
-            this._renderToolAsync();
+            // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
+            if (this._forceFetchDataTool){
+                this._fetchDataTool();
+            }
+            else{
+                this._renderToolAsync();
+            }
         }
+
+       
     },
 
     renderMap: function(){
@@ -180,13 +195,14 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             }
             else{
                 // the first on the list will be the selected
-                ctx.countries.selection = [ctx.countries.list[0]];
+                ctx.countries.selection = ctx.countries.list.length ? [ctx.countries.list[0]] : [];
             }
         }
         else{
             // All except the first one will be removed.
             ctx.countries.selection = [ctx.countries.selection[0]];
         }
+
 
         // This tool works with a single point slider. 
         var firstPoint = ctxObj.getFirstSliderElement("Point");
@@ -222,14 +238,16 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             ctx = ctxObj.data,
             country = ctx.countries.selection[0],
             variable = ctx.variables[0],
-            year = ctx.slider[0].date.getFullYear();
+            year = ctx.slider[0].date.getFullYear()
+            filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
+            url = "country/" + country + "/" + variable + "/" + year + filters;
 
-         app.router.navigate("country/" + country + "/" + variable + "/" + year, {trigger: false});
+         app.router.navigate(url, {trigger: false});
     },
 
     _drawD3Chart: function(year){
         var width = this.$chart.width(),
-            height = 250,
+            height = this.$chart.height(),
             radius = Math.min(width, height) / 2;
 
         var x = d3.scale.linear()

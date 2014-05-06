@@ -1,8 +1,9 @@
 <%
-    variable = model.iepg_variables[ctx.variables[0]];
-    gdp = model.context_var.gdp;
-    population = model.context_var.population;
-    country = ctx.countries.selection[0];
+    variable = model ? model.iepg_variables[ctx.variables[0]] : null;
+    gdp = model ? model.context_var.gdp : null;
+    population = model ? model.context_var.population : null;
+    country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
+    country_str = country ? app.countryToString(country) :  "<lang>Seleccione un país</lang>";
     year = ctx.slider[0].date.getFullYear();
 
 %>
@@ -11,9 +12,11 @@
     <div class="header" data-variable=<%=ctx.variables[0]%>>
         <a class="close" href="#"></a>
         <span id="tool_name"><lang>Ficha país</span>
-        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %>, <%= app.countryToString(country) %> </span>
+        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %>, <%= country_str %> </span>
         <span id="tool_year"><lang>Año</lang> <%= year %></span>
     </div>
+
+    <% if (model) { %>
     <div class="body">
         <div class="container-fluid">
             <div class="row mth1">
@@ -102,6 +105,18 @@
         </div>
 
     </div>
+
+    <%} else { %>
+        <div class="body">
+            <div class="container-fluid">
+                <div class="row mth1">
+                    <p class="col-xs-12">
+                        <lang>Seleccione un país</lang>
+                    </p>
+                <div>
+            </div>
+        </div>
+    <% } %>
 
 
 </div>

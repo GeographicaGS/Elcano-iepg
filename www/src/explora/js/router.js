@@ -34,6 +34,7 @@ app.router = Backbone.Router.extend({
 
     error: function(){
         app.showViewInExtraPanel(new app.view.Error());
+        app.clearData();
     },
 
     country: function(id_country,id_variable,year,filters){

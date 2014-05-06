@@ -9,7 +9,12 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     _events: {
-       
+       "mouseenter .infoover": function(e){
+            this.$(".content_infoover").fadeIn(300);
+       },
+       "mouseout .infoover": function(e){
+            this.$(".content_infoover").fadeOut(300);
+       }
     },
 
     _setListeners: function(){

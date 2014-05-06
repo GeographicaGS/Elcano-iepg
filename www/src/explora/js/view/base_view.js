@@ -308,7 +308,7 @@ app.view.Base = Backbone.View.extend({
     },
 
     showAddFilterSelectorView: function(e){
-        //e.preventDefault();
+        e.preventDefault();
         if (this._filterSelectorView){
             this._filterSelectorView.close();
         }

@@ -36,5 +36,20 @@ to :'copy_iepe_final_data'
 with delimiter '|'
 csv header quote '"';
 
+copy iepg_data.iepe_quotas
+to :'copy_iepe_quotas'
+with delimiter '|'
+csv header quote '"';
+
+\copy iepg_data.iepe_individual_contributions to 'iepe_individual_contributions.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepe_relative_contributions to 'iepe_relative_contributions.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_quotas to 'iepg_quotas.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_individual_contributions to 'iepg_individual_contributions.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_relative_contributions to 'iepg_relative_contributions.csv' with delimiter '|' csv header quote '"'
+
 
 \c :dbname :user :host :port

@@ -30,7 +30,11 @@
                             <span class="grey size_21 fleft mt7 ml"><%= sprintf("%0.2f",variable.value) %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <span><%= sprintf("<lang>Puesto</lang> %d", variable.ranking) %></span>
+                            <span><%= sprintf("<lang>Puesto %dº</lang>", variable.ranking) %></span>
+                            <img class="infoover" src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+                            <p class="content_infoover" style="display:none">
+                                <lang>Texto información puestos</lang>
+                            </p>
                         </div>
                     </div>
 
@@ -49,7 +53,7 @@
                             <span class="grey size_16"><%= parseInt(gdp.value).toLocaleString() %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <span><%= sprintf("<lang>%dº del mundo</lang>", gdp.ranking) %></span>
+                            <span><%= sprintf("<lang>Puesto %dº</lang>", gdp.ranking) %></span>
                         </div>
                     </div>
 
@@ -68,7 +72,7 @@
                             <span class="grey size_16"><%= parseInt(population.value).toLocaleString() %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <span><%= sprintf("<lang>%dº del mundo</lang>", population.ranking) %></span>
+                            <span><%= sprintf("<lang>Puesto %dº</lang>", population.ranking) %></span>
                         </div>
                     </div>
 

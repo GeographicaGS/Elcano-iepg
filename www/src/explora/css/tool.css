@@ -309,3 +309,20 @@ div.tooltip {
     margin-right: 8px;
     opacity: 0.7;
 }
+
+.infoover{
+    cursor: pointer;
+}
+
+.content_infoover{
+    border:1px solid @grey_light;
+    background: #f8f8f8;
+    box-shadow:  0 0 15px rgba(0,0,0,0.2);
+    font-size: 12px;
+    position: absolute;
+    right: 19px;
+    top: 24px;
+    
+    padding: 3px 10px;
+    color: @grey;
+}

@@ -8,7 +8,7 @@ app.router = Backbone.Router.extend({
         "notfound" : "notfound",
         "error" : "error",
         "tool/:type" : "bringToolToFront",
-        "country/:id_country/:id_variable/:year/(:filters)" : "country",
+        "country/:id_country/:id_variable/:year(/:filters)" : "country",
         "*other"    : "notfound"
             /* This is a default route that also uses a *splat. Consider the
             default route a wildcard for URLs that are either not matched or where

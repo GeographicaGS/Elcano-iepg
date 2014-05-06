@@ -238,7 +238,7 @@ input[placeholder]{
 header{
     height: 55px;
     background-color: @grey_dark;
-    z-index: 3;
+    z-index: 5;
     position: relative;
 
     #top_logo{
@@ -743,4 +743,15 @@ ul.country_bar{
     .co_img{
         background-image: url("@{imgPath}ELC_icon_filtros_paises_aplicado.svg") !important;
     }
+}
+
+#extra_panel{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 4;
+    background-color: @white;
+    left: 0;
+    right: 0;
+    padding-top: 50px;
 }

@@ -246,7 +246,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     _drawD3Chart: function(year){
-        console.log( this.$chart.height());
         var width = this.$chart.width(),
             height = this.$chart.height(),
             radius = Math.min(width, height) / 2;

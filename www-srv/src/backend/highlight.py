@@ -134,15 +134,11 @@ def createHightlight():
         "credit_img_es": "credit_img_es"
     }"""
     m = HighlightModel()
-    
-    try:
-        moveImgFile(request.json["image_hash_en"])
-        moveImgFile(request.json["image_hash_es"])
+    moveImgFile(request.json["image_hash_en"])
+    moveImgFile(request.json["image_hash_es"])
 
-        out = m.createHighlight(request.json)
-        return(jsonify({"id": out}))
-    except:
-        return(jsonify(cons.errors["-1"]))
+    out = m.createHighlight(request.json)
+    return(jsonify({"id": out}))
 
 
 @app.route('/highlight/<int:id_highlight>', methods=['PUT'])
@@ -168,7 +164,6 @@ def editHightlight(id_highlight):
     oldHighlight = m.getHighlight(id_highlight)
     app.logger.info(oldHighlight)
 
-    #try:
     if oldHighlight["image_hash_en"]!=request.json["image_hash_en"]:
         app.logger.info("here");
         deleteImgFile(oldHighlight["image_hash_en"])
@@ -181,18 +176,16 @@ def editHightlight(id_highlight):
 
     out = m.editHighlight(request.json)
     return(jsonify({"result": {"id_highlight": out}}))
-    #except:
-    #    return(jsonify(cons.errors["-1"]))
 
 
 def deleteImgFile(hash):
-    file = backend["mediaFolder"]+"/"+hash+".jpg"
+    file = backend["mediaFolder"]+"/"+hash
     os.remove(file)
 
 
 def moveImgFile(hash):
-    origin = backend["tmpFolder"]+"/"+hash+".jpg"
-    destination = backend["mediaFolder"]+"/"+hash+".jpg"
+    origin = backend["tmpFolder"]+"/"+hash
+    destination = backend["mediaFolder"]+"/"+hash
     os.rename(origin, destination)
 
 
@@ -211,9 +204,10 @@ def uploadImg():
         if file and allowedFileImg(file.filename):
             filename = secure_filename(file.filename)
             filename, fileExtension = os.path.splitext(filename)
-            filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() 
-            file.save(os.path.join(backend['tmpFolder'], filename + fileExtension))
-            return jsonify(  {"filename": filename} )  
+            filename = hashlib.md5(str(time.time())+session["email"]).hexdigest()+fileExtension
+            print(filename)
+            file.save(os.path.join(backend['tmpFolder'], filename))
+            return jsonify({"filename": filename})  
         
         return jsonify(  {"error": -1} )    
     

@@ -42,18 +42,20 @@ def createNew():
     m = NewModel()
     j = request.json
 
+    labels_en = []
     if j["labels_en"]:
         labels_en = []
         for l in j["labels_en"]:
             labels_en.append(l["id"])
+    labels_es = []
     if j["labels_es"]:
         labels_es = []
         for l in j["labels_es"]:
             labels_es.append(l["id"])
 
-    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"], \
-                                      j["text_en"], j["text_es"], \
-                                      j["url_en"], j["url_es"], \
+    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"],
+                                      j["text_en"], j["text_es"],
+                                      j["url_en"], j["url_es"],
                                       j["news_section"], labels_en, labels_es)}))
 
 

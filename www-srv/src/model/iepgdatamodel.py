@@ -171,10 +171,7 @@ class IepgDataModel(PostgreSQLModel):
         dv = DataValidator()
         dv.checkVariable(variable)
         dv.checkYear(year)
-        if variable in iepg_variables:
-            var = iepg_variables[variable]
-        if variable in context_variables:
-            var = context_variables[variable]
+        var = variables[variable]
 
         if filter:
             f = "("

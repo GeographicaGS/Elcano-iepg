@@ -96,6 +96,7 @@ class HomeModel(PostgreSQLModel):
         on a.id_document=d.id_document
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
+        where a.published
         group by id, b.name, b.surname, time, title, section
         ) 
         select
@@ -141,6 +142,7 @@ class HomeModel(PostgreSQLModel):
         on a.id_new=d.id_new
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
+        where a.published
         group by id, b.name, b.surname, time, title, section
         union
         select
@@ -158,6 +160,7 @@ class HomeModel(PostgreSQLModel):
         on a.id_document=d.id_document
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
+        where a.published
         group by id, b.name, b.surname, time, title, section) ab
         order by time desc)
         select

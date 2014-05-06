@@ -213,7 +213,6 @@ class HighlightModel(PostgreSQLModel):
 
     def getSliderFrontend(self, lang):
         """Get the slider's data in language lang for the home, active and ordered.
-        TODO: SQL injection.
         """
         dv = DataValidator()
         dv.checkLang(lang)
@@ -222,7 +221,7 @@ class HighlightModel(PostgreSQLModel):
         id_highlight,
         title_{} as title,
         text_{} as text,
-        image_hash_{} || '.jpg' as image_file,
+        image_hash_{} as image_file,
         credit_img_{} as credit_img,
         link_{} as link,
         published,

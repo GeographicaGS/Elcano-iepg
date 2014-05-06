@@ -225,6 +225,7 @@ deps.Explora.JS = {
 
 			"explora/js/view/country_selector_view.js",
 			"explora/js/view/tool_selector_view.js",
+			"explora/js/view/variable_selector_view.js",
 			"explora/js/view/filter_selector_view.js",
 			"explora/js/view/filter_view.js",
 			"explora/js/view/notfound_view.js",

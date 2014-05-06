@@ -8,7 +8,8 @@ app.view.tools.common.Countries = Backbone.View.extend({
 
     _events: {
         "click #ctrl_countries": "launchCountriesSelector",
-        "click ul.country_bar a": "clickCountry"
+        "click ul.country_bar a": "clickCountry",
+        "click #ctrl_variables" : "clickAddVariableSelectorView"
     },
 
     _setListeners: function(){
@@ -38,6 +39,10 @@ app.view.tools.common.Countries = Backbone.View.extend({
     },
     
     close: function(){
+        if (this._variableSelectorView){
+            this._variableSelectorView.close();
+        }
+
         this.undelegateEvents();
     
         this.$el.html("").hide();
@@ -63,5 +68,14 @@ app.view.tools.common.Countries = Backbone.View.extend({
             app.events.trigger("countryclick",code);
         }
         
-    }
+    },
+    
+    clickAddVariableSelectorView: function(e){
+        e.preventDefault();
+        if (this._variableSelectorView){
+            this._variableSelectorView.close();
+        }
+
+        this._variableSelectorView = new app.view.VariableSelector(); 
+    },
 }); 

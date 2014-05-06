@@ -36,7 +36,7 @@
             
             <div class="tagsList tagsListResult esresult">
                 <span class="clean pull-left">es</span>
-                <% model.label_es.each(function(label){ %>
+                <% model.labels_es.each(function(label){ %>
                     <button type="button" class="btn btn-xs tag-add-bt"><%= label.get("label") %></button>
                 <% }) %>
             </div>
@@ -44,7 +44,7 @@
             <hr class="featurette-divider">
             <div class="tagsList tagsListResult enresult">
                 <span class="clean pull-left">en</span>
-                <% model.label_en.each(function(label){ %>
+                <% model.labels_en.each(function(label){ %>
                     <button type="button" class="btn btn-xs tag-add-bt"><%= label.get("label") %></button>
                 <% }) %>
             </div>

@@ -35,8 +35,8 @@ app.model.New = Backbone.Model.extend({
         return app.config.API_URL + "/new";
     },
     parse : function(response,options){
-        response.label_es  =  new Backbone.Collection(response.label_es);
-        response.label_en  =  new Backbone.Collection(response.label_en);
+        response.labels_es  =  new Backbone.Collection(response.labels_es);
+        response.labels_en  =  new Backbone.Collection(response.labels_en);
         return response;
     }
 });

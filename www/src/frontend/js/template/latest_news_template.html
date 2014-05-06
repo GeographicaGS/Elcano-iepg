@@ -17,17 +17,21 @@
         <div class="col-md-10">
             <p class="size_18 grey_dark roboto_light">
                 <% 
-                    link = "";
+                    link = d.link;
+                    target = "_blank";
                     switch (d.section)
                     {
+                        case "Documentos":
                         case "Documents":
-                            link = "/<lang>lang</lang>/<lang>_link doc</lang>/" + d.id;
+                            link = "/<lang>lang</lang>/<lang>_link doc</lang>/" + d.id_section;
+                            target = "";
                             break;
-                    }
+                        
+                    }       
 
                     if (link){
                     %>
-                        <a href="<%= link%>" class="simple">
+                        <a href="<%= link%>" class="simple" target="<%= target%>">
                             <%= app.urlify(d.title,"target=_blank") %>
                         </a>
                     <%

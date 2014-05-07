@@ -1,4 +1,4 @@
-DELETE FROM www.translation;
+--DELETE FROM www.translation;
 
 insert into www.translation VALUES ('Añadir','Add','Añadir');
 insert into www.translation VALUES ('lang','en','es'); 
@@ -304,4 +304,996 @@ Consequat ac porta, semper blandit nec
 morbi, posuere in turpis');
 
 UPDATE www.translation SET en=es WHERE key ='Cuotas de presencia descripción TEXTO';
+
+
+INSERT INTO www.translation VALUES ('Variable IEPG desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable IEPE desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable economic_presence desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable soft_presence desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable military_presence desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable troops desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable military_equipment desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable energy desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable primary_goods desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable manufactures desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable services desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable investments desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable migrations desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable tourism desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable sports desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable culture desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable information desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable technology desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable science desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable education desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable cooperation desc TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
+INSERT INTO www.translation VALUES ('Variable IEPE TEXTO', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi', 'Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Sed et 
+massa dapibus, mollis velit ut, 
+congue orci. Nullam pharetra mauris 
+dolor, ut imperdiet tortor ullamcorper 
+vel. Nunc ac nisi a massa elementum 
+auctor. Nullam et pellentesque leo, a 
+congue mauris. Nullam nec dolor 
+accumsan, euismod massa eu, 
+pretium dui. Maecenas tempus 
+sodales libero, eu molestie justo 
+faucibus consectetur. Vestibulum eu 
+venenatis quam, vitae tincidunt arcu. 
+Nunc consectetur quis ligula eu 
+porta. Quisque sed venenatis urna. 
+Aenean sed sodales nisl, eu ultrices 
+nulla. Quisque euismod molestie 
+dolor. Sed facilisis ligula vitae 
+dapibus cursus. Etiam et leo arcu. 
+Donec sagittis, sapien pretium 
+tincidunt suscipit, ante odio 
+dignissim metus, quis rhoncus nunc 
+justo vitae nisi');
 

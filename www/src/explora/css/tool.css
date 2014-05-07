@@ -328,15 +328,18 @@ div.tooltip {
 }
 
 .variable_selector{
+
+    .body{
+        top: 112px;
+    }
+
     .wheel{
         position: relative;
-        width: 300px;
-        height: 300px;
-        margin-left: 300px;
-        margin-top: 30px;
+        margin: auto;
+        margin-top: 18px;
         
 
-        .l1,.l2{
+        .l0,.l1,.l2{
             position: absolute;
             margin: auto;
             position: absolute;
@@ -372,9 +375,26 @@ div.tooltip {
             }
         }
 
+        .l0{
+            div.img{
+                position: absolute;
+                margin: auto;
+                left: 0 !important;
+                right: 0;
+            }
+            .iepg{
+                div.img{  
+                    background: url("@{imgPath}variables/ELC_variable_iepg_off.svg") no-repeat right center;
+                    &:hover,&[selected],&[selected]{
+                        background-image: url("@{imgPath}variables/ELC_variable_iepg.svg");
+                    }  
+                }
+            }
+        }
+
         .l1{
             position: absolute;
-            background: url("@{imgPath}variables/ELC_variable_iepg.svg") no-repeat center center;
+            /*background: url("@{imgPath}variables/ELC_variable_iepg.svg") no-repeat center center;*/
             height: 50%;
             width: 50%;
 
@@ -387,12 +407,10 @@ div.tooltip {
                 div.img{
                     .rotateback(@eco);
                     background: url("@{imgPath}variables/ELC_variable_e_presencia_economica_off.svg") no-repeat right center;
-                    &:hover{
+                    &:hover,&[selected],&[selected]{
                         background-image: url("@{imgPath}variables/ELC_variable_e_presencia_economica.svg");
-                    }    
-
+                    }  
                 }
-
             }
 
             .militar{
@@ -400,7 +418,7 @@ div.tooltip {
                 div.img{
                     .rotateback(@militar);
                     background: url("@{imgPath}variables/ELC_variable_m_presencia_militar_off.svg") no-repeat right center;
-                    &:hover{
+                    &:hover,&[selected],&[selected]{
                         background-image: url("@{imgPath}variables/ELC_variable_m_presencia_militar.svg");
                     }  
                 }                
@@ -411,7 +429,7 @@ div.tooltip {
                 div.img{
                     .rotateback(@soft);
                     background: url("@{imgPath}variables/ELC_variable_b_presencia_blanda_off.svg") no-repeat right center;
-                    &:hover{
+                    &:hover,&[selected],&[selected]{
                         background-image: url("@{imgPath}variables/ELC_variable_b_presencia_blanda.svg");
                     }  
                 }
@@ -460,7 +478,7 @@ div.tooltip {
 
                 .rotateback(@information);
                 background: url("@{imgPath}variables/ELC_variable_b_informacion_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_b_informacion.svg");
                 } 
             }   
@@ -472,7 +490,7 @@ div.tooltip {
 
                 .rotateback(@technology);
                 background: url("@{imgPath}variables/ELC_variable_b_tecnologia_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_b_tecnologia.svg");
                 } 
             }   
@@ -484,7 +502,7 @@ div.tooltip {
 
                 .rotateback(@science);
                 background: url("@{imgPath}variables/ELC_variable_b_ciencia_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_b_ciencia.svg");
                 } 
             }   
@@ -496,7 +514,7 @@ div.tooltip {
 
                 .rotateback(@education);
                 background: url("@{imgPath}variables/ELC_variable_b_educacion_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_b_educacion.svg");
                 } 
             }   
@@ -508,7 +526,7 @@ div.tooltip {
 
                 .rotateback(@cooperation);
                 background: url("@{imgPath}variables/ELC_variable_b_cooperacion_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_b_cooperacion.svg");
                 } 
             }   
@@ -520,7 +538,7 @@ div.tooltip {
 
                 .rotateback(@energy);
                 background: url("@{imgPath}variables/ELC_variable_e_energia_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_e_energia.svg");
                 } 
             }   
@@ -534,7 +552,7 @@ div.tooltip {
             div.img{
                 .rotateback(@primary_goods);
                 background: url("@{imgPath}variables/ELC_variable_e_bienesprimarios_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_e_bienesprimarios.svg");
                 } 
             }   
@@ -545,7 +563,7 @@ div.tooltip {
             div.img{
                 .rotateback(@manufactures);
                 background: url("@{imgPath}variables/ELC_variable_e_manufacturas_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_e_manufacturas.svg");
                 } 
             }   
@@ -556,7 +574,7 @@ div.tooltip {
             div.img{
                 .rotateback(@services);
                 background: url("@{imgPath}variables/ELC_variable_e_servicios_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_e_servicios.svg");
                 } 
             }   
@@ -567,7 +585,7 @@ div.tooltip {
             div.img{
                 .rotateback(@investments);
                 background: url("@{imgPath}variables/ELC_variable_e_inversiones_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_e_inversiones.svg");
                 } 
             }   
@@ -580,7 +598,7 @@ div.tooltip {
                 background: url("@{imgPath}variables/ELC_variable_m_tropas_off.svg") no-repeat right center;
                 cursor: pointer;
 
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_m_tropas.svg");
                 } 
             }  
@@ -596,7 +614,7 @@ div.tooltip {
             div.img{
                 .rotateback(@military_equipment);
                 background: url("@{imgPath}variables/ELC_variable_m_equipamiento_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_m_equipamiento.svg");
                 } 
             }  
@@ -611,7 +629,7 @@ div.tooltip {
             div.img{
                 .rotateback(@migrations);
                 background: url("@{imgPath}variables/ELC_variable_b_migraciones_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_b_migraciones.svg");
                 } 
             }   
@@ -622,7 +640,7 @@ div.tooltip {
             div.img{
                 .rotateback(@tourism);
                 background: url("@{imgPath}variables/ELC_variable_b_turismo_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_b_turismo.svg");
                 } 
 
@@ -634,7 +652,7 @@ div.tooltip {
             div.img{
                 .rotateback(@sports);
                 background: url("@{imgPath}variables/ELC_variable_b_deportes_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_b_deportes.svg");
                 } 
             }   
@@ -645,11 +663,58 @@ div.tooltip {
             div.img{
                 .rotateback(@culture);
                 background: url("@{imgPath}variables/ELC_variable_b_cultura_off.svg") no-repeat right center;
-                &:hover{
+                &:hover,&[selected]{
                     background-image: url("@{imgPath}variables/ELC_variable_b_cultura.svg");
                 } 
             }   
         }
+
     }
+
+    .co_wheel{
+        overflow: hidden;
+        margin:auto;
+    }
+
+    @media all and (max-height: 768px){
+        .co_wheel{
+            width: 340px;
+            height: 340px;
+            .wheel{
+                width: 300px;
+                height: 300px;
+            }
+        }
+    }
+ 
+    @media all and (min-height: 850px) and (max-height: 1024px){
+        .co_wheel{
+            width: 390px;
+            height: 390px;
+            .wheel{
+                width: 350px;
+                height: 350px;
+            }
+        }
+    }
+ 
+    @media all and (min-height: 1024){
+         .co_wheel{
+            width: 440px;
+            height: 440px;
+            .wheel{
+                width: 400px;
+                height: 400px;
+            }
+        }
+    }
+
+    .desc{
+        display: none;
+        font-size: 13px;
+        color:@grey;
+    }
+ 
+    
 }
 

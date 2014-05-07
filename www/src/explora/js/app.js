@@ -171,9 +171,53 @@ app.variableToString = function(variable){
     switch(variable){
         case "IEPG":
         case "iepg":
-            return "Índice Elcano de Presencia Global";
-        case 2:
-            return "Índice Elcano de Presencia Europea";
+            return "<lang>Índice Elcano de Presencia Global</lang>";
+        case "iepe":
+            return "<lang>Índice Elcano de Presencia Europea</lang>";
+        case "economic_presence":
+            return "<lang>Presencia económica</lang>";
+        case "soft_presence":
+            return "<lang>Presencia blanda</lang>";
+        case "military_presence":
+            return "<lang>Presencia militar</lang>";
+
+        // Military presence
+        case "troops":
+            return "<lang>Tropas</lang>";
+        case "military_equipment":
+            return "<lang>Equipamiento militar</lang>";
+
+        // Economic presence
+        case "energy":
+            return "<lang>Energía</lang>";
+        case "primary_goods":
+            return "<lang>Bienes primarios</lang>";
+        case "manufactures":
+            return "<lang>Manufacturas</lang>";
+        case "services":
+            return "<lang>Servicios</lang>";
+        case "investments":
+            return "<lang>Inversiones</lang>";
+
+        // Soft presences
+        case "migrations":
+            return "<lang>Migraciones</lang>";
+        case "tourism":
+            return "<lang>Turismo</lang>";
+        case "sports":
+            return "<lang>Deportes</lang>";
+        case "culture":
+            return "<lang>Cultura</lang>";
+        case "information":
+            return "<lang>Información</lang>";
+        case "technology":
+            return "<lang>Tecnología</lang>";
+        case "science":
+            return "<lang>Ciencia</lang>";
+        case "education":
+            return "<lang>Educación</lang>";
+        case "cooperation":
+            return "<lang>Cooperación</lang>";
 
         // TODO complete this mapping 
         default:

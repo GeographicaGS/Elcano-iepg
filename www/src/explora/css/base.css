@@ -939,5 +939,30 @@ ul.inlblock li{ display: inline-block}
 
 .uppercase{ text-transform: uppercase;}
 
+.rotate(@degrees: 90deg) {
+  -webkit-transform: rotate(@degrees);
+     -moz-transform: rotate(@degrees);
+      -ms-transform: rotate(@degrees);
+       -o-transform: rotate(@degrees);
+          transform: rotate(@degrees);
+}
 
+.rotateback(@degrees){
+  .rotate((360-@degrees));
+}
 
+.transition(@speed: 0.2s, @easing: ease) {
+  -webkit-transition: all @speed @easing;
+     -moz-transition: all @speed @easing;
+      -ms-transition: all @speed @easing;
+       -o-transition: all @speed @easing;
+          transition: all @speed @easing;
+}
+
+.origin(@x, @y) {
+  -webkit-transform-origin: @x @y;
+     -moz-transform-origin: @x @y;
+      -ms-transform-origin: @x @y;
+       -o-transform-origin: @x @y;
+          transform-origin: @x @y;
+}

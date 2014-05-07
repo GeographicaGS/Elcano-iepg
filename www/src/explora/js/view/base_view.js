@@ -314,8 +314,9 @@ app.view.Base = Backbone.View.extend({
         }
 
         this._filterSelectorView = new app.view.FilterSelector(); 
-        
     },
 
+
+    
     
 });

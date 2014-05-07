@@ -32,9 +32,12 @@ class DocumentModel(PostgreSQLModel):
         select
         gs__uniquearray(array_agg(dl.id_document)::int[]) as id_document
         from
-        www.document_label_{} dl inner join
+        www.document doc inner join
+        www.document_label_{} dl on
+        doc.id_document=dl.id_document inner join
         www.label_{} l on dl.id_label_{}=l.id_label_{}
         where
+        doc.published and
         """.format(lang,lang,lang,lang)
 
         bi = []
@@ -43,16 +46,22 @@ class DocumentModel(PostgreSQLModel):
             bi.append("%"+i+"%")
 
         sql = sql.rstrip(" or ")+";"
+
+        print(sql)
+
         return(self.query(sql, bindings=bi).row())
 
 
     def searchInAuthors(self, search):
         """Gets the list of documents ID on a search by author name and Twitter user."""
         sql = """
-        select gs__uniquearray(array_agg(id_document)::int[]) as id_document
+        select gs__uniquearray(array_agg(au.id_document)::int[]) as id_document
         from
-        www.author
+        www.author au inner join 
+        www.document doc on
+        au.id_document=doc.id_document
         where
+        doc.published and
         """
         if search is None:
             return None
@@ -66,6 +75,9 @@ class DocumentModel(PostgreSQLModel):
             bi.extend(["%"+i+"%","%"+i+"%"])
 
         sql = sql.rstrip(" or\n")+";"
+
+        print(sql)
+
         out = self.query(sql, bindings=bi).row()
 
         if out:
@@ -83,6 +95,7 @@ class DocumentModel(PostgreSQLModel):
         with a as(
         select
         a.id_document as id,
+        a.published as published,
         gs__uniquearray(array_agg(id_label_{})::int[]) as labels
         from
         www.document a inner join
@@ -95,7 +108,10 @@ class DocumentModel(PostgreSQLModel):
         gs__uniquearray(array_agg(id)::int[]) as id_document
         from a
         where
+        published and 
         array[""".format(lang,lang)+labels+"""]::int[] <@ labels;"""
+
+        print(sql)
 
         return(self.query(sql).row())
 
@@ -111,11 +127,12 @@ class DocumentModel(PostgreSQLModel):
           gs__uniquearray(array_agg(id_document)::int[]) as id_document
         from
           www.document
+        where published
         """
 
         bi = []
         if search:
-            sql += "where"
+            sql += " and "
             for s in search.split(","):
                 sql += """
                 (title_{} ilike %s or
@@ -127,6 +144,9 @@ class DocumentModel(PostgreSQLModel):
             sql = sql.rstrip(" or\n")
 
         sql += ";"
+
+        print(sql)
+
         return(self.query(sql, bindings=bi).row())
 
 

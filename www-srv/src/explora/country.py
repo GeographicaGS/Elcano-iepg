@@ -50,7 +50,8 @@ def countrySheet(lang, countryCode):
                     else:
                         rankData = cacheWrapper(m.ranking, lang, countryCode, var, year)
                     
-                    iepg_var[var] = rankData[0]
+                    print(var)
+                    iepg_var[item["key"]] = rankData[0]
                 if item["family"]=="context":
                     if filter:
                         rankData = cacheWrapper(m.ranking, lang, countryCode, 
@@ -58,7 +59,7 @@ def countrySheet(lang, countryCode):
                     else:
                         rankData = cacheWrapper(m.ranking, lang, countryCode, var, year)
 
-                    context_var[var] = rankData[0]
+                    context_var[item["key"]] = rankData[0]
 
             y["iepg_variables"] = iepg_var
             y["context_var"] = context_var

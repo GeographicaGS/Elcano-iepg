@@ -99,10 +99,10 @@ class NewModel(PostgreSQLModel):
 
         if labels_en:
             for label in labels_en:
-                self.__attachLabel(label, id_new, "en")
+                self.__attachLabel(label["id"], id_new, "en")
         if labels_es:
             for label in labels_es:
-                self.__attachLabel(label, id_new, "es")
+                self.__attachLabel(label["id"], id_new, "es")
         
         return(id_new)
 

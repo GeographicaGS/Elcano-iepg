@@ -483,6 +483,10 @@ ul.flag_wrapper{
     li:hover{
         background-image: url("@{imgPath}ELC_icon_seleccionado_hover.svg");
     }
+
+    li[selected]:hover{
+         background-image: url("@{imgPath}ELC_icon_deseleccionar.svg");
+    }
     
 }
 

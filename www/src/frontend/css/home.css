@@ -407,7 +407,7 @@
                 color: @grey_light;
                 .roboto(thin);
                 font-size: 40px;
-                line-height: 45px;
+                line-height: 47px;
                 color:@white;
                 overflow:hidden;
             }   

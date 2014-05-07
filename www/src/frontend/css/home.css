@@ -507,7 +507,7 @@
 @slider_height_1024 : 360px;
 @slider_height_1280 : 420px;
 @slider_height_1680 : 480px;
-@slider_line_height : 45px;
+@slider_line_height : 47px;
 
 #slider{
     cursor: pointer;

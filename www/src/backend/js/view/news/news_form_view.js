@@ -16,11 +16,11 @@ app.view.news.FormView = Backbone.View.extend({
             },
             {
                 "id" : 2,
-                "description" : "Media"
+                "description" : "En los medios"
             },
             {
                 "id" : 3,
-                "description" : "Events"
+                "description" : "Eventos"
             },
         ]);
      

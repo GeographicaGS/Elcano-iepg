@@ -194,6 +194,7 @@ deps.Explora.JS = {
 			// ------  Models ------
 			// --------------------
 			"explora/js/model/tools/country_tool_model.js",
+			"explora/js/model/tools/ranking_tool_model.js",
 
 			
 			// --------------------

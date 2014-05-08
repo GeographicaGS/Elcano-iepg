@@ -31,22 +31,49 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    renderTool: function(){
-     //TOREMOVE
-        console.log("Render app.view.tools.RankingPlugin");
+    /* Fetch data for the current country*/
+    _fetchDataTool: function(){
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+        this.model = new app.model.tools.ranking({
+            "id" : ctx.countries.selection[0],
+            "year" : ctx.slider[0].date.getFullYear(),
+            "variable" : ctx.variables[0],
+            "family" : "iepg"
+        });
+
+        // Fetch model from de server
+        var self = this;
+        this.model.fetch({
+            success: function() {
+               self._renderToolAsync();
+            }
+        });
+    },
+
+     _renderToolAsync: function(){
+        var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
+
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
+            model: this.model.toJSON(),
         }));
-    },
 
-   /* Render the tool */
+        // this.$chart = this.$(".chart");
+
+        // this._drawD3Chart(year);
+
+        this._forceFetchDataTool = false;
+    },
+
+    /* Render the tool */
     renderTool: function(){
         //TOREMOVE
         console.log("Render app.view.tools.RankingPlugin");
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
-
 
         if (!ctx.countries.selection.length){
             // it happens when remove the latest element from the filter
@@ -65,7 +92,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             }
         }
 
-       
     },
 
     setURL: function(){

@@ -7,7 +7,7 @@
 </div>
 <div class="pull-right pr15">
     <button type="button" class="btn btn-l btnlink cancel"><lang>Cancelar</lang></button>
-    <a href="#" type="button" class="btn btn-l save_button"><lang>Guardar documento</lang></a>
+    <a href="#" type="button" class="btn btn-l save_button"><lang>Guardar noticia</lang></a>
 </div>
 
 <hr class="featurette-divider">
@@ -26,7 +26,9 @@
             <div class=" col-md-2 LabelForm"><label for="">Sección</label></div>
             <select class="col-md-5 ml15" name="news_section">
                 <%_.each(sections,function(s){
-                    var sel = s.id == model.news_section ? "selected" : "";
+                    console.log(s.id);
+                    console.log(model.news_section );
+                    var sel = s.id == model.id_news_section ? "selected" : "";
                     %>
                     <option value="<%= s.id%>" <%= sel%>><%= s.description %></option>
                 <% }); %>

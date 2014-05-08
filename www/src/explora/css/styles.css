@@ -278,6 +278,11 @@ h3{
     .roboto(light);
 }
 
+h4{
+    .roboto(bold);
+    font-size: 13px;
+    color: @red;
+}
 
 footer{
     background-color: @grey;
@@ -477,6 +482,10 @@ ul.flag_wrapper{
     }
     li:hover{
         background-image: url("@{imgPath}ELC_icon_seleccionado_hover.svg");
+    }
+
+    li[selected]:hover{
+         background-image: url("@{imgPath}ELC_icon_deseleccionar.svg");
     }
     
 }

@@ -30,7 +30,26 @@ app.view.tools.Plugin = Backbone.View.extend({
             console.log("contextchange:countries at app.view.tools.Plugin");
             // The context has changed, let's store the changes in localStore
             this.getGlobalContext().saveContext();
+            this._forceFetchDataTool = true;
+            this._forceFetchDataMap = true;
             // Render again
+            this.render();
+        });
+
+        this.listenTo(app.events,"slider:singlepointclick",function(year){
+            console.log("slider:singlepointclick at app.view.tools.Plugin");
+            var ctx = this.getGlobalContext();
+            ctx.data.slider = [{
+                "date" : new Date(year),
+                "type" : "Point"
+            }];
+            ctx.saveContext();
+            // The context has changed, let's store the changes in localStore
+            this.getGlobalContext().saveContext();
+            // Render again the tool 
+            this._forceFetchDataTool = false;
+            this._forceFetchDataMap = true;
+
             this.render();
         });
 

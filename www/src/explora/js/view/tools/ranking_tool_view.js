@@ -2,14 +2,10 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#ranking_tool_template').html() ),
 
     type: "ranking",
-    initialize: function() {
-        this.slider = new app.view.tools.common.SliderSinglePoint({
-            "plugin": this
-        });
 
-        this.countries = new app.view.tools.common.Countries({
-            "plugin": this
-        });
+    initialize: function() {
+        this.slider = new app.view.tools.common.SliderSinglePoint();
+        this.countries = new app.view.tools.common.Countries();
     },
 
     _events: {
@@ -17,20 +13,22 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     },
 
     _setListeners: function(){
-        app.view.tools.Plugin.prototype._setListeners.apply(this);
+        //app.view.tools.Plugin.prototype._setListeners.apply(this);
 
-        this.listenTo(app.events,"slider:singlepointclick",function(year){
+        this.listenTo(app.events,"countryclick",function(id_country){
+            //TOREMOVE
+            console.log("countryclick at app.view.tools.CountryPlugin");
+
             var ctx = this.getGlobalContext();
-            ctx.data.slider = [{
-                "date" : new Date(year),
-                "type" : "Point"
-            }];
+            ctx.data.countries.selection = [id_country];
             ctx.saveContext();
             // The context has changed, let's store the changes in localStore
             this.getGlobalContext().saveContext();
-            // Render again the tool without fetch data
-            this.render(false);
+            // Render again the tool with the new context
+            this._forceFetchDataTool = true;
+            this.render();
         });
+
     },
 
     renderTool: function(){
@@ -39,7 +37,35 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
         }));
+    },
 
+   /* Render the tool */
+    renderTool: function(){
+        //TOREMOVE
+        console.log("Render app.view.tools.RankingPlugin");
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+
+        if (!ctx.countries.selection.length){
+            // it happens when remove the latest element from the filter
+            this.$el.html(this._template({
+                ctx: this.getGlobalContext().data,
+                model: null,
+            }));
+        }
+        else{
+            // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
+            if (this._forceFetchDataTool){
+                this._fetchDataTool();
+            }
+            else{
+                this._renderToolAsync();
+            }
+        }
+
+       
     },
 
     setURL: function(){
@@ -47,12 +73,12 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         //country/:id_country/:id_variable/:year
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
+            countries = ctx.countries.list;
             country = ctx.countries.selection[0],
             variable = ctx.variables[0],
             year = ctx.slider[0].date.getFullYear();
 
-        //app.router.navigate("ranking/" + country + "/" + variable + "/" + year, {trigger: false});
-        app.router.navigate("tool/ranking",{trigger: false});
+        app.router.navigate("ranking/" + variable + "/" + year + "/" + countries.join(",") + "/" + country ,{trigger: false});
     },
 
     renderMap: function(){

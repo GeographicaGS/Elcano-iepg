@@ -10,5 +10,6 @@ app.config = {
         new Date("2005-01-01"),
         new Date("2010-01-01"),
         new Date("2013-01-01")
-    ]
+    ],
+    "DETECT_COUNTRY_LOCATION" : false
 }

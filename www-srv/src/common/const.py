@@ -7,6 +7,8 @@ lang = ["en", "es"]
 
 years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]
 
+families = ["iepg", "iepe", "context"]
+
 variables = {
     "iepg_energy": {
         "key": "energy",

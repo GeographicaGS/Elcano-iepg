@@ -5,6 +5,7 @@ Exceptions
 """
 from flask import jsonify
 import const
+from helpers import getVariableData
 
 class ElcanoApiRestError(Exception):
     status = 400
@@ -54,16 +55,15 @@ class DataValidator():
             return None
         raise ElcanoApiRestError("Not a boolean.", status=200, payload={"Boolean": n})
 
-    def checkVariable(self, n):
+    def checkVariable(self, family, variable):
         """Checks a variable name."""
-        if n in const.variables:
+        if getVariableData<>None:
             return None
-        raise ElcanoApiRestError("Unknown variable.", status=200, payload={"Variable": n})
+        raise ElcanoApiRestError("Unknown variable.", status=200, payload={"Family": family, 
+                                                                           "Variable": variable})
 
     def checkYear(self, n):
         """Checks a year."""
         if n in const.years:
             return None
         raise ElcanoApiRestError("Unknown year.", status=200, payload={"Year": n})
-
-

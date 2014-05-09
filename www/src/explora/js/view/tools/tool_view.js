@@ -89,14 +89,8 @@ app.view.tools.Plugin = Backbone.View.extend({
         return this;  
     },
 
-    /* Render the map, here the code to render the map data. Lots of work here, so should have the data before call this method */
-    renderMap: function(){
-        // draw the map. This method must be overwritten
-        return this;
-    },
 
     // End methods to overwrite
-
     getGlobalContext: function(){
         // Read the global context
         return app.context;
@@ -167,7 +161,6 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.$el.show().html("Loading");
 
         this.renderTool();
-        this.renderMap();
 
         this.slider.render();
         this.countries.render();

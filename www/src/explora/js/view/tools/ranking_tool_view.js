@@ -1,7 +1,7 @@
 app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#ranking_tool_template').html() ),
-
     type: "ranking",
+    _dataMap : null,
 
     initialize: function() {
         this.slider = new app.view.tools.common.SliderSinglePoint();
@@ -36,35 +36,60 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
 
-        this.model = new app.model.tools.ranking({
-            "id" : ctx.countries.selection[0],
-            "year" : ctx.slider[0].date.getFullYear(),
+        this.collection = new app.collection.RankingTool({},{
+            // "year" : ctx.slider[0].date.getFullYear(),
+            //"year" : "1990",
+            "year" : "2013",
             "variable" : ctx.variables[0],
             "family" : "iepg"
         });
 
-        // Fetch model from de server
-        var self = this;
-        this.model.fetch({
-            success: function() {
-               self._renderToolAsync();
-            }
+        this._nCollectionFetches = 2;
+        this.listenTo(this.collection,"reset",this._waitAllCollectionFetch);
+
+        this.collection.fetch({"reset":true});
+
+        this.collectionReference = new app.collection.RankingTool({},{
+            //"year" : "2013",
+            "year" : "1990",
+            "variable" : ctx.variables[0],
+            "family" : "iepg"
         });
+
+        this.listenTo(this.collectionReference,"reset",this._waitAllCollectionFetch);
+
+        this.collectionReference.fetch({"reset":true});
+        
+    },
+
+    _waitAllCollectionFetch: function(){
+        this._nCollectionFetches--;
+        if (!this._nCollectionFetches){
+            this._renderToolAsync();
+        }
     },
 
      _renderToolAsync: function(){
-        var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
 
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
-            model: this.model.toJSON(),
+            collection: this.collection.toJSON(),
         }));
 
-        // this.$chart = this.$(".chart");
+        this.$chart = this.$(".chart");
 
-        // this._drawD3Chart(year);
+        this._drawD3Chart();
 
         this._forceFetchDataTool = false;
+
+        this._dataMap = new app.view.map({
+            "container": "data_map",
+            "zoom" : 1
+        }).initialize();
+
+        this._dataMap.drawChoropleth(this.collection.toJSON());
+
+        this.mapLayer = app.map.drawChoropleth(this.collection.toJSON());
     },
 
     /* Render the tool */
@@ -75,11 +100,11 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
 
-        if (!ctx.countries.selection.length){
+        if (false && !ctx.countries.selection.length){
             // it happens when remove the latest element from the filter
             this.$el.html(this._template({
                 ctx: this.getGlobalContext().data,
-                model: null,
+                collection: null,
             }));
         }
         else{
@@ -91,7 +116,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                 this._renderToolAsync();
             }
         }
-
     },
 
     setURL: function(){
@@ -107,12 +131,276 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         app.router.navigate("ranking/" + variable + "/" + year + "/" + countries.join(",") + "/" + country ,{trigger: false});
     },
 
-    renderMap: function(){
-        // draw the map
-    },
-
     onClose: function(){
         // Remove events on close
         this.stopListening();
-    }
+    },
+
+    _drawD3Chart: function(){
+         var data = _.filter(this.collection.toJSON(), function(d){ return d.code; }),
+            dataRef = _.filter(this.collectionReference.toJSON(), function(d){ return d.code; }),
+            dataAll = _.uniq(_.union(data,dataRef));
+            margin = {top: 60, right: 20, bottom: 30, left: 140},
+            width = this.$chart.width() - margin.left - margin.right,
+            barHeight = 20,
+            totalCountryHeight = barHeight * 2 + 10 /*padding*/,
+            height = data.length * totalCountryHeight - margin.top - margin.bottom,
+            yAxisWidth = 100,
+            visibleHeight = this.$chart.height();
+
+        var x = d3.scale.linear()
+            .range([0, width])
+            .domain([0, d3.max(data, function(d) { return d.value; })]);
+
+        var y = d3.scale.linear()
+            .range([0, height])
+            .domain([1, data.length]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("top")
+            .tickSize(-height);
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .tickSize(-width)
+            .ticks(data.length);
+
+        var zoom = d3.behavior.zoom()
+            .y(y)
+            .on("zoom", zoomed);
+
+        var svg = d3.select(".chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+        svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0,0)")
+          .call(xAxis)
+
+        .selectAll("text")
+            .attr("y", 0)
+            .attr("x", 9)
+            .attr("dy", ".35em")
+            .attr("transform", "rotate(-90)")
+            .style("text-anchor", "start");
+      
+        // Add another SVG, need to simulate an overflow hidden
+        var canvas = svg.append("svg")
+                .attr("class", "co_bar")
+                .attr("width", width  + yAxisWidth)
+                .attr("height", visibleHeight)
+                .attr("x", "-" + yAxisWidth)
+                .call(zoom);
+
+        // Let's add a rect to have all the graphic space draggable
+        var rect = canvas.append("rect")
+                .attr("width", width + yAxisWidth )
+                .attr("height", visibleHeight)
+                .attr("fill","none");
+
+        // This is the element where apply then transformation
+        canvas = canvas.append("g");
+
+        // Let's add the data
+        var subset = canvas.selectAll(".bar").data(data);
+
+        var div = d3.select("body").append("div")   
+        .attr("class", "tooltip")               
+        .style("opacity", 0);
+
+        var obj = this;
+
+        // Variable bars
+        canvas.selectAll(".bar").data(data).enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", yAxisWidth)
+          .attr("width", function(d) { return x(d.value); })
+          .attr("y", function(d) { return y(data.indexOf(d) + 1); })
+          .attr("height", barHeight)
+          .on("mouseover", function(d) {     
+                div.transition()        
+                    .duration(200)      
+                    .style("opacity", 1);      
+                div.html(obj._htmlChartToolTip({
+                    "pos" : d.ranking -1,
+                    "code" : d.code,
+                    "value" : d.value,
+                    "year" : d.year
+                }))  
+                    .style("left", (d3.event.pageX) + "px")     
+                    .style("top", (d3.event.pageY - 28) + "px");    
+                })                  
+            .on("mouseout", function(d) {       
+                div.transition()        
+                    .duration(500)      
+                    .style("opacity", 0);   
+            });
+
+        // References bars
+        subset.enter().append("rect")
+          .attr("class", "bar ref")
+          .attr("x", yAxisWidth)
+          .attr("width", function(d) { 
+                var idx = data.indexOf(d);
+
+                if(typeof dataRef[idx] == 'undefined') {
+                    // does not exist
+                    return 0;
+                }
+                else {
+                    // does exist
+                    return x(dataRef[idx].value); 
+                }
+                
+           })
+          .attr("y", function(d) { return y(data.indexOf(d) + 1) + barHeight + 1; })
+          .attr("height", barHeight);
+
+        // Y axis
+        var co_label = subset.enter().append("g")
+            .attr("class","co_label")
+            .attr("x",0)
+            .attr("y",0)
+            .attr("transform",function(d) { 
+                var h = (data.indexOf(d) + 0) * (totalCountryHeight );
+                    h += 10;
+                return "translate(0," + h + ")"; 
+            });
+       
+        co_label.append("image")
+            .attr("x",0)
+            .attr("y",0)
+            .attr("width",25)
+            .attr("height",25)
+            .attr("xlink:href",function(d){
+                return  "/img/flags/" + d.code + ".svg"
+            });
+
+         co_label.append("text")
+            .attr("x",40)
+            .attr("y", 17)
+            .text(function(d){ return d.code });
+
+        co_label.append("text")
+            .attr("class","number")
+            .attr("x",yAxisWidth - 30)
+            .attr("y", 17)
+            .attr("width",40)
+            .text(function(d){ return data.indexOf(d) + 1});
+
+
+        function zoomed() {
+            //console.log("scrolling");
+            var newy = zoom.translate()[1],
+                maxHeight =  height - visibleHeight + 150;
+            // if (newy>0){
+            //     newy = 0;
+            // }
+            // else if ((newy*-1) > maxHeight){
+            //      newy = maxHeight*-1;
+            // }
+            
+            canvas.attr("transform", "translate(0," + newy + ")");
+
+        }           
+
+    },
+
+
+    _htmlChartToolTip: function(d){
+        var ctx = this.getGlobalContext().data,
+            variable = ctx.variables[0];
+
+            html = "<div>" 
+                    +   "<span>" + d.pos + "º " +app.countryToString(d.code) + "</span>"
+                    +   "<span>" + d.year + "</span>"
+                    +   "<div class='clear'></div>"
+                    + "</div>"
+                    + "<div>" 
+                    +   "<span>" + variable + "</span>"
+                    +   "<span>" + sprintf("%0.2f",d.value) + "</span>"
+                    +   "<div class='clear'></div>"
+                    +"</div>"
+
+        return html;
+
+    },
+
+    clearMap: function(){
+        app.map.removeChoropleth();
+    },
+
+     /* 
+        This method adapt the global context
+    */
+    adaptGlobalContext: function(){
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            latestCtxObj = this.getLatestContext(),
+            latestCtx = latestCtxObj.data;
+
+        /*
+        * This tool only could have more than one country selected. The options are:
+        *   1) The selection is empty
+        *       1.1) If The latestContext has a selection all the countries (which are present in the list of countries) will be copied.
+        *       1.2) If The latestContext doesn't have a selection, the first on the list will be the selected.
+        *   2) The selection has elements. We do nothing
+        */
+        
+        if (!ctx.countries.selection.length){
+            // The selection is empty
+           
+            if (latestCtx.selection>0 ){
+                //If the latestContext has a selection all the countries (which are present in the list of countries) will be copied.
+                for(var i=0;i<latestCtx.countries.list.length;i++){
+                    // Is the selected country in context list?
+                    if (ctx.countries.list.indexOf(latestCtx.countries.selection[i]) != -1){
+                        ctx.countries.selection.push(latestCtx.countries.selection[i]);    
+                    }
+                }
+                
+            }
+            else{
+                // the first on the list will be the selected
+                ctx.countries.selection = ctx.countries.list.length ? [ctx.countries.list[0]] : [];
+            }
+        }
+        else{
+            // Do nothing
+        }
+
+
+        // This tool works with a single point slider. 
+        var firstPoint = ctxObj.getFirstSliderElement("Point");
+
+        if (firstPoint){
+            // Get the first point and remove the others from the context.
+            ctx.slider = [firstPoint];
+        }
+        else{
+            // search the firstPoint on the latest context
+            var firstPoint = latestCtxObj.getFirstSliderElement("Point");
+            if (firstPoint){
+                // Get the first point from the latest context and remove the others
+                ctx.slider = [firstPoint];
+            }
+            else{
+                // set the last year
+                ctx.slider = [{
+                    "type" : "Point",
+                    "date" : app.config.SLIDER[app.config.SLIDER.length-1]
+                }];
+            }
+        }
+
+        // update the latest context
+        this.copyGlobalContextToLatestContext();
+    }
 });

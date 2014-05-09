@@ -1,14 +1,23 @@
-<div class="header" data-variable=<%=ctx.variables[0]%>>
-    <a class="close" href="#"></a>
-    <span id="tool_name"><lang>Ranking</lang></span>
-    <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %></span>
-    <span id="tool_year"><lang>Año</lang><%= ctx.slider[0].date.getFullYear()%></span>
-</div>
+<div id="ranking_tool">
 
-<div class="body">
-    <p>
+    <div class="header" data-variable=<%=ctx.variables[0]%>>
+        <a class="close" href="#"></a>
+        <span id="tool_name"><lang>Ranking</lang></span>
+        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %></span>
+        <span id="tool_year"><lang>Año</lang><%= ctx.slider[0].date.getFullYear()%></span>
+    </div>
 
-    <% console.log(model) %>
-        Herramienta en desarrollo
-    </p>
+    <div class="body">
+        <div class="conteiner-fluid">
+            <div class="row">
+                <div class="col-sm-6 co_chart">
+                    <div class="co_xaxis"></div>
+                    <div class="chart"></div>
+                </div>
+                <div class="col-sm-6 co_data_map" >
+                    <div id="data_map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

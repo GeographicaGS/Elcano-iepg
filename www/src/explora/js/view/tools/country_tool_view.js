@@ -121,7 +121,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
 
-
         if (!ctx.countries.selection.length){
             // it happens when remove the latest element from the filter
             this.$el.html(this._template({
@@ -139,7 +138,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             }
         }
 
-       
+        this.renderMap();
     },
 
     renderMap: function(){
@@ -162,7 +161,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     /* 
-        This method adapt the glob
+        This method adapt the global context
     */
     adaptGlobalContext: function(){
 

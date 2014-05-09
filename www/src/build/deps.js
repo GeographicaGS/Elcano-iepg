@@ -194,7 +194,7 @@ deps.Explora.JS = {
 			// ------  Models ------
 			// --------------------
 			"explora/js/model/tools/country_tool_model.js",
-			"explora/js/model/tools/ranking_tool_model.js",
+		
 
 			
 			// --------------------
@@ -203,6 +203,7 @@ deps.Explora.JS = {
 			"explora/js/collection/countries.js",
 			"explora/js/collection/filter.js",
 			"explora/js/collection/country_tool_map.js",
+			"explora/js/collection/ranking_tool.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -257,6 +258,7 @@ deps.Explora.CSS = {
 			"explora/css/base.css",
 			"explora/css/styles.css",
 			"explora/css/tool.css",
+			"explora/css/variable.css"
 		]
 	}
 };

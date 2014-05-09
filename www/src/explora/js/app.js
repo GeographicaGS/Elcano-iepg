@@ -97,6 +97,7 @@ app.ini = function(){
     this.$tool_data = $("#tool_data");
     this.$tool = $("#tool");
 
+
     // create the context
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
@@ -111,7 +112,7 @@ app.ini = function(){
 
     this.refreshFiltersCtrl();
 
-    app.map.initialize();
+    app.map = new app.view.map({"container": "map"}).initialize();
     
     this.baseView = new app.view.Base();
     this.baseView.render();

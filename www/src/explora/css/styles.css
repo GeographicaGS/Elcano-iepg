@@ -26,6 +26,13 @@
 
 html, body{ height:100%;}
 
+.fillVariable(){
+
+}
+
+.colorVariable(@name) when (@name = iepg) {
+    @colorVariable : #fdc300;
+}
 
 body {
 	.roboto();

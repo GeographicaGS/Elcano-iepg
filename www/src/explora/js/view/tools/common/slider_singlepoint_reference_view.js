@@ -1,15 +1,15 @@
-app.view.tools.common.SliderSinglePoint = app.view.tools.common.Slider.extend({
-    _template : _.template( $('#slider_singlepoint_template').html() ),
+app.view.tools.common.SliderSinglePointReference = app.view.tools.common.Slider.extend({
+    _template : _.template( $('#slider_singlepoint_reference_template').html() ),
 
     initialize: function(options){
         app.view.tools.common.Slider.prototype.initialize.apply(this,[options]);
     },
 
     _events: {
-        "click a.point" : "changeYear"
+        "click a.point" : "changeYearClick"
     },
     render: function(){
-        console.log("Render app.view.tools.common.SliderSinglePoint");
+        console.log("Render app.view.tools.common.SliderSinglePointReference");
 
         this.$el.html(this._template({
             ctx: app.context.data,
@@ -47,21 +47,37 @@ app.view.tools.common.SliderSinglePoint = app.view.tools.common.Slider.extend({
                 $(ui.helper).animate({
                     left: $closest.position().left
                 }, 200,function(){
-                    $closest.find("a.point").trigger("click");
+                    // let's fire the year change event
+                    var year = $closest.find("a.point").attr("year"),
+                    ref = $(ui.helper).is("[ref]");
+                    _this.changeYear(year,ref);
                 });
+
+                
+
             }
         });
         
     },
 
-    changeYear: function(e){
+    changeYearClick: function(e){
         e.preventDefault();
         
         var $el = $(e.target),
             year = $el.attr("year");
 
-        // Change the date, let's fire this event
-        app.events.trigger("slider:singlepointclick",year);
+        this.changeYear(year,false)
+
+    },
+
+    changeYear: function(year,ref){
+        if (!ref){
+            // Change the date, let's fire this event
+            app.events.trigger("slider:singlepointclick",year);
+        }
+        else{
+            app.events.trigger("slider:singlepointreferenceclick",year);
+        }
 
     }
 

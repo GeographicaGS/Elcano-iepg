@@ -101,7 +101,7 @@
             margin-left: 10px;
         }
 
-        #tool_year{
+        #tool_year,#tool_year_ref{
             .roboto(bold);
             font-size: 13px;
             color:@white;
@@ -112,6 +112,13 @@
             padding: 0 5px;
 
         }
+
+        #tool_year_ref{
+            background-color: @grey;
+            padding: 3px 5px;
+        }
+
+
     }
 
     .header[data-variable='iepg']{

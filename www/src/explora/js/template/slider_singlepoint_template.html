@@ -1,17 +1,38 @@
-<ul>
+<ul class="slider">
 <%
 var perc = (100 / (app.config.SLIDER.length -1));
+
 for (var i=0; i<app.config.SLIDER.length;i++){
     var d = app.config.SLIDER[i],
-        sel = d.getFullYear() == ctx.slider[0].date.getFullYear() ? "selected" : "";
         width = i == (app.config.SLIDER.length -1) ? 0 : perc;
     %>
-   <li style="left:<%= i * perc %>%;width:<%=width%>%" <%= sel %>> 
+   <li style="left:<%= i * perc %>%;width:<%=width%>%"  base> 
         <a href="#" class="point" year="<%= d.getFullYear() %>"></a>
         <div class="ornament"  > <%= d.getFullYear() %></div>
         <label><%= d.getFullYear() %></label>
     </li>
 <% } %>
 
+<%
+    var idx = 0;
+    for (var i=0; i<app.config.SLIDER.length;i++){
+        var d = app.config.SLIDER[i];
+     
+        idx = i;
+        if (d.getFullYear() == ctx.slider[0].date.getFullYear())
+            break;
+        
+    }
+
+    width = idx == (app.config.SLIDER.length -1) ? 0 : perc;
+    d = app.config.SLIDER[idx];
+%>
+
+     <li style="left:<%= idx * perc %>%;width:<%=width%>%" selected class="draggable"> 
+        <div class="ornament" > <%= d.getFullYear() %></div>
+    </li>
 </ul>
+
+
+
 

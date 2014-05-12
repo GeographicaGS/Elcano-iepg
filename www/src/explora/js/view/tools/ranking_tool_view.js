@@ -4,7 +4,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     _dataMap : null,
 
     initialize: function() {
-        this.slider = new app.view.tools.common.SliderSinglePoint();
+        this.slider = new app.view.tools.common.SliderSinglePointReference();
         this.countries = new app.view.tools.common.Countries();
     },
 
@@ -21,9 +21,38 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             var ctx = this.getGlobalContext();
             ctx.data.countries.selection = [id_country];
-            ctx.saveContext();
+    
+
             // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
+            ctx.saveContext();
+            // Render again the tool with the new context
+            this._forceFetchDataTool = true;
+            this.render();
+        });
+
+        this.listenTo(app.events,"slider:singlepointclick",function(year){
+            //TOREMOVE
+            console.log("slider:singlepointclick at app.view.tools.CountryPlugin");
+
+            var ctx = this.getGlobalContext();
+            ctx.getFirstSliderElement("Point").date = new Date(year)
+
+            // The context has changed, let's store the changes in localStore
+            ctx.saveContext();
+            // Render again the tool with the new context
+            this._forceFetchDataTool = true;
+            this.render();
+        });
+
+        this.listenTo(app.events,"slider:singlepointreferenceclick",function(year){
+            //TOREMOVE
+            console.log("slider:singlepointclick at app.view.tools.CountryPlugin");
+
+            var ctx = this.getGlobalContext();
+            ctx.getFirstSliderElement("PointReference").date = new Date(year);
+
+            // The context has changed, let's store the changes in localStore
+            ctx.saveContext();
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
             this.render();
@@ -39,7 +68,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         this.collection = new app.collection.RankingTool({},{
             // "year" : ctx.slider[0].date.getFullYear(),
             //"year" : "1990",
-            "year" : "2013",
+            "year" : ctxObj.getFirstSliderElement("Point").date.getFullYear(),
             "variable" : ctx.variables[0],
             "family" : "iepg"
         });
@@ -51,7 +80,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         this.collectionReference = new app.collection.RankingTool({},{
             //"year" : "2013",
-            "year" : "1990",
+            "year" : ctxObj.getFirstSliderElement("PointReference").date.getFullYear(),
             "variable" : ctx.variables[0],
             "family" : "iepg"
         });
@@ -260,7 +289,28 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                 
            })
           .attr("y", function(d) { return y(data.indexOf(d) + 1) + barHeight + 1; })
-          .attr("height", barHeight);
+          .attr("height", barHeight)
+          .on("mouseover", function(d) {   
+
+                d = dataRef[ data.indexOf(d)]; 
+
+                div.transition()        
+                    .duration(200)      
+                    .style("opacity", 1);      
+                div.html(obj._htmlChartToolTip({
+                    "pos" : d.ranking,
+                    "code" : d.code,
+                    "value" : d.value,
+                    "year" : d.year
+                }))  
+                    .style("left", (d3.event.pageX) + "px")     
+                    .style("top", (d3.event.pageY - 28) + "px");    
+                })                  
+            .on("mouseout", function(d) {       
+                div.transition()        
+                    .duration(500)      
+                    .style("opacity", 0);   
+            });
 
         // Y axis
         var co_label = subset.enter().append("g")
@@ -377,28 +427,37 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         }
 
 
-        // This tool works with a single point slider. 
-        var firstPoint = ctxObj.getFirstSliderElement("Point");
+        // This tool works with a slider composed by a single point and a reference point. 
+        var firstPoint = ctxObj.getFirstSliderElement("Point"),
+            firstPointRef = ctxObj.getFirstSliderElement("PointReference");;
 
-        if (firstPoint){
-            // Get the first point and remove the others from the context.
-            ctx.slider = [firstPoint];
-        }
-        else{
+        // Have we a point in the context?
+        if (!firstPoint){
             // search the firstPoint on the latest context
             var firstPoint = latestCtxObj.getFirstSliderElement("Point");
-            if (firstPoint){
-                // Get the first point from the latest context and remove the others
-                ctx.slider = [firstPoint];
-            }
-            else{
+            if (!firstPoint){
                 // set the last year
-                ctx.slider = [{
+                firstPoint = {
                     "type" : "Point",
                     "date" : app.config.SLIDER[app.config.SLIDER.length-1]
-                }];
+                };
             }
         }
+
+        // Have we a point reference in the context?
+        if (!firstPointRef){
+            // search the firstPointRef on the latest context
+            var firstPointRef = latestCtxObj.getFirstSliderElement("PointReference");
+            if (!firstPointRef){
+                // set the middle point for the reference
+                firstPointRef = {
+                    "type" : "PointReference",
+                    "date" : app.config.SLIDER[Math.floor(app.config.SLIDER.length/2)]
+                };
+            }
+        }
+
+         ctx.slider = [firstPoint,firstPointRef];
 
         // update the latest context
         this.copyGlobalContextToLatestContext();

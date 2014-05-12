@@ -28,8 +28,7 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.listenTo(app.events,"contextchange:countries",function(){
             //TOREMOVE
             console.log("contextchange:countries at app.view.tools.Plugin");
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
+           
             this._forceFetchDataTool = true;
             this._forceFetchDataMap = true;
             // Render again
@@ -43,11 +42,20 @@ app.view.tools.Plugin = Backbone.View.extend({
                 "date" : new Date(year),
                 "type" : "Point"
             }];
-            ctx.saveContext();
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
+
             // Render again the tool 
             this._forceFetchDataTool = false;
+            this._forceFetchDataMap = true;
+
+            this.render();
+        });
+
+        this.listenTo(app.events,"variable:changed",function(variable){
+            var ctx = this.getGlobalContext();
+            ctx.data.variables = [variable];
+
+            // Render again the tool 
+            this._forceFetchDataTool = true;
             this._forceFetchDataMap = true;
 
             this.render();
@@ -57,9 +65,13 @@ app.view.tools.Plugin = Backbone.View.extend({
 
 
     // Here methods which should be overwritten by the child class.
-    setURL: function(){
+    contextToURL: function(){
         // This method should be overwritten. 
         // It transforms the current context of the tool in a valid URL.
+    },
+
+    URLToContext: function(url){
+        // It transforms the current URL in a valid context.
     },
 
     /*
@@ -157,7 +169,7 @@ app.view.tools.Plugin = Backbone.View.extend({
     */ 
     render: function(){  
         this.adaptGlobalContext();
-        this.setURL();
+        this.contextToURL();
         this.$el.show().html("Loading");
 
         this.renderTool();

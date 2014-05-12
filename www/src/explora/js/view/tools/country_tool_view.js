@@ -25,15 +25,15 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this.listenTo(app.events,"contextchange:countries",function(){
             //TOREMOVE
             console.log("contextchange:countries at app.view.tools.CountryPlugin");
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
+            // The context has changed will be store by a call to contextToURL. 
             if (!app.context.data.countries.selection.length){
                 // Let's force a re-render because we need to adapt the context.
-                this.render();
+                this.render(); // Implicit call to contextToURL
             }
             else{
                 // No need of re-render, Let's refresh the list of countries
                 this.countries.render();
+                this.contextToURL();
             }
         });
 
@@ -43,13 +43,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
             var ctx = this.getGlobalContext();
             ctx.data.countries.selection = [id_country];
-            ctx.saveContext();
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
+
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
             this._forceFetchDataMap = false;
-            this.render();
+            this.render(); // Implicit call to contextToURL
         });
 
         
@@ -59,12 +57,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_fetchDataTool: function(){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
-
         
         this.model = new app.model.tools.country({
             "id" : ctx.countries.selection[0],
             "year" : ctx.slider[0].date.getFullYear(),
-            "variable" : ctx.variables[0],
+            "family" : ctx.family,
         });
 
         // Fetch model from de server
@@ -83,7 +80,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         // Fetch the collection from the server
         this.mapCollection = new app.collection.CountryToolMap([],{
-            "variable" :  ctx.variables[0],
+            "family" :  ctx.family,
+            "variable" : ctx.family, // this is a trick, the map of this tool always show the family variable
             "date" : ctx.slider[0].date.getFullYear()
         });
         
@@ -219,22 +217,66 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             }
         }
 
+        if (!ctx.family){
+            if (latestCtx.family){
+                ctx.family = latestCtx.family;
+            }
+            else{
+                ctx.family = "iepg";
+            }
+        }
+
+        // Save context
+        ctxObj.saveContext();
+
         // update the latest context
         this.copyGlobalContextToLatestContext();
     },
 
-    setURL: function(){
+    contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
         //country/:id_country/:id_variable/:year
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
+            family = ctx.family,
+            countries = ctx.countries.list.join(","),
             country = ctx.countries.selection[0],
             variable = ctx.variables[0],
             year = ctx.slider[0].date.getFullYear()
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
-            url = "country/" + country + "/" + variable + "/" + year + filters;
+            url = "country/" + family + "/" + countries + "/" + country + "/" + year + filters;
 
          app.router.navigate(url, {trigger: false});
+    },
+
+    URLToContext: function(url){
+
+        var ctxObj = app.context,
+            ctx = ctxObj.data;
+            
+        ctx.family = url.family;
+        ctx.countries.list = url.countries.split(",");
+        ctx.countries.selection = [url.country_sel];
+        ctx.countries.slider = [{
+            "type": "Point",
+            "date" : new Date(url.year)
+        }];
+
+        // Do we have filters?
+        if (url.filters){
+            app.setFilters(url.filters.split(","));
+        }
+
+        ctx.countries.slider = [{
+            "type": "Point",
+            "date" : new Date(url.year)
+        }];
+
+        // let's store the context.
+        ctxObj.saveContext();
+
+        this.copyGlobalContextToLatestContext();
+
     },
 
     _drawD3Chart: function(year){

@@ -13,7 +13,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     },
 
     _setListeners: function(){
-        //app.view.tools.Plugin.prototype._setListeners.apply(this);
+        app.view.tools.Plugin.prototype._setListeners.apply(this);
 
         this.listenTo(app.events,"countryclick",function(id_country){
             //TOREMOVE
@@ -22,14 +22,12 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             var ctx = this.getGlobalContext();
             ctx.data.countries.selection = [id_country];
     
-
-            // The context has changed, let's store the changes in localStore
-            ctx.saveContext();
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
-            this.render();
+            this.render(); // implicit save the context
         });
 
+        this.stopListening(app.events,"slider:singlepointclick");
         this.listenTo(app.events,"slider:singlepointclick",function(year){
             //TOREMOVE
             console.log("slider:singlepointclick at app.view.tools.CountryPlugin");
@@ -37,11 +35,9 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             var ctx = this.getGlobalContext();
             ctx.getFirstSliderElement("Point").date = new Date(year)
 
-            // The context has changed, let's store the changes in localStore
-            ctx.saveContext();
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
-            this.render();
+            this.render(); // implicit save the context
         });
 
         this.listenTo(app.events,"slider:singlepointreferenceclick",function(year){
@@ -51,11 +47,9 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             var ctx = this.getGlobalContext();
             ctx.getFirstSliderElement("PointReference").date = new Date(year);
 
-            // The context has changed, let's store the changes in localStore
-            ctx.saveContext();
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
-            this.render();
+            this.render(); // implicit save the context
         });
 
     },
@@ -70,7 +64,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             //"year" : "1990",
             "year" : ctxObj.getFirstSliderElement("Point").date.getFullYear(),
             "variable" : ctx.variables[0],
-            "family" : "iepg"
+            "family" : ctx.family
         });
 
         this._nCollectionFetches = 2;
@@ -82,7 +76,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             //"year" : "2013",
             "year" : ctxObj.getFirstSliderElement("PointReference").date.getFullYear(),
             "variable" : ctx.variables[0],
-            "family" : "iepg"
+            "family" : ctx.family
         });
 
         this.listenTo(this.collectionReference,"reset",this._waitAllCollectionFetch);
@@ -147,17 +141,63 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         }
     },
 
-    setURL: function(){
+    contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
-        //country/:id_country/:id_variable/:year
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            countries = ctx.countries.list;
-            country = ctx.countries.selection[0],
-            variable = ctx.variables[0],
-            year = ctx.slider[0].date.getFullYear();
+            filters = app.getFilters().join(",");
 
-        app.router.navigate("ranking/" + variable + "/" + year + "/" + countries.join(",") + "/" + country ,{trigger: false});
+        app.router.navigate("ranking/" 
+            + ctx.family + "/"  // Family
+            + ctx.variables[0] + "/"  // Variable
+            + ctx.slider[0].date.getFullYear() + "/" // Year
+            + ctx.slider[1].date.getFullYear() + "/" // Reference year 
+            + ctx.countries.list.join(",") + "/" // Countries list
+            + ctx.countries.selection[0]  // Country selected
+            + (filters ? "/" + filters : "") ,{trigger: false});
+    },
+
+    /* app.baseView.loadRankingTool({
+            "family" : family,
+            "variable": variable,
+            "year" : year,
+            "year_ref": year_ref,
+            "countries": countries,
+            "country_sel" : country_sel,
+            "filters": filters
+        });*/
+    URLToContext: function(url){
+         var ctxObj = app.context,
+            ctx = ctxObj.data;
+           
+        // Overwrite the family
+        ctx.family = url.family;
+        // Overwrite the variable
+        ctx.variables = [url.variable];
+
+        // set the slider
+        ctx.countries.slider = [{
+            "type": "Point",
+            "date" : new Date(url.year)
+        },
+        {
+            "type": "PointReference",
+            "date" : new Date(url.year_ref)
+        }];
+
+        ctx.countries.list = url.countries.split(",");
+        ctx.countries.selection = [url.country_sel];
+
+        // Do we have filters?
+        if (url.filters){
+            app.setFilters(url.filters.split(","));
+        }
+
+        // let's store the context.
+        ctxObj.saveContext();
+
+        // copy to latest context
+        this.copyGlobalContextToLatestContext();
     },
 
     onClose: function(){
@@ -260,7 +300,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                     "pos" : d.ranking -1,
                     "code" : d.code,
                     "value" : d.value,
-                    "year" : d.year
+                    "year" : d.year,
+                    "variable" : d.variable
                 }))  
                     .style("left", (d3.event.pageX) + "px")     
                     .style("top", (d3.event.pageY - 28) + "px");    
@@ -301,7 +342,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                     "pos" : d.ranking,
                     "code" : d.code,
                     "value" : d.value,
-                    "year" : d.year
+                    "year" : d.year,
+                    "variable" : d.variable
                 }))  
                     .style("left", (d3.event.pageX) + "px")     
                     .style("top", (d3.event.pageY - 28) + "px");    
@@ -373,7 +415,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                     +   "<div class='clear'></div>"
                     + "</div>"
                     + "<div>" 
-                    +   "<span>" + variable + "</span>"
+                    +   "<span>" + d.variable + "</span>"
                     +   "<span>" + sprintf("%0.2f",d.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>"
@@ -387,7 +429,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     },
 
      /* 
-        This method adapt the global context
+        This method adapt the global context. Call on every render.
     */
     adaptGlobalContext: function(){
 
@@ -426,7 +468,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             // Do nothing
         }
 
-
         // This tool works with a slider composed by a single point and a reference point. 
         var firstPoint = ctxObj.getFirstSliderElement("Point"),
             firstPointRef = ctxObj.getFirstSliderElement("PointReference");;
@@ -457,7 +498,19 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             }
         }
 
-         ctx.slider = [firstPoint,firstPointRef];
+        ctx.slider = [firstPoint,firstPointRef];
+
+        if (!ctx.family){
+            if (latestCtx.family){
+                ctx.family = latestCtx.family;
+            }
+            else{
+                ctx.family = "iepg";
+            }
+        }
+
+        // Save context
+        ctxObj.saveContext();
 
         // update the latest context
         this.copyGlobalContextToLatestContext();

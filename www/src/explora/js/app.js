@@ -328,6 +328,10 @@ app.clearData = function(){
     localStorage.clear();
 }
 
+app.reset = function(){
+    this.clearData();
+    window.location  = "/es";
+}
 
 
 

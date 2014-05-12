@@ -18,8 +18,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     _setListeners: function(){
-        //app.view.tools.Plugin.prototype._setListeners.apply(this);
+        app.view.tools.Plugin.prototype._setListeners.apply(this);
 
+        //redefine the contextchange:countries to not re-render each time a country is added
+        this.stopListening(app.events,"contextchange:countries");
         this.listenTo(app.events,"contextchange:countries",function(){
             //TOREMOVE
             console.log("contextchange:countries at app.view.tools.CountryPlugin");
@@ -50,21 +52,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             this.render();
         });
 
-        this.listenTo(app.events,"slider:singlepointclick",function(year){
-            var ctx = this.getGlobalContext();
-            ctx.data.slider = [{
-                "date" : new Date(year),
-                "type" : "Point"
-            }];
-            ctx.saveContext();
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
-            // Render again the tool 
-            this._forceFetchDataTool = false;
-            this._forceFetchDataMap = true;
-
-            this.render();
-        });
+        
     },
 
     /* Fetch data for the current country*/
@@ -133,7 +121,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
 
-
         if (!ctx.countries.selection.length){
             // it happens when remove the latest element from the filter
             this.$el.html(this._template({
@@ -151,7 +138,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             }
         }
 
-       
+        this.renderMap();
     },
 
     renderMap: function(){
@@ -174,7 +161,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     /* 
-        This method adapt the glob
+        This method adapt the global context
     */
     adaptGlobalContext: function(){
 

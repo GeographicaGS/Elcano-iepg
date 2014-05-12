@@ -162,15 +162,12 @@ def editHightlight(id_highlight):
     }"""
     m = HighlightModel()
     oldHighlight = m.getHighlight(id_highlight)
-    app.logger.info(oldHighlight)
 
     if oldHighlight["image_hash_en"]!=request.json["image_hash_en"]:
-        app.logger.info("here");
         deleteImgFile(oldHighlight["image_hash_en"])
         moveImgFile(request.json["image_hash_en"])        
 
     if oldHighlight["image_hash_es"]!=request.json["image_hash_es"]:
-        app.logger.info("here2");
         deleteImgFile(oldHighlight["image_hash_es"])
         moveImgFile(request.json["image_hash_es"])
 

@@ -159,8 +159,6 @@ def movePdfFile(hash):
     """Moves a PDF file within the filesystem."""
     origin = backend["tmpFolder"]+"/"+hash+".pdf"
     destination = backend["mediaFolder"]+"/"+hash+".pdf"
-    app.logger.info(origin)
-    app.logger.info(destination)
     os.rename(origin, destination)
 
 

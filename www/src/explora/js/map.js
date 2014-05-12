@@ -1,21 +1,29 @@
 
-app.map = {
-    _baseLayer: null,
-    _choroplethColors : ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C"],
-    CHOROPLETH_INTERVALS : 5,
-    _choroplethOVerlay : null,
+app.view.map = function(options){
+    this.baseLayer = null;
 
-    initialize : function(){
+    this._choroplethColors = ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C"];
 
-        this._map = L.map('map',{
+    this.CHOROPLETH_INTERVALS = 5;
+
+    this._choroplethOVerlay = null;
+
+    this.container = options.container;
+    this.zoom = options.zoom ? options.zoom : 2;
+    this.center = options.center ? options.center  : L.latLng(0,0);
+
+    this.initialize = function(options){
+
+        this._map = L.map(this.container,{
             "attributionControl" : false,
             "zoomControl" : false
-        }).setView( L.latLng(48.99,-104.05), 3);
+        }).setView( this.center, this.zoom);
 
         this.loadBaseMap();
-    },
+        return this;
+    };
 
-    loadBaseMap : function(){
+    this.loadBaseMap = function(){
         this._baseLayer = L.geoJson(countriesGeoJSON, {
             style: {
                 fillColor: "#fff",
@@ -27,19 +35,20 @@ app.map = {
             }
         });
         this._baseLayer.addTo(this._map);  
-    },
+    };
 
     /* Resize the map */ 
-    resize: function(){
+    this.resize = function(){
         this._map.invalidateSize(true);
-    },
+        return this;
+    };
 
-    getMap: function(){
+    this.getMap = function(){
         return this._map;
-    },
+    };
 
     /* This method created a choropleth Map with the data supplied in the parameter */ 
-    drawChoropleth : function(data){
+    this.drawChoropleth = function(data){
 
         var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
         // Just for security
@@ -189,9 +198,9 @@ app.map = {
         };
 
         return l;
-    },
+    };
 
-    removeChoropleth: function(){
+    this.removeChoropleth = function(){
        
         if (this._choroplethOVerlay){   
             this._map.removeLayer(this._choroplethOVerlay["geoJson"]);
@@ -200,6 +209,7 @@ app.map = {
             this._choroplethOVerlay = null;
         }
 
+        return this;
     }   
 
 }

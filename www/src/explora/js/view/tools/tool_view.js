@@ -30,7 +30,26 @@ app.view.tools.Plugin = Backbone.View.extend({
             console.log("contextchange:countries at app.view.tools.Plugin");
             // The context has changed, let's store the changes in localStore
             this.getGlobalContext().saveContext();
+            this._forceFetchDataTool = true;
+            this._forceFetchDataMap = true;
             // Render again
+            this.render();
+        });
+
+        this.listenTo(app.events,"slider:singlepointclick",function(year){
+            console.log("slider:singlepointclick at app.view.tools.Plugin");
+            var ctx = this.getGlobalContext();
+            ctx.data.slider = [{
+                "date" : new Date(year),
+                "type" : "Point"
+            }];
+            ctx.saveContext();
+            // The context has changed, let's store the changes in localStore
+            this.getGlobalContext().saveContext();
+            // Render again the tool 
+            this._forceFetchDataTool = false;
+            this._forceFetchDataMap = true;
+
             this.render();
         });
 
@@ -70,14 +89,8 @@ app.view.tools.Plugin = Backbone.View.extend({
         return this;  
     },
 
-    /* Render the map, here the code to render the map data. Lots of work here, so should have the data before call this method */
-    renderMap: function(){
-        // draw the map. This method must be overwritten
-        return this;
-    },
 
     // End methods to overwrite
-
     getGlobalContext: function(){
         // Read the global context
         return app.context;
@@ -148,7 +161,6 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.$el.show().html("Loading");
 
         this.renderTool();
-        this.renderMap();
 
         this.slider.render();
         this.countries.render();

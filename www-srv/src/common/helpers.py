@@ -8,6 +8,7 @@ Common helpers.
 import hashlib
 from config import MemcachedConfig
 from flask import jsonify
+from const import families, variables
 if MemcachedConfig["enabled"] == True:
     import memcache
 
@@ -27,6 +28,7 @@ def cacheWrapper(funcName, *args, **kwargs):
     else:
         return(funcName(*args, **kwargs))
 
+
 def baseMapData():
     m = basemap.GeometryData()
     geomData = cacheWrapper(m.geometryData)
@@ -39,3 +41,12 @@ def baseMapData():
         out[r["iso_3166_1_2_code"]] = data
 
     return(jsonify(out))
+
+
+def getVariableData(family, key):
+    """Retrieves variable data."""
+    for k,i in variables.items():
+        if i["family"]==family and i["key"]==key:
+            return i
+    
+    return None

@@ -30,18 +30,6 @@ def test(blockCode, year, family, variable):
 
     return(jsonify({"results": "caca"}))
 
-
-     
-
-
-
-
-
-
-
-
-
-
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
 def countryFilter(lang):
     m = iepgdatamodel.IepgDataModel()

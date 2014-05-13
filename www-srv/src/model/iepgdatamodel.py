@@ -70,7 +70,7 @@ class IepgDataModel(PostgreSQLModel):
         dv = DataValidator()
         dv.checkVariable(family, variable)
         dv.checkLang(lang)
-        var = helpers.getVariableData(family, variable)
+        var = common.helpers.getVariableData(family, variable)
 
         if filter:
             f = "array["
@@ -134,7 +134,7 @@ class IepgDataModel(PostgreSQLModel):
         dv.checkVariable(family, variable)
         dv.checkLang(lang)
         dv.checkYear(year)
-        var = helpers.getVariableData(family, variable)
+        var = common.helpers.getVariableData(family, variable)
 
         if filter:
             f = "array["
@@ -212,7 +212,7 @@ class IepgDataModel(PostgreSQLModel):
         dv = DataValidator()
         dv.checkVariable(family, variable)
         dv.checkYear(year)
-        var = helpers.getVariableData(family, variable)
+        var = common.helpers.getVariableData(family, variable)
 
         if filter:
             f = "("

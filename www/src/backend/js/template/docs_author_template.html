@@ -2,21 +2,41 @@
   i = 0;
   _.each(authors, function(a){
     i++;
+    twitter = a.name ? "no" : "yes";
 %>
-    <div class="resenaGroup col-md-12 col-sm-12">
-        <div class="alpha col-md-5 col-sm-12">
-            <input type="text" class="form-control Esimput author_twitter"  idx_author=<%= i -1%> name="authors" placeholder="<%= a.twitter_user %>" value="<%= a.twitter_user == "Twitter" ? "" : a.twitter_user %>">
-        </div>
-        <div class="btGroupResena">
-            <button type="button" class="btn btn-resena-twitter"></button>
-            <%  if (authors.length>1) { %>
-            <button type="button" class="btn btn-resena-remove" idx_author=<%= i -1%>></button>
-            <% } %>
-            <%  if (i == authors.length) { %>
-            <button type="button" class="btn btn-resena-more" ></button>    
-            <% } %>
+    <div class="resenaGroup col-md-12 col-sm-12" twitter="<%= twitter %>" idx_author=<%= i -1%> >
+        <p name="authors">El documento no tiene autores</p>
+        <div class="row">
             
+            <div class="twitter col-md-5">
+                <input type="text" class="form-control Esimput author_twitter"   name="twitter_user" placeholder="Twitter" value="<%= a.twitter_user  %>">
+            </div>
+            <div class="notwitter col-md-10"  >
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" class="col-md-4 form-control Esimput "  name="name" placeholder="Nombre" value="<%= a.name %>">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="col-md-4 form-control Esimput"  name="position_es" placeholder="Posición (Español)" value="<%= a.position_es %>">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="col-md-4 form-control Esimput"  name="position_en" placeholder="Posición (Inglés)" value="<%= a.position_en %>">
+                    </div>
+                </div>
+            </div>
             
+            <div class="btGroupResena col-md-1">
+                
+                <button type="button" class="btn btn-resena-twitter"></button>
+                <button type="button" class="btn btn-resena-twitter-edit"></button>
+                
+                <%  if (authors.length>1) { %>
+                <button type="button" class="btn btn-resena-remove"></button>
+                <% } %>
+                <%  if (i == authors.length) { %>
+                <button type="button" class="btn btn-resena-more" ></button>    
+                <% } %>
+            </div>
         </div>
     </div>
 <% }) %>

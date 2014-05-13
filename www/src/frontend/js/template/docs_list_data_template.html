@@ -30,7 +30,9 @@
                         print(", ");
                     }
                 %>
-                    <a href="#" data-id-author="<%= a.twitter_user %>"><%= a.twitter_user %></a>
+                    <a href="/<lang>lang</lang>/<lang>_link docs</lang>/null/<%= a.twitter_user ? a.twitter_user : a.name %>" > 
+                        <%= a.twitter_user ? a.twitter_user : a.name %>
+                    </a> 
                 <% });%>
             </div>
         </div>

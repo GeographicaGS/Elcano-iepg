@@ -21,10 +21,10 @@ app.view.docs.FormView = Backbone.View.extend({
                 "pdfs_es" : new Backbone.Collection(),
                 "pdfs_en" : new Backbone.Collection(),
                 "authors" : new app.collection.Authors({
-                    "twitter_user" : "",
-                    "name" : "",
-                    "position_es" : "",
-                    "position_en" : ""
+                    "twitter_user" : null,
+                    "name" : null,
+                    "position_es" : null,
+                    "position_en" : null
                 })
             });
             this._initialize();
@@ -214,10 +214,10 @@ app.view.docs.FormView = Backbone.View.extend({
     
     addAuthor: function(){
         this.model.get("authors").add({
-            "twitter_user" : "",
-            "name" : "",
-            "position_es" : "",
-            "position_en" : ""
+            "twitter_user" : null,
+            "name" : null,
+            "position_es" : null,
+            "position_en" : null
         });  
     },
     
@@ -278,9 +278,11 @@ app.view.docs.FormView = Backbone.View.extend({
 
         this.model.set(data);
 
-        this.model.get("authors").removeEmpties()
+        
          
         if (this.model.isValid(true)){
+
+            this.model.get("authors").removeEmpties();
 
             // Save on server
             this.model.save(null,{
@@ -422,14 +424,24 @@ app.view.docs.FormView = Backbone.View.extend({
 
     toggleAuthorTwitterUI: function(e){
         var $e = $(e.target),
-            $parent = $e.closest("[twitter]");
+            $parent = $e.closest("[twitter]"),
+            idx = $parent.attr("idx_author");
 
         if ($parent.attr("twitter") == "yes"){
             $parent.attr("twitter","no");
             $parent.find(".twitter input").val("");
+            this.model.get("authors").at(idx).set({
+                "twitter_user" : null
+            });
         }
         else{
             $parent.attr("twitter","yes");
+
+            this.model.get("authors").at(idx).set({
+                "name" : null,
+                "position_en" : null,
+                "position_es" : null
+            });
             $parent.find(".notwitter input").val("");
         }
     }

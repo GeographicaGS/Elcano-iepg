@@ -372,7 +372,7 @@ class DocumentModel(PostgreSQLModel):
 
 
     def __createAuthor(self, data, id_document):
-        if "twitter_user" in data:
+        if data["twitter_user"]:
             self.insert("www.author",
                         {"id_document": id_document,
                          "twitter_user": data["twitter_user"]})

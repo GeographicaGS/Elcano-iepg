@@ -36,8 +36,8 @@ app.model.Document = Backbone.Model.extend({
 				pattern : "url"
 			},
 			authors: function(value) {
-				console.log(value);
-				if(!value || !value.length) {
+				var col = value.filterEmpties();
+				if(!col || !col.length) {
 					return "<lang>Field required</lang>";
 				}
 		    }

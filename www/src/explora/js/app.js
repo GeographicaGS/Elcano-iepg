@@ -44,21 +44,31 @@ $(function(){
         else { app.router.navigate("error",{trigger: true});}
     });
 
-    $.getJSON('http://freegeoip.net/json/', function(location) {
-      // example where I update content on the page.
-      // jQuery('#city').html(location.city);
-      // jQuery('#region-code').html(location.region_code);
-      // jQuery('#region-name').html(location.region_name);
-      // jQuery('#areacode').html(location.areacode);
-      // jQuery('#ip').html(location.ip);
-      // jQuery('#zipcode').html(location.zipcode);
-      // jQuery('#longitude').html(location.longitude);
-      // jQuery('#latitude').html(location.latitude);
-      // jQuery('#country-name').html(location.country_name);
-      // jQuery('#country-code').html(location.country_code);
-        app.country = location.country_code;
-        app.ini();
-    });
+  
+    if (app.config.DETECT_COUNTRY_LOCATION){
+        $.getJSON('http://freegeoip.net/json/', function(location) {
+          // example where I update content on the page.
+          // jQuery('#city').html(location.city);
+          // jQuery('#region-code').html(location.region_code);
+          // jQuery('#region-name').html(location.region_name);
+          // jQuery('#areacode').html(location.areacode);
+          // jQuery('#ip').html(location.ip);
+          // jQuery('#zipcode').html(location.zipcode);
+          // jQuery('#longitude').html(location.longitude);
+          // jQuery('#latitude').html(location.latitude);
+          // jQuery('#country-name').html(location.country_name);
+          // jQuery('#country-code').html(location.country_code);
+            app.country = location.country_code;
+            app.ini();
+        });
+    }
+    else{
+        app.country = "ES";
+        app.ini();  
+    }
+    
+
+      
    
 });
 
@@ -87,6 +97,7 @@ app.ini = function(){
     this.$tool_data = $("#tool_data");
     this.$tool = $("#tool");
 
+
     // create the context
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
@@ -101,7 +112,7 @@ app.ini = function(){
 
     this.refreshFiltersCtrl();
 
-    app.map.initialize();
+    app.map = new app.view.map({"container": "map"}).initialize();
     
     this.baseView = new app.view.Base();
     this.baseView.render();
@@ -317,6 +328,10 @@ app.clearData = function(){
     localStorage.clear();
 }
 
+app.reset = function(){
+    this.clearData();
+    window.location  = "/es";
+}
 
 
 

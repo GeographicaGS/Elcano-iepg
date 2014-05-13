@@ -23,7 +23,10 @@ app.view.tools.context = function(id){
         // List of the current slider in the context. 
         "slider": [],
         // List of variables
-        "variables": ["iepg"]
+        "variables": ["iepg"],
+
+        // Family it could be iepg or iepe
+        "family" : "iepg"
     };
 
 
@@ -41,10 +44,15 @@ app.view.tools.context = function(id){
                 "date" : "Mon Jan 1 1995 00:00:00 GMT+0000", // date object
             },
             {
+                "type": "PointReference",
+                "date" : "Mon Jan 1 1995 00:00:00 GMT+0000", // date object
+            },
+            {
                 "type" : "Interval",
                 "date_start": "Mon Jan 1 2005 00:00:00 GMT+0000", // date object
                 "date_finish": "Mon Jan 1 2006 00:00:00 GMT+0000", // date object
-            }
+            },
+
         ],
         // List of variables
         "variables": [1],    

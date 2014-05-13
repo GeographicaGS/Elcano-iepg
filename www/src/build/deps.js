@@ -171,6 +171,7 @@ deps.Explora.JS = {
 	ThirdParty:{
 		src: [
 			"explora/js/lib/jquery-2.0.3.min.js",
+			"explora/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",
 			"explora/js/lib/underscore-min.js",
 			"explora/js/lib/backbone-min.js",
 			"explora/js/lib/d3.v3.min.js",
@@ -194,6 +195,7 @@ deps.Explora.JS = {
 			// ------  Models ------
 			// --------------------
 			"explora/js/model/tools/country_tool_model.js",
+		
 
 			
 			// --------------------
@@ -202,6 +204,7 @@ deps.Explora.JS = {
 			"explora/js/collection/countries.js",
 			"explora/js/collection/filter.js",
 			"explora/js/collection/country_tool_map.js",
+			"explora/js/collection/ranking_tool.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -213,6 +216,7 @@ deps.Explora.JS = {
 			"explora/js/view/tools/common/countries_view.js",
 			"explora/js/view/tools/common/slider_view.js",
 			"explora/js/view/tools/common/slider_singlepoint_view.js",
+			"explora/js/view/tools/common/slider_singlepoint_reference_view.js",
 
 			// Tools views
 			"explora/js/view/tools/country_tool_view.js",
@@ -256,6 +260,7 @@ deps.Explora.CSS = {
 			"explora/css/base.css",
 			"explora/css/styles.css",
 			"explora/css/tool.css",
+			"explora/css/variable.css"
 		]
 	}
 };

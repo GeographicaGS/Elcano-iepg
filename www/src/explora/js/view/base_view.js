@@ -237,52 +237,40 @@ app.view.Base = Backbone.View.extend({
         return null;
     },
 
-    loadCountryTool: function(id_country,id_variable,year,filters){
-        var ctx = app.context,
-            // First check if the tool is already loaded
-            tool = this._searchToolByType("country");
-
-        
-        // is the current country in the global context? 
-        if (ctx.data.countries.list.indexOf(id_country)==-1){
-            // This country is not in the global context. Let's add it
-            ctx.data.countries.list.push(id_country);
-        }
-
-        if (ctx.data.countries.selection.length!=1 || ctx.data.countries.selection[0] !=id_country){
-            // This country is not selected in the current context
-            ctx.data.countries.selection = [id_country];
-        }
-
-        // Do we have filters?
-        if (filters){
-            var filters = filters.split(",");
-
-            // is the country in the filters? If not let's add it
-            if (filters.indexOf(id_country) == -1){
-                filters.push(id_country);    
-            }
-            app.setFilters(filters);
-        }
-
-
-
-
-        ctx.data.variables[0] = id_variable;
-        ctx.data.countries.slider = [{
-            "type": "Point",
-            "date" : new Date(year + "01-01")
-        }];
-
-        // let's store the context.
-        ctx.saveContext();
+    loadCountryTool: function(url){
+        var tool = this._searchToolByType("country");
 
         if (!tool){
             // tool not already loaded
             tool = new app.view.tools.CountryPlugin();
+            // This method transform the current url in a context 
+            tool.URLToContext(url);
+            // Add the tool
             this.addTool(tool,true);
         }
         else{
+            // This method transform the current url in a context
+            tool.URLToContext(url);
+            // move tool to front
+            this.bringToolToFront(tool);   
+        }
+    },
+
+    loadRankingTool: function(url){
+         var tool = this._searchToolByType("ranking");
+
+        if (!tool){
+            // tool not already loaded
+            tool = new app.view.tools.RankingPlugin();
+            // This method transform the current url in a context 
+            tool.URLToContext(url);
+            // Add the tool
+            this.addTool(tool,true);
+        }
+        else{
+            // This method transform the current url in a context
+            tool.URLToContext(url);
+            // move tool to front
             this.bringToolToFront(tool);   
         }
     },

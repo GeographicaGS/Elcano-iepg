@@ -119,11 +119,13 @@ Instala node JS y ejecuta lo siguiente.
 
 ```
 sudo npm install -g jake
-sudo npm install -g uglifyjs
+sudo npm install -g uglify-js
 sudo npm install -g uglifycss
 sudo npm install -g jshint
 sudo npm install -g pg
 sudo npm install -g less
+# necesario para el builder-watcher 
+sudo npm install -g node-watch
 
 export NODE_PATH=/usr/local/lib/node_modules
 ```

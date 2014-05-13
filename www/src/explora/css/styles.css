@@ -26,6 +26,13 @@
 
 html, body{ height:100%;}
 
+.fillVariable(){
+
+}
+
+.colorVariable(@name) when (@name = iepg) {
+    @colorVariable : #fdc300;
+}
 
 body {
 	.roboto();
@@ -589,6 +596,7 @@ ul.country_bar{
                 z-index: 1;
                 top: -20px;
                 left: -15px;
+                cursor: pointer;
             }
 
             .ornament::before{
@@ -602,7 +610,14 @@ ul.country_bar{
                 left: 3px;
                 top: 19px;
                 z-index: 1;
+            }
 
+            .ornament.ref{
+                background-color: @grey;
+            }
+
+            .ornament.ref::before{
+                background-color: @grey;
             }
 
             .point{

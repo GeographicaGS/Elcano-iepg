@@ -28,9 +28,36 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.listenTo(app.events,"contextchange:countries",function(){
             //TOREMOVE
             console.log("contextchange:countries at app.view.tools.Plugin");
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
+           
+            this._forceFetchDataTool = true;
+            this._forceFetchDataMap = true;
             // Render again
+            this.render();
+        });
+
+        this.listenTo(app.events,"slider:singlepointclick",function(year){
+            console.log("slider:singlepointclick at app.view.tools.Plugin");
+            var ctx = this.getGlobalContext();
+            ctx.data.slider = [{
+                "date" : new Date(year),
+                "type" : "Point"
+            }];
+
+            // Render again the tool 
+            this._forceFetchDataTool = false;
+            this._forceFetchDataMap = true;
+
+            this.render();
+        });
+
+        this.listenTo(app.events,"variable:changed",function(variable){
+            var ctx = this.getGlobalContext();
+            ctx.data.variables = [variable];
+
+            // Render again the tool 
+            this._forceFetchDataTool = true;
+            this._forceFetchDataMap = true;
+
             this.render();
         });
 
@@ -38,9 +65,13 @@ app.view.tools.Plugin = Backbone.View.extend({
 
 
     // Here methods which should be overwritten by the child class.
-    setURL: function(){
+    contextToURL: function(){
         // This method should be overwritten. 
         // It transforms the current context of the tool in a valid URL.
+    },
+
+    URLToContext: function(url){
+        // It transforms the current URL in a valid context.
     },
 
     /*
@@ -70,14 +101,8 @@ app.view.tools.Plugin = Backbone.View.extend({
         return this;  
     },
 
-    /* Render the map, here the code to render the map data. Lots of work here, so should have the data before call this method */
-    renderMap: function(){
-        // draw the map. This method must be overwritten
-        return this;
-    },
 
     // End methods to overwrite
-
     getGlobalContext: function(){
         // Read the global context
         return app.context;
@@ -144,11 +169,10 @@ app.view.tools.Plugin = Backbone.View.extend({
     */ 
     render: function(){  
         this.adaptGlobalContext();
-        this.setURL();
+        this.contextToURL();
         this.$el.show().html("Loading");
 
         this.renderTool();
-        this.renderMap();
 
         this.slider.render();
         this.countries.render();

@@ -68,6 +68,8 @@ app.view.VariableSelector = Backbone.View.extend({
         $.fancybox.close();
 
         app.events.trigger("closepopup",this);
+
+        app.events.trigger("variable:changed",this._variable);
   
     },
 

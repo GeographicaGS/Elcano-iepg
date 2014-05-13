@@ -1,0 +1,50 @@
+<ul class="slider">
+<%
+var perc = (100 / (app.config.SLIDER.length -1));
+
+for (var i=0; i<app.config.SLIDER.length;i++){
+    var d = app.config.SLIDER[i],
+        width = i == (app.config.SLIDER.length -1) ? 0 : perc;
+    %>
+   <li style="left:<%= i * perc %>%;width:<%=width%>%"  base> 
+        <a href="#" class="point" year="<%= d.getFullYear() %>"></a>
+        <div class="ornament"  > <%= d.getFullYear() %></div>
+        <label><%= d.getFullYear() %></label>
+    </li>
+<% } %>
+
+<%
+    var idx_sel = 0,
+        idx_ref = 0;
+    for (var i=0; i<app.config.SLIDER.length;i++){
+        var d = app.config.SLIDER[i];
+        
+        if (d.getFullYear() == ctx.slider[0].date.getFullYear()){
+            idx_sel = i;
+        }
+
+        if (d.getFullYear() == ctx.slider[1].date.getFullYear()){
+            idx_ref = i;
+        }
+    }
+
+    width_sel = idx_sel == (app.config.SLIDER.length -1) ? 0 : perc;
+    d_sel = app.config.SLIDER[idx_sel];
+
+    width_ref = idx_ref == (app.config.SLIDER.length -1) ? 0 : perc;
+    d_ref = app.config.SLIDER[idx_ref];
+%>
+
+    <li style="left:<%= idx_sel * perc %>%;width:<%= width_sel %>%" selected class="draggable" > 
+        <div class="ornament" > <%= d_sel.getFullYear() %></div>
+    </li>
+
+    <li style="left:<%= idx_ref * perc %>%;width:<%= width_ref %>%" selected ref class="draggable" > 
+        <div class="ornament ref" > <%= d_ref.getFullYear() %></div>
+    </li>
+
+</ul>
+
+
+
+

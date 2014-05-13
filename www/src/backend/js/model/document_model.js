@@ -36,7 +36,8 @@ app.model.Document = Backbone.Model.extend({
 				pattern : "url"
 			},
 			authors: function(value) {
-				if(!value || !value.length) {
+				var col = value.filterEmpties();
+				if(!col || !col.length) {
 					return "<lang>Field required</lang>";
 				}
 		    }
@@ -52,7 +53,7 @@ app.model.Document = Backbone.Model.extend({
     	response.labels_en  =  new Backbone.Collection(app.renameID(response.labels_en,"id_label","id"));
     	response.pdfs_es  =  new Backbone.Collection(app.renameID(response.pdfs_es,"id_pdf","id"));
     	response.pdfs_en  =  new Backbone.Collection(app.renameID(response.pdfs_en,"id_pdf","id"));
-    	response.authors =  new Backbone.Collection(app.renameID(response.authors,"id_author","id"));
+    	response.authors =  new app.collection.Authors(app.renameID(response.authors,"id_author","id"));
 
         
 

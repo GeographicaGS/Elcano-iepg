@@ -40,6 +40,7 @@ deps.Backend.JS = {
 			"backend/js/collection/highlighs_published_collection.js",
 			"backend/js/collection/highlighs_unpublished_collection.js",
 			"backend/js/collection/new_collection.js",
+			"backend/js/collection/authors_collection.js",
 			
 			// --------------------
 			// ------  Views ------

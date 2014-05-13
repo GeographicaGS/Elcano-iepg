@@ -110,23 +110,111 @@
             line-height: 20px;
             margin: 16px 0 0 10px;
             padding: 0 5px;
-
+            float:left;
         }
 
         #tool_year_ref{
             background-color: @grey;
-            padding: 3px 5px;
+            /*padding: 3px 5px;*/
         }
 
 
     }
 
-    .header[data-variable='iepg']{
-        background: url("@{imgPath}variables/ELC_variable_iepg_cab.svg") no-repeat @variable_iepg left 5px center;
+    .headerTool(@variable,@color_text){
+        .colorVariable(@variable);
+        .iconVariableHeader(@variable);
+        background: url(@iconVariableHeader) no-repeat @colorVariable left 9px center;
         padding-left: 58px;
+        #tool_title{
+            color:@color_text;    
+        }
+
     }
 
-     .body{
+    .header[data-variable='iepg']{
+       .headerTool(iepg,@red);
+    }
+
+    .header[data-variable='economic_presence']{
+       .headerTool(economic_presence,@white);
+    }
+
+    .header[data-variable='energy']{
+       .headerTool(energy,@white);
+    }
+
+    .header[data-variable='primary_goods']{
+       .headerTool(primary_goods,@white);
+    }
+
+    .header[data-variable='manufactures']{
+       .headerTool(manufactures,@white);
+    }
+
+    .header[data-variable='services']{
+       .headerTool(services,@white);
+    }
+
+    .header[data-variable='investments']{
+       .headerTool(investments,@white);
+    }
+     
+    .header[data-variable='military_presence']{
+       .headerTool(military_presence,@white);
+    }
+
+    .header[data-variable='troops']{
+       .headerTool(troops,@white);
+    }
+
+    .header[data-variable='military_equipment']{
+       .headerTool(military_equipment,@white);
+    }
+
+    .header[data-variable='soft_presence']{
+       .headerTool(soft_presence,@white);
+    }
+
+    .header[data-variable='migrations']{
+       .headerTool(migrations,@white);
+    }
+
+    .header[data-variable='tourism']{
+       .headerTool(tourism,@white);
+    }
+
+    .header[data-variable='sports']{
+       .headerTool(sports,@white);
+    }
+
+    .header[data-variable='culture']{
+       .headerTool(culture,@white);
+    }
+
+    .header[data-variable='information']{
+       .headerTool(information,@white);
+    }
+
+    .header[data-variable='technology']{
+       .headerTool(technology,@white);
+    }
+
+    .header[data-variable='science']{
+       .headerTool(science,@white);
+    }
+
+    .header[data-variable='education']{
+       .headerTool(education,@white);
+    }
+
+    .header[data-variable='cooperation']{
+       .headerTool(cooperation,@white);
+    }
+
+
+
+    .body{
         overflow-y : auto;
         position: absolute;
         top: 53px;
@@ -400,6 +488,23 @@ div.tooltip {
         .info.data{
             margin: 5px 10px !important;
         }
+    }
+
+    #scroll_down,#scroll_up{
+         position: absolute;
+        height: 30px;
+        width: 30px;
+        right: 0px;
+    }
+
+    #scroll_down{
+        bottom: 15px;
+        background: url("@{imgPath}ELC_icon_scroll_down.svg") no-repeat left center;
+    }
+
+    #scroll_up{
+        top: 15px;
+        background: url("@{imgPath}ELC_icon_scroll_up.svg") no-repeat left center;
     }
 }
 

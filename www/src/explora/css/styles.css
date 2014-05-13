@@ -34,6 +34,113 @@ html, body{ height:100%;}
     @colorVariable : #fdc300;
 }
 
+.colorVariable(@name) when (@name = economic_presence) {
+    @colorVariable : #2b85d0;
+}
+
+.colorVariable(@name) when (@name = energy) , (@name = primary_goods) , (@name = manufactures), (@name = services), (@name = investments){
+    .colorVariable(economic_presence);
+}
+
+.colorVariable(@name) when (@name = military_presence) {
+    @colorVariable : #669900;
+}
+
+.colorVariable(@name) when (@name = troops) , (@name = military_equipment) {
+    .colorVariable(military_presence);
+}
+
+.colorVariable(@name) when (@name = soft_presence) {
+    @colorVariable : #ff9000;
+}
+
+.colorVariable(@name) when (@name = migrations) , (@name = tourism), (@name = sports),
+    (@name = culture), (@name = information), (@name = technology), (@name = science),
+    (@name = education), (@name = cooperation){
+    .colorVariable(soft_presence);
+}
+
+.iconVariableHeader(@name) when (@name = iepg){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_iepg_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = economic_presence){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_presencia_economica_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = energy){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_energia_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = primary_goods){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_bienesprimarios_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = manufactures){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_manufacturas_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = services){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_servicios_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = investments){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_inversiones_cab.svg";
+}
+
+/* Military icons */ 
+.iconVariableHeader(@name) when (@name = military_presence){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_m_presencia_militar_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = troops){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_m_tropas_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = military_equipment){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_m_equipamiento_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = soft_presence){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_presencia_blanda_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = migrations){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_migraciones_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = tourism){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_turismo_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = sports){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_deportes_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = culture){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_cultura_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = information){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_informacion_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = technology){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_tecnologia_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = science){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_ciencia_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = education){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_educacion_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = cooperation){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_cooperacion_cab.svg";
+}   
+
 body {
 	.roboto();
 	color:@grey;

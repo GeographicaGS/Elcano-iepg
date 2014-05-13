@@ -88,9 +88,22 @@
         <div class="col-md-10 result">
             
             <% model.authors.each(function(m){ %>
-            <div class="resenaGroup  col-md-4  col-sm-12">
+            <div class="resenaGroup  col-md-12  col-sm-12">
+
                 <div class=" LabelForm labelGreyForm">
-                    <p for="" class="greyLabel"><span><lang>Twitter</lang></span> <%= m.get("twitter_user") %></p>
+                    <p for="" class="greyLabel">
+                        <% if (m.get("twitter_user")) { %>
+                            <span>Twitter</span> 
+                            <%= m.get("twitter_user") %>
+                        <% } else { %>
+                            <span><lang>Nombre</lang></span>
+                            <%= m.get("name") %>
+                            <span class="ml5"><lang>Posición</lang></span><span class="ml5" style="color:#d60006">es</span>
+                            <%= m.get("position_es") %>
+                            <span class="ml5"><lang>Posición (inglés)</lang></span><span class="ml5" style="color:#03f">en</span>
+                            <%= m.get("position_en") %>
+                        <% } %>
+                    </p>
                 </div>
             </div>
        

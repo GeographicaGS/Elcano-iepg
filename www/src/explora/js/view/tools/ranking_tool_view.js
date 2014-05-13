@@ -9,7 +9,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     },
 
     _events: {
-       
+       // "click  #scroll_down" : "scrollChartDown",
+       // "click  #scroll_up" : "scrollChartUp"
     },
 
     _setListeners: function(){
@@ -391,16 +392,35 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             //console.log("scrolling");
             var newy = zoom.translate()[1],
                 maxHeight =  height - visibleHeight + 150;
-            // if (newy>0){
-            //     newy = 0;
-            // }
-            // else if ((newy*-1) > maxHeight){
-            //      newy = maxHeight*-1;
-            // }
+            if (newy>0){
+                //console.log(newy);
+                newy = 0;
+                zoom.translate([0,newy]);
+            }
+            else if ((newy*-1) > maxHeight){
+                newy = maxHeight*-1;
+                zoom.translate([0,newy]);
+            }
             
+            //console.log(newy);
             canvas.attr("transform", "translate(0," + newy + ")");
 
-        }           
+        }    
+
+        var scroll_inc = (totalCountryHeight) * 5;
+
+        d3.select("#scroll_up").on("click", function(){
+            var newzoom = zoom.translate()[1] + scroll_inc;
+            zoom.translate([0,newzoom]);
+            zoomed();
+        });
+
+        d3.select("#scroll_down").on("click", function(){   
+            var newzoom = zoom.translate()[1] - scroll_inc;
+            zoom.translate([0,newzoom]);
+            zoomed();
+        });
+
 
     },
 
@@ -514,5 +534,24 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         // update the latest context
         this.copyGlobalContextToLatestContext();
+    },
+
+
+    scrollChartDown: function(e){
+        e.preventDefault();
+        console.log("Scroll down");
+        var _this = this;
+        _this.zoom.y(100);
+              _this.zoomed();
+        
+    },
+
+    scrollChartUp: function(e){
+        e.preventDefault();
+        console.log("Scroll up");
+    },
+
+    testZoom: function(){
+
     }
 });

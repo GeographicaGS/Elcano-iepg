@@ -67,7 +67,10 @@ app.view.Slider = Backbone.View.extend({
     },
 
     goLink: function(){
-        window.open(this.collection.at(this._idx).get("link"),'_blank');
+        if (this.collection.at(this._idx).get("link")){
+            window.open(this.collection.at(this._idx).get("link"),'_blank');    
+        }
+        
     },
 
     drawSlide: function(){

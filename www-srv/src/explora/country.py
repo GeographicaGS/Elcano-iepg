@@ -16,6 +16,32 @@ from common.const import variables, years
 from helpers import processFilter
 
 
+
+
+# TEST
+
+from common.helpers import blocksGetData, blocksCalculateData
+
+@app.route('/test/<string:blockCode>/<int:year>/<string:family>/<string:variable>', methods=["GET"])
+def test(blockCode, year, family, variable):
+    print(blocksGetData(blockCode))
+
+    print(blocksCalculateData(blockCode, year, family, variable))
+
+    return(jsonify({"results": "caca"}))
+
+
+     
+
+
+
+
+
+
+
+
+
+
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
 def countryFilter(lang):
     m = iepgdatamodel.IepgDataModel()

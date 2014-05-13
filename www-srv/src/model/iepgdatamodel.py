@@ -10,7 +10,7 @@ TODO: review SQL parsing. Use bindings.
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 from common.errorhandling import DataValidator
-from common.helpers import getVariableData
+import common.helpers
 
 
 class IepgDataModel(PostgreSQLModel):
@@ -70,7 +70,7 @@ class IepgDataModel(PostgreSQLModel):
         dv = DataValidator()
         dv.checkVariable(family, variable)
         dv.checkLang(lang)
-        var = getVariableData(family, variable)
+        var = helpers.getVariableData(family, variable)
 
         if filter:
             f = "array["
@@ -134,7 +134,7 @@ class IepgDataModel(PostgreSQLModel):
         dv.checkVariable(family, variable)
         dv.checkLang(lang)
         dv.checkYear(year)
-        var = getVariableData(family, variable)
+        var = helpers.getVariableData(family, variable)
 
         if filter:
             f = "array["
@@ -212,7 +212,7 @@ class IepgDataModel(PostgreSQLModel):
         dv = DataValidator()
         dv.checkVariable(family, variable)
         dv.checkYear(year)
-        var = getVariableData(family, variable)
+        var = helpers.getVariableData(family, variable)
 
         if filter:
             f = "("
@@ -245,3 +245,33 @@ class IepgDataModel(PostgreSQLModel):
                 
         sql += ';'
         return(self.query(sql, bindings=[year]).result())
+
+
+    def getCountriesData(self, countries, year, family, variable):
+        """Returns the selected variable for a year and selected countries."""
+        dv = DataValidator()
+        dv.checkVariable(family, variable)
+        var = common.helpers.getVariableData(family, variable)
+
+        f = "("
+        for c in countries:
+            f += "'"+c+"',"
+        f = f.rstrip(",")+")"
+
+        sql = """
+        select
+        a.iso_3166_1_2_code as code,
+        b.{} as value
+        from
+        iepg_data.master_country a inner join
+        {} b on
+        a.id_master_country=b.id_master_country
+        where
+        a.iso_3166_1_2_code in {} and
+        date_part('year', b.date_in)=%s;
+        """.format(var["column"], var["table"], f)
+
+        return(self.query(sql, bindings=[year]).result())
+
+
+        

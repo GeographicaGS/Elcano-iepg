@@ -4,8 +4,8 @@
 Exceptions
 """
 from flask import jsonify
-import const
-from helpers import getVariableData
+import const 
+import helpers
 
 class ElcanoApiRestError(Exception):
     status = 400
@@ -57,7 +57,7 @@ class DataValidator():
 
     def checkVariable(self, family, variable):
         """Checks a variable name."""
-        if getVariableData<>None:
+        if helpers.getVariableData(family, variable)<>None:
             return None
         raise ElcanoApiRestError("Unknown variable.", status=200, payload={"Family": family, 
                                                                            "Variable": variable})

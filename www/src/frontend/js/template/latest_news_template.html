@@ -19,6 +19,7 @@
                 <% 
                     link = d.link;
                     target = "_blank";
+                    console.log(d.section);
                     switch (d.section)
                     {
                         case "Documentos":
@@ -26,7 +27,6 @@
                             link = "/<lang>lang</lang>/<lang>_link doc</lang>/" + d.id_section;
                             target = "";
                             break;
-                        
                     }       
 
                     if (link){
@@ -47,9 +47,14 @@
                 <span class="fleft red uppercase mr5 size_13 roboto_cond_bold"><%= d.section %></span>
                 <% } %>
 
-                <% _.each(d.labels,function(l){ %>
+                <% _.each(d.labels,function(l){ 
 
-                    <a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%= l.id %>"><%= l.label %></a/>
+                    if (d.section == "Documentos" || d.section == "Documents" ) {
+                    %>
+                        <a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%= l.id %>"><%= l.label %></a/>
+                    <% } else { %>
+                        <a class="label" href="/<lang>lang</lang>/<lang>_link news</lang>/<%= l.id %>"><%= l.label %></a/>
+                    <% } %>   
                 <%  }); %>
             </p>
         </div>

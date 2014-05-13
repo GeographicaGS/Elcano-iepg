@@ -42,6 +42,7 @@ def getPublishedHighlightCatalog():
     """Gets the highlight's published catalog."""
     return __getHighlightCatalog(True)
 
+
 @app.route('/highlight/unpublishedcatalog', methods=['GET'])
 @auth
 def getUnpublishedHighlightCatalog():

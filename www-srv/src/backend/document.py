@@ -107,7 +107,9 @@ def editDocument(id_document):
       "theme_en": "Theme EN",
       "description_es": "Description ES",
       "description_en": "Description EN",
-      "authors": ["@iliana", "@jpperez"],
+      "authors": [{"twitter_user": "@iliana"}, {"twitter_user": "@jpperez"}, 
+                  {"name": "Charles Powell", "position_en": "Director of the Elcano Royal Institute",
+                   "position_es": "Director del Real Instituto Elcano"}],
       "link_es": "Link ES",
       "link_en": "Link EN",
       "pdfs_es": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
@@ -221,11 +223,7 @@ def getDocumentList():
         thisDoc["time"] = doc["time"]
         thisDoc["published"] = doc["published"]
 
-        authors = []
-        for author in m.getDocumentAuthors(doc["id"]):
-            authors.append(author["twitter_user"])
-
-        thisDoc["authors"] = authors
+        thisDoc["authors"] = m.getDocumentAuthors(doc["id"])
         thisDoc["attachments"] = False
         if len(m.getDocumentPdf(doc["id"]))>0:
             thisDoc["attachments"] = True

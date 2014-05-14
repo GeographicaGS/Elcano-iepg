@@ -14,8 +14,7 @@ class ElcanoApiRestError(Exception):
         """Exception initializer."""
         Exception.__init__(self)
         self.error = error
-        if status:
-            self.status = status
+        self.status = status
         self.payload = payload
 
     def toDict(self):

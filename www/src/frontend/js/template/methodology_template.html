@@ -43,13 +43,9 @@
                                         start += offset;
                                     }
                                 }
-
-
                             %>
                             <ul class="col-md-4 col-sm-6">
-                                <% _.each(collection.slice(start,end),function (d){
-                                    console.log(d);
-                                 %>
+                                <% _.each(collection.slice(start,end),function (d){%>
                                     <li>
                                         <%= d.country_name %>
                                     </li>

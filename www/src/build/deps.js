@@ -92,7 +92,8 @@ deps.Frontend.JS = {
 			"frontend/js/lib/underscore-min.js",
 			"frontend/js/lib/backbone-min.js",
 			"frontend/js/lib/d3.v3.min.js",	
-			"frontend/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",			
+			"frontend/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",		
+			"frontend/js/lib/sprintf.min.js",	
 		],
 		desc: "Third party library"
 	}

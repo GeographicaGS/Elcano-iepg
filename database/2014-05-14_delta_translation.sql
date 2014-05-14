@@ -450,3 +450,15 @@ INSERT INTO www.translation  VALUES ('_methodology tabla IEPE',
 
 
                         </table>');
+
+INSERT INTO www.translation VALUES ('_home IEPG explora desc','
+El 
+                <a class=''nostyle'' href=''%s''><strong>Índice Elcano de Presencia Global</strong></a> calcula, 
+                anualmente, la proyección exterior de una selección 
+                de 70 países. Para calcular este Índice se agregan 
+                indicadores en tres dimensiones','
+El 
+                <a class=''nostyle'' href=''%s''><strong>Índice Elcano de Presencia Global</strong></a> calcula, 
+                anualmente, la proyección exterior de una selección 
+                de 70 países. Para calcular este Índice se agregan 
+                indicadores en tres dimensiones');

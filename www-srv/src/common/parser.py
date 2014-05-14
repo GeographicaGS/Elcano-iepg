@@ -25,28 +25,35 @@ class Parser(object):
         self.__atoms = [Atom(code)]
 
     def parse(self, tokenizers, syntax):
-        for t in tokenizers:
-            i = 0
-            while i<len(self.__atoms):
-                if not self.__atoms[i].hasTypes():
-                    o = t(self.__atoms[i])
-                    if o<>None:
-                        atoms = []
-                        for k in range(0, i):
-                            atoms.append(self.__atoms[k])
-                        for k in o:
-                            atoms.append(k)
-                        for k in range(i+1, len(self.__atoms)):
-                            atoms.append(self.__atoms[k])
-                        self.__atoms = atoms
+        try:
+            self.str()
+            print
+            print
+
+            for t in tokenizers:
+                i = 0
+                while i<len(self.__atoms):
+                    if not self.__atoms[i].hasTypes():
+                        o = t(self.__atoms[i])
+                        if o<>None:
+                            atoms = []
+                            for k in range(0, i):
+                                atoms.append(self.__atoms[k])
+                            for k in o:
+                                atoms.append(k)
+                            for k in range(i+1, len(self.__atoms)):
+                                atoms.append(self.__atoms[k])
+                            self.__atoms = atoms
+                        else:
+                            i+=1
                     else:
                         i+=1
-                else:
-                    i+=1
+        except ParserError as e:
+            print str(e)
+            return(None)
 
         for t in syntax:
             t(self.__atoms)
-
 
         return(self.__atoms)
 
@@ -66,11 +73,27 @@ class Atom(object):
     __syntax = None
     __types = None
     __hash = None
+    __openAtom = None
+    __closeAtom = None
 
-    def __init__(self, syntax, types=[]):
+    def __init__(self, syntax, types=[], openAtom=None, closeAtom=None):
          self.__syntax = syntax
          self.__types = types
+         self.__openAtom = openAtom
+         self.__closeAtom = closeAtom
          self.__hash = hashlib.md5(syntax+str(types)+str(datetime.datetime.now())).hexdigest()
+
+    def getOpenAtom(self):
+        return(self.__openAtom)
+
+    def getCloseAtom(self):
+        return(self.__closeAtom)
+
+    def setOpenAtom(self, hash):
+        self.__openAtom = hash
+
+    def setCloseAtom(self, hash):
+        self.__closeAtom = hash
 
     def getHash(self):
         return(self.__hash)
@@ -200,136 +223,191 @@ def tokenComma(atom):
         return(None)
 
 
-def tokenBlock(atom):
-    """Return splitted string based on closing parenthesses."""
-    blocks=['(','Token (',')','Token )','[','Token [',']','Token ]','"','Token "','"','Token "']
-    open = 0
+def tokenDoubleQuotes(atom):
+    """Literate context within double quotes."""
+    s = atom.getSyntax()
     begin = -1
     end = -1
-    openItem = ""
-    closeItem = ""
-    string = atom.getSyntax()
-    
+
     i = 0
-    while i<len(string): 
-        if string[i]==openItem and openItem<>closeItem:
-            open+=1
-        if string[i]==closeItem and openItem<>closeItem:
-            open-=1
-        if string[i]==closeItem and openItem==closeItem:
-            end = i
-            i = len(string)
-        if open==0 and begin<>-1:
-            end = i
-            i = len(string)
-        if openItem=="":
-            for b in range(0, len(blocks), 4):
-                if string[i]==blocks[b]:
-                    openItem = blocks[b]
-                    openType = blocks[b+1]
-                    closeItem = blocks[b+2]
-                    closeType = blocks[b+3]
-                    open+=1
-                    begin = i
+    n = 0
+    while i<len(s):
+        if s[i]=='"':
+            n+=1
+            error = i
         i+=1
 
-    if begin<>-1 and end<>-1:
-        out = []
-        e1 = string[0:begin]
-        e2 = string[begin+1:end]
-        e3 = string[end+1:]
-        o = Atom(openItem, types=[openType,"Block"])
-        c = Atom(closeItem, types=[closeType,"Block"])
-        o.openingAtom = o.getHash()
-        o.closingAtom = c.getHash()
-        c.openingAtom = o.getHash()
-        c.closingAtom = c.getHash()
-        if e1<>'':
-            out.append(Atom(e1))
-        out.append(o)
-        if e2<>'':
-            if openItem==closeItem:
-                out.append(Atom(e2, types=["Literal"]))
-            else:
+    if n%2==1:
+        raise ParserError("Syntax error: Mismatch double quotes at character "+str(error))
+
+    i = 0
+    while i<len(s):
+        if s[i]=='"' and begin==-1:
+            begin = i
+            i+=1
+            continue
+        if s[i]=='"' and begin<>-1:
+            end = i
+            out = []
+            e1 = s[0:begin]
+            e2 = s[end+1:]
+            openAtom = Atom('"', types=["Double Quotes", "Block"])
+            closeAtom = Atom('"', types=["Double Quotes", "Block"])
+            openAtom.setOpenAtom(openAtom.getHash())
+            openAtom.setCloseAtom(closeAtom.getHash())
+            closeAtom.setOpenAtom(openAtom.getHash())
+            closeAtom.setCloseAtom(closeAtom.getHash())
+            if e1<>"":
+                out.append(Atom(e1))
+            out.append(openAtom)
+            out.append(Atom(s[begin+1:end], types=["Literal"]))
+            out.append(closeAtom)
+            if e2<>"":
                 out.append(Atom(e2))
-        out.append(c)
-        if e3<>'':
-            out.append(Atom(e3))
-        return(out)
-    else:
-        return(None)
- 
+            return(out)
+        i+=1
+    
+    if (begin<>-1 and end==-1):
+        out = s[0:begin]+" "+s[begin+1:]
+        return([Atom(out)])
+        
+    return(None)
+
+
+def tokenParenthesses(atom):
+    """Return splitted string based on closing parenthesses."""
+    opened = 0
+    begin = -1
+    end = -1
+    s = atom.getSyntax()
+    
+    i = 0
+    nopen = 0
+    nclose = 0
+    while i<len(s):
+        if s[i]=="(":
+            nopen+=1
+            error = i
+        if s[i]==")":
+            nclose+=1
+            error = i
+        i+=1
+
+    if nopen<>nclose:
+        raise ParserError("Syntax error: Mismatch parenthesses at character "+str(error))
+
+    i = 0
+    while i<len(s):
+        if s[i]=="(":
+            if opened==0:
+                begin = i
+            opened+=1
+        if s[i]==")":
+            opened-=1
+            if opened==0:
+                end = i
+        if begin<>-1 and end<>-1:
+            out = []
+            e1 = s[0:begin]
+            e2 = s[end+1:]
+            openAtom = Atom('(', types=["Open Parenthesses", "Block"])
+            closeAtom = Atom(')', types=["Close Parenthesses", "Block"])
+            openAtom.setOpenAtom(openAtom.getHash())
+            openAtom.setCloseAtom(closeAtom.getHash())
+            closeAtom.setOpenAtom(openAtom.getHash())
+            closeAtom.setCloseAtom(closeAtom.getHash())
+            if e1<>"":
+                out.append(Atom(e1))
+            out.append(openAtom)
+            out.append(Atom(s[begin+1:end]))
+            out.append(closeAtom)
+            if e2<>"":
+                out.append(Atom(e2))
+            return(out)
+        i+=1
+
+    return(None)
+
 
 def tokenDefault(atom):
-    """Default parsing."""
-    atom.addType("Literal")
-    return([atom])
+     """Default parsing."""
+     atom.addType("Literal")
+     return([atom])
 
 
 def synWhitespaces(atoms):
-    """Process whitespaces."""
-    i = 0
-    while i<len(atoms):
-        if atoms[i].isType("Whitespace") and i==0:
-            atoms.pop(i)
-            continue
-        if atoms[i].isType("Whitespace") and i==len(atoms)-1:
-            atoms.pop(i)
-            continue
-        if atoms[i].isType("Whitespace") and atoms[i+1].isType("Whitespace"):
-            atoms.pop(i+1)
-            continue
+     """Process whitespaces."""
+     i = 0
+     while i<len(atoms):
+         if atoms[i].isType("Whitespace") and i==0:
+             atoms.pop(i)
+             continue
+         if atoms[i].isType("Whitespace") and i==len(atoms)-1:
+             atoms.pop(i)
+             continue
+         if atoms[i].isType("Whitespace") and atoms[i+1].isType("Whitespace"):
+             atoms.pop(i+1)
+             continue
 
-        i+=1
+         i+=1
 
 
 def synQuotes(atoms):
-    """Erases quotes."""
-    i = 0
-    while i<len(atoms):
-        if atoms[i].isType('Token "'):
-            atoms.pop(i)
-            continue
-        i+=1
+     """Erases quotes."""
+     i = 0
+     while i<len(atoms):
+         if atoms[i].isType('Token "'):
+             atoms.pop(i)
+             continue
+         i+=1
 
 
 def synPlusMinus(atoms):
-    """Erases consecutives +,- tokens."""
-    i = 0
-    while i<len(atoms):
-        if atoms[i].isType("plusminus") and atoms[i+1].isType("plusminus"):
-            atoms.pop(i+1)
-            continue
-        i+=1
+     """Erases consecutives +,- tokens."""
+     i = 0
+     while i<len(atoms):
+         if atoms[i].isType("plusminus") and atoms[i+1].isType("plusminus"):
+             atoms.pop(i+1)
+             continue
+         i+=1
 
-    i = 0
-    while i<len(atoms):
-        if atoms[i].isType("plusminus") and atoms[i+1].isType("Whitespace"):
-            atoms.pop(i+1)
-            continue
-        i+=1
+     i = 0
+     while i<len(atoms):
+         if atoms[i].isType("plusminus") and atoms[i+1].isType("Whitespace"):
+             atoms.pop(i+1)
+             continue
+         i+=1
 
 
 def synEmptyBlocks(atoms):
-    """Erases empty blocks."""
-    i = 0
-    changes = True
-    while changes:
-        changes = False
-        while i<len(atoms):
-            if atoms[i].isType("Token (") and atoms[i+1].isType("Token )"):
-                atoms.pop(i)
-                atoms.pop(i)
-                changes = True
-                continue
-            i+=1
-        i = 0
-        while i<len(atoms):
-            if atoms[i].isType("Token (") and atoms[i+1].isType("Whitespace") and atoms[i+2].isType("Token )"):
-                atoms.pop(i)
-                atoms.pop(i)
-                atoms.pop(i)
-                changes = True
-                continue
-            i+=1
-        synWhitespaces(atoms)
+     """Erases empty blocks."""
+     i = 0
+     changes = True
+     while changes:
+         changes = False
+         while i<len(atoms):
+             if atoms[i].isType("Token (") and atoms[i+1].isType("Token )"):
+                 atoms.pop(i)
+                 atoms.pop(i)
+                 changes = True
+                 continue
+             i+=1
+         i = 0
+         while i<len(atoms):
+             if atoms[i].isType("Token (") and atoms[i+1].isType("Whitespace") and atoms[i+2].isType("Token )"):
+                 atoms.pop(i)
+                 atoms.pop(i)
+                 atoms.pop(i)
+                 changes = True
+                 continue
+             i+=1
+         synWhitespaces(atoms)
+
+
+class ParserError(Exception):
+    def __init__(self, error):
+        Exception.__init__(self)
+        self.error = error
+        
+    def __str__(self):
+        return(self.error)

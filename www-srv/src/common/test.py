@@ -6,10 +6,14 @@ reload(parser)
 
 def parseSearchString(searchString):
     p = parser.Parser(searchString)
-    a = p.parse([parser.tokenBlock, parser.tokenPlusMinus, parser.tokenComma, 
-                 parser.tokenWhiteSpace, parser.tokenDefault], [parser.synQuotes, parser.synWhitespaces,
-                                                                parser.synEmptyBlocks, 
-                                                                parser.synPlusMinus])
+    a = p.parse([parser.tokenDoubleQuotes, parser.tokenParenthesses, parser.tokenDefault], [])
+
+# , parser.tokenPlusMinus, parser.tokenComma, 
+#                  parser.tokenWhiteSpace, parser.tokenDefault], [])
+
+# [parser.synQuotes, parser.synWhitespaces,
+#                                                                 parser.synEmptyBlocks, 
+#                                                                 parser.synPlusMinus])
     p.str()
     return(a)
 
@@ -20,4 +24,5 @@ def parseSearchString(searchString):
 
 
 
-atoms = parseSearchString('    ()  dfd ')
+
+atoms = parseSearchString('("uu")')

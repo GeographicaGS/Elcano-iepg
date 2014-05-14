@@ -203,7 +203,6 @@ def uploadImg():
             filename = secure_filename(file.filename)
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+session["email"]).hexdigest()+fileExtension
-            print(filename)
             file.save(os.path.join(backend['tmpFolder'], filename))
             return jsonify({"filename": filename})  
         

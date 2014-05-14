@@ -45,7 +45,6 @@ class Parser(object):
                     i+=1
 
         for t in syntax:
-            ipdb.set_trace()
             t(self.__atoms)
 
 
@@ -57,6 +56,10 @@ class Parser(object):
     def str(self):
         for i in self.__atoms:
             print(i)
+        s = ""
+        for i in self.__atoms:
+            s+=i.getSyntax()
+        print(s)
 
 
 class Atom(object):
@@ -195,7 +198,7 @@ def tokenComma(atom):
         return(out)
     else:
         return(None)
-    
+
 
 def tokenBlock(atom):
     """Return splitted string based on closing parenthesses."""
@@ -237,8 +240,10 @@ def tokenBlock(atom):
         e3 = string[end+1:]
         o = Atom(openItem, types=[openType,"Block"])
         c = Atom(closeItem, types=[closeType,"Block"])
+        o.openingAtom = o.getHash()
         o.closingAtom = c.getHash()
         c.openingAtom = o.getHash()
+        c.closingAtom = c.getHash()
         if e1<>'':
             out.append(Atom(e1))
         out.append(o)
@@ -286,3 +291,45 @@ def synQuotes(atoms):
             atoms.pop(i)
             continue
         i+=1
+
+
+def synPlusMinus(atoms):
+    """Erases consecutives +,- tokens."""
+    i = 0
+    while i<len(atoms):
+        if atoms[i].isType("plusminus") and atoms[i+1].isType("plusminus"):
+            atoms.pop(i+1)
+            continue
+        i+=1
+
+    i = 0
+    while i<len(atoms):
+        if atoms[i].isType("plusminus") and atoms[i+1].isType("Whitespace"):
+            atoms.pop(i+1)
+            continue
+        i+=1
+
+
+def synEmptyBlocks(atoms):
+    """Erases empty blocks."""
+    i = 0
+    changes = True
+    while changes:
+        changes = False
+        while i<len(atoms):
+            if atoms[i].isType("Token (") and atoms[i+1].isType("Token )"):
+                atoms.pop(i)
+                atoms.pop(i)
+                changes = True
+                continue
+            i+=1
+        i = 0
+        while i<len(atoms):
+            if atoms[i].isType("Token (") and atoms[i+1].isType("Whitespace") and atoms[i+2].isType("Token )"):
+                atoms.pop(i)
+                atoms.pop(i)
+                atoms.pop(i)
+                changes = True
+                continue
+            i+=1
+        synWhitespaces(atoms)

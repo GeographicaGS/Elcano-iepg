@@ -15,7 +15,9 @@
     <td><a href="/<lang>lang</lang>/docs/<%= d.id %>"><%= d.title %> </a></td>
     <td>
         <% if (d.authors.length) { %>
-            <span><%= d.authors[0].twitter_user ? d.authors[0].twitter_user : d.authors[0].name %></span>
+            <span title="<%= d.authors[0].twitter_user ? d.authors[0].twitter_user : d.authors[0].name%>">
+                <%= d.authors[0].twitter_user ? app.truncate(d.authors[0].twitter_user,15) : app.truncate(d.authors[0].name,15) %>
+            </span>
             <% if (d.authors.length > 1) { %> 
                 <span class="badge">+ <%= d.authors.length %></span></a>
             <% } %>

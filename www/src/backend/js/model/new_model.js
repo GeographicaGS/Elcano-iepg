@@ -5,18 +5,22 @@ app.model.New = Backbone.Model.extend({
         return {
             title_es: {
                 maxLength : 150,
-                requiredGroup: this._titleRequiredGroup
+                //requiredGroup: this._titleRequiredGroup
+                required: true
             },
             title_en : {
                 maxLength : 150,
-                requiredGroup: this._titleRequiredGroup
+                //requiredGroup: this._titleRequiredGroup
+                required: true
             },
 
             text_es: {
-                requiredGroup: this._textRequiredGroup
+                //requiredGroup: this._textRequiredGroup
+                required: true
             },
             text_en : {
-                requiredGroup: this._textRequiredGroup
+                //requiredGroup: this._textRequiredGroup
+                required: true
             },
            
             url_es: {

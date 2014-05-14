@@ -150,7 +150,6 @@ app.view.docs.FormView = Backbone.View.extend({
             $input.val("");
         }
         
-        
     },
     
     selectLabel: function(e){
@@ -222,10 +221,11 @@ app.view.docs.FormView = Backbone.View.extend({
     },
     
     removeAuthor: function(e){
+
         var $e = $(e.target),
-            idx = $e.attr("idx_author");
+            idx = $e.closest("[idx_author]").attr("idx_author");
             
-        if (idx>0) {
+        if (idx>0 ) {
             this.model.get("authors").remove(this.model.get("authors").at(idx));
         }
     },

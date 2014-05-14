@@ -42,6 +42,7 @@ def getPublishedHighlightCatalog():
     """Gets the highlight's published catalog."""
     return __getHighlightCatalog(True)
 
+
 @app.route('/highlight/unpublishedcatalog', methods=['GET'])
 @auth
 def getUnpublishedHighlightCatalog():
@@ -202,7 +203,6 @@ def uploadImg():
             filename = secure_filename(file.filename)
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+session["email"]).hexdigest()+fileExtension
-            print(filename)
             file.save(os.path.join(backend['tmpFolder'], filename))
             return jsonify({"filename": filename})  
         

@@ -176,6 +176,27 @@ class HomeModel(PostgreSQLModel):
                            "Documents" if lang=='en' else "Documentos",
                            lang,lang,lang,lang,lang)
 
+        return(self.query(sql).result())
+
+
+    def countryList(self, lang):
+        """Gets the list of IEPG countries alphabetically ordered."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+
+        sql = """
+        select distinct
+        a.short_name_{}1 as country_name
+        from
+        iepg_data.master_country a inner join
+        iepg_data.iepg_final_data b on
+        a.id_master_country=b.id_master_country
+        where
+        a.id_master_country<>'eu900'
+        order by
+        a.short_name_{}1;""".format(lang,lang)
+
         print(sql)
 
         return(self.query(sql).result())
+

@@ -62,8 +62,6 @@ def blocksCalculateData(blockCode, year, family, variable):
     """Calculates block data for a variable."""
     m = IepgDataModel()
     block = blocks[blockCode]
-    print("ii", block)
     data = cacheWrapper(m.getCountriesData, block["members"][str(year)], year, family, variable)
-    print(data)
 
     return(None)

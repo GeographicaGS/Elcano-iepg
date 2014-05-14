@@ -90,6 +90,10 @@ class HighlightModel(PostgreSQLModel):
             credit_img_en ilike %s or
             credit_img_es ilike %s)"""
 
+        sql += """
+        order by last_edit_time desc
+        """
+
         if page and listSize:
             sql += """
             offset %s limit %s

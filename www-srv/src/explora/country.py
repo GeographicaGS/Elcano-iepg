@@ -104,7 +104,6 @@ def mapGeoJson():
     
     features = []
     for d in data:
-        print(d)
         f = dict()
         f["type"] = "Feature"
         f["geometry"] = json.loads(d["geojson"])

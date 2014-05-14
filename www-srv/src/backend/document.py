@@ -89,37 +89,37 @@ def newDocument():
 @app.route('/document/<int:id_document>', methods=['PUT'])
 @auth
 def editDocument(id_document):
-    """
-
-    Edits a document. Gets the id_document in the URL, and upload this
+    """Edits a document. Gets the id_document in the URL, and upload this
     JSON:
 
     {
-      "title_es": "Test document ES",
-      "title_en": "Test document EN",
-      "labels_es": [{"id": "1", "label": "Label A"},
-                    {"id": "2", "label": "Label B"},
-                    {"id": "4", "label": "Label c"}],
-      "labels_en": [{"id": "1", "label": "Label A"},
-                    {"id": "3", "label": "Label B"},
-                    {"id": "4", "label": "Label c"}],
-      "theme_es": "Theme ES",
-      "theme_en": "Theme EN",
-      "description_es": "Description ES",
-      "description_en": "Description EN",
-      "authors": ["@iliana", "@jpperez"],
-      "link_es": "Link ES",
-      "link_en": "Link EN",
-      "pdfs_es": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
-                  {"name": "pdf_es_2", "hash": "8383e83838283e838238"}, 
-                  {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
-      "pdfs_en": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
-                  {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
-                  {"name": "pdf_en_3", "hash": "8383e83838283e838238"}],
-      "published": "True"
-    }
-
-    """
+    "title_es": "Test document ES",
+    "title_en": "Test document EN",
+    "labels_es": [{"id": "1", "label": "Label A"},
+    {"id": "2", "label": "Label B"},
+    {"id": "4", "label": "Label c"}],
+    "labels_en": [{"id": "1", "label": "Label A"},
+    {"id": "3", "label": "Label B"},
+    {"id": "4", "label": "Label c"}],
+    "theme_es": "Theme ES",
+    "theme_en": "Theme EN",
+    "description_es": "Description ES",
+    "description_en": "Description EN",
+    "authors": [{name": "Charles Powell", "position_en": "Director of the Elcano Royal Institute",
+    "position_es": "Director del Real Instituto Elcano","twitter_user": "@iliana"}, 
+    {name": "Charles Powell", "position_en": "Director of the Elcano Royal Institute",
+    "position_es": "Director del Real Instituto Elcano","twitter_user": "@jpperez"}, 
+    {"name": "Charles Powell", "position_en": "Director of the Elcano Royal Institute",
+    "position_es": "Director del Real Instituto Elcano", "twitter_user": ""}],
+    "link_es": "Link ES",
+    "link_en": "Link EN",
+    "pdfs_es": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
+    {"name": "pdf_es_2", "hash": "8383e83838283e838238"}, 
+    {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
+    "pdfs_en": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
+    {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
+    {"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
+    }"""
     m = DocumentModel()
     oldDocPdfEn = map(lambda p: p["hash"], m.getDocumentPdf(id_document, "en"))
     oldDocPdfEs = map(lambda p: p["hash"], m.getDocumentPdf(id_document, "es"))
@@ -221,11 +221,7 @@ def getDocumentList():
         thisDoc["time"] = doc["time"]
         thisDoc["published"] = doc["published"]
 
-        authors = []
-        for author in m.getDocumentAuthors(doc["id"]):
-            authors.append(author["twitter_user"])
-
-        thisDoc["authors"] = authors
+        thisDoc["authors"] = m.getDocumentAuthors(doc["id"])
         thisDoc["attachments"] = False
         if len(m.getDocumentPdf(doc["id"]))>0:
             thisDoc["attachments"] = True
@@ -285,7 +281,6 @@ def getDocument(id_document):
         authors = m.getDocumentAuthors(id_document)
         labels_es = m.getDocumentLabels(id_document,"es")
         labels_en = m.getDocumentLabels(id_document,"en")
-
         json = {
             "id" : d["id_document"],
             "title_en" : d["title_en"],
@@ -296,7 +291,7 @@ def getDocument(id_document):
             "description_es" : d["description_es"],
             "link_es" : d["link_es"],
             "link_en" : d["link_en"],
-            "published" : True if d["published"] == "t" else False,
+            "published" : d["published"],
             "last_edit_id_user" : d["last_edit_id_user"],
             "last_edit_time" : d["last_edit_time"],
             "pdfs_es" : pdfs_es,

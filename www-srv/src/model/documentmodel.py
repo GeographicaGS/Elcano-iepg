@@ -46,9 +46,6 @@ class DocumentModel(PostgreSQLModel):
             bi.append("%"+i+"%")
 
         sql = sql.rstrip(" or ")+";"
-
-        print(sql)
-
         return(self.query(sql, bindings=bi).row())
 
 
@@ -75,9 +72,6 @@ class DocumentModel(PostgreSQLModel):
             bi.extend(["%"+i+"%","%"+i+"%"])
 
         sql = sql.rstrip(" or\n")+";"
-
-        print(sql)
-
         out = self.query(sql, bindings=bi).row()
 
         if out:
@@ -110,9 +104,6 @@ class DocumentModel(PostgreSQLModel):
         where
         published and 
         array[""".format(lang,lang)+labels+"""]::int[] <@ labels;"""
-
-        print(sql)
-
         return(self.query(sql).row())
 
 
@@ -144,9 +135,6 @@ class DocumentModel(PostgreSQLModel):
             sql = sql.rstrip(" or\n")
 
         sql += ";"
-
-        print(sql)
-
         return(self.query(sql, bindings=bi).row())
 
 
@@ -237,8 +225,7 @@ class DocumentModel(PostgreSQLModel):
                      "last_edit_id_user": session["id_user"],
                      "last_edit_id_user": "1",
                      "link_en": data["link_en"],
-                     "link_es": data["link_es"],
-                     "published": data["published"]},
+                     "link_es": data["link_es"]},
                     {"id_document": id_document})
 
         q = "delete from www.author where id_document=%s"

@@ -317,6 +317,7 @@
             a{ 
                 color: @grey_dark;
                 font-size: 13px;
+                border-bottom: none;
             }
 
             a:hover{

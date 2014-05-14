@@ -2,7 +2,7 @@ app.view.FAQ = Backbone.View.extend({
     _template : _.template( $('#faq_template').html() ),
     
     initialize: function() {
-        app.events.trigger("menu","");
+        app.events.trigger("menu","faq");
         this.render();
     },
 

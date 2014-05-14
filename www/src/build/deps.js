@@ -139,6 +139,8 @@ deps.Frontend.JS = {
 			"frontend/js/view/privacity_view.js",
 
 			"frontend/js/view/about/about_view.js",
+			"frontend/js/view/about/methodology_view.js",
+			"frontend/js/view/about/structure_view.js",
 
 			// router
 			"frontend/js/router.js",

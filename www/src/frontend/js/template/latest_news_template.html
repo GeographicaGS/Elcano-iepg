@@ -15,7 +15,7 @@
         </div>
                 
         <div class="col-md-10">
-            <p class="size_18 grey_dark roboto_light">
+            <p class="size_18 grey_dark roboto_light " <%=d.section%>>
                 <% 
                     link = d.link;
                     target = "_blank";
@@ -31,7 +31,7 @@
 
                     if (link){
                     %>
-                        <a href="<%= link%>" class="simple" target="<%= target%>">
+                        <a href="<%= link%>" class="min" target="<%= target%>">
                             <%= app.urlify(d.title,"target=_blank") %>
                         </a>
                     <%

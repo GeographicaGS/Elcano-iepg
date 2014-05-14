@@ -30,6 +30,8 @@
             margin-bottom: @line_height;
             height: 150px;
             .roboto(light);
+            /* Just for hide long text*/
+            overflow: hidden;
 
             strong{
                 .roboto(medium);

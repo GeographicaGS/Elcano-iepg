@@ -151,6 +151,10 @@
                             background: url("@{imgPath}ELC_icon_acceder_form.png") no-repeat right center;
                         }
 
+                        li:hover{
+                            color:@red;
+                        }
+
                         li:last-child{
                             border-bottom: none;
                         }
@@ -204,13 +208,18 @@
                         }
                         
                         li:hover{
-                            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat 10px center;
-                            color:@red !important;
+                            
+                            a{
+                                color:@red;
+                            }
                         }
 
                         li[selected]{
                             background: url("@{imgPath}ELC_icon_select_form.png") no-repeat 10px center;
-                            color:@red;
+                            a{
+                                color:@red;
+                            }
+
                         }
 
                     }
@@ -264,6 +273,9 @@
                                 .roboto();
                                 font-size: 16px;
                             }
+                            a:hover{
+                                color: @red;
+                            }
                         }
 
                         li:last-child a{
@@ -271,6 +283,10 @@
                         }
                         li[selected]{
                             background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left 10px center;
+
+                            a{
+                                color:@red;
+                            }
                         }
                     }
                 }
@@ -289,7 +305,7 @@
         }
 
         button.go_explora:hover{
-            background-color:@red;
+            background-color:@grey;
         } 
 
         .faq{
@@ -301,6 +317,10 @@
             a{ 
                 color: @grey_dark;
                 font-size: 13px;
+            }
+
+            a:hover{
+                border-bottom: 1px solid @grey;
             }
         }
 
@@ -347,16 +367,24 @@
         /*height: 45px;*/
 
         li{
-            color: @grey_light;
+            
             font-size: 15px;
             height: 45px;
             line-height: 45px;
             padding: 0 15px;
             .roboto_cond(bold);
+            a{
+                border-bottom: none;
+                color: @grey_light;
+            }
+
+            a:hover{
+                color:@red;
+            }
         }
 
         li[selected]{
-            color:@red;
+
             border-bottom: 1px solid @red;
         }
 
@@ -365,6 +393,16 @@
             .top_title{
                 padding-left: 24px;
             }
+        }
+    }
+
+    p[twitter]{
+        color:@grey;
+        a{
+            color:@grey_dark;
+        }
+        a:hover{
+            border-bottom: 1px solid @grey_light;
         }
     }
 

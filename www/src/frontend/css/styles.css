@@ -6,7 +6,7 @@
 
 /* Color palette */
 @grey: #515155;
-@grey_light: #a2a2ac;
+@grey_light: #a2a2ac; 
 @grey_light2: #e7e7ea;
 @grey_dark: #28282b;
 @grey2: #5e5e62;
@@ -17,8 +17,6 @@
 @orange : #ff9000;
 @white :#fff;
 
-
-
 html, body{ height:100%;}
 body {
 	.roboto();
@@ -26,16 +24,6 @@ body {
 	font-size:16px;
 	line-height:24px;
     min-width: 768px !important; 
-}
-
-a.simple{
-	border-bottom: none !important;
-	text-decoration: none !important;
-}
-
-a.simple:hover{
-	border-bottom: 1px solid @yellow !important;
-	text-decoration: none !important;
 }
 
 a.nostyle{
@@ -48,6 +36,63 @@ a.nostyle:hover{
     text-decoration: none !important;
     color:inherit !important;
 }
+
+a{
+	color: @grey_dark;
+	border-bottom: 1px solid @yellow;
+}
+
+a:hover{
+    border-bottom: 1px solid @grey_light;
+}
+
+a.min{
+	color: @grey_dark;
+	border-bottom: none;
+}
+
+a.min:hover{
+ 	border-bottom: 1px solid @grey_light;
+}
+
+a.min_white{
+	color:@white;
+	border-bottom: none;
+}
+
+a.min_white:hover{
+	color:@grey_light;
+	border-bottom: none;	
+}
+
+a.simple{
+	color: @grey_dark;
+	border-bottom: none;
+}
+a.simple:hover{
+	border-bottom: 1px solid @grey_light;
+}
+
+a.label{
+    display: inline-block;
+    color:@grey_dark;
+    margin-right: 7px;
+    padding: 0 5px;
+    line-height: 20px;
+    height:20px;
+    background-color: @yellow;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+a.label:hover{
+    background-color: @red;
+    color:@white;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+
 
 p,span,div,table{
 	.roboto();
@@ -182,20 +227,7 @@ input[placeholder]{
 
 .uppercase{ text-transform: uppercase;}
 
-a:hover{
-	color:@red;
-    border-bottom: 1px solid @grey;
-}
 
-a.bottom_yellow{
-    color: @grey_dark;
-    border-bottom: 1px solid @yellow;
-}
-
-a.bottom_yellow:hover{
-    color: @grey_dark;
-    border-bottom: 1px solid @yellow;
-}
 
 
 
@@ -228,16 +260,21 @@ header{
                 display: block;
                 height: 44px;
                 line-height: 44px;
-                border-bottom: 1px solid @grey_light2;
-                color:@grey_dark;
                 .roboto();
                 font-size: 13px;
             }
+
+            &:nth-child(1){
+	        	a{
+	        		border-bottom: 1px solid @grey_light2 !important;
+	        	}
+     		}
+
         }
+        
         li[selected]{
             background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left 10px center;
             background-size: 16px 16px;
-            
         }
         
         li[selected] a{
@@ -247,10 +284,24 @@ header{
 
     
     }
+    h1{
+    	margin-top:53px;
+		text-align: right;
+		border-top: 1px dotted #ccc;
+		padding: 10px 0 0 112px;
+		a{
+			color:@red !important;
+			.roboto(bold);
+		}
+		a:hover{
+			border-bottom: 1px solid @grey_light !important;
+			color: @grey_dark !important;
+		}
+    }
 }
 
 header > div:first-child{
-	height: 120px;
+	height: 138px;
 }
 
 header > nav{
@@ -259,12 +310,6 @@ header > nav{
 	color:@grey_light;
 }
 
-header h1{
-	margin-top:30px;
-	text-align: right;
-	border-top: 1px dotted #ccc;
-	padding: 10px 0 0 112px;
-}
 
 ul#top_menu li:first-child:before{
 	content: url("@{imgPath}/icons/faq_ico.png");
@@ -295,6 +340,7 @@ ul#menu{
             padding: 0 10px;
             height: 100%;
             color: #d6d6d6;
+            border-bottom: none;
             .roboto_cond();
             float:left;
 
@@ -344,12 +390,14 @@ ul#menu{
 	}
 
 	li[selected]{
-		border-bottom: 1px solid #fff;
+		.roboto_cond(bold);
         line-height: 44px;
-        color: #fff;
         margin-top: 0px;
-	}
 
+        a{
+        	color: @white;
+        }
+	}
 
 }
 
@@ -362,6 +410,7 @@ ul#menu{
 	font-size: 16px;
 	padding: 0px 13px;
 	cursor: pointer;
+	border-bottom: none;
 	.roboto();
 
 	strong{
@@ -418,16 +467,6 @@ footer{
 	color:@grey_light;
 	.roboto(light);
 	font-size: 13px;
-
-
-	a{
-		color:@white;
-	}
-
-	a:hover{
-		color:@grey_light;
-		text-decoration: underline;
-	}
 
 	p.desc{
 		font-size: 16px;
@@ -514,25 +553,6 @@ footer{
     }
 }
 
-a.label{
-    display: inline-block;
-    color:@grey_dark;
-    margin-right: 7px;
-    padding: 0 5px;
-    line-height: 20px;
-    height:20px;
-    background-color: @yellow;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-a.label:hover{
-    background-color: @red;
-    color:@white;
-    text-decoration: none;
-    border-bottom: none;
-}
-
 .search_header{
 	min-height: 95px;
 	color: @white;
@@ -604,17 +624,7 @@ a.label:hover{
 }
 
 .list_els{
-	p{
-        a{
-            color:@grey_dark;
-            border-bottom: 1px solid @yellow;
-        }
-        a:hover{
-            border-bottom: 1px solid @grey;
-        }
-    }
-
-
+	
     .stamp{
         line-height: @line_height;
         font-size: 13px;
@@ -649,12 +659,7 @@ a.label:hover{
 .authors{
     display: inline;
     a{
-        color:@grey_dark;
-        border-bottom: 1px solid @yellow;
         font-size: 13px;
-    }
-    a:hover{
-        border-bottom: 1px solid @grey;
     }
 
     span.name{

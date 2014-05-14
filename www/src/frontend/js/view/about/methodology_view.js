@@ -3,7 +3,12 @@ app.view.Methodology = Backbone.View.extend({
     
     initialize: function(options) {
         app.events.trigger("menu","about");
-        this.render();
+
+        this.collection = new app.collection.CountriesPlain();
+
+        this.listenTo(this.collection,"reset",this.render);
+
+        this.collection.fetch({"reset": true})
     },
     
     onClose: function(){
@@ -13,7 +18,9 @@ app.view.Methodology = Backbone.View.extend({
     
     render: function() {
         
-        this.$el.html(this._template());
+        this.$el.html(this._template({
+            collection : this.collection.toJSON()
+        }));
         return this;
     }
 });

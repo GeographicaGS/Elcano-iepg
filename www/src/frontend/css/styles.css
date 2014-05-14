@@ -856,5 +856,24 @@ footer{
 			}
 		}
 	}
+
+	.list_countries{
+		
+		padding: 20px 10px;
+		ul{
+			margin: 0;
+			padding: 0;
+			li{
+				margin: 0;
+				padding: 0;
+				min-height: 25px;
+				line-height: 30px;
+				border-bottom: 1px solid @grey_light2;
+				&:first-child{
+					border-top: 1px solid @grey_light2;
+				};
+			}
+		}
+	}
 }
 

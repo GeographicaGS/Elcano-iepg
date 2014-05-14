@@ -25,7 +25,40 @@
                         <p><lang>_methodology p1</lang>.</p>
 
                         <h6><lang>_methodology países h6</lang></h6>
-                        <p>TODO: Aquí la tabla de países</p>
+
+                        <div class="row list_countries">
+                            <%
+                            var n_interval = collection.length < 3 ? 1 : 
+                                                app.isSMDevice() ? 2 : 3,
+                                interval = parseInt(collection.length / n_interval),
+                                offset = collection.length % n_interval;
+                                        
+                            for (var i=0;i<n_interval;i++){
+                                var start = interval*i,
+                                    end = interval*(i+1);
+                                    
+                                if (offset){
+                                    end += offset; 
+                                    if (i>0){
+                                        start += offset;
+                                    }
+                                }
+
+
+                            %>
+                            <ul class="col-md-4 col-sm-6">
+                                <% _.each(collection.slice(start,end),function (d){
+                                    console.log(d);
+                                 %>
+                                    <li>
+                                        <%= d.country_name %>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                            <% } %>
+                            
+                        </div>
+
                         <p><lang>_methodology países p</lang>.</p>
                         <h6><lang>Estructura del Índice Elcano de Presencia Global</lang></h6>
 

@@ -118,6 +118,7 @@ deps.Frontend.JS = {
 			"frontend/js/collection/docs/docs_collection.js",
 			"frontend/js/collection/docs/label_collection.js",
 			"frontend/js/collection/news/news_collection.js",
+			"frontend/js/collection/countries_plain_collection.js",
 			
 			// --------------------
 			// ------  Views ------

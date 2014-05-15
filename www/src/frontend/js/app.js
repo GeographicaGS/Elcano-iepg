@@ -225,7 +225,13 @@ app.isSMDevice = function(){
 app.isSupportedBrowser = function(){
     var browser= app.getBrowser();
 
-    alert(browser);
+    if (browser[0]=="IE" && browser[1]<"11.0"){
+        return false;
+    }
+    if (browser[0]=="Firefox" && browser[1]<"26.0"){
+        return false;
+    }
+
     return true;
 };
 

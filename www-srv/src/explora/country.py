@@ -8,7 +8,6 @@ Explora country services.
 from explora import app
 from flask import jsonify,request,send_file,make_response
 from common.helpers import cacheWrapper, baseMapData
-import cons
 import json
 from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError
@@ -18,7 +17,7 @@ from helpers import processFilter
 
 
 
-# TEST
+# TEST BEGINS 
 
 from common.helpers import blocksGetData, blocksCalculateData
 
@@ -29,6 +28,12 @@ def test(blockCode, year, family, variable):
     print(blocksCalculateData(blockCode, year, family, variable))
 
     return(jsonify({"results": "caca"}))
+
+
+# TEST ENDS
+
+
+
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
 def countryFilter(lang):

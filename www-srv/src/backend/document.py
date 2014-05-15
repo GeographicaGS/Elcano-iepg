@@ -16,7 +16,7 @@ import werkzeug
 import os
 import hashlib
 import time
-import cons
+import common.const as cons
 
 
 @app.route('/download/pdf', methods=['GET'])
@@ -190,19 +190,21 @@ def getDocumentList():
     out = []
 
     search = request.args["search"] if "search" in request.args else None
-    orderbyfield = request.args["orderbyfield"] if "orderbyfield" in request.args else "title"
-    orderbyorder = request.args["orderbyorder"] if "orderbyorder" in request.args else "asc"
+    # orderbyfield = request.args["orderbyfield"] if "orderbyfield" in request.args else "title"
+    # orderbyorder = request.args["orderbyorder"] if "orderbyorder" in request.args else "asc"
+    orderbyfield = "title"
+    orderbyorder = "asc"
 
-    if "orderbyorder" in request.args:
-        if request.args["orderbyorder"] not in cons.orderBy:
-            return(jsonify(cons.errors["-2"]))
+    # if "orderbyorder" in request.args:
+    #     if request.args["orderbyorder"] not in cons.orderBy:
+    #         return(jsonify(cons.errors["-2"]))
 
-    if "orderbyfield" in request.args:
-        if request.args["orderbyfield"] not in cons.documentOrderFields:
-            return(jsonify(cons.errors["-3"]))
+    # if "orderbyfield" in request.args:
+    #     if request.args["orderbyfield"] not in cons.documentOrderFields:
+    #         return(jsonify(cons.errors["-3"]))
 
     totalSize = m.getDocumentListSize(search=search)
-    docs = m.getDocumentList(request.args["page"], backend["DocumentListLength"], \
+    docs = m.getDocumentList(request.args["page"], cons.backend["DocumentListLength"], \
                              search=search, orderByField=orderbyfield, orderByOrder=orderbyorder)
 
     for doc in docs:
@@ -245,7 +247,9 @@ def allowedFilePDF(filename):
 @app.route("/document/upload_pdf",methods=["POST"])
 @auth
 def uploadPDF():
-    """Uploads a file."""
+    """Uploads a file. In Postman, use POST, form-data, 
+    add a parameter called 'file' of type 'file' and 
+    select the file from the filesystem."""
     try:
         file = request.files['file']
         if file and allowedFilePDF(file.filename):

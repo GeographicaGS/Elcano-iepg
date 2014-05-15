@@ -5,9 +5,9 @@
 Helpers for the frontend.
 
 """
-from config import cfgFrontend
+from common.config import frontend as configFrontend
+from common.const import frontend as constFrontend
 import tweepy
-import cons
 
 
 def authorHelper(authorData, lang):
@@ -49,8 +49,8 @@ Twitter helper.
 To check the return of a model execute __getstate__.
 For example: twitter.helper.getUserInfo("alasarr").__getstate__()
 """
-auth = tweepy.OAuthHandler(cfgFrontend["twitter_api_key"], cfgFrontend["twitter_api_secret"])
-auth.set_access_token(cfgFrontend["twitter_token"], cfgFrontend["twitter_token_secret"] )
+auth = tweepy.OAuthHandler(configFrontend["twitter_api_key"], configFrontend["twitter_api_secret"])
+auth.set_access_token(configFrontend["twitter_token"], configFrontend["twitter_token_secret"] )
 
 def twitterGetLatestTweets():
     """Get tweets."""

@@ -3,6 +3,35 @@
 """
 Constants
 """
+backend = {
+    'autoAuth': False,
+    'DocumentListLength': 10,
+    'UnpublishedHighlightCatalogBackendListLength': 10,
+    "newsCatalogPageSize": 16
+}
+
+frontend = {
+    "documentCatalogListSize": 8,
+    "newsCatalogPageSize": 16,
+    "maxTweets": 15
+}
+
+# To be deprecated
+frontend_errors = {
+    "-1": {"Code": "-1", "Error": "Unknown language."},
+    "-3": {"Code": "-3", "Error": "Invalid offset."},
+    "-4": {"Code": "-4", "Error": "Unknown Twitter user."},
+    "-5": {"Code": "-5", "Error": "Invalid label ID."}
+}
+
+# To be deprecated
+model_errors = {
+    "-1": {"Code": "-1", "Error": "Unknown language."},
+    "-2": {"Code": "-2", "Error": "Unknown news section."},
+    "-3": {"Code": "-3", "Error": "Invalid number."},
+    "-4": {"Code": "-4", "Error": "Unknown Twitter user."}
+}
+
 lang = ["en", "es"]
 
 years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]

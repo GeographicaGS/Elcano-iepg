@@ -12,7 +12,7 @@ from model.usermodel import UserModel
 from backend.utils import auth
 from operator import itemgetter
 import locale
-import cons
+import common.const as cons
 from model.helpers import ElcanoError
 
 
@@ -144,7 +144,8 @@ def getNewCatalog():
 
     return(jsonify({"results": {"page": page, "listSize": len(news),
                                 "data": sorted(news, key=itemgetter("time"), reverse=True)\
-                                [cons.newsCatalogPageSize*page:cons.newsCatalogPageSize*(page+1)]}}))
+                                [cons.backend["newsCatalogPageSize"]*page:\
+                                 cons.backend["newsCatalogPageSize"]*(page+1)]}}))
 
 
 @app.route('/new/<int:id>', methods=['GET'])

@@ -14,6 +14,7 @@ import hashlib
 
 @app.route('/user', methods = ['GET'])                                            
 def user():
+    """Gets logged in user info."""
     if not utils.isLogged():        
         return jsonify( { "id" : None})
     else:

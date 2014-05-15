@@ -7,7 +7,7 @@ Model helpers, most of them parameter integrity checks.
 
 """
 
-import cons
+import common.const as const
 
 class ElcanoError(Exception):
     """Base class for errors."""
@@ -48,7 +48,7 @@ class DataValidator():
     """Data validator."""
     def checkLang(self, lang):
         """Checks language."""
-        if lang not in cons.lang:
+        if lang not in const.lang:
             raise ElcanoErrorBadLanguage(lang)
 
         return None

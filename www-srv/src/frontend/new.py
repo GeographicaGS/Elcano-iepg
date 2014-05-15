@@ -9,7 +9,7 @@ from model.newmodel import NewModel
 from model.helpers import ElcanoError
 from operator import itemgetter
 import locale
-import cons
+from common import const as cons
 
 
 @app.route('/new', methods=['GET'])
@@ -56,7 +56,7 @@ def getNewCatalogFrontend():
         sortedOut = sorted(out, key=itemgetter("title"), cmp=locale.strcoll)
 
         return(jsonify({"results": {"page": page, "listSize": len(out), \
-                                    "data": sortedOut[cons.newsCatalogPageSize*page:\
-                                                      cons.newsCatalogPageSize*(page+1)]}}))
+                                    "data": sortedOut[cons.frontend["newsCatalogPageSize"]*page:\
+                                                      cons.frontend["newsCatalogPageSize"]*(page+1)]}}))
     except ElcanoError as e:
         return(jsonify(e.dict()))

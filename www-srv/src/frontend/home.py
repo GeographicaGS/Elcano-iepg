@@ -11,8 +11,8 @@ from model.highlightmodel import HighlightModel
 from model.labelmodel import LabelModel
 import helpers
 import collections
-import config
-import cons
+from common import config as config
+from common import const as cons
 from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage
 
 
@@ -124,6 +124,8 @@ def newStuff():
     	        {"id": "2", "label": "Economía"}]
         }]
     }
+
+    TODO: revisar, devuelve unos id un poco raros
     """
     m = HomeModel()
     l = LabelModel()

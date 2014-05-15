@@ -6,10 +6,10 @@ Common helpers.
 
 """
 import hashlib
+import model.iepgdatamodel
 from config import MemcachedConfig
 from flask import jsonify
 from const import families, variables, blocks
-import model.iepgdatamodel
 if MemcachedConfig["enabled"] == True:
     import memcache
 
@@ -60,8 +60,7 @@ def blocksGetData(code):
 
 def blocksCalculateData(blockCode, year, family, variable):
     """Calculates block data for a variable."""
-    m = IepgDataModel()
-    block = blocks[blockCode]
+    m = model.iepgdatamodel.IepgDataModel()
+    block = blocksGetData(blockCode)
     data = cacheWrapper(m.getCountriesData, block["members"][str(year)], year, family, variable)
-
-    return(None)
+    return(data)

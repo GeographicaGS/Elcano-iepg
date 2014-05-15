@@ -172,7 +172,7 @@ app.view.highlights.FormView = Backbone.View.extend({
                     $unot.html("<lang>Tamaño de imagen incorrecto, el ancho tiene que ser de 1920px y el alto mayor que 480px</lang>");
                     setTimeout(function(){
                         $unot.html("");
-                    },3000);
+                    },6000);
                 }
             };
 

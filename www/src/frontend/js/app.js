@@ -234,7 +234,7 @@ app.isSupportedBrowser = function(){
 
     //alert(browser);
 
-    return true;
+    return false;
 };
 
 app.getBrowser = function(){

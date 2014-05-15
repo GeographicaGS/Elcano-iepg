@@ -311,12 +311,12 @@ header > nav{
 }
 
 
-ul#top_menu li:first-child:before{
+/*ul#top_menu li:first-child:before{
 	content: url("@{imgPath}/icons/faq_ico.png");
 	position: relative;
 	top: 4px;
 	margin-right: 2px;
-}
+}*/
 
 ul#top_menu li:not(:last-child):after{
 	content : ".";
@@ -807,3 +807,73 @@ footer{
         margin-bottom:5px;
     }
 }
+
+.about.structure,.about.methodology{
+	img.coef{
+		max-width: 812px;
+		max-height: 805px;
+	}
+}
+
+.about.methodology{
+	table.data{
+		margin-top: 18px;
+		width: 100%;
+
+		th,td{
+			.roboto();
+			text-align: left;
+			color:@grey;
+			padding: 10px 15px;
+			width: 25%;
+
+			border:1px solid @grey_light2;
+
+			&:nth-child(2){
+				width: 50%;
+			}
+
+			&:first-child{
+				border-left: none;
+			}
+			&:last-child{
+				border-right: none;
+			}
+		}
+
+		td{
+			font-size: 16px;
+		}
+		th{
+			font-size: 11px;
+			text-transform: uppercase;
+			border-top: none;
+			border-bottom: 1px solid @grey_dark;
+		}
+		tr.section {
+			td{
+				.roboto(bold);	
+			}
+		}
+	}
+
+	.list_countries{
+		
+		padding: 20px 10px;
+		ul{
+			margin: 0;
+			padding: 0;
+			li{
+				margin: 0;
+				padding: 0;
+				min-height: 25px;
+				line-height: 30px;
+				border-bottom: 1px solid @grey_light2;
+				&:first-child{
+					border-top: 1px solid @grey_light2;
+				};
+			}
+		}
+	}
+}
+

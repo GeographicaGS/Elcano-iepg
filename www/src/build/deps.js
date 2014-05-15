@@ -92,7 +92,8 @@ deps.Frontend.JS = {
 			"frontend/js/lib/underscore-min.js",
 			"frontend/js/lib/backbone-min.js",
 			"frontend/js/lib/d3.v3.min.js",	
-			"frontend/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",			
+			"frontend/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",		
+			"frontend/js/lib/sprintf.min.js",	
 		],
 		desc: "Third party library"
 	}
@@ -118,6 +119,7 @@ deps.Frontend.JS = {
 			"frontend/js/collection/docs/docs_collection.js",
 			"frontend/js/collection/docs/label_collection.js",
 			"frontend/js/collection/news/news_collection.js",
+			"frontend/js/collection/countries_plain_collection.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -139,6 +141,8 @@ deps.Frontend.JS = {
 			"frontend/js/view/privacity_view.js",
 
 			"frontend/js/view/about/about_view.js",
+			"frontend/js/view/about/methodology_view.js",
+			"frontend/js/view/about/structure_view.js",
 
 			// router
 			"frontend/js/router.js",

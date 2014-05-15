@@ -1,6 +1,6 @@
 app.view.Contact = Backbone.View.extend({
     _template : _.template( $('#contact_template').html() ),
-    pos : new google.maps.LatLng(40.431215,-3.679846),
+    // pos : new google.maps.LatLng(40.431215,-3.679846),
     
     initialize: function() {
         app.events.trigger("menu","");
@@ -56,11 +56,11 @@ app.view.Contact = Backbone.View.extend({
     
     render: function() {
         this.$el.html(this._template());
-        this._drawMap();
-        var self= this;
-        setTimeout(function(){
-            google.maps.event.trigger(self._map, "resize");
-        },1000);
+        //this._drawMap();
+        // var self= this;
+        // setTimeout(function(){
+        //     google.maps.event.trigger(self._map, "resize");
+        // },1000);
 
         
         return this;

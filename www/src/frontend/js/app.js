@@ -208,3 +208,8 @@ app.renameID = function(array,oldID,newID){
     }
     return array;
 }
+
+app.isSMDevice = function(){
+    return ($(window).width()<992);
+}
+

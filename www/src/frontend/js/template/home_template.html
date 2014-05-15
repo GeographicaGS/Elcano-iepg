@@ -4,12 +4,15 @@
     <div class="container maxFixWidth">
 
         <div class="col-md-7 col-sm-12" id="explora_desc" >
-            <h3><lang>Qué mide el índice Elcano de presencia global</lang></h3>
-            <p class="size_24" data-el="default"><lang>El 
-                <a class="nostyle" href="/<lang>lang</lang>/<lang>_link about</lang>"><strong>Índice Elcano de Presencia Global</strong> </a>calcula, 
-                anualmente, la proyección exterior de una selección 
-                de 70 países. Para calcular este Índice se agregan 
-                indicadores en tres dimensiones:</lang>
+            <!-- <h3><lang>Qué mide el índice Elcano de presencia global</lang></h3> -->
+            <p class="size_24" data-el="default">
+                <%
+
+                    s = "<lang>_home IEPG explora desc</lang>";
+                    link = "<lang>lang</lang>/<lang>_link about</lang>";
+
+                    print(sprintf(s,link));
+                %>
             </p>
             
             <p class="size_24 hide" data-el="soft"><lang>La <strong>presencia blanda</strong> se mide a través de las 
@@ -73,7 +76,7 @@ directas en el exterior.</lang>
             
             <button class="go_explora"><lang>Calcular</lang></button>
             <div class="faq">
-                <a href=""><lang>Preguntas más frecuentes</lang></a>
+                <a href="" class=><lang>Preguntas más frecuentes</lang></a>
             </div>
         </div>
         <div class="clear"></div>

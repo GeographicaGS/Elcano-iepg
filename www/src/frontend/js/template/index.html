@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <meta name="viewport" content="width=768px">
+    <meta name="viewport" content="width=768">
     <meta name="description" content="">
     <meta name="author" content="">
         
@@ -16,7 +16,7 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
         
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script>
+    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script>-->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -35,12 +35,12 @@
             <div class="fright mt">
                 <nav class="grey_dark fright size_13">
                     <ul class="inlblock " id="top_menu">
-                        <li>
+                        <!-- <li>
                             <a href="/<lang>lang</lang>/faq" class="min"><lang>Preguntas más frecuentes</lang></a>
                         </li>
                         <li>
                             <a href="/<lang>lang</lang>/<lang>_link contact</lang>" class="min"><lang>Contacto</lang></a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="#" id="ctrl_language" class="min">
                                 <lang>Idioma</lang> 
@@ -67,7 +67,7 @@
             <div class="container">
                 <ul class="inlblock size_14" id="menu"> 
                     <li selected>
-                        <a data-menu="home" href="/<lang>lang</lang>/<lang>_link home</lang>"><lang>Portada<lang></a>
+                        <a data-menu="home" href="/<lang>lang</lang>/<lang>_link home</lang>"><lang>Portada</lang></a>
                     </li>
                     <li data-has-submenu>
                         <a data-menu="about" href="/<lang>lang</lang>/<lang>_link about</lang>"><lang>Qué es</lang></a>
@@ -79,7 +79,9 @@
                                 <a data-submenu="infr" href="/<lang>lang</lang>/<lang>_link about infr</lang>"><lang>Estructura del IEPG</lang></a>
                             </li>
                             <li>
-                                <a data-submenu="meth" href="/<lang>lang</lang>/<lang>_link about meth</lang>"><lang>Metodología</lang></a>
+                                <a data-submenu="meth" href="/<lang>lang</lang>/<lang>_link about meth</lang>">
+                                    <lang>Metodología</lang>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -91,7 +93,9 @@
                     </li>
                     <li>
                         <a data-menu="news" href="/<lang>lang</lang>/<lang>_link news</lang>"><lang>Noticias</lang></a>
-
+                    </li>
+                    <li>
+                        <a data-menu="faq" href="/<lang>lang</lang>/faq" ><lang>Preguntas más frecuentes</lang></a>
                     </li>
                     
                 </ul>

@@ -1,4 +1,4 @@
---DELETE FROM www.translation;
+DELETE FROM www.translation;
 
 insert into www.translation VALUES ('Añadir','Add','Añadir');
 insert into www.translation VALUES ('lang','en','es'); 
@@ -1296,4 +1296,3 @@ Donec sagittis, sapien pretium
 tincidunt suscipit, ante odio 
 dignissim metus, quis rhoncus nunc 
 justo vitae nisi');
-

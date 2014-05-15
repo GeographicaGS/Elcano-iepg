@@ -14,17 +14,11 @@
    <!--  <td><span class="ESTag <%= d.spanish ? "" : "inactivetag" %>">ES</span> <span class="ENTag <%= d.english ? "" : "inactivetag" %>">EN</span></td> -->
     <td><a href="/<lang>lang</lang>/docs/<%= d.id %>"><%= d.title %> </a></td>
     <td>
-        <% if (d.authors[0]) { %>
-        <a href="http://www.twitter.com/<%= d.authors[0].substring(1) %>" target="_blank">
-            <%
-                print(d.authors[0]);
-                if (d.authors.length > 1) {
-                %> 
-                    <span class="badge">+ <%= d.authors.length %></span></a>
-                <%
-                }
-            %>
-        </a>
+        <% if (d.authors.length) { %>
+            <span><%= d.authors[0].twitter_user ? d.authors[0].twitter_user : d.authors[0].name %></span>
+            <% if (d.authors.length > 1) { %> 
+                <span class="badge">+ <%= d.authors.length %></span></a>
+            <% } %>
         <% } %>
     </td>
     <td class="lastEdition greyTable thRight">

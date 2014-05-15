@@ -468,7 +468,6 @@
             position: absolute;
             right:15px;
             top: 2*@line_height;
-            text-indent: -900px;
             list-style: circle;
             z-index:3;
             
@@ -486,8 +485,6 @@
             li[selected]{
                 background-color: @yellow;   
             }
-
-            
         }
         
     }

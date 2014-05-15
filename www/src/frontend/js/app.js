@@ -11,6 +11,9 @@ Backbone.View.prototype.close = function(){
 
 $(function() {
     
+
+    app.resizeMe();
+
     String.prototype.endsWith = function(suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
@@ -68,7 +71,7 @@ $(function() {
 
     app.ini();
 
-    $(document).resize(function(){
+    $(window).resize(function(){
         app.resizeMe();
     });
 
@@ -77,7 +80,7 @@ $(function() {
 });
 
 app.resizeMe = function(){
-    $("main").css("min-height",$(window).height() - $("footer").height() - $("header").height());
+    $("main").css("min-height",$(window).height() - $("footer").height() - $("header").height() + 300 )  ;
 };
 
 app.detectCurrentLanguage = function(){
@@ -99,6 +102,13 @@ app.ini = function(){
     }
     else{
         $("#menu_language li:nth-child(2)").attr("selected",true);
+    }
+
+    // detect browser version
+
+    if (!this.isSupportedBrowser()){
+        // Old IE explorer, not supported
+        window.location = "/" + this.lang + "/html/browser_error.html";
     }
 
     $("#lang_marker").html(this.lang);
@@ -213,3 +223,27 @@ app.isSMDevice = function(){
     return ($(window).width()<992);
 }
 
+app.isSupportedBrowser = function(){
+    var browser= app.getBrowser();
+
+    if ((browser[0]=="IE" || browser[0] =="MSIE") && !isNaN(browser[1]) && parseFloat(browser[1]) < 11.0){
+        return false;
+    }
+    if (browser[0]=="Firefox" &&  !isNaN(browser[1]) && parseFloat(browser[1]) < 24.0){
+        return false;
+    }
+
+    return true;
+};
+
+app.getBrowser = function(){
+    var ua= navigator.userAgent, tem, 
+    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([\d\.]+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem=  /\brv[ :]+(\d+(\.\d+)?)/g.exec(ua) || [];
+        return 'IE '+(tem[1] || '');
+    }
+    M= M[2]? [M[1], M[2]]:[navigator.appName, navigator.appVersion, '-?'];
+    if((tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+    return M;
+};

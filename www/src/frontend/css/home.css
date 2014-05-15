@@ -30,6 +30,8 @@
             margin-bottom: @line_height;
             height: 150px;
             .roboto(light);
+            /* Just for hide long text*/
+            overflow: hidden;
 
             strong{
                 .roboto(medium);
@@ -385,8 +387,10 @@
         }
 
         li[selected]{
-
             border-bottom: 1px solid @red;
+            a{
+                color:@red;
+            }
         }
 
         @media (max-width: @md_res){
@@ -466,7 +470,6 @@
             position: absolute;
             right:15px;
             top: 2*@line_height;
-            text-indent: -900px;
             list-style: circle;
             z-index:3;
             
@@ -478,13 +481,12 @@
                 margin-left: 8px;
                 float:left;
                 cursor: pointer;
+                display: block;
             }
 
             li[selected]{
                 background-color: @yellow;   
             }
-
-            
         }
         
     }

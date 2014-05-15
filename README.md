@@ -41,6 +41,7 @@ $ pip install psycopg2
 #only to debug purpose
 $ pip install tweepy
 $ pip install ipdb
+$ pip install python-memcached
 ```
 
 
@@ -53,6 +54,11 @@ $ cp src/model/base/PostgreSQL/config_changes.py src/model/base/PostgreSQL/confi
 ```
 
 Ahora lo abrimos con cualquier editor de texto y lo modificamos con nuestros parámetros.
+
+Editamos el fichero de configuración global
+```
+cp src/common/config_changes.py  src/common/config.py
+```
 
 #### Backend
 

@@ -24,7 +24,7 @@
     </div>
     
     <div class="form-group">
-        <div class=" col-md-2 LabelForm"><label for=""><lang>Título</lang>*<span class="clean pull-left">80 caracteres máx.</span></label></div>
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Título</lang><span class="clean pull-left">80 caracteres máx.</span></label></div>
         <div class="col-md-10">
             <input type="text" class="form-control Esimput " placeholder="(<lang>Español</lang>)" name="text_es" value="<%= model.text_es %>">
             <hr class="featurette-divider">
@@ -33,9 +33,14 @@
     </div>
 
     <div class="form-group">
-        <div class=" col-md-2 LabelForm"><label for="">Imagen * <span class="clean pull-left">JPG 8MB max.</span></label></div>
+        <div class=" col-md-2 LabelForm"><label for="">Imagen * 
+            <span class="clean pull-left">
+                JPG 8MB max.<br/>
+                Ancho fijo de 1920px.<br/>
+                Alto mayor a 480px.<br/>
+            </span></label></div>
         
-        <div class="col-md-5    ">
+        <div class="col-md-5">
             <form lang="es" id="co_image_es" class="uploadImage"></form>
             <hr class="featurette-divider">
             <form lang="en" id="co_image_en" class="uploadImage"></form>

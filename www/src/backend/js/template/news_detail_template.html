@@ -99,10 +99,11 @@
 
     <div class="pull-left pl15 col-md-12 btn_botton">
          <div class="col-md-2 pl15">
-            <a href="/<lang>lang</lang>/news/edit/<%= model.id%>" class="btn btn-l btn-edit"><lang>Editar</lang></a>
+            
         </div>
         <div class="pull-right pr15">
             <!-- <a href="#back" type="button" class="btn btn-l btnlink "><lang>Cancelar</lang></a> -->
+            <a href="/<lang>lang</lang>/news/edit/<%= model.id%>" class="btn btn-l btn-edit"><lang>Editar</lang></a>
             <a href="#" type="button" class="btn btn-l btn-remove" id="delete"><lang>Eliminar</lang></a>
             <span class="verticalDivider"></span>
             <% if (!model.published) {%>

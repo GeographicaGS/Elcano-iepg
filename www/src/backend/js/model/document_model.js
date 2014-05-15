@@ -6,24 +6,30 @@ app.model.Document = Backbone.Model.extend({
 		return {
 			title_es: {
 				maxLength : 150,
-				requiredGroup: this._titleRequiredGroup
+				required: true,
+				//requiredGroup: this._titleRequiredGroup
 			},
 			title_en : {
 				maxLength : 150,
-				requiredGroup: this._titleRequiredGroup
+				required: true,
+				//requiredGroup: this._titleRequiredGroup
 			},
 
 			theme_es: {
-				requiredGroup: this._themeRequiredGroup
+				required: true,
+				//requiredGroup: this._themeRequiredGroup
 			},
 			theme_en : {
-				requiredGroup: this._themeRequiredGroup
+				required: true,
+				//requiredGroup: this._themeRequiredGroup
 			},
 			description_es: {
-				requiredGroup: this._descriptionRequiredGroup
+				required: true,
+				//requiredGroup: this._descriptionRequiredGroup
 			},
 			description_en : {
-				requiredGroup: this._descriptionRequiredGroup
+				required: true,
+				//requiredGroup: this._descriptionRequiredGroup
 			},
 			link_es: {
 				maxLength : 500,
@@ -36,10 +42,30 @@ app.model.Document = Backbone.Model.extend({
 				pattern : "url"
 			},
 			authors: function(value) {
-				var col = value.filterEmpties();
+				var col = value.filterEmpties(),
+					$error = $("p[name='authors'");
 				if(!col || !col.length) {
+					$error.html("El documento no tiene autores");
 					return "<lang>Field required</lang>";
 				}
+
+				for (var i=0;i< col.length;i++){
+					if (col.at(i).get("twitter_user")){
+						//Twitter validation
+						if (col.at(i).get("twitter_user").length<3 || col.at(i).get("twitter_user")[0]!="@"){
+							$error.html("El documento tiene autores con twitter inválidos");
+							return "Hay autores con twitter inválidos";
+						}
+					} 
+					else{
+						if (!col.at(i).get("position_en") || !col.at(i).get("position_en") || !col.at(i).get("name")){
+							$error.html("El documento tiene autores con datos incompletos");
+							return "Hay autores que no tienen algún campo completado";
+						}
+					}
+					
+				}
+				 
 		    }
 	}},
 	urlRoot: function() {

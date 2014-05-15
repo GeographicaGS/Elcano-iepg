@@ -225,16 +225,14 @@ app.isSMDevice = function(){
 app.isSupportedBrowser = function(){
     var browser= app.getBrowser();
 
-    if ((browser[0]=="IE" || browser[0] =="MSIE") && !isNaN(browser[1]) && parseFloat(browser[1]) <11.0){
+    if ((browser[0]=="IE" || browser[0] =="MSIE") && !isNaN(browser[1]) && parseFloat(browser[1]) < 11.0){
         return false;
     }
-    if (browser[0]=="Firefox" &&  !isNaN(browser[1]) && parseFloat(browser[1]) <26.0){
+    if (browser[0]=="Firefox" &&  !isNaN(browser[1]) && parseFloat(browser[1]) < 24.0){
         return false;
     }
 
-    //alert(browser);
-
-    return false;
+    return true;
 };
 
 app.getBrowser = function(){

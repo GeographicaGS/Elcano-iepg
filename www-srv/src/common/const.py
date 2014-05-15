@@ -5,7 +5,7 @@ Constants
 """
 backend = {
     'autoAuth': False,
-    'DocumentListLength': 10,
+    'DocumentListLength': 8,
     'UnpublishedHighlightCatalogBackendListLength': 10,
     "newsCatalogPageSize": 16
 }

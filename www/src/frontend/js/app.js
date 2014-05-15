@@ -13,7 +13,7 @@ $(function() {
     
 
     app.resizeMe();
-    
+
     String.prototype.endsWith = function(suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
@@ -71,7 +71,7 @@ $(function() {
 
     app.ini();
 
-    $(document).resize(function(){
+    $(window).resize(function(){
         app.resizeMe();
     });
 
@@ -80,7 +80,7 @@ $(function() {
 });
 
 app.resizeMe = function(){
-    $("main").css("min-height",$(window).height() - $("footer").height() - $("header").height());
+    $("main").css("min-height",$(window).height() - $("footer").height() - $("header").height() + 300 )  ;
 };
 
 app.detectCurrentLanguage = function(){

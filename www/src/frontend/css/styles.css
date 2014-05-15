@@ -877,3 +877,8 @@ footer{
 	}
 }
 
+.co_nosupported_browser{
+	text-align: center;
+	background-color: #ececee;
+}
+

@@ -83,6 +83,7 @@ a.label{
     background-color: @yellow;
     font-size: 13px;
     cursor: pointer;
+    border-bottom: none;
 }
 
 a.label:hover{
@@ -581,6 +582,7 @@ footer{
 		margin-left: 10px;
 		background: @grey_dark url("@{imgPath}ELC_icon_filtrar_tags.png") no-repeat 5px center;
 		padding-left: 18px;
+		font-size:13px;
 	}
 	#ctrl_filter:hover{
 		background: @grey_dark url("@{imgPath}ELC_icon_filtrar_tags_hover.png") no-repeat 5px center;	

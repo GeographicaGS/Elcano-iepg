@@ -387,8 +387,10 @@
         }
 
         li[selected]{
-
             border-bottom: 1px solid @red;
+            a{
+                color:@red;
+            }
         }
 
         @media (max-width: @md_res){

@@ -3,16 +3,19 @@
 """
 Configuration
 """
+
+basePath = "/Users/alasarr/dev/elcano-iepg/"
+
 backend = {
-    'tmpFolder': '###',
-    'mediaFolder': '###'
+    "tmpFolder": basePath + "www/cdn/backend/tmp",
+    "mediaFolder": basePath + "www/cdn/medina"
 }
 
 MemcachedConfig = {
-    'enabled': False,
-    'host': '###',
-    'port': '###',
-    'expiration': 30
+    "enabled": False,
+    "host": "###",
+    "port": "###",
+    "expiration": 30
 }
 
 explora = {
@@ -28,9 +31,9 @@ frontend = {
 }
 
 PostgreSqlConfig = {
-    'host': '###',
-    'user': '###',
-    'passwd': '###',
-    'db': '###',
-    'port': ###
+    "host": "###",
+    "user": "###",
+    "passwd": "###",
+    "db": "###",
+    "port": ###
 }

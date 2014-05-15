@@ -5,13 +5,13 @@ Constants
 """
 backend = {
     'autoAuth': False,
-    'DocumentListLength': 8,
-    'UnpublishedHighlightCatalogBackendListLength': 10,
+    'DocumentListLength': 16,
+    'UnpublishedHighlightCatalogBackendListLength': 16,
     "newsCatalogPageSize": 16
 }
 
 frontend = {
-    "documentCatalogListSize": 8,
+    "documentCatalogListSize": 16,
     "newsCatalogPageSize": 16,
     "maxTweets": 15
 }

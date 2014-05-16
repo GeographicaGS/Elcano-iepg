@@ -17,6 +17,7 @@ import os
 import hashlib
 import time
 import common.const as cons
+import frontend.helpers
 
 
 @app.route('/download/pdf', methods=['GET'])
@@ -192,8 +193,8 @@ def getDocumentList():
     search = request.args["search"] if "search" in request.args else None
     # orderbyfield = request.args["orderbyfield"] if "orderbyfield" in request.args else "title"
     # orderbyorder = request.args["orderbyorder"] if "orderbyorder" in request.args else "asc"
-    orderbyfield = "title"
-    orderbyorder = "asc"
+    orderbyfield = "last_edit_time"
+    orderbyorder = "desc"
 
     # if "orderbyorder" in request.args:
     #     if request.args["orderbyorder"] not in cons.orderBy:
@@ -320,3 +321,16 @@ def togglePublish(id_document):
         return jsonify(cons.errors["-4"])
     else:
         return jsonify({"result" : status})
+
+
+@app.route("/twitter/<string:twitterUser>", methods=["GET"])
+@auth
+def existsTwitterUser(twitterUser):
+    """Checks if a Twitter user exists."""
+    a = frontend.helpers.twitterGetUserInfo(twitterUser)
+    if a:
+        return(jsonify({"result": True}))
+    else:
+        return(jsonify({"result": False}))
+
+    

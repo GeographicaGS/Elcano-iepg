@@ -151,6 +151,44 @@
             
         </div>
     </div>
+
+ <% if (model.link_es || model.link_en) { %>
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for="">Enlace</label></div>
+        
+        <div class="col-md-10">
+            <% if (model.link_es) { %>
+            <div class="esresult">
+                <span class="clean pull-left">es</span>
+                <div>
+                    <img  class="fleft" src="/img/iconos/linkIco.png" />
+                    <a href="<%= model.link_es %>" class="fleft ml5 simple_link link_tab"  
+                        target="_blank">
+                        <div class="fleft"><lang>Abrir enlace en una nueva pestaña</lang></div>
+                        <div class="fleft ml4 ellipsis"> - <%= model.link_es %>] </div>
+                    </a>
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <% } %>
+            <% if (model.link_en) { %>
+            <div class="enresult">
+                <span class="clean pull-left">en</span>
+                <div>
+                    <img class="fleft" src="/img/iconos/linkIco.png" />
+                    <a  href="<%= model.link_en %>" class="fleft ml5 simple_link link_tab"  
+                        target="_blank" >
+                        <div class="fleft"><lang>Abrir enlace en una nueva pestaña</lang></div>
+                        <div class="fleft ml4 ellipsis"> - <%= model.link_en %>] </div>
+                    </a>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <% }  %>
+    
     <div class="pull-left pl15 col-md-12 btn_botton">
        
         <div class="pull-right pr15">

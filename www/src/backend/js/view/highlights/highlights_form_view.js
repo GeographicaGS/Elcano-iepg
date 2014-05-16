@@ -139,7 +139,7 @@ app.view.highlights.FormView = Backbone.View.extend({
             $unot.html("<lang>Suba una image JPEG</lang>");
             setTimeout(function(){
                 $unot.html("");
-            },3000);
+            },8000);
 
             return;
         }
@@ -149,7 +149,7 @@ app.view.highlights.FormView = Backbone.View.extend({
             $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ this._maxImageSize +" MB");
             setTimeout(function(){
                 $unot.html("");
-            },3000);
+            },8000);
 
             return;
         }

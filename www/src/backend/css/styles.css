@@ -565,7 +565,7 @@ p[name='authors'][data-error]{
 }
 
 .ellipsis{
-    width: 350px;
+    max-width: 350px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

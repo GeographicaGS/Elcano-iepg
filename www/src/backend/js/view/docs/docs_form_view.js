@@ -334,7 +334,7 @@ app.view.docs.FormView = Backbone.View.extend({
             $unot.html("<lang>File not supported, please upload a PDF file</lang>");
             setTimeout(function(){
                 $unot.html("");
-            },3000);
+            },8000);
 
             return;
         }
@@ -345,7 +345,7 @@ app.view.docs.FormView = Backbone.View.extend({
             $unot.html("<lang>This file is bigger than the maximun allowed</lang>" + " ["+ max_allow +" MB]");
             setTimeout(function(){
                 $unot.html("");
-            },3000);
+            },8000);
 
             return;
         }

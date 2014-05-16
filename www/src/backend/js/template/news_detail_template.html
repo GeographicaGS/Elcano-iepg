@@ -29,6 +29,12 @@
             <div class="enresult"><span class="clean pull-left">en</span><p><%= model.title_en %></p></div>
         </div>
     </div>
+     <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Sección</lang></label></div>
+        <div class="col-md-10">
+            <div class="esresult"><p><%= model.section_es %></p></div>
+        </div>
+    </div>
 
     <div class="form-group">
         <div class=" col-md-2 LabelForm"><label for=""><lang>Etiquetas</lang></label></div>
@@ -72,8 +78,7 @@
                     <img  class="fleft" src="/img/iconos/linkIco.png" />
                     <a href="<%= model.url_es %>" class="fleft ml5 simple_link link_tab"  
                         target="_blank">
-                        <div class="fleft"><lang>Abrir enlace en una nueva pestaña</lang></div>
-                        <div class="fleft ml4 ellipsis"> - <%= model.url_es %>] </div>
+                        <%= model.url_es %>
                     </a>
                 </div>
             </div>
@@ -86,8 +91,7 @@
                     <img class="fleft" src="/img/iconos/linkIco.png" />
                     <a  href="<%= model.url_en %>" class="fleft ml5 simple_link link_tab"  
                         target="_blank" >
-                        <div class="fleft"><lang>Abrir enlace en una nueva pestaña</lang></div>
-                        <div class="fleft ml4 ellipsis"> - <%= model.url_en %>] </div>
+                       <%= model.url_en %>
                     </a>
                 </div>
             </div>

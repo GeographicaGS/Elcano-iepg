@@ -2,7 +2,7 @@
     <h1 class="page-header col-md-1"><lang>Documento</lang></h1>
     <button type="button" class="btn btn-l activeES ESbt"  style="cursor: text"><lang>Español</lang></button> 
     <button type="button" class="btn btn-l activeEN ENbt"  style="cursor: text"><lang>English</lang></button>
-    <span class="clean pull-left"><lang>* Campos necesarios</lang></span>
+    
 </div>
 
 <div class="pull-right pr15">
@@ -23,7 +23,7 @@
 
 <div class="DestacadosForm">        
     <div class="form-group">
-        <div class=" col-md-2 LabelForm"><label for=""><lang>Título *</lang></label></div>
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Título</lang></label></div>
         <div class="col-md-10">
             <div class="esresult"><span class="clean pull-left">es</span><p><%= model.title_es %></p></div>
             <hr class="featurette-divider">
@@ -100,7 +100,7 @@
                             <%= m.get("name") %>
                             <span class="ml5"><lang>Posición</lang></span><span class="ml5" style="color:#d60006">es</span>
                             <%= m.get("position_es") %>
-                            <span class="ml5"><lang>Posición (inglés)</lang></span><span class="ml5" style="color:#03f">en</span>
+                            <span class="ml5"><lang>Posición</lang></span><span class="ml5" style="color:#03f">en</span>
                             <%= m.get("position_en") %>
                         <% } %>
                     </p>
@@ -151,6 +151,42 @@
             
         </div>
     </div>
+
+ <% if (model.link_es || model.link_en) { %>
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for="">Enlace</label></div>
+        
+        <div class="col-md-10">
+            <% if (model.link_es) { %>
+            <div class="esresult">
+                <span class="clean pull-left">es</span>
+                <div>
+                    <img  class="fleft" src="/img/iconos/linkIco.png" />
+                    <a href="<%= model.link_es %>" class="fleft ml5 simple_link link_tab"  
+                        target="_blank">
+                        <%= model.link_es %>
+                    </a>
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <% } %>
+            <% if (model.link_en) { %>
+            <div class="enresult">
+                <span class="clean pull-left">en</span>
+                <div>
+                    <img class="fleft" src="/img/iconos/linkIco.png" />
+                    <a  href="<%= model.link_en %>" class="fleft ml5 simple_link link_tab"  
+                        target="_blank" >
+                        <%= model.link_en %>
+                    </a>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <% }  %>
+
     <div class="pull-left pl15 col-md-12 btn_botton">
        
         <div class="pull-right pr15">

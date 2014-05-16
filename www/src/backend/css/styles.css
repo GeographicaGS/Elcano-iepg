@@ -549,9 +549,9 @@ progress.upload{
     color:#d60006;
 }
 
-[data-error]:before{
+/*[data-error]:before{
     content: "Importante: ";
-}
+}*/
 
 p[name='authors']{
   display: none;
@@ -565,7 +565,7 @@ p[name='authors'][data-error]{
 }
 
 .ellipsis{
-    width: 350px;
+    max-width: 350px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

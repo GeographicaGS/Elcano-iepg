@@ -549,9 +549,9 @@ progress.upload{
     color:#d60006;
 }
 
-[data-error]:before{
+/*[data-error]:before{
     content: "Importante: ";
-}
+}*/
 
 p[name='authors']{
   display: none;

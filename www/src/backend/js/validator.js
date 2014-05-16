@@ -386,7 +386,7 @@ Backbone.Validation = (function(_){
 	        	.show();
 
 	        	console.log(error);
-	        if (error.indexOf("obligatorio") == -1){
+	        if (error.indexOf("Obligatorio") == -1  && error.indexOf("required") == -1  ){
 	        	if ($el.siblings("label.error_form").length){
 	        		$el.siblings("label.error_form").html(error);
 	        	}

@@ -145,10 +145,11 @@ app.view.docs.FormView = Backbone.View.extend({
             label = $input.val().trim(),
             lang = $e.closest(".ctrl_labels").attr("id").substr(-2);
         
-        if (label) {
+        if (label && !this.labels[lang].where({"label": label}).length) {
             this.labels[lang].create({label: label});
-            $input.val("");
         }
+
+        $input.val("");
         
     },
     
@@ -225,7 +226,7 @@ app.view.docs.FormView = Backbone.View.extend({
         var $e = $(e.target),
             idx = $e.closest("[idx_author]").attr("idx_author");
             
-        if (idx>0 ) {
+        if (idx!==null ) {
             this.model.get("authors").remove(this.model.get("authors").at(idx));
         }
     },

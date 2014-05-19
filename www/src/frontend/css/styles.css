@@ -397,6 +397,7 @@ ul#menu{
 
         a{
         	color: @white;
+        	line-height: 46px;
         }
 	}
 

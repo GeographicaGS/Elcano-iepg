@@ -42,7 +42,7 @@ app.view.docs.DocumentView = Backbone.View.extend({
 
     delete: function(e){
         
-        if (confirm("<lang>Are you sure?</lang>")){
+        if (confirm("¿Está seguro?")){
             this.model.destroy({
                 success: function(){
                     app.router.navigate("docs",{trigger: true});

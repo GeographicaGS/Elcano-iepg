@@ -45,7 +45,7 @@ app.view.news.DetailView = Backbone.View.extend({
 
     delete: function(e){
         
-        if (confirm("<lang>Are you sure?</lang>")){
+        if (confirm("¿Está seguro?")){
             this.model.destroy({
                 success: function(){
                     app.router.navigate("news",{trigger: true});

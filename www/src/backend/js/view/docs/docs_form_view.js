@@ -342,7 +342,7 @@ app.view.docs.FormView = Backbone.View.extend({
         //max allow 8 MB
         max_allow = 8;
         if (size/(1024*1024) > max_allow){
-            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ this._maxImageSize +" MB");
+            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ max_allow +" MB");
             setTimeout(function(){
                 $unot.html("");
             },8000);

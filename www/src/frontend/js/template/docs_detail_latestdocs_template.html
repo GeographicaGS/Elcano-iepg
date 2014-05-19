@@ -1,12 +1,12 @@
 <h4 class="size_11 roboto_bold grey size_11 uppercase"><lang>destacados</lang></h4>
 <% _.each(latest, function(d){
 
-    if (d.id == id){
+    if (d.id_item == id){
         return;
     }
     %>
     <p class="roboto_bold size_13 grey_dark mth1">
-        <a class="min" href="/<lang>lang</lang>/<lang>_link doc</lang>/<%=d.id%>"><%= d.title%></a>
+        <a class="min" href="/<lang>lang</lang>/<lang>_link doc</lang>/<%=d.id_item%>"><%= d.title%></a>
     </p>
 
     <div>

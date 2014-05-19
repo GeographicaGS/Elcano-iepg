@@ -145,10 +145,11 @@ app.view.docs.FormView = Backbone.View.extend({
             label = $input.val().trim(),
             lang = $e.closest(".ctrl_labels").attr("id").substr(-2);
         
-        if (label) {
+        if (label && !this.labels[lang].where({"label": label}).length) {
             this.labels[lang].create({label: label});
-            $input.val("");
         }
+
+        $input.val("");
         
     },
     
@@ -225,7 +226,7 @@ app.view.docs.FormView = Backbone.View.extend({
         var $e = $(e.target),
             idx = $e.closest("[idx_author]").attr("idx_author");
             
-        if (idx>0 ) {
+        if (idx!==null ) {
             this.model.get("authors").remove(this.model.get("authors").at(idx));
         }
     },
@@ -331,7 +332,7 @@ app.view.docs.FormView = Backbone.View.extend({
             $unot =  this.$("#upload_notification_"+lang);
                     
         if (["application/pdf"].indexOf(type) == -1 ){
-            $unot.html("<lang>File not supported, please upload a PDF file</lang>");
+            $unot.html("<lang>Suba un fichero PDF</lang>.");
             setTimeout(function(){
                 $unot.html("");
             },8000);
@@ -342,7 +343,7 @@ app.view.docs.FormView = Backbone.View.extend({
         //max allow 8 MB
         max_allow = 8;
         if (size/(1024*1024) > max_allow){
-            $unot.html("<lang>This file is bigger than the maximun allowed</lang>" + " ["+ max_allow +" MB]");
+            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ max_allow +" MB.");
             setTimeout(function(){
                 $unot.html("");
             },8000);

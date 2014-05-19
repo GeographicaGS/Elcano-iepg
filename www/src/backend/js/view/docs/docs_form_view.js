@@ -331,7 +331,7 @@ app.view.docs.FormView = Backbone.View.extend({
             $unot =  this.$("#upload_notification_"+lang);
                     
         if (["application/pdf"].indexOf(type) == -1 ){
-            $unot.html("<lang>Suba un fichero PDF/lang>");
+            $unot.html("<lang>Suba un fichero PDF</lang>");
             setTimeout(function(){
                 $unot.html("");
             },8000);

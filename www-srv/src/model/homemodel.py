@@ -59,7 +59,7 @@ class HomeModel(PostgreSQLModel):
         group by id, b.name, b.surname, time, title, id_section, section
         ) 
         select
-        id,
+        id as id_item,
         wwwuser,
         time,
         title,
@@ -100,7 +100,7 @@ class HomeModel(PostgreSQLModel):
         group by id, b.name, b.surname, time, title, section
         ) 
         select
-        id,
+        id as id_item,
         wwwuser,
         time,
         title,
@@ -164,7 +164,7 @@ class HomeModel(PostgreSQLModel):
         group by id, b.name, b.surname, time, title, section) ab
         order by time desc)
         select
-        id as id_section,
+        id as id_item,
         wwwuser,
         time,
         title,

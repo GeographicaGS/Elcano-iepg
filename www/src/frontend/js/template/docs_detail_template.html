@@ -24,10 +24,13 @@
                                 <% 
                                 i = 0;
                                 _.each(model.authors,function(a){
+                                    if (a.error) return;
                                     i++;
+
                                     if (i>1){
                                         print(", ");
                                     }
+
                                 %>
                                     <a href="/<lang>lang</lang>/<lang>_link docs</lang>/null/<%= a.twitter_user ? a.twitter_user : a.name %>" > 
                                         <%= a.twitter_user ? a.twitter_user : a.name %>
@@ -94,7 +97,9 @@
 
         <div class="l1"></div>
 
-        <% _.each(model.authors,function(a){ %>
+        <% _.each(model.authors,function(a){ 
+            if (a.error) return;
+            %>
             <div class="row">
                 <div class="col-md-12">
                     <div class="author_desc">

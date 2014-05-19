@@ -45,7 +45,7 @@ app.model.Document = Backbone.Model.extend({
 				var col = value.filterEmpties(),
 					$error = $("p[name='authors'");
 				if(!col || !col.length) {
-					$error.html("El documento no tiene autores");
+					$error.html("El documento no tiene autores.");
 					return "<lang>Field required</lang>";
 				}
 
@@ -53,14 +53,14 @@ app.model.Document = Backbone.Model.extend({
 					if (col.at(i).get("twitter_user")){
 						//Twitter validation
 						if (col.at(i).get("twitter_user").length<3 || col.at(i).get("twitter_user")[0]!="@"){
-							$error.html("El documento tiene autores con twitter inválidos");
-							return "Hay autores con twitter inválidos";
+							$error.html("El documento tiene autores con Twitter inválidos.");
+							return "Hay autores con Twitter inválidos.";
 						}
 					} 
 					else{
 						if (!col.at(i).get("position_en") || !col.at(i).get("position_en") || !col.at(i).get("name")){
-							$error.html("El documento tiene autores con datos incompletos");
-							return "Hay autores que no tienen algún campo completado";
+							$error.html("El documento tiene autores con datos incompletos.");
+							return "Hay autores que no tienen algún campo completado.";
 						}
 					}
 					

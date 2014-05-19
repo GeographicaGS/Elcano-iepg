@@ -7,11 +7,11 @@ Explora country services.
 """
 from explora import app
 from flask import jsonify,request,send_file,make_response
-from common.helpers import cacheWrapper, baseMapData
+from common.helpers import cacheWrapper, baseMapData, arrayIntersection
 import json
 from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError
-from common.const import variables, years
+from common.const import variables, years, blocks
 from helpers import processFilter
 
 
@@ -19,15 +19,15 @@ from helpers import processFilter
 
 # TEST BEGINS 
 
-from common.helpers import blocksGetData, blocksCalculateData
+from common.helpers import blocksSumCalculateData
 
-@app.route('/test/<string:blockCode>/<int:year>/<string:family>/<string:variable>', methods=["GET"])
-def test(blockCode, year, family, variable):
-    print(blocksGetData(blockCode))
+# @app.route('/test/<string:blockCode>/<int:year>/<string:family>/<string:variable>', methods=["GET"])
+# def test(blockCode, year, family, variable):
+#     print(blocksGetData(blockCode))
 
-    print(blocksCalculateData(blockCode, year, family, variable))
+#     print(blocksSumCalculateData(blockCode, year, family, variable))
 
-    return(jsonify({"results": "caca"}))
+#     return(jsonify({"results": "caca"}))
 
 
 # TEST ENDS
@@ -42,6 +42,43 @@ def countryFilter(lang):
         return(jsonify({"results": cacheWrapper(m.countryFilter, lang)}))
     except ElcanoApiRestError as e:
         return(jsonify(e.toDict()))
+
+
+@app.route('/blocks/<string:lang>/<int:year>', methods=["GET"])
+def blocksData(lang, year):
+    """Retrieves currently available blocks data (based on filtered countries).
+    Params:
+    
+    filter: country filter
+    """
+    if "filter" in request.args:
+        countryFilter = request.args["filter"]
+        if countryFilter=="":
+            countryFilter = None
+        else:
+            countryFilter = countryFilter.split(",")
+    else:
+        countryFilter = None
+
+    m = iepgdatamodel.IepgDataModel()
+    out = dict()
+    for blockCode,blockData in blocks.items():
+        block = dict()
+        block["name"] = blockData["name_"+lang]
+        blockYears = dict()
+        for year,membersData in blockData["members"].items():
+            if countryFilter:
+                if arrayIntersection(membersData, countryFilter)<>[]:
+                    continue
+            countries = dict()
+            for countryCode in membersData:
+                countryName = cacheWrapper(m.getCountryNameByIso2, countryCode, lang)[0]
+                countries[countryCode] = countryName
+            blockYears[year] = countries
+        block["members"] = blockYears
+        if block["members"]<>{}:
+            out[blockCode] = block
+    return(jsonify(out))
 
 
 @app.route('/countrysheet/<string:lang>/<string:countryCode>', methods=['GET'])

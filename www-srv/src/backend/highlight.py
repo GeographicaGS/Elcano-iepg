@@ -156,10 +156,10 @@ def editHightlight(id_highlight):
         "title_es": "title_es",
         "text_en": "text_en",
         "text_es": "text_es",
-        "new_image_name_en": "new_image_name_en",
-        "new_image_name_es": "new_image_name_es",
-        "new_image_hash_en": "new_image_hash_en",
-        "new_image_hash_es": "new_image_hash_es",
+        "image_name_en": "new_image_name_en",
+        "image_name_es": "new_image_name_es",
+        "image_hash_en": "new_image_hash_en",
+        "image_hash_es": "new_image_hash_es",
         "link_en": "link_en",
         "link_es": "link_es",
         "credit_img_en": "credit_img_en",
@@ -168,13 +168,13 @@ def editHightlight(id_highlight):
     m = HighlightModel()
     oldHighlight = m.getHighlight(id_highlight)
 
-    if oldHighlight["image_hash_en"]!=request.json["new_image_hash_en"]:
+    if oldHighlight["image_hash_en"]!=request.json["image_hash_en"]:
         deleteImgFile(oldHighlight["image_hash_en"])
-        moveImgFile(request.json["new_image_hash_en"])        
+        moveImgFile(request.json["image_hash_en"])        
 
-    if oldHighlight["image_hash_es"]!=request.json["new_image_hash_es"]:
+    if oldHighlight["image_hash_es"]!=request.json["image_hash_es"]:
         deleteImgFile(oldHighlight["image_hash_es"])
-        moveImgFile(request.json["new_image_hash_es"])
+        moveImgFile(request.json["image_hash_es"])
 
     out = m.editHighlight(request.json)
     return(jsonify({"result": {"id_highlight": out}}))

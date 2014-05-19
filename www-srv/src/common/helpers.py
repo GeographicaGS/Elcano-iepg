@@ -6,6 +6,7 @@ Common helpers.
 
 """
 import hashlib
+import tweepy
 import model.iepgdatamodel
 from config import MemcachedConfig
 from flask import jsonify

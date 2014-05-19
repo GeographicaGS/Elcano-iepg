@@ -24,7 +24,7 @@ def authorHelper(authorData, lang):
             author["position"]=t.description if t.description!="" else None
             author["image"]=t.profile_image_url_https.replace("_normal","_bigger")
         except:
-            return (cons.errors["-4"])
+            return ({"error": "Twitter error"})
     else:
         author["twitter_user"]=None
         author["name"]=authorData["name"]

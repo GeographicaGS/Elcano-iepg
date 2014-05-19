@@ -85,7 +85,7 @@ class Atom(object):
          self.__types = types
          self.__openAtom = openAtom
          self.__closeAtom = closeAtom
-         self.__hash = hashlib.md5(syntax+str(types)+str(datetime.datetime.now())).hexdigest()
+         self.__hash = hashlib.md5(syntax+str(types)+str(datetime.datetime.utcnow().isoformat())).hexdigest()
 
     def getOpenAtom(self):
         return(self.__openAtom)

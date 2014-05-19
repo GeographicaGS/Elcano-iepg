@@ -331,7 +331,7 @@ app.view.docs.FormView = Backbone.View.extend({
             $unot =  this.$("#upload_notification_"+lang);
                     
         if (["application/pdf"].indexOf(type) == -1 ){
-            $unot.html("<lang>Suba un fichero PDF</lang>");
+            $unot.html("<lang>Suba un fichero PDF</lang>.");
             setTimeout(function(){
                 $unot.html("");
             },8000);
@@ -342,7 +342,7 @@ app.view.docs.FormView = Backbone.View.extend({
         //max allow 8 MB
         max_allow = 8;
         if (size/(1024*1024) > max_allow){
-            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ max_allow +" MB");
+            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ max_allow +" MB.");
             setTimeout(function(){
                 $unot.html("");
             },8000);

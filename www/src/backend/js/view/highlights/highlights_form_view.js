@@ -135,7 +135,7 @@ app.view.highlights.FormView = Backbone.View.extend({
             $unot =  this.$("#upload_notification_"+lang);
                     
         if (["image/jpeg"].indexOf(type) == -1 ){
-            $unot.html("<lang>Suba una image JPG</lang>");
+            $unot.html("<lang>Suba una image JPG</lang>.");
             setTimeout(function(){
                 $unot.html("");
             },8000);
@@ -145,7 +145,7 @@ app.view.highlights.FormView = Backbone.View.extend({
   
         // Max allow 8 MB
         if (size/(1024*1024) > this._maxImageSize){
-            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ this._maxImageSize +" MB");
+            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ this._maxImageSize +" MB.");
             setTimeout(function(){
                 $unot.html("");
             },8000);

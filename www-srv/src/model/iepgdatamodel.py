@@ -298,5 +298,3 @@ class IepgDataModel(PostgreSQLModel):
         """
 
         return(self.query(sql).row()["iepg_codes"])
-
-        

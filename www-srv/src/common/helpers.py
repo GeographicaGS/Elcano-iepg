@@ -58,10 +58,14 @@ def blocksSumCalculateData(blockCode, year, family, variable):
     """Calculates block data for a variable."""
     m = model.iepgdatamodel.IepgDataModel()
     block = blocks[blockCode]
-    data = cacheWrapper(m.getCountriesData, block["members"][str(year)], year, family, variable)
-    sum = 0
-    for a in data:
-        sum += a["value"]
+    if block["precalculated"]:
+        
+    else:
+
+        data = cacheWrapper(m.getCountriesData, block["members"][str(year)], year, family, variable)
+        sum = 0
+        for a in data:
+            sum += a["value"]
     return({"code": blockCode, "value": sum})
 
 

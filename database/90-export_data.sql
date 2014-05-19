@@ -57,5 +57,24 @@ csv header quote '"';
 
 \copy iepg_data.iepg_relative_contributions_eu to 'iepg_relative_contributions_eu.csv' with delimiter '|' csv header quote '"'
 
+\copy maplex.block to 'maplex_block.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geoentity to 'maplex_geoentity.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geoentity_geometry to 'maplex_geoentity_geometry.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geoentity_name to 'maplex_geoentity_name.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geoentity_timeline to 'maplex_geoentity_timeline.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geometry to 'maplex_geometry.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geometry_family to 'maplex_geometry_family.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.name to 'maplex_name.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.name_family to 'maplex_name_family.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.timeline to 'maplex_timeline.csv' with delimiter '|' csv header quote '"'
 
 \c :dbname :user :host :port

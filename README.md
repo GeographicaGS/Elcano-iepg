@@ -275,3 +275,12 @@ Alias /img /Users/alasarr/dev/elcano-iepg/www/cdn/frontend/img
 #### Configuración
 
 Aquí las notas de la configuración de la web.
+
+==================
+Datos de variables
+==================
+la aplicación se basa en almacenar variables precalculadas para 
+
+La aplicación lee variables precalculadas desde tablas en la base de datos. Las tablas de variables en la base de datos tienen la siguiente estructura:
+
+  * code: 

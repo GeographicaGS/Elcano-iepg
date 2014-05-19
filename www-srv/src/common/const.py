@@ -44,14 +44,38 @@ blocks = {
         "name_en": "European Union",
         "name_es": "Unión Europea",
         "members": {
-            "1990": ["IE"],
-            "1995": ["FR", "IE"],
-            "2000": ["ES", "FR", "IE"],
-            "2005": ["DE", "ES", "FR", "IE"],
-            "2010": ["DE", "NL", "ES", "FR", "IE"],
-            "2011": ["DE", "NL", "IT", "ES", "FR", "IE"],
-            "2012": ["DE", "NL", "IT", "SE", "ES", "FR", "IE"],
-            "2013": ["DE", "NL", "IT", "SE", "PL", "ES", "FR", "IE"]
+            "1990": {
+                "countries": ["IE"],
+                "precalculated": true
+            },
+            "1995": {
+                "countries": ["FR", "IE"],
+                "precalculated": true
+            },
+            "2000": {
+                "countries": ["ES", "FR", "IE"],
+                "precalculated": true
+            },
+            "2005": {
+                "countries": ["DE", "ES", "FR", "IE"],
+                "precalculated": true
+            },
+            "2010": {
+                "countries": ["DE", "NL", "ES", "FR", "IE"],
+                "precalculated": true
+            },
+            "2011": {
+                "countries": ["DE", "NL", "IT", "ES", "FR", "IE"],
+                "precalculated": true
+            },
+            "2012": {
+                "countries": ["DE", "NL", "IT", "SE", "ES", "FR", "IE"],
+                "precalculated": true
+            },
+            "2013": {
+                "countries": ["DE", "NL", "IT", "SE", "PL", "ES", "FR", "IE"],
+                "precalculated": true
+            }
         }
     },
     "XBE2": {
@@ -71,6 +95,7 @@ blocks = {
     },
     "XBLA": {
         "key": "latin_america",
+        "precalculated": false,
         "name_en": "Latin America",
         "name_es": "América Latina",
         "members": {
@@ -86,6 +111,7 @@ blocks = {
     },
     "XBNA": {
         "key": "north_america",
+        "precalculated": false,
         "name_en": "North America",
         "name_es": "América del Norte",
         "members": {
@@ -101,6 +127,7 @@ blocks = {
     },
     "XBAP": {
         "key": "asia_and_pacific",
+        "precalculated": false,
         "name_en": "Asia & Pacific",
         "name_es": "Ásia y Pacífico",
         "members": {
@@ -116,6 +143,7 @@ blocks = {
     },
     "XBME": {
         "key": "magreb_middle_east",
+        "precalculated": false,
         "name_en": "Magreb & Middle East",
         "name_es": "Magreb y Oriente Medio",
         "members": {
@@ -134,6 +162,7 @@ blocks = {
 variables = {
     "iepg_energy": {
         "key": "energy",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Energy",
         "name_es": "Energía",
@@ -141,6 +170,7 @@ variables = {
         "column": "energy"},
     "iepg_primary_goods": {
         "key": "primary_goods",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Primary Goods",
         "name_es": "Bienes primarios",
@@ -148,6 +178,7 @@ variables = {
         "column": "primary_goods"},
     "iepg_manufactures": {
         "key": "manufactures",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Manufactures",
         "name_es": "Manufacturas",
@@ -155,6 +186,7 @@ variables = {
         "column": "manufactures"},
     "iepg_services": {
         "key": "services",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Services",
         "name_es": "Servicios",
@@ -162,6 +194,7 @@ variables = {
         "column": "services"},
     "iepg_investments": {
         "key": "investments",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Investments",
         "name_es": "Inversiones",
@@ -169,6 +202,7 @@ variables = {
         "column": "investments"},
     "iepg_troops": {
         "key": "troops",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Troops",
         "name_es": "Tropas",
@@ -176,6 +210,7 @@ variables = {
         "column": "troops"},
     "iepg_military_equipment": {
         "key": "military_equipment",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Military Equipment",
         "name_es": "Equipo militar",
@@ -183,6 +218,7 @@ variables = {
         "column": "military_equipment"},
     "iepg_migrations": {
         "key": "migrations",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Migrations",
         "name_es": "Migraciones",
@@ -190,6 +226,7 @@ variables = {
         "column": "migrations"},
     "iepg_tourism": {
         "key": "tourism",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Tourism",
         "name_es": "Turismo",
@@ -197,6 +234,7 @@ variables = {
         "column": "tourism"},
     "iepg_sports": {
         "key": "sports",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Sports",
         "name_es": "Deportes",
@@ -204,6 +242,7 @@ variables = {
         "column": "sports"},
     "iepg_culture": {
         "key": "culture",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Culture",
         "name_es": "Cultura",
@@ -211,6 +250,7 @@ variables = {
         "column": "culture"},
     "iepg_information": {
         "key": "information",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Information",
         "name_es": "Información",
@@ -218,6 +258,7 @@ variables = {
         "column": "information"},
     "iepg_technology": {
         "key": "technology",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Technology",
         "name_es": "Tecnología",
@@ -225,6 +266,7 @@ variables = {
         "column": "technology"},
     "iepg_science": {
         "key": "science",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Science",
         "name_es": "Ciencia",
@@ -232,6 +274,7 @@ variables = {
         "column": "science"},
     "iepg_education": {
         "key": "education",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Education",
         "name_es": "Educación",
@@ -239,6 +282,7 @@ variables = {
         "column": "education"},
     "iepg_cooperation": {
         "key": "cooperation",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Cooperation",
         "name_es": "Cooperación",
@@ -246,6 +290,7 @@ variables = {
         "column": "cooperation"},
     "iepg_economic_presence": {
         "key": "economic_presence",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Economic Presence",
         "name_es": "Presencia económica",
@@ -253,6 +298,7 @@ variables = {
         "column": "economic_presence"},
     "iepg_military_presence": {
         "key": "military_presence",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Military Presence",
         "name_es": "Presencia militar",
@@ -260,6 +306,7 @@ variables = {
         "column": "military_presence"},
     "iepg_soft_presence": {
         "key": "soft_presence",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "Soft Presence",
         "name_es": "Presencia blanda",
@@ -267,6 +314,7 @@ variables = {
         "column": "soft_presence"},
     "iepg": {
         "key": "iepg",
+        "precalculus": "",
         "family": "iepg",
         "name_en": "IEPG",
         "name_es": "IEPG",
@@ -274,6 +322,7 @@ variables = {
         "column": "iepg"},
     "iepe_energy": {
         "key": "energy",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Energy",
         "name_es": "Energía",
@@ -281,6 +330,7 @@ variables = {
         "column": "energy"},
     "iepe_primary_goods": {
         "key": "primary_goods",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Primary Goods",
         "name_es": "Bienes primarios",
@@ -288,6 +338,7 @@ variables = {
         "column": "primary_goods"},
     "iepe_manufactures": {
         "key": "manufactures",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Manufactures",
         "name_es": "Manufacturas",
@@ -295,6 +346,7 @@ variables = {
         "column": "manufactures"},
     "iepe_services": {
         "key": "services",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Services",
         "name_es": "Servicios",
@@ -302,6 +354,7 @@ variables = {
         "column": "services"},
     "iepe_investments": {
         "key": "investments",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Investments",
         "name_es": "Inversiones",
@@ -309,6 +362,7 @@ variables = {
         "column": "investments"},
     "iepe_troops": {
         "key": "troops",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Troops",
         "name_es": "Tropas",
@@ -316,6 +370,7 @@ variables = {
         "column": "troops"},
     "iepe_military_equipment": {
         "key": "military_equipment",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Military Equipment",
         "name_es": "Equipo militar",
@@ -323,6 +378,7 @@ variables = {
         "column": "military_equipment"},
     "iepe_migrations": {
         "key": "migrations",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Migrations",
         "name_es": "Migraciones",
@@ -330,6 +386,7 @@ variables = {
         "column": "migrations"},
     "iepe_tourism": {
         "key": "tourism",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Tourism",
         "name_es": "Turismo",
@@ -337,6 +394,7 @@ variables = {
         "column": "tourism"},
     "iepe_sports": {
         "key": "sports",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Sports",
         "name_es": "Deportes",
@@ -344,6 +402,7 @@ variables = {
         "column": "sports"},
     "iepe_culture": {
         "key": "culture",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Culture",
         "name_es": "Cultura",
@@ -351,6 +410,7 @@ variables = {
         "column": "culture"},
     "iepe_information": {
         "key": "information",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Information",
         "name_es": "Información",
@@ -358,6 +418,7 @@ variables = {
         "column": "information"},
     "iepe_technology": {
         "key": "technology",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Technology",
         "name_es": "Tecnología",
@@ -365,6 +426,7 @@ variables = {
         "column": "technology"},
     "iepe_science": {
         "key": "science",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Science",
         "name_es": "Ciencia",
@@ -372,6 +434,7 @@ variables = {
         "column": "science"},
     "iepe_education": {
         "key": "education",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Education",
         "name_es": "Educación",
@@ -379,6 +442,7 @@ variables = {
         "column": "education"},
     "iepe_cooperation": {
         "key": "cooperation",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Cooperation",
         "name_es": "Cooperación",
@@ -386,6 +450,7 @@ variables = {
         "column": "cooperation"},
     "iepe_economic_presence": {
         "key": "economic_presence",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Economic Presence",
         "name_es": "Presencia económica",
@@ -393,6 +458,7 @@ variables = {
         "column": "economic_presence"},
     "iepe_military_presence": {
         "key": "military_presence",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Military Presence",
         "name_es": "Presencia militar",
@@ -400,6 +466,7 @@ variables = {
         "column": "military_presence"},
     "iepe_soft_presence": {
         "key": "soft_presence",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "Soft Presence",
         "name_es": "Presencia blanda",
@@ -407,6 +474,7 @@ variables = {
         "column": "soft_presence"},
     "iepe": {
         "key": "iepe",
+        "precalculus": "",
         "family": "iepe",
         "name_en": "IEPE",
         "name_es": "IEPE",
@@ -414,146 +482,167 @@ variables = {
         "column": "iepe"},
     "iepg_ue_energy": {
         "key": "energy",
-        "family": "iepg_ue",
+        "precalculus": "",
+        "family": "iepg",
         "name_en": "Energy",
         "name_es": "Energía",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "energy"},
     "iepg_ue_primary_goods": {
         "key": "primary_goods",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Primary Goods",
         "name_es": "Bienes primarios",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "primary_goods"},
     "iepg_ue_manufactures": {
         "key": "manufactures",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Manufactures",
         "name_es": "Manufacturas",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "manufactures"},
     "iepg_ue_services": {
         "key": "services",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Services",
         "name_es": "Servicios",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "services"},
     "iepg_ue_investments": {
         "key": "investments",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Investments",
         "name_es": "Inversiones",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "investments"},
     "iepg_ue_troops": {
         "key": "troops",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Troops",
         "name_es": "Tropas",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "troops"},
     "iepg_ue_military_equipment": {
         "key": "military_equipment",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Military Equipment",
         "name_es": "Equipo militar",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "military_equipment"},
     "iepg_ue_migrations": {
         "key": "migrations",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Migrations",
         "name_es": "Migraciones",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "migrations"},
     "iepg_ue_tourism": {
         "key": "tourism",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Tourism",
         "name_es": "Turismo",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "tourism"},
     "iepg_ue_sports": {
         "key": "sports",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Sports",
         "name_es": "Deportes",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "sports"},
     "iepg_ue_culture": {
         "key": "culture",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Culture",
         "name_es": "Cultura",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "culture"},
     "iepg_ue_information": {
         "key": "information",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Information",
         "name_es": "Información",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "information"},
     "iepg_ue_technology": {
         "key": "technology",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Technology",
         "name_es": "Tecnología",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "technology"},
     "iepg_ue_science": {
         "key": "science",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Science",
         "name_es": "Ciencia",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "science"},
     "iepg_ue_education": {
         "key": "education",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Education",
         "name_es": "Educación",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "education"},
     "iepg_ue_cooperation": {
         "key": "cooperation",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Cooperation",
         "name_es": "Cooperación",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "cooperation"},
     "iepg_ue_economic_presence": {
         "key": "economic_presence",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Economic Presence",
         "name_es": "Presencia económica",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "economic_presence"},
     "iepg_ue_military_presence": {
         "key": "military_presence",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Military Presence",
         "name_es": "Presencia militar",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "military_presence"},
     "iepg_ue_soft_presence": {
         "key": "soft_presence",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "Soft Presence",
         "name_es": "Presencia blanda",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "soft_presence"},
     "iepg_ue": {
         "key": "iepg",
-        "family": "iepg_ue",
+        "precalculus": "eu",
+        "family": "iepg",
         "name_en": "IEPG",
         "name_es": "IEPG",
         "table": "iepg_data.iepg_final_data_ue",
         "column": "iepg"},
     "population": {
         "key": "population",
+        "precalculus": "",
         "family": "context",
         "name_en": "Population",
         "name_es": "Población",
@@ -561,6 +650,7 @@ variables = {
         "column": "population"},
     "gdp": {
         "key": "gdp",
+        "precalculus": "",
         "family": "context",
         "name_en": "GDP",
         "name_es": "PIB",

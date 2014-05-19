@@ -1,0 +1,223 @@
+id_name|name|description
+1|EC|[Ecuador] ISO-3166-1 2 digits.
+2|HT|[Haiti] ISO-3166-1 2 digits.
+3|AM|[Armenia] ISO-3166-1 2 digits.
+4|BE|[Belgium] ISO-3166-1 2 digits.
+5|MM|[Myanmar] ISO-3166-1 2 digits.
+6|BI|[Burundi] ISO-3166-1 2 digits.
+7|CL|[Chile] ISO-3166-1 2 digits.
+8|CO|[Colombia] ISO-3166-1 2 digits.
+9|BJ|[Benin] ISO-3166-1 2 digits.
+10|BO|[Bolivia ] ISO-3166-1 2 digits.
+11|CF|[CAR] ISO-3166-1 2 digits.
+12|TL|[Timor-Leste] ISO-3166-1 2 digits.
+13|KG|[Kyrgyzstan] ISO-3166-1 2 digits.
+14|LV|[Latvia] ISO-3166-1 2 digits.
+15|SV|[El Salvador] ISO-3166-1 2 digits.
+16|FM|[Micronesia] ISO-3166-1 2 digits.
+17|KN|[Saint Kitts and Nevis] ISO-3166-1 2 digits.
+18|AI|[Anguilla] ISO-3166-1 2 digits.
+19|LC|[Saint Lucia] ISO-3166-1 2 digits.
+20|VC|[Saint Vincent and the Grenadines] ISO-3166-1 2 digits.
+21|JO|[Jordan] ISO-3166-1 2 digits.
+22|KP|[North Korea] ISO-3166-1 2 digits.
+23|SA|[Saudi Arabia] ISO-3166-1 2 digits.
+24|SN|[Senegal] ISO-3166-1 2 digits.
+25|SL|[Sierra Leone] ISO-3166-1 2 digits.
+26|SK|[Slovakia] ISO-3166-1 2 digits.
+27|AG|[Antigua and Barbuda] ISO-3166-1 2 digits.
+28|BH|[Bahrain] ISO-3166-1 2 digits.
+29|BF|[Burkina Faso] ISO-3166-1 2 digits.
+30|BB|[Barbados] ISO-3166-1 2 digits.
+31|BS|[Bahamas] ISO-3166-1 2 digits.
+32|BN|[Brunei ] ISO-3166-1 2 digits.
+33|SY|[Syrian ] ISO-3166-1 2 digits.
+34|GT|[Guatemala] ISO-3166-1 2 digits.
+35|GN|[Guinea] ISO-3166-1 2 digits.
+36|GY|[Guyana] ISO-3166-1 2 digits.
+37|KY|[Cayman Islands] ISO-3166-1 2 digits.
+38|MX|[Mexico] ISO-3166-1 2 digits.
+39|NL|[Netherlands] ISO-3166-1 2 digits.
+40|HU|[Hungary] ISO-3166-1 2 digits.
+41|MP|[Northern Mariana Islands] ISO-3166-1 2 digits.
+42|GI|[Gibraltar] ISO-3166-1 2 digits.
+43|AO|[Angola] ISO-3166-1 2 digits.
+44|AZ|[Azerbaijan] ISO-3166-1 2 digits.
+45|KW|[Kuwait] ISO-3166-1 2 digits.
+46|PW|[Palau] ISO-3166-1 2 digits.
+47|AR|[Argentina] ISO-3166-1 2 digits.
+48|KM|[Comoros] ISO-3166-1 2 digits.
+49|YT|[Mayotte] ISO-3166-1 2 digits.
+50|CK|[Cook Islands] ISO-3166-1 2 digits.
+51|AU|[Australia] ISO-3166-1 2 digits.
+52|AT|[Austria] ISO-3166-1 2 digits.
+53|DJ|[Djibouti] ISO-3166-1 2 digits.
+54|BD|[Bangladesh] ISO-3166-1 2 digits.
+55|BM|[Bermuda] ISO-3166-1 2 digits.
+56|BT|[Bhutan] ISO-3166-1 2 digits.
+57|DM|[Dominica] ISO-3166-1 2 digits.
+58|CV|[Cabo Verde] ISO-3166-1 2 digits.
+59|BA|[Bosnia and Herzegovina] ISO-3166-1 2 digits.
+60|BW|[Botswana] ISO-3166-1 2 digits.
+61|BZ|[Belize] ISO-3166-1 2 digits.
+62|SB|[Solomon Islands] ISO-3166-1 2 digits.
+63|LR|[Liberia] ISO-3166-1 2 digits.
+64|BG|[Bulgaria] ISO-3166-1 2 digits.
+65|RU|[Russia] ISO-3166-1 2 digits.
+66|BY|[Belarus] ISO-3166-1 2 digits.
+67|KH|[Cambodia] ISO-3166-1 2 digits.
+68|CM|[Cameroon] ISO-3166-1 2 digits.
+69|CA|[Canada] ISO-3166-1 2 digits.
+70|LK|[Sri Lanka] ISO-3166-1 2 digits.
+71|TD|[Chad] ISO-3166-1 2 digits.
+72|HN|[Honduras] ISO-3166-1 2 digits.
+73|MT|[Malta] ISO-3166-1 2 digits.
+74|CR|[Costa Rica] ISO-3166-1 2 digits.
+75|HR|[Croatia] ISO-3166-1 2 digits.
+76|QA|[Qatar] ISO-3166-1 2 digits.
+77|NU|[Niue] ISO-3166-1 2 digits.
+78|CU|[Cuba] ISO-3166-1 2 digits.
+79|CY|[Cyprus] ISO-3166-1 2 digits.
+80|CZ|[Czech Republic] ISO-3166-1 2 digits.
+81|DK|[Denmark] ISO-3166-1 2 digits.
+82|IT|[Italy] ISO-3166-1 2 digits.
+83|FR|[France] ISO-3166-1 2 digits.
+84|VG|[British Virgin Islands] ISO-3166-1 2 digits.
+85|PF|[French Polynesia] ISO-3166-1 2 digits.
+86|DO|[Dominican Republic] ISO-3166-1 2 digits.
+87|FI|[Finland] ISO-3166-1 2 digits.
+88|CG|[Congo] ISO-3166-1 2 digits.
+89|SD|[Sudan] ISO-3166-1 2 digits.
+90|KI|[Kiribati] ISO-3166-1 2 digits.
+91|IS|[Iceland] ISO-3166-1 2 digits.
+92|JP|[Japan] ISO-3166-1 2 digits.
+93|NC|[New Caledonia] ISO-3166-1 2 digits.
+94|IN|[India] ISO-3166-1 2 digits.
+95|MW|[Malawi] ISO-3166-1 2 digits.
+96|CN|[China] ISO-3166-1 2 digits.
+97|GD|[Grenada] ISO-3166-1 2 digits.
+98|GP|[Guadeloupe] ISO-3166-1 2 digits.
+99|GU|[Guam] ISO-3166-1 2 digits.
+100|GQ|[Equatorial Guinea] ISO-3166-1 2 digits.
+101|ET|[Ethiopia] ISO-3166-1 2 digits.
+102|ER|[Eritrea] ISO-3166-1 2 digits.
+103|EE|[Estonia] ISO-3166-1 2 digits.
+104|FJ|[Fiji] ISO-3166-1 2 digits.
+105|ID|[Indonesia] ISO-3166-1 2 digits.
+106|IE|[Ireland] ISO-3166-1 2 digits.
+107|IL|[Israel] ISO-3166-1 2 digits.
+108|JM|[Jamaica] ISO-3166-1 2 digits.
+109|GM|[Gambia] ISO-3166-1 2 digits.
+110|LT|[Lithuania] ISO-3166-1 2 digits.
+111|LU|[Luxembourg] ISO-3166-1 2 digits.
+112|MG|[Madagascar] ISO-3166-1 2 digits.
+113|MY|[Malaysia] ISO-3166-1 2 digits.
+114|ML|[Mali] ISO-3166-1 2 digits.
+115|MR|[Mauritania] ISO-3166-1 2 digits.
+116|LA|[Laos] ISO-3166-1 2 digits.
+117|IR|[Iran] ISO-3166-1 2 digits.
+118|LI|[Liechtenstein] ISO-3166-1 2 digits.
+119|PR|[Puerto Rico] ISO-3166-1 2 digits.
+120|NF|[Norfolk Island] ISO-3166-1 2 digits.
+121|MN|[Mongolia] ISO-3166-1 2 digits.
+122|ME|[Montenegro] ISO-3166-1 2 digits.
+123|GW|[Guinea-Bissau] ISO-3166-1 2 digits.
+124|OM|[Oman] ISO-3166-1 2 digits.
+125|NA|[Namibia] ISO-3166-1 2 digits.
+126|NP|[Nepal] ISO-3166-1 2 digits.
+127|MV|[Maldives] ISO-3166-1 2 digits.
+128|MQ|[Martinique] ISO-3166-1 2 digits.
+129|KZ|[Kazakhstan] ISO-3166-1 2 digits.
+130|IQ|[Iraq] ISO-3166-1 2 digits.
+131|NI|[Nicaragua] ISO-3166-1 2 digits.
+132|NE|[Niger] ISO-3166-1 2 digits.
+133|VI|[U.S. Virgin Islands] ISO-3166-1 2 digits.
+134|NG|[Nigeria] ISO-3166-1 2 digits.
+135|NO|[Norway] ISO-3166-1 2 digits.
+136|GF|[French Guiana] ISO-3166-1 2 digits.
+137|MU|[Mauritius] ISO-3166-1 2 digits.
+138|MC|[Monaco] ISO-3166-1 2 digits.
+139|MS|[Montserrat] ISO-3166-1 2 digits.
+140|PK|[Pakistan] ISO-3166-1 2 digits.
+141|PG|[Papua New Guinea] ISO-3166-1 2 digits.
+142|NR|[Nauru] ISO-3166-1 2 digits.
+143|PE|[Peru] ISO-3166-1 2 digits.
+144|PH|[Philippines] ISO-3166-1 2 digits.
+145|PL|[Poland] ISO-3166-1 2 digits.
+146|PT|[Portugal] ISO-3166-1 2 digits.
+147|AW|[Aruba] ISO-3166-1 2 digits.
+148|MH|[Marshall Islands] ISO-3166-1 2 digits.
+149|GA|[Gabon] ISO-3166-1 2 digits.
+150|BR|[Brazil] ISO-3166-1 2 digits.
+151|AF|[Afghanistan] ISO-3166-1 2 digits.
+152|AL|[Albania] ISO-3166-1 2 digits.
+153|DZ|[Algeria] ISO-3166-1 2 digits.
+154|LB|[Lebanon] ISO-3166-1 2 digits.
+155|LS|[Lesotho] ISO-3166-1 2 digits.
+156|SI|[Slovenia] ISO-3166-1 2 digits.
+157|SO|[Somalia] ISO-3166-1 2 digits.
+158|ZW|[Zimbabwe] ISO-3166-1 2 digits.
+159|SR|[Suriname] ISO-3166-1 2 digits.
+160|SZ|[Swaziland] ISO-3166-1 2 digits.
+161|CH|[Switzerland] ISO-3166-1 2 digits.
+162|TJ|[Tajikistan] ISO-3166-1 2 digits.
+163|TH|[Thailand] ISO-3166-1 2 digits.
+164|TG|[Togo] ISO-3166-1 2 digits.
+165|TT|[Trinidad and Tobago] ISO-3166-1 2 digits.
+166|AE|[United Arab Emirates] ISO-3166-1 2 digits.
+167|VU|[Vanuatu] ISO-3166-1 2 digits.
+168|TR|[Turkey] ISO-3166-1 2 digits.
+169|TM|[Turkmenistan] ISO-3166-1 2 digits.
+170|UG|[Uganda] ISO-3166-1 2 digits.
+171|UA|[Ukraine] ISO-3166-1 2 digits.
+172|EG|[Egypt] ISO-3166-1 2 digits.
+173|YE|[Yemen] ISO-3166-1 2 digits.
+174|ZM|[Zambia] ISO-3166-1 2 digits.
+175|AD|[Andorra] ISO-3166-1 2 digits.
+176|TZ|[Tanzania] ISO-3166-1 2 digits.
+177|CD|[The Congo] ISO-3166-1 2 digits.
+178|MD|[Moldova] ISO-3166-1 2 digits.
+179|MK|[Macedonia] ISO-3166-1 2 digits.
+180|SH|[Saint Helena] ISO-3166-1 2 digits.
+181|AS|[American Samoa] ISO-3166-1 2 digits.
+182|VE|[Venezuela] ISO-3166-1 2 digits.
+183|TV|[Tuvalu] ISO-3166-1 2 digits.
+184|PM|[Saint Pierre and Miquelon] ISO-3166-1 2 digits.
+185|GG|[Guernsey] ISO-3166-1 2 digits.
+186|JE|[Jersey] ISO-3166-1 2 digits.
+187|GB|[United Kingdom] ISO-3166-1 2 digits.
+188|SM|[San Marino] ISO-3166-1 2 digits.
+189|ST|[Sao Tome and Principe] ISO-3166-1 2 digits.
+190|SC|[Seychelles] ISO-3166-1 2 digits.
+191|ZA|[South Africa] ISO-3166-1 2 digits.
+192|KR|[South Korea] ISO-3166-1 2 digits.
+193|SG|[Singapore] ISO-3166-1 2 digits.
+194|VN|[Viet Nam] ISO-3166-1 2 digits.
+195|RS|[Serbia] ISO-3166-1 2 digits.
+196|TK|[Tokelau] ISO-3166-1 2 digits.
+197|TO|[Tonga] ISO-3166-1 2 digits.
+198|TC|[Turks and Caicos Islands] ISO-3166-1 2 digits.
+199|GE|[Georgia] ISO-3166-1 2 digits.
+200|IM|[Isle of Man] ISO-3166-1 2 digits.
+201|WS|[Samoa] ISO-3166-1 2 digits.
+202|DE|[Germany] ISO-3166-1 2 digits.
+203|HK|[Hong Kong] ISO-3166-1 2 digits.
+204|GH|[Ghana] ISO-3166-1 2 digits.
+205|KE|[Kenya] ISO-3166-1 2 digits.
+206|GR|[Greece] ISO-3166-1 2 digits.
+207|NZ|[New Zealand] ISO-3166-1 2 digits.
+208|GL|[Greenland] ISO-3166-1 2 digits.
+209|CI|[Côte d'Ivoire] ISO-3166-1 2 digits.
+210|LY|[Libya] ISO-3166-1 2 digits.
+211|MA|[Morocco] ISO-3166-1 2 digits.
+212|MZ|[Mozambique] ISO-3166-1 2 digits.
+213|PA|[Panama] ISO-3166-1 2 digits.
+214|PY|[Paraguay] ISO-3166-1 2 digits.
+215|RO|[Romania] ISO-3166-1 2 digits.
+216|RW|[Rwanda] ISO-3166-1 2 digits.
+217|ES|[Spain] ISO-3166-1 2 digits.
+218|SE|[Sweden] ISO-3166-1 2 digits.
+219|TN|[Tunisia] ISO-3166-1 2 digits.
+220|UY|[Uruguay] ISO-3166-1 2 digits.
+221|UZ|[Uzbekistan] ISO-3166-1 2 digits.
+222|US|[United States of America] ISO-3166-1 2 digits.

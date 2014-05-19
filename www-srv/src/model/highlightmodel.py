@@ -90,9 +90,14 @@ class HighlightModel(PostgreSQLModel):
             credit_img_en ilike %s or
             credit_img_es ilike %s)"""
 
-        sql += """
-        order by last_edit_time desc
-        """
+        if published:
+            sql += """
+            order by publication_order asc
+            """
+        else:
+            sql += """
+            order by last_edit_time
+            """
 
         if page and listSize:
             sql += """
@@ -198,10 +203,10 @@ class HighlightModel(PostgreSQLModel):
                      "credit_img_es": data["credit_img_es"],
                      "link_en": data["link_en"],
                      "link_es": data["link_es"],
-                     "image_name_en": data["new_image_name_en"],
-                     "image_hash_en": data["new_image_hash_en"],
-                     "image_name_es": data["new_image_name_es"],
-                     "image_hash_es": data["new_image_hash_es"],
+                     "image_name_en": data["image_name_en"],
+                     "image_hash_en": data["image_hash_en"],
+                     "image_name_es": data["image_name_es"],
+                     "image_hash_es": data["image_hash_es"],
                      "last_edit_id_user": session["id_user"],
                      "last_edit_time": datetime.datetime.utcnow().isoformat()},
                     {"id_highlight": data["id_highlight"]})

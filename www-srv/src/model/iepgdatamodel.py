@@ -274,4 +274,29 @@ class IepgDataModel(PostgreSQLModel):
         return(self.query(sql, bindings=[year]).result())
 
 
+    def getCountryNameByIso2(self, countryCode, lang):
+        """Returns the country name by an ISO2 code."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+
+        sql = """
+        select
+        short_name_{}1 as name
+        from iepg_data.master_country
+        where
+        iso_3166_1_2_code=%s;
+        """.format(lang)
+
+        return(self.query(sql, bindings=[countryCode]).result())
+
+
+    def getIepgCountriesIso(self, year):
+        """Returns all the ISO codes of IEPG countries."""
+        sql = """
+        select array_agg(iso_code) as iepg_codes
+        from iepg_data.iepg_countries;
+        """
+
+        return(self.query(sql).row()["iepg_codes"])
+
         

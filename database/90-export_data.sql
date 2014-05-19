@@ -51,5 +51,11 @@ csv header quote '"';
 
 \copy iepg_data.iepg_relative_contributions to 'iepg_relative_contributions.csv' with delimiter '|' csv header quote '"'
 
+\copy iepg_data.iepg_final_data_eu to 'iepg_final_data_eu.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_individual_contributions_eu to 'iepg_individual_contributions_eu.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_relative_contributions_eu to 'iepg_relative_contributions_eu.csv' with delimiter '|' csv header quote '"'
+
 
 \c :dbname :user :host :port

@@ -9,11 +9,16 @@
 %>
 
 <div id="country_tool" >
-    <div class="header" data-variable=<%=ctx.variables[0]%>>
+    <div class="header" data-variable=<%=ctx.family%>>
         <a class="close" href="#"></a>
         <span id="tool_name"><lang>Ficha país</span>
-        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %>, <%= country_str %> </span>
+        <span id="tool_title"> <%= app.variableToString(ctx.family) %>, <%= country_str %> </span>
         <span id="tool_year"><lang>Año</lang> <%= year %></span>
+
+        <select id="ctrl_family">
+            <option value="iepg" <%= ctx.family == "iepg" ? "selected" : "" %>><lang>Presencia Global</lang></option>
+            <option value="iepe" <%= ctx.family == "iepe" ? "selected" : "" %> ><lang>Presencia Europea</lang></option>
+        </select>
     </div>
 
     <% if (model) { %>

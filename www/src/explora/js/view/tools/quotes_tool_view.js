@@ -7,10 +7,6 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         this.countries = new app.view.tools.common.Countries();
     },
 
-    _events: {
-       
-    },
-
     setURL: function(){
         app.router.navigate("tool/quotes",{trigger: false});
     },

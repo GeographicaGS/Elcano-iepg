@@ -8,13 +8,18 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 		this.countries = new app.view.tools.common.Countries();
     },
 
-    _events: {
-       "mouseenter .infoover": function(e){
-            this.$(".content_infoover").fadeIn(300);
-       },
-       "mouseout .infoover": function(e){
-            this.$(".content_infoover").fadeOut(300);
-       }
+    _events: function(){
+        return _.extend({},
+            app.view.tools.Plugin.prototype._events.apply(this),
+            {
+               "mouseenter .infoover": function(e){
+                    this.$(".content_infoover").fadeIn(300);
+               },
+               "mouseout .infoover": function(e){
+                    this.$(".content_infoover").fadeOut(300);
+               }
+           }
+        );
     },
 
     _setListeners: function(){
@@ -60,8 +65,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         
         this.model = new app.model.tools.country({
             "id" : ctx.countries.selection[0],
-            "year" : ctx.slider[0].date.getFullYear(),
-            "family" : ctx.family,
+            "family" : ctx.family
         });
 
         // Fetch model from de server

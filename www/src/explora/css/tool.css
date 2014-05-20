@@ -2,7 +2,7 @@
 #tool{
     z-index: 3;
     left: 70px;
-    right: 20px;
+    right: 10px;
     /*margin-right: 20px;*/
     pointer-events: none;
 
@@ -118,6 +118,19 @@
             /*padding: 3px 5px;*/
         }
 
+        #ctrl_family{
+            float:right;
+            margin: 10px 20px 0 0 ;
+            color: #d6d6d6;
+            .roboto(bold);
+            font-size: 13px;
+            border-radius: 0;
+            line-height: 35px;
+            height: 35px;
+            padding:0 30px 0 10px;
+            -webkit-appearance: none;
+            background: url("@{imgPath}ELC_flecha_selector.svg") @grey_dark no-repeat right 10px center;
+        }
 
     }
 
@@ -134,6 +147,13 @@
 
     .header[data-variable='iepg']{
        .headerTool(iepg,@red);
+    }
+
+    .header[data-variable='iepe']{
+        .headerTool(iepe,@white);
+        #tool_name{
+            color: @white;
+        }
     }
 
     .header[data-variable='economic_presence']{

@@ -8,11 +8,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         this.countries = new app.view.tools.common.Countries();
     },
 
-    _events: {
-       // "click  #scroll_down" : "scrollChartDown",
-       // "click  #scroll_up" : "scrollChartUp"
-    },
-
     _setListeners: function(){
         app.view.tools.Plugin.prototype._setListeners.apply(this);
 

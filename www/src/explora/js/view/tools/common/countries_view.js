@@ -1,9 +1,10 @@
 app.view.tools.common.Countries = Backbone.View.extend({
     el: "#country_panel",
     _template : _.template( $('#country_bar_template').html() ),
+    _variableCtrlStatus : null,
 
     initialize: function(options){
-        
+        this._variableCtrlStatus = options && options.variable!=undefined && options.variable!="undefined" ? options.variable : true; 
     },
 
     _events: {
@@ -31,6 +32,7 @@ app.view.tools.common.Countries = Backbone.View.extend({
         console.log("Render app.view.tools.common.Countries");
         this.$el.show().html(this._template({
             ctx: app.context.data,
+            variableCtrl : this._variableCtrlStatus
         }));
     },
 

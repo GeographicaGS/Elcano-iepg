@@ -1,0 +1,19 @@
+<% console.log(data) %>
+
+<table>
+	<tr>
+	
+		<th><div style="background-color:<%= data.color%>"></div><span><%= app.variableToString(data.name) %></span></th>
+		<th><%= sprintf("%.2f",data.size) %></th>
+		<th><%= sprintf("%.2f",data.size) %> %</th>
+	</tr>
+	<% _.each(data.children, function(d){ %>
+		<tr>
+			
+			<td><div style="background-color:<%= d.color%>"></div><span><%= app.variableToString(d.name) %></span></td>
+			<td><%= sprintf("%.2f",d.size) %></td>
+			<td><%= sprintf("%.2f",d.size) %> %</td>
+		</tr>
+
+	<% }); %>
+</table>

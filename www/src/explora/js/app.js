@@ -245,7 +245,6 @@ app.countryToString = function(id_country){
     }
     
     return "No country name found";
-    
 }
 
 app.isSMDevice = function(){

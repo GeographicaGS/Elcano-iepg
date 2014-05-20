@@ -767,7 +767,7 @@ ul.country_bar{
                         text-transform: uppercase;
                         margin-bottom: 7px;
                     }
-                    line-height: 16px;
+                    line-height: @line_height ;
                 }
 
                 .ico{

@@ -1,4 +1,5 @@
 -- TODO: change the copy to \copy and check if can be ex/imported to a subfolder
+-- Yes, it works with subfolder. Change everything.
 
 \i 00-config.sql
 \c :dbname :superuser :host :port
@@ -101,5 +102,11 @@ csv header quote '"';
 
 \copy iepg_data_redux.iepg_comment to 'redux_iepg_comment.csv' with delimiter '|' csv header quote '"'
 
+
+-- engine
+
+\copy engine.variable to 'csv/engine_variable.csv' with delimiter '|' csv header quote '"'
+
+\copy engine.family to 'csv/engine_family.csv' with delimiter '|' csv header quote '"'
 
 \c :dbname :user :host :port

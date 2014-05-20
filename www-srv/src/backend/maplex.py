@@ -22,18 +22,18 @@ def addName():
     }
 
     Returns reference ID to the new name."""
-    m = maplexmodel.MaplexModel()
-    j = request.json
-    id = m.newName(j["name"], j["description"])
-    return(jsonify({"id_name": id}))
+    # m = maplexmodel.MaplexModel()
+    # j = request.json
+    # id = m.newName(j["name"], j["description"])
+    # return(jsonify({"id_name": id}))
 
 
 @app.route('/maplex/getnamefamilies', methods=["GET"])
 @auth
 def getNameFamilies():
    """Returns name families."""
-   m = maplexmodel.MaplexModel()
-   return(jsonify({"results": m.getNameFamilies()}))
+   # m = maplexmodel.MaplexModel()
+   # return(jsonify({"results": m.getNameFamilies()}))
 
 
 @app.route('/maplex/assigngeoentityname/<int:id_geoentity>/<int:id_name>/<int:id_name_family>', 
@@ -42,25 +42,28 @@ def getNameFamilies():
 def assignGeoentityName(id_geoentity, id_name, id_name_family):
     """Assign a name to a geoentity. Request.args:
     date_in: date in in ISO
-    date_out: date out in ISO"""
-    date_in = None
-    date_out = None
-    if "date_in" in request.args:
-        date_in = request.args["date_in"]
-        if date_in == "":
-            date_in = None
-        else:
-            date_in = datetime.datetime.strptime(date_in, '%Y-%m-%d')
-    if "date_out" in request.args:
-        date_out = request.args["date_out"]
-        if date_out == "":
-            date_out = None
-        else:
-            date_out = datetime.datetime.strptime(date_out, '%Y-%m-%d')
+    date_out: date out in ISO
+
+    TODO: get down to the hour
+    """
+    # date_in = None
+    # date_out = None
+    # if "date_in" in request.args:
+    #     date_in = request.args["date_in"]
+    #     if date_in == "":
+    #         date_in = None
+    #     else:
+    #         date_in = datetime.datetime.strptime(date_in, '%Y-%m-%d')
+    # if "date_out" in request.args:
+    #     date_out = request.args["date_out"]
+    #     if date_out == "":
+    #         date_out = None
+    #     else:
+    #         date_out = datetime.datetime.strptime(date_out, '%Y-%m-%d')
         
-    m = maplexmodel.MaplexModel()
-    id = m.assignGeoentityName(id_geoentity, id_name, id_name_family, date_in=date_in, date_out=date_out)
-    return(jsonify({"id_name": id}))
+    # m = maplexmodel.MaplexModel()
+    # id = m.assignGeoentityName(id_geoentity, id_name, id_name_family, date_in=date_in, date_out=date_out)
+    # return(jsonify({"id_name": id}))
 
 
 @app.route('/maplex/getgeoentities', methods=["GET"])
@@ -75,5 +78,5 @@ def getGeoentities():
 @auth
 def getNames():
    """Returns names."""
-   m = maplexmodel.MaplexModel()
-   return(jsonify({"results": m.getNames()}))
+   # m = maplexmodel.MaplexModel()
+   # return(jsonify({"results": m.getNames()}))

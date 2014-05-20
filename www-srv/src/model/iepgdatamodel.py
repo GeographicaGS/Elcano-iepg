@@ -11,6 +11,7 @@ TODO: review SQL parsing. Use bindings.
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 from common.errorhandling import DataValidator
 import common.helpers
+import enginemodel
 
 
 class IepgDataModel(PostgreSQLModel):
@@ -52,6 +53,8 @@ class IepgDataModel(PostgreSQLModel):
         """Returns the list of countries for country filter."""
         dv = DataValidator()
         dv.checkLang(lang)
+        
+
         sql = """
         select distinct
         iso_3166_1_2_code as id,
@@ -64,6 +67,8 @@ class IepgDataModel(PostgreSQLModel):
         where country
         order by short_name_{}_order;""".format(lang, lang, lang)
         return(self.query(sql).result())
+
+        # return({"kk": "jhj"})
 
     def ranking(self, lang, countryCode, family, variable, year, filter=None, toolFilter=None):
         """Returns the ranking and the value for a variable and a country."""

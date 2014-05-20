@@ -32,16 +32,16 @@ class MaplexModel(PostgreSQLModel):
         return(self.query(sql).result())
 
     
-    def assignGeoentityName(self, id_geoentity, id_name, id_name_family, date_in=None, date_out=None):
+    def assignGeoentityName(self, idGeoentity, idName, idNameFamily, dateIn=None, dateOut=None):
         """Assign a name to a geoentity."""
-        values = {"id_geoentity": id_geoentity,
-                  "id_name": id_name,
-                  "id_name_family": id_name_family}
+        values = {"id_geoentity": idGeoentity,
+                  "id_name": idName,
+                  "id_name_family": idNameFamily}
 
-        if date_in:
-            values["date_in"] = date_in
-        if date_out:
-            values["date_out"] = date_out
+        if dateIn:
+            values["date_in"] = dateIn
+        if dateOut:
+            values["date_out"] = dateOut
 
         a = self.insert("maplex.geoentity_name",
                         values,

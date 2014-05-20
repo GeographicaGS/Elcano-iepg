@@ -34,10 +34,13 @@ model_errors = {
 
 lang = ["en", "es"]
 
+# TODO: to be deprecated
 years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]
 
+# TODO: to be deprecated
 families = ["iepg", "iepe", "context"]
 
+# TODO: to be deprecated
 blocks = {
     "XBEU": {
         "key": "european_union",
@@ -159,6 +162,8 @@ blocks = {
     }
 }
 
+
+# TODO: to be deprecated
 variables = {
     "iepg_energy": {
         "key": "energy",

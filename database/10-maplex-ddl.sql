@@ -229,6 +229,8 @@ from
 
 \copy maplex.name from 'maplex_name.csv' with delimiter '|' csv header quote '"'
 
+alter sequence maplex.name_id_name_seq restart with 708;
+
 \copy maplex.geometry_family from 'maplex_geometry_family.csv' with delimiter '|' csv header quote '"'
 
 \copy maplex.block from 'maplex_block.csv' with delimiter '|' csv header quote '"'

@@ -7,9 +7,9 @@ reload(parser)
 def parseSearchString(searchString):
     p = parser.Parser(searchString)
     a = p.parse([{"token": "(",
-                  "types": ["Open Parenthesses", "Block"]},
+                  "types": ["Open Parenthesses", "Block", "Parenthesses"]},
                  {"token": ")",
-                  "types": ["Close Parenthesses", "Block"]},
+                  "types": ["Close Parenthesses", "Block", "Parenthesses"]},
                  {"token": " ",
                   "types": ["Whitespace"]},
                  {"token": '"',
@@ -19,8 +19,10 @@ def parseSearchString(searchString):
                  {"token": "-",
                   "types": ["Minus", "Plusminus"]},
                  {"token": ",",
-                  "types": ["Comma"]}], [])
-
+                  "types": ["Comma"]}], 
+                [
+            ])
+    
 # , parser.tokenPlusMinus, parser.tokenComma, 
 #                  parser.tokenWhiteSpace, parser.tokenDefault], [])
 
@@ -38,4 +40,4 @@ def parseSearchString(searchString):
 
 
 
-atoms = parseSearchString('()"kkdjf jjjer "kkd,12,23"(ekekr)+++----"')
+atoms = parseSearchString('()"kkdjf jjjer "kkd,,,12,23"(ekekr)+++----"')

@@ -177,11 +177,11 @@ create table iepg_data.iepg_final_data_eu(
 );
 
 alter table iepg_data.iepg_final_data_eu
-add constraint iepg_final_data_pkey
+add constraint iepg_final_data_eu_pkey
 primary key (id_master_country, date_in);
 
 alter table iepg_data.iepg_final_data_eu
-add constraint iepg_final_data_master_country_fkey
+add constraint iepg_final_data_eu_master_country_fkey
 foreign key (id_master_country)
 references iepg_data.master_country(id_master_country);
 
@@ -414,7 +414,7 @@ create table iepg_data.iepg_individual_contributions_eu(
 );
 
 alter table iepg_data.iepg_individual_contributions_eu
-add constraint iepg_individual_contributions_pkey
+add constraint iepg_individual_contributions_eu_pkey
 primary key (id_master_country, date_in);
 
 alter table iepg_data.iepg_individual_contributions_eu
@@ -484,11 +484,11 @@ create table iepg_data.iepg_relative_contributions_eu(
 );
 
 alter table iepg_data.iepg_relative_contributions_eu
-add constraint iepg_relative_contributions_pkey
+add constraint iepg_relative_contributions_eu_pkey
 primary key (id_master_country, date_in);
 
 alter table iepg_data.iepg_relative_contributions_eu
-add constraint iepg_relative_contributions_master_country_fkey
+add constraint iepg_relative_contributions_eu_master_country_fkey
 foreign key (id_master_country)
 references iepg_data.master_country(id_master_country);
 

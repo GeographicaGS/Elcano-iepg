@@ -15,10 +15,26 @@ app.view.tools.Plugin = Backbone.View.extend({
     // Don't use Backbone events property.
     // The reason for that is that we've several tools in memory at the same time, all the tools share the same DOM element.
     // Events are apply on render and disable on hideTool
-    _events: {
-        
+    _events: function (){
+        return {
+            "change #ctrl_family" : "_changeFamily"
+        };
     },
 
+    _changeFamily: function(e){
+        var f = $(e.target).val();
+
+        // Let's modify the context with the current family
+        var ctx = this.getGlobalContext();
+        ctx.data.family = f;
+        ctx.saveContext();
+        
+        // Copy the global context to the latest
+        this.copyGlobalContextToLatestContext();
+
+        // Fire the contextchange event
+        app.events.trigger("contextchange:family");
+    },
     /* 
         Set listener of the tool in this method.
         Here will place the listeners that all plugin shares.
@@ -28,6 +44,16 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.listenTo(app.events,"contextchange:countries",function(){
             //TOREMOVE
             console.log("contextchange:countries at app.view.tools.Plugin");
+           
+            this._forceFetchDataTool = true;
+            this._forceFetchDataMap = true;
+            // Render again
+            this.render();
+        });
+
+        this.listenTo(app.events,"contextchange:family",function(){
+            //TOREMOVE
+            console.log("contextchange:family at app.view.tools.Plugin");
            
             this._forceFetchDataTool = true;
             this._forceFetchDataMap = true;
@@ -142,7 +168,7 @@ app.view.tools.Plugin = Backbone.View.extend({
     */ 
     bringToFront: function(){
         this._setListeners();
-        this.delegateEvents(this._events); 
+        this.delegateEvents(this._events()); 
         this.slider.bringToFront();
         this.countries.bringToFront();
         this.render();

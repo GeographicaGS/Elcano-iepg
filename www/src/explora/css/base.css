@@ -80,6 +80,12 @@ button,
 select {
   text-transform: none;
 }
+
+select{
+   border-radius: 0;
+  -webkit-appearance: select;
+}
+
 button,
 html input[type="button"],
 input[type="reset"],

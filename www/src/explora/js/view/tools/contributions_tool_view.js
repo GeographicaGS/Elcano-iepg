@@ -7,10 +7,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.countries = new app.view.tools.common.Countries();
     },
 
-    _events: {
-       
-    },
-
     setURL: function(){
         app.router.navigate("tool/contributions",{trigger: false});
     },

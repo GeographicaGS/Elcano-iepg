@@ -81,8 +81,8 @@ def blocksData(lang, year):
     return(jsonify(out))
 
 
-@app.route('/countrysheet/<string:lang>/<string:countryCode>', methods=['GET'])
-def countrySheet(lang, countryCode):
+@app.route('/countrysheet/<string:lang>/<string:family>/<string:countryCode>', methods=['GET'])
+def countrySheet(lang, family,countryCode):
     """Retrieves all the data, for all years, and for a single country, to render the country sheet.
     Only retrieves context and IEPG variable families.
     Service call:

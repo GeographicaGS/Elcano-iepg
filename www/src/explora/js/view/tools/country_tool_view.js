@@ -1,20 +1,28 @@
 app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_template : _.template( $('#country_tool_template').html() ),
+    _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     type: "country",
   
 
     initialize: function(options) {
 		this.slider = new app.view.tools.common.SliderSinglePoint();
-		this.countries = new app.view.tools.common.Countries();
+		this.countries = new app.view.tools.common.Countries({
+            "variable" : false
+        });
     },
 
-    _events: {
-       "mouseenter .infoover": function(e){
-            this.$(".content_infoover").fadeIn(300);
-       },
-       "mouseout .infoover": function(e){
-            this.$(".content_infoover").fadeOut(300);
-       }
+    _events: function(){
+        return _.extend({},
+            app.view.tools.Plugin.prototype._events.apply(this),
+            {
+               "mouseenter .infoover": function(e){
+                    this.$(".content_infoover").fadeIn(300);
+               },
+               "mouseout .infoover": function(e){
+                    this.$(".content_infoover").fadeOut(300);
+               }
+           }
+        );
     },
 
     _setListeners: function(){
@@ -60,8 +68,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         
         this.model = new app.model.tools.country({
             "id" : ctx.countries.selection[0],
-            "year" : ctx.slider[0].date.getFullYear(),
-            "family" : ctx.family,
+            "family" : ctx.family
         });
 
         // Fetch model from de server
@@ -99,9 +106,13 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             model: this.model.toJSON()[year],
         }));
 
+        this.$chart_legend = this.$(".chart_legend");
+
         this.$chart = this.$(".chart");
 
         this._drawD3Chart(year);
+
+        this._renderChartLegend(year,"iepg");
 
         this._forceFetchDataTool = false;
     },
@@ -350,10 +361,15 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             });
         
 
-          function click(d) {
-            path.transition()
-              .duration(750)
-              .attrTween("d", arcTween(d));
+            function click(d) {
+                if (d.name == "iepg" || d.name == "economic_presence" ||
+                    d.name == "soft_presence" || d.name =="military_presence")
+                {
+                    path.transition()
+                        .duration(750)
+                        .attrTween("d", arcTween(d));
+                    obj._renderChartLegend(year,d.name);
+                }
           }
     },
 
@@ -382,9 +398,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         return {
             "name" : "iepg",
             "color" : "#fdc300",
+            "size" : variables.iepg.value,
             "children" : [{
                 "name" : "economic_presence",
                 "color" : "#2b85d0",
+                "size" : variables.economic_presence.value,
                 "children": [{
                     "name" : "energy",
                     "size" : variables.energy.value,
@@ -414,6 +432,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             },{
                 "name" : "military_presence",
                 "color" : "#669900",
+                "size" : variables.military_presence.value,
                 "children": [{
                         "name" : "troops",
                         "size" : variables.troops.value,
@@ -427,6 +446,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             },{
                 "name" : "soft_presence",
                 "color" : "#ff9000",
+                "size" : variables.soft_presence.value,
                 "children": [{
                         "name" : "migrations",
                         "size" : variables.migrations.value,
@@ -468,6 +488,33 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
             ]
         }
+    },
+
+    _extractNodeFromTree: function(year,name){
+        var nodes = this. _buildModelTree(year);
+        if (name == "iepg"){
+            return nodes;
+        }
+        else{
+            nodes = nodes.children;
+        }
+       
+        // find the node in the childrens
+        for(var i=0;i<nodes.length;i++){
+            if (nodes[i].name == name){
+                return nodes[i];
+            }
+        }
+
+        return null;
+    },
+
+    _renderChartLegend: function(year,name){
+
+        this.$chart_legend.html(this._templateChartLegend({
+            data: this._extractNodeFromTree(year,name)
+        }));
+
     }
     
 });

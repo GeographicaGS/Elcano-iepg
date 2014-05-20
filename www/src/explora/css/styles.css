@@ -33,6 +33,9 @@ html, body{ height:100%;}
 .colorVariable(@name) when (@name = iepg) {
     @colorVariable : #fdc300;
 }
+.colorVariable(@name) when (@name = iepe) {
+    @colorVariable : #003399;
+}
 
 .colorVariable(@name) when (@name = economic_presence) {
     @colorVariable : #2b85d0;
@@ -62,6 +65,10 @@ html, body{ height:100%;}
 
 .iconVariableHeader(@name) when (@name = iepg){
     @iconVariableHeader : "@{imgPath}variables/ELC_variable_iepg_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = iepe){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_iepe_cab.svg";
 }
 
 .iconVariableHeader(@name) when (@name = economic_presence){
@@ -760,7 +767,7 @@ ul.country_bar{
                         text-transform: uppercase;
                         margin-bottom: 7px;
                     }
-                    line-height: 16px;
+                    line-height: @line_height ;
                 }
 
                 .ico{

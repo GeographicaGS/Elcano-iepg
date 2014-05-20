@@ -1,44 +1,91 @@
--- insert into maplex.geoentity_name
+-- create table iepg_data_redux.iepe_individual_contributions as
+-- -- insert into iepg_data_redux.iepg_relative_contributions
 -- select
---   a.id_geoentity,
---   b.id_name,
---   3
+--   a.iso_3166_1_2_code::varchar(10) as code,
+--   --'XBEU' as code,
+--   b.date_in as date_in,
+--   b.date_out as date_out,
+--   b.energy as energy,
+--   b.primary_goods as primary_goods,
+--   b.manufactures as manufactures,
+--   b.services as services,
+--   b.investments as investments,
+--   b.troops              as   troops            ,      
+--   b.military_equipment  as   military_equipment,
+--   b.migrations          as   migrations        ,
+--   b.tourism             as   tourism           ,
+--   b.sports              as   sports            ,
+--   b.culture             as   culture           ,
+--   b.information         as   information       ,
+--   b.technology          as   technology        ,
+--   b.science             as   science           ,
+--   b.education           as   education         ,     
+--   b.cooperation         as   cooperation       ,     
+--  -- b.economic_presence   as   economic_presence ,     
+--  -- b.military_presence   as   military_presence ,     
+--  -- b.soft_presence       as   soft_presence     ,
+
+--  b.economic_contribution   as   economic_contribution ,     
+--  b.military_contribution   as   military_contribution ,     
+--  b.soft_contribution       as   soft_contribution     --,
+
+--  --b.iepg                as   iepg
 -- from
---   maplex.geoentity a inner join
---   maplex.name b on
---   left(a.description, strpos(a.description, ']'))=left(b.description, strpos(a.description, ']'))
--- where
---   strpos(b.description, 'spanish 1.')<>0;
+--  iepg_data.master_country a inner join
+--   iepg_data.iepg_individual_contributions b on
+--   a.id_master_country=b.id_master_country
+-- order by code, date_in;
 
 
 
--- insert into maplex.name (description, name)
--- select 
---   '[' || short_name_en1 || '] short name spanish 1.',
---   trim(short_name_es1)
+
+
+
+
+
+-- create table iepg_data_redux.pob_pib as 
+-- select
+--   a.iso_3166_1_2_code::varchar(10) as code,
+--   b.date_in as date_in,
+--   b.date_out as date_out,
+--   b.population as population,
+--   b.pib as pib
 -- from
---   iepg_data.master_country
--- where country;
+--   iepg_data.master_country a inner join
+--   iepg_data.pob_pib b on
+--   a.id_master_country=b.id_master_country
+-- where a.iso_3166_1_2_code is not null
+-- order by code, date_in;
 
-create view maplex.names as
-select
-  a.id_geoentity as id_geoentity,
-  a.description as geoentity_description,
-  a.date_in as geoentity_date_in,
-  a.date_out as geoentity_date_out,
-  b.id_name as id_name,
-  b.date_in as name_date_in,
-  b.date_out as name_date_out,
-  c.name as name,
-  c.description as name_description,
-  d.id_name_family as id_name_family,
-  d.name as name_family,
-  d.description as name_family_description
+
+
+
+
+create table iepg_data_redux.iepg_quota as
+select 
+    a.iso_3166_1_2_code::varchar(10) as code,
+  b.date_in as date_in,
+  b.date_out as date_out,
+  b.global_quota as global_quota,
+  b.economic_quota as economic_quota,
+  b.military_quota as military_quota,
+  b.soft_quota as soft_quota
 from
-  maplex.geoentity a inner join
-  maplex.geoentity_name b on
-  a.id_geoentity=b.id_geoentity inner join
-  maplex.name c on
-  b.id_name=c.id_name inner join
-  maplex.name_family d on
-  b.id_name_family=d.id_name_family;
+  iepg_data.master_country a inner join
+  iepg_data.iepg_quotas b on
+  a.id_master_country=b.id_master_country
+order by code, date_in;
+
+-- create table iepg_data_redux.iepg_comments as
+-- select
+--   a.iso_3166_1_2_code as code,
+--   b.date_in as date_in,
+--   b.date_out as date_out,
+--   b.comment as comment,
+--   b.language as language
+-- from
+--   iepg_data.master_country a inner join
+--   iepg_data.iepg_comment b on
+--   a.id_master_country=b.id_master_country
+-- where a.iso_3166_1_2_code is not null and date_part('YEAR', b.date_in)=2013
+-- order by code, date_in, language;

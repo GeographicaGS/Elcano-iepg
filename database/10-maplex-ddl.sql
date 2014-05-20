@@ -153,7 +153,7 @@ foreign key (id_geometry_family) references maplex.geometry_family(id_geometry_f
 
 -- Views
 
-create view maplex.names as
+create view maplex.vw__names as
 select
   a.id_geoentity as id_geoentity,
   a.description as geoentity_description,
@@ -177,7 +177,53 @@ from
   b.id_name_family=d.id_name_family;
 
 
+create view maplex.vw__geometries as
+select
+  a.id_geoentity as id_geoentity,
+  a.description as geoentity_description,
+  a.date_in as geoentity_date_in,
+  a.date_out as geoentity_date_out,
+  b.id_geometry as id_geometry,
+  b.date_in as geometry_date_in,
+  b.date_out as geometry_date_out,
+  d.description as geometry_description,
+  c.id_geometry_family as id_geometry_family,
+  c.name as name_geometry_family,
+  c.description as geometry_family_description,
+  d.geom as geom
+from
+  maplex.geoentity a inner join
+  maplex.geoentity_geometry b on
+  a.id_geoentity=b.id_geoentity inner join
+  maplex.geometry_family c on
+  b.id_geometry_family=c.id_geometry_family inner join
+  maplex.geometry d on
+  b.id_geometry=d.id_geometry;
+
+
+create view maplex.vw__blocks as
+select
+  a.id_geoentity as id_geoentity_block,
+  a.description as description_block,
+  a.date_in as date_in_block,
+  a.date_out as date_out_block,
+  b.date_in as date_in_membership,
+  b.date_out as date_out_membership,
+  c.id_geoentity as id_geoentity_child,
+  c.description as description_child,
+  c.date_in as date_in_child,
+  c.date_out as date_out_child
+from
+  maplex.geoentity a inner join
+  maplex.block b on
+  a.id_geoentity=b.id_geoentity_block inner join
+  maplex.geoentity c on
+  b.id_geoentity_child=c.id_geoentity;
+  
+
 -- Restore data
+
+\copy maplex.geoentity from 'maplex_geoentity.csv' with delimiter '|' csv header quote '"'
 
 \copy maplex.name_family from 'maplex_name_family.csv' with delimiter '|' csv header quote '"'
 
@@ -188,8 +234,6 @@ from
 \copy maplex.block from 'maplex_block.csv' with delimiter '|' csv header quote '"'
 
 \copy maplex.geometry from 'maplex_geometry.csv' with delimiter '|' csv header quote '"'
-
-\copy maplex.geoentity from 'maplex_geoentity.csv' with delimiter '|' csv header quote '"'
 
 \copy maplex.geoentity_geometry from 'maplex_geoentity_geometry.csv' with delimiter '|' csv header quote '"'
 

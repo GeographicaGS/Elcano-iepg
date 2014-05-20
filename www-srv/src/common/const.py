@@ -16,7 +16,7 @@ frontend = {
     "maxTweets": 15
 }
 
-# To be deprecated
+# TODO: To be deprecated
 frontend_errors = {
     "-1": {"Code": "-1", "Error": "Unknown language."},
     "-3": {"Code": "-3", "Error": "Invalid offset."},
@@ -24,7 +24,7 @@ frontend_errors = {
     "-5": {"Code": "-5", "Error": "Invalid label ID."}
 }
 
-# To be deprecated
+# TODO: To be deprecated
 model_errors = {
     "-1": {"Code": "-1", "Error": "Unknown language."},
     "-2": {"Code": "-2", "Error": "Unknown news section."},
@@ -46,35 +46,35 @@ blocks = {
         "members": {
             "1990": {
                 "countries": ["IE"],
-                "precalculated": true
+                "precalculated": True
             },
             "1995": {
                 "countries": ["FR", "IE"],
-                "precalculated": true
+                "precalculated": True
             },
             "2000": {
                 "countries": ["ES", "FR", "IE"],
-                "precalculated": true
+                "precalculated": True
             },
             "2005": {
                 "countries": ["DE", "ES", "FR", "IE"],
-                "precalculated": true
+                "precalculated": True
             },
             "2010": {
                 "countries": ["DE", "NL", "ES", "FR", "IE"],
-                "precalculated": true
+                "precalculated": True
             },
             "2011": {
                 "countries": ["DE", "NL", "IT", "ES", "FR", "IE"],
-                "precalculated": true
+                "precalculated": True
             },
             "2012": {
                 "countries": ["DE", "NL", "IT", "SE", "ES", "FR", "IE"],
-                "precalculated": true
+                "precalculated": True
             },
             "2013": {
                 "countries": ["DE", "NL", "IT", "SE", "PL", "ES", "FR", "IE"],
-                "precalculated": true
+                "precalculated": True
             }
         }
     },
@@ -95,7 +95,7 @@ blocks = {
     },
     "XBLA": {
         "key": "latin_america",
-        "precalculated": false,
+        "precalculated": False,
         "name_en": "Latin America",
         "name_es": "América Latina",
         "members": {
@@ -111,7 +111,7 @@ blocks = {
     },
     "XBNA": {
         "key": "north_america",
-        "precalculated": false,
+        "precalculated": False,
         "name_en": "North America",
         "name_es": "América del Norte",
         "members": {
@@ -127,7 +127,7 @@ blocks = {
     },
     "XBAP": {
         "key": "asia_and_pacific",
-        "precalculated": false,
+        "precalculated": False,
         "name_en": "Asia & Pacific",
         "name_es": "Ásia y Pacífico",
         "members": {
@@ -143,7 +143,7 @@ blocks = {
     },
     "XBME": {
         "key": "magreb_middle_east",
-        "precalculated": false,
+        "precalculated": False,
         "name_en": "Magreb & Middle East",
         "name_es": "Magreb y Oriente Medio",
         "members": {

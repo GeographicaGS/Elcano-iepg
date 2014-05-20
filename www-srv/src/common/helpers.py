@@ -59,9 +59,8 @@ def blocksSumCalculateData(blockCode, year, family, variable):
     m = model.iepgdatamodel.IepgDataModel()
     block = blocks[blockCode]
     if block["precalculated"]:
-        
+        pass
     else:
-
         data = cacheWrapper(m.getCountriesData, block["members"][str(year)], year, family, variable)
         sum = 0
         for a in data:

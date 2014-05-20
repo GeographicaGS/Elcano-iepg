@@ -13,6 +13,7 @@ import label
 import highlight
 import new
 import locale
+import maplex
 
 @app.route('/', methods = ['GET'])                                            
 def alive():

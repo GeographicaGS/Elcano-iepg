@@ -599,3 +599,46 @@ div.tooltip {
     }
 }
 
+
+#contributions_tool{
+    .country_nosel{
+        .no_country{
+            height: 300px;
+            width: 300px;
+            background-color: #e8e8ea;
+            border-radius: 100%;
+            display: table;
+            margin: auto;
+            position: relative;
+
+            &:before{
+                content: "";
+                display: block;
+                border: 3px dashed #bdbdc5;
+                height: 326px;
+                width: 326px;
+                border-radius: 100%;
+                position: absolute;
+                top: -13px;
+                left: -13px;
+
+            }
+
+            p{
+                display: table-cell;
+                vertical-align: middle;
+                padding: 0 20px;
+                font-size: 13px;
+                text-align: center;
+            }
+
+        }
+        
+        .no_country_name{
+            color: @grey_light;
+            font-size: 14px;
+            margin-top: 25px;
+            text-align: center;
+        }
+    }
+}

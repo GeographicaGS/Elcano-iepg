@@ -1,12 +1,63 @@
-<div class="header" data-variable=<%=ctx.variables[0]%>>
-    <a class="close" href="#"></a>
-    <span id="tool_name"><lang>Contribuciones de presencia</lang></span>
-    <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %></span>
-    <span id="tool_year"><lang>Año</lang> <%= ctx.slider[0].date.getFullYear()%></span>
-</div>
+<%
+    country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
+    year = ctx.slider[0].date.getFullYear();
+%>
 
-<div class="body">
-    <p>
-        Herramienta en desarrollo
-    </p>
+<div id="contributions_tool" >
+    <div class="header" data-variable=<%=ctx.family%>>
+        <a class="close" href="#"></a>
+        <span id="tool_name"><lang>Contribuciones de presencia</lang></span>
+        <span id="tool_title"> <%= app.variableToString(ctx.family) %></span>
+        <span id="tool_year"><lang>Año</lang> <%= year %></span>
+
+        <select id="ctrl_family">
+            <option value="iepg" <%= ctx.family == "iepg" ? "selected" : "" %>><lang>Presencia Global</lang></option>
+            <option value="iepe" <%= ctx.family == "iepe" ? "selected" : "" %> ><lang>Presencia Europea</lang></option>
+        </select>
+    </div>
+
+    <div class="body">
+        <div class="container-fluid">
+            <div class="row mth1">
+                <div class="col-sm-6 col-md-6" id="co_chart_1">
+
+                	<div class="country_sel" <%= ctx.countries.selection.length == 0 ? "style='display:none'" : "" %>>
+                   		<div class="chart"></div>
+                    	<p class="name"></p>
+                    	<div class="chart_legend"></div>
+                    </div>
+
+                    <div class="country_nosel" <%= ctx.countries.selection.length == 0 ? "" : "style='display:none'" %>>
+	                    <div class="no_country">
+	                    	<p><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p>
+	                    </div>
+	                    <p class="no_country_name">¿País?</p>
+	                </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6" id="co_chart_2">
+                    <div class="country_sel" <%= ctx.countries.selection.length < 2  ? "style='display:none'" : "" %>>
+                   		<div class="chart"></div>
+                    	<p class="name"></p>
+                    	<div class="chart_legend"></div>
+                    </div>
+
+                    <div class="country_nosel" <%= ctx.countries.selection.length < 2 ?  "" : "style='display:none'" %>>
+	                    <div class="no_country">
+	                    	<p><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p>
+	                    </div>
+	                    <p class="no_country_name">¿País?</p>
+	                </div>
+                </div>
+            </div>
+            <div>
+            	<ul class="proportional_flags">
+
+            	</ul>
+            </div>
+        </div>
+
+    </div>
+
+
 </div>

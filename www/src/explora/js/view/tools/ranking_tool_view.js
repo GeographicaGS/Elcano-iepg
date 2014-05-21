@@ -443,7 +443,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         app.map.removeChoropleth();
     },
 
-     /* 
+    /* 
         This method adapt the global context. Call on every render.
     */
     adaptGlobalContext: function(){

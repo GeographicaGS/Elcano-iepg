@@ -45,3 +45,8 @@ def getNames():
    """Returns names."""
    m = maplexmodel.MaplexModel()
    return(m.getNames())
+
+
+def getBlocks():
+    """TODO: end this."""
+    pass

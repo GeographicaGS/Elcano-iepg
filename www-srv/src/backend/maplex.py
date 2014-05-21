@@ -70,8 +70,8 @@ def assignGeoentityName(id_geoentity, id_name, id_name_family):
 @auth
 def getGeoentities():
    """Returns geoentities."""
-   m = maplexmodel.MaplexModel()
-   return(jsonify({"results": m.getGeoentities()}))
+   # m = maplexmodel.MaplexModel()
+   # return(jsonify({"results": m.getGeoentities()}))
 
 
 @app.route('/maplex/getnames', methods=["GET"])

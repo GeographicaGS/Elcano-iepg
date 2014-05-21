@@ -71,7 +71,7 @@ def blocksData(lang, year):
                 if arrayIntersection(membersData, countryFilter)<>[]:
                     continue
             countries = dict()
-            for countryCode in membersData:
+            for countryCode in membersData["countries"]:
                 countryName = cacheWrapper(m.getCountryNameByIso2, countryCode, lang)[0]
                 countries[countryCode] = countryName
             blockYears[year] = countries

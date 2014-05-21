@@ -80,86 +80,86 @@ blocks = {
                 "precalculated": True
             }
         }
-    },
-    "XBE2": {
-        "key": "europe",
-        "name_en": "Europe",
-        "name_es": "Europa",
-        "members": {
-            "1990": ["ES", "FR", "IE"],
-            "1995": ["ES", "FR", "IE"],
-            "2000": ["ES", "FR", "IE"],
-            "2005": ["ES", "FR", "IE"],
-            "2010": ["ES", "FR", "IE"],
-            "2011": ["ES", "FR", "IE"],
-            "2012": ["ES", "FR", "IE"],
-            "2013": ["ES", "FR", "IE"]
-        }
-    },
-    "XBLA": {
-        "key": "latin_america",
-        "precalculated": False,
-        "name_en": "Latin America",
-        "name_es": "América Latina",
-        "members": {
-            "1990": ["ES", "FR", "IE"],
-            "1995": ["ES", "FR", "IE"],
-            "2000": ["ES", "FR", "IE"],
-            "2005": ["ES", "FR", "IE"],
-            "2010": ["ES", "FR", "IE"],
-            "2011": ["ES", "FR", "IE"],
-            "2012": ["ES", "FR", "IE"],
-            "2013": ["ES", "FR", "IE"]
-        }
-    },
-    "XBNA": {
-        "key": "north_america",
-        "precalculated": False,
-        "name_en": "North America",
-        "name_es": "América del Norte",
-        "members": {
-            "1990": ["ES", "FR", "IE"],
-            "1995": ["ES", "FR", "IE"],
-            "2000": ["ES", "FR", "IE"],
-            "2005": ["ES", "FR", "IE"],
-            "2010": ["ES", "FR", "IE"],
-            "2011": ["ES", "FR", "IE"],
-            "2012": ["ES", "FR", "IE"],
-            "2013": ["ES", "FR", "IE"]
-        }
-    },
-    "XBAP": {
-        "key": "asia_and_pacific",
-        "precalculated": False,
-        "name_en": "Asia & Pacific",
-        "name_es": "Ásia y Pacífico",
-        "members": {
-            "1990": ["ES", "FR", "IE"],
-            "1995": ["ES", "FR", "IE"],
-            "2000": ["ES", "FR", "IE"],
-            "2005": ["ES", "FR", "IE"],
-            "2010": ["ES", "FR", "IE"],
-            "2011": ["ES", "FR", "IE"],
-            "2012": ["ES", "FR", "IE"],
-            "2013": ["ES", "FR", "IE"]
-        }
-    },
-    "XBME": {
-        "key": "magreb_middle_east",
-        "precalculated": False,
-        "name_en": "Magreb & Middle East",
-        "name_es": "Magreb y Oriente Medio",
-        "members": {
-            "1990": ["ES", "FR", "IE"],
-            "1995": ["ES", "FR", "IE"],
-            "2000": ["ES", "FR", "IE"],
-            "2005": ["ES", "FR", "IE"],
-            "2010": ["ES", "FR", "IE"],
-            "2011": ["ES", "FR", "IE"],
-            "2012": ["ES", "FR", "IE"],
-            "2013": ["ES", "FR", "IE"]
-        }
     }
+    # "XBE2": {
+    #     "key": "europe",
+    #     "name_en": "Europe",
+    #     "name_es": "Europa",
+    #     "members": {
+    #         "1990": ["ES", "FR", "IE"],
+    #         "1995": ["ES", "FR", "IE"],
+    #         "2000": ["ES", "FR", "IE"],
+    #         "2005": ["ES", "FR", "IE"],
+    #         "2010": ["ES", "FR", "IE"],
+    #         "2011": ["ES", "FR", "IE"],
+    #         "2012": ["ES", "FR", "IE"],
+    #         "2013": ["ES", "FR", "IE"]
+    #     }
+    # },
+    # "XBLA": {
+    #     "key": "latin_america",
+    #     "precalculated": False,
+    #     "name_en": "Latin America",
+    #     "name_es": "América Latina",
+    #     "members": {
+    #         "1990": ["ES", "FR", "IE"],
+    #         "1995": ["ES", "FR", "IE"],
+    #         "2000": ["ES", "FR", "IE"],
+    #         "2005": ["ES", "FR", "IE"],
+    #         "2010": ["ES", "FR", "IE"],
+    #         "2011": ["ES", "FR", "IE"],
+    #         "2012": ["ES", "FR", "IE"],
+    #         "2013": ["ES", "FR", "IE"]
+    #     }
+    # },
+    # "XBNA": {
+    #     "key": "north_america",
+    #     "precalculated": False,
+    #     "name_en": "North America",
+    #     "name_es": "América del Norte",
+    #     "members": {
+    #         "1990": ["ES", "FR", "IE"],
+    #         "1995": ["ES", "FR", "IE"],
+    #         "2000": ["ES", "FR", "IE"],
+    #         "2005": ["ES", "FR", "IE"],
+    #         "2010": ["ES", "FR", "IE"],
+    #         "2011": ["ES", "FR", "IE"],
+    #         "2012": ["ES", "FR", "IE"],
+    #         "2013": ["ES", "FR", "IE"]
+    #     }
+    # },
+    # "XBAP": {
+    #     "key": "asia_and_pacific",
+    #     "precalculated": False,
+    #     "name_en": "Asia & Pacific",
+    #     "name_es": "Ásia y Pacífico",
+    #     "members": {
+    #         "1990": ["ES", "FR", "IE"],
+    #         "1995": ["ES", "FR", "IE"],
+    #         "2000": ["ES", "FR", "IE"],
+    #         "2005": ["ES", "FR", "IE"],
+    #         "2010": ["ES", "FR", "IE"],
+    #         "2011": ["ES", "FR", "IE"],
+    #         "2012": ["ES", "FR", "IE"],
+    #         "2013": ["ES", "FR", "IE"]
+    #     }
+    # },
+    # "XBME": {
+    #     "key": "magreb_middle_east",
+    #     "precalculated": False,
+    #     "name_en": "Magreb & Middle East",
+    #     "name_es": "Magreb y Oriente Medio",
+    #     "members": {
+    #         "1990": ["ES", "FR", "IE"],
+    #         "1995": ["ES", "FR", "IE"],
+    #         "2000": ["ES", "FR", "IE"],
+    #         "2005": ["ES", "FR", "IE"],
+    #         "2010": ["ES", "FR", "IE"],
+    #         "2011": ["ES", "FR", "IE"],
+    #         "2012": ["ES", "FR", "IE"],
+    #         "2013": ["ES", "FR", "IE"]
+    #     }
+    # }
 }
 
 

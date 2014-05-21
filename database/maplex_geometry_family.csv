@@ -1,0 +1,2 @@
+id_geometry_family|name|description
+1|GeoJSON live vectors simplification|Geometries simplified for optimal real-time vector rendering on a web viewer.

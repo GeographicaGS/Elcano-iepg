@@ -1,0 +1,708 @@
+id_name|name|description
+464|Ecuador|[Ecuador] short name spanish 1.
+465|Haiti|[Haiti] short name spanish 1.
+466|Armenia|[Armenia] short name spanish 1.
+467|Bélgica|[Belgium] short name spanish 1.
+468|Myanmar|[Myanmar] short name spanish 1.
+469|Burundi|[Burundi] short name spanish 1.
+470|Chile|[Chile] short name spanish 1.
+471|Colombia|[Colombia] short name spanish 1.
+472|Benín|[Benin] short name spanish 1.
+473|Bolivia|[Bolivia ] short name spanish 1.
+474|República Centroafricana|[CAR] short name spanish 1.
+475|Timor Oriental|[Timor-Leste] short name spanish 1.
+476|Kirguistán|[Kyrgyzstan] short name spanish 1.
+477|Letonia|[Latvia] short name spanish 1.
+478|El Salvador|[El Salvador] short name spanish 1.
+479|San Kitts y Nevis|[Saint Kitts and Nevis] short name spanish 1.
+480|Anguila|[Anguilla] short name spanish 1.
+481|Santa Lucía|[Saint Lucia] short name spanish 1.
+482|Islas Wallis y Futuna|[Wallis and Futuna Islands] short name spanish 1.
+483|San Vicente y Las Granadinas|[Saint Vincent and the Grenadines] short name spanish 1.
+484|Jordania|[Jordan] short name spanish 1.
+485|Corea del Norte|[North Korea] short name spanish 1.
+486|Arabia Saudí|[Saudi Arabia] short name spanish 1.
+487|Senegal|[Senegal] short name spanish 1.
+488|Sierra Leona|[Sierra Leone] short name spanish 1.
+489|Eslovaquia|[Slovakia] short name spanish 1.
+490|Antigua y Barbuda|[Antigua and Barbuda] short name spanish 1.
+491|Bahrein|[Bahrain] short name spanish 1.
+492|Sáhara Occidental|[Western Sahara] short name spanish 1.
+493|Burkina Faso|[Burkina Faso] short name spanish 1.
+494|Barbados|[Barbados] short name spanish 1.
+495|Bahamas|[Bahamas] short name spanish 1.
+496|Brunéi|[Brunei ] short name spanish 1.
+497|Siria|[Syrian ] short name spanish 1.
+498|Guatemala|[Guatemala] short name spanish 1.
+499|Guinea|[Guinea] short name spanish 1.
+500|Guyana|[Guyana] short name spanish 1.
+501|Islas Caimán|[Cayman Islands] short name spanish 1.
+502|Méjico|[Mexico] short name spanish 1.
+503|Países Bajos|[Netherlands] short name spanish 1.
+504|Hungría|[Hungary] short name spanish 1.
+505|Sark|[Sark] short name spanish 1.
+506|Islas Marianas Septentrionales|[Northern Mariana Islands] short name spanish 1.
+507|Gibraltar|[Gibraltar] short name spanish 1.
+508|Angola|[Angola] short name spanish 1.
+509|Azerbaiyán|[Azerbaijan] short name spanish 1.
+510|Kuwait|[Kuwait] short name spanish 1.
+511|Palau|[Palau] short name spanish 1.
+512|Argentina|[Argentina] short name spanish 1.
+513|Comoras|[Comoros] short name spanish 1.
+514|Mayotte|[Mayotte] short name spanish 1.
+515|Islas Cook|[Cook Islands] short name spanish 1.
+516|Australia|[Australia] short name spanish 1.
+517|Austria|[Austria] short name spanish 1.
+518|Djibouti|[Djibouti] short name spanish 1.
+519|Bangladesh|[Bangladesh] short name spanish 1.
+520|Bermuda|[Bermuda] short name spanish 1.
+521|Bhután|[Bhutan] short name spanish 1.
+522|Dominica|[Dominica] short name spanish 1.
+523|Cabo Verde|[Cabo Verde] short name spanish 1.
+524|Bosnia y Herzegovina|[Bosnia and Herzegovina] short name spanish 1.
+525|Botswana|[Botswana] short name spanish 1.
+526|Belice|[Belize] short name spanish 1.
+527|Islas Salomón|[Solomon Islands] short name spanish 1.
+528|Liberia|[Liberia] short name spanish 1.
+529|Bulgaria|[Bulgaria] short name spanish 1.
+530|Islas Feroe|[Faeroe Islands] short name spanish 1.
+531|Islas Anglonormandas|[Channel Islands] short name spanish 1.
+532|Rusia|[Russia] short name spanish 1.
+533|Bielorrusia|[Belarus] short name spanish 1.
+534|Camboya|[Cambodia] short name spanish 1.
+535|Camerún|[Cameroon] short name spanish 1.
+536|Canadá|[Canada] short name spanish 1.
+537|Sri Lanka|[Sri Lanka] short name spanish 1.
+538|Chad|[Chad] short name spanish 1.
+539|Honduras|[Honduras] short name spanish 1.
+540|Malta|[Malta] short name spanish 1.
+541|Costa Rica|[Costa Rica] short name spanish 1.
+542|Croacia|[Croatia] short name spanish 1.
+543|Qatar|[Qatar] short name spanish 1.
+544|Niue|[Niue] short name spanish 1.
+545|Cuba|[Cuba] short name spanish 1.
+546|Chipre|[Cyprus] short name spanish 1.
+547|República Checa|[Czech Republic] short name spanish 1.
+548|Dinamarca|[Denmark] short name spanish 1.
+549|Italia|[Italy] short name spanish 1.
+550|Francia|[France] short name spanish 1.
+551|Islas Malvinas|[Malvinas] short name spanish 1.
+552|Islas Vírgenes Británicas|[British Virgin Islands] short name spanish 1.
+553|Polinesia Francesa|[French Polynesia] short name spanish 1.
+554|República Dominicana|[Dominican Republic] short name spanish 1.
+555|Finlandia|[Finland] short name spanish 1.
+556|Congo|[Congo] short name spanish 1.
+557|Sudán|[Sudan] short name spanish 1.
+558|Kiribati|[Kiribati] short name spanish 1.
+559|Islandia|[Iceland] short name spanish 1.
+560|Japón|[Japan] short name spanish 1.
+561|Nueva Caledonia|[New Caledonia] short name spanish 1.
+562|Etiopía|[Ethiopia] short name spanish 1.
+563|Eritrea|[Eritrea] short name spanish 1.
+564|Estonia|[Estonia] short name spanish 1.
+565|India|[India] short name spanish 1.
+566|Malawi|[Malawi] short name spanish 1.
+567|China|[China] short name spanish 1.
+568|Granada|[Grenada] short name spanish 1.
+569|Guadalupe|[Guadeloupe] short name spanish 1.
+570|Guam|[Guam] short name spanish 1.
+571|Guinea Ecuatorial|[Equatorial Guinea] short name spanish 1.
+572|Fiji|[Fiji] short name spanish 1.
+573|Santa Sede|[Holy See] short name spanish 1.
+574|Islas Aland|[Åland Islands] short name spanish 1.
+575|Indonesia|[Indonesia] short name spanish 1.
+576|Irlanda|[Ireland] short name spanish 1.
+577|Israel|[Israel] short name spanish 1.
+578|Jamaica|[Jamaica] short name spanish 1.
+579|Gambia|[Gambia] short name spanish 1.
+580|Lituania|[Lithuania] short name spanish 1.
+581|Luxemburgo|[Luxembourg] short name spanish 1.
+582|Madagascar|[Madagascar] short name spanish 1.
+583|Malasia|[Malaysia] short name spanish 1.
+584|Mali|[Mali] short name spanish 1.
+585|Mauritania|[Mauritania] short name spanish 1.
+586|Sudán del Sur|[South Sudan] short name spanish 1.
+587|Laos|[Laos] short name spanish 1.
+588|Somalia|[Somalia] short name spanish 1.
+589|Pitcairn|[Pitcairn] short name spanish 1.
+590|Irán|[Iran] short name spanish 1.
+591|Liechtenstein|[Liechtenstein] short name spanish 1.
+592|Puerto Rico|[Puerto Rico] short name spanish 1.
+593|Islas Norfolk|[Norfolk Island] short name spanish 1.
+594|Mongolia|[Mongolia] short name spanish 1.
+595|Montenegro|[Montenegro] short name spanish 1.
+596|Guinea-Bissau|[Guinea-Bissau] short name spanish 1.
+597|Omán|[Oman] short name spanish 1.
+598|Namibia|[Namibia] short name spanish 1.
+599|Nepal|[Nepal] short name spanish 1.
+600|Maldivas|[Maldives] short name spanish 1.
+601|Martinica|[Martinique] short name spanish 1.
+602|Kazajstán|[Kazakhstan] short name spanish 1.
+603|Irak|[Iraq] short name spanish 1.
+604|Nicaragua|[Nicaragua] short name spanish 1.
+605|Níger|[Niger] short name spanish 1.
+606|Macao|[Macao] short name spanish 1.
+607|Islas Vírgenes de los Estados Unidos|[U.S. Virgin Islands] short name spanish 1.
+608|Nigeria|[Nigeria] short name spanish 1.
+609|Zimbabwe|[Zimbabwe] short name spanish 1.
+610|Suriname|[Suriname] short name spanish 1.
+611|Noruega|[Norway] short name spanish 1.
+612|Guayana Francesa|[French Guiana] short name spanish 1.
+613|Mauricio|[Mauritius] short name spanish 1.
+614|Mónaco|[Monaco] short name spanish 1.
+615|Montserrat|[Montserrat] short name spanish 1.
+616|Pakistán|[Pakistan] short name spanish 1.
+617|Papua Nueva Guinea|[Papua New Guinea] short name spanish 1.
+618|Nauru|[Nauru] short name spanish 1.
+619|Curazao|[Curaçao] short name spanish 1.
+620|Perú|[Peru] short name spanish 1.
+621|Swazilandia|[Swaziland] short name spanish 1.
+622|Filipinas|[Philippines] short name spanish 1.
+623|Polonia|[Poland] short name spanish 1.
+624|Portugal|[Portugal] short name spanish 1.
+625|Aruba|[Aruba] short name spanish 1.
+626|San Martín (parte neerlandesa)|[Sint Maarten (Dutch part)] short name spanish 1.
+627|Bonaire, San Eustaquio y Saba|[Bonaire, Saint Eustatius and Saba] short name spanish 1.
+628|Islas Marshall|[Marshall Islands] short name spanish 1.
+629|Gabón|[Gabon] short name spanish 1.
+630|Suiza|[Switzerland] short name spanish 1.
+631|Tayikistán|[Tajikistan] short name spanish 1.
+632|Egipto|[Egypt] short name spanish 1.
+633|Brasil|[Brazil] short name spanish 1.
+634|Afganistán|[Afghanistan] short name spanish 1.
+635|Albania|[Albania] short name spanish 1.
+636|Argelia|[Algeria] short name spanish 1.
+637|Líbano|[Lebanon] short name spanish 1.
+638|Lesotho|[Lesotho] short name spanish 1.
+639|Eslovenia|[Slovenia] short name spanish 1.
+640|Tailandia|[Thailand] short name spanish 1.
+641|Togo|[Togo] short name spanish 1.
+642|Trinidad y Tobago|[Trinidad and Tobago] short name spanish 1.
+643|Emiratos Árabes Unidos|[United Arab Emirates] short name spanish 1.
+644|Vanuatu|[Vanuatu] short name spanish 1.
+645|Turquía|[Turkey] short name spanish 1.
+646|Turkmenistán|[Turkmenistan] short name spanish 1.
+647|Uganda|[Uganda] short name spanish 1.
+648|Ucrania|[Ukraine] short name spanish 1.
+649|Yemen|[Yemen] short name spanish 1.
+650|Zambia|[Zambia] short name spanish 1.
+651|Andorra|[Andorra] short name spanish 1.
+652|Reunión|[Réunion] short name spanish 1.
+653|Tanzania|[Tanzania] short name spanish 1.
+654|El Congo|[The Congo] short name spanish 1.
+655|Moldavia|[Moldova] short name spanish 1.
+656|Macedonia|[Macedonia] short name spanish 1.
+657|San Bartolomé|[Saint-Barthélemy] short name spanish 1.
+658|Santa Elena|[Saint Helena] short name spanish 1.
+659|Samoa Americana|[American Samoa] short name spanish 1.
+660|Venezuela|[Venezuela] short name spanish 1.
+661|Tuvalu|[Tuvalu] short name spanish 1.
+662|Saint Pierre y Miquelon|[Saint Pierre and Miquelon] short name spanish 1.
+663|Guernsey|[Guernsey] short name spanish 1.
+664|Jersey|[Jersey] short name spanish 1.
+665|Reino Unido|[United Kingdom] short name spanish 1.
+666|San Marino|[San Marino] short name spanish 1.
+667|Santo Tomé y Príncipe|[Sao Tome and Principe] short name spanish 1.
+668|Seychelles|[Seychelles] short name spanish 1.
+669|Sudáfrica|[South Africa] short name spanish 1.
+670|Corea del Sur|[South Korea] short name spanish 1.
+671|Singapur|[Singapore] short name spanish 1.
+672|Kenia|[Kenya] short name spanish 1.
+673|Viet Nam|[Viet Nam] short name spanish 1.
+674|Serbia|[Serbia] short name spanish 1.
+675|Islas Svalbard y Jan Mayen|[Svalbard and Jan Mayen Islands] short name spanish 1.
+676|Tokelau|[Tokelau] short name spanish 1.
+677|Tonga|[Tonga] short name spanish 1.
+678|Islas Turcas y Caicos|[Turks and Caicos Islands] short name spanish 1.
+679|Georgia|[Georgia] short name spanish 1.
+680|Isla de Man|[Isle of Man] short name spanish 1.
+681|Samoa|[Samoa] short name spanish 1.
+682|Alemania|[Germany] short name spanish 1.
+683|Palestina|[Palestine] short name spanish 1.
+684|Hong Kng|[Hong Kong] short name spanish 1.
+685|Ghana|[Ghana] short name spanish 1.
+686|Grecia|[Greece] short name spanish 1.
+687|Nueva Zelanda|[New Zealand] short name spanish 1.
+688|Groenlandia|[Greenland] short name spanish 1.
+689|Micronesia|[Micronesia] short name spanish 1.
+690|San Martín (parte francesa)|[Saint-Martin (French part)] short name spanish 1.
+691|Costa de Marfil|[Côte d'Ivoire] short name spanish 1.
+692|Libia|[Libya] short name spanish 1.
+693|Marruecos|[Morocco] short name spanish 1.
+694|Mozambique|[Mozambique] short name spanish 1.
+695|Panamá|[Panama] short name spanish 1.
+696|Paraguay|[Paraguay] short name spanish 1.
+697|Rumanía|[Romania] short name spanish 1.
+698|Rwanda|[Rwanda] short name spanish 1.
+699|España|[Spain] short name spanish 1.
+700|Suecia|[Sweden] short name spanish 1.
+701|Túnez|[Tunisia] short name spanish 1.
+702|Uriguay|[Uruguay] short name spanish 1.
+703|Uzbekistán|[Uzbekistan] short name spanish 1.
+704|Estados Unidos de América|[United States of America] short name spanish 1.
+1|EC|[Ecuador] ISO-3166-1 2 digits.
+2|HT|[Haiti] ISO-3166-1 2 digits.
+3|AM|[Armenia] ISO-3166-1 2 digits.
+4|BE|[Belgium] ISO-3166-1 2 digits.
+5|MM|[Myanmar] ISO-3166-1 2 digits.
+6|BI|[Burundi] ISO-3166-1 2 digits.
+7|CL|[Chile] ISO-3166-1 2 digits.
+8|CO|[Colombia] ISO-3166-1 2 digits.
+9|BJ|[Benin] ISO-3166-1 2 digits.
+10|BO|[Bolivia ] ISO-3166-1 2 digits.
+11|CF|[CAR] ISO-3166-1 2 digits.
+12|TL|[Timor-Leste] ISO-3166-1 2 digits.
+13|KG|[Kyrgyzstan] ISO-3166-1 2 digits.
+14|LV|[Latvia] ISO-3166-1 2 digits.
+15|SV|[El Salvador] ISO-3166-1 2 digits.
+16|FM|[Micronesia] ISO-3166-1 2 digits.
+17|KN|[Saint Kitts and Nevis] ISO-3166-1 2 digits.
+18|AI|[Anguilla] ISO-3166-1 2 digits.
+19|LC|[Saint Lucia] ISO-3166-1 2 digits.
+20|VC|[Saint Vincent and the Grenadines] ISO-3166-1 2 digits.
+21|JO|[Jordan] ISO-3166-1 2 digits.
+22|KP|[North Korea] ISO-3166-1 2 digits.
+23|SA|[Saudi Arabia] ISO-3166-1 2 digits.
+24|SN|[Senegal] ISO-3166-1 2 digits.
+25|SL|[Sierra Leone] ISO-3166-1 2 digits.
+26|SK|[Slovakia] ISO-3166-1 2 digits.
+27|AG|[Antigua and Barbuda] ISO-3166-1 2 digits.
+28|BH|[Bahrain] ISO-3166-1 2 digits.
+29|BF|[Burkina Faso] ISO-3166-1 2 digits.
+30|BB|[Barbados] ISO-3166-1 2 digits.
+31|BS|[Bahamas] ISO-3166-1 2 digits.
+32|BN|[Brunei ] ISO-3166-1 2 digits.
+33|SY|[Syrian ] ISO-3166-1 2 digits.
+34|GT|[Guatemala] ISO-3166-1 2 digits.
+35|GN|[Guinea] ISO-3166-1 2 digits.
+36|GY|[Guyana] ISO-3166-1 2 digits.
+37|KY|[Cayman Islands] ISO-3166-1 2 digits.
+38|MX|[Mexico] ISO-3166-1 2 digits.
+39|NL|[Netherlands] ISO-3166-1 2 digits.
+40|HU|[Hungary] ISO-3166-1 2 digits.
+41|MP|[Northern Mariana Islands] ISO-3166-1 2 digits.
+42|GI|[Gibraltar] ISO-3166-1 2 digits.
+43|AO|[Angola] ISO-3166-1 2 digits.
+44|AZ|[Azerbaijan] ISO-3166-1 2 digits.
+45|KW|[Kuwait] ISO-3166-1 2 digits.
+46|PW|[Palau] ISO-3166-1 2 digits.
+47|AR|[Argentina] ISO-3166-1 2 digits.
+48|KM|[Comoros] ISO-3166-1 2 digits.
+49|YT|[Mayotte] ISO-3166-1 2 digits.
+50|CK|[Cook Islands] ISO-3166-1 2 digits.
+51|AU|[Australia] ISO-3166-1 2 digits.
+52|AT|[Austria] ISO-3166-1 2 digits.
+53|DJ|[Djibouti] ISO-3166-1 2 digits.
+54|BD|[Bangladesh] ISO-3166-1 2 digits.
+55|BM|[Bermuda] ISO-3166-1 2 digits.
+56|BT|[Bhutan] ISO-3166-1 2 digits.
+57|DM|[Dominica] ISO-3166-1 2 digits.
+58|CV|[Cabo Verde] ISO-3166-1 2 digits.
+59|BA|[Bosnia and Herzegovina] ISO-3166-1 2 digits.
+60|BW|[Botswana] ISO-3166-1 2 digits.
+61|BZ|[Belize] ISO-3166-1 2 digits.
+62|SB|[Solomon Islands] ISO-3166-1 2 digits.
+63|LR|[Liberia] ISO-3166-1 2 digits.
+64|BG|[Bulgaria] ISO-3166-1 2 digits.
+65|RU|[Russia] ISO-3166-1 2 digits.
+66|BY|[Belarus] ISO-3166-1 2 digits.
+67|KH|[Cambodia] ISO-3166-1 2 digits.
+68|CM|[Cameroon] ISO-3166-1 2 digits.
+69|CA|[Canada] ISO-3166-1 2 digits.
+70|LK|[Sri Lanka] ISO-3166-1 2 digits.
+71|TD|[Chad] ISO-3166-1 2 digits.
+72|HN|[Honduras] ISO-3166-1 2 digits.
+73|MT|[Malta] ISO-3166-1 2 digits.
+74|CR|[Costa Rica] ISO-3166-1 2 digits.
+75|HR|[Croatia] ISO-3166-1 2 digits.
+76|QA|[Qatar] ISO-3166-1 2 digits.
+77|NU|[Niue] ISO-3166-1 2 digits.
+78|CU|[Cuba] ISO-3166-1 2 digits.
+79|CY|[Cyprus] ISO-3166-1 2 digits.
+80|CZ|[Czech Republic] ISO-3166-1 2 digits.
+81|DK|[Denmark] ISO-3166-1 2 digits.
+82|IT|[Italy] ISO-3166-1 2 digits.
+83|FR|[France] ISO-3166-1 2 digits.
+84|VG|[British Virgin Islands] ISO-3166-1 2 digits.
+85|PF|[French Polynesia] ISO-3166-1 2 digits.
+86|DO|[Dominican Republic] ISO-3166-1 2 digits.
+87|FI|[Finland] ISO-3166-1 2 digits.
+88|CG|[Congo] ISO-3166-1 2 digits.
+89|SD|[Sudan] ISO-3166-1 2 digits.
+90|KI|[Kiribati] ISO-3166-1 2 digits.
+91|IS|[Iceland] ISO-3166-1 2 digits.
+92|JP|[Japan] ISO-3166-1 2 digits.
+93|NC|[New Caledonia] ISO-3166-1 2 digits.
+94|IN|[India] ISO-3166-1 2 digits.
+95|MW|[Malawi] ISO-3166-1 2 digits.
+96|CN|[China] ISO-3166-1 2 digits.
+97|GD|[Grenada] ISO-3166-1 2 digits.
+98|GP|[Guadeloupe] ISO-3166-1 2 digits.
+99|GU|[Guam] ISO-3166-1 2 digits.
+100|GQ|[Equatorial Guinea] ISO-3166-1 2 digits.
+101|ET|[Ethiopia] ISO-3166-1 2 digits.
+102|ER|[Eritrea] ISO-3166-1 2 digits.
+103|EE|[Estonia] ISO-3166-1 2 digits.
+104|FJ|[Fiji] ISO-3166-1 2 digits.
+105|ID|[Indonesia] ISO-3166-1 2 digits.
+106|IE|[Ireland] ISO-3166-1 2 digits.
+107|IL|[Israel] ISO-3166-1 2 digits.
+108|JM|[Jamaica] ISO-3166-1 2 digits.
+109|GM|[Gambia] ISO-3166-1 2 digits.
+110|LT|[Lithuania] ISO-3166-1 2 digits.
+111|LU|[Luxembourg] ISO-3166-1 2 digits.
+112|MG|[Madagascar] ISO-3166-1 2 digits.
+113|MY|[Malaysia] ISO-3166-1 2 digits.
+114|ML|[Mali] ISO-3166-1 2 digits.
+115|MR|[Mauritania] ISO-3166-1 2 digits.
+116|LA|[Laos] ISO-3166-1 2 digits.
+117|IR|[Iran] ISO-3166-1 2 digits.
+118|LI|[Liechtenstein] ISO-3166-1 2 digits.
+119|PR|[Puerto Rico] ISO-3166-1 2 digits.
+120|NF|[Norfolk Island] ISO-3166-1 2 digits.
+121|MN|[Mongolia] ISO-3166-1 2 digits.
+122|ME|[Montenegro] ISO-3166-1 2 digits.
+123|GW|[Guinea-Bissau] ISO-3166-1 2 digits.
+124|OM|[Oman] ISO-3166-1 2 digits.
+125|NA|[Namibia] ISO-3166-1 2 digits.
+126|NP|[Nepal] ISO-3166-1 2 digits.
+127|MV|[Maldives] ISO-3166-1 2 digits.
+128|MQ|[Martinique] ISO-3166-1 2 digits.
+129|KZ|[Kazakhstan] ISO-3166-1 2 digits.
+130|IQ|[Iraq] ISO-3166-1 2 digits.
+131|NI|[Nicaragua] ISO-3166-1 2 digits.
+132|NE|[Niger] ISO-3166-1 2 digits.
+133|VI|[U.S. Virgin Islands] ISO-3166-1 2 digits.
+134|NG|[Nigeria] ISO-3166-1 2 digits.
+135|NO|[Norway] ISO-3166-1 2 digits.
+136|GF|[French Guiana] ISO-3166-1 2 digits.
+137|MU|[Mauritius] ISO-3166-1 2 digits.
+138|MC|[Monaco] ISO-3166-1 2 digits.
+139|MS|[Montserrat] ISO-3166-1 2 digits.
+140|PK|[Pakistan] ISO-3166-1 2 digits.
+141|PG|[Papua New Guinea] ISO-3166-1 2 digits.
+142|NR|[Nauru] ISO-3166-1 2 digits.
+143|PE|[Peru] ISO-3166-1 2 digits.
+144|PH|[Philippines] ISO-3166-1 2 digits.
+145|PL|[Poland] ISO-3166-1 2 digits.
+146|PT|[Portugal] ISO-3166-1 2 digits.
+147|AW|[Aruba] ISO-3166-1 2 digits.
+148|MH|[Marshall Islands] ISO-3166-1 2 digits.
+149|GA|[Gabon] ISO-3166-1 2 digits.
+150|BR|[Brazil] ISO-3166-1 2 digits.
+151|AF|[Afghanistan] ISO-3166-1 2 digits.
+152|AL|[Albania] ISO-3166-1 2 digits.
+153|DZ|[Algeria] ISO-3166-1 2 digits.
+154|LB|[Lebanon] ISO-3166-1 2 digits.
+155|LS|[Lesotho] ISO-3166-1 2 digits.
+156|SI|[Slovenia] ISO-3166-1 2 digits.
+157|SO|[Somalia] ISO-3166-1 2 digits.
+158|ZW|[Zimbabwe] ISO-3166-1 2 digits.
+159|SR|[Suriname] ISO-3166-1 2 digits.
+160|SZ|[Swaziland] ISO-3166-1 2 digits.
+161|CH|[Switzerland] ISO-3166-1 2 digits.
+162|TJ|[Tajikistan] ISO-3166-1 2 digits.
+163|TH|[Thailand] ISO-3166-1 2 digits.
+164|TG|[Togo] ISO-3166-1 2 digits.
+165|TT|[Trinidad and Tobago] ISO-3166-1 2 digits.
+166|AE|[United Arab Emirates] ISO-3166-1 2 digits.
+167|VU|[Vanuatu] ISO-3166-1 2 digits.
+168|TR|[Turkey] ISO-3166-1 2 digits.
+169|TM|[Turkmenistan] ISO-3166-1 2 digits.
+170|UG|[Uganda] ISO-3166-1 2 digits.
+171|UA|[Ukraine] ISO-3166-1 2 digits.
+172|EG|[Egypt] ISO-3166-1 2 digits.
+173|YE|[Yemen] ISO-3166-1 2 digits.
+174|ZM|[Zambia] ISO-3166-1 2 digits.
+175|AD|[Andorra] ISO-3166-1 2 digits.
+176|TZ|[Tanzania] ISO-3166-1 2 digits.
+177|CD|[The Congo] ISO-3166-1 2 digits.
+178|MD|[Moldova] ISO-3166-1 2 digits.
+179|MK|[Macedonia] ISO-3166-1 2 digits.
+180|SH|[Saint Helena] ISO-3166-1 2 digits.
+181|AS|[American Samoa] ISO-3166-1 2 digits.
+182|VE|[Venezuela] ISO-3166-1 2 digits.
+183|TV|[Tuvalu] ISO-3166-1 2 digits.
+184|PM|[Saint Pierre and Miquelon] ISO-3166-1 2 digits.
+185|GG|[Guernsey] ISO-3166-1 2 digits.
+186|JE|[Jersey] ISO-3166-1 2 digits.
+187|GB|[United Kingdom] ISO-3166-1 2 digits.
+188|SM|[San Marino] ISO-3166-1 2 digits.
+189|ST|[Sao Tome and Principe] ISO-3166-1 2 digits.
+190|SC|[Seychelles] ISO-3166-1 2 digits.
+191|ZA|[South Africa] ISO-3166-1 2 digits.
+192|KR|[South Korea] ISO-3166-1 2 digits.
+193|SG|[Singapore] ISO-3166-1 2 digits.
+194|VN|[Viet Nam] ISO-3166-1 2 digits.
+195|RS|[Serbia] ISO-3166-1 2 digits.
+196|TK|[Tokelau] ISO-3166-1 2 digits.
+197|TO|[Tonga] ISO-3166-1 2 digits.
+198|TC|[Turks and Caicos Islands] ISO-3166-1 2 digits.
+199|GE|[Georgia] ISO-3166-1 2 digits.
+200|IM|[Isle of Man] ISO-3166-1 2 digits.
+201|WS|[Samoa] ISO-3166-1 2 digits.
+202|DE|[Germany] ISO-3166-1 2 digits.
+203|HK|[Hong Kong] ISO-3166-1 2 digits.
+204|GH|[Ghana] ISO-3166-1 2 digits.
+205|KE|[Kenya] ISO-3166-1 2 digits.
+206|GR|[Greece] ISO-3166-1 2 digits.
+207|NZ|[New Zealand] ISO-3166-1 2 digits.
+208|GL|[Greenland] ISO-3166-1 2 digits.
+209|CI|[Côte d'Ivoire] ISO-3166-1 2 digits.
+210|LY|[Libya] ISO-3166-1 2 digits.
+211|MA|[Morocco] ISO-3166-1 2 digits.
+212|MZ|[Mozambique] ISO-3166-1 2 digits.
+213|PA|[Panama] ISO-3166-1 2 digits.
+214|PY|[Paraguay] ISO-3166-1 2 digits.
+215|RO|[Romania] ISO-3166-1 2 digits.
+216|RW|[Rwanda] ISO-3166-1 2 digits.
+217|ES|[Spain] ISO-3166-1 2 digits.
+218|SE|[Sweden] ISO-3166-1 2 digits.
+219|TN|[Tunisia] ISO-3166-1 2 digits.
+220|UY|[Uruguay] ISO-3166-1 2 digits.
+221|UZ|[Uzbekistan] ISO-3166-1 2 digits.
+222|US|[United States of America] ISO-3166-1 2 digits.
+223|Ecuador|[Ecuador] short name english 1.
+224|Haiti|[Haiti] short name english 1.
+225|Armenia|[Armenia] short name english 1.
+226|Belgium|[Belgium] short name english 1.
+227|Myanmar|[Myanmar] short name english 1.
+228|Burundi|[Burundi] short name english 1.
+229|Chile|[Chile] short name english 1.
+230|Colombia|[Colombia] short name english 1.
+231|Benin|[Benin] short name english 1.
+232|Bolivia|[Bolivia ] short name english 1.
+233|CAR|[CAR] short name english 1.
+234|Timor-Leste|[Timor-Leste] short name english 1.
+235|Kyrgyzstan|[Kyrgyzstan] short name english 1.
+236|Latvia|[Latvia] short name english 1.
+237|El Salvador|[El Salvador] short name english 1.
+238|Saint Kitts and Nevis|[Saint Kitts and Nevis] short name english 1.
+239|Anguilla|[Anguilla] short name english 1.
+240|Saint Lucia|[Saint Lucia] short name english 1.
+241|Wallis and Futuna Islands|[Wallis and Futuna Islands] short name english 1.
+242|Saint Vincent and the Grenadines|[Saint Vincent and the Grenadines] short name english 1.
+243|Jordan|[Jordan] short name english 1.
+244|North Korea|[North Korea] short name english 1.
+245|Saudi Arabia|[Saudi Arabia] short name english 1.
+246|Senegal|[Senegal] short name english 1.
+247|Sierra Leone|[Sierra Leone] short name english 1.
+248|Slovakia|[Slovakia] short name english 1.
+249|Antigua and Barbuda|[Antigua and Barbuda] short name english 1.
+250|Bahrain|[Bahrain] short name english 1.
+251|Western Sahara|[Western Sahara] short name english 1.
+252|Burkina Faso|[Burkina Faso] short name english 1.
+253|Barbados|[Barbados] short name english 1.
+254|Bahamas|[Bahamas] short name english 1.
+255|Brunei|[Brunei ] short name english 1.
+256|Syrian|[Syrian ] short name english 1.
+257|Guatemala|[Guatemala] short name english 1.
+258|Guinea|[Guinea] short name english 1.
+259|Guyana|[Guyana] short name english 1.
+260|Cayman Islands|[Cayman Islands] short name english 1.
+261|Mexico|[Mexico] short name english 1.
+262|Netherlands|[Netherlands] short name english 1.
+263|Hungary|[Hungary] short name english 1.
+264|Sark|[Sark] short name english 1.
+265|Northern Mariana Islands|[Northern Mariana Islands] short name english 1.
+266|Gibraltar|[Gibraltar] short name english 1.
+267|Angola|[Angola] short name english 1.
+268|Azerbaijan|[Azerbaijan] short name english 1.
+269|Kuwait|[Kuwait] short name english 1.
+270|Palau|[Palau] short name english 1.
+271|Argentina|[Argentina] short name english 1.
+272|Comoros|[Comoros] short name english 1.
+273|Mayotte|[Mayotte] short name english 1.
+274|Cook Islands|[Cook Islands] short name english 1.
+275|Australia|[Australia] short name english 1.
+276|Austria|[Austria] short name english 1.
+277|Djibouti|[Djibouti] short name english 1.
+278|Bangladesh|[Bangladesh] short name english 1.
+279|Bermuda|[Bermuda] short name english 1.
+280|Bhutan|[Bhutan] short name english 1.
+281|Dominica|[Dominica] short name english 1.
+282|Cabo Verde|[Cabo Verde] short name english 1.
+283|Bosnia and Herzegovina|[Bosnia and Herzegovina] short name english 1.
+284|Botswana|[Botswana] short name english 1.
+285|Belize|[Belize] short name english 1.
+286|Solomon Islands|[Solomon Islands] short name english 1.
+287|Liberia|[Liberia] short name english 1.
+288|Bulgaria|[Bulgaria] short name english 1.
+289|Faeroe Islands|[Faeroe Islands] short name english 1.
+290|Channel Islands|[Channel Islands] short name english 1.
+291|Russia|[Russia] short name english 1.
+292|Belarus|[Belarus] short name english 1.
+293|Cambodia|[Cambodia] short name english 1.
+294|Cameroon|[Cameroon] short name english 1.
+295|Canada|[Canada] short name english 1.
+296|Sri Lanka|[Sri Lanka] short name english 1.
+297|Chad|[Chad] short name english 1.
+298|Honduras|[Honduras] short name english 1.
+299|Malta|[Malta] short name english 1.
+300|Costa Rica|[Costa Rica] short name english 1.
+301|Croatia|[Croatia] short name english 1.
+302|Qatar|[Qatar] short name english 1.
+303|Niue|[Niue] short name english 1.
+304|Cuba|[Cuba] short name english 1.
+305|Cyprus|[Cyprus] short name english 1.
+306|Czech Republic|[Czech Republic] short name english 1.
+307|Denmark|[Denmark] short name english 1.
+308|Italy|[Italy] short name english 1.
+309|France|[France] short name english 1.
+310|Malvinas|[Malvinas] short name english 1.
+311|British Virgin Islands|[British Virgin Islands] short name english 1.
+312|French Polynesia|[French Polynesia] short name english 1.
+313|Dominican Republic|[Dominican Republic] short name english 1.
+314|Finland|[Finland] short name english 1.
+315|Congo|[Congo] short name english 1.
+316|Sudan|[Sudan] short name english 1.
+317|Kiribati|[Kiribati] short name english 1.
+318|Iceland|[Iceland] short name english 1.
+319|Japan|[Japan] short name english 1.
+320|New Caledonia|[New Caledonia] short name english 1.
+321|Ethiopia|[Ethiopia] short name english 1.
+322|Eritrea|[Eritrea] short name english 1.
+323|Estonia|[Estonia] short name english 1.
+324|India|[India] short name english 1.
+325|Malawi|[Malawi] short name english 1.
+326|China|[China] short name english 1.
+327|Grenada|[Grenada] short name english 1.
+328|Guadeloupe|[Guadeloupe] short name english 1.
+329|Guam|[Guam] short name english 1.
+330|Equatorial Guinea|[Equatorial Guinea] short name english 1.
+331|Fiji|[Fiji] short name english 1.
+332|Holy See|[Holy See] short name english 1.
+333|Åland Islands|[Åland Islands] short name english 1.
+334|Indonesia|[Indonesia] short name english 1.
+335|Ireland|[Ireland] short name english 1.
+336|Israel|[Israel] short name english 1.
+337|Jamaica|[Jamaica] short name english 1.
+338|Gambia|[Gambia] short name english 1.
+339|Lithuania|[Lithuania] short name english 1.
+340|Luxembourg|[Luxembourg] short name english 1.
+341|Madagascar|[Madagascar] short name english 1.
+342|Malaysia|[Malaysia] short name english 1.
+343|Mali|[Mali] short name english 1.
+344|Mauritania|[Mauritania] short name english 1.
+345|South Sudan|[South Sudan] short name english 1.
+346|Laos|[Laos] short name english 1.
+347|Somalia|[Somalia] short name english 1.
+348|Pitcairn|[Pitcairn] short name english 1.
+349|Iran|[Iran] short name english 1.
+350|Liechtenstein|[Liechtenstein] short name english 1.
+351|Puerto Rico|[Puerto Rico] short name english 1.
+352|Norfolk Island|[Norfolk Island] short name english 1.
+353|Mongolia|[Mongolia] short name english 1.
+354|Montenegro|[Montenegro] short name english 1.
+355|Guinea-Bissau|[Guinea-Bissau] short name english 1.
+356|Oman|[Oman] short name english 1.
+357|Namibia|[Namibia] short name english 1.
+358|Nepal|[Nepal] short name english 1.
+359|Maldives|[Maldives] short name english 1.
+360|Martinique|[Martinique] short name english 1.
+361|Kazakhstan|[Kazakhstan] short name english 1.
+362|Iraq|[Iraq] short name english 1.
+363|Nicaragua|[Nicaragua] short name english 1.
+364|Niger|[Niger] short name english 1.
+365|Macao|[Macao] short name english 1.
+366|U.S. Virgin Islands|[U.S. Virgin Islands] short name english 1.
+367|Nigeria|[Nigeria] short name english 1.
+368|Zimbabwe|[Zimbabwe] short name english 1.
+369|Suriname|[Suriname] short name english 1.
+370|Norway|[Norway] short name english 1.
+371|French Guiana|[French Guiana] short name english 1.
+372|Mauritius|[Mauritius] short name english 1.
+373|Monaco|[Monaco] short name english 1.
+374|Montserrat|[Montserrat] short name english 1.
+375|Pakistan|[Pakistan] short name english 1.
+376|Papua New Guinea|[Papua New Guinea] short name english 1.
+377|Nauru|[Nauru] short name english 1.
+378|Curaçao|[Curaçao] short name english 1.
+379|Peru|[Peru] short name english 1.
+380|Swaziland|[Swaziland] short name english 1.
+381|Philippines|[Philippines] short name english 1.
+382|Poland|[Poland] short name english 1.
+383|Portugal|[Portugal] short name english 1.
+384|Aruba|[Aruba] short name english 1.
+385|Sint Maarten (Dutch part)|[Sint Maarten (Dutch part)] short name english 1.
+386|Bonaire, Saint Eustatius and Saba|[Bonaire, Saint Eustatius and Saba] short name english 1.
+387|Marshall Islands|[Marshall Islands] short name english 1.
+388|Gabon|[Gabon] short name english 1.
+389|Switzerland|[Switzerland] short name english 1.
+390|Tajikistan|[Tajikistan] short name english 1.
+391|Egypt|[Egypt] short name english 1.
+392|Brazil|[Brazil] short name english 1.
+393|Afghanistan|[Afghanistan] short name english 1.
+394|Albania|[Albania] short name english 1.
+395|Algeria|[Algeria] short name english 1.
+396|Lebanon|[Lebanon] short name english 1.
+397|Lesotho|[Lesotho] short name english 1.
+398|Slovenia|[Slovenia] short name english 1.
+399|Thailand|[Thailand] short name english 1.
+400|Togo|[Togo] short name english 1.
+401|Trinidad and Tobago|[Trinidad and Tobago] short name english 1.
+402|United Arab Emirates|[United Arab Emirates] short name english 1.
+403|Vanuatu|[Vanuatu] short name english 1.
+404|Turkey|[Turkey] short name english 1.
+405|Turkmenistan|[Turkmenistan] short name english 1.
+406|Uganda|[Uganda] short name english 1.
+407|Ukraine|[Ukraine] short name english 1.
+408|Yemen|[Yemen] short name english 1.
+409|Zambia|[Zambia] short name english 1.
+410|Andorra|[Andorra] short name english 1.
+411|Réunion|[Réunion] short name english 1.
+412|Tanzania|[Tanzania] short name english 1.
+413|The Congo|[The Congo] short name english 1.
+414|Moldova|[Moldova] short name english 1.
+415|Macedonia|[Macedonia] short name english 1.
+416|Saint-Barthélemy|[Saint-Barthélemy] short name english 1.
+417|Saint Helena|[Saint Helena] short name english 1.
+418|American Samoa|[American Samoa] short name english 1.
+419|Venezuela|[Venezuela] short name english 1.
+420|Tuvalu|[Tuvalu] short name english 1.
+421|Saint Pierre and Miquelon|[Saint Pierre and Miquelon] short name english 1.
+422|Guernsey|[Guernsey] short name english 1.
+423|Jersey|[Jersey] short name english 1.
+424|United Kingdom|[United Kingdom] short name english 1.
+425|San Marino|[San Marino] short name english 1.
+426|Sao Tome and Principe|[Sao Tome and Principe] short name english 1.
+427|Seychelles|[Seychelles] short name english 1.
+428|South Africa|[South Africa] short name english 1.
+429|South Korea|[South Korea] short name english 1.
+430|Singapore|[Singapore] short name english 1.
+431|Kenya|[Kenya] short name english 1.
+432|Viet Nam|[Viet Nam] short name english 1.
+433|Serbia|[Serbia] short name english 1.
+434|Svalbard and Jan Mayen Islands|[Svalbard and Jan Mayen Islands] short name english 1.
+435|Tokelau|[Tokelau] short name english 1.
+436|Tonga|[Tonga] short name english 1.
+437|Turks and Caicos Islands|[Turks and Caicos Islands] short name english 1.
+438|Georgia|[Georgia] short name english 1.
+439|Isle of Man|[Isle of Man] short name english 1.
+440|Samoa|[Samoa] short name english 1.
+441|Germany|[Germany] short name english 1.
+442|Palestine|[Palestine] short name english 1.
+443|Hong Kong|[Hong Kong] short name english 1.
+444|Ghana|[Ghana] short name english 1.
+445|Greece|[Greece] short name english 1.
+446|New Zealand|[New Zealand] short name english 1.
+447|Greenland|[Greenland] short name english 1.
+448|Micronesia|[Micronesia] short name english 1.
+449|Saint-Martin (French part)|[Saint-Martin (French part)] short name english 1.
+450|Côte d'Ivoire|[Côte d'Ivoire] short name english 1.
+451|Libya|[Libya] short name english 1.
+452|Morocco|[Morocco] short name english 1.
+453|Mozambique|[Mozambique] short name english 1.
+454|Panama|[Panama] short name english 1.
+455|Paraguay|[Paraguay] short name english 1.
+456|Romania|[Romania] short name english 1.
+457|Rwanda|[Rwanda] short name english 1.
+458|Spain|[Spain] short name english 1.
+459|Sweden|[Sweden] short name english 1.
+460|Tunisia|[Tunisia] short name english 1.
+461|Uruguay|[Uruguay] short name english 1.
+462|Uzbekistan|[Uzbekistan] short name english 1.
+463|United States of America|[United States of America] short name english 1.
+705|XBEU|Invented code by Geographica for the European Union in the context of Elcano IEPG project.
+706|European Union|European Union english.
+707|Unión Europea|European Union spanish.

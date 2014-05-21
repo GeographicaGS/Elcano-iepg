@@ -1,17 +1,15 @@
 /*
 
-  Drops Elcano IEPG data schema.
+  Drop variable schema.
 
 */
 
 \i 00-config.sql
-
 \c :dbname :user :host :port
 
-drop schema if exists iepg_data cascade;
+begin;
 
-\c :dbname :superuser :host :port
+drop schema :s_engine cascade;
 
-analyze;
+commit;
 
-\c :dbname :user :host :port

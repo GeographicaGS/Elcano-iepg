@@ -1,3 +1,6 @@
+-- TODO: change the copy to \copy and check if can be ex/imported to a subfolder
+-- Yes, it works with subfolder. Change everything.
+
 \i 00-config.sql
 \c :dbname :superuser :host :port
 
@@ -57,5 +60,53 @@ csv header quote '"';
 
 \copy iepg_data.iepg_relative_contributions_eu to 'iepg_relative_contributions_eu.csv' with delimiter '|' csv header quote '"'
 
+
+-- Maplex
+
+\copy maplex.block to 'maplex_block.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geoentity to 'maplex_geoentity.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geoentity_geometry to 'maplex_geoentity_geometry.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geoentity_name to 'maplex_geoentity_name.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geometry to 'maplex_geometry.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.geometry_family to 'maplex_geometry_family.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.name to 'maplex_name.csv' with delimiter '|' csv header quote '"'
+
+\copy maplex.name_family to 'maplex_name_family.csv' with delimiter '|' csv header quote '"'
+
+
+-- iepg_data_redux
+
+\copy iepg_data_redux.iepe_data to 'redux_iepe_data.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data_redux.iepe_individual_contribution to 'redux_iepe_individual_contribution.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data_redux.iepe_quota to 'redux_iepe_quota.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data_redux.iepe_relative_contribution to 'redux_iepe_relative_contribution.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data_redux.iepg_data to 'redux_iepg_data.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data_redux.iepg_individual_contribution to 'redux_iepg_individual_contribution.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data_redux.iepg_quota to 'redux_iepg_quota.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data_redux.iepg_relative_contribution to 'redux_iepg_relative_contribution.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data_redux.pob_pib to 'redux_pob_pib.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data_redux.iepg_comment to 'redux_iepg_comment.csv' with delimiter '|' csv header quote '"'
+
+
+-- engine
+
+\copy engine.variable to 'csv/engine_variable.csv' with delimiter '|' csv header quote '"'
+
+\copy engine.family to 'csv/engine_family.csv' with delimiter '|' csv header quote '"'
 
 \c :dbname :user :host :port

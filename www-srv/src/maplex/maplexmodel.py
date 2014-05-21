@@ -59,13 +59,19 @@ class MaplexModel(PostgreSQLModel):
         return(self.query(sql).result())
 
 
-    def getNames(self):
+    def getNames(self, idNameFamily=None):
         """Return names. Check if time is involved. If not, add it."""
         sql = """
         select *
-        from maplex.name
-        order by id_name;"""
-        return(self.query(sql).result())
+        from maplex.vw__names"""
+
+        bindings = []
+        if idNameFamily:
+            sql += " where id_name_family=%s"
+            bindings = [idNameFamily]
+
+        sql += ';'
+        return(self.query(sql, bindings=bindings).result())
 
 
     def getName(self, idName):
@@ -77,6 +83,16 @@ class MaplexModel(PostgreSQLModel):
         order by id_name;"""
         return(self.query(sql, bindings=[idName]).result())
 
+    
+    def getGeoentityName(self, idGeoentity, idNameFamily):
+        """Returns the name for idGeoentity and idNameFamily."""
+        sql = """
+        select *
+        from maplex.vw__names
+        where id_geoentity=%s and idNameFamily=%s;"""
+
+        return(self.query(sql,bindings=[idGeoentity, idNameFamily]).result())
+
 
     def getBlocks(self, timeLapseBlock=None, timeLapseMembers=None):
         """Retrieves list of blocks, given a time lapse (either given by the block
@@ -85,7 +101,6 @@ class MaplexModel(PostgreSQLModel):
         select *
         from maplex.vw__blocks
         """
-
         bindings=[]
         filter = ""
         if timeLapseBlock:
@@ -98,8 +113,16 @@ class MaplexModel(PostgreSQLModel):
             filter += a["sql"]
             bindings.extend(a["bindings"])
 
-        sql += ';'
-
-        print(sql)
-
+        sql = sql+filter+";" if filter<>"" else sql+";"
         return(self.query(sql, bindings=bindings).result())
+
+
+    def getBlockMembers(self, idGeoentityBlock):
+        """Retrieves block members."""
+        sql = """
+        select *
+        from
+        maplex.vw__blocks_membership
+        where id_geoentity_block = %s;"""
+
+        return(self.query(sql, bindings=[idGeoentityBlock]).result())

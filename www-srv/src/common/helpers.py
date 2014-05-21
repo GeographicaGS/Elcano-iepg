@@ -10,7 +10,9 @@ import tweepy
 import model.iepgdatamodel
 from config import MemcachedConfig
 from flask import jsonify
-from const import families, variables, blocks
+from const import families, variables, blocks, iepg_blocks
+import engine.engine as engine
+import maplex.maplex as maplex
 if MemcachedConfig["enabled"] == True:
     import memcache
 
@@ -119,6 +121,39 @@ def arraySubstraction(array1, array2):
 
 def getIepgCountries():
     """Returns all ISO codes of countries in IEPG."""
-    m = model.iepgdatamodel.IepgDataModel()
+    m = cacheWrapper(engine.getVariableCodes, 1)
+    out = []
+    for i in m:
+        out.append(i["code"])
+    return(arraySubstraction(out, iepg_blocks))
 
-    return(cacheWrapper(m.getIepgCountriesIso))
+
+def getIepeCountries():
+    """Returns all ISO codes of countries in IEPE."""
+    # HERE
+    m = getListFromDictionary(arraySubstraction(cacheWrapper(engine.getVariableCodes, 2), iepg_blocks), 
+                              "code")
+    names = cacheWrapper(maplex.getNames)
+    isoCodes = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==1 and v["name"] in m}
+    spanishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==3 and 
+                    v["id_geoentity"] in isoCodes.keys()}
+    englishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==2 and 
+                    v["id_geoentity"] in isoCodes.keys()}
+
+    countries = dict()
+    for k,v in isoCodes.iteritems():
+        n = dict()
+        n["spanish"] = spanishNames[k]
+        n["english"] = englishNames[k]
+        n["idGeoentity"] = k
+        countries[v] = n
+            
+    return(countries)
+
+
+def getListFromDictionary(dictionary, key):
+    """Returns a list from the elements with a key in a dictionary."""
+    out = []
+    for i in dictionary:
+        out.append(i[key])
+    return(out)

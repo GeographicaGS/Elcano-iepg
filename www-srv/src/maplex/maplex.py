@@ -37,10 +37,10 @@ def getGeoentities():
    return(m.getGeoentities())
 
 
-def getNames():
+def getNames(idNameFamily=None):
    """Returns names."""
    m = maplexmodel.MaplexModel()
-   return(m.getNames())
+   return(m.getNames(idNameFamily))
 
 
 def getName(idName):
@@ -49,9 +49,26 @@ def getName(idName):
    return(m.getName(idName))
 
 
+# TODO: redefine this method so it returns blocks whose existence is completely 
+# within the lapse and make a difference on if the lapse is calculated by its members
+# or the block itself
+# Create a time topology: adjacency of timelapses, intersection of timelapses, containment of, etc...
+# add after, before, coincident
+# def getBlocks(timeLapseBlock=None, timeLapseMembers=None):
+#     """Retrieves basic information about blocks."""
+#     m = maplexmodel.MaplexModel()
+#     return(m.getBlocks(timeLapseBlock, timeLapseMembers))
+
+
 def getBlocks(timeLapseBlock=None, timeLapseMembers=None):
     """Retrieves basic information about blocks."""
     m = maplexmodel.MaplexModel()
     return(m.getBlocks(timeLapseBlock, timeLapseMembers))
 
-    
+
+def getBlockMembers(idGeoentityBlock):
+    """Retrieves block members."""
+    m = maplexmodel.MaplexModel()
+    return(m.getBlockMembers(idGeoentityBlock))
+
+

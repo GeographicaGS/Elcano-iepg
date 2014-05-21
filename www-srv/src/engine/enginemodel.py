@@ -77,27 +77,10 @@ class EngineModel(PostgreSQLModel):
         return(self.query(sql).result())
 
 
-    def getVariableCodes(self, table, dateIn=None, dateOut=None):
+    def getVariableCodes(self, table):
         """Returns variable codes between date in and date out (optional)."""
         sql = """
         select distinct code
-        from {}
+        from {};
         """.format(table)
-
-        bindings = []
-        if dateIn:
-            sql += """
-            where
-            date_in>=%s
-            """
-            bindings.append(dateIn)
-
-        if dateOut:
-            sql += """
-            and
-            (date_out<=%s or date_out is null)
-            """
-            bindings.append(dateOut)
-
-        sql += ";"
-        return(self.query(sql, bindings=bindings).result())
+        return(self.query(sql).result())

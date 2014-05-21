@@ -34,6 +34,9 @@ model_errors = {
 
 lang = ["en", "es"]
 
+iepg_blocks = ["XBEU"]
+precalculated_blocks = ["XBEU"]
+
 # TODO: to be deprecated
 years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]
 

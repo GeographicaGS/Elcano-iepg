@@ -6,7 +6,7 @@ Maplex core
 
 """
 import maplexmodel
-import datetime
+import common.timelapse
 
 def addName(name, description):
     """Adds a name. Returns reference ID to the new name."""
@@ -22,13 +22,9 @@ def getNameFamilies():
 
 
 def assignGeoentityName(idGeoentity, idName, idNameFamily, dateIn=None, dateOut=None):
-    """Assign a name to a geoentity.
-    TODO: get down to the hour
-    """
-    if dateIn:
-        dateIn = datetime.datetime.strptime(dateIn, '%Y-%m-%d')
-    if dateOut:
-        dateOut = datetime.datetime.strptime(dateOut, '%Y-%m-%d')
+    """Assign a name to a geoentity."""
+    dateIn = common.timelapse.Time(dateIn) if dateIn else None
+    dateOut = common.timelapse.Time(dateOut) if dateOut else None
         
     m = maplexmodel.MaplexModel()
     id = m.assignGeoentityName(idGeoentity, idName, idNameFamily, dateIn=dateIn, dateOut=dateOut)
@@ -47,6 +43,15 @@ def getNames():
    return(m.getNames())
 
 
-def getBlocks():
-    """TODO: end this."""
-    pass
+def getName(idName):
+   """Returns name with ID idName."""
+   m = maplexmodel.MaplexModel()
+   return(m.getName(idName))
+
+
+def getBlocks(timeLapseBlock=None, timeLapseMembers=None):
+    """Retrieves basic information about blocks."""
+    m = maplexmodel.MaplexModel()
+    return(m.getBlocks(timeLapseBlock, timeLapseMembers))
+
+    

@@ -201,7 +201,7 @@ from
   b.id_geometry=d.id_geometry;
 
 
-create view maplex.vw__blocks as
+create view maplex.vw__blocks_membership as
 select
   a.id_geoentity as id_geoentity_block,
   a.description as description_block,
@@ -220,6 +220,51 @@ from
   maplex.geoentity c on
   b.id_geoentity_child=c.id_geoentity;
   
+
+create view maplex.vw__blocks as
+with a as (
+  select distinct
+    id_geoentity_block as id
+  from
+    maplex.vw__blocks_membership
+  where date_out_membership is null
+)
+select
+  id_geoentity_block,
+  min(date_in_membership) as date_members_first_entry,
+  case when exists(select * from a where id=id_geoentity_block) then null
+       else max(date_out_membership)
+  end as date_members_last_exit,
+  description_block,
+  date_in_block,
+  date_out_block
+from maplex.vw__blocks_membership
+group by id_geoentity_block, description_block, date_in_block, date_out_block;
+
+
+create view maplex.vw__geoentity_names as
+select
+  a.id_geoentity as id_geoentity,
+  a.description as description_geoentity,
+  a.date_in as date_in_geoentity,
+  a.date_out as date_out_geoentity,
+  b.date_in as date_in_name_assignation,
+  b.date_out as date_out_name_assignation,
+  c.id_name_family as id_name_family,
+  c.name as name_family,
+  c.description as description_name_family,
+  d.id_name as id_name,
+  d.name as name,
+  d.description as description_name
+from
+  maplex.geoentity a inner join
+  maplex.geoentity_name b on
+  a.id_geoentity = b.id_geoentity inner join
+  maplex.name_family c on
+  b.id_name_family = c.id_name_family inner join
+  maplex.name d on
+  b.id_name = d.id_name;
+
 
 -- Restore data
 

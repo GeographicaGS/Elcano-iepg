@@ -10,9 +10,9 @@ from frontend import app
 from flask import jsonify,request,send_file,make_response
 from model.documentmodel import DocumentModel
 from model.labelmodel import LabelModel
-import cons
+from common import const as cons
 import helpers
-import config
+from common import config as config
 
 
 @app.route('/download/pdf', methods=['GET'])
@@ -25,7 +25,7 @@ def downloadPdf():
     m = DocumentModel()
     pdf = m.getPdfData(request.args["idPdf"])
     
-    return(send_file(config.cfgFrontend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
+    return(send_file(config.frontend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
                      mimetype="application/pdf", attachment_filename=pdf["pdf_name"]+".pdf", \
                      as_attachment=True))
 

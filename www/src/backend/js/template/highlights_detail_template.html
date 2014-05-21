@@ -1,7 +1,7 @@
 <div class="pull-left">
     <h1 class="page-header col-md-1"><lang>Destacado</lang></h1>
-    <button type="button" class="btn btn-l activeES ESbt"><lang>Español</lang></button> 
-    <button type="button" class="btn btn-l activeEN ENbt"><lang>English</lang></button>
+    <button type="button" class="btn btn-l activeES ESbt" style="cursor: text"><lang>Español</lang></button> 
+    <button type="button" class="btn btn-l activeEN ENbt"  style="cursor: text"><lang>English</lang></button>
 </div>
 
 <div class="pull-right pr15">
@@ -68,7 +68,7 @@
                 <span class="clean pull-left">es</span>
                 <div>
                     <img src="/img/iconos/img_ICO.png" />
-                    <a href="/media/<%= model.image_hash_es %>.jpg" class="ml5 simple_link"  
+                    <a href="/media/<%= model.image_hash_es %>" class="ml5 simple_link"  
                         target="_blank">
                         <%= model.image_name_es %>
                     </a>
@@ -79,7 +79,7 @@
                 <span class="clean pull-left">en</span>
                 <div>
                     <img src="/img/iconos/img_ICO.png" />
-                    <a href="/media/<%= model.image_hash_en %>.jpg" class="ml5 simple_link"  
+                    <a href="/media/<%= model.image_hash_en %>" class="ml5 simple_link"  
                         target="_blank">
                         <%= model.image_name_en %>
                     </a>
@@ -125,10 +125,11 @@
 
     <div class="pull-left pl15 col-md-12 btn_botton">
          <div class="col-md-2 pl15">
-            <a href="/<lang>lang</lang>/highlights/edit/<%= model.id%>" class="btn btn-l btn-edit"><lang>Editar</lang></a>
+            
         </div>
         <div class="pull-right pr15">
             <!-- <a href="#back" type="button" class="btn btn-l btnlink "><lang>Cancelar</lang></a> -->
+            <a href="/<lang>lang</lang>/highlights/edit/<%= model.id%>" class="btn btn-l btn-edit"><lang>Editar</lang></a>
             <a href="#" type="button" class="btn btn-l btn-remove" id="delete"><lang>Eliminar</lang></a>
             <span class="verticalDivider"></span>
             <% if (!model.published) {%>

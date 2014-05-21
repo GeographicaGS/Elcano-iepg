@@ -4,7 +4,8 @@
 Exceptions
 """
 from flask import jsonify
-import const
+import const 
+import helpers
 
 class ElcanoApiRestError(Exception):
     status = 400
@@ -13,8 +14,7 @@ class ElcanoApiRestError(Exception):
         """Exception initializer."""
         Exception.__init__(self)
         self.error = error
-        if status:
-            self.status = status
+        self.status = status
         self.payload = payload
 
     def toDict(self):
@@ -54,18 +54,15 @@ class DataValidator():
             return None
         raise ElcanoApiRestError("Not a boolean.", status=200, payload={"Boolean": n})
 
-    def checkVariable(self, n):
+    def checkVariable(self, family, variable):
         """Checks a variable name."""
-        if n in const.iepg_variables:
+        if helpers.getVariableData(family, variable)<>None:
             return None
-        if n in const.context_variables:
-            return None
-        raise ElcanoApiRestError("Unknown variable.", status=200, payload={"Variable": n})
+        raise ElcanoApiRestError("Unknown variable.", status=200, payload={"Family": family, 
+                                                                           "Variable": variable})
 
     def checkYear(self, n):
         """Checks a year."""
         if n in const.years:
             return None
         raise ElcanoApiRestError("Unknown year.", status=200, payload={"Year": n})
-
-

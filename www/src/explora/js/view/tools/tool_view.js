@@ -3,6 +3,8 @@ app.view.tools.Plugin = Backbone.View.extend({
     _latestCtx: null,
     el: "#tool_data",
     type: null,
+    _forceFetchDataTool : true,
+    _forceFetchDataMap : true,
 
     initialize: function() {
         this.slider = new app.view.tools.common.Slider();
@@ -13,10 +15,26 @@ app.view.tools.Plugin = Backbone.View.extend({
     // Don't use Backbone events property.
     // The reason for that is that we've several tools in memory at the same time, all the tools share the same DOM element.
     // Events are apply on render and disable on hideTool
-    _events: {
-        
+    _events: function (){
+        return {
+            "change #ctrl_family" : "_changeFamily"
+        };
     },
 
+    _changeFamily: function(e){
+        var f = $(e.target).val();
+
+        // Let's modify the context with the current family
+        var ctx = this.getGlobalContext();
+        ctx.data.family = f;
+        ctx.saveContext();
+        
+        // Copy the global context to the latest
+        this.copyGlobalContextToLatestContext();
+
+        // Fire the contextchange event
+        app.events.trigger("contextchange:family");
+    },
     /* 
         Set listener of the tool in this method.
         Here will place the listeners that all plugin shares.
@@ -26,19 +44,60 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.listenTo(app.events,"contextchange:countries",function(){
             //TOREMOVE
             console.log("contextchange:countries at app.view.tools.Plugin");
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
-            // Render again the countries with the new context
-            this.countries.render();
+           
+            this._forceFetchDataTool = true;
+            this._forceFetchDataMap = true;
+            // Render again
+            this.render();
+        });
+
+        this.listenTo(app.events,"contextchange:family",function(){
+            //TOREMOVE
+            console.log("contextchange:family at app.view.tools.Plugin");
+           
+            this._forceFetchDataTool = true;
+            this._forceFetchDataMap = true;
+            // Render again
+            this.render();
+        });
+
+        this.listenTo(app.events,"slider:singlepointclick",function(year){
+            console.log("slider:singlepointclick at app.view.tools.Plugin");
+            var ctx = this.getGlobalContext();
+            ctx.data.slider = [{
+                "date" : new Date(year),
+                "type" : "Point"
+            }];
+
+            // Render again the tool 
+            this._forceFetchDataTool = false;
+            this._forceFetchDataMap = true;
+
+            this.render();
+        });
+
+        this.listenTo(app.events,"variable:changed",function(variable){
+            var ctx = this.getGlobalContext();
+            ctx.data.variables = [variable];
+
+            // Render again the tool 
+            this._forceFetchDataTool = true;
+            this._forceFetchDataMap = true;
+
+            this.render();
         });
 
     },
 
 
     // Here methods which should be overwritten by the child class.
-    setURL: function(){
+    contextToURL: function(){
         // This method should be overwritten. 
         // It transforms the current context of the tool in a valid URL.
+    },
+
+    URLToContext: function(url){
+        // It transforms the current URL in a valid context.
     },
 
     /*
@@ -51,27 +110,25 @@ app.view.tools.Plugin = Backbone.View.extend({
     },
 
     /* 
+        DEPRECATED
         Recover data from a server. It always should call to renderAsync when the data is received.
         RenderMap and RenderTool are called by RenderAsync, but it should be called only when data is received.
      */
-    fetchData: function(){
-        // This method must be overwritten.
-        this.renderAsync();
-    },
+    // fetchData: function(){
+    //     // This method must be overwritten.
+    //     this.renderAsync();
+    // },
 
     /* Render the tool, here the code to render the tool data. Lots of work here, so should have the data before call this method */
     renderTool: function(){
         // Draw the tool. This method must be overwritten
-        this.$el.html("Generic tool");        
+        this.$el.html("Generic tool");      
+
+        return this;  
     },
 
-    /* Render the map, here the code to render the map data. Lots of work here, so should have the data before call this method */
-    renderMap: function(){
-        // draw the map. This method must be overwritten
-    },
 
     // End methods to overwrite
-
     getGlobalContext: function(){
         // Read the global context
         return app.context;
@@ -93,12 +150,16 @@ app.view.tools.Plugin = Backbone.View.extend({
         // save context in local store   
         this._latestCtx.saveContext();
 
+        return this;
+
     },  
 
     /* This method save all context in localstore */
     saveAllContexts : function(){
         this.getGlobalContext().saveContext();
         this.copyGlobalContextToLatestContext();
+
+        return this;
     },
 
     /* 
@@ -107,10 +168,12 @@ app.view.tools.Plugin = Backbone.View.extend({
     */ 
     bringToFront: function(){
         this._setListeners();
-        this.delegateEvents(this._events); 
+        this.delegateEvents(this._events()); 
         this.slider.bringToFront();
         this.countries.bringToFront();
         this.render();
+
+        return this;
     },
 
     /* 
@@ -123,22 +186,33 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.countries.bringToBack();
         this.stopListening();
         this.clearMap();
+
+        return this;
     },
 
-    /* NEVER CALL RENDER directly, Use bringToFront.
-        DONT' OVERWRITTE THIS METHOD
+    /* 
+        Draw the tool
     */ 
     render: function(){  
         this.adaptGlobalContext();
-        this.setURL();
+        this.contextToURL();
         this.$el.show().html("Loading");
 
         this.renderTool();
-        this.renderMap();
 
         this.slider.render();
         this.countries.render();
+
+        return this;
     },
+
+    forceFetchDataOnNextRender: function(){
+        this._forceFetchDataTool = true;
+        this._forceFetchDataMap = true;
+
+        return this;
+    },
+
 
     onClose: function(){
        //call when close the view
@@ -159,10 +233,12 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.clearMap();
     },
 
-    /* Refresh the tool. A new data request is performed. This will redraw Map and Tool. */
-    refresh: function(){
-        this.fetchData();
-    },
+    /* 
+        DEPRECATED USE  forceFetchDataOnNextRender + render
+        Refresh the tool. A new data request is performed. This will redraw Map and Tool. */
+    // refresh: function(){
+    //     this.fetchData();
+    // },
 
     clearMap: function(){
         

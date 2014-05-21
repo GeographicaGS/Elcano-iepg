@@ -106,7 +106,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  */
 
 .main {
-  padding: 20px 20px 20px 50px;
+  padding: 20px ;
 }
 /*@media (min-width: 768px) {
   .main {
@@ -243,6 +243,42 @@ thead th{ color:#a2a2ac; text-transform: uppercase;}
 
 .btn-resena-twitter-edit{background:url(../img/iconos/twitter_resena_edit_ico.png) no-repeat center center; width:35px; height:40px;}
 .btn-resena-twitter-edit:hover{background:url(../img/iconos/twitter_resena_edit_ico_hover.png) no-repeat center center;}
+
+div[twitter='yes'] .notwitter{
+    display: none;
+}
+
+div[twitter='yes'] .twitter{
+    display: block;
+}
+
+div[twitter='yes'] .btn-resena-twitter{
+    display: none;
+}
+
+div[twitter='yes'] .btn-resena-twitter-edit{
+    display: inline-block;
+}
+
+div[twitter='no'] .notwitter{
+  display: block;
+}
+
+div[twitter='no'] .twitter{
+  display: none;
+}
+
+div[twitter='no'] .btn-resena-twitter{
+    display: inline-block;
+}
+
+div[twitter='no'] .btn-resena-twitter-edit{
+    display: none;
+}
+
+.notwitter input {
+  float: left;
+}
 
 .moreInfo span.more{ color:#4d4c51;}
 .ampliar{ border: none; background: none; color red; border-bottom: 1px solid #fdc204; padding: 0; margin-left: 5px;}
@@ -513,11 +549,39 @@ progress.upload{
     color:#d60006;
 }
 
-[data-error]:before{
+/*[data-error]:before{
     content: "Importante: ";
+}*/
+
+p[name='authors']{
+  display: none;
 }
 
+p[name='authors'][data-error]{
+  display: block;
+}
 #search_form{
     margin-top: 6px;
+}
+
+.ellipsis{
+    max-width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link_tab span{
+    color: #28282b;
+    
+}
+.link_tab .ellipsis{
+  font-size: 12px;
+  color: #515155;
+}
+
+
+.fleft{
+  float:left;
 }
 

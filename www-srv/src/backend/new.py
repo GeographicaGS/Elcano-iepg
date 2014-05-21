@@ -12,7 +12,7 @@ from model.usermodel import UserModel
 from backend.utils import auth
 from operator import itemgetter
 import locale
-import cons
+import common.const as cons
 from model.helpers import ElcanoError
 
 
@@ -42,18 +42,20 @@ def createNew():
     m = NewModel()
     j = request.json
 
+    labels_en = []
     if j["labels_en"]:
         labels_en = []
         for l in j["labels_en"]:
             labels_en.append(l["id"])
+    labels_es = []
     if j["labels_es"]:
         labels_es = []
         for l in j["labels_es"]:
             labels_es.append(l["id"])
 
-    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"], \
-                                      j["text_en"], j["text_es"], \
-                                      j["url_en"], j["url_es"], \
+    return(jsonify({"id": m.createNew(j["title_en"], j["title_es"],
+                                      j["text_en"], j["text_es"],
+                                      j["url_en"], j["url_es"],
                                       j["news_section"], labels_en, labels_es)}))
 
 
@@ -140,9 +142,10 @@ def getNewCatalog():
         out["id"] = d["id"]
         news.append(out)
 
-    return(jsonify({"results": {"page": page, "listSize": len(news), \
-                                "data": sorted(news, key=itemgetter("title"), cmp=locale.strcoll)\
-                                [cons.newsCatalogPageSize*page:cons.newsCatalogPageSize*(page+1)]}}))
+    return(jsonify({"results": {"page": page, "listSize": len(news),
+                                "data": sorted(news, key=itemgetter("time"), reverse=True)\
+                                [cons.backend["newsCatalogPageSize"]*page:\
+                                 cons.backend["newsCatalogPageSize"]*(page+1)]}}))
 
 
 @app.route('/new/<int:id>', methods=['GET'])
@@ -155,8 +158,8 @@ def getNew(id):
         return(jsonify({"error": "News not found"}), 404)
     labelsEn = nm.getLabelsForNew(newsDetail["id"], "en")
     labelsEs = nm.getLabelsForNew(newsDetail["id"], "es")
-    newsDetail["label_en"] = labelsEn
-    newsDetail["label_es"] = labelsEs
+    newsDetail["labels_en"] = labelsEn
+    newsDetail["labels_es"] = labelsEs
 
     return(jsonify(newsDetail))
 

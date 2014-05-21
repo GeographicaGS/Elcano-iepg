@@ -135,20 +135,20 @@ app.view.highlights.FormView = Backbone.View.extend({
             $unot =  this.$("#upload_notification_"+lang);
                     
         if (["image/jpeg"].indexOf(type) == -1 ){
-            $unot.html("<lang>Suba una image JPEG</lang>");
+            $unot.html("<lang>Suba una image JPG</lang>.");
             setTimeout(function(){
                 $unot.html("");
-            },3000);
+            },8000);
 
             return;
         }
   
         // Max allow 8 MB
         if (size/(1024*1024) > this._maxImageSize){
-            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ this._maxImageSize +" MB");
+            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ this._maxImageSize +" MB.");
             setTimeout(function(){
                 $unot.html("");
-            },3000);
+            },8000);
 
             return;
         }
@@ -168,10 +168,10 @@ app.view.highlights.FormView = Backbone.View.extend({
                     self._upload(lang,name);
                 }
                 else{
-                    $unot.html("<lang>Tamaño de imagen incorrecto, el ancho tiene que ser de 1920px y el alto mayor que 480px</lang>");
+                    $unot.html("<lang>Tamaño de imagen incorrecto, el ancho tiene que ser de 1920px y el alto mayor que 480px</lang>.");
                     setTimeout(function(){
                         $unot.html("");
-                    },3000);
+                    },6000);
                 }
             };
 

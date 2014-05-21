@@ -56,15 +56,11 @@ app.router = Backbone.Router.extend({
     },
 
     aboutInfr : function(){
-        app.showView(new app.view.About({
-            "section" : "infr"
-        }));
+        app.showView(new app.view.Structure());
     },
 
     aboutMeth : function(){
-        app.showView(new app.view.About({
-            "section" : "meth"
-        }));
+        app.showView(new app.view.Methodology());
     },
 
     docs: function(filter,author){
@@ -118,7 +114,11 @@ app.router = Backbone.Router.extend({
     },
 
     explora: function(){
-        alert("Funcionalidad en desarrollo");
+        window.open(
+          app.config.EXPLORA_URL,
+          "_blank" // <- This is what makes it open in a new window.
+        );
+        this.navigate("/");
     },
 
     privacity: function(){

@@ -11,8 +11,8 @@ from model.highlightmodel import HighlightModel
 from model.labelmodel import LabelModel
 import helpers
 import collections
-import config
-import cons
+from common import config as config
+from common import const as cons
 from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage
 
 
@@ -117,12 +117,15 @@ def newStuff():
     	    "time": "201401101027",
 	    "title": "¿El auge del resto? Apuntes sobre la presencia
 	    global de América Latina, Asia y el Magreb y Oriente Medio",
+            "link": "http://www.geographica.gs",
     	    "section": "Blog",
     	    "labels": [
                 {"id": "1", "label": "IEPG"},
     	        {"id": "2", "label": "Economía"}]
         }]
     }
+
+    TODO: revisar, devuelve unos id un poco raros
     """
     m = HomeModel()
     l = LabelModel()
@@ -167,3 +170,20 @@ def newStuff():
         s["labels"] = lab
 
     return(jsonify({"results": stuff}))
+
+
+@app.route('/home/countrylist/<string:lang>', methods=['GET'])
+def countryList(lang):
+    """Returns the list of IEPG countries alphabetically ordered:
+
+    /home/countrylist/en
+
+    returns:
+
+    {"results": [
+    {"country_name": "Algeria"}, 
+    {"country_name": "Angola"}, 
+    {"country_name": "Argentina"}, ... ]}
+    """
+    m = HomeModel()
+    return(jsonify({"results": m.countryList(lang)}))

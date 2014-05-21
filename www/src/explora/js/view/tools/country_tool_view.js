@@ -1,20 +1,49 @@
 app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_template : _.template( $('#country_tool_template').html() ),
+    _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     type: "country",
-    _forceFetchDataTool : true,
-    _forceFetchDataMap : true,
+  
 
     initialize: function(options) {
 		this.slider = new app.view.tools.common.SliderSinglePoint();
-		this.countries = new app.view.tools.common.Countries();
+		this.countries = new app.view.tools.common.Countries({
+            "variable" : false
+        });
     },
 
-    _events: {
-       
+    _events: function(){
+        return _.extend({},
+            app.view.tools.Plugin.prototype._events.apply(this),
+            {
+               "mouseenter .infoover": function(e){
+                    this.$(".content_infoover").fadeIn(300);
+               },
+               "mouseout .infoover": function(e){
+                    this.$(".content_infoover").fadeOut(300);
+               }
+           }
+        );
     },
 
     _setListeners: function(){
         app.view.tools.Plugin.prototype._setListeners.apply(this);
+
+        //redefine the contextchange:countries to not re-render each time a country is added
+        this.stopListening(app.events,"contextchange:countries");
+        this.listenTo(app.events,"contextchange:countries",function(){
+            //TOREMOVE
+            console.log("contextchange:countries at app.view.tools.CountryPlugin");
+            // The context has changed will be store by a call to contextToURL. 
+            if (!app.context.data.countries.selection.length){
+                // Let's force a re-render because we need to adapt the context.
+                this.render(); // Implicit call to contextToURL
+            }
+            else{
+                // No need of re-render, Let's refresh the list of countries
+                this.countries.render();
+                this.contextToURL();
+            }
+        });
 
         this.listenTo(app.events,"countryclick",function(id_country){
             //TOREMOVE
@@ -22,42 +51,24 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
             var ctx = this.getGlobalContext();
             ctx.data.countries.selection = [id_country];
-            ctx.saveContext();
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
+
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
             this._forceFetchDataMap = false;
-            this.render();
+            this.render(); // Implicit call to contextToURL
         });
 
-        this.listenTo(app.events,"slider:singlepointclick",function(year){
-            var ctx = this.getGlobalContext();
-            ctx.data.slider = [{
-                "date" : new Date(year),
-                "type" : "Point"
-            }];
-            ctx.saveContext();
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
-            // Render again the tool 
-            this._forceFetchDataTool = false;
-            this._forceFetchDataMap = true;
-
-            this.render();
-        });
+        
     },
 
     /* Fetch data for the current country*/
 	_fetchDataTool: function(){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
-
         
         this.model = new app.model.tools.country({
             "id" : ctx.countries.selection[0],
-            "year" : ctx.slider[0].date.getFullYear(),
-            "variable" : ctx.variables[0]
+            "family" : ctx.family
         });
 
         // Fetch model from de server
@@ -76,7 +87,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         // Fetch the collection from the server
         this.mapCollection = new app.collection.CountryToolMap([],{
-            "variable" :  ctx.variables[0],
+            "family" :  ctx.family,
+            "variable" : ctx.family, // this is a trick, the map of this tool always show the family variable
             "date" : ctx.slider[0].date.getFullYear()
         });
         
@@ -94,15 +106,19 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             model: this.model.toJSON()[year],
         }));
 
+        this.$chart_legend = this.$(".chart_legend");
+
         this.$chart = this.$(".chart");
 
         this._drawD3Chart(year);
 
-        //this._forceFetchDataTool = false;
+        this._renderChartLegend(year,"iepg");
+
+        this._forceFetchDataTool = false;
     },
 
     _renderMapAsync: function(){
-        //self._forceFetchDataTool = false;
+        this._forceFetchDataTool = false;
         this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON());
     },
 
@@ -110,13 +126,28 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     renderTool: function(){
         //TOREMOVE
         console.log("Render app.view.tools.CountryPlugin");
-        // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
-        if (this._forceFetchDataTool){
-            this._fetchDataTool();
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+        if (!ctx.countries.selection.length){
+            // it happens when remove the latest element from the filter
+            this.$el.html(this._template({
+                ctx: this.getGlobalContext().data,
+                model: null,
+            }));
         }
         else{
-            this._renderToolAsync();
+            // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
+            if (this._forceFetchDataTool){
+                this._fetchDataTool();
+            }
+            else{
+                this._renderToolAsync();
+            }
         }
+
+        this.renderMap();
     },
 
     renderMap: function(){
@@ -139,7 +170,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     /* 
-        This method adapt the glob
+        This method adapt the global context
     */
     adaptGlobalContext: function(){
 
@@ -165,13 +196,14 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             }
             else{
                 // the first on the list will be the selected
-                ctx.countries.selection = [ctx.countries.list[0]];
+                ctx.countries.selection = ctx.countries.list.length ? [ctx.countries.list[0]] : [];
             }
         }
         else{
             // All except the first one will be removed.
             ctx.countries.selection = [ctx.countries.selection[0]];
         }
+
 
         // This tool works with a single point slider. 
         var firstPoint = ctxObj.getFirstSliderElement("Point");
@@ -196,25 +228,71 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             }
         }
 
+        if (!ctx.family){
+            if (latestCtx.family){
+                ctx.family = latestCtx.family;
+            }
+            else{
+                ctx.family = "iepg";
+            }
+        }
+
+        // Save context
+        ctxObj.saveContext();
+
         // update the latest context
         this.copyGlobalContextToLatestContext();
     },
 
-    setURL: function(){
+    contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
         //country/:id_country/:id_variable/:year
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
+            family = ctx.family,
+            countries = ctx.countries.list.join(","),
             country = ctx.countries.selection[0],
             variable = ctx.variables[0],
-            year = ctx.slider[0].date.getFullYear();
+            year = ctx.slider[0].date.getFullYear()
+            filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
+            url = "country/" + family + "/" + countries + "/" + country + "/" + year + filters;
 
-         app.router.navigate("country/" + country + "/" + variable + "/" + year, {trigger: false});
+         app.router.navigate(url, {trigger: false});
+    },
+
+    URLToContext: function(url){
+
+        var ctxObj = app.context,
+            ctx = ctxObj.data;
+            
+        ctx.family = url.family;
+        ctx.countries.list = url.countries.split(",");
+        ctx.countries.selection = [url.country_sel];
+        ctx.countries.slider = [{
+            "type": "Point",
+            "date" : new Date(url.year)
+        }];
+
+        // Do we have filters?
+        if (url.filters){
+            app.setFilters(url.filters.split(","));
+        }
+
+        ctx.countries.slider = [{
+            "type": "Point",
+            "date" : new Date(url.year)
+        }];
+
+        // let's store the context.
+        ctxObj.saveContext();
+
+        this.copyGlobalContextToLatestContext();
+
     },
 
     _drawD3Chart: function(year){
         var width = this.$chart.width(),
-            height = 250,
+            height = this.$chart.height(),
             radius = Math.min(width, height) / 2;
 
         var x = d3.scale.linear()
@@ -261,7 +339,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         var obj = this;
 
-
         var root = this._buildModelTree(year),
             path = svg.selectAll("path")
               .data(partition.nodes(root))
@@ -284,10 +361,15 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             });
         
 
-          function click(d) {
-            path.transition()
-              .duration(750)
-              .attrTween("d", arcTween(d));
+            function click(d) {
+                if (d.name == "iepg" || d.name == "economic_presence" ||
+                    d.name == "soft_presence" || d.name =="military_presence")
+                {
+                    path.transition()
+                        .duration(750)
+                        .attrTween("d", arcTween(d));
+                    obj._renderChartLegend(year,d.name);
+                }
           }
     },
 
@@ -316,9 +398,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         return {
             "name" : "iepg",
             "color" : "#fdc300",
+            "size" : variables.iepg.value,
             "children" : [{
                 "name" : "economic_presence",
                 "color" : "#2b85d0",
+                "size" : variables.economic_presence.value,
                 "children": [{
                     "name" : "energy",
                     "size" : variables.energy.value,
@@ -348,6 +432,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             },{
                 "name" : "military_presence",
                 "color" : "#669900",
+                "size" : variables.military_presence.value,
                 "children": [{
                         "name" : "troops",
                         "size" : variables.troops.value,
@@ -361,6 +446,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             },{
                 "name" : "soft_presence",
                 "color" : "#ff9000",
+                "size" : variables.soft_presence.value,
                 "children": [{
                         "name" : "migrations",
                         "size" : variables.migrations.value,
@@ -402,6 +488,33 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
             ]
         }
+    },
+
+    _extractNodeFromTree: function(year,name){
+        var nodes = this. _buildModelTree(year);
+        if (name == "iepg"){
+            return nodes;
+        }
+        else{
+            nodes = nodes.children;
+        }
+       
+        // find the node in the childrens
+        for(var i=0;i<nodes.length;i++){
+            if (nodes[i].name == name){
+                return nodes[i];
+            }
+        }
+
+        return null;
+    },
+
+    _renderChartLegend: function(year,name){
+
+        this.$chart_legend.html(this._templateChartLegend({
+            data: this._extractNodeFromTree(year,name)
+        }));
+
     }
     
 });

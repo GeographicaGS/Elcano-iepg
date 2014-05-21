@@ -1,19 +1,27 @@
 <%
-    variable = model.iepg_variables[ctx.variables[0]];
-    gdp = model.context_var.gdp;
-    population = model.context_var.population;
-    country = ctx.countries.selection[0];
+    variable = model ? model.iepg_variables[ctx.variables[0]] : null;
+    gdp = model ? model.context_var.gdp : null;
+    population = model ? model.context_var.population : null;
+    country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
+    country_str = country ? app.countryToString(country) :  "<lang>Seleccione un país</lang>";
     year = ctx.slider[0].date.getFullYear();
 
 %>
 
 <div id="country_tool" >
-    <div class="header" data-variable=<%=ctx.variables[0]%>>
+    <div class="header" data-variable=<%=ctx.family%>>
         <a class="close" href="#"></a>
         <span id="tool_name"><lang>Ficha país</span>
-        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %>, <%= app.countryToString(country) %> </span>
+        <span id="tool_title"> <%= app.variableToString(ctx.family) %>, <%= country_str %> </span>
         <span id="tool_year"><lang>Año</lang> <%= year %></span>
+
+        <select id="ctrl_family">
+            <option value="iepg" <%= ctx.family == "iepg" ? "selected" : "" %>><lang>Presencia Global</lang></option>
+            <option value="iepe" <%= ctx.family == "iepe" ? "selected" : "" %> ><lang>Presencia Europea</lang></option>
+        </select>
     </div>
+
+    <% if (model) { %>
     <div class="body">
         <div class="container-fluid">
             <div class="row mth1">
@@ -27,7 +35,11 @@
                             <span class="grey size_21 fleft mt7 ml"><%= sprintf("%0.2f",variable.value) %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <span><%= sprintf("<lang>Puesto</lang> %d", variable.ranking) %></span>
+                            <span><%= sprintf("<lang>Puesto %dº</lang>", variable.ranking) %></span>
+                            <img class="infoover" src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+                            <p class="content_infoover" style="display:none">
+                                <lang>Texto información puestos</lang>
+                            </p>
                         </div>
                     </div>
 
@@ -46,7 +58,7 @@
                             <span class="grey size_16"><%= parseInt(gdp.value).toLocaleString() %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <span><%= sprintf("<lang>%dº del mundo</lang>", gdp.ranking) %></span>
+                            <span><%= sprintf("<lang>Puesto %dº</lang>", gdp.ranking) %></span>
                         </div>
                     </div>
 
@@ -65,7 +77,7 @@
                             <span class="grey size_16"><%= parseInt(population.value).toLocaleString() %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <span><%= sprintf("<lang>%dº del mundo</lang>", population.ranking) %></span>
+                            <span><%= sprintf("<lang>Puesto %dº</lang>", population.ranking) %></span>
                         </div>
                     </div>
 
@@ -89,19 +101,29 @@
 
                 <div class="col-sm-6 col-md-6">
                     
-                    <ul class="legend">
-                        <li><lang>Presencia Global</lang></li>
-                        <li><lang>Presencia Económica</lang></li>
-                        <li><lang>Presencia Militar</lang></li>
-                        <li><lang>Presencia Blanda</lang></li>
-                    </ul>
+                   
                     <div class="chart"></div>
+                    <div class="chart_legend">
+                        
+                    </div>
                 </div>
             </div>
             
         </div>
 
     </div>
+
+    <%} else { %>
+        <div class="body">
+            <div class="container-fluid">
+                <div class="row mth1">
+                    <p class="col-xs-12">
+                        <lang>Seleccione un país</lang>
+                    </p>
+                <div>
+            </div>
+        </div>
+    <% } %>
 
 
 </div>

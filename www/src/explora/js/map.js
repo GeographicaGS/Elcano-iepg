@@ -1,21 +1,29 @@
 
-app.map = {
-    _baseLayer: null,
-    _choroplethColors : ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C"],
-    CHOROPLETH_INTERVALS : 5,
-    _choroplethOVerlay : null,
+app.view.map = function(options){
+    this.baseLayer = null;
 
-    initialize : function(){
+    this._choroplethColors = ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C"];
 
-        this._map = L.map('map',{
+    this.CHOROPLETH_INTERVALS = 5;
+
+    this._choroplethOVerlay = null;
+
+    this.container = options.container;
+    this.zoom = options.zoom ? options.zoom : 2;
+    this.center = options.center ? options.center  : L.latLng(0,0);
+
+    this.initialize = function(options){
+
+        this._map = L.map(this.container,{
             "attributionControl" : false,
             "zoomControl" : false
-        }).setView( L.latLng(48.99,-104.05), 3);
+        }).setView( this.center, this.zoom);
 
         this.loadBaseMap();
-    },
+        return this;
+    };
 
-    loadBaseMap : function(){
+    this.loadBaseMap = function(){
         this._baseLayer = L.geoJson(countriesGeoJSON, {
             style: {
                 fillColor: "#fff",
@@ -27,17 +35,22 @@ app.map = {
             }
         });
         this._baseLayer.addTo(this._map);  
-    },
+    };
 
-    resize: function(){
+    /* Resize the map */ 
+    this.resize = function(){
         this._map.invalidateSize(true);
-    },
+        return this;
+    };
 
-    getMap: function(){
+    this.getMap = function(){
         return this._map;
-    },
+    };
 
-    drawChoropleth : function(data){
+    /* This method created a choropleth Map with the data supplied in the parameter */ 
+    this.drawChoropleth = function(data){
+
+        var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
         // Just for security
         if (!data || !data.length) return;
 
@@ -68,13 +81,13 @@ app.map = {
         function getColor(d){
 
             if (d == max){
-                return _this._choroplethColors[ _this.CHOROPLETH_INTERVALS-1];
+                return _this._choroplethColors[ n_intervals-1];
             }
             else if (d==min){
                 return _this._choroplethColors[0];
             }
             else{
-                var index = parseInt(  ((d-min) *  _this.CHOROPLETH_INTERVALS) /
+                var index = parseInt(  ((d-min) *  n_intervals) /
                                     rangeData );
                 return _this._choroplethColors[index];
             }
@@ -135,7 +148,7 @@ app.map = {
         var info = L.control();
 
         info.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this._div = L.DomUtil.create('div', 'info data'); // create a div with a class "info"
             this.update();
             return this._div;
         };
@@ -150,21 +163,24 @@ app.map = {
 
         info.addTo(this._map);
 
+        // Let's add a legend for the map. 
+
         var legend = L.control({position: 'bottomright'});
 
         legend.onAdd = function (map) {
 
+            // Create the legend element inside the DOM.
             var div = L.DomUtil.create('div', 'info legend'),
                 grades = [],
                 labels = [],
-                inc = parseInt(max/_this.CHOROPLETH_INTERVALS);
+                inc = parseInt(max/n_intervals);
 
-            for (var i=0;i<_this.CHOROPLETH_INTERVALS;i++){
+            for (var i=0;i<n_intervals;i++){
                 grades.push(parseInt(i*inc + min));
             }
 
             // loop through our density intervals and generate a label with a colored square for each interval
-             for (var i=0;i<_this.CHOROPLETH_INTERVALS;i++){
+             for (var i=0;i<n_intervals;i++){
                 div.innerHTML +=
                     '<i style="background:' + getColor(grades[i] +1) + '"></i> ' +
                     grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
@@ -182,9 +198,9 @@ app.map = {
         };
 
         return l;
-    },
+    };
 
-    removeChoropleth: function(){
+    this.removeChoropleth = function(){
        
         if (this._choroplethOVerlay){   
             this._map.removeLayer(this._choroplethOVerlay["geoJson"]);
@@ -193,6 +209,7 @@ app.map = {
             this._choroplethOVerlay = null;
         }
 
+        return this;
     }   
 
 }

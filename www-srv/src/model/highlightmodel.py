@@ -90,6 +90,15 @@ class HighlightModel(PostgreSQLModel):
             credit_img_en ilike %s or
             credit_img_es ilike %s)"""
 
+        if published:
+            sql += """
+            order by publication_order asc
+            """
+        else:
+            sql += """
+            order by last_edit_time
+            """
+
         if page and listSize:
             sql += """
             offset %s limit %s
@@ -108,8 +117,6 @@ class HighlightModel(PostgreSQLModel):
                                                     search]).result()
         else:
             if page and listSize:
-                print(page, listSize)
-
                 results = self.query(sql, bindings=[(int(page)*listSize),listSize]).result()
             else:
                 results = self.query(sql).result()
@@ -215,7 +222,6 @@ class HighlightModel(PostgreSQLModel):
 
     def getSliderFrontend(self, lang):
         """Get the slider's data in language lang for the home, active and ordered.
-        TODO: SQL injection.
         """
         dv = DataValidator()
         dv.checkLang(lang)
@@ -224,7 +230,7 @@ class HighlightModel(PostgreSQLModel):
         id_highlight,
         title_{} as title,
         text_{} as text,
-        image_hash_{} || '.jpg' as image_file,
+        image_hash_{} as image_file,
         credit_img_{} as credit_img,
         link_{} as link,
         published,

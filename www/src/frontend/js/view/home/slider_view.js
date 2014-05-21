@@ -67,7 +67,10 @@ app.view.Slider = Backbone.View.extend({
     },
 
     goLink: function(){
-        window.open(this.collection.at(this._idx).get("link"),'_blank');
+        if (this.collection.at(this._idx).get("link")){
+            window.open(this.collection.at(this._idx).get("link"),'_blank');    
+        }
+        
     },
 
     drawSlide: function(){
@@ -77,7 +80,7 @@ app.view.Slider = Backbone.View.extend({
         }
 
         var $img = this.$co_imgs.find("img[data-img-idx="+this._idx+"]"),
-            loaded = $img[0].complete;
+            loaded = $img.length >0 ? $img[0].complete : true;
 
 
         this.$ctrl_images.children().removeAttr("selected");
@@ -104,7 +107,6 @@ app.view.Slider = Backbone.View.extend({
         newImage.animate({ opacity: 1 }, 'slow',function(){
             oldImage.remove();
         });
-        
 
         // no animation on start
         if (!this._firstAnimation){

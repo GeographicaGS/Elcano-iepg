@@ -41,6 +41,7 @@ $ pip install psycopg2
 #only to debug purpose
 $ pip install tweepy
 $ pip install ipdb
+$ pip install python-memcached
 ```
 
 
@@ -53,6 +54,11 @@ $ cp src/model/base/PostgreSQL/config_changes.py src/model/base/PostgreSQL/confi
 ```
 
 Ahora lo abrimos con cualquier editor de texto y lo modificamos con nuestros parámetros.
+
+Editamos el fichero de configuración global
+```
+cp src/common/config_changes.py  src/common/config.py
+```
 
 #### Backend
 
@@ -119,11 +125,13 @@ Instala node JS y ejecuta lo siguiente.
 
 ```
 sudo npm install -g jake
-sudo npm install -g uglifyjs
+sudo npm install -g uglify-js
 sudo npm install -g uglifycss
 sudo npm install -g jshint
 sudo npm install -g pg
 sudo npm install -g less
+# necesario para el builder-watcher 
+sudo npm install -g node-watch
 
 export NODE_PATH=/usr/local/lib/node_modules
 ```

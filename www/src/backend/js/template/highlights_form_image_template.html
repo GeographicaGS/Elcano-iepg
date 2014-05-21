@@ -5,14 +5,14 @@
 <% if (model["image_hash_" + lang]) { %>
     <div>
         <img src="/img/iconos/img_ICO.png" />
-        <a href="<%= imageFolder%>/<%= model["image_hash_" + lang] %>.jpg" class="ml5 simple_link"  target="_blank">
+        <a href="<%= imageFolder%>/<%= model["image_hash_" + lang] %>" class="ml5 simple_link"  target="_blank">
             <%= model["image_name_" + lang] %>
         </a>
         <a href="#" class="btn btnDeleteAjunto pull-right" title="<lang>Eliminar Imagen</lang>"></a>
     </div>
 <% } else { %>
     <button type="button" class="btn btnImg upload" name="image_hash_<%=lang%>">
-        Subir una imagen JPG (<%= lang == "es" ? "español" : "english" %>)
+        Subir una imagen JPG (<%= lang == "es" ? "español" : "inglés" %>)
     </button>
 <% } %>
 

@@ -10,13 +10,14 @@ from flask import jsonify,request,session,send_file
 from model.documentmodel import DocumentModel
 from model.helpers import DataValidator
 from backend.utils import auth, prettyNumber
-import config
+from common.config import backend
 from werkzeug.utils import secure_filename
 import werkzeug
 import os
 import hashlib
 import time
-import cons
+import common.const as cons
+import frontend.helpers
 
 
 @app.route('/download/pdf', methods=['GET'])
@@ -30,7 +31,7 @@ def downloadPdf():
     m = DocumentModel()
     pdf = m.getPdfData(request.args["idPdf"])
     
-    return(send_file(config.cfgBackend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
+    return(send_file(backend["mediaFolder"]+"/"+pdf["hash"]+".pdf", \
                      mimetype="application/pdf", attachment_filename=pdf["pdf_name"]+".pdf", \
                      as_attachment=True))
 
@@ -89,37 +90,37 @@ def newDocument():
 @app.route('/document/<int:id_document>', methods=['PUT'])
 @auth
 def editDocument(id_document):
-    """
-
-    Edits a document. Gets the id_document in the URL, and upload this
+    """Edits a document. Gets the id_document in the URL, and upload this
     JSON:
 
     {
-      "title_es": "Test document ES",
-      "title_en": "Test document EN",
-      "labels_es": [{"id": "1", "label": "Label A"},
-                    {"id": "2", "label": "Label B"},
-                    {"id": "4", "label": "Label c"}],
-      "labels_en": [{"id": "1", "label": "Label A"},
-                    {"id": "3", "label": "Label B"},
-                    {"id": "4", "label": "Label c"}],
-      "theme_es": "Theme ES",
-      "theme_en": "Theme EN",
-      "description_es": "Description ES",
-      "description_en": "Description EN",
-      "authors": ["@iliana", "@jpperez"],
-      "link_es": "Link ES",
-      "link_en": "Link EN",
-      "pdfs_es": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
-                  {"name": "pdf_es_2", "hash": "8383e83838283e838238"}, 
-                  {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
-      "pdfs_en": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
-                  {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
-                  {"name": "pdf_en_3", "hash": "8383e83838283e838238"}],
-      "published": "True"
-    }
-
-    """
+    "title_es": "Test document ES",
+    "title_en": "Test document EN",
+    "labels_es": [{"id": "1", "label": "Label A"},
+    {"id": "2", "label": "Label B"},
+    {"id": "4", "label": "Label c"}],
+    "labels_en": [{"id": "1", "label": "Label A"},
+    {"id": "3", "label": "Label B"},
+    {"id": "4", "label": "Label c"}],
+    "theme_es": "Theme ES",
+    "theme_en": "Theme EN",
+    "description_es": "Description ES",
+    "description_en": "Description EN",
+    "authors": [{name": "Charles Powell", "position_en": "Director of the Elcano Royal Institute",
+    "position_es": "Director del Real Instituto Elcano","twitter_user": "@iliana"}, 
+    {name": "Charles Powell", "position_en": "Director of the Elcano Royal Institute",
+    "position_es": "Director del Real Instituto Elcano","twitter_user": "@jpperez"}, 
+    {"name": "Charles Powell", "position_en": "Director of the Elcano Royal Institute",
+    "position_es": "Director del Real Instituto Elcano", "twitter_user": ""}],
+    "link_es": "Link ES",
+    "link_en": "Link EN",
+    "pdfs_es": [{"name": "pdf_es_1", "hash": "8383e83838283e838238"}, 
+    {"name": "pdf_es_2", "hash": "8383e83838283e838238"}, 
+    {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
+    "pdfs_en": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
+    {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
+    {"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
+    }"""
     m = DocumentModel()
     oldDocPdfEn = map(lambda p: p["hash"], m.getDocumentPdf(id_document, "en"))
     oldDocPdfEs = map(lambda p: p["hash"], m.getDocumentPdf(id_document, "es"))
@@ -151,16 +152,14 @@ def editDocument(id_document):
 
 def deletePdfFile(hash):
     """Deletes a PDF file from the filesystem."""
-    file = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
+    file = backend["mediaFolder"]+"/"+hash+".pdf"
     os.remove(file)
 
 
 def movePdfFile(hash):
     """Moves a PDF file within the filesystem."""
-    origin = config.cfgBackend["tmpFolder"]+"/"+hash+".pdf"
-    destination = config.cfgBackend["mediaFolder"]+"/"+hash+".pdf"
-    app.logger.info(origin)
-    app.logger.info(destination)
+    origin = backend["tmpFolder"]+"/"+hash+".pdf"
+    destination = backend["mediaFolder"]+"/"+hash+".pdf"
     os.rename(origin, destination)
 
 
@@ -192,19 +191,21 @@ def getDocumentList():
     out = []
 
     search = request.args["search"] if "search" in request.args else None
-    orderbyfield = request.args["orderbyfield"] if "orderbyfield" in request.args else "title"
-    orderbyorder = request.args["orderbyorder"] if "orderbyorder" in request.args else "asc"
+    # orderbyfield = request.args["orderbyfield"] if "orderbyfield" in request.args else "title"
+    # orderbyorder = request.args["orderbyorder"] if "orderbyorder" in request.args else "asc"
+    orderbyfield = "last_edit_time"
+    orderbyorder = "desc"
 
-    if "orderbyorder" in request.args:
-        if request.args["orderbyorder"] not in cons.orderBy:
-            return(jsonify(cons.errors["-2"]))
+    # if "orderbyorder" in request.args:
+    #     if request.args["orderbyorder"] not in cons.orderBy:
+    #         return(jsonify(cons.errors["-2"]))
 
-    if "orderbyfield" in request.args:
-        if request.args["orderbyfield"] not in cons.documentOrderFields:
-            return(jsonify(cons.errors["-3"]))
+    # if "orderbyfield" in request.args:
+    #     if request.args["orderbyfield"] not in cons.documentOrderFields:
+    #         return(jsonify(cons.errors["-3"]))
 
     totalSize = m.getDocumentListSize(search=search)
-    docs = m.getDocumentList(request.args["page"], config.cfgBackend["DocumentListLength"], \
+    docs = m.getDocumentList(request.args["page"], cons.backend["DocumentListLength"], \
                              search=search, orderByField=orderbyfield, orderByOrder=orderbyorder)
 
     for doc in docs:
@@ -223,11 +224,7 @@ def getDocumentList():
         thisDoc["time"] = doc["time"]
         thisDoc["published"] = doc["published"]
 
-        authors = []
-        for author in m.getDocumentAuthors(doc["id"]):
-            authors.append(author["twitter_user"])
-
-        thisDoc["authors"] = authors
+        thisDoc["authors"] = m.getDocumentAuthors(doc["id"])
         thisDoc["attachments"] = False
         if len(m.getDocumentPdf(doc["id"]))>0:
             thisDoc["attachments"] = True
@@ -251,7 +248,9 @@ def allowedFilePDF(filename):
 @app.route("/document/upload_pdf",methods=["POST"])
 @auth
 def uploadPDF():
-    """Uploads a file."""
+    """Uploads a file. In Postman, use POST, form-data, 
+    add a parameter called 'file' of type 'file' and 
+    select the file from the filesystem."""
     try:
         file = request.files['file']
         if file and allowedFilePDF(file.filename):
@@ -259,7 +258,7 @@ def uploadPDF():
             filename, fileExtension = os.path.splitext(filename)
             filename = hashlib.md5(str(time.time())+ session["email"]).hexdigest() 
 
-            file.save(os.path.join(config.cfgBackend['tmpFolder'], filename + ".pdf"))
+            file.save(os.path.join(backend['tmpFolder'], filename + ".pdf"))
             return jsonify(  {"filename": filename} )  
         
         return jsonify(  {"error": -1} )    
@@ -287,7 +286,6 @@ def getDocument(id_document):
         authors = m.getDocumentAuthors(id_document)
         labels_es = m.getDocumentLabels(id_document,"es")
         labels_en = m.getDocumentLabels(id_document,"en")
-
         json = {
             "id" : d["id_document"],
             "title_en" : d["title_en"],
@@ -298,7 +296,7 @@ def getDocument(id_document):
             "description_es" : d["description_es"],
             "link_es" : d["link_es"],
             "link_en" : d["link_en"],
-            "published" : True if d["published"] == "t" else False,
+            "published" : d["published"],
             "last_edit_id_user" : d["last_edit_id_user"],
             "last_edit_time" : d["last_edit_time"],
             "pdfs_es" : pdfs_es,
@@ -323,3 +321,16 @@ def togglePublish(id_document):
         return jsonify(cons.errors["-4"])
     else:
         return jsonify({"result" : status})
+
+
+@app.route("/twitter/<string:twitterUser>", methods=["GET"])
+@auth
+def existsTwitterUser(twitterUser):
+    """Checks if a Twitter user exists."""
+    a = frontend.helpers.twitterGetUserInfo(twitterUser)
+    if a:
+        return(jsonify({"result": True}))
+    else:
+        return(jsonify({"result": False}))
+
+    

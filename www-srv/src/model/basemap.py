@@ -7,7 +7,7 @@ Base model for map data.
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 from common.errorhandling import DataValidator
-from common.const import iepg_variables, context_variables
+from common.const import variables
 
 
 class GeometryData(PostgreSQLModel):

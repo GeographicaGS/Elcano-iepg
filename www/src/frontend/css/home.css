@@ -25,11 +25,13 @@
     
     #explora_desc{
         p{
-            margin-top: 15px;
+            margin-top: 50px;
             line-height: 30px;
             margin-bottom: @line_height;
             height: 150px;
             .roboto(light);
+            /* Just for hide long text*/
+            overflow: hidden;
 
             strong{
                 .roboto(medium);
@@ -40,8 +42,7 @@
             float:left;
             color:@white;
             font-size: 24px;
-            padding: 13px 0 13px 70px;
-            margin-right: 20px;
+            padding: 13px 20px 13px 70px;
             height: 60px;
              .roboto(medium);
         }
@@ -152,6 +153,10 @@
                             background: url("@{imgPath}ELC_icon_acceder_form.png") no-repeat right center;
                         }
 
+                        li:hover{
+                            color:@red;
+                        }
+
                         li:last-child{
                             border-bottom: none;
                         }
@@ -205,13 +210,18 @@
                         }
                         
                         li:hover{
-                            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat 10px center;
-                            color:@red !important;
+                            
+                            a{
+                                color:@red;
+                            }
                         }
 
                         li[selected]{
                             background: url("@{imgPath}ELC_icon_select_form.png") no-repeat 10px center;
-                            color:@red;
+                            a{
+                                color:@red;
+                            }
+
                         }
 
                     }
@@ -265,6 +275,9 @@
                                 .roboto();
                                 font-size: 16px;
                             }
+                            a:hover{
+                                color: @red;
+                            }
                         }
 
                         li:last-child a{
@@ -272,6 +285,10 @@
                         }
                         li[selected]{
                             background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left 10px center;
+
+                            a{
+                                color:@red;
+                            }
                         }
                     }
                 }
@@ -290,7 +307,7 @@
         }
 
         button.go_explora:hover{
-            background-color:@red;
+            background-color:@grey;
         } 
 
         .faq{
@@ -302,6 +319,11 @@
             a{ 
                 color: @grey_dark;
                 font-size: 13px;
+                border-bottom: none;
+            }
+
+            a:hover{
+                border-bottom: 1px solid @grey;
             }
         }
 
@@ -348,17 +370,27 @@
         /*height: 45px;*/
 
         li{
-            color: @grey_light;
+            
             font-size: 15px;
             height: 45px;
             line-height: 45px;
             padding: 0 15px;
             .roboto_cond(bold);
+            a{
+                border-bottom: none;
+                color: @grey_light;
+            }
+
+            a:hover{
+                color:@red;
+            }
         }
 
         li[selected]{
-            color:@red;
             border-bottom: 1px solid @red;
+            a{
+                color:@red;
+            }
         }
 
         @media (max-width: @md_res){
@@ -366,6 +398,16 @@
             .top_title{
                 padding-left: 24px;
             }
+        }
+    }
+
+    p[twitter]{
+        color:@grey;
+        a{
+            color:@grey_dark;
+        }
+        a:hover{
+            border-bottom: 1px solid @grey_light;
         }
     }
 
@@ -408,7 +450,7 @@
                 color: @grey_light;
                 .roboto(thin);
                 font-size: 40px;
-                line-height: 45px;
+                line-height: 47px;
                 color:@white;
                 overflow:hidden;
             }   
@@ -428,7 +470,6 @@
             position: absolute;
             right:15px;
             top: 2*@line_height;
-            text-indent: -900px;
             list-style: circle;
             z-index:3;
             
@@ -440,13 +481,12 @@
                 margin-left: 8px;
                 float:left;
                 cursor: pointer;
+                display: block;
             }
 
             li[selected]{
                 background-color: @yellow;   
             }
-
-            
         }
         
     }
@@ -508,7 +548,7 @@
 @slider_height_1024 : 360px;
 @slider_height_1280 : 420px;
 @slider_height_1680 : 480px;
-@slider_line_height : 45px;
+@slider_line_height : 47px;
 
 #slider{
     cursor: pointer;

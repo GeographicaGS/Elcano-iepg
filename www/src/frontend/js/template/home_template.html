@@ -4,12 +4,15 @@
     <div class="container maxFixWidth">
 
         <div class="col-md-7 col-sm-12" id="explora_desc" >
-            <h3><lang>Qué mide el índice Elcano de presencia global</lang></h3>
-            <p class="size_24" data-el="default"><lang>El 
-                <a class="nostyle" href="/<lang>lang</lang>/<lang>_link about</lang>"><strong>Índice Elcano de Presencia Global</strong> </a>calcula, 
-                anualmente, la proyección exterior de una selección 
-                de 70 países. Para calcular este Índice se agregan 
-                indicadores en tres dimensiones:</lang>
+            <!-- <h3><lang>Qué mide el índice Elcano de presencia global</lang></h3> -->
+            <p class="size_24" data-el="default">
+                <%
+
+                    s = "<lang>_home IEPG explora desc</lang>";
+                    link = "<lang>lang</lang>/<lang>_link about</lang>";
+
+                    print(sprintf(s,link));
+                %>
             </p>
             
             <p class="size_24 hide" data-el="soft"><lang>La <strong>presencia blanda</strong> se mide a través de las 
@@ -40,7 +43,7 @@ directas en el exterior.</lang>
         </div>
 
         <div class="col-md-4 col-md-offset-1 col-sm-6 col-sm-offset-3" id="explora_sel">
-            <h3>Explora el índice</h3>
+            <h3><lang>Explora el índice</lang></h3>
             <div id="co_year">
                 <div id="year">
                     2012
@@ -73,7 +76,7 @@ directas en el exterior.</lang>
             
             <button class="go_explora"><lang>Calcular</lang></button>
             <div class="faq">
-                <a href=""><lang>Preguntas más frecuentes</lang></a>
+                <a href="" class=><lang>Preguntas más frecuentes</lang></a>
             </div>
         </div>
         <div class="clear"></div>
@@ -94,7 +97,7 @@ directas en el exterior.</lang>
                     <li selected><a href=""><lang>Todas</lang></a></li>
                     <li><a href=""><lang>Blog</lang></a></li>
                     <li><a href=""><lang>En los medios</lang></a></li>
-                    <li><a href=""><lang>Actividades</lang></a></li>
+                    <li><a href=""><lang>Eventos</lang></a></li>
                     <li><a href=""><lang>Documentos y publicaciones</lang></a></li>
                     <li><a href=""><lang>Twitter</lang></a></li>
                 </ul>
@@ -103,6 +106,7 @@ directas en el exterior.</lang>
 
         </div>
     </div>
+
  
     <div class="container maxFixWidth">
         <div id="co_news" class="list_els"></div>
@@ -110,7 +114,9 @@ directas en el exterior.</lang>
 
         <div class="row mth1">
             <div class="col-md-offset-2 col-md-10">
-                <button class="button go">Más noticias</button>
+                <a href="/<lang>lang</lang>/<lang>_link news</lang>" class="button go">
+                   Más noticias
+                </a>
                 <a href="/<lang>lang</lang>/<lang>_link docs</lang>"class="ml button go"><lang>Documentos y publicaciones</lang></a>
             </div>
         </div>

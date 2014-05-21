@@ -5,18 +5,22 @@ app.model.New = Backbone.Model.extend({
         return {
             title_es: {
                 maxLength : 150,
-                requiredGroup: this._titleRequiredGroup
+                //requiredGroup: this._titleRequiredGroup
+                required: true
             },
             title_en : {
                 maxLength : 150,
-                requiredGroup: this._titleRequiredGroup
+                //requiredGroup: this._titleRequiredGroup
+                required: true
             },
 
             text_es: {
-                requiredGroup: this._textRequiredGroup
+                //requiredGroup: this._textRequiredGroup
+                required: true
             },
             text_en : {
-                requiredGroup: this._textRequiredGroup
+                //requiredGroup: this._textRequiredGroup
+                required: true
             },
            
             url_es: {
@@ -35,8 +39,8 @@ app.model.New = Backbone.Model.extend({
         return app.config.API_URL + "/new";
     },
     parse : function(response,options){
-        response.label_es  =  new Backbone.Collection(response.label_es);
-        response.label_en  =  new Backbone.Collection(response.label_en);
+        response.labels_es  =  new Backbone.Collection(response.labels_es);
+        response.labels_en  =  new Backbone.Collection(response.labels_en);
         return response;
     }
 });

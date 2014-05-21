@@ -32,9 +32,12 @@ class DocumentModel(PostgreSQLModel):
         select
         gs__uniquearray(array_agg(dl.id_document)::int[]) as id_document
         from
-        www.document_label_{} dl inner join
+        www.document doc inner join
+        www.document_label_{} dl on
+        doc.id_document=dl.id_document inner join
         www.label_{} l on dl.id_label_{}=l.id_label_{}
         where
+        doc.published and
         """.format(lang,lang,lang,lang)
 
         bi = []
@@ -49,10 +52,13 @@ class DocumentModel(PostgreSQLModel):
     def searchInAuthors(self, search):
         """Gets the list of documents ID on a search by author name and Twitter user."""
         sql = """
-        select gs__uniquearray(array_agg(id_document)::int[]) as id_document
+        select gs__uniquearray(array_agg(au.id_document)::int[]) as id_document
         from
-        www.author
+        www.author au inner join 
+        www.document doc on
+        au.id_document=doc.id_document
         where
+        doc.published and
         """
         if search is None:
             return None
@@ -83,6 +89,7 @@ class DocumentModel(PostgreSQLModel):
         with a as(
         select
         a.id_document as id,
+        a.published as published,
         gs__uniquearray(array_agg(id_label_{})::int[]) as labels
         from
         www.document a inner join
@@ -95,8 +102,8 @@ class DocumentModel(PostgreSQLModel):
         gs__uniquearray(array_agg(id)::int[]) as id_document
         from a
         where
+        published and 
         array[""".format(lang,lang)+labels+"""]::int[] <@ labels;"""
-
         return(self.query(sql).row())
 
 
@@ -111,11 +118,12 @@ class DocumentModel(PostgreSQLModel):
           gs__uniquearray(array_agg(id_document)::int[]) as id_document
         from
           www.document
+        where published
         """
 
         bi = []
         if search:
-            sql += "where"
+            sql += " and "
             for s in search.split(","):
                 sql += """
                 (title_{} ilike %s or
@@ -213,12 +221,11 @@ class DocumentModel(PostgreSQLModel):
                      "theme_es": data["theme_es"],
                      "description_en": data["description_en"],
                      "description_es": data["description_es"],
-                     "last_edit_time": datetime.datetime.now().isoformat(),
+                     "last_edit_time": datetime.datetime.utcnow().isoformat(),
                      "last_edit_id_user": session["id_user"],
                      "last_edit_id_user": "1",
                      "link_en": data["link_en"],
-                     "link_es": data["link_es"],
-                     "published": data["published"]},
+                     "link_es": data["link_es"]},
                     {"id_document": id_document})
 
         q = "delete from www.author where id_document=%s"
@@ -304,8 +311,6 @@ class DocumentModel(PostgreSQLModel):
         order by {} {} offset %s limit %s;
         """.format(orderByField, orderByOrder)
 
-        print docs
-
         if search:
             return self.query(docs, bindings=[ \
                                                search, search, search, search, search, search, \
@@ -354,7 +359,7 @@ class DocumentModel(PostgreSQLModel):
 
 
     def __createAuthor(self, data, id_document):
-        if "twitter_user" in data:
+        if data["twitter_user"]:
             self.insert("www.author",
                         {"id_document": id_document,
                          "twitter_user": data["twitter_user"]})

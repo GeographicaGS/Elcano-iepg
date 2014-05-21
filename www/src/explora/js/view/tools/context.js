@@ -23,7 +23,10 @@ app.view.tools.context = function(id){
         // List of the current slider in the context. 
         "slider": [],
         // List of variables
-        "variables": ["iepg"],    
+        "variables": ["iepg"],
+
+        // Family it could be iepg or iepe
+        "family" : "iepg"
     };
 
 
@@ -41,10 +44,15 @@ app.view.tools.context = function(id){
                 "date" : "Mon Jan 1 1995 00:00:00 GMT+0000", // date object
             },
             {
+                "type": "PointReference",
+                "date" : "Mon Jan 1 1995 00:00:00 GMT+0000", // date object
+            },
+            {
                 "type" : "Interval",
                 "date_start": "Mon Jan 1 2005 00:00:00 GMT+0000", // date object
                 "date_finish": "Mon Jan 1 2006 00:00:00 GMT+0000", // date object
-            }
+            },
+
         ],
         // List of variables
         "variables": [1],    
@@ -105,5 +113,30 @@ app.view.tools.context = function(id){
     this.clear = function(){
         localStorage.removeItem("context-"+this.id);
     }
+
+    // This method remove countries which are not present in the filter
+    this.removeCountriesNotPresentInFilter = function(){
+        var filters = app.getFilters();
+        if (filters.length){
+            // Remove missing countries
+            for (var i=0;i<this.data.countries.list.length;i++){
+                var index = filters.indexOf(this.data.countries.list[i]);
+                if (index == -1) {
+                    this.data.countries.list.splice(i, 1);
+                }
+            }    
+
+            // Remove selected missing countries
+            for (var i=0;i<this.data.countries.selection.length;i++){
+                var index = filters.indexOf(this.data.countries.selection[i]);
+                if (index == -1) {
+                    this.data.countries.selection.splice(i, 1);
+                }
+            }    
+        }
+
+
+
+    }    
 
 };

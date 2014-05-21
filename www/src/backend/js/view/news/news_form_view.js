@@ -16,11 +16,11 @@ app.view.news.FormView = Backbone.View.extend({
             },
             {
                 "id" : 2,
-                "description" : "Media"
+                "description" : "En los medios"
             },
             {
                 "id" : 3,
-                "description" : "Events"
+                "description" : "Eventos"
             },
         ]);
      
@@ -121,11 +121,11 @@ app.view.news.FormView = Backbone.View.extend({
             label = $input.val().trim(),
             lang = $e.closest(".ctrl_labels").attr("id").substr(-2);
         
-        if (label) {
+        if (label && !this.labels[lang].where({"label": label}).length) {
             this.labels[lang].create({label: label});
-            $input.val("");
         }
         
+        $input.val("");
         
     },
     

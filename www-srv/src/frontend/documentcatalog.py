@@ -11,8 +11,8 @@ from flask import jsonify,request
 from model.documentmodel import DocumentModel
 from model.labelmodel import LabelModel
 from model.helpers import ElcanoError
-import config
-import cons
+from common import config as config
+from common import const as cons
 from operator import itemgetter
 
 
@@ -89,7 +89,7 @@ def getDocumentCatalog():
         
     sortedOut = sorted(out, key=itemgetter("time"), reverse=True)
 
-    return(jsonify({"results": sortedOut[page*cons.documentCatalogListSize: \
-                                         (page*cons.documentCatalogListSize)+ \
-                                         cons.documentCatalogListSize], \
+    return(jsonify({"results": sortedOut[page*cons.frontend["documentCatalogListSize"]: \
+                                         (page*cons.frontend["documentCatalogListSize"])+ \
+                                         cons.frontend["documentCatalogListSize"]], \
                     "listSize": len(sortedOut), "page": page}))

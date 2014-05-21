@@ -1,12 +1,8 @@
-<%
-
-n_selected = app.baseView.tools.length;
-%>
-<div class="conteiner-fluid popup variable_selector" >
+<div class="conteiner-fluid variable_selector popup" >
         <div class="header">
             <div class="row">
                 <h3 class="col-sm-6 col-md-6">
-                    <lang>Herramientas de análisis</lang>
+                    <lang>Análisis de variables</lang>
                 </h3>
 
                 <div class="col-sm-6  col-md-6">
@@ -15,66 +11,161 @@ n_selected = app.baseView.tools.length;
                     <a href="#" id="cancel" class="grey_light">Cancelar</a>
                 </div>
             </div>
-            <div class="row">
-                 <div class="col-xs-12" id="n_selected">
-                    <%
-                        if (n_selected === 0){
-                            print("<lang>0 herramientos seleccionadas</lang>");
-                        }
-                        else if (n_selected==1){
-                            print("<lang>1 herramienta seleccionada</lang>");
-                        }
-                        else{
-                            print(sprintf("<lang>%d herramientas seleccionadas</lang>",n_selected));   
-                        }
-                    %>
-                </div>
-            </div>
         </div>
 
-        <div class="co_selectable_tools body">
-            <ul class="">
-                <li class="col-md-4 col-sm-6">
-                    <a href="#" tool="country" <%= app.baseView.getToolByType("country") ? "selected" : "" %>>
-                        <img src="/<lang>lang</lang>/img/test.png">
-                        <p>
-                            <strong>1. <lang>Ficha país</lang></strong>
-                            <lang>Ficha país descripción TEXTO</lang>
-                        </p> 
-                        <div class="ico"></div>
-                    </a>
-                </li>
-                <li class="col-md-4 col-sm-6">
-                    <a href="#" tool="ranking" <%= app.baseView.getToolByType("ranking") ? "selected" : "" %>>
-                        <img src="/<lang>lang</lang>/img/test.png">
-                        <p>
-                            <strong>2. <lang>Ranking</lang></strong>
-                            <lang>Ranking descripción TEXTO</lang>
-                        </p> 
-                        <div class="ico"></div>
-                    </a>
-                </li>
-                <li class="col-md-4 col-sm-6">
-                    <a href="#" tool="contributions" <%= app.baseView.getToolByType("contributions") ? "selected" : "" %>>
-                        <img src="/<lang>lang</lang>/img/test.png">
-                        <p>
-                            <strong>3. <lang>Contribuciones de presencia</lang></strong>
-                            <lang>Contribuciones de presencia descripción TEXTO</lang>
-                        </p> 
-                        <div class="ico"></div>
-                    </a>
-                </li>
-                <li class="col-md-4 col-sm-6">
-                    <a href="#" tool="quotes" <%= app.baseView.getToolByType("quotes") ? "selected" : "" %>>
-                        <img src="/<lang>lang</lang>/img/test.png">
-                        <p>
-                            <strong>4. <lang>Cuotas de presencia</lang></strong>
-                            <lang>Cuotas de presencia descripción TEXTO</lang>
-                        </p> 
-                        <div class="ico"></div>
-                    </a>
-                </li>
-            </ul>
+        <div class="body">
+            <div class="col-md-4">
+                <h4><%= app.variableToString(ctx.variables[0]) %></h4>
+
+                <p id="iepg_text" class="desc">
+                    <lang>Variable IEPG desc TEXTO</lang>
+                </p>
+                 <p id="iepe_text" class="desc">
+                    <lang>Variable IEPE desc TEXTO</lang>
+                </p>
+
+                <p id="economic_presence_text" class="desc">
+                    <lang>Variable economic_presence desc TEXTO</lang>
+                </p>
+
+                 <p id="soft_presence_text" class="desc">
+                    <lang>Variable soft_presence desc TEXTO</lang>
+                </p>
+
+                <p id="military_presence_text" class="desc">
+                    <lang>Variable military_presence desc TEXTO</lang>
+                </p>
+
+                <!-- Military presence -->
+                <p id="troops_text" class="desc">
+                    <lang>Variable troops desc TEXTO</lang>
+                </p>
+                <p id="military_equipment_text" class="desc">
+                    <lang>Variable military_equipment desc TEXTO</lang>
+                </p>
+
+                <!-- Economic presence -->
+                <p id="energy_text" class="desc">
+                    <lang>Variable energy desc TEXTO</lang>
+                </p>
+                <p id="primary_goods_text" class="desc">
+                    <lang>Variable primary_goods desc TEXTO</lang>
+                </p>
+                <p id="manufactures_text" class="desc">
+                    <lang>Variable manufactures desc TEXTO</lang>
+                </p>
+                <p id="services_text" class="desc">
+                    <lang>Variable services desc TEXTO</lang>
+                </p>
+                <p id="investments_text" class="desc">
+                    <lang>Variable investments desc TEXTO</lang>
+                </p>
+
+                <!-- Soft presence -->
+                <p id="migrations_text" class="desc">
+                    <lang>Variable migrations desc TEXTO</lang>
+                </p>
+                <p id="tourism_text" class="desc">
+                    <lang>Variable tourism desc TEXTO</lang>
+                </p>
+                <p id="sports_text" class="desc">
+                    <lang>Variable sports desc TEXTO</lang>
+                </p>
+                <p id="culture_text" class="desc">
+                    <lang>Variable culture desc TEXTO</lang>
+                </p>
+                <p id="information_text" class="desc">
+                    <lang>Variable information desc TEXTO</lang>
+                </p>
+                <p id="technology_text" class="desc">
+                    <lang>Variable technology desc TEXTO</lang>
+                </p>
+                <p id="science_text" class="desc">
+                    <lang>Variable science desc TEXTO</lang>
+                </p>
+                <p id="education_text" class="desc">
+                    <lang>Variable education desc TEXTO</lang>
+                </p>
+                <p id="cooperation_text" class="desc">
+                    <lang>Variable cooperation desc TEXTO</lang>
+                </p>
+            </div>
+            <div class="col-md-8">
+
+                <!--Begin Wheel -->
+                <div class="co_wheel">
+                    <div class="wheel">
+                        <div class="l0">
+                            <div class="iepg"><div class="img" variable="iepg"></div></div>
+                        </div>
+                        <div class="l1">
+                            <div class="eco"><div class="img" variable="economic_presence"></div></div>
+                            <div class="soft"><div class="img" variable="soft_presence"></div></div>
+                            <div class="militar"><div class="img" variable="military_presence"></div></div>
+                        </div>
+                        <div class="l2">
+                            <div class="troops">
+                                <div class="img" variable="troops"></div>
+                                <div class="sep"></div>
+                            </div>
+                            <div class="military_equipment">
+                                <div class="img" variable="military_equipment"></div>
+                                <div class="sep"></div>
+                            </div>
+
+                            <div class="energy">
+                                <div class="img" variable="energy"></div>
+                                <div class="sep"></div>
+                            </div>
+                            <div class="primary_goods">
+                                <div class="img" variable="primary_goods"></div>
+                            </div>
+                            <div class="manufactures">
+                                <div class="img" variable="manufactures"></div>                        
+                            </div>
+                            <div class="services">
+                                <div class="img" variable="services" ></div>
+                            </div>
+                            <div class="investments">
+                                <div class="img" variable="investments"></div>
+                            </div>
+
+                            <div class="migrations">
+                                <div class="img" variable="migrations"></div>
+                            </div>
+                            <div class="tourism">
+                                <div class="img" variable="tourism"></div>
+                            </div>
+                            <div class="sports">
+                                <div class="img" variable="sports"></div>
+                            </div>
+                            <div class="culture">
+                                <div class="img" variable="culture"></div>
+                            </div>
+                            <div class="information">
+                                <div class="img" variable="information"></div>
+                            </div>
+                            <div class="technology">
+                                <div class="img" variable="technology"></div>
+                            </div>
+                            <div class="science">
+                                <div class="img" variable="science"></div>
+                            </div>
+                            <div class="education">
+                                <div class="img" variable="education"></div>
+                            </div>
+                            <div class="cooperation">
+                                <div class="img" variable="cooperation"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End wheel -->
+            </div>
+       
+
+            
+
         </div>
     </div>
 </div>

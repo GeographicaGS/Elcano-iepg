@@ -1,8 +1,10 @@
 app.view.VariableSelector = Backbone.View.extend({
     _template : _.template( $('#variable_selector_template').html() ),
-    // Stack to stored the selection stack
-    _toolsSelectedStack : null,
+    _variable : null,
     initialize: function(options){
+
+        this._variable = app.context.data.variables[0];
+
 
         var self = this;
 
@@ -13,23 +15,11 @@ app.view.VariableSelector = Backbone.View.extend({
 
         $.fancybox(this.$el, opts);
 
-        this._toolsSelectedStack = [];
-
-        // At tools to the stack.
-        for (var i=0;i<app.baseView.getTools().length;i++){
-            var tool = app.baseView.getTools()[i];
-            // Don't add the current tool, this will be added at the top
-            if (app.baseView.currentTool != tool){
-                this._toolsSelectedStack.push(tool.type)
-            }
-        }
-
-        // at the current tool at the top of the stack
-        this._toolsSelectedStack.push(app.baseView.currentTool.type);
-
         $(window).on('resize', function(){
             self.render();
         });
+
+
 
         //this.render();
     },
@@ -37,7 +27,9 @@ app.view.VariableSelector = Backbone.View.extend({
     events : {
         "click #save": "save",
         "click #cancel": "cancel",
-        "click a[tool]" : "clickTool"
+        "click [variable]" : "clickVariable",
+        "mouseenter [variable]" : "mouseenterVariable",
+        "mouseleave [variable]" : "mouseleaveVariable",
     },
 
     onClose: function(){
@@ -47,17 +39,23 @@ app.view.VariableSelector = Backbone.View.extend({
         $(window).off('resize');
     },
 
+
+    _renderVariableInfo: function(v){
+        this.$(".desc").hide();
+        this.$("h4").html(app.variableToString(v));
+        this.$("#" + v + "_text").show();
+    },
+
     render: function(){
         console.log("Render app.view.VariableSelector");
 
         this.$el.html(this._template({
             ctx: app.context.data,
         }));
-    
-        //this.$(".body").height(this.$el.closest(".fancybox-inner").height() - this.$(".header").outerHeight(true));
 
-        this.$n_selected = this.$("#n_selected");
-
+        this._renderVariableInfo(this._variable);
+        this.$(".img[variable='" + this._variable +"']").attr("selected",true);
+        
         return this;
     },
 
@@ -68,97 +66,37 @@ app.view.VariableSelector = Backbone.View.extend({
 
     save: function(){
         $.fancybox.close();
-        
-        // var ctx =  app.context;
-        // ctx.data.countries.list = $.map(this.$(".co_selectable_tools a[selected]"),function(e) { return $(e).attr("tool") });
-        // ctx.removeInvalidSelected();
 
         app.events.trigger("closepopup",this);
 
-        var tools_sel = $.map(this.$(".co_selectable_tools a[selected]"),function(e) { return $(e).attr("tool") }),
-            tools_nosel = $.map(this.$(".co_selectable_tools a:not([selected])"),function(e) { return $(e).attr("tool") }),
-            // the current tool is the tool at the top of the stack
-            currentTool = this._toolsSelectedStack.length > 0 ?  this._toolsSelectedStack[this._toolsSelectedStack.length -1] : null;  
-
-        // remove no selected tools which are loaded
-        for (var i=0;i<tools_nosel.length;i++){
-            var tool = app.baseView.getToolByType(tools_nosel[i]);
-            if (tool){
-                app.baseView.removeTool(tool);
-            }
-        }
-
-        // add sel tool which are no loaded
-        for (var i=0;i<tools_sel.length;i++){
-            var tool = app.baseView.getToolByType(tools_sel[i]);
-            if (!tool){
-                tool = app.baseView.getInstanceViewByType(tools_sel[i]);
-                app.baseView.addTool(tool);
-            }
-        }
-
-        // move to front the current tool
-        if (currentTool){
-            app.baseView.bringToolToFront(app.baseView.getToolByType(currentTool));
-        }
-
+        app.events.trigger("variable:changed",this._variable);
+  
     },
 
-    refreshCounterElements: function(){
-        var n = this.$(".co_selectable_tools a[selected]").length;
-
-        var html = "";
-
-        if (n === 0){
-            html = "<lang>0 países seleccionados</lang>";
-        }
-        else if (n==1){
-            html ="<lang>1 país seleccionado</lang>";
-        }
-        else{
-            html = sprintf("<lang>%d países seleccionados</lang>",n);   
-        }
-        
-        this.$n_selected.html(html);
-
-    },
-
-    _removeToolFromStack: function(tool){
-        var index = this._toolsSelectedStack.indexOf(tool);
-        if (index > -1) {
-            this._toolsSelectedStack.splice(index, 1);
-        }
-    },
-
-    _addToolToTopStack: function(tool){
-        // If exists let's remove the tool from stack 
-        this._removeToolFromStack(tool);
-        this._toolsSelectedStack.push(tool);
-    },
-
-    clickTool: function(e){
+    clickVariable: function(e){
         e.preventDefault();
-        var $e = $(e.target).closest("a"),
-            sel = $e.attr("selected"),
-            tool = $e.attr("tool");
+        var $e = $(e.target),
+            variable = $e.attr("variable");
 
-        if (sel !== undefined && sel!="undefined"){
-            // Unselect element
-            $e.removeAttr("selected");
-            this._removeToolFromStack(tool);
-        } 
-        else{
-            $e.attr("selected",true);
-            this._addToolToTopStack(tool);
+        this._variable = variable;
 
-        }
+        this._renderVariableInfo(variable);
 
+        this.$(".img").attr("selected",false);
 
+        $e.attr("selected",true);
 
-        this.refreshCounterElements();
+    },
+
+    mouseenterVariable: function(e){
+        var $e = $(e.target),
+            variable = $e.attr("variable");
+
+        this._renderVariableInfo(variable);
+    },
+
+    mouseleaveVariable: function(e){
+        this._renderVariableInfo(this._variable);
     }
-
-
-    
 
 });

@@ -40,6 +40,7 @@ deps.Backend.JS = {
 			"backend/js/collection/highlighs_published_collection.js",
 			"backend/js/collection/highlighs_unpublished_collection.js",
 			"backend/js/collection/new_collection.js",
+			"backend/js/collection/authors_collection.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -91,7 +92,8 @@ deps.Frontend.JS = {
 			"frontend/js/lib/underscore-min.js",
 			"frontend/js/lib/backbone-min.js",
 			"frontend/js/lib/d3.v3.min.js",	
-			"frontend/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",			
+			"frontend/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",		
+			"frontend/js/lib/sprintf.min.js",	
 		],
 		desc: "Third party library"
 	}
@@ -117,6 +119,7 @@ deps.Frontend.JS = {
 			"frontend/js/collection/docs/docs_collection.js",
 			"frontend/js/collection/docs/label_collection.js",
 			"frontend/js/collection/news/news_collection.js",
+			"frontend/js/collection/countries_plain_collection.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -138,6 +141,8 @@ deps.Frontend.JS = {
 			"frontend/js/view/privacity_view.js",
 
 			"frontend/js/view/about/about_view.js",
+			"frontend/js/view/about/methodology_view.js",
+			"frontend/js/view/about/structure_view.js",
 
 			// router
 			"frontend/js/router.js",
@@ -171,6 +176,7 @@ deps.Explora.JS = {
 	ThirdParty:{
 		src: [
 			"explora/js/lib/jquery-2.0.3.min.js",
+			"explora/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",
 			"explora/js/lib/underscore-min.js",
 			"explora/js/lib/backbone-min.js",
 			"explora/js/lib/d3.v3.min.js",
@@ -194,6 +200,7 @@ deps.Explora.JS = {
 			// ------  Models ------
 			// --------------------
 			"explora/js/model/tools/country_tool_model.js",
+		
 
 			
 			// --------------------
@@ -202,6 +209,7 @@ deps.Explora.JS = {
 			"explora/js/collection/countries.js",
 			"explora/js/collection/filter.js",
 			"explora/js/collection/country_tool_map.js",
+			"explora/js/collection/ranking_tool.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -213,6 +221,7 @@ deps.Explora.JS = {
 			"explora/js/view/tools/common/countries_view.js",
 			"explora/js/view/tools/common/slider_view.js",
 			"explora/js/view/tools/common/slider_singlepoint_view.js",
+			"explora/js/view/tools/common/slider_singlepoint_reference_view.js",
 
 			// Tools views
 			"explora/js/view/tools/country_tool_view.js",
@@ -224,7 +233,9 @@ deps.Explora.JS = {
 			"explora/js/view/tools/context.js",
 
 			"explora/js/view/country_selector_view.js",
+			"explora/js/view/tool_selector_view.js",
 			"explora/js/view/variable_selector_view.js",
+			"explora/js/view/filter_selector_view.js",
 			"explora/js/view/filter_view.js",
 			"explora/js/view/notfound_view.js",
 			"explora/js/view/error_view.js",
@@ -254,6 +265,7 @@ deps.Explora.CSS = {
 			"explora/css/base.css",
 			"explora/css/styles.css",
 			"explora/css/tool.css",
+			"explora/css/variable.css"
 		]
 	}
 };

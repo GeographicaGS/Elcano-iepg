@@ -7,26 +7,33 @@ Explora country services.
 """
 from explora import app
 from flask import jsonify,request,send_file,make_response
-from common.helpers import cacheWrapper, baseMapData
-import cons
+from common.helpers import cacheWrapper, baseMapData, arrayIntersection
 import json
 from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError
-from common.const import context_variables, iepg_variables, years
-
-@app.route('/country/<string:country>/<int:year>/<int:variable>/<string:lang>', methods=['GET'])
-def country(country,year,variable,lang):
-    return jsonify({
-        "id_country" : country,
-        "name": "España",
-        "year" : year,
-        "lang" : lang,
-        "variable" : variable,
-        "summary" : "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
-    })
+from common.const import variables, years, blocks
+from helpers import processFilter
 
 
-# Those are the ones
+
+
+# TEST BEGINS 
+
+from common.helpers import blocksSumCalculateData
+
+# @app.route('/test/<string:blockCode>/<int:year>/<string:family>/<string:variable>', methods=["GET"])
+# def test(blockCode, year, family, variable):
+#     print(blocksGetData(blockCode))
+
+#     print(blocksSumCalculateData(blockCode, year, family, variable))
+
+#     return(jsonify({"results": "caca"}))
+
+
+# TEST ENDS
+
+
+
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
 def countryFilter(lang):
@@ -37,41 +44,70 @@ def countryFilter(lang):
         return(jsonify(e.toDict()))
 
 
-@app.route('/countrysheet/<string:lang>/<string:countryCode>', methods=['GET'])
-def countrySheet(lang, countryCode):
+@app.route('/blocks/<string:lang>/<int:year>', methods=["GET"])
+def blocksData(lang, year):
+    """Retrieves currently available blocks data (based on filtered countries).
+    Params:
+    
+    filter: country filter
+    """
+    if "filter" in request.args:
+        countryFilter = request.args["filter"]
+        if countryFilter=="":
+            countryFilter = None
+        else:
+            countryFilter = countryFilter.split(",")
+    else:
+        countryFilter = None
+
+    m = iepgdatamodel.IepgDataModel()
+    out = dict()
+    for blockCode,blockData in blocks.items():
+        block = dict()
+        block["name"] = blockData["name_"+lang]
+        blockYears = dict()
+        for year,membersData in blockData["members"].items():
+            if countryFilter:
+                if arrayIntersection(membersData, countryFilter)<>[]:
+                    continue
+            countries = dict()
+            for countryCode in membersData:
+                countryName = cacheWrapper(m.getCountryNameByIso2, countryCode, lang)[0]
+                countries[countryCode] = countryName
+            blockYears[year] = countries
+        block["members"] = blockYears
+        if block["members"]<>{}:
+            out[blockCode] = block
+    return(jsonify(out))
+
+
+@app.route('/countrysheet/<string:lang>/<string:family>/<string:countryCode>', methods=['GET'])
+def countrySheet(lang, family,countryCode):
     """Retrieves all the data, for all years, and for a single country, to render the country sheet.
+    Only retrieves context and IEPG variable families.
     Service call:
 
     /countrysheet/es/US?filter=US,DK,ES
-    
+    /countrysheet/en/NL?filter=US,NL,ES&toolfilter=NL,ES
     """
     m = iepgdatamodel.IepgDataModel()
-    filter = None
-    if "filter" in request.args:
-        filter=(None if request.args["filter"].split(",")[0]=="" else request.args["filter"].split(","))
+    filter = processFilter(request.args, "filter")
+    toolFilter = processFilter(request.args, "toolfilter")
     try:
         data = dict()
         for year in years:
             y = dict()
             iepg_var = dict()
-            for var,item in iepg_variables.items():
-                if filter:
-                    rankData = cacheWrapper(m.ranking, lang, countryCode, 
-                                                           var, year, filter=filter)
-                else:
-                    rankData = cacheWrapper(m.ranking, lang, countryCode, var, year)
-                    
-                iepg_var[var] = rankData[0]
-
             context_var = dict()
-            for var,item in context_variables.items():
-                if filter:
+            for var,item in variables.items():
+                if item["family"]=="iepg":
                     rankData = cacheWrapper(m.ranking, lang, countryCode, 
-                                                              var, year, filter=filter)
-                else:
-                    rankData = cacheWrapper(m.ranking, lang, countryCode, var, year)
-
-                context_var[var] = rankData[0]
+                                            "iepg", item["key"], year, filter=filter, toolFilter=toolFilter)
+                    iepg_var[item["key"]] = rankData[0]
+                if item["family"]=="context":
+                    rankData = cacheWrapper(m.ranking, lang, countryCode, 
+                                            "context", item["key"], year, filter=filter, toolFilter=toolFilter)
+                    context_var[item["key"]] = rankData[0]
 
             y["iepg_variables"] = iepg_var
             y["context_var"] = context_var
@@ -82,24 +118,18 @@ def countrySheet(lang, countryCode):
         return(jsonify(e.toDict()))
 
 
-@app.route('/mapdata/<string:variable>/<int:year>', methods=['GET'])
-def mapData(variable, year):
+@app.route('/mapdata/<string:family>/<string:variable>/<int:year>', methods=['GET'])
+def mapData(family, variable, year):
     """Retrieves map data. Service call:
     
-    /mapdata/es/economic_presence/2013?filter=US,DK,ES&toolfilter=US,DK
-
+    /mapdata/es/iepg/economic_presence/2013?filter=US,DK,ES&toolfilter=US,DK
     """
-    filter = None
-    if "filter" in request.args:
-        filter=(None if request.args["filter"].split(",")[0]=="" else request.args["filter"].split(","))
-    toolFilter = None
-    if "toolfilter" in request.args:
-        toolFilter=(None if request.args["toolfilter"].split(",")[0]=="" else \
-                    request.args["toolfilter"].split(","))
+    filter = processFilter(request.args, "filter")
+    toolFilter = processFilter(request.args, "toolfilter")
     m = iepgdatamodel.IepgDataModel()
 
     try:
-        varData = cacheWrapper(m.variableData, variable, year, filter=filter, toolFilter=toolFilter)
+        varData = cacheWrapper(m.variableData, family, variable, year, filter=filter, toolFilter=toolFilter)
     except ElcanoApiRestError as e:
         return(jsonify(e.toDict()))    
 
@@ -116,7 +146,6 @@ def mapGeoJson():
     
     features = []
     for d in data:
-        print(d)
         f = dict()
         f["type"] = "Feature"
         f["geometry"] = json.loads(d["geojson"])

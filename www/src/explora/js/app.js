@@ -4,11 +4,10 @@ String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
-// variables. Array of countries with the countries to filter by
-app.filters = [];
-
 // Link to the base view
 app.baseView = null;
+
+app.filters = [];
 
 
 Backbone.View.prototype.close = function(){
@@ -45,21 +44,31 @@ $(function(){
         else { app.router.navigate("error",{trigger: true});}
     });
 
-    $.getJSON('http://freegeoip.net/json/', function(location) {
-      // example where I update content on the page.
-      // jQuery('#city').html(location.city);
-      // jQuery('#region-code').html(location.region_code);
-      // jQuery('#region-name').html(location.region_name);
-      // jQuery('#areacode').html(location.areacode);
-      // jQuery('#ip').html(location.ip);
-      // jQuery('#zipcode').html(location.zipcode);
-      // jQuery('#longitude').html(location.longitude);
-      // jQuery('#latitude').html(location.latitude);
-      // jQuery('#country-name').html(location.country_name);
-      // jQuery('#country-code').html(location.country_code);
-        app.country = location.country_code;
-        app.ini();
-    });
+  
+    if (app.config.DETECT_COUNTRY_LOCATION){
+        $.getJSON('http://freegeoip.net/json/', function(location) {
+          // example where I update content on the page.
+          // jQuery('#city').html(location.city);
+          // jQuery('#region-code').html(location.region_code);
+          // jQuery('#region-name').html(location.region_name);
+          // jQuery('#areacode').html(location.areacode);
+          // jQuery('#ip').html(location.ip);
+          // jQuery('#zipcode').html(location.zipcode);
+          // jQuery('#longitude').html(location.longitude);
+          // jQuery('#latitude').html(location.latitude);
+          // jQuery('#country-name').html(location.country_name);
+          // jQuery('#country-code').html(location.country_code);
+            app.country = location.country_code;
+            app.ini();
+        });
+    }
+    else{
+        app.country = "ES";
+        app.ini();  
+    }
+    
+
+      
    
 });
 
@@ -88,16 +97,25 @@ app.ini = function(){
     this.$tool_data = $("#tool_data");
     this.$tool = $("#tool");
 
+
     // create the context
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
 
-    app.map.initialize();
+    this.filters =  localStorage.getItem("filters");
+    if (!this.filters){
+        this.filters = [];
+    }
+    else{
+        this.filters = JSON.parse(this.filters);
+    }
+
+    this.refreshFiltersCtrl();
+
+    app.map = new app.view.map({"container": "map"}).initialize();
     
     this.baseView = new app.view.Base();
     this.baseView.render();
-
-    
 
     this.resize();
 
@@ -164,9 +182,53 @@ app.variableToString = function(variable){
     switch(variable){
         case "IEPG":
         case "iepg":
-            return "Índice Elcano de Presencia Global";
-        case 2:
-            return "Índice Elcano de Presencia Europea";
+            return "<lang>Índice Elcano de Presencia Global</lang>";
+        case "iepe":
+            return "<lang>Índice Elcano de Presencia Europea</lang>";
+        case "economic_presence":
+            return "<lang>Presencia económica</lang>";
+        case "soft_presence":
+            return "<lang>Presencia blanda</lang>";
+        case "military_presence":
+            return "<lang>Presencia militar</lang>";
+
+        // Military presence
+        case "troops":
+            return "<lang>Tropas</lang>";
+        case "military_equipment":
+            return "<lang>Equipamiento militar</lang>";
+
+        // Economic presence
+        case "energy":
+            return "<lang>Energía</lang>";
+        case "primary_goods":
+            return "<lang>Bienes primarios</lang>";
+        case "manufactures":
+            return "<lang>Manufacturas</lang>";
+        case "services":
+            return "<lang>Servicios</lang>";
+        case "investments":
+            return "<lang>Inversiones</lang>";
+
+        // Soft presences
+        case "migrations":
+            return "<lang>Migraciones</lang>";
+        case "tourism":
+            return "<lang>Turismo</lang>";
+        case "sports":
+            return "<lang>Deportes</lang>";
+        case "culture":
+            return "<lang>Cultura</lang>";
+        case "information":
+            return "<lang>Información</lang>";
+        case "technology":
+            return "<lang>Tecnología</lang>";
+        case "science":
+            return "<lang>Ciencia</lang>";
+        case "education":
+            return "<lang>Educación</lang>";
+        case "cooperation":
+            return "<lang>Cooperación</lang>";
 
         // TODO complete this mapping 
         default:
@@ -183,7 +245,6 @@ app.countryToString = function(id_country){
     }
     
     return "No country name found";
-    
 }
 
 app.isSMDevice = function(){
@@ -216,8 +277,41 @@ app.findCountry = function(id_country){
             return countriesGeoJSON.features[i];
         }
     }
-}
+};
 
+app.getFilters = function(){
+    return this.filters;
+};
+
+app.setFilters = function(filters){
+    this.filters = filters;
+    localStorage.setItem("filters", JSON.stringify(this.filters));
+};
+
+    
+app.filterschanged = function(filters){
+    this.setFilters(filters);
+
+    // we've to remove from the context the countries which are not present in the filter
+    this.context.removeCountriesNotPresentInFilter();
+    this.context.saveContext();
+
+    if (app.baseView.currentTool){
+        app.baseView.currentTool.forceFetchDataOnNextRender().render();
+    }
+  
+    this.refreshFiltersCtrl();
+};
+
+app.refreshFiltersCtrl =  function(){
+    if (this.filters.length){
+        $("#ctrl_filter").addClass("enable");
+    }
+    else{
+        $("#ctrl_filter").removeClass("enable");   
+    }
+};
+      
 app.events = {};
 _.extend(app.events , Backbone.Events);
 
@@ -225,7 +319,18 @@ app.events.on("closepopup", function(popupView) {
     popupView.close();
 }); 
 
+app.events.on("filterschanged", function(filters) {
+    app.filterschanged(filters);
+}); 
 
+app.clearData = function(){
+    localStorage.clear();
+}
+
+app.reset = function(){
+    this.clearData();
+    window.location  = "/es";
+}
 
 
 

@@ -1,7 +1,7 @@
 <div class="pull-left">
     <h1 class="page-header col-md-1"><lang>Noticia</lang></h1>
-    <button type="button" class="btn btn-l activeES ESbt"><lang>Español</lang></button> 
-    <button type="button" class="btn btn-l activeEN ENbt"><lang>English</lang></button>
+    <button type="button" class="btn btn-l activeES ESbt"  style="cursor: text"><lang>Español</lang></button> 
+    <button type="button" class="btn btn-l activeEN ENbt"  style="cursor: text"><lang>English</lang></button>
 </div>
 
 <div class="pull-right pr15">
@@ -29,6 +29,12 @@
             <div class="enresult"><span class="clean pull-left">en</span><p><%= model.title_en %></p></div>
         </div>
     </div>
+     <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Sección</lang></label></div>
+        <div class="col-md-10">
+            <div class="esresult"><p><%= model.section_es %></p></div>
+        </div>
+    </div>
 
     <div class="form-group">
         <div class=" col-md-2 LabelForm"><label for=""><lang>Etiquetas</lang></label></div>
@@ -36,7 +42,7 @@
             
             <div class="tagsList tagsListResult esresult">
                 <span class="clean pull-left">es</span>
-                <% model.label_es.each(function(label){ %>
+                <% model.labels_es.each(function(label){ %>
                     <button type="button" class="btn btn-xs tag-add-bt"><%= label.get("label") %></button>
                 <% }) %>
             </div>
@@ -44,7 +50,7 @@
             <hr class="featurette-divider">
             <div class="tagsList tagsListResult enresult">
                 <span class="clean pull-left">en</span>
-                <% model.label_en.each(function(label){ %>
+                <% model.labels_en.each(function(label){ %>
                     <button type="button" class="btn btn-xs tag-add-bt"><%= label.get("label") %></button>
                 <% }) %>
             </div>
@@ -69,10 +75,10 @@
             <div class="esresult">
                 <span class="clean pull-left">es</span>
                 <div>
-                    <img src="/img/iconos/linkIco.png" />
-                    <a href="<%= model.url_es %>" class="ml5 simple_link"  
+                    <img  class="fleft" src="/img/iconos/linkIco.png" />
+                    <a href="<%= model.url_es %>" class="fleft ml5 simple_link link_tab"  
                         target="_blank">
-                        <lang>Abrir enlace en una nueva pestaña</lang>
+                        <%= model.url_es %>
                     </a>
                 </div>
             </div>
@@ -82,10 +88,10 @@
             <div class="enresult">
                 <span class="clean pull-left">en</span>
                 <div>
-                    <img src="/img/iconos/linkIco.png" />
-                    <a href="<%= model.url_en %>" class="ml5 simple_link"  
-                        target="_blank">
-                        <lang>Abrir enlace en una nueva pestaña</lang>
+                    <img class="fleft" src="/img/iconos/linkIco.png" />
+                    <a  href="<%= model.url_en %>" class="fleft ml5 simple_link link_tab"  
+                        target="_blank" >
+                       <%= model.url_en %>
                     </a>
                 </div>
             </div>
@@ -97,10 +103,11 @@
 
     <div class="pull-left pl15 col-md-12 btn_botton">
          <div class="col-md-2 pl15">
-            <a href="/<lang>lang</lang>/news/edit/<%= model.id%>" class="btn btn-l btn-edit"><lang>Editar</lang></a>
+            
         </div>
         <div class="pull-right pr15">
             <!-- <a href="#back" type="button" class="btn btn-l btnlink "><lang>Cancelar</lang></a> -->
+            <a href="/<lang>lang</lang>/news/edit/<%= model.id%>" class="btn btn-l btn-edit"><lang>Editar</lang></a>
             <a href="#" type="button" class="btn btn-l btn-remove" id="delete"><lang>Eliminar</lang></a>
             <span class="verticalDivider"></span>
             <% if (!model.published) {%>

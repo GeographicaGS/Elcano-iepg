@@ -1,14 +1,16 @@
 app.view.tools.common.Countries = Backbone.View.extend({
     el: "#country_panel",
     _template : _.template( $('#country_bar_template').html() ),
+    _variableCtrlStatus : null,
 
     initialize: function(options){
-        
+        this._variableCtrlStatus = options && options.variable!=undefined && options.variable!="undefined" ? options.variable : true; 
     },
 
     _events: {
         "click #ctrl_countries": "launchCountriesSelector",
-        "click ul.country_bar a": "clickCountry"
+        "click ul.country_bar a": "clickCountry",
+        "click #ctrl_variables" : "clickAddVariableSelectorView"
     },
 
     _setListeners: function(){
@@ -30,6 +32,7 @@ app.view.tools.common.Countries = Backbone.View.extend({
         console.log("Render app.view.tools.common.Countries");
         this.$el.show().html(this._template({
             ctx: app.context.data,
+            variableCtrl : this._variableCtrlStatus
         }));
     },
 
@@ -38,6 +41,10 @@ app.view.tools.common.Countries = Backbone.View.extend({
     },
     
     close: function(){
+        if (this._variableSelectorView){
+            this._variableSelectorView.close();
+        }
+
         this.undelegateEvents();
     
         this.$el.html("").hide();
@@ -63,5 +70,14 @@ app.view.tools.common.Countries = Backbone.View.extend({
             app.events.trigger("countryclick",code);
         }
         
-    }
+    },
+    
+    clickAddVariableSelectorView: function(e){
+        e.preventDefault();
+        if (this._variableSelectorView){
+            this._variableSelectorView.close();
+        }
+
+        this._variableSelectorView = new app.view.VariableSelector(); 
+    },
 }); 

@@ -150,6 +150,78 @@ foreign key (id_master_country)
 references iepg_data.master_country(id_master_country);
 
 
+create table iepg_data.iepg_final_data_eu(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_presence float,
+  military_presence float,
+  soft_presence float,
+  iepg float
+);
+
+alter table iepg_data.iepg_final_data_eu
+add constraint iepg_final_data_pkey
+primary key (id_master_country, date_in);
+
+alter table iepg_data.iepg_final_data_eu
+add constraint iepg_final_data_master_country_fkey
+foreign key (id_master_country)
+references iepg_data.master_country(id_master_country);
+
+
+create table iepg_data.iepe_final_data(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_presence float,
+  military_presence float,
+  soft_presence float,
+  iepe float
+);
+
+alter table iepg_data.iepe_final_data
+add constraint iepe_final_data_pkey
+primary key (id_master_country, date_in);
+
+alter table iepg_data.iepe_final_data
+add constraint iepe_final_data_master_country_fkey
+foreign key (id_master_country)
+references iepg_data.master_country(id_master_country);
+
+
 create table iepg_data.iepg_comment(
   id_master_country varchar(10),
   date_in date,
@@ -182,11 +254,251 @@ select addgeometrycolumn(
   2);
 
 
+create table iepg_data.iepe_quotas(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  global_quota float,
+  economic_quota float,
+  soft_quota float
+);
+
+alter table iepg_data.iepe_quotas
+add constraint iepe_quotas_pkey
+primary key (id_master_country, date_in);
+
+
+create table iepg_data.iepg_quotas(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  global_quota float,
+  economic_quota float,
+  military_quota float,
+  soft_quota float
+);
+
+alter table iepg_data.iepg_quotas
+add constraint iepg_quotas_pkey
+primary key (id_master_country, date_in);
+
+
+create table iepg_data.iepe_individual_contributions(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_contribution float,
+  military_contribution float,
+  soft_contribution float
+);
+
+alter table iepg_data.iepe_individual_contributions
+add constraint iepe_individual_contributions_pkey
+primary key (id_master_country, date_in);
+
+alter table iepg_data.iepe_individual_contributions
+add constraint iepe_individual_contributions_master_country_fkey
+foreign key (id_master_country)
+references iepg_data.master_country(id_master_country);
+
+
+create table iepg_data.iepe_relative_contributions(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_contribution float,
+  military_contribution float,
+  soft_contribution float
+);
+
+alter table iepg_data.iepe_relative_contributions
+add constraint iepe_relative_contributions_pkey
+primary key (id_master_country, date_in);
+
+alter table iepg_data.iepe_relative_contributions
+add constraint iepe_relative_contributions_master_country_fkey
+foreign key (id_master_country)
+references iepg_data.master_country(id_master_country);
+
+
+create table iepg_data.iepg_individual_contributions(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_contribution float,
+  military_contribution float,
+  soft_contribution float
+);
+
+alter table iepg_data.iepg_individual_contributions
+add constraint iepg_individual_contributions_pkey
+primary key (id_master_country, date_in);
+
+alter table iepg_data.iepg_individual_contributions
+add constraint iepg_individual_contributions_master_country_fkey
+foreign key (id_master_country)
+references iepg_data.master_country(id_master_country);
+
+
+create table iepg_data.iepg_individual_contributions_eu(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_contribution float,
+  military_contribution float,
+  soft_contribution float
+);
+
+alter table iepg_data.iepg_individual_contributions_eu
+add constraint iepg_individual_contributions_pkey
+primary key (id_master_country, date_in);
+
+alter table iepg_data.iepg_individual_contributions_eu
+add constraint iepg_individual_contributions_master_country_fkey
+foreign key (id_master_country)
+references iepg_data.master_country(id_master_country);
+
+
+create table iepg_data.iepg_relative_contributions(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_contribution float,
+  military_contribution float,
+  soft_contribution float
+);
+
+alter table iepg_data.iepg_relative_contributions
+add constraint iepg_relative_contributions_pkey
+primary key (id_master_country, date_in);
+
+alter table iepg_data.iepg_relative_contributions
+add constraint iepg_relative_contributions_master_country_fkey
+foreign key (id_master_country)
+references iepg_data.master_country(id_master_country);
+
+
+create table iepg_data.iepg_relative_contributions_eu(
+  id_master_country varchar(10),
+  date_in date,
+  date_out date,
+  energy float,
+  primary_goods float,
+  manufactures float,
+  services float,
+  investments float,
+  troops float,
+  military_equipment float,
+  migrations float,
+  tourism float,
+  sports float,
+  culture float,
+  information float,
+  technology float,
+  science float,
+  education float,
+  cooperation float,
+  economic_contribution float,
+  military_contribution float,
+  soft_contribution float
+);
+
+alter table iepg_data.iepg_relative_contributions_eu
+add constraint iepg_relative_contributions_pkey
+primary key (id_master_country, date_in);
+
+alter table iepg_data.iepg_relative_contributions_eu
+add constraint iepg_relative_contributions_master_country_fkey
+foreign key (id_master_country)
+references iepg_data.master_country(id_master_country);
+
+
 -- Views
 
 create view iepg_data.iepg_countries as
 select distinct 
   a.id_master_country,
+  b.iso_3166_1_2_code as iso_code,
   b.short_name_en1,
   b.short_name_es1
 from
@@ -200,6 +512,7 @@ order by id_master_country;
 create view iepg_data.iepg_blocks as
 select distinct 
   a.id_master_country,
+  b.iso_3166_1_2_code as iso_code,
   b.short_name_en1,
   b.short_name_es1
 from
@@ -243,6 +556,32 @@ copy iepg_data.country_geom
 from :'copy_country_geom'
 with delimiter '|'
 csv header quote '"';
+
+copy iepg_data.iepe_final_data
+from :'copy_iepe_final_data'
+with delimiter '|'
+csv header quote '"';
+
+copy iepg_data.iepe_quotas
+from :'copy_iepe_quotas'
+with delimiter '|'
+csv header quote '"';
+
+\copy iepg_data.iepe_individual_contributions from 'iepe_individual_contributions.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepe_relative_contributions from 'iepe_relative_contributions.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_quotas from 'iepg_quotas.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_individual_contributions from 'iepg_individual_contributions.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_relative_contributions from 'iepg_relative_contributions.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_final_data_eu from 'iepg_final_data_eu.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_individual_contributions_eu from 'iepg_individual_contributions_eu.csv' with delimiter '|' csv header quote '"'
+
+\copy iepg_data.iepg_relative_contributions_eu from 'iepg_relative_contributions_eu.csv' with delimiter '|' csv header quote '"'
 
 
 analyze;

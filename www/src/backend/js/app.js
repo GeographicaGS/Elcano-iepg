@@ -186,4 +186,14 @@ app.dateTimeFormat = function(dateStr){
     if (minutes < 10) minutes = "0" + minutes;
     
     return day +"/"+month+"/"+year +" - " + hours + ":" + minutes ;
-}
+};
+
+app.truncate = function(s,limit){
+    var l = s.substring(0,limit);
+    if (s.length>limit){
+        l += "...";
+    }
+    return l;
+
+    
+};

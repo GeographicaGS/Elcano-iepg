@@ -44,6 +44,7 @@ class HomeModel(PostgreSQLModel):
         title_{} as title,
         a.id_news_section as id_section,
         description_{}::varchar as section,
+        a.url_{} as link,
         array_agg(d.id_label_{})::varchar[] as labels
         from
         www.new a inner join www.wwwuser b
@@ -54,23 +55,22 @@ class HomeModel(PostgreSQLModel):
         on a.id_new=d.id_new
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
+        where a.published
         group by id, b.name, b.surname, time, title, id_section, section
         ) 
         select
-        id,
+        id as id_item,
         wwwuser,
         time,
         title,
+        link,
         section,
         labels
         from a
         where id_section={}
         order by time desc
         limit 5;
-        """.format(lang,lang,lang,lang,lang,lang,lang,section)
-    
-        print a
-
+        """.format(lang,lang,lang,lang,lang,lang,lang,lang,section)
         return(self.query(a).result())
 
 
@@ -84,9 +84,10 @@ class HomeModel(PostgreSQLModel):
         select
         a.id_document::integer as id,
         (b.name || ' ' || b.surname)::varchar as wwwuser,
+        null as link,
         last_edit_time::timestamp as time,
         title_{} as title,
-        'Documents'::varchar as section,
+        '{}'::varchar as section,
         array_agg(d.id_label_{})::varchar[] as labels
         from
         www.document a inner join www.wwwuser b
@@ -95,19 +96,23 @@ class HomeModel(PostgreSQLModel):
         on a.id_document=d.id_document
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
+        where a.published
         group by id, b.name, b.surname, time, title, section
         ) 
         select
-        id,
+        id as id_item,
         wwwuser,
         time,
         title,
+        link,
         section,
         labels
         from a
         order by time desc
         limit 5;
-        """.format(lang,lang,lang,lang,lang,lang)
+        """.format(lang,
+                   "Documents" if lang=='en' else "Documentos",
+                   lang,lang,lang,lang,lang)
 
         return(self.query(a).result())
 
@@ -124,6 +129,7 @@ class HomeModel(PostgreSQLModel):
         a.id_new::integer as id,
         (b.name || ' ' || b.surname)::varchar as wwwuser,
         new_time::timestamp as time,
+        a.url_{} as link,
         title_{} as title,
         description_{}::varchar as section,
         array_agg(d.id_label_{})::varchar[] as labels
@@ -136,14 +142,16 @@ class HomeModel(PostgreSQLModel):
         on a.id_new=d.id_new
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
+        where a.published
         group by id, b.name, b.surname, time, title, section
         union
         select
         a.id_document::integer as id,
         (b.name || ' ' || b.surname) as wwwuser,
         last_edit_time::timestamp as time,
+        null as link,
         title_{} as title,
-        'Documents'::varchar as section,
+        '{}'::varchar as section,
         array_agg(d.id_label_{})::varchar[] as labels
         from
         www.document a inner join www.wwwuser b
@@ -152,16 +160,43 @@ class HomeModel(PostgreSQLModel):
         on a.id_document=d.id_document
         left join www.label_{} e
         on d.id_label_{}=e.id_label_{}
+        where a.published
         group by id, b.name, b.surname, time, title, section) ab
         order by time desc)
         select
-        id as id_section,
+        id as id_item,
         wwwuser,
         time,
         title,
+        link,
         section,
         labels
         from a
-        limit 5;""".format(lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang,lang)
+        limit 5;""".format(lang,lang,lang,lang,lang,lang,lang,lang,lang,
+                           "Documents" if lang=='en' else "Documentos",
+                           lang,lang,lang,lang,lang)
 
         return(self.query(sql).result())
+
+
+    def countryList(self, lang):
+        """Gets the list of IEPG countries alphabetically ordered."""
+        dv = DataValidator()
+        dv.checkLang(lang)
+
+        sql = """
+        select distinct
+        a.short_name_{}1 as country_name
+        from
+        iepg_data.master_country a inner join
+        iepg_data.iepg_final_data b on
+        a.id_master_country=b.id_master_country
+        where
+        a.id_master_country<>'eu900'
+        order by
+        a.short_name_{}1;""".format(lang,lang)
+
+        print(sql)
+
+        return(self.query(sql).result())
+

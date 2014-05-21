@@ -2,13 +2,13 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+	 width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
 <g>
 	<g>
-		<path fill="#CC0000" d="M0,12c0,4.842,2.87,9.011,6.999,10.908V1.091C2.87,2.989,0,7.159,0,12z"/>
-		<path fill="#CC0000" d="M24,12c0-4.841-2.87-9.012-7-10.909v21.817C21.13,21.012,24,16.843,24,12z"/>
-		<path fill="#FFFFFF" d="M12,0c-1.786,0-3.477,0.394-5,1.091v21.817C8.522,23.607,10.214,24,12,24c1.785,0,3.477-0.393,5-1.092
-			V1.091C15.477,0.394,13.784,0,12,0z"/>
+		<path fill="#CC0000" d="M0,20c0,8.068,4.784,15.018,11.665,18.182V1.818C4.784,4.982,0,11.932,0,20z"/>
+		<path fill="#CC0000" d="M40,20c0-8.068-4.783-15.021-11.667-18.182v36.364C35.217,35.02,40,28.07,40,20z"/>
+		<path fill="#FFFFFF" d="M20,0c-2.977,0-5.795,0.657-8.333,1.818v36.364C14.203,39.346,17.023,40,20,40
+			c2.977,0,5.794-0.654,8.333-1.818V1.818C25.794,0.657,22.975,0,20,0z"/>
 	</g>
 </g>
 </svg>

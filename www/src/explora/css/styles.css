@@ -23,12 +23,137 @@
 @variable_militar : #669900;
 @variable_soft : #ff9000;
 
+
 html, body{ height:100%;}
+
+.fillVariable(){
+
+}
+
+.colorVariable(@name) when (@name = iepg) {
+    @colorVariable : #fdc300;
+}
+.colorVariable(@name) when (@name = iepe) {
+    @colorVariable : #003399;
+}
+
+.colorVariable(@name) when (@name = economic_presence) {
+    @colorVariable : #2b85d0;
+}
+
+.colorVariable(@name) when (@name = energy) , (@name = primary_goods) , (@name = manufactures), (@name = services), (@name = investments){
+    .colorVariable(economic_presence);
+}
+
+.colorVariable(@name) when (@name = military_presence) {
+    @colorVariable : #669900;
+}
+
+.colorVariable(@name) when (@name = troops) , (@name = military_equipment) {
+    .colorVariable(military_presence);
+}
+
+.colorVariable(@name) when (@name = soft_presence) {
+    @colorVariable : #ff9000;
+}
+
+.colorVariable(@name) when (@name = migrations) , (@name = tourism), (@name = sports),
+    (@name = culture), (@name = information), (@name = technology), (@name = science),
+    (@name = education), (@name = cooperation){
+    .colorVariable(soft_presence);
+}
+
+.iconVariableHeader(@name) when (@name = iepg){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_iepg_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = iepe){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_iepe_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = economic_presence){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_presencia_economica_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = energy){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_energia_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = primary_goods){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_bienesprimarios_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = manufactures){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_manufacturas_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = services){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_servicios_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = investments){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_e_inversiones_cab.svg";
+}
+
+/* Military icons */ 
+.iconVariableHeader(@name) when (@name = military_presence){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_m_presencia_militar_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = troops){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_m_tropas_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = military_equipment){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_m_equipamiento_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = soft_presence){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_presencia_blanda_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = migrations){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_migraciones_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = tourism){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_turismo_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = sports){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_deportes_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = culture){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_cultura_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = information){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_informacion_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = technology){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_tecnologia_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = science){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_ciencia_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = education){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_educacion_cab.svg";
+}
+
+.iconVariableHeader(@name) when (@name = cooperation){
+    @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_cooperacion_cab.svg";
+}   
+
 body {
 	.roboto();
 	color:@grey;
 	font-size:16px;
 	line-height:24px;
+    min-width: 768px !important; 
 }
 a.simple{
 	border-bottom: none !important;
@@ -234,7 +359,7 @@ input[placeholder]{
 header{
     height: 55px;
     background-color: @grey_dark;
-    z-index: 3;
+    z-index: 5;
     position: relative;
 
     #top_logo{
@@ -274,6 +399,11 @@ h3{
     .roboto(light);
 }
 
+h4{
+    .roboto(bold);
+    font-size: 13px;
+    color: @red;
+}
 
 footer{
     background-color: @grey;
@@ -433,7 +563,7 @@ main{
     .body{
         overflow-y : auto;
         position: absolute;
-        top: 125px;
+        top: 135px;
         bottom: 0;
         width: 100%;
     }
@@ -473,6 +603,10 @@ ul.flag_wrapper{
     }
     li:hover{
         background-image: url("@{imgPath}ELC_icon_seleccionado_hover.svg");
+    }
+
+    li[selected]:hover{
+         background-image: url("@{imgPath}ELC_icon_deseleccionar.svg");
     }
     
 }
@@ -576,6 +710,7 @@ ul.country_bar{
                 z-index: 1;
                 top: -20px;
                 left: -15px;
+                cursor: pointer;
             }
 
             .ornament::before{
@@ -589,7 +724,14 @@ ul.country_bar{
                 left: 3px;
                 top: 19px;
                 z-index: 1;
+            }
 
+            .ornament.ref{
+                background-color: @grey;
+            }
+
+            .ornament.ref::before{
+                background-color: @grey;
             }
 
             .point{
@@ -625,7 +767,7 @@ ul.country_bar{
                         text-transform: uppercase;
                         margin-bottom: 7px;
                     }
-                    line-height: 16px;
+                    line-height: @line_height ;
                 }
 
                 .ico{
@@ -690,4 +832,64 @@ ul.country_bar{
 
       
     }
+}
+
+#ctrl_filter{
+    width: 80px;
+    height: 61px;
+    border: 1px solid #d0d0d5;
+    position: absolute;
+    z-index: 4;
+    right: 10px;
+    top: 8px;
+    background-color: @white;
+
+    > * {
+        float:left;
+    }
+
+    .co_img{
+            margin: 10px 8px 10px 8px;
+            width: 40px;
+            height: 40px;
+            background: url("@{imgPath}ELC_icon_filtros_paises_default.svg") no-repeat center center;    
+        
+    }
+    .co_text{
+        width:20px;
+        height: 100%;
+        background-color: #f8f8f8;
+        position: relative;
+         border-left: 1px solid #e8e8ea;
+        span{
+           transform:rotate(270deg);
+            -ms-transform:rotate(270deg); /* IE 9 */
+            -webkit-transform:rotate(270deg); /* Opera, Chrome, and Safari */
+            position: absolute;
+            bottom: 4px;
+            right: 0;
+            font-size: 11px;
+            text-transform: uppercase;
+            width: 22px;
+           
+        }
+    }
+    
+}
+
+#ctrl_filter.enable{
+    .co_img{
+        background-image: url("@{imgPath}ELC_icon_filtros_paises_aplicado.svg") !important;
+    }
+}
+
+#extra_panel{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 4;
+    background-color: @white;
+    left: 0;
+    right: 0;
+    padding-top: 50px;
 }

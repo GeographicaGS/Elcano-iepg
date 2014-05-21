@@ -5,7 +5,7 @@ Created on 15/01/2014
 '''
 
 import psycopg2
-from config import PostgreSQLConfig
+from common.config import PostgreSqlConfig
 import psycopg2.extras
 
 class Result():
@@ -21,9 +21,9 @@ class Result():
 
 class PostgreSQLModel():
     def __init__(self):
-        self.conn = psycopg2.connect(host=PostgreSQLConfig['host'],dbname=PostgreSQLConfig['db'], \
-                                     port=PostgreSQLConfig['port'],user=PostgreSQLConfig['user'], \
-                                     password=PostgreSQLConfig['passwd'])
+        self.conn = psycopg2.connect(host=PostgreSqlConfig['host'],dbname=PostgreSqlConfig['db'], \
+                                     port=PostgreSqlConfig['port'],user=PostgreSqlConfig['user'], \
+                                     password=PostgreSqlConfig['passwd'])
         
     def query(self,sql,bindings=None):
         cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)

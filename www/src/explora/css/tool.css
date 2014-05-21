@@ -262,102 +262,6 @@
         margin-bottom: 10px;
     }
 
-    .chart{
-        min-height : 330px;
-        path {
-            stroke: #fff;
-            fill-rule: evenodd;
-        }
-
-        path:hover {
-          fill: @grey_dark !important;
-          cursor: pointer;
-        }
-    }   
-
-    @media all and (max-height: 768px){
-        .chart{
-            height: 340px;
-        }
-    }
-
-    @media all and (min-height: 850px) and (max-height: 1024px){
-        .chart{
-            height: 390px;
-        }
-    }
-
-    @media all and (min-height: 1024){
-        .chart{
-            height: 440px;
-            background-color: red;
-        }
-    }
-
-    .chart_legend{
-        table{
-            margin: @line_height*2 auto;
-            tr{
-                border-bottom: 1px solid #f3f3f5;
-                line-height: @line_height*2 ;
-                height: @line_height*2;
-
-                &:first-child{
-                    border-top: 1px solid #e7e7ea;
-
-                     &:first-child{
-                        div{
-                            margin-left: 0;
-                        }
-                    }
-                }
-            }
-
-            th,td{
-                text-transform: uppercase;
-                .roboto();
-                color:@grey;
-                font-size: 13px;
-                padding: 0 10px;
-                text-align: right;
-
-                &:last-child{
-                    .roboto(italic) ;
-                }
-
-                &:first-child{
-                    vertical-align: middle;
-                    div,span{
-                        float:left;
-                    }
-                    div{
-                        width:15px;
-                        height:15px;
-                        margin: 10px 10px 0 20px ;
-                    }
-                    text-align: left;
-                }
-
-            }
-
-            th{
-
-               
-                .roboto(bold);
-                &:last-child{
-                    .roboto(bolditalic);
-                }
-
-                 &:first-child{
-                    span{
-                        .roboto(bold);
-                    }
-                }
-            }
-
-        }
-
-    }
    /* .legend{
         float: right;
         background-color: #fff;
@@ -409,6 +313,104 @@
         float:left;
         margin-top: 5px;
     }
+}
+
+
+.chart{
+    min-height : 330px;
+    path {
+        stroke: #fff;
+        fill-rule: evenodd;
+    }
+
+    path:hover {
+      fill: @grey_dark !important;
+      cursor: pointer;
+    }
+}   
+
+@media all and (max-height: 768px){
+    .chart{
+        height: 340px;
+    }
+}
+
+@media all and (min-height: 850px) and (max-height: 1024px){
+    .chart{
+        height: 390px;
+    }
+}
+
+@media all and (min-height: 1024){
+    .chart{
+        height: 440px;
+        background-color: red;
+    }
+}
+
+.chart_legend{
+    table{
+        margin: @line_height*2 auto;
+        tr{
+            border-bottom: 1px solid #f3f3f5;
+            line-height: @line_height*2 ;
+            height: @line_height*2;
+
+            &:first-child{
+                border-top: 1px solid #e7e7ea;
+
+                 &:first-child{
+                    div{
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+
+        th,td{
+            text-transform: uppercase;
+            .roboto();
+            color:@grey;
+            font-size: 13px;
+            padding: 0 10px;
+            text-align: right;
+
+            &:last-child{
+                .roboto(italic) ;
+            }
+
+            &:first-child{
+                vertical-align: middle;
+                div,span{
+                    float:left;
+                }
+                div{
+                    width:15px;
+                    height:15px;
+                    margin: 10px 10px 0 20px ;
+                }
+                text-align: left;
+            }
+
+        }
+
+        th{
+
+           
+            .roboto(bold);
+            &:last-child{
+                .roboto(bolditalic);
+            }
+
+             &:first-child{
+                span{
+                    .roboto(bold);
+                }
+            }
+        }
+
+    }
+
 }
 
 div.tooltip {   
@@ -603,8 +605,8 @@ div.tooltip {
 #contributions_tool{
     .country_nosel{
         .no_country{
-            height: 300px;
-            width: 300px;
+            /*height: 300px;
+            width: 300px;*/
             background-color: #e8e8ea;
             border-radius: 100%;
             display: table;
@@ -615,8 +617,8 @@ div.tooltip {
                 content: "";
                 display: block;
                 border: 3px dashed #bdbdc5;
-                height: 326px;
-                width: 326px;
+               /* height: 326px;
+                width: 326px;*/
                 border-radius: 100%;
                 position: absolute;
                 top: -13px;

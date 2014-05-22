@@ -9,7 +9,7 @@
 
         sel = ctx.countries.selection.indexOf(c) != -1 ? "selected" : "";
         %>
-        <li>
+        <li class="country_draggable">
             <a href="#" title="<%= c %>" code="<%= c %>"  <%= sel %>>
                 <img src="/img/flags/<%= c%>.svg"/>
             </a>

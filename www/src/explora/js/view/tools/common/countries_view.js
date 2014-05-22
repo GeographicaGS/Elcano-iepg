@@ -2,9 +2,12 @@ app.view.tools.common.Countries = Backbone.View.extend({
     el: "#country_panel",
     _template : _.template( $('#country_bar_template').html() ),
     _variableCtrlStatus : null,
+    _draggable : false,
 
     initialize: function(options){
         this._variableCtrlStatus = options && options.variable!=undefined && options.variable!="undefined" ? options.variable : true; 
+        this._draggable = options && options.draggable!=undefined && options.draggable!="undefined" ? options.draggable : false; 
+       
     },
 
     _events: {
@@ -34,6 +37,11 @@ app.view.tools.common.Countries = Backbone.View.extend({
             ctx: app.context.data,
             variableCtrl : this._variableCtrlStatus
         }));
+
+        if (this._draggable){
+            this.$("ul.country_bar li").draggable({ revert: true});    
+        }
+        
     },
 
     onClose: function(){

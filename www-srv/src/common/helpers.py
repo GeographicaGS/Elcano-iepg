@@ -10,11 +10,13 @@ import tweepy
 import model.iepgdatamodel
 from config import MemcachedConfig
 from flask import jsonify
-from const import families, variables, blocks, iepg_blocks
 import engine.engine as engine
 import maplex.maplex as maplex
 if MemcachedConfig["enabled"] == True:
     import memcache
+import const
+import PyICU
+import collections
 
 
 def cacheWrapper(funcName, *args, **kwargs):
@@ -49,7 +51,7 @@ def baseMapData():
 
 def getVariableData(family, key):
     """Retrieves variable data."""
-    for k,i in variables.items():
+    for k,i in const.variables.items():
         if i["family"]==family and i["key"]==key:
             return i
     
@@ -76,7 +78,7 @@ def getBlocksFromCountryList(countryList):
     _countries = []
     _blocks = []
     for a in countryList:
-        if a in blocks:
+        if a in getBlocks().keys():
             _blocks.append(a)
         else:
             _countries.append(a)
@@ -119,19 +121,29 @@ def arraySubstraction(array1, array2):
     return([v for v in array1 if v not in array2])
 
 
+def getBlocks():
+    """Returns all ISO codes of blocks."""
+    names = cacheWrapper(maplex.getNames)
+    isoCodes = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==4}
+    spanishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==3 and 
+                    v["id_geoentity"] in isoCodes.keys()}
+    englishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==2 and 
+                    v["id_geoentity"] in isoCodes.keys()}
+
+    countries = dict()
+    for k,v in isoCodes.iteritems():
+        n = dict()
+        n["es"] = spanishNames[k]
+        n["en"] = englishNames[k]
+        n["idGeoentity"] = k
+        countries[v] = n
+            
+    return(countries)
+    
+
 def getIepgCountries():
     """Returns all ISO codes of countries in IEPG."""
-    m = cacheWrapper(engine.getVariableCodes, 1)
-    out = []
-    for i in m:
-        out.append(i["code"])
-    return(arraySubstraction(out, iepg_blocks))
-
-
-def getIepeCountries():
-    """Returns all ISO codes of countries in IEPE."""
-    # HERE
-    m = getListFromDictionary(arraySubstraction(cacheWrapper(engine.getVariableCodes, 2), iepg_blocks), 
+    m = getListFromDictionary(arraySubstraction(cacheWrapper(engine.getVariableCodes, 1), const.iepgBlocks), 
                               "code")
     names = cacheWrapper(maplex.getNames)
     isoCodes = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==1 and v["name"] in m}
@@ -143,12 +155,44 @@ def getIepeCountries():
     countries = dict()
     for k,v in isoCodes.iteritems():
         n = dict()
-        n["spanish"] = spanishNames[k]
-        n["english"] = englishNames[k]
+        n["es"] = spanishNames[k]
+        n["en"] = englishNames[k]
         n["idGeoentity"] = k
         countries[v] = n
             
     return(countries)
+
+
+def getIepeCountries():
+    """Returns all ISO codes of countries in IEPE."""
+    m = getListFromDictionary(arraySubstraction(cacheWrapper(engine.getVariableCodes, 2), iepgBlocks), 
+                              "code")
+    names = cacheWrapper(maplex.getNames)
+    isoCodes = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==1 and v["name"] in m}
+    spanishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==3 and 
+                    v["id_geoentity"] in isoCodes.keys()}
+    englishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==2 and 
+                    v["id_geoentity"] in isoCodes.keys()}
+
+    countries = dict()
+    for k,v in isoCodes.iteritems():
+        n = dict()
+        n["es"] = spanishNames[k]
+        n["en"] = englishNames[k]
+        n["idGeoentity"] = k
+        countries[v] = n
+            
+    return(countries)
+
+
+def getBlockMembers(idGeoentityBlock, year=None):
+    out = []
+    for m in cacheWrapper(maplex.getBlockMembers, idGeoentityBlock, year=year):
+        m["es"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 3)[0]["names"][0]
+        m["en"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 2)[0]["names"][0]
+        m["iso"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 1)[0]["names"][0]
+        out.append(m)
+    return(out)
 
 
 def getListFromDictionary(dictionary, key):
@@ -157,3 +201,14 @@ def getListFromDictionary(dictionary, key):
     for i in dictionary:
         out.append(i[key])
     return(out)
+
+
+def getOrderedDictionary(dict):
+    """Returns an ordered dictionaty."""
+    collator = PyICU.Collator.createInstance(PyICU.Locale("es_ES.UTF-8"))
+    od = collections.OrderedDict()
+    s = sorted(dict.keys(), cmp=collator.compare)
+    for i in s:
+        od[i] = dict[i]
+
+    return od

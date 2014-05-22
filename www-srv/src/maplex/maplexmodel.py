@@ -4,6 +4,8 @@
 
 Maplex model.
 
+TODO: create functions that returns the database information in dictionaries but keyed with a name family.
+
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 # import common.timelapse
@@ -18,6 +20,22 @@ class MaplexModel(PostgreSQLModel):
                         returnID="id_name")
 
         return(a)
+
+
+    def getGeoentityBlocks(self, idGeoentity, year):
+        """Returns blocks idGeoentity is in for the given year."""
+        bindings = [idGeoentity]
+        sql = """
+        select *
+        from maplex.vw__blocks_membership
+        where id_geoentity_child=%s
+        """
+
+        if year: 
+            sql += " and (date_part('YEAR', date_in_membership)<=%s or date_in_membership is null)"
+            bindings.append(year)
+
+        return(self.query(sql, bindings=bindings).result())
 
 
     def getNameFamilies(self):
@@ -84,12 +102,12 @@ class MaplexModel(PostgreSQLModel):
         return(self.query(sql, bindings=[idName]).result())
 
     
-    def getGeoentityName(self, idGeoentity, idNameFamily):
-        """Returns the name for idGeoentity and idNameFamily."""
+    def getGeoentityNames(self, idGeoentity, idNameFamily):
+        """Returns the names for idGeoentity and idNameFamily."""
         sql = """
-        select *
+        select array_agg(name) as names
         from maplex.vw__names
-        where id_geoentity=%s and idNameFamily=%s;"""
+        where id_geoentity=%s and id_name_family=%s;"""
 
         return(self.query(sql,bindings=[idGeoentity, idNameFamily]).result())
 
@@ -117,12 +135,19 @@ class MaplexModel(PostgreSQLModel):
         return(self.query(sql, bindings=bindings).result())
 
 
-    def getBlockMembers(self, idGeoentityBlock):
-        """Retrieves block members."""
+    def getBlockMembers(self, idGeoentityBlock, year):
+        """Retrieves block members. TODO: go beyond year."""
+        bindings=[idGeoentityBlock]
         sql = """
         select *
         from
         maplex.vw__blocks_membership
-        where id_geoentity_block = %s;"""
+        where id_geoentity_block = %s"""
 
-        return(self.query(sql, bindings=[idGeoentityBlock]).result())
+        if year:
+            sql += " and (date_part('YEAR', date_in_membership)<=%s or date_in_membership is null)"
+            bindings.append(year)
+
+        sql += ";"
+
+        return(self.query(sql, bindings=bindings).result())

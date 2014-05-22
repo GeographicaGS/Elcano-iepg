@@ -49,6 +49,12 @@ def getName(idName):
    return(m.getName(idName))
 
 
+def getGeoentityNames(idGeoentity, idNameFamily):
+    """Returns a list with all geoentity names corresponding to the given family."""
+    m = maplexmodel.MaplexModel()
+    return(m.getGeoentityNames(idGeoentity, idNameFamily))
+
+
 # TODO: redefine this method so it returns blocks whose existence is completely 
 # within the lapse and make a difference on if the lapse is calculated by its members
 # or the block itself
@@ -66,9 +72,13 @@ def getBlocks(timeLapseBlock=None, timeLapseMembers=None):
     return(m.getBlocks(timeLapseBlock, timeLapseMembers))
 
 
-def getBlockMembers(idGeoentityBlock):
+def getBlockMembers(idGeoentityBlock, year=None):
     """Retrieves block members."""
     m = maplexmodel.MaplexModel()
-    return(m.getBlockMembers(idGeoentityBlock))
+    return(m.getBlockMembers(idGeoentityBlock, year))
 
 
+def getGeoentityBlocks(idGeoentity, year=None):
+    """Returns all blocks idGeoentity is in."""
+    m = maplexmodel.MaplexModel()
+    return(m.getGeoentityBlocks(idGeoentity, year))

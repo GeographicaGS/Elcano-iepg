@@ -194,21 +194,21 @@ class IepgDataModel(PostgreSQLModel):
         """.format(var["column"], var["column"])
         return(self.query(sql, bindings=[year, year, year]).result())
 
-    # def getIepgComment(self, lang, countryCode, year):
-    #     """Returns the IEPG comment for the given country and year."""
-    #     sql = """
-    #     select
-    #     a.iso_3166_1_2_code as code,
-    #     date_part('year', b.date_in) as year,
-    #     b.comment
-    #     from
-    #     iepg_data.master_country a inner join
-    #     iepg_data.iepg_comment b on
-    #     a.id_master_country=b.id_master_country
-    #     where
-    #     a.iso_3166_1_2_code=%s and date_part('year', b.date_in)=%s and language=%s;"""
+    def getIepgComment(self, lang, countryCode, year):
+        """Returns the IEPG comment for the given country and year."""
+        sql = """
+        select
+        a.iso_3166_1_2_code as code,
+        date_part('year', b.date_in) as year,
+        b.comment
+        from
+        iepg_data.master_country a inner join
+        iepg_data.iepg_comment b on
+        a.id_master_country=b.id_master_country
+        where
+        a.iso_3166_1_2_code=%s and date_part('year', b.date_in)=%s and language=%s;"""
 
-    #     return(self.query(sql, bindings=[countryCode, year, lang]).result())
+        return(self.query(sql, bindings=[countryCode, year, lang]).result())
 
 
     def variableData(self, family, variable, year, filter=None, toolFilter=None):

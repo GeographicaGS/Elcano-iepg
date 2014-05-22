@@ -1,0 +1,1204 @@
+{
+    "results": {
+        "1990": {
+            "comment": {
+                "code": "US",
+                "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                "year": 1990
+            },
+            "context_var": {},
+            "iepg_variables": {
+                "cooperation": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 415.722749,
+                    "variable": "Cooperation",
+                    "year": 1990
+                },
+                "culture": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 142.1536679,
+                    "variable": "Culture",
+                    "year": 1990
+                },
+                "economic_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 236.0210604,
+                    "variable": "Economic Presence",
+                    "year": 1990
+                },
+                "education": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 616.9266146,
+                    "variable": "Education",
+                    "year": 1990
+                },
+                "energy": {
+                    "code": "US",
+                    "ranking": 9,
+                    "value": 64.97762767,
+                    "variable": "Energy",
+                    "year": 1990
+                },
+                "iepg": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 476.9833205,
+                    "variable": "IEPG",
+                    "year": 1990
+                },
+                "information": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 0,
+                    "variable": "Information",
+                    "year": 1990
+                },
+                "investments": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 171,
+                    "variable": "Investments",
+                    "year": 1990
+                },
+                "manufactures": {
+                    "code": "US",
+                    "ranking": 3,
+                    "value": 244.4055535,
+                    "variable": "Manufactures",
+                    "year": 1990
+                },
+                "migrations": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 543.0797514,
+                    "variable": "Migrations",
+                    "year": 1990
+                },
+                "military_equipment": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1227,
+                    "variable": "Military Equipment",
+                    "year": 1990
+                },
+                "military_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1359.622088,
+                    "variable": "Military Presence",
+                    "year": 1990
+                },
+                "primary_goods": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 493.1707106,
+                    "variable": "Primary Goods",
+                    "year": 1990
+                },
+                "science": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 677.2447703,
+                    "variable": "Science",
+                    "year": 1990
+                },
+                "services": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 290.7468886,
+                    "variable": "Services",
+                    "year": 1990
+                },
+                "soft_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 369.0343119,
+                    "variable": "Soft Presence",
+                    "year": 1990
+                },
+                "sports": {
+                    "code": "US",
+                    "ranking": 3,
+                    "value": 479.7766774,
+                    "variable": "Sports",
+                    "year": 1990
+                },
+                "technology": {
+                    "code": "US",
+                    "ranking": 3,
+                    "value": 371.0716239,
+                    "variable": "Technology",
+                    "year": 1990
+                },
+                "tourism": {
+                    "code": "US",
+                    "ranking": 7,
+                    "value": 223.7507165,
+                    "variable": "Tourism",
+                    "year": 1990
+                },
+                "troops": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1487.04331,
+                    "variable": "Troops",
+                    "year": 1990
+                }
+            }
+        },
+        "1995": {
+            "comment": {
+                "code": "US",
+                "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                "year": 1995
+            },
+            "context_var": {},
+            "iepg_variables": {
+                "cooperation": {
+                    "code": "US",
+                    "ranking": 4,
+                    "value": 278.9691829,
+                    "variable": "Cooperation",
+                    "year": 1995
+                },
+                "culture": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 343.1819828,
+                    "variable": "Culture",
+                    "year": 1995
+                },
+                "economic_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 347.3931295,
+                    "variable": "Economic Presence",
+                    "year": 1995
+                },
+                "education": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 686.9513353,
+                    "variable": "Education",
+                    "year": 1995
+                },
+                "energy": {
+                    "code": "US",
+                    "ranking": 13,
+                    "value": 54.96931193,
+                    "variable": "Energy",
+                    "year": 1995
+                },
+                "iepg": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 487.6625915,
+                    "variable": "IEPG",
+                    "year": 1995
+                },
+                "information": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 0,
+                    "variable": "Information",
+                    "year": 1995
+                },
+                "investments": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 318.1076333,
+                    "variable": "Investments",
+                    "year": 1995
+                },
+                "manufactures": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 402.5109192,
+                    "variable": "Manufactures",
+                    "year": 1995
+                },
+                "migrations": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 666.197739,
+                    "variable": "Migrations",
+                    "year": 1995
+                },
+                "military_equipment": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1016,
+                    "variable": "Military Equipment",
+                    "year": 1995
+                },
+                "military_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 897.0263658,
+                    "variable": "Military Presence",
+                    "year": 1995
+                },
+                "primary_goods": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 578,
+                    "variable": "Primary Goods",
+                    "year": 1995
+                },
+                "science": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 764.9814956,
+                    "variable": "Science",
+                    "year": 1995
+                },
+                "services": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 431.0803688,
+                    "variable": "Services",
+                    "year": 1995
+                },
+                "soft_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 461.1499648,
+                    "variable": "Soft Presence",
+                    "year": 1995
+                },
+                "sports": {
+                    "code": "US",
+                    "ranking": 2,
+                    "value": 597.2023442,
+                    "variable": "Sports",
+                    "year": 1995
+                },
+                "technology": {
+                    "code": "US",
+                    "ranking": 3,
+                    "value": 421.4854158,
+                    "variable": "Technology",
+                    "year": 1995
+                },
+                "tourism": {
+                    "code": "US",
+                    "ranking": 2,
+                    "value": 566.541608,
+                    "variable": "Tourism",
+                    "year": 1995
+                },
+                "troops": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 782.7183644,
+                    "variable": "Troops",
+                    "year": 1995
+                }
+            }
+        },
+        "2000": {
+            "comment": {
+                "code": "US",
+                "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                "year": 2000
+            },
+            "context_var": {},
+            "iepg_variables": {
+                "cooperation": {
+                    "code": "US",
+                    "ranking": 2,
+                    "value": 366.2490446,
+                    "variable": "Cooperation",
+                    "year": 2000
+                },
+                "culture": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 621.1890796,
+                    "variable": "Culture",
+                    "year": 2000
+                },
+                "economic_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 492.1119828,
+                    "variable": "Economic Presence",
+                    "year": 2000
+                },
+                "education": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 719.3198109,
+                    "variable": "Education",
+                    "year": 2000
+                },
+                "energy": {
+                    "code": "US",
+                    "ranking": 16,
+                    "value": 70.14600411,
+                    "variable": "Energy",
+                    "year": 2000
+                },
+                "iepg": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 618.6497922,
+                    "variable": "IEPG",
+                    "year": 2000
+                },
+                "information": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 15.90104286,
+                    "variable": "Information",
+                    "year": 2000
+                },
+                "investments": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 628.3849867,
+                    "variable": "Investments",
+                    "year": 2000
+                },
+                "manufactures": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 574.0222322,
+                    "variable": "Manufactures",
+                    "year": 2000
+                },
+                "migrations": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 813.1601266,
+                    "variable": "Migrations",
+                    "year": 2000
+                },
+                "military_equipment": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1089,
+                    "variable": "Military Equipment",
+                    "year": 2000
+                },
+                "military_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1022.032484,
+                    "variable": "Military Presence",
+                    "year": 2000
+                },
+                "primary_goods": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 542.3712958,
+                    "variable": "Primary Goods",
+                    "year": 2000
+                },
+                "science": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 789.0269024,
+                    "variable": "Science",
+                    "year": 2000
+                },
+                "services": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 568.6647419,
+                    "variable": "Services",
+                    "year": 2000
+                },
+                "soft_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 582.874003,
+                    "variable": "Soft Presence",
+                    "year": 2000
+                },
+                "sports": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 483.1142836,
+                    "variable": "Sports",
+                    "year": 2000
+                },
+                "technology": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 791.7453371,
+                    "variable": "Technology",
+                    "year": 2000
+                },
+                "tourism": {
+                    "code": "US",
+                    "ranking": 2,
+                    "value": 667.4743369,
+                    "variable": "Tourism",
+                    "year": 2000
+                },
+                "troops": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 957.6911444,
+                    "variable": "Troops",
+                    "year": 2000
+                }
+            }
+        },
+        "2005": {
+            "comment": {
+                "code": "US",
+                "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                "year": 2005
+            },
+            "context_var": {},
+            "iepg_variables": {
+                "cooperation": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 969.3562097,
+                    "variable": "Cooperation",
+                    "year": 2005
+                },
+                "culture": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 727.9310595,
+                    "variable": "Culture",
+                    "year": 2005
+                },
+                "economic_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 634.0907254,
+                    "variable": "Economic Presence",
+                    "year": 2005
+                },
+                "education": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 893.3923319,
+                    "variable": "Education",
+                    "year": 2005
+                },
+                "energy": {
+                    "code": "US",
+                    "ranking": 16,
+                    "value": 138.7313123,
+                    "variable": "Energy",
+                    "year": 2005
+                },
+                "iepg": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 791.3783331,
+                    "variable": "IEPG",
+                    "year": 2005
+                },
+                "information": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 208,
+                    "variable": "Information",
+                    "year": 2005
+                },
+                "investments": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 848.5709681,
+                    "variable": "Investments",
+                    "year": 2005
+                },
+                "manufactures": {
+                    "code": "US",
+                    "ranking": 2,
+                    "value": 647.0738075,
+                    "variable": "Manufactures",
+                    "year": 2005
+                },
+                "migrations": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 917.155847,
+                    "variable": "Migrations",
+                    "year": 2005
+                },
+                "military_equipment": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 969,
+                    "variable": "Military Equipment",
+                    "year": 2005
+                },
+                "military_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1192.740196,
+                    "variable": "Military Presence",
+                    "year": 2005
+                },
+                "primary_goods": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 682.2111166,
+                    "variable": "Primary Goods",
+                    "year": 2005
+                },
+                "science": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 885.21732,
+                    "variable": "Science",
+                    "year": 2005
+                },
+                "services": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 740.8192646,
+                    "variable": "Services",
+                    "year": 2005
+                },
+                "soft_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 781.707448,
+                    "variable": "Soft Presence",
+                    "year": 2005
+                },
+                "sports": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 750.1800775,
+                    "variable": "Sports",
+                    "year": 2005
+                },
+                "technology": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1095.092728,
+                    "variable": "Technology",
+                    "year": 2005
+                },
+                "tourism": {
+                    "code": "US",
+                    "ranking": 3,
+                    "value": 641.0035954,
+                    "variable": "Tourism",
+                    "year": 2005
+                },
+                "troops": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1407.706267,
+                    "variable": "Troops",
+                    "year": 2005
+                }
+            }
+        },
+        "2010": {
+            "comment": {
+                "code": "US",
+                "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                "year": 2010
+            },
+            "context_var": {},
+            "iepg_variables": {
+                "cooperation": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Cooperation",
+                    "year": 2010
+                },
+                "culture": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Culture",
+                    "year": 2010
+                },
+                "economic_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 799.8090834,
+                    "variable": "Economic Presence",
+                    "year": 2010
+                },
+                "education": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Education",
+                    "year": 2010
+                },
+                "energy": {
+                    "code": "US",
+                    "ranking": 8,
+                    "value": 287.7428884,
+                    "variable": "Energy",
+                    "year": 2010
+                },
+                "iepg": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 912.1692994,
+                    "variable": "IEPG",
+                    "year": 2010
+                },
+                "information": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Information",
+                    "year": 2010
+                },
+                "investments": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Investments",
+                    "year": 2010
+                },
+                "manufactures": {
+                    "code": "US",
+                    "ranking": 3,
+                    "value": 640.0768175,
+                    "variable": "Manufactures",
+                    "year": 2010
+                },
+                "migrations": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Migrations",
+                    "year": 2010
+                },
+                "military_equipment": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Military Equipment",
+                    "year": 2010
+                },
+                "military_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Military Presence",
+                    "year": 2010
+                },
+                "primary_goods": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Primary Goods",
+                    "year": 2010
+                },
+                "science": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Science",
+                    "year": 2010
+                },
+                "services": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Services",
+                    "year": 2010
+                },
+                "soft_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 974.4387994,
+                    "variable": "Soft Presence",
+                    "year": 2010
+                },
+                "sports": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Sports",
+                    "year": 2010
+                },
+                "technology": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Technology",
+                    "year": 2010
+                },
+                "tourism": {
+                    "code": "US",
+                    "ranking": 2,
+                    "value": 715.9866604,
+                    "variable": "Tourism",
+                    "year": 2010
+                },
+                "troops": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Troops",
+                    "year": 2010
+                }
+            }
+        },
+        "2011": {
+            "comment": {
+                "code": "US",
+                "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                "year": 2011
+            },
+            "context_var": {},
+            "iepg_variables": {
+                "cooperation": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1050.563417,
+                    "variable": "Cooperation",
+                    "year": 2011
+                },
+                "culture": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1054.667246,
+                    "variable": "Culture",
+                    "year": 2011
+                },
+                "economic_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 935.1096316,
+                    "variable": "Economic Presence",
+                    "year": 2011
+                },
+                "education": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1036.673777,
+                    "variable": "Education",
+                    "year": 2011
+                },
+                "energy": {
+                    "code": "US",
+                    "ranking": 8,
+                    "value": 424.5034291,
+                    "variable": "Energy",
+                    "year": 2011
+                },
+                "iepg": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 968.5063346,
+                    "variable": "IEPG",
+                    "year": 2011
+                },
+                "information": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1285.714286,
+                    "variable": "Information",
+                    "year": 2011
+                },
+                "investments": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1129.716741,
+                    "variable": "Investments",
+                    "year": 2011
+                },
+                "manufactures": {
+                    "code": "US",
+                    "ranking": 3,
+                    "value": 766.063931,
+                    "variable": "Manufactures",
+                    "year": 2011
+                },
+                "migrations": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Migrations",
+                    "year": 2011
+                },
+                "military_equipment": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 824,
+                    "variable": "Military Equipment",
+                    "year": 2011
+                },
+                "military_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 850.4233801,
+                    "variable": "Military Presence",
+                    "year": 2011
+                },
+                "primary_goods": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1251,
+                    "variable": "Primary Goods",
+                    "year": 2011
+                },
+                "science": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1025.785959,
+                    "variable": "Science",
+                    "year": 2011
+                },
+                "services": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1083.173372,
+                    "variable": "Services",
+                    "year": 2011
+                },
+                "soft_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1037.167247,
+                    "variable": "Soft Presence",
+                    "year": 2011
+                },
+                "sports": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 988.0927637,
+                    "variable": "Sports",
+                    "year": 2011
+                },
+                "technology": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Technology",
+                    "year": 2011
+                },
+                "tourism": {
+                    "code": "US",
+                    "ranking": 2,
+                    "value": 778.958887,
+                    "variable": "Tourism",
+                    "year": 2011
+                },
+                "troops": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 875.8105492,
+                    "variable": "Troops",
+                    "year": 2011
+                }
+            }
+        },
+        "2012": {
+            "comment": {
+                "code": "US",
+                "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                "year": 2012
+            },
+            "context_var": {},
+            "iepg_variables": {
+                "cooperation": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1078.645438,
+                    "variable": "Cooperation",
+                    "year": 2012
+                },
+                "culture": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1054.667246,
+                    "variable": "Culture",
+                    "year": 2012
+                },
+                "economic_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1038.641714,
+                    "variable": "Economic Presence",
+                    "year": 2012
+                },
+                "education": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1074.152905,
+                    "variable": "Education",
+                    "year": 2012
+                },
+                "energy": {
+                    "code": "US",
+                    "ranking": 4,
+                    "value": 679.5635782,
+                    "variable": "Energy",
+                    "year": 2012
+                },
+                "iepg": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1026.599991,
+                    "variable": "IEPG",
+                    "year": 2012
+                },
+                "information": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1642.857143,
+                    "variable": "Information",
+                    "year": 2012
+                },
+                "investments": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1050,
+                    "variable": "Investments",
+                    "year": 2012
+                },
+                "manufactures": {
+                    "code": "US",
+                    "ranking": 3,
+                    "value": 847.69834,
+                    "variable": "Manufactures",
+                    "year": 2012
+                },
+                "migrations": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Migrations",
+                    "year": 2012
+                },
+                "military_equipment": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 849.9997996,
+                    "variable": "Military Equipment",
+                    "year": 2012
+                },
+                "military_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 890.6114128,
+                    "variable": "Military Presence",
+                    "year": 2012
+                },
+                "primary_goods": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1557.9188,
+                    "variable": "Primary Goods",
+                    "year": 2012
+                },
+                "science": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1063.040809,
+                    "variable": "Science",
+                    "year": 2012
+                },
+                "services": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1179.352862,
+                    "variable": "Services",
+                    "year": 2012
+                },
+                "soft_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1063.952856,
+                    "variable": "Soft Presence",
+                    "year": 2012
+                },
+                "sports": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 926.2723545,
+                    "variable": "Sports",
+                    "year": 2012
+                },
+                "technology": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 765.3120644,
+                    "variable": "Technology",
+                    "year": 2012
+                },
+                "tourism": {
+                    "code": "US",
+                    "ranking": 2,
+                    "value": 816.9324162,
+                    "variable": "Tourism",
+                    "year": 2012
+                },
+                "troops": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 929.6304137,
+                    "variable": "Troops",
+                    "year": 2012
+                }
+            }
+        },
+        "2013": {
+            "comment": {
+                "code": "US",
+                "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                "year": 2013
+            },
+            "context_var": {},
+            "iepg_variables": {
+                "cooperation": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1058.673214,
+                    "variable": "Cooperation",
+                    "year": 2013
+                },
+                "culture": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1054.667246,
+                    "variable": "Culture",
+                    "year": 2013
+                },
+                "economic_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1114.052357,
+                    "variable": "Economic Presence",
+                    "year": 2013
+                },
+                "education": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1074.152905,
+                    "variable": "Education",
+                    "year": 2013
+                },
+                "energy": {
+                    "code": "US",
+                    "ranking": 4,
+                    "value": 722.190373,
+                    "variable": "Energy",
+                    "year": 2013
+                },
+                "iepg": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1041.683112,
+                    "variable": "IEPG",
+                    "year": 2013
+                },
+                "information": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1642.857143,
+                    "variable": "Information",
+                    "year": 2013
+                },
+                "investments": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1210.839795,
+                    "variable": "Investments",
+                    "year": 2013
+                },
+                "manufactures": {
+                    "code": "US",
+                    "ranking": 3,
+                    "value": 885.8717805,
+                    "variable": "Manufactures",
+                    "year": 2013
+                },
+                "migrations": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1000,
+                    "variable": "Migrations",
+                    "year": 2013
+                },
+                "military_equipment": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 847,
+                    "variable": "Military Equipment",
+                    "year": 2013
+                },
+                "military_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 788.2320324,
+                    "variable": "Military Presence",
+                    "year": 2013
+                },
+                "primary_goods": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1557.047628,
+                    "variable": "Primary Goods",
+                    "year": 2013
+                },
+                "science": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1082.00814,
+                    "variable": "Science",
+                    "year": 2013
+                },
+                "services": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1259.344327,
+                    "variable": "Services",
+                    "year": 2013
+                },
+                "soft_presence": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 1070.056721,
+                    "variable": "Soft Presence",
+                    "year": 2013
+                },
+                "sports": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 938.1698379,
+                    "variable": "Sports",
+                    "year": 2013
+                },
+                "technology": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 765.3120644,
+                    "variable": "Technology",
+                    "year": 2013
+                },
+                "tourism": {
+                    "code": "US",
+                    "ranking": 2,
+                    "value": 872.4011255,
+                    "variable": "Tourism",
+                    "year": 2013
+                },
+                "troops": {
+                    "code": "US",
+                    "ranking": 1,
+                    "value": 731.768691,
+                    "variable": "Troops",
+                    "year": 2013
+                }
+            }
+        }
+    }
+}

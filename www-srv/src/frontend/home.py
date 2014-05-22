@@ -5,15 +5,18 @@ Frontend home services.
 """
 from frontend import app
 from flask import jsonify,request
+from flask.json import dump
 from model.homemodel import HomeModel
 from model.iepgdatamodel import IepgDataModel
 from model.highlightmodel import HighlightModel
 from model.labelmodel import LabelModel
 import helpers
+import common.helpers
 import collections
 from common import config as config
 from common import const as cons
 from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage
+import locale
 
 
 @app.route('/home/email', methods=['POST'])
@@ -48,6 +51,8 @@ def countries():
     Returns a JSON:
 
     {
+    results: [
+    {
       "block":
         {
           "name": "América",
@@ -56,29 +61,32 @@ def countries():
             {"name": "USA"},
             {"name": "Canadá"}
           ]
-        },
+        }
+    },
+    ]
     }
       
     """
-    m = IepgDataModel()
-    a = m.countries(request.args["lang"], request.args["year"])
-    blocks=dict()
-    countries = dict()
-    final = dict()
+    lang = request.args["lang"]
+    year = request.args["year"]
+    blocks = common.helpers.cacheWrapper(common.helpers.getBlocks)
+    blockNames = sorted([v[lang] for (k,v) in blocks.iteritems()], cmp=locale.strcoll)
+    out = []
     
-    for r in a:
-        if r["block_name"] not in blocks.keys():
-            blocks[r["block_name"]]=dict()
-            blocks[r["block_name"]]["countries"] = [r["country_name"]]
-        else:
-            blocks[r["block_name"]]["countries"].append(r["country_name"])
+    for b in blockNames:
+        blockData = [v for v in blocks.values() if v[lang]==b][0]
+        block = dict()
+        superDict = dict()
+        countries = []
+        for m in common.helpers.cacheWrapper(common.helpers.getBlockMembers, 
+                                             blockData["idGeoentity"], year=year):
+            countries.append(m[lang])
+        block["countries"] = sorted(countries, cmp=locale.strcoll)
+        block["ncountries"] = len(countries)
+        superDict[b] = block
+        out.append(superDict)
 
-    for key, value in blocks.items():
-        value["ncountries"] = len(value["countries"])
-
-    od = collections.OrderedDict(sorted(blocks.items()))
-
-    return(jsonify(od))
+    return(jsonify({"results": out}))
 
 
 @app.route('/home/years', methods=['GET'])

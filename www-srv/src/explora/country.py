@@ -12,6 +12,7 @@ import json
 from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError
 from common.const import variables, years, blocks
+import common.helpers
 from helpers import processFilter
 
 
@@ -82,41 +83,51 @@ def blocksData(lang, year):
 
 
 @app.route('/countrysheet/<string:lang>/<string:family>/<string:countryCode>', methods=['GET'])
-def countrySheet(lang, family,countryCode):
+def countrySheet(lang, family, countryCode):
     """Retrieves all the data, for all years, and for a single country, to render the country sheet.
     Only retrieves context and IEPG variable families.
     Service call:
 
-    /countrysheet/es/US?filter=US,DK,ES
-    /countrysheet/en/NL?filter=US,NL,ES&toolfilter=NL,ES
+    /countrysheet/es/iepe/US?filter=US,DK,ES&entities=NL,XBEU,NZ
+
+    entities is mandatory
     """
     m = iepgdatamodel.IepgDataModel()
-    filter = processFilter(request.args, "filter")
-    toolFilter = processFilter(request.args, "toolfilter")
-    try:
-        data = dict()
-        for year in years:
-            y = dict()
-            iepg_var = dict()
-            context_var = dict()
-            for var,item in variables.items():
-                if item["family"]=="iepg":
-                    rankData = cacheWrapper(m.ranking, lang, countryCode, 
-                                            "iepg", item["key"], year, filter=filter, toolFilter=toolFilter)
-                    iepg_var[item["key"]] = rankData[0]
-                if item["family"]=="context":
-                    rankData = cacheWrapper(m.ranking, lang, countryCode, 
-                                            "context", item["key"], year, filter=filter, toolFilter=toolFilter)
-                    context_var[item["key"]] = rankData[0]
+    f = processFilter(request.args, "filter")
+    e = processFilter(request.args, "entities")
+    blocksEntities,countriesEntities = common.helpers.getBlocksFromCountryList(e) if e else (None, None)
 
-            y["iepg_variables"] = iepg_var
-            y["context_var"] = context_var
-            y["comment"] = cacheWrapper(m.getIepgComment, lang, countryCode, year)[0]
-            data[year]=y
-        return(jsonify({"results": data}))
-    except ElcanoApiRestError as e:
-        return(jsonify(e.toDict()))
+    print(f)
+    print(blocksEntities, countriesEntities)
 
+    ###HERE###
+
+
+    # try:
+    #     data = dict()
+    #     for year in years:
+    #         y = dict()
+    #         iepg_var = dict()
+    #         context_var = dict()
+    #         for var,item in variables.items():
+    #             if item["family"]=="iepg":
+    #                 rankData = cacheWrapper(m.ranking, lang, countryCode, 
+    #                                         "iepg", item["key"], year, filter=filter, toolFilter=toolFilter)
+    #                 iepg_var[item["key"]] = rankData[0]
+    #             if item["family"]=="context":
+    #                 rankData = cacheWrapper(m.ranking, lang, countryCode, 
+    #                                         "context", item["key"], year, filter=filter, toolFilter=toolFilter)
+    #                 context_var[item["key"]] = rankData[0]
+
+    #         y["iepg_variables"] = iepg_var
+    #         y["context_var"] = context_var
+    #         y["comment"] = cacheWrapper(m.getIepgComment, lang, countryCode, year)[0]
+    #         data[year]=y
+    #     return(jsonify({"results": data}))
+    # except ElcanoApiRestError as e:
+    #     return(jsonify(e.toDict()))
+
+    return(jsonify({"E": 1}))
 
 @app.route('/mapdata/<string:family>/<string:variable>/<int:year>', methods=['GET'])
 def mapData(family, variable, year):

@@ -170,3 +170,36 @@ def mapGeoJson():
     out["features"] = features
 
     return(jsonify(out))
+
+
+@app.route('/globalindex/<string:family>/<string:countries>/<string:lang>', methods=['GET'])
+def globalindex(family,countries,lang):
+    from random import randint
+    countriesArray = countries.split(",")
+    dictResponse = { "results":[] }
+    for c in countriesArray:
+        dictResponse["results"].append({
+            "country" : c,
+            "years" : {
+                "1990" : {
+                    "value" :  randint(10,500)
+                },
+                "1995" : {
+                    "value" :  randint(10,500)
+                },
+                "2000" : {
+                    "value" :  randint(10,500)
+                },
+                "2005" : {
+                    "value" :  randint(10,500)
+                },
+                "2010" : {
+                    "value" :  randint(10,500)
+                },
+                "2013" : {
+                    "value" :  randint(10,500)
+                }
+            }
+        })
+
+    return jsonify(dictResponse)

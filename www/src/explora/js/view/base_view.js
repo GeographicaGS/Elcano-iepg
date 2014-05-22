@@ -23,17 +23,14 @@ app.view.Base = Backbone.View.extend({
             listTools = localTools.tools;
             for (var i=0;i<listTools.length;i++){
                 var tool = this.getInstanceViewByType(listTools[i]);
-                var bringToFront = listTools[i] == localTools.selected ? true : false;
-                this.addTool(tool,bringToFront);
+                //var bringToFront = listTools[i] == localTools.selected ? true : false;
+                this.addTool(tool,false);
             }
         }
         else{
             // if no information in local store load the country tool
             tool = new app.view.tools.CountryPlugin();
-            this.addTool(tool,true);
-
-            tool = new app.view.tools.RankingPlugin();
-            this.addTool(tool,true);
+            this.addTool(tool,false);
         }
 
     },
@@ -237,6 +234,26 @@ app.view.Base = Backbone.View.extend({
         return null;
     },
 
+    loadDefaultTool: function(){
+        var localTools =  localStorage.getItem("tools");
+
+        if (localTools){
+            localTools = JSON.parse(localTools);
+            
+           
+            var tool = this.getToolByType(localTools.selected);
+            if (!tool){
+                tool = this.getToolByType(localTools.tools[0]);
+            }
+            
+            this.bringToolToFront(tool);        
+            
+        }
+        else{
+            // Not expected
+        }
+    },
+
     loadCountryTool: function(url){
         var tool = this._searchToolByType("country");
 
@@ -275,6 +292,26 @@ app.view.Base = Backbone.View.extend({
         }
     },
 
+     loadContributionsTool: function(url){
+         var tool = this._searchToolByType("contributions");
+
+        if (!tool){
+            // tool not already loaded
+            tool = new app.view.tools.ContributionsPlugin();
+            // This method transform the current url in a context 
+            tool.URLToContext(url);
+            // Add the tool
+            this.addTool(tool,true);
+        }
+        else{
+            // This method transform the current url in a context
+            tool.URLToContext(url);
+
+            // move tool to front
+            this.bringToolToFront(tool);   
+        }
+    },
+
     // This method will be called when a tool is added or removed
     saveToolStatus: function(){
         localStorage.setItem("tools",
@@ -304,6 +341,7 @@ app.view.Base = Backbone.View.extend({
         this._filterSelectorView = new app.view.FilterSelector(); 
     },
 
+    
 
     
     

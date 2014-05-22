@@ -200,8 +200,7 @@ deps.Explora.JS = {
 			// ------  Models ------
 			// --------------------
 			"explora/js/model/tools/country_tool_model.js",
-		
-
+	
 			
 			// --------------------
 			// --- Collections  ---
@@ -210,6 +209,7 @@ deps.Explora.JS = {
 			"explora/js/collection/filter.js",
 			"explora/js/collection/country_tool_map.js",
 			"explora/js/collection/ranking_tool.js",
+			"explora/js/collection/global_index_collection.js",
 			
 			// --------------------
 			// ------  Views ------

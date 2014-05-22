@@ -253,7 +253,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             countries = ctx.countries.list.join(","),
             country = ctx.countries.selection[0],
             variable = ctx.variables[0],
-            year = ctx.slider[0].date.getFullYear()
+            year = ctx.slider[0].date.getFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "country/" + family + "/" + countries + "/" + country + "/" + year + filters;
 

@@ -229,46 +229,77 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
            
             $country_name = $co_chart.find(".name");
             
-            if (country){
-                // Set the country name
-                $country_name.html(app.countryToString(country)).removeClass("no_data");
+        if (country){
+            // Set the country name
+            $country_name.html(app.countryToString(country)).removeClass("no_data");
 
-                if (forceFetch){
-                    // Fetch the data of this tool
-                    this._models[pos] = new app.model.tools.country({
-                        "id" : country,
-                        "family" : ctx.family
-                    });
+            if (forceFetch){
+                // Fetch the data of this tool
+                this._models[pos] = new app.model.tools.country({
+                    "id" : country,
+                    "family" : ctx.family
+                });
 
-                    var _this = this;
-                    this._models[pos].fetch({
-                        success: function(){
-                           if (pos == "left"){
-                                _this._forceFetchDataSubToolLeft = false;
-                           }
-                           else{
-                                _this._forceFetchDataSubToolRight = false;
-                           }
-                           _this._drawD3Chart(pos,country,_this._models[pos]);
-                        }
-                    });
+                var _this = this;
+                this._models[pos].fetch({
+                    success: function(){
+                       if (pos == "left"){
+                            _this._forceFetchDataSubToolLeft = false;
+                       }
+                       else{
+                            _this._forceFetchDataSubToolRight = false;
+                       }
+                       _this._drawD3Chart(pos,country,_this._models[pos]);
+                    }
+                });
 
-                }
-                else{
-                    //We already have the data, let's draw directly
-                    this._drawD3Chart(pos,country,this._models[pos]);
-                }
             }
             else{
-                $country_name.html("<lang>¿País?</lang>").addClass("no_data");
-                this._drawD3ChartNoData(pos);
+                //We already have the data, let's draw directly
+                this._drawD3Chart(pos,country,this._models[pos]);
             }
+        }
+        else{
+            $country_name.html("<lang>¿País?</lang>").addClass("no_data");
+            this._drawD3ChartNoData(pos);
+        }
             
 
     },
 
+    _fetchDataMap: function(){
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+        // Fetch the collection from the server
+        this._mapCollection = new app.collection.CountryToolMap([],{
+            "family" :  ctx.family,
+            "variable" : ctx.family, // this is a trick, the map of this tool always show the family variable
+            "date" : ctx.slider[0].date.getFullYear()
+        });
+        
+        this.listenTo(this._mapCollection,"reset",this._renderMapAsync);
+
+        this._mapCollection.fetch({"reset":true});
+
+    },
+
+     _renderMapAsync: function(){
+        this._forceFetchDataMap = false;
+        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON());
+    },
+
+
     renderMap: function(){
         // draw the map
+        if (this._forceFetchDataMap){
+
+            this._fetchDataMap();
+        }
+        else{
+            this._renderMapAsync();
+        }
     },
 
     onClose: function(){

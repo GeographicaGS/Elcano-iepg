@@ -1,0 +1,24 @@
+<%
+var 
+	collection = _.sortBy(collection, function(d){ return d.years[year].value }),
+	min = collection.length ? collection[0].years[year].value : 0,
+	max = collection.length ? collection[collection.length-1].years[year].value : 0,
+	maxSize = 120,
+	minSize = 30,
+	size = d3.scale.linear()
+    	.domain([min, max])
+    	.range([minSize, maxSize]);
+
+for (var i=collection.length-1;i>=0;i--){
+	d = collection[i]; 
+	v = d["years"][year].value;
+	flagSize = size(v);
+	%>
+	<li title="<%= app.countryToString(d.country)%>">
+		<div class="co_flag" style="width: <%=flagSize%>px;height: <%=flagSize%>px" >
+			<img src="/img/flags/<%= d.country %>.svg" />
+		</div>
+		<p><strong><%= d.country %></strong> <%= sprintf("%.2f",v) %></p>
+
+	</li>
+<% } %>

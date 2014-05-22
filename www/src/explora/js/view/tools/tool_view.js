@@ -146,9 +146,10 @@ app.view.tools.Plugin = Backbone.View.extend({
 
     /* This method copy the global context to the latest context of the tool*/ 
     copyGlobalContextToLatestContext: function(){
-        this._latestCtx.data = $.extend(true, {}, this.getGlobalContext().data);  
+        var latestCtx = this.getLatestContext();
+        latestCtx.data = $.extend(true, {}, this.getGlobalContext().data);  
         // save context in local store   
-        this._latestCtx.saveContext();
+        latestCtx.saveContext();
 
         return this;
 

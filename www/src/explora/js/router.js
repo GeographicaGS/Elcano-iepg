@@ -8,8 +8,10 @@ app.router = Backbone.Router.extend({
         "notfound" : "notfound",
         "error" : "error",
         "tool/:type" : "bringToolToFront",
+        "contributions/:family/:year/:countries/:countries_sel(/:filters)" : "contributions",
         "country/:family/:countries/:country_sel/:year(/:filters)" : "country",
         "ranking/:family/:variable/:year/:year_ref/:countries/:country_sel(/:filters)" : "ranking",
+        
         "*other"    : "notfound"
             /* This is a default route that also uses a *splat. Consider the
             default route a wildcard for URLs that are either not matched or where
@@ -22,7 +24,7 @@ app.router = Backbone.Router.extend({
     },
 
     root: function(){
-
+        app.baseView.loadDefaultTool();
     },
 
     bringToolToFront: function(type,dos){
@@ -56,6 +58,16 @@ app.router = Backbone.Router.extend({
             "year_ref": year_ref,
             "countries": countries,
             "country_sel" : country_sel,
+            "filters": filters
+        });
+    },
+
+    contributions : function(family,year,countries,countries_sel,filters){
+        app.baseView.loadContributionsTool({
+            "family" : family,
+            "year" : year,
+            "countries": countries,
+            "countries_sel" : countries_sel,
             "filters": filters
         });
     }

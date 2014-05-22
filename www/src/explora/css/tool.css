@@ -317,6 +317,7 @@
 
 
 .chart{
+    position: relative;
     min-height : 330px;
     path {
         stroke: #fff;
@@ -327,6 +328,8 @@
       fill: @grey_dark !important;
       cursor: pointer;
     }
+
+
 }   
 
 @media all and (max-height: 768px){
@@ -604,15 +607,24 @@ div.tooltip {
 
 #contributions_tool{
 
-    .drag_info{
-        height: 50px;
+    .co_drag_info{
         position: absolute;
-        top:0 ; left: 0; right: 0; bottom: 0;
-        margin: auto;
-        font-size: 14px;
-        line-height: 18px;
-        text-align: center;
+        height: 100%;
+        width: 100%;
+        left:0;
+        top:0;
+        .drag_info{
+            height: 50px;
+            position: absolute;
+            top:0 ; left: 0; right: 0; bottom: 0;
+            margin: auto;
+            font-size: 14px;
+            line-height: 18px;
+            text-align: center;
+        }    
     }
+
+    
 
     .drag_circle{
         fill: #e8e8ea;
@@ -673,6 +685,22 @@ div.tooltip {
             .roboto();
         }
     }
+
+
+    .draggable-here{
+        .drag_circle{
+             fill: @yellow;
+        }
+        .drag_circle_out{
+            stroke: @yellow;
+        }
+
+       
+        color: @grey_dark !important;
+        
+    }
+
+
 
 
    

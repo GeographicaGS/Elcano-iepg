@@ -620,6 +620,10 @@ ul.country_bar{
         margin: 20px 10px 0 10px;
         float:left;
 
+        &.ui-draggable{
+            z-index: 1 !important;
+        }
+
         a{
             display: inline-block;
             border: 4px solid transparent;

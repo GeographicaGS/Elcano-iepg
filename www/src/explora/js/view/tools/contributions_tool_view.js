@@ -14,7 +14,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     initialize: function() {
         this.slider = new app.view.tools.common.SliderSinglePoint();
         this.countries = new app.view.tools.common.Countries({
-            "variable" : false
+            "variable" : false,
+            "draggable" : true
         });
         this._collectionGlobalIndex = new app.collection.GlobalIndex();
         this.listenTo(this._collectionGlobalIndex,"reset",this._renderProportionalFlags);
@@ -119,6 +120,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             this.countries.render();
             ctxObj.saveContext();
             this.copyGlobalContextToLatestContext();
+
+            this.contextToURL();
             
         });
     },
@@ -167,10 +170,36 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this._renderSubTool("left");
         this._renderSubTool("right");
 
+        var _this = this;
+
+        this.$chart_left.droppable({
+            accept: ".country_draggable",
+            hoverClass: "draggable-here",
+            drop: function( event, ui ) {
+                var country = $(ui.helper).find("[code]").attr("code");
+                ctx.countries.selection[0] = country;
+                _this._renderSubTool("left");
+                _this.countries.render();
+                _this.contextToURL();
+
+            }
+        });
+
+        this.$chart_right.droppable({
+            accept: ".country_draggable",
+            hoverClass: "draggable-here",
+            drop: function( event, ui ) {
+                var country = $(ui.helper).find("[code]").attr("code");
+                ctx.countries.selection[1] = country;
+                _this._renderSubTool("right");
+                _this.countries.render();
+                _this.contextToURL();
+            }
+        });
+
         this.renderMap();
 
         this._forceFetchDataTool = false;
-
 
     },
 
@@ -335,8 +364,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             width = $chart.width(),
             height = $chart.height(),
             radius = Math.min(width, height) / 2;
-
-
+        
         $chart.html("");
         var svg = d3.select(" #co_chart_" + pos +" .chart").append("svg")
             .attr("width", width )
@@ -353,9 +381,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             .attr("class","drag_circle")
             .attr("r", radius -10);
 
-       
-        $chart.append("<p class='drag_info' style='width:" + (radius * 1.3)+ "px'><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p>");
-      
+        $chart.append("<div class='co_drag_info'><p class='drag_info' style='width:" + (radius * 1.3)+ "px'><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p></div>");
 
     },
 
@@ -591,5 +617,55 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             data: this._extractNodeFromTree(root,name)
         }));
 
+    },
+
+    contextToURL: function(){
+        // This method transforms the current context of the tool in a valid URL.
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            filters = app.getFilters().join(",");
+
+        app.router.navigate("contributions/" 
+            + ctx.family + "/"  // Family
+            + ctx.slider[0].date.getFullYear() + "/" // Year
+            + ctx.countries.list.join(",") + "/" // Countries list
+            + ctx.countries.selection.join(",")   // Countries selected
+            + (filters ? "/" + filters : "") ,{trigger: false});
+    },
+
+    URLToContext: function(url){
+         var ctxObj = app.context,
+            ctx = ctxObj.data;
+           
+        // Overwrite the family
+        ctx.family = url.family;
+
+        // set the slider
+        ctx.countries.slider = [{
+            "type": "Point",
+            "date" : new Date(url.year)
+        }];
+
+        ctx.countries.list = url.countries.split(",");
+        ctx.countries.selection = url.countries_sel.split(",")
+
+        if (ctx.countries.selection[0]==""){
+            ctx.countries.selection[0] = null;
+        }
+
+        if (ctx.countries.selection[1]==""){
+            ctx.countries.selection[1] = null;
+        }
+
+        // Do we have filters?
+        if (url.filters){
+            app.setFilters(url.filters.split(","));
+        }
+
+        // let's store the context.
+        ctxObj.saveContext();
+
+        // copy to latest context
+        this.copyGlobalContextToLatestContext();
     }
 });

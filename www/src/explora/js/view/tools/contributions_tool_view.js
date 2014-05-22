@@ -1,18 +1,23 @@
 app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#contributions_tool_template').html() ),
+    _templateProportionalFlags : _.template( $('#contributions_tool_proportional_flags_template').html() ),
+    _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     // Force fetch data of the left tool. Get the data for the first country
     _forceFetchDataSubToolLeft: false,
     // Force fetch data of the right tool. Get the data for the second country
     _forceFetchDataSubToolRight: false,
 
-    models : { "es" : null, "en" : null },
+    _models : { "es" : null, "en" : null },
 
     type: "contributions",
+
     initialize: function() {
         this.slider = new app.view.tools.common.SliderSinglePoint();
         this.countries = new app.view.tools.common.Countries({
             "variable" : false
         });
+        this._collectionGlobalIndex = new app.collection.GlobalIndex();
+        this.listenTo(this._collectionGlobalIndex,"reset",this._renderProportionalFlags);
     },
 
     setURL: function(){
@@ -22,6 +27,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _setListeners: function(){
         app.view.tools.Plugin.prototype._setListeners.apply(this);
 
+        this.stopListening(app.events,"slider:singlepointclick");
         this.listenTo(app.events,"slider:singlepointclick",function(year){
             var ctx = this.getGlobalContext();
             ctx.data.slider = [{
@@ -29,12 +35,94 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 "type" : "Point"
             }];
             ctx.saveContext();
-            // The context has changed, let's store the changes in localStore
-            this.getGlobalContext().saveContext();
-            // Render again the tool without fetch data
-            this.render(false);
+            this.copyGlobalContextToLatestContext();
+
+            this.render();
+            
+        });
+
+        //redefine the contextchange:countries to not re-render each time a country is added
+        this.stopListening(app.events,"contextchange:countries");
+        this.listenTo(app.events,"contextchange:countries",function(){
+            //TOREMOVE
+            console.log("contextchange:countries at app.view.tools.ContributionsPlugin");
+            
+            this.contextToURL();
+           
+            var countries = app.context.data.countries,
+                selection = countries.selection,
+                lastSelection = this.getLatestContext().data.countries.selection,
+                list = countries.list,
+                redraw = false;
+
+            
+                for (var i=0;i<lastSelection.length;i++){
+                    if (selection.indexOf(lastSelection[i]) == -1){
+                        redraw = true;
+                    }
+                }
+            
+
+            if (redraw){
+                // Let's force a re-render because we need to adapt the context.
+                this._forceFetchDataTool = true;
+                this.render(); // Implicit call to contextToURL
+            }
+            else{
+                // No need of re-render, Let's refresh the list of countries and the proportioanl flags
+                this.countries.render();
+               
+                // It will fire a _renderProportionalFlags
+                this._collectionGlobalIndex._countries = countries.list;
+                this._collectionGlobalIndex.fetch({"reset": true});
+            }
+
+            this.copyGlobalContextToLatestContext();
+        });
+
+         this.listenTo(app.events,"countryclick",function(id_country){
+            //TOREMOVE
+            console.log("countryclick at app.view.tools.CountryPlugin");
+             var ctxObj = this.getGlobalContext(),
+                ctx = ctxObj.data,
+                selection = ctx.countries.selection
+                idx = selection.indexOf(id_country);
+
+            if (selection.indexOf(id_country)!= -1){
+                // It's already drawn, let's remove it
+                selection[idx] = null;
+                if (idx == 0){
+                    this._forceFetchDataSubToolLeft = true;
+                    this._renderSubTool("left");
+                }
+                else{
+                    this._forceFetchDataSubToolRight = true;
+                    this._renderSubTool("right");
+                }
+            }
+            else{
+                if (selection[0]==null){
+                    // Add to left
+                    selection[0] = id_country;
+                    this._forceFetchDataSubToolLeft = true;
+                    this._renderSubTool("left");
+                }
+                else{
+                    // Add to right
+                    selection[1] = id_country;
+                    this._forceFetchDataSubToolRight = true;
+                    this._renderSubTool("right");
+                }
+                
+            }
+
+            this.countries.render();
+            ctxObj.saveContext();
+            this.copyGlobalContextToLatestContext();
+            
         });
     },
+
 
     /* Render the tool */
     renderTool: function(){
@@ -42,11 +130,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         console.log("Render app.view.tools.ContributionsPlugin");
 
         var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data;
-            year = ctx.slider[0].date.getFullYear()
+            ctx = ctxObj.data,
+            year = ctx.slider[0].date.getFullYear();
 
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
+
         }));
 
         this.$co_left = this.$("#co_chart_left");
@@ -55,20 +144,46 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.$chart_left = this.$co_left.find(".chart");
         this.$chart_right = this.$co_right.find(".chart");
 
-        this.$chart_left.html("");
-        this.$chart_right.html("");
+        this.$chart_legend_left = this.$co_left.find(".chart_legend");
+        this.$chart_legend_right = this.$co_right.find(".chart_legend");
+
+        this.$proportional_flags = this.$(".proportional_flags");
 
         // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
         if (this._forceFetchDataTool){
             this._forceFetchDataSubToolLeft = true;
             this._forceFetchDataSubToolRight = true;
+                
+            this._collectionGlobalIndex._family = ctx.family;
+            this._collectionGlobalIndex._countries = ctx.countries.list;
+            // This will call to _renderProportionalFlags
+            this._collectionGlobalIndex.fetch({"reset": true});
+
+        }
+        else{
+            this._renderProportionalFlags();
         }
         
         this._renderSubTool("left");
         this._renderSubTool("right");
 
         this.renderMap();
+
+        this._forceFetchDataTool = false;
+
+
     },
+
+    _renderProportionalFlags : function(){
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            year = ctx.slider[0].date.getFullYear();
+
+        this.$proportional_flags.html(this._templateProportionalFlags({
+            collection: this._collectionGlobalIndex.toJSON(),
+            year: year
+        }));
+    },
 
     _renderSubTool:function(pos){
         var ctxObj = this.getGlobalContext(),
@@ -82,44 +197,44 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
             // Links to DOM Elements
             $co_chart = pos == "left" ? this.$co_left : this.$co_right,
-            $country_sel = $co_chart.find(".country_sel"),
-            $country_nosel = $co_chart.find(".country_nosel"),
+           
             $country_name = $co_chart.find(".name");
             
             if (country){
                 // Set the country name
-                $country_name.html(app.countryToString(country));
-                // Hide the nosel div
-                $country_nosel.hide();
-                // Show the sel div
-                $country_sel.show();
+                $country_name.html(app.countryToString(country)).removeClass("no_data");
 
                 if (forceFetch){
                     // Fetch the data of this tool
-                    this.models[pos] = new app.model.tools.country({
+                    this._models[pos] = new app.model.tools.country({
                         "id" : country,
                         "family" : ctx.family
                     });
 
                     var _this = this;
-                    this.models[pos].fetch({
+                    this._models[pos].fetch({
                         success: function(){
-                           _this._drawD3Chart(pos,country,_this.models[pos]);
+                           if (pos == "left"){
+                                _this._forceFetchDataSubToolLeft = false;
+                           }
+                           else{
+                                _this._forceFetchDataSubToolRight = false;
+                           }
+                           _this._drawD3Chart(pos,country,_this._models[pos]);
                         }
                     });
 
                 }
                 else{
                     //We already have the data, let's draw directly
-                    this._drawD3Chart(pos,country,this.models[pos]);
+                    this._drawD3Chart(pos,country,this._models[pos]);
                 }
             }
             else{
-                // Hide the selection div
-                $country_sel.hide();
-                // Show de no selection div. Just to inform user of drag.
-                $country_nosel.show();
+                $country_name.html("<lang>¿País?</lang>").addClass("no_data");
+                this._drawD3ChartNoData(pos);
             }
+            
 
     },
 
@@ -164,10 +279,14 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                         limit++;
                     }
                 }
+
             }
             else{
                 // Do nothing
             }
+        }
+        else if (ctx.countries.selection.length==1){
+            ctx.countries.selection[1] = null;
         }
         else if (ctx.countries.selection.length>2){
             // Cut off extra elements in the selection
@@ -209,6 +328,36 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.copyGlobalContextToLatestContext();
     },
 
+    _drawD3ChartNoData: function(pos){
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
+            width = $chart.width(),
+            height = $chart.height(),
+            radius = Math.min(width, height) / 2;
+
+
+        $chart.html("");
+        var svg = d3.select(" #co_chart_" + pos +" .chart").append("svg")
+            .attr("width", width )
+            .attr("height", height +4)
+          .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + ( 2+(height / 2 ))  + ")")
+            .attr("class", "variable");
+
+        var circle_out = svg.append("circle")
+            .attr("class","drag_circle_out")
+            .attr("r", radius);
+
+        var circle = svg.append("circle")
+            .attr("class","drag_circle")
+            .attr("r", radius -10);
+
+       
+        $chart.append("<p class='drag_info' style='width:" + (radius * 1.3)+ "px'><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p>");
+      
+
+    },
 
     _drawD3Chart: function(pos,country,model){
 
@@ -216,10 +365,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             ctx = ctxObj.data,
             year = ctx.slider[0].date.getFullYear(),
             variables = model.get(year).iepg_variables,
-            $chart = pos == "left" ? this.$co_left : this.$co_right,
+            $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
             width = $chart.width(),
             height = $chart.height(),
             radius = Math.min(width, height) / 2;
+
+        $chart.html("");
 
         var x = d3.scale.linear()
             .range([0, 2 * Math.PI]);
@@ -229,7 +380,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         var color = d3.scale.category20c();
 
-        var svg = d3.select(".chart").append("svg")
+        var svg = d3.select(" #co_chart_" + pos +" .chart").append("svg")
             .attr("width", width)
             .attr("height", height)
           .append("g")
@@ -294,9 +445,11 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     path.transition()
                         .duration(750)
                         .attrTween("d", arcTween(d));
-                    //obj._renderChartLegend(year,d.name);
+                    obj._renderChartLegend(pos,root,d.name);
                 }
           }
+
+        this._renderChartLegend(pos,root,ctx.family);
     },
 
     _htmlToolTip: function(variable){
@@ -413,8 +566,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         }
     },
 
-    _extractNodeFromTree: function(year,name){
-        var nodes = this. _buildModelTree(year);
+    _extractNodeFromTree: function(nodes,name){
+       
         if (name == "iepg"){
             return nodes;
         }
@@ -432,11 +585,11 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         return null;
     },
 
-    // _renderChartLegend: function(year,name){
+    _renderChartLegend: function(pos,root,name){
+        $legend = pos == "left" ? this.$chart_legend_left : this.$chart_legend_right;
+        $legend.html(this._templateChartLegend({
+            data: this._extractNodeFromTree(root,name)
+        }));
 
-    //     this.$chart_legend.html(this._templateChartLegend({
-    //         data: this._extractNodeFromTree(year,name)
-    //     }));
-
-    // }
+    }
 });

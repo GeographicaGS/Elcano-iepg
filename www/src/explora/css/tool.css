@@ -603,44 +603,77 @@ div.tooltip {
 
 
 #contributions_tool{
-    .country_nosel{
-        .no_country{
-            /*height: 300px;
-            width: 300px;*/
-            background-color: #e8e8ea;
-            border-radius: 100%;
-            display: table;
-            margin: auto;
-            position: relative;
 
-            &:before{
-                content: "";
-                display: block;
-                border: 3px dashed #bdbdc5;
-               /* height: 326px;
-                width: 326px;*/
-                border-radius: 100%;
-                position: absolute;
-                top: -13px;
-                left: -13px;
+    .drag_info{
+        height: 50px;
+        position: absolute;
+        top:0 ; left: 0; right: 0; bottom: 0;
+        margin: auto;
+        font-size: 14px;
+        line-height: 18px;
+        text-align: center;
+    }
 
+    .drag_circle{
+        fill: #e8e8ea;
+    }
+
+    .drag_circle_out{
+        stroke: #a3a3af;
+        stroke-width: 4;
+        stroke-dasharray: 15;
+        fill: transparent;
+    }
+
+    #co_chart_right,#co_chart_left{
+        margin-top: 20px;
+    }
+
+    .co_proportional_flags{
+        margin: 18px 0 50px 0;
+        text-align: center;
+        ul{
+            display: inline-block;
+
+            li{
+                float:left;
+                margin-right: 20px;
+               
+                position: relative;
+                height: 150px;
+                width: 120px;
+
+                .co_flag{
+                    margin: 0 auto;
+                    position: absolute;
+                    bottom: 30px;
+                    left: 0;
+                    right: 0;
+                }
+                p{
+                    position: absolute;
+                    bottom:0;
+                    left:0;
+                    right: 0;
+                }
             }
-
-            p{
-                display: table-cell;
-                vertical-align: middle;
-                padding: 0 20px;
-                font-size: 13px;
-                text-align: center;
-            }
-
-        }
-        
-        .no_country_name{
-            color: @grey_light;
-            font-size: 14px;
-            margin-top: 25px;
-            text-align: center;
         }
     }
+
+    .name{
+        font-size: 15px;
+        .roboto(bold);
+        color: @grey_dark;
+        text-align: center;
+        margin-top: 18px;
+
+
+        &.no_data{
+            color: @grey_light;
+            .roboto();
+        }
+    }
+
+
+   
 }

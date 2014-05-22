@@ -429,8 +429,11 @@ main{
 #base{
     float:left;
     height: 100%;
-    
+}
 
+.sep{
+    height:1px;;
+    background-color: #d0d0d5;
 }
 
 #control_area,#tool{
@@ -892,4 +895,15 @@ ul.country_bar{
     left: 0;
     right: 0;
     padding-top: 50px;
+}
+
+.co_flag{
+    border-radius: 100%;
+    border: 1px solid @grey_light;
+    width: 45px;
+    height: 45px;
+    img{
+        width: 100%;
+        height: 100%;
+    }
 }

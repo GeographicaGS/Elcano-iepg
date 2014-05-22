@@ -100,12 +100,13 @@ app.view.tools.context = function(id){
     };
 
     this.removeInvalidSelected = function(){
-        for (var i=0;i<this.data.countries.selection.length;i++){
-            var index = this.data.countries.list.indexOf(this.data.countries.selection[i]);
-            if (index == -1) {
-                this.data.countries.selection.splice(i, 1);
-            }
-        }    
+        // for (var i=0;i<this.data.countries.selection.length;i++){
+        //     var index = this.data.countries.list.indexOf(this.data.countries.selection[i]);
+        //     if (index == -1) {
+        //         this.data.countries.selection.splice(i, 1);
+        //     }
+        // }    
+       this.data.countries.selection =  _.intersection(this.data.countries.selection,this.data.countries.list);
         
         
     },

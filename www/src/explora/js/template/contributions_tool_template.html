@@ -20,40 +20,27 @@
         <div class="container-fluid">
             <div class="row mth1">
                 <div class="col-sm-6 col-md-6" id="co_chart_left">
-
-                	<div class="country_sel" <%= ctx.countries.selection.length == 0 ? "style='display:none'" : "" %>>
-                   		<div class="chart"></div>
-                    	<p class="name"></p>
-                    	<div class="chart_legend"></div>
-                    </div>
-
-                    <div class="country_nosel" <%= ctx.countries.selection.length == 0 ? "" : "style='display:none'" %>>
-	                    <div class="no_country chart">
-	                    	<p><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p>
-	                    </div>
-	                    <p class="no_country_name">¿País?</p>
-	                </div>
+                   	<div class="chart"></div>
+                    <p class="name"></p>
+                    <div class="chart_legend"></div>
                 </div>
 
                 <div class="col-sm-6 col-md-6" id="co_chart_right">
-                    <div class="country_sel" <%= ctx.countries.selection.length < 2  ? "style='display:none'" : "" %>>
-                   		<div class="chart"></div>
-                    	<p class="name"></p>
-                    	<div class="chart_legend"></div>
-                    </div>
-
-                    <div class="country_nosel" <%= ctx.countries.selection.length < 2 ?  "" : "style='display:none'" %>>
-	                    <div class="no_country chart">
-	                    	<p><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p>
-	                    </div>
-	                    <p class="no_country_name">¿País?</p>
-	                </div>
+                    
+                   	<div class="chart"></div>
+                    <p class="name"></p>
+                    <div class="chart_legend"></div>
+                    
                 </div>
             </div>
-            <div>
-            	<ul class="proportional_flags">
 
-            	</ul>
+            <div class="sep mth3 mbh2"></div>
+            <div>
+                <div class="co_proportional_flags">
+                	<ul class="proportional_flags">
+
+                	</ul>
+                </div>
             </div>
         </div>
 

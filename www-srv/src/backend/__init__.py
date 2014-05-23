@@ -13,7 +13,7 @@ import label
 import highlight
 import new
 import locale
-import maplex
+# import maplex
 import engine
 
 @app.route('/', methods = ['GET'])                                            

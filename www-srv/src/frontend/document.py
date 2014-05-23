@@ -64,7 +64,7 @@ def getDocument(idDocument, lang):
     out["authors"] = authors
     labels = m.getDocumentLabels(idDocument, lang)
     out["labels"]=labels
-    pdf = m.getDocumentPdf(idDocument)
+    pdf = m.getDocumentPdf(idDocument, lang)
     out["pdf"]=pdf
 
     doc = m.getDocumentData(idDocument)

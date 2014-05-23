@@ -55,6 +55,11 @@ def getGeoentityNames(idGeoentity, idNameFamily):
     return(m.getGeoentityNames(idGeoentity, idNameFamily))
 
 
+def getIdGeoentityByName(name, idNameFamily):
+    """Returns the idGeoentity for a name and ID name family."""
+    m = maplexmodel.MaplexModel()
+    return(m.getIdGeoentityByName(name, idNameFamily))
+
 # TODO: redefine this method so it returns blocks whose existence is completely 
 # within the lapse and make a difference on if the lapse is calculated by its members
 # or the block itself

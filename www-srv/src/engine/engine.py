@@ -34,3 +34,8 @@ def getVariables():
     m = enginemodel.EngineModel()
     return(m.getVariables())
 
+
+def getVariableYears(idVariable):
+    """Returns years present in a variable. TODO: make it generic."""
+    m = enginemodel.EngineModel()
+    return(m.getVariableYears(getVariable(idVariable)["var_table"]))

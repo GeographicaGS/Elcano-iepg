@@ -91,3 +91,13 @@ class EngineModel(PostgreSQLModel):
 
         sql += ";"
         return(self.query(sql, bindings=bindings).result())
+
+
+    def getVariableYears(self, table):
+        """Returns variable years."""
+        sql = """
+        select distinct
+        date_part('YEAR', date_in) as year
+        from {};
+        """.format(table)
+        return(self.query(sql).result())

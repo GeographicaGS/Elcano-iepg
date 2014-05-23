@@ -15,7 +15,6 @@ import maplex.maplex as maplex
 if MemcachedConfig["enabled"] == True:
     import memcache
 import const
-import PyICU
 import collections
 
 
@@ -212,3 +211,18 @@ def getOrderedDictionary(dict):
         od[i] = dict[i]
 
     return od
+
+
+def getVariableYears(family):
+    """Returns a list for years present in IEPG/IEPE data."""
+    if family=="iepg":
+        return(sorted([int(i["year"]) for i in engine.getVariableYears(1)]))
+    if family=="iepe":
+        return(sorted([int(i["year"]) for i in engine.getVariableYears(2)]))
+
+
+def getGeoentityBlocks(isoGeoentity, year=None):
+    """Return the ISO code of block from isoGeoentity."""
+    pass
+    ###HERE
+    #blocks = maplex.getGeoentityBlocks(

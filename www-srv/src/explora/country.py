@@ -17,7 +17,6 @@ from helpers import processFilter
 
 
 
-
 # TEST BEGINS 
 
 from common.helpers import blocksSumCalculateData
@@ -97,10 +96,17 @@ def countrySheet(lang, family, countryCode):
     e = processFilter(request.args, "entities")
     blocksEntities,countriesEntities = common.helpers.getBlocksFromCountryList(e) if e else (None, None)
 
+    print(blocksEntities, countriesEntities)
+    countriesEntities = common.helpers.arraySubstraction(countriesEntities, f)
+
     print(f)
     print(blocksEntities, countriesEntities)
 
-    ###HERE###
+    
+
+    print (common.helpers.getVariableYears(family))
+
+    ###HERE
 
 
     # try:

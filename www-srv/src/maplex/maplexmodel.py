@@ -151,3 +151,13 @@ class MaplexModel(PostgreSQLModel):
         sql += ";"
 
         return(self.query(sql, bindings=bindings).result())
+
+
+    def getIdGeoentityByName(self, name, idNameFamily):
+        """Retrieves ID geoentity of name and ID name family."""
+        sql="""
+        select id_geoentity
+        from maplex.vw__geoentity_names
+        where name=%s and id_name_family=%s;
+        """
+        return(self.query(sql, bindings=[name, idNameFamily]).result())

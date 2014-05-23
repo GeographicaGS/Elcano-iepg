@@ -287,7 +287,13 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
      _renderMapAsync: function(){
         this._forceFetchDataMap = false;
-        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON());
+        var 
+            ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+            year =  ctx.slider[0].date.getFullYear(),
+            family = ctx.family;
+
+        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,family);
     },
 
 

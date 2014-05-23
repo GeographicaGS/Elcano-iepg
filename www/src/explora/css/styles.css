@@ -58,7 +58,7 @@ html, body{ height:100%;}
 }
 
 .colorVariable(@name) when (@name = migrations) , (@name = tourism), (@name = sports),
-    (@name = culture), (@name = information), (@name = technology), (@name = science),
+    (@name = culture), (@name=information), (@name = technology), (@name = science),
     (@name = education), (@name = cooperation){
     .colorVariable(soft_presence);
 }
@@ -417,13 +417,17 @@ main{
 }
 
 #map{
-    background-color: #e3e3e6;
+    background-color: #ececee;
     z-index:1;
     height: 100%;
     width: 100%;
     position: absolute;
     top:0;
     left: 0;
+
+    .tooltip{
+        z-index:1 !important;
+    }
 }
 
 #base{
@@ -438,13 +442,14 @@ main{
 
 #control_area,#tool{
     position: absolute;
-    top: 55px;    
+    top: 91px; 
 }
 
 #control_area{
     left: 0;
     width: 54px;
     z-index: 4;
+
 
     a{
         display: block;
@@ -616,8 +621,8 @@ ul.flag_wrapper{
 
 ul.country_bar{
     li{
-        height: 60px;
-        margin: 20px 10px 0 10px;
+        height: 45px;
+        margin: 7px 10px 0 10px;
         float:left;
 
         &.ui-draggable{
@@ -841,14 +846,40 @@ ul.country_bar{
     }
 }
 
-#ctrl_filter{
-    width: 80px;
-    height: 61px;
-    border: 1px solid #d0d0d5;
+#extra_panel{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 4;
+    background-color: @white;
+    left: 0;
+    right: 0;
+    padding-top: 50px;
+}
+
+.co_flag{
+    border-radius: 100%;
+    border: 1px solid @grey_light;
+    width: 45px;
+    height: 45px;
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
+
+#country_panel, #ctrl_filter{
     position: absolute;
     z-index: 4;
-    right: 10px;
-    top: 8px;
+    top: 10px;
+    height:62px;
+    border: 1px solid #d0d0d5;
+}
+
+#ctrl_filter{
+    width: 80px;
+    border: 1px solid #d0d0d5;
+    right: 20px;
     background-color: @white;
 
     > * {
@@ -890,24 +921,108 @@ ul.country_bar{
     }
 }
 
-#extra_panel{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 4;
+#country_panel {        
     background-color: @white;
-    left: 0;
-    right: 0;
-    padding-top: 50px;
+    display: inline-block;
+    /*.toolBoxshadow();*/
+
+    right: 106px;
+
+    a,ul{
+        float:left;
+    }
+
+    a#ctrl_variables{
+        display: block;
+        background: url("@{imgPath}ELC_icon_seleccionar_variable.svg") @white2 no-repeat center center;
+        width:62px;
+        height: 59px;
+        .trans_opacity();
+        border-left: 1px solid #e8e8ea;
+        text-align: center;
+        font-size: 11px;
+        .roboto();
+        text-transform: uppercase;
+
+        &[disabled]{
+            opacity: 0.25;
+            pointer-events: none;
+        }
+    }
+
+    a#ctrl_variables:hover{
+        background-image: url("@{imgPath}ELC_icon_seleccionar_variable_hover.svg") ;   
+        color: @red;
+    }
+
+    a#ctrl_countries{
+        display: block;
+        background: url("@{imgPath}ELC_icon_seleccionar_pais.svg") @white no-repeat center center;
+        height:100%;
+        width: 40px;
+        margin:0 20px 0 15px;
+    }
+
+    a#ctrl_countries:hover{
+        background-image: url("@{imgPath}ELC_icon_seleccionar_pais_hover.svg");
+    }
+
+    #co_sel_countries{
+
+    }
 }
 
-.co_flag{
-    border-radius: 100%;
-    border: 1px solid @grey_light;
-    width: 45px;
-    height: 45px;
-    img{
-        width: 100%;
-        height: 100%;
+div.tooltip {   
+    position: absolute;                                        
+    padding: 10px;             
+    font: 12px sans-serif;        
+    background: @grey_dark;   
+    border: 0px;         
+    pointer-events: none;     
+    z-index: 3;    
+
+    span{
+        line-height: 24px;
+        font-size:13px;
+    }
+    div {
+        span:nth-child(1){
+            float:left;
+            margin-right: 10px;
+        }
+
+        span:nth-child(2){
+            float:right;
+
+        }
+    }
+
+    div:nth-child(1){
+        span{
+            color: @white;
+            
+        }
+      
+        span:nth-child(2){
+            background-color: @red;
+            padding: 0px 5px;
+            line-height: 20px;
+        }
+    }
+
+    div:nth-child(2){
+        border-top: 1px solid #4a4a4d;
+        margin-top: 5px;
+        padding-top: 4px;
+
+        span{
+            
+            color: #d1d1d6;
+        }
+
+        span:nth-child(1){
+            font-size: 11px;
+            text-transform: uppercase;
+        }
     }
 }

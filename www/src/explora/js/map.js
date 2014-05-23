@@ -2,7 +2,8 @@
 app.view.map = function(options){
     this.baseLayer = null;
 
-    this._choroplethColors = ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C"];
+    //this._choroplethColors = ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C"];
+    this._choroplethColors = ["#ffd88b","#f9be84","#fa976a","#ee6756","#de3338"];
 
     this.CHOROPLETH_INTERVALS = 5;
 
@@ -20,6 +21,9 @@ app.view.map = function(options){
         }).setView( this.center, this.zoom);
 
         this.loadBaseMap();
+        this.$tooltip = $("#map_tooltip");
+        this.$maplabel = $("#map_label");
+        this.$maplegend = $("#map_legend");
         return this;
     };
 
@@ -27,11 +31,11 @@ app.view.map = function(options){
         this._baseLayer = L.geoJson(countriesGeoJSON, {
             style: {
                 fillColor: "#fff",
-                weight: 2,
+                weight: 1,
                 opacity: 1,
-                color: '#e3e3e6',
+                color: '#a2a2ac',
                 // dashArray: '3',
-                fillOpacity: 0.7
+                fillOpacity: 1
             }
         });
         this._baseLayer.addTo(this._map);  
@@ -48,7 +52,7 @@ app.view.map = function(options){
     };
 
     /* This method created a choropleth Map with the data supplied in the parameter */ 
-    this.drawChoropleth = function(data){
+    this.drawChoropleth = function(data,time,variable){
 
         var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
         // Just for security
@@ -72,7 +76,10 @@ app.view.map = function(options){
             if (!country){
                 continue;
             }
+            country.properties.time = time;
             country.properties.value = data[i].value;
+            country.properties.variable = variable;
+
             bigJSON.push(country);
         }
 
@@ -96,11 +103,10 @@ app.view.map = function(options){
         function style(feature) {
             return {
                 fillColor: getColor(feature.properties.value),
-                weight: 2,
+                weight: 1,
                 opacity: 1,
                 color: 'white',
-                dashArray: '3',
-                fillOpacity: 0.7
+                fillOpacity: 1
             };
         }
 
@@ -108,22 +114,39 @@ app.view.map = function(options){
             var layer = e.target;
 
             layer.setStyle({
-                weight: 2,
-                color: '#666',
-                dashArray: '',
-                fillOpacity: 0.7
+                weight: 1,
+                color: '#28282b',
+                // dashArray: '',
+                fillOpacity: 1
             });
 
             if (!L.Browser.ie && !L.Browser.opera) {
                 layer.bringToFront();
             }
+            
+            _this.$tooltip.css("left",e.containerPoint.x).css("top",e.containerPoint.y);
 
-            info.update(layer.feature.properties);
+            var v = layer.feature.properties;
+            
+            var html = "<div>" 
+                    +   "<span>" +app.countryToString(v.code) + "</span>"
+                    +   "<span>" + v.time + "</span>"
+                    +   "<div class='clear'></div>"
+                    + "</div>"
+                    + "<div>" 
+                    +   "<span>" + app.variableToString(v.variable) + "</span>"
+                    +   "<span>" + sprintf("%0.2f",v.value) + "</span>"
+                    +   "<div class='clear'></div>"
+                    +"</div>";
+
+            _this.$tooltip.html(html);
+            
+            _this.$tooltip.show();
         }
 
         function resetHighlight(e) {
             l.resetStyle(e.target);
-            info.update();
+            _this.$tooltip.hide();
         }
 
         function zoomToFeature(e) {
@@ -145,56 +168,36 @@ app.view.map = function(options){
 
         l.addTo(this._map);
 
-        var info = L.control();
-
-        info.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'info data'); // create a div with a class "info"
-            this.update();
-            return this._div;
-        };
-
-        // method that we will use to update the control based on feature properties passed
-        info.update = function (props) {
-            var country_name = props ?  props["name_"+app.lang] : "<lang>Mueve el ratón sobre un país</lang>";
-            this._div.innerHTML = "<h4>" + app.variableToString(app.context.data.variables[0]) + "</h4>" +  (props ?
-                "<b>" + country_name + "</b><br />" + sprintf("%0.2f",props.value)
-                : "<lang>Mueve el ratón sobre un país</lang>");
-        };
-
-        info.addTo(this._map);
-
         // Let's add a legend for the map. 
 
-        var legend = L.control({position: 'bottomright'});
+       
+        var grades = [],
+            labels = [],
+            inc = parseInt(max/n_intervals);
 
-        legend.onAdd = function (map) {
+        for (var i=0;i<n_intervals;i++){
+            grades.push(parseInt(i*inc + min));
+        }
 
-            // Create the legend element inside the DOM.
-            var div = L.DomUtil.create('div', 'info legend'),
-                grades = [],
-                labels = [],
-                inc = parseInt(max/n_intervals);
+        // loop through our density intervals and generate a label with a colored square for each interval
+        var html = "<ul>";
+        
+        for (var i=0;i<n_intervals;i++){
+            html +=
+                "<li> " +
+                    "<span style='background: "+ getColor(grades[i] +1) + "'></span>" +
+                    "<span> " +grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '' : '+') + "</span>" +
+                "</li>";
+        }
+        html += "</ul>";
 
-            for (var i=0;i<n_intervals;i++){
-                grades.push(parseInt(i*inc + min));
-            }
+        this.$maplegend.html(html);
 
-            // loop through our density intervals and generate a label with a colored square for each interval
-             for (var i=0;i<n_intervals;i++){
-                div.innerHTML +=
-                    '<i style="background:' + getColor(grades[i] +1) + '"></i> ' +
-                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-            }
-
-            return div;
-        };
-
-        legend.addTo(this._map);
+        this.$maplabel.find(".variable").html(app.variableToString(variable));
+        this.$maplabel.find(".time").html(time);
 
         this._choroplethOVerlay = {
             "geoJson" : l,
-            "legend" : legend,
-            "info" : info
         };
 
         return l;
@@ -204,8 +207,9 @@ app.view.map = function(options){
        
         if (this._choroplethOVerlay){   
             this._map.removeLayer(this._choroplethOVerlay["geoJson"]);
-            this._choroplethOVerlay["info"].removeFrom(this._map);
-            this._choroplethOVerlay["legend"].removeFrom(this._map);
+            this.$tooltip.hide();
+            this.$maplegend.hide();
+            
             this._choroplethOVerlay = null;
         }
 

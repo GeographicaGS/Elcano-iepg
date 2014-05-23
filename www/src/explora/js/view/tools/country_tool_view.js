@@ -119,7 +119,13 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
     _renderMapAsync: function(){
         this._forceFetchDataTool = false;
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON());
+        var 
+            ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+            year =  ctx.slider[0].date.getFullYear(),
+            family = ctx.family;
+
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,family);
     },
 
     /* Render the tool */
@@ -334,7 +340,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         }
 
         var div = d3.select("body").append("div")   
-        .attr("class", "tooltip")               
+        .attr("class", "tooltip")  
         .style("opacity", 0);
 
         var obj = this;

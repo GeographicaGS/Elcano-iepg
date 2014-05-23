@@ -422,6 +422,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         $chart.append("<div class='co_drag_info'><p class='drag_info' style='width:" + (radius * 1.3)+ "px'><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p></div>");
 
+        this._d3[pos] = null;
     },
 
     _drawD3Chart: function(pos,country,model){
@@ -538,13 +539,19 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         // Let's find d in the other tree.
         var  // brother pos
-            bpos = pos == "left" ? "right" : "left",
-            // brother tree
+            bpos = pos == "left" ? "right" : "left";
+
+        if (!this._d3[bpos]){
+            // no brother chart
+            return;
+        }
+
+        var    // brother tree
             btree = this._d3[bpos].tree,
             // brother data element
             bd = this._findElementInTree(btree,d.name);
     
-            this._moveChartSection(bpos,bd,false);
+         this._moveChartSection(bpos,bd,false);
 
     },
 

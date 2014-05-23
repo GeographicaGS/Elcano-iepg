@@ -6,8 +6,10 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _forceFetchDataSubToolLeft: false,
     // Force fetch data of the right tool. Get the data for the second country
     _forceFetchDataSubToolRight: false,
+    // References to d3 tool
+    _d3: { "left" : null, "right" : null }, 
 
-    _models : { "es" : null, "en" : null },
+    _models : { "left" : null, "right" : null },
 
     type: "contributions",
 
@@ -505,16 +507,66 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 if (d.name == "iepg" || d.name == "economic_presence" ||
                     d.name == "soft_presence" || d.name =="military_presence")
                 {
-                    path.transition()
-                        .duration(750)
-                        .attrTween("d", arcTween(d));
-                    obj._renderChartLegend(pos,root,d.name);
+                    // path.transition()
+                    //     .duration(750)
+                    //     .attrTween("d", arcTween(d));
+
+                    // obj._renderChartLegend(pos,root,d.name);
+                    obj._moveChartSection(pos,d,true);
                 }
+
           }
+
+        this._d3[pos] = {};
+        this._d3[pos].path = path;
+        this._d3[pos].tree = root;
+        this._d3[pos].arcTween = arcTween;
 
         this._renderChartLegend(pos,root,ctx.family);
     },
 
+    _moveChartSection: function(pos,d,callBrother){
+
+        this._d3[pos].path.transition()
+                        .duration(750)
+                        .attrTween("d", this._d3[pos].arcTween(d));
+        this._renderChartLegend(pos,this._d3[pos].tree,d.name);
+
+        if (!callBrother){
+            return;
+        }
+
+        // Let's find d in the other tree.
+        var  // brother pos
+            bpos = pos == "left" ? "right" : "left",
+            // brother tree
+            btree = this._d3[bpos].tree,
+            // brother data element
+            bd = this._findElementInTree(btree,d.name);
+    
+            this._moveChartSection(bpos,bd,false);
+
+    },
+
+    _findElementInTree: function (tree,el){
+        if (tree.name == el){
+            return tree;
+        }
+
+        if (!tree.hasOwnProperty("children")){
+            return null;
+        }
+        for (var i=0;i<tree.children.length;i++){
+            var found = this._findElementInTree(tree.children[i],el);
+            if (found){
+                return found;
+            }
+
+        }
+
+        return null;
+
+    },
     _htmlToolTip: function(variable){
         
         var html = "<div>" 

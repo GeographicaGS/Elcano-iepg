@@ -482,9 +482,9 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         var obj = this;
 
-        var root = this._buildModelTree(variables),
+        var tree =  new app.view.tools.utils.variablesTree(variables),
             path = svg.selectAll("path")
-              .data(partition.nodes(root))
+              .data(partition.nodes(tree.get()))
             .enter().append("path")
               .attr("d", arc)
               .style("fill", function(d) { return d.color; })
@@ -520,10 +520,10 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         this._d3[pos] = {};
         this._d3[pos].path = path;
-        this._d3[pos].tree = root;
+        this._d3[pos].tree = tree;
         this._d3[pos].arcTween = arcTween;
 
-        this._renderChartLegend(pos,root,ctx.family);
+        this._renderChartLegend(pos,ctx.family);
     },
 
     _moveChartSection: function(pos,d,callBrother){
@@ -531,7 +531,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this._d3[pos].path.transition()
                         .duration(750)
                         .attrTween("d", this._d3[pos].arcTween(d));
-        this._renderChartLegend(pos,this._d3[pos].tree,d.name);
+        this._renderChartLegend(pos,d.name);
 
         if (!callBrother){
             return;
@@ -549,31 +549,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         var    // brother tree
             btree = this._d3[bpos].tree,
             // brother data element
-            bd = this._findElementInTree(btree,d.name);
+            bd = btree.findElementInTree(d.name);
     
          this._moveChartSection(bpos,bd,false);
 
     },
 
-    _findElementInTree: function (tree,el){
-        if (tree.name == el){
-            return tree;
-        }
-
-        if (!tree.hasOwnProperty("children")){
-            return null;
-        }
-        for (var i=0;i<tree.children.length;i++){
-            var found = this._findElementInTree(tree.children[i],el);
-            if (found){
-                return found;
-            }
-
-        }
-
-        return null;
-
-    },
     _htmlToolTip: function(variable){
         
         var html = "<div>" 
@@ -591,128 +572,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _buildModelTree: function(variables){
+    _renderChartLegend: function(pos,name){
 
-        return {
-            "name" : "iepg",
-            "color" : "#fdc300",
-            "size" : variables.iepg.value,
-            "children" : [{
-                "name" : "economic_presence",
-                "color" : "#2b85d0",
-                "size" : variables.economic_presence.value,
-                "children": [{
-                    "name" : "energy",
-                    "size" : variables.energy.value,
-                    "color" : "#4191d5"
-                },
-                {
-                    "name" : "primary_goods",
-                    "size" : variables.primary_goods.value,
-                    "color" : "#559dd9"
-                },
-                {
-                    "name" : "manufactures",
-                    "size" : variables.manufactures.value,
-                    "color" : "#6baade"
-                },
-                 {
-                    "name" : "services",
-                    "size" : variables.services.value,
-                    "color" : "#80b6e3"
-                },
-                {
-                    "name" : "investments",
-                    "size" : variables.investments.value,
-                    "color" : "#95c2e7"
-                }
-                ]
-            },{
-                "name" : "military_presence",
-                "color" : "#669900",
-                "size" : variables.military_presence.value,
-                "children": [{
-                        "name" : "troops",
-                        "size" : variables.troops.value,
-                        "color" : "#76a318"
-                    },{
-                        "name" : "military_equipment",
-                        "size" : variables.military_equipment.value,
-                        "color" : "#85ad33"
-
-                    }]
-            },{
-                "name" : "soft_presence",
-                "color" : "#ff9000",
-                "size" : variables.soft_presence.value,
-                "children": [{
-                        "name" : "migrations",
-                        "size" : variables.migrations.value,
-                        "color" : "#ff960d",
-                    },{
-                        "name" : "tourism",
-                        "size" : variables.tourism.value,
-                        "color" : "#ff9b1a"
-                    },{
-                        "name" : "sports",
-                        "size" : variables.sports.value,
-                        "color" : "#ffa126"
-                    },{
-                        "name" : "culture",
-                        "size" : variables.culture.value,
-                        "color": "#ffa633"
-                    },{
-                        "name" : "information",
-                        "size" : variables.information.value,
-                        "color" : "#ffac40"
-                    },{
-                        "name" : "technology",
-                        "size" : variables.technology.value,
-                        "color" : "#ffb24d"
-                     },{
-                        "name" : "science",
-                        "size" : variables.science.value,
-                        "color" : "#ffb759"
-                    },{
-                        "name" : "education",
-                        "size" : variables.education.value,
-                        "color" : "#ffbc66"
-                    },{
-                        "name" : "cooperation",
-                        "size" : variables.cooperation.value,
-                        "color" : "#ffc273"
-                    }]
-            }
-
-            ]
-        }
-    },
-
-    _extractNodeFromTree: function(nodes,name){
-       
-        if (name == "iepg"){
-            return nodes;
-        }
-        else{
-            nodes = nodes.children;
-        }
-       
-        // find the node in the childrens
-        for(var i=0;i<nodes.length;i++){
-            if (nodes[i].name == name){
-                return nodes[i];
-            }
-        }
-
-        return null;
-    },
-
-    _renderChartLegend: function(pos,root,name){
         $legend = pos == "left" ? this.$chart_legend_left : this.$chart_legend_right;
         $legend.html(this._templateChartLegend({
-            data: this._extractNodeFromTree(root,name)
+            data: this._d3[pos].tree.findElementInTree(name)
         }));
-
     },
 
     contextToURL: function(){

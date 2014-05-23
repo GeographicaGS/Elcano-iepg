@@ -15,7 +15,7 @@ begin;
 create schema engine authorization :user;
 
 create table engine.family(
-  id_family serial,
+  id_family varchar(25),
   name_en varchar(250),
   name_es varchar(250),
   description_en text,
@@ -28,20 +28,20 @@ primary key (id_family);
 
 
 create table engine.variable(
-  id_variable serial,
+  id_variable varchar(25),
   name_en varchar(250),
   name_es varchar(250),
   description_en text,
   description_es text,
   continuous boolean,      -- T for continuous variables, F for discrete
-  id_family integer,
+  id_family varchar(25),
   var_table varchar(100),
   var_column varchar(100)
 );
 
 alter table engine.variable
 add constraint variable_pkey
-primary key (id_variable);
+primary key (id_variable, id_family);
 
 
 -- Foreign keys

@@ -12,30 +12,47 @@ in a family more than one name for the same geoentity.
 
 Combine Maplex and Engine?
 
+TODO: Create a class in Elcano to store long lasting dictionaries and translation tables coming from the 
+database to retrieve them easily
+
 """
 import common.timelapse as timelapse
 import enginemodel
 
 
-def getVariableCodes(idVariable, year=None):
+def getVariableCodes(idFamily, idVariable, year=None):
     """Returns available codes for variable idVariable."""
     m = enginemodel.EngineModel()
-    variable = getVariable(idVariable)
-    return(m.getVariableCodes(variable["var_table"], year))
+    variable = getVariable(idFamily, idVariable)
+    return([i["code"] for i in m.getVariableCodes(variable["var_table"], year)] if variable else None)
 
 
-def getVariable(idVariable):
+def getVariable(idFamily, idVariable):
     """Returns variable with ID idVariable."""
     m = enginemodel.EngineModel()
-    return(m.getVariable(idVariable))
+    return(m.getVariable(idFamily, idVariable))
 
 
-def getVariables():
+def getVariables(family=None):
     m = enginemodel.EngineModel()
-    return(m.getVariables())
+    return(m.getVariables(family))
 
 
-def getVariableYears(idVariable):
+def getVariableYears(idFamily, idVariable):
     """Returns years present in a variable. TODO: make it generic."""
     m = enginemodel.EngineModel()
-    return(m.getVariableYears(getVariable(idVariable)["var_table"]))
+    return([int(i["year"]) for i in m.getVariableYears(getVariable(idFamily, idVariable)["var_table"])])
+
+
+def getIdFamilyByName(name):
+    """Returns the variable family ID by it's english name."""
+    m = enginemodel.EngineModel()
+    return(m.getIdFamilyByName(name)[0]["id_family"])
+
+
+def getVariableValue(idFamily, idVariable, code, year):
+    """Returns the value of a variable."""
+    m = enginemodel.EngineModel()
+    var = getVariable(idFamily, idVariable)
+    d = m.getVariableValue(var["var_table"], var["var_column"], code, year)
+    return(d["data"] if d else None)

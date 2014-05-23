@@ -161,3 +161,14 @@ class MaplexModel(PostgreSQLModel):
         where name=%s and id_name_family=%s;
         """
         return(self.query(sql, bindings=[name, idNameFamily]).result())
+
+
+    def idGeoentitiesBlocks(self, idGeoentity):
+        """Returns an array with idGeoentities that are blocks."""
+        sql = """
+        select
+        array_agg(id_geoentity_block) as id_geoentity_blocks
+        from
+        maplex.vw__blocks;
+        """
+        return(self.query(sql).row()["id_geoentity_blocks"])

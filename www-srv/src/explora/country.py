@@ -89,29 +89,55 @@ def countrySheet(lang, family, countryCode):
 
     /countrysheet/es/iepe/US?filter=US,DK,ES&entities=NL,XBEU,NZ
 
-    entities is mandatory
+    entities is mandatory, although it has no effect in this tool.
     """
     m = iepgdatamodel.IepgDataModel()
     f = processFilter(request.args, "filter")
-    e = processFilter(request.args, "entities")
-    blocksEntities,countriesEntities = common.helpers.getBlocksFromCountryList(e) if e else (None, None)
-
-    print(blocksEntities, countriesEntities)
-    countriesEntities = common.helpers.arraySubstraction(countriesEntities, f)
-
-    print(f)
-    print(blocksEntities, countriesEntities)
-
-    
-
-    print (common.helpers.getVariableYears(family))
-
-    ###HERE
-
+    # Participating countries
+    countries = common.helpers.getCountriesIsoByVariableFamily(family)
+    # Filter substraction
+    if f:
+        countries = common.helpers.arraySubstraction(countries, f)
 
     # try:
-    #     data = dict()
-    #     for year in years:
+    data = dict()
+    # Iterate through the years involved in the variable
+    for year in common.helpers.getVariableYears(family):
+        # Check if countryCode is a block. If it is, substract its members
+        isBlock = cacheWrapper(common.helpers.isBlock, countryCode)
+        if isBlock:
+            c = common.helpers.arraySubstraction(countries, 
+                                                 cacheWrapper(common.helpers.getBlockMembersIso,
+                                                              countryCode, year))
+        else:
+            c = countries
+        c = common.helpers.arraySubstraction(c, countryCode)
+        c.append(countryCode)
+        
+
+        print(year)
+        print(c)
+
+        y = dict()
+        var = dict()
+        context_var = dict()
+        # Iterate vars in family
+        for v in cacheWrapper(common.helpers.getVariables, family):
+            print(v)
+            # iterate countries
+            for i in c:
+                print cacheWrapper(common.helpers.getVariableValue, family, v["id_variable"], i, year)
+                ###HERE: do blocks math
+                ###HERE: Calculate rankings
+                
+
+
+        
+    return(jsonify({"E": 1}))
+    # except:
+    #     return(jsonify({"E": 2}))
+    
+
     #         y = dict()
     #         iepg_var = dict()
     #         context_var = dict()
@@ -133,7 +159,7 @@ def countrySheet(lang, family, countryCode):
     # except ElcanoApiRestError as e:
     #     return(jsonify(e.toDict()))
 
-    return(jsonify({"E": 1}))
+
 
 @app.route('/mapdata/<string:family>/<string:variable>/<int:year>', methods=['GET'])
 def mapData(family, variable, year):

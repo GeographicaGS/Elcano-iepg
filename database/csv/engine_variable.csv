@@ -1,3 +1,3 @@
 id_variable|name_en|name_es|description_en|description_es|continuous|id_family|var_table|var_column
-1|Energy|Energía|IEPG energy component.|Componente energía del IEPG.|t|1|iepg_data_redux.iepg_data|energy
-2|Energy|Energía|IEPE energy component.|Componente energía del IEPE.|t|2|iepg_data_redux.iepe_data|energy
+energy|Energy|Energía|IEPG energy component.|Componente energía del IEPG.|t|iepg|iepg_data_redux.iepg_data|energy
+energy|Energy|Energía|IEPE energy component.|Componente energía del IEPE.|t|iepe|iepg_data_redux.iepe_data|energy

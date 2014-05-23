@@ -4,6 +4,15 @@
 
 Maplex core
 
+TODO: Can a geoentity have geoms by itself and be a block at the same time? > yes, it should
+In this case, has any sense that the block itself has a date_in/date_out?
+Think in the incorporation/separation process between geoentities, more than in the "block" 
+concept. Think always in a TIMELINE fashion.
+
+Geoentity is TOO abstract. A geoentity must have one multipolygon or none, then use the 
+incorporation/separation process to manage geoentities relationships. This is MUCH better. TIMELINES of
+aggregations/separations nested together.
+
 """
 import maplexmodel
 import common.timelapse
@@ -87,3 +96,9 @@ def getGeoentityBlocks(idGeoentity, year=None):
     """Returns all blocks idGeoentity is in."""
     m = maplexmodel.MaplexModel()
     return(m.getGeoentityBlocks(idGeoentity, year))
+
+
+def isBlock(idGeoentity):
+    """Returns True if idGeoentity is a block."""
+    m = maplexmodel.MaplexModel()
+    return(idGeoentity in m.idGeoentitiesBlocks(idGeoentity))

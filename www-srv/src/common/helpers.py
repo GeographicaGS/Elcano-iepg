@@ -121,7 +121,7 @@ def arraySubstraction(array1, array2):
 
 
 def getBlocks():
-    """Returns all ISO codes of blocks."""
+    """Returns a dictionary of block's data keyed by ISO codes."""
     names = cacheWrapper(maplex.getNames)
     isoCodes = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==4}
     spanishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==3 and 
@@ -138,12 +138,17 @@ def getBlocks():
         countries[v] = n
             
     return(countries)
+
+
+def getBlocksIso():
+    """Returns a list of blocks ISO codes."""
+    return([v for v in cacheWrapper(getBlocks).keys()])
     
 
-def getIepgCountries():
-    """Returns all ISO codes of countries in IEPG."""
-    m = getListFromDictionary(arraySubstraction(cacheWrapper(engine.getVariableCodes, 1), const.iepgBlocks), 
-                              "code")
+def getCountryDataByVariableFamily(family):
+    """Returns a dictionary with country data keyed by ISO codes of the given family."""
+    m = arraySubstraction(cacheWrapper(engine.getVariableCodes, family, 'energy'), 
+                          cacheWrapper(getBlocksIso))
     names = cacheWrapper(maplex.getNames)
     isoCodes = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==1 and v["name"] in m}
     spanishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==3 and 
@@ -162,36 +167,26 @@ def getIepgCountries():
     return(countries)
 
 
-def getIepeCountries():
-    """Returns all ISO codes of countries in IEPE."""
-    m = getListFromDictionary(arraySubstraction(cacheWrapper(engine.getVariableCodes, 2), iepgBlocks), 
-                              "code")
-    names = cacheWrapper(maplex.getNames)
-    isoCodes = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==1 and v["name"] in m}
-    spanishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==3 and 
-                    v["id_geoentity"] in isoCodes.keys()}
-    englishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==2 and 
-                    v["id_geoentity"] in isoCodes.keys()}
-
-    countries = dict()
-    for k,v in isoCodes.iteritems():
-        n = dict()
-        n["es"] = spanishNames[k]
-        n["en"] = englishNames[k]
-        n["idGeoentity"] = k
-        countries[v] = n
-            
-    return(countries)
+def getCountriesIsoByVariableFamily(family):
+    """Returns a list of country ISO codes in variable family."""
+    return([c for c in cacheWrapper(getCountryDataByVariableFamily, family).keys()])
 
 
-def getBlockMembers(idGeoentityBlock, year=None):
-    out = []
-    for m in cacheWrapper(maplex.getBlockMembers, idGeoentityBlock, year=year):
+def getBlockMembers(isoBlock, year=None):
+    """Returns a dictionary of block members data keyed by ISO."""
+    out = dict()
+    for m in cacheWrapper(maplex.getBlockMembers, maplex.getIdGeoentityByName(isoBlock, 4)[0]["id_geoentity"],
+                          year=year):
         m["es"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 3)[0]["names"][0]
         m["en"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 2)[0]["names"][0]
-        m["iso"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 1)[0]["names"][0]
-        out.append(m)
+        iso = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 1)[0]["names"][0]
+        out[iso] = m
     return(out)
+
+
+def getBlockMembersIso(isoBlock, year=None):
+    """Returns a list of ISO codes for a block and a year."""
+    return([c for c in cacheWrapper(getBlockMembers, isoBlock, year=year).keys()])
 
 
 def getListFromDictionary(dictionary, key):
@@ -214,15 +209,31 @@ def getOrderedDictionary(dict):
 
 
 def getVariableYears(family):
-    """Returns a list for years present in IEPG/IEPE data."""
-    if family=="iepg":
-        return(sorted([int(i["year"]) for i in engine.getVariableYears(1)]))
-    if family=="iepe":
-        return(sorted([int(i["year"]) for i in engine.getVariableYears(2)]))
-
+    """Returns a list for years present in IEPG/IEPE data.
+    TODO: implement in engine the notion of DATASET, which points to a table with code, date_in, date_out.
+    Column names are the variable's key, and variables must have metadata like they have now."""
+    return(sorted(engine.getVariableYears(family, 'energy')))
+    
 
 def getGeoentityBlocks(isoGeoentity, year=None):
     """Return the ISO code of block from isoGeoentity."""
-    pass
-    ###HERE
-    #blocks = maplex.getGeoentityBlocks(
+    id = maplex.getIdGeoentityByName(isoGeoentity, 1)
+    blocks = maplex.getGeoentityBlocks(id[0]["id_geoentity"], year)
+    return(maplex.getGeoentityNames(blocks[0]["id_geoentity_block"], 4)[0]["names"][0])
+
+
+def getVariables(family=None):
+    """Return variables for an optional family."""
+    idFamily = engine.getIdFamilyByName(family) if family else None
+    return(engine.getVariables(idFamily))
+
+
+def isBlock(isoGeoentity):
+    """Returns True if isoGeoentity is a block."""
+    return(maplex.getIdGeoentityByName(isoGeoentity, 4)<>[])
+
+
+def getVariableValue(family, variable, code, year):
+    """Returns variable value."""
+    return(engine.getVariableValue(family, variable, code, year))
+

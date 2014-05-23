@@ -1,4 +1,4 @@
 id_family|name_en|name_es|description_en|description_es
-1|IEPG|IEPG|IEPG variable family.|Familia de variables IEPG.
-2|IEPE|IEPE|IEPE variable family.|Familia de variables IEPE.
-3|Context|Contexto|Context variable family.|Familia de variables de contexto.
+iepg|iepg|iepg|IEPG variable family.|Familia de variables IEPG.
+iepe|iepe|iepe|IEPE variable family.|Familia de variables IEPE.
+context|context|contexto|Context variable family.|Familia de variables de contexto.

@@ -49,23 +49,29 @@ class EngineModel(PostgreSQLModel):
         return(a)
 
 
-    def getVariables(self):
+    def getVariables(self, family):
         """Returns variables."""
         sql = """
         select *
-        from engine.variable;
+        from engine.variable
         """
-        return(self.query(sql).result())
+        bindings = []
+        if family:
+            sql += " where id_family=%s"
+            bindings.append(family)
+        sql += ";"
+
+        return(self.query(sql, bindings=bindings).result())
 
 
-    def getVariable(self, idVariable):
+    def getVariable(self, idFamily, idVariable):
         """Returns variable with ID idVariable."""
         sql = """
         select *
         from engine.variable
-        where id_variable=%s;
+        where id_family=%s and id_variable=%s;
         """
-        return(self.query(sql, bindings=[idVariable]).row())
+        return(self.query(sql, bindings=[idFamily, idVariable]).row())
 
 
     def getFamilies(self):
@@ -75,6 +81,16 @@ class EngineModel(PostgreSQLModel):
         from engine.family;
         """
         return(self.query(sql).result())
+
+
+    def getIdFamilyByName(self, name):
+        """Returns the variable family ID by it's english name."""
+        sql = """
+        select id_family
+        from engine.family
+        where name_en=%s;
+        """
+        return(self.query(sql, bindings=[name]).result())
 
 
     def getVariableCodes(self, table, year):
@@ -101,3 +117,13 @@ class EngineModel(PostgreSQLModel):
         from {};
         """.format(table)
         return(self.query(sql).result())
+
+
+    def getVariableValue(self, table, column, code, year):
+        """Returns variable value."""
+        sql = """
+        select {} as data
+        from {}
+        where date_part('YEAR', date_in)=%s and code=%s;
+        """.format(column, table)
+        return(self.query(sql, bindings=[year, code]).row())

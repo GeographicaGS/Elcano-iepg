@@ -6,8 +6,10 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _forceFetchDataSubToolLeft: false,
     // Force fetch data of the right tool. Get the data for the second country
     _forceFetchDataSubToolRight: false,
+    // References to d3 tool
+    _d3: { "left" : null, "right" : null }, 
 
-    _models : { "es" : null, "en" : null },
+    _models : { "left" : null, "right" : null },
 
     type: "contributions",
 
@@ -287,7 +289,13 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
      _renderMapAsync: function(){
         this._forceFetchDataMap = false;
-        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON());
+        var 
+            ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+            year =  ctx.slider[0].date.getFullYear(),
+            family = ctx.family;
+
+        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,family);
     },
 
 
@@ -414,6 +422,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         $chart.append("<div class='co_drag_info'><p class='drag_info' style='width:" + (radius * 1.3)+ "px'><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p></div>");
 
+        this._d3[pos] = null;
     },
 
     _drawD3Chart: function(pos,country,model){
@@ -473,9 +482,9 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         var obj = this;
 
-        var root = this._buildModelTree(variables),
+        var tree =  new app.view.tools.utils.variablesTree(variables),
             path = svg.selectAll("path")
-              .data(partition.nodes(root))
+              .data(partition.nodes(tree.get()))
             .enter().append("path")
               .attr("d", arc)
               .style("fill", function(d) { return d.color; })
@@ -499,14 +508,51 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 if (d.name == "iepg" || d.name == "economic_presence" ||
                     d.name == "soft_presence" || d.name =="military_presence")
                 {
-                    path.transition()
-                        .duration(750)
-                        .attrTween("d", arcTween(d));
-                    obj._renderChartLegend(pos,root,d.name);
+                    // path.transition()
+                    //     .duration(750)
+                    //     .attrTween("d", arcTween(d));
+
+                    // obj._renderChartLegend(pos,root,d.name);
+                    obj._moveChartSection(pos,d,true);
                 }
+
           }
 
-        this._renderChartLegend(pos,root,ctx.family);
+        this._d3[pos] = {};
+        this._d3[pos].path = path;
+        this._d3[pos].tree = tree;
+        this._d3[pos].arcTween = arcTween;
+
+        this._renderChartLegend(pos,ctx.family);
+    },
+
+    _moveChartSection: function(pos,d,callBrother){
+
+        this._d3[pos].path.transition()
+                        .duration(750)
+                        .attrTween("d", this._d3[pos].arcTween(d));
+        this._renderChartLegend(pos,d.name);
+
+        if (!callBrother){
+            return;
+        }
+
+        // Let's find d in the other tree.
+        var  // brother pos
+            bpos = pos == "left" ? "right" : "left";
+
+        if (!this._d3[bpos]){
+            // no brother chart
+            return;
+        }
+
+        var    // brother tree
+            btree = this._d3[bpos].tree,
+            // brother data element
+            bd = btree.findElementInTree(d.name);
+    
+         this._moveChartSection(bpos,bd,false);
+
     },
 
     _htmlToolTip: function(variable){
@@ -526,128 +572,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _buildModelTree: function(variables){
+    _renderChartLegend: function(pos,name){
 
-        return {
-            "name" : "iepg",
-            "color" : "#fdc300",
-            "size" : variables.iepg.value,
-            "children" : [{
-                "name" : "economic_presence",
-                "color" : "#2b85d0",
-                "size" : variables.economic_presence.value,
-                "children": [{
-                    "name" : "energy",
-                    "size" : variables.energy.value,
-                    "color" : "#4191d5"
-                },
-                {
-                    "name" : "primary_goods",
-                    "size" : variables.primary_goods.value,
-                    "color" : "#559dd9"
-                },
-                {
-                    "name" : "manufactures",
-                    "size" : variables.manufactures.value,
-                    "color" : "#6baade"
-                },
-                 {
-                    "name" : "services",
-                    "size" : variables.services.value,
-                    "color" : "#80b6e3"
-                },
-                {
-                    "name" : "investments",
-                    "size" : variables.investments.value,
-                    "color" : "#95c2e7"
-                }
-                ]
-            },{
-                "name" : "military_presence",
-                "color" : "#669900",
-                "size" : variables.military_presence.value,
-                "children": [{
-                        "name" : "troops",
-                        "size" : variables.troops.value,
-                        "color" : "#76a318"
-                    },{
-                        "name" : "military_equipment",
-                        "size" : variables.military_equipment.value,
-                        "color" : "#85ad33"
-
-                    }]
-            },{
-                "name" : "soft_presence",
-                "color" : "#ff9000",
-                "size" : variables.soft_presence.value,
-                "children": [{
-                        "name" : "migrations",
-                        "size" : variables.migrations.value,
-                        "color" : "#ff960d",
-                    },{
-                        "name" : "tourism",
-                        "size" : variables.tourism.value,
-                        "color" : "#ff9b1a"
-                    },{
-                        "name" : "sports",
-                        "size" : variables.sports.value,
-                        "color" : "#ffa126"
-                    },{
-                        "name" : "culture",
-                        "size" : variables.culture.value,
-                        "color": "#ffa633"
-                    },{
-                        "name" : "information",
-                        "size" : variables.information.value,
-                        "color" : "#ffac40"
-                    },{
-                        "name" : "technology",
-                        "size" : variables.technology.value,
-                        "color" : "#ffb24d"
-                     },{
-                        "name" : "science",
-                        "size" : variables.science.value,
-                        "color" : "#ffb759"
-                    },{
-                        "name" : "education",
-                        "size" : variables.education.value,
-                        "color" : "#ffbc66"
-                    },{
-                        "name" : "cooperation",
-                        "size" : variables.cooperation.value,
-                        "color" : "#ffc273"
-                    }]
-            }
-
-            ]
-        }
-    },
-
-    _extractNodeFromTree: function(nodes,name){
-       
-        if (name == "iepg"){
-            return nodes;
-        }
-        else{
-            nodes = nodes.children;
-        }
-       
-        // find the node in the childrens
-        for(var i=0;i<nodes.length;i++){
-            if (nodes[i].name == name){
-                return nodes[i];
-            }
-        }
-
-        return null;
-    },
-
-    _renderChartLegend: function(pos,root,name){
         $legend = pos == "left" ? this.$chart_legend_left : this.$chart_legend_right;
         $legend.html(this._templateChartLegend({
-            data: this._extractNodeFromTree(root,name)
+            data: this._d3[pos].tree.findElementInTree(name)
         }));
-
     },
 
     contextToURL: function(){

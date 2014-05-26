@@ -232,6 +232,8 @@ deps.Explora.JS = {
 			// Tools context object
 			"explora/js/view/tools/context.js",
 
+			"explora/js/view/tools/utils.js",
+
 			"explora/js/view/country_selector_view.js",
 			"explora/js/view/tool_selector_view.js",
 			"explora/js/view/variable_selector_view.js",

@@ -109,6 +109,7 @@ input[placeholder]{
 	color:@grey_light;
 }
 
+
 .grey{ color: @grey;}
 .red { color : @red;}
 .yellow { color: @yellow;}
@@ -884,4 +885,3 @@ footer{
 	text-align: center;
 	background-color: #ececee;
 }
-

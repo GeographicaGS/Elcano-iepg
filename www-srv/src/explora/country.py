@@ -5,6 +5,7 @@
 Explora country services.
 
 """
+import common.datacache as datacache
 from explora import app
 from flask import jsonify,request,send_file,make_response
 from common.helpers import cacheWrapper, baseMapData, arrayIntersection
@@ -14,12 +15,12 @@ from common.errorhandling import ElcanoApiRestError
 from common.const import variables, years, blocks
 import common.helpers
 from helpers import processFilter
-
+import varengine.varengine as varengine
 
 
 # TEST BEGINS 
 
-from common.helpers import blocksSumCalculateData
+# from common.helpers import blocksSumCalculateData
 
 # @app.route('/test/<string:blockCode>/<int:year>/<string:family>/<string:variable>', methods=["GET"])
 # def test(blockCode, year, family, variable):
@@ -93,56 +94,63 @@ def countrySheet(lang, family, countryCode):
     """
     m = iepgdatamodel.IepgDataModel()
     f = processFilter(request.args, "filter")
+    dataset = varengine.Dataset(family)
+    dataset.loadFromDatabase()
+    energyCache = cacheWrapper(varengine.DataCache, dataset.variables["energy"])
     # Participating countries
-    countries = cacheWrapper(common.helpers.getCountriesIsoByVariableFamily, family)
+    countries = energyCache.codeIndex
     # Filter substraction
     if f:
         countries = common.helpers.arraySubstraction(countries, f)
 
-    # try:
-    data = dict()
-    # Iterate through the years involved in the variable
-    for year in common.helpers.getVariableYears(family):
-        # Check if countryCode is a block. If it is, substract its members
-        isBlock = cacheWrapper(common.helpers.isBlock, countryCode)
-        if isBlock:
-            c = common.helpers.arraySubstraction(countries, 
-                                                 cacheWrapper(common.helpers.getBlockMembersIso,
-                                                              countryCode, year))
-        else:
-            c = countries
-        c = common.helpers.arraySubstraction(c, countryCode)
-        c.append(countryCode)
+    print datacache.caches["iepg__energy"].data
+
+    ###HERE
+
+    # # try:
+    # data = dict()
+    # # Iterate through the years involved in the variable
+    # for year in common.helpers.getVariableYears(family):
+    #     # Check if countryCode is a block. If it is, substract its members
+    #     isBlock = cacheWrapper(common.helpers.isBlock, countryCode)
+    #     if isBlock:
+    #         c = common.helpers.arraySubstraction(countries, 
+    #                                              cacheWrapper(common.helpers.getBlockMembersIso,
+    #                                                           countryCode, year))
+    #     else:
+    #         c = countries
+    #     c = common.helpers.arraySubstraction(c, countryCode)
+    #     c.append(countryCode)
         
 
 
-        y = dict()
-        varFamily = dict()
-        context_var = dict()
-        # Iterate vars in family
-        for v in cacheWrapper(common.helpers.getVariables, family):
-            var = dict()
-            print(v)
-            variableValue = cacheWrapper(common.helpers.getVariableValue, family, v["id_variable"], 
-                                                                         countryCode, year)
-            if variableValue:
-                ranking = cacheWrapper(common.helpers.getRanking, c, year, family, v["id_variable"])[countryCode]
-            else:
-                ranking = None
+    #     y = dict()
+    #     varFamily = dict()
+    #     context_var = dict()
+    #     # Iterate vars in family
+    #     for v in cacheWrapper(common.helpers.getVariables, family):
+    #         var = dict()
+    #         print(v)
+    #         variableValue = cacheWrapper(common.helpers.getVariableValue, family, v["id_variable"], 
+    #                                                                      countryCode, year)
+    #         if variableValue:
+    #             ranking = cacheWrapper(common.helpers.getRanking, c, year, family, v["id_variable"])[countryCode]
+    #         else:
+    #             ranking = None
 
-            print variableValue
-            print ranking
-            var["code"]=countryCode
-            var["ranking"]=ranking
-            var["value"]=variableValue
-            var["variable"]=v["id_variable"]
-            var["year"]=year
-            varFamily[v["id_variable"]]=var
+    #         print variableValue
+    #         print ranking
+    #         var["code"]=countryCode
+    #         var["ranking"]=ranking
+    #         var["value"]=variableValue
+    #         var["variable"]=v["id_variable"]
+    #         var["year"]=year
+    #         varFamily[v["id_variable"]]=var
 
-        ###HERE
+    #     ###HERE
 
         
-    return(jsonify({"E": varFamily}))
+    return(jsonify({"E": 1}))
     # except:
     #     return(jsonify({"E": 2}))
     

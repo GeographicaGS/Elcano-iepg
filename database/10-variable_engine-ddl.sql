@@ -2,8 +2,6 @@
 
   Variable engine.
 
-  TODO: Try to parametrize the schema name :schema, test with \copy too.
-
 */
 
 \i 00-config.sql

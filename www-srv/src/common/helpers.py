@@ -7,15 +7,26 @@ Common helpers.
 """
 import hashlib
 import tweepy
-import model.iepgdatamodel
 from config import MemcachedConfig
 from flask import jsonify
 import engine.engine as engine
 import maplex.maplex as maplex
 if MemcachedConfig["enabled"] == True:
     import memcache
-import const
 import collections
+
+
+def blockFunctionLumpSum(values):
+    """Gets a dictionary keyed by ISO and with values of a variable and returns the lump
+    sum of the values. Returns an integer which is the lump sum."""
+    s = 0
+    for i in values.values():
+        s+=i
+    return(s)
+
+
+import const
+import model.iepgdatamodel
 
 
 def cacheWrapper(funcName, *args, **kwargs):
@@ -86,25 +97,14 @@ def getBlocksFromCountryList(countryList):
 
 def getRanking(countryList, year, family, variable):
     """Calculates rankings, given a country list and a country filter, and
-    given that the country list may contain blocks."""
-    print countryList
-    print year
-    print family
-    print variable
-
+    given that the country list may contain blocks. Returns a dictionary with 
+    ISO keys and the ranking."""
     values = getVariableValuesSeries(countryList, year, family, variable)
     valSorted = sorted(set(values.values()), reverse=True)
-    print valSorted
-
-    out = []
-    for i in values:
-        ###HERE, sort values by value and make a twin increment indexes advance strategy 
-        ###between values and valSorted
-        
-    
-        
-
-    return(1)
+    out = dict()
+    for i in (countryList):
+        out[i] = valSorted.index(values[i])+1
+    return(out)
 
 
 def getVariableValuesSeries(countryList, year, family, variable):
@@ -265,10 +265,3 @@ def getVariableValue(family, variable, code, year):
     return(v)
 
 
-def blockFunctionLumpSum(values):
-    """Gets a dictionary keyed by ISO and with values of a variable and returns the lump
-    sum of the values. Returns an integer which is the lump sum."""
-    s = 0
-    for i in values.values():
-        s+=i
-    return(s)

@@ -3,7 +3,7 @@
 """
 Constants
 """
-import common.const
+import helpers
 
 backend = {
     'autoAuth': False,
@@ -23,7 +23,7 @@ precalculatedBlocks = ["XBEU"]
 
 # Calculation methods for variable families
 blockFunctCalcFamilies = {
-    'iepg': common.helpers.blockFunctionLumpSum
+    'iepg': helpers.blockFunctionLumpSum
 }
 
 

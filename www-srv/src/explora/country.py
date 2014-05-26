@@ -94,7 +94,7 @@ def countrySheet(lang, family, countryCode):
     m = iepgdatamodel.IepgDataModel()
     f = processFilter(request.args, "filter")
     # Participating countries
-    countries = common.helpers.getCountriesIsoByVariableFamily(family)
+    countries = cacheWrapper(common.helpers.getCountriesIsoByVariableFamily, family)
     # Filter substraction
     if f:
         countries = common.helpers.arraySubstraction(countries, f)
@@ -117,23 +117,32 @@ def countrySheet(lang, family, countryCode):
 
 
         y = dict()
-        var = dict()
+        varFamily = dict()
         context_var = dict()
         # Iterate vars in family
         for v in cacheWrapper(common.helpers.getVariables, family):
-            # iterate countries
-            common.helpers.getRanking(c, year, family, v)
-            for i in c:
-                pass
-                #print i
-                # cacheWrapper(common.helpers.getVariableValue, family, v["id_variable"], i, year)
-                ###HERE: do blocks math
-                ###HERE: Calculate rankings
-                
+            var = dict()
+            print(v)
+            variableValue = cacheWrapper(common.helpers.getVariableValue, family, v["id_variable"], 
+                                                                         countryCode, year)
+            if variableValue:
+                ranking = cacheWrapper(common.helpers.getRanking, c, year, family, v["id_variable"])[countryCode]
+            else:
+                ranking = None
 
+            print variableValue
+            print ranking
+            var["code"]=countryCode
+            var["ranking"]=ranking
+            var["value"]=variableValue
+            var["variable"]=v["id_variable"]
+            var["year"]=year
+            varFamily[v["id_variable"]]=var
+
+        ###HERE
 
         
-    return(jsonify({"E": 1}))
+    return(jsonify({"E": varFamily}))
     # except:
     #     return(jsonify({"E": 2}))
     

@@ -12,7 +12,7 @@ from model.highlightmodel import HighlightModel
 from model.labelmodel import LabelModel
 import helpers
 import common.helpers
-import collections
+# import collections
 from common import config as config
 from common import const as cons
 from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage

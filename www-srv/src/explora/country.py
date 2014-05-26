@@ -115,18 +115,18 @@ def countrySheet(lang, family, countryCode):
         c.append(countryCode)
         
 
-        print(year)
-        print(c)
 
         y = dict()
         var = dict()
         context_var = dict()
         # Iterate vars in family
         for v in cacheWrapper(common.helpers.getVariables, family):
-            print(v)
             # iterate countries
+            common.helpers.getRanking(c, year, family, v)
             for i in c:
-                print cacheWrapper(common.helpers.getVariableValue, family, v["id_variable"], i, year)
+                pass
+                #print i
+                # cacheWrapper(common.helpers.getVariableValue, family, v["id_variable"], i, year)
                 ###HERE: do blocks math
                 ###HERE: Calculate rankings
                 

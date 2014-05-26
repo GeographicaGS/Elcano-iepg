@@ -3,6 +3,8 @@
 """
 Constants
 """
+import common.const
+
 backend = {
     'autoAuth': False,
     'DocumentListLength': 16,
@@ -18,6 +20,25 @@ frontend = {
 
 lang = ["en", "es"]
 precalculatedBlocks = ["XBEU"]
+
+# Calculation methods for variable families
+blockFunctCalcFamilies = {
+    'iepg': common.helpers.blockFunctionLumpSum
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -84,17 +84,35 @@ def getBlocksFromCountryList(countryList):
     return(_blocks, _countries)
 
 
-def getRanking(countryList, countryFilter, year, family, variable):
+def getRanking(countryList, year, family, variable):
     """Calculates rankings, given a country list and a country filter, and
     given that the country list may contain blocks."""
-    blocks, countries = getBlocksFromCountryList(countryList)
+    print countryList
+    print year
+    print family
+    print variable
 
-    print(blocks, countries)
+    values = getVariableValuesSeries(countryList, year, family, variable)
+    valSorted = sorted(set(values.values()), reverse=True)
+    print valSorted
 
-    for block in blocks:
-        pass
+    out = []
+    for i in values:
+        ###HERE, sort values by value and make a twin increment indexes advance strategy 
+        ###between values and valSorted
+        
+    
+        
 
     return(1)
+
+
+def getVariableValuesSeries(countryList, year, family, variable):
+    """Returns a dictionary keyed by ISO with the values of family/variable."""
+    values = dict()
+    for i in countryList:
+        values[i] = getVariableValue(family, variable, i, year)
+    return(values)
 
 
 def getBlocksCountries(countryList, year, countryFilter=[]):
@@ -235,5 +253,22 @@ def isBlock(isoGeoentity):
 
 def getVariableValue(family, variable, code, year):
     """Returns variable value."""
-    return(engine.getVariableValue(family, variable, code, year))
+    if isBlock(code):
+        if code not in const.precalculatedBlocks:
+            members = getBlockMembers(code, year).keys()
+            values = getVariableValuesSeries(members, year, family, variable)
+            v = const.blockFunctCalcFamilies[family](values)
+        else:
+            v = engine.getVariableValue(family, variable, code, year)
+    else:
+        v = engine.getVariableValue(family, variable, code, year)
+    return(v)
 
+
+def blockFunctionLumpSum(values):
+    """Gets a dictionary keyed by ISO and with values of a variable and returns the lump
+    sum of the values. Returns an integer which is the lump sum."""
+    s = 0
+    for i in values.values():
+        s+=i
+    return(s)

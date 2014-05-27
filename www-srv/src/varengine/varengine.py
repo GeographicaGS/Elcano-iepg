@@ -30,23 +30,44 @@ class DataCache(object):
 
     def __init__(self, variable):
         """Adds a variable to the cache. Variable is """
-        data = variable.getVariableData()
+        data = variable.getData()
         years = variable.getVariableYears()
         codes = variable.getVariableCodes()
         a = numpy.empty((len(years), len(codes)), float)
         a[:] = numpy.NaN
-        for y in variable.getVariableYears():
-            for c in variable.getVariableCodes(year=y):
-                fData = [i for i in data if i["code"]==c and i["date_in"].year==y][0]["value"]
-                a[years.index(y),codes.index(c)]=fData
+        for y in years:
+            for c in codes:
+                fData = [i for i in data if i["code"]==c and i["year"]==y]
+                a[years.index(y),codes.index(c)]=fData[0]["value"] if fData<>[] else numpy.NaN
         self.data = a
         self.codeIndex = codes
         self.timeIndex = years
 
-    def getData(self, code, year):
-        """Retrieves a data.
+    def getData(self, code=None, year=None):
+        """Retrieves a data, either sliced by year of by code.
         TODO: restricted to years."""
-        return(self.data[self.timeIndex.index(year),self.codeIndex.index(code)])
+        if code and not year:
+            a = self.data[0:,self.codeIndex.index(code)]
+            return({self.timeIndex[i]: a[i] for i in range(0, len(self.timeIndex))})
+        if year and not code:
+            a = self.data[self.timeIndex.index(year),0:]
+            return({self.codeIndex[i]: a[i] for i in range(0, len(self.codeIndex))})            
+        if year and code:
+            d = dict()
+            d["year"]=year
+            d["code"]=code
+            d["value"]=self.data[self.timeIndex.index(year),self.codeIndex.index(code)]
+            return(d)
+
+        out = []
+        for c in self.codeIndex:
+            for y in self.timeIndex:
+                d = dict()
+                d["year"]=y
+                d["code"]=c
+                d["value"]=self.data[self.timeIndex.index(y),self.codeIndex.index(c)]
+                out.append(d)
+        return(out)
 
                     
 class Dataset(object):
@@ -91,6 +112,7 @@ class Variable(object):
     idVariable = None
     continuous = None
     dataType = None
+    cache = None
 
     def __init__(self, dataset, idVariable, continuous, dataType):
         self.dataset = dataset
@@ -118,18 +140,27 @@ class Variable(object):
 
     def getVariableYears(self):
         """Returns years present in a variable. TODO: make it generic."""
-        m = varenginemodel.VarEngineModel()
-        return(sorted([int(i["year"]) for i in m.getVariableYears(self)]))
+        if self.cache:
+            return(self.cache.timeIndex)
+        else:
+            return(list(set([int(i["year"]) for i in self.getData()])))
+    
+    def getVariableCodes(self):
+        """Returns codes present in a variable."""
+        if self.cache:
+            return(self.cache.codeIndex)
+        else:
+            return(list(set([i["code"] for i in self.getData()])))
 
-    def getVariableCodes(self, year=None):
-        """Returns available codes for variable idVariable."""
-        m = varenginemodel.VarEngineModel()
-        return(sorted([i["code"] for i in m.getVariableCodes(self, year)]))
-
-    def getVariableData(self, year=None, codes=None):
-        """Returns variable values. TODO: fixed to years, pass a selection of codes."""
-        m = varenginemodel.VarEngineModel()
-        return(m.getVariableData(self, year))
+    def getData(self, code=None, year=None):
+        """Returns available codes for variable idVariable. TODO: This isn't correct, since in
+        the original data not all codes may have a value for the given year. Nulls are only
+        well handle with cache."""
+        if self.cache:
+            return(self.cache.getData(code=code, year=year))
+        else:
+            m = varenginemodel.VarEngineModel()
+            return(m.getData(self, year, code))
     
     def populateFromTable(self, sourceTable, dateInColumn, dateOutColumn, 
                           codeColumn, valueColumn):
@@ -141,53 +172,10 @@ class Variable(object):
         return(m.populateFromTable(self, sourceTable, dateInColumn, dateOutColumn, codeColumn,
                                          valueColumn))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def getVariable(idFamily, idVariable):
-#     """Returns variable with ID idVariable."""
-#     m = enginemodel.EngineModel()
-#     return(m.getVariable(idFamily, idVariable))
-
-
-# def getVariables(family=None):
-#     m = enginemodel.EngineModel()
-#     return(m.getVariables(family))
-
-
-# def getIdFamilyByName(name):
-#     """Returns the variable family ID by it's english name."""
-#     m = enginemodel.EngineModel()
-#     return(m.getIdFamilyByName(name)[0]["id_family"])
-
-
-# def getVariableValue(idFamily, idVariable, code, year):
-#     """Returns the value of a variable."""
-#     m = enginemodel.EngineModel()
-#     var = getVariable(idFamily, idVariable)
-#     d = m.getVariableValue(var["var_table"], var["var_column"], code, year)
-#     return(d["data"] if d else None)
+    def cacheData(self, cacheWrapperFunc=None):
+        """Creates a cache with variable data. Returns the cache."""
+        if cacheWrapperFunc:
+            self.cache = cacheWrapperFunc(DataCache, self)
+        else:
+            self.cache = DataCache(self)
+        return(self.cache)

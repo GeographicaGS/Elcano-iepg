@@ -77,18 +77,31 @@ class VarEngineModel(PostgreSQLModel):
         self.queryCommit(sql)
         return(variable)
 
-    def getVariableData(self, variable, year):
-        """Returns variable values for a year."""
+    def getData(self, variable, year, code):
+        """Returns variable values for a year.
+        TODO: fixed to years"""
         sql = """
-        select *
+        select 
+        code,
+        date_part('YEAR', date_in) as year,
+        value
         from varengine.{}
         """.format(variable.tableName())
         bindings=[]
+        if year or code:
+            sql += " where "
         if year:
             sql += """
-            where date_part('YEAR', date_in)=%s
+            date_part('YEAR', date_in)=%s
             """
             bindings.append(year)
+        if code:
+            if year:
+                sql += " and "
+            sql += """
+            code=%s
+            """
+            bindings.append(code)
         sql += ";"
         return(self.query(sql, bindings=bindings).result())
 
@@ -137,87 +150,87 @@ class VarEngineModel(PostgreSQLModel):
 
 
 
-    def addVariable(self, nameEn, nameEs, continuous, idFamily, varTable, varColumn, 
-                    descriptionEn=None, descriptionEs=None):
-        """Adds a variable."""
-        values = {
-            "name_en": nameEn,
-            "name_es": nameEs,
-            "continuous": continuous,
-            "id_family": idFamily,
-            "var_table": varTable,
-            "var_column": varColumn
-        }
-        if descriptionEn:
-            values["description_en"] = descriptionEn
-        if descriptionEs:
-            values["description_es"] = descriptionEs
-        a = self.insert("engine.variable",
-                        values,
-                        returnID="id_variable")
+    # def addVariable(self, nameEn, nameEs, continuous, idFamily, varTable, varColumn, 
+    #                 descriptionEn=None, descriptionEs=None):
+    #     """Adds a variable."""
+    #     values = {
+    #         "name_en": nameEn,
+    #         "name_es": nameEs,
+    #         "continuous": continuous,
+    #         "id_family": idFamily,
+    #         "var_table": varTable,
+    #         "var_column": varColumn
+    #     }
+    #     if descriptionEn:
+    #         values["description_en"] = descriptionEn
+    #     if descriptionEs:
+    #         values["description_es"] = descriptionEs
+    #     a = self.insert("engine.variable",
+    #                     values,
+    #                     returnID="id_variable")
 
-        return(a)
+    #     return(a)
 
     
-    def addFamily(self, nameEn, nameEs, descriptionEn=None, descriptionEs=None):
-        """Adds a family."""
-        values = {
-            "name_en": nameEn,
-            "name_es": nameEs
-        }
-        if descriptionEn:
-            values["description_en"] = descriptionEn
-        if descriptionEs:
-            values["description_es"] = descriptionEs
-        a = self.insert("engine.family",
-                        values,
-                        returnID="id_family")
+    # def addFamily(self, nameEn, nameEs, descriptionEn=None, descriptionEs=None):
+    #     """Adds a family."""
+    #     values = {
+    #         "name_en": nameEn,
+    #         "name_es": nameEs
+    #     }
+    #     if descriptionEn:
+    #         values["description_en"] = descriptionEn
+    #     if descriptionEs:
+    #         values["description_es"] = descriptionEs
+    #     a = self.insert("engine.family",
+    #                     values,
+    #                     returnID="id_family")
 
-        return(a)
-
-
-    def getVariables(self, family):
-        """Returns variables."""
-        sql = """
-        select *
-        from engine.variable
-        """
-        bindings = []
-        if family:
-            sql += " where id_family=%s"
-            bindings.append(family)
-        sql += ";"
-
-        return(self.query(sql, bindings=bindings).result())
+    #     return(a)
 
 
-    def getVariable(self, idFamily, idVariable):
-        """Returns variable with ID idVariable."""
-        sql = """
-        select *
-        from engine.variable
-        where id_family=%s and id_variable=%s;
-        """
-        return(self.query(sql, bindings=[idFamily, idVariable]).row())
+    # def getVariables(self, family):
+    #     """Returns variables."""
+    #     sql = """
+    #     select *
+    #     from engine.variable
+    #     """
+    #     bindings = []
+    #     if family:
+    #         sql += " where id_family=%s"
+    #         bindings.append(family)
+    #     sql += ";"
+
+    #     return(self.query(sql, bindings=bindings).result())
 
 
-    def getFamilies(self):
-        """Returns families."""
-        sql = """
-        select *
-        from engine.family;
-        """
-        return(self.query(sql).result())
+    # def getVariable(self, idFamily, idVariable):
+    #     """Returns variable with ID idVariable."""
+    #     sql = """
+    #     select *
+    #     from engine.variable
+    #     where id_family=%s and id_variable=%s;
+    #     """
+    #     return(self.query(sql, bindings=[idFamily, idVariable]).row())
 
 
-    def getIdFamilyByName(self, name):
-        """Returns the variable family ID by it's english name."""
-        sql = """
-        select id_family
-        from engine.family
-        where name_en=%s;
-        """
-        return(self.query(sql, bindings=[name]).result())
+    # def getFamilies(self):
+    #     """Returns families."""
+    #     sql = """
+    #     select *
+    #     from engine.family;
+    #     """
+    #     return(self.query(sql).result())
+
+
+    # def getIdFamilyByName(self, name):
+    #     """Returns the variable family ID by it's english name."""
+    #     sql = """
+    #     select id_family
+    #     from engine.family
+    #     where name_en=%s;
+    #     """
+    #     return(self.query(sql, bindings=[name]).result())
 
 
 

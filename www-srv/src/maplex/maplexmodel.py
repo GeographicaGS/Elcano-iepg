@@ -21,6 +21,48 @@ class MaplexModel(PostgreSQLModel):
 
         return(a)
 
+    def getTranslationTable(self, idNameFamilyA, idNameFamilyB):
+        """Returns the translation table from idNameFamilyA to B."""
+        if idNameFamilyB:
+            sql = """
+            with name_a as(
+            select 
+            a.id_geoentity, 
+            b.name
+            from 
+            maplex.geoentity_name a inner join 
+            maplex.name b on
+            a.id_name=b.id_name
+            where id_name_family=%s),
+            name_b as(
+            select 
+            a.id_geoentity, 
+            b.name
+            from 
+            maplex.geoentity_name a inner join 
+            maplex.name b on
+            a.id_name=b.id_name
+            where id_name_family=%s)
+            select
+            a.name as name_a,
+            b.name as name_b
+            from
+            name_a a full outer join
+            name_b b on
+            a.id_geoentity=b.id_geoentity;
+            """
+            return(self.query(sql, bindings=[idNameFamilyA, idNameFamilyB]).result())
+        else:
+            sql = """
+            select 
+            b.name as name_a,
+            a.id_geoentity as name_b
+            from 
+            maplex.geoentity_name a inner join 
+            maplex.name b on a.id_name=b.id_name
+            where id_name_family=%s;
+            """
+            return(self.query(sql, bindings=[idNameFamilyA]).result())
 
     def getGeoentityBlocks(self, idGeoentity, year):
         """Returns blocks idGeoentity is in for the given year."""

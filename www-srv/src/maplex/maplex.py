@@ -69,6 +69,23 @@ def getIdGeoentityByName(name, idNameFamily):
     m = maplexmodel.MaplexModel()
     return(m.getIdGeoentityByName(name, idNameFamily))
 
+def getTranslationTable(idNameFamilyA, idNameFamilyB=None):
+    """Returns two dictionaries: one keyer by idNameFamilyA to idNameFamilyB conversion,
+    and reverse. If idNameFamilyB is None, idGeoentity is used as idNameFamilyB."""
+    m = maplexmodel.MaplexModel()
+    ab = dict()
+    ba = dict()
+    for d in m.getTranslationTable(idNameFamilyA, idNameFamilyB):
+        ab[d["name_a"]] = d["name_b"]
+        ba[d["name_b"]] = d["name_a"]
+    return(ab, ba)
+
+
+### HERE: cache several translation tables between codes: ISO code to and from english/spanish, 
+### ISO code to and from idGeoentity
+
+
+
 # TODO: redefine this method so it returns blocks whose existence is completely 
 # within the lapse and make a difference on if the lapse is calculated by its members
 # or the block itself

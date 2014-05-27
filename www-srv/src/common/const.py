@@ -27,183 +27,182 @@ blockFunctCalcFamilies = {
     'iepg': helpers.blockFunctionLumpSum
 }
 
-variablesIepg = {
-    "energy": {
-        "key": "energy",
-        "name_en": "Energy",
-        "name_es": "Energía"},
-    "primary_goods": {
-        "key": "primary_goods",
-        "name_en": "Primary Goods",
-        "name_es": "Bienes primarios"},
-    "manufactures": {
-        "key": "manufactures",
-        "name_en": "Manufactures",
-        "name_es": "Manufacturas"},
-    "services": {
-        "key": "services",
-        "name_en": "Services",
-        "name_es": "Servicios"},
-    "investments": {
-        "key": "investments",
-        "name_en": "Investments",
-        "name_es": "Inversiones"},
-    "troops": {
-        "key": "troops",
-        "name_en": "Troops",
-        "name_es": "Tropas"},
-    "military_equipment": {
-        "key": "military_equipment",
-        "name_en": "Military Equipment",
-        "name_es": "Equipo militar"},
-    "migrations": {
-        "key": "migrations",
-        "name_en": "Migrations",
-        "name_es": "Migraciones"},
-    "tourism": {
-        "key": "tourism",
-        "name_en": "Tourism",
-        "name_es": "Turismo"},
-    "sports": {
-        "key": "sports",
-        "name_en": "Sports",
-        "name_es": "Deportes"},
-    "culture": {
-        "key": "culture",
-        "name_en": "Culture",
-        "name_es": "Cultura"},
-    "information": {
-        "key": "information",
-        "name_en": "Information",
-        "name_es": "Información"},
-    "technology": {
-        "key": "technology",
-        "name_en": "Technology",
-        "name_es": "Tecnología"},
-    "science": {
-        "key": "science",
-        "name_en": "Science",
-        "name_es": "Ciencia"},
-    "education": {
-        "key": "education",
-        "name_en": "Education",
-        "name_es": "Educación"},
-    "cooperation": {
-        "key": "cooperation",
-        "name_en": "Cooperation",
-        "name_es": "Cooperación"},
-    "economic_presence": {
-        "key": "economic_presence",
-        "name_en": "Economic Presence",
-        "name_es": "Presencia económica"},
-    "military_presence": {
-        "key": "military_presence",
-        "name_en": "Military Presence",
-        "name_es": "Presencia militar"},
-    "soft_presence": {
-        "key": "soft_presence",
-        "name_en": "Soft Presence",
-        "name_es": "Presencia blanda"},
+variableNames = {
     "iepg": {
-        "key": "iepg",
-        "name_en": "IEPG",
-        "name_es": "IEPG"}
-}
-
-variablesIepe = {
-    "energy": {
-        "key": "energy",
-        "name_en": "Energy",
-        "name_es": "Energía"},
-    "primary_goods": {
-        "key": "primary_goods",
-        "name_en": "Primary Goods",
-        "name_es": "Bienes primarios"},
-    "manufactures": {
-        "key": "manufactures",
-        "name_en": "Manufactures",
-        "name_es": "Manufacturas"},
-    "services": {
-        "key": "services",
-        "name_en": "Services",
-        "name_es": "Servicios"},
-    "investments": {
-        "key": "investments",
-        "name_en": "Investments",
-        "name_es": "Inversiones"},
-    "troops": {
-        "key": "troops",
-        "name_en": "Troops",
-        "name_es": "Tropas"},
-    "military_equipment": {
-        "key": "military_equipment",
-        "name_en": "Military Equipment",
-        "name_es": "Equipo militar"},
-    "migrations": {
-        "key": "migrations",
-        "name_en": "Migrations",
-        "name_es": "Migraciones"},
-    "tourism": {
-        "key": "tourism",
-        "name_en": "Tourism",
-        "name_es": "Turismo"},
-    "sports": {
-        "key": "sports",
-        "name_en": "Sports",
-        "name_es": "Deportes"},
-    "culture": {
-        "key": "culture",
-        "name_en": "Culture",
-        "name_es": "Cultura"},
-    "information": {
-        "key": "information",
-        "name_en": "Information",
-        "name_es": "Información"},
-    "technology": {
-        "key": "technology",
-        "name_en": "Technology",
-        "name_es": "Tecnología"},
-    "science": {
-        "key": "science",
-        "name_en": "Science",
-        "name_es": "Ciencia"},
-    "education": {
-        "key": "education",
-        "name_en": "Education",
-        "name_es": "Educación"},
-    "cooperation": {
-        "key": "cooperation",
-        "name_en": "Cooperation",
-        "name_es": "Cooperación"},
-    "economic_presence": {
-        "key": "economic_presence",
-        "name_en": "Economic Presence",
-        "name_es": "Presencia económica"},
-    "military_presence": {
-        "key": "military_presence",
-        "name_en": "Military Presence",
-        "name_es": "Presencia militar"},
-    "soft_presence": {
-        "key": "soft_presence",
-        "name_en": "Soft Presence",
-        "name_es": "Presencia blanda"},
+        "energy": {
+            "key": "energy",
+            "name_en": "Energy",
+            "name_es": "Energía"},
+        "primary_goods": {
+            "key": "primary_goods",
+            "name_en": "Primary Goods",
+            "name_es": "Bienes primarios"},
+        "manufactures": {
+            "key": "manufactures",
+            "name_en": "Manufactures",
+            "name_es": "Manufacturas"},
+        "services": {
+            "key": "services",
+            "name_en": "Services",
+            "name_es": "Servicios"},
+        "investments": {
+            "key": "investments",
+            "name_en": "Investments",
+            "name_es": "Inversiones"},
+        "troops": {
+            "key": "troops",
+            "name_en": "Troops",
+            "name_es": "Tropas"},
+        "military_equipment": {
+            "key": "military_equipment",
+            "name_en": "Military Equipment",
+            "name_es": "Equipo militar"},
+        "migrations": {
+            "key": "migrations",
+            "name_en": "Migrations",
+            "name_es": "Migraciones"},
+        "tourism": {
+            "key": "tourism",
+            "name_en": "Tourism",
+            "name_es": "Turismo"},
+        "sports": {
+            "key": "sports",
+            "name_en": "Sports",
+            "name_es": "Deportes"},
+        "culture": {
+            "key": "culture",
+            "name_en": "Culture",
+            "name_es": "Cultura"},
+        "information": {
+            "key": "information",
+            "name_en": "Information",
+            "name_es": "Información"},
+        "technology": {
+            "key": "technology",
+            "name_en": "Technology",
+            "name_es": "Tecnología"},
+        "science": {
+            "key": "science",
+            "name_en": "Science",
+            "name_es": "Ciencia"},
+        "education": {
+            "key": "education",
+            "name_en": "Education",
+            "name_es": "Educación"},
+        "cooperation": {
+            "key": "cooperation",
+            "name_en": "Cooperation",
+            "name_es": "Cooperación"},
+        "economic_presence": {
+            "key": "economic_presence",
+            "name_en": "Economic Presence",
+            "name_es": "Presencia económica"},
+        "military_presence": {
+            "key": "military_presence",
+            "name_en": "Military Presence",
+            "name_es": "Presencia militar"},
+        "soft_presence": {
+            "key": "soft_presence",
+            "name_en": "Soft Presence",
+            "name_es": "Presencia blanda"},
+        "iepg": {
+            "key": "iepg",
+            "name_en": "IEPG",
+            "name_es": "IEPG"}
+    },
     "iepe": {
-        "key": "iepe",
-        "name_en": "IEPE",
-        "name_es": "IEPE"}
+        "energy": {
+            "key": "energy",
+            "name_en": "Energy",
+            "name_es": "Energía"},
+        "primary_goods": {
+            "key": "primary_goods",
+            "name_en": "Primary Goods",
+            "name_es": "Bienes primarios"},
+        "manufactures": {
+            "key": "manufactures",
+            "name_en": "Manufactures",
+            "name_es": "Manufacturas"},
+        "services": {
+            "key": "services",
+            "name_en": "Services",
+            "name_es": "Servicios"},
+        "investments": {
+            "key": "investments",
+            "name_en": "Investments",
+            "name_es": "Inversiones"},
+        "troops": {
+            "key": "troops",
+            "name_en": "Troops",
+            "name_es": "Tropas"},
+        "military_equipment": {
+            "key": "military_equipment",
+            "name_en": "Military Equipment",
+            "name_es": "Equipo militar"},
+        "migrations": {
+            "key": "migrations",
+            "name_en": "Migrations",
+            "name_es": "Migraciones"},
+        "tourism": {
+            "key": "tourism",
+            "name_en": "Tourism",
+            "name_es": "Turismo"},
+        "sports": {
+            "key": "sports",
+            "name_en": "Sports",
+            "name_es": "Deportes"},
+        "culture": {
+            "key": "culture",
+            "name_en": "Culture",
+            "name_es": "Cultura"},
+        "information": {
+            "key": "information",
+            "name_en": "Information",
+            "name_es": "Información"},
+        "technology": {
+            "key": "technology",
+            "name_en": "Technology",
+            "name_es": "Tecnología"},
+        "science": {
+            "key": "science",
+            "name_en": "Science",
+            "name_es": "Ciencia"},
+        "education": {
+            "key": "education",
+            "name_en": "Education",
+            "name_es": "Educación"},
+        "cooperation": {
+            "key": "cooperation",
+            "name_en": "Cooperation",
+            "name_es": "Cooperación"},
+        "economic_presence": {
+            "key": "economic_presence",
+            "name_en": "Economic Presence",
+            "name_es": "Presencia económica"},
+        "military_presence": {
+            "key": "military_presence",
+            "name_en": "Military Presence",
+            "name_es": "Presencia militar"},
+        "soft_presence": {
+            "key": "soft_presence",
+            "name_en": "Soft Presence",
+            "name_es": "Presencia blanda"},
+        "iepe": {
+            "key": "iepe",
+            "name_en": "IEPE",
+            "name_es": "IEPE"}
+    },
+    "context": {
+        "gdp": {
+            "key": "gdp",
+            "name_en": "GDP",
+            "name_es": "PIB"},
+        "population": {
+            "key": "population",
+            "name_en": "Population",
+            "name_es": "Población"}
+    }
 }
-
-variablesContext = {
-    "gdp": {
-        "key": "gdp",
-        "name_en": "GDP",
-        "name_es": "PIB"},
-    "population": {
-        "key": "population",
-        "name_en": "Population",
-        "name_es": "Población"}
-}
-
 
 
 

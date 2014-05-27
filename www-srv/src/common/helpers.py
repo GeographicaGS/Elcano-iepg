@@ -14,10 +14,11 @@ import maplex.maplex as maplex
 if MemcachedConfig["enabled"] == True:
     import memcache
 import collections
+import numpy
 
 
 def blockFunctionLumpSum(values):
-    """Gets a dictionary keyed by ISO and with values of a variable and returns the lump
+    """Gets a list with values of a variable and returns the lump
     sum of the values. Returns an integer which is the lump sum."""
     s = 0
     for i in values.values():
@@ -99,17 +100,35 @@ def baseMapData():
 # #     return(_blocks, _countries)
 
 
-# # def getRanking(countryList, year, family, variable):
-# #     """Calculates rankings, given a country list and a country filter, and
-# #     given that the country list may contain blocks. Returns a dictionary with 
-# #     ISO keys and the ranking."""
-# #     values = getVariableValuesSeries(countryList, year, family, variable)
-# #     valSorted = sorted(set(values.values()), reverse=True)
-# #     out = dict()
-# #     for i in (countryList):
-# #         out[i] = valSorted.index(values[i])+1
-# #     return(out)
+def getRanking(countryList, year, variable):
+    """Calculates rankings, given a country list and a country filter, and
+    given that the country list may contain blocks. Returns a dictionary with 
+    ISO keys and the ranking. NaN are ignored."""
+    values = {k: v for (k,v) in variable.getData(year=year).iteritems() if k in countryList 
+              and not numpy.isnan(v)}
+    valSorted = sorted(set(values.values()), reverse=True)
+    out = dict()
+    for i in (countryList):
+        if i in values.keys():
+            out[i] = valSorted.index(values[i])+1
+        else:
+            out[i] = None
+    return(out)
 
+def getRankingCode(countryList, year, variable, countryCode):
+    """Calculates rankings, given a country list and a country filter, and
+    given that the country list may contain blocks. Returns a dictionary with 
+    ISO keys and the ranking. NaN are ignored."""
+    values = sorted({v for (k,v) in variable.getData(year=year).iteritems() if k in countryList 
+                     and not numpy.isnan(v)}, reverse=True)
+    value = variable.getData(year=year, code=countryCode)["value"]
+    if numpy.isnan(value):
+        return(None)
+    else:
+        i = 0
+        while values[i]>value:
+            i+=1
+        return(i+1)
 
 # # def getVariableValuesSeries(countryList, year, family, variable):
 # #     """Returns a dictionary keyed by ISO with the values of family/variable."""
@@ -194,21 +213,23 @@ def arraySubstraction(array1, array2):
 # #     return([c for c in cacheWrapper(getCountryDataByVariableFamily, family).keys()])
 
 
-# # def getBlockMembers(isoBlock, year=None):
-# #     """Returns a dictionary of block members data keyed by ISO."""
-# #     out = dict()
-# #     for m in cacheWrapper(maplex.getBlockMembers, maplex.getIdGeoentityByName(isoBlock, 4)[0]["id_geoentity"],
-# #                           year=year):
-# #         m["es"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 3)[0]["names"][0]
-# #         m["en"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 2)[0]["names"][0]
-# #         iso = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 1)[0]["names"][0]
-# #         out[iso] = m
-# #     return(out)
+def getBlockMembers(isoBlock, year=None):
+    """Returns a list of block members ISO."""
+    out = dict()
+    for m in cacheWrapper(maplex.getBlockMembers, maplex.getIdGeoentityByName(isoBlock, 4)[0]["id_geoentity"],
+                          year=year):
+        print m
+        ###HERE: Optimize with cached codes translation tables
+        # m["es"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 3)[0]["names"][0]
+        # m["en"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 2)[0]["names"][0]
+        # iso = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 1)[0]["names"][0]
+        # out[iso] = m
+    return(out)
 
 
-# # def getBlockMembersIso(isoBlock, year=None):
-# #     """Returns a list of ISO codes for a block and a year."""
-# #     return([c for c in cacheWrapper(getBlockMembers, isoBlock, year=year).keys()])
+def getBlockMembersIso(isoBlock, year=None):
+    """Returns a list of ISO codes for a block and a year."""
+    return([c for c in cacheWrapper(getBlockMembers, isoBlock, year=year).keys()])
 
 
 # # def getListFromDictionary(dictionary, key):
@@ -248,22 +269,35 @@ def arraySubstraction(array1, array2):
 # #     return(engine.getVariables(idFamily))
 
 
-# # def isBlock(isoGeoentity):
-# #     """Returns True if isoGeoentity is a block."""
-# #     return(maplex.getIdGeoentityByName(isoGeoentity, 4)<>[])
+def isBlock(isoGeoentity):
+    """Returns True if isoGeoentity is a block."""
+    return(maplex.getIdGeoentityByName(isoGeoentity, 4)<>[])
 
 
-# # def getVariableValue(family, variable, code, year):
-# #     """Returns variable value."""
-# #     if isBlock(code):
-# #         if code not in const.precalculatedBlocks:
-# #             members = getBlockMembers(code, year).keys()
-# #             values = getVariableValuesSeries(members, year, family, variable)
-# #             v = const.blockFunctCalcFamilies[family](values)
-# #         else:
-# #             v = engine.getVariableValue(family, variable, code, year)
-# #     else:
-# #         v = engine.getVariableValue(family, variable, code, year)
-# #     return(v)
+def getData(variable, code=None, year=None):
+    """Returns variable value."""
+    if isBlock(code):
+        if code not in const.precalculatedBlocks:
+            if year:
+                ### HERE: optimize for "US", "XBEU" and "XBAP"
+                v = dict()
+                # members = getBlockMembers(code, year).keys()
+                members = ['BD', 'CN', 'SG', 'JP', 'VN', 'KR', 'NZ', 'AU', 'TH', 'IN', 'PK', 'PH', 'MY', 'ID']
+                print members
+                values = {i: j for (i,j) in variable.getData(year=year).iteritems() if i in members}
+                print values
+                v["code"]=code
+                v["year"]=year
+                # v["value"] = const.blockFunctCalcFamilies[variable.dataset.idDataset](values)
+                v["value"] = 99
+            else:
+                v = dict()
+                for y in variable.getVariableYears():
+                    v[y] = getData(variable, code=code, year=y)["value"]
+        else:
+            v = variable.getData(code=code, year=year)
+    else:
+        v = variable.getData(code=code, year=year)
+    return(v)
 
 

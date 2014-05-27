@@ -14,8 +14,10 @@ from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError
 from common.const import variables, years, blocks
 import common.helpers
+import common.const as const
 from helpers import processFilter
 import varengine.varengine as varengine
+import numpy as numpy
 
 
 # TEST BEGINS 
@@ -94,34 +96,40 @@ def countrySheet(lang, family, countryCode):
     """
     m = iepgdatamodel.IepgDataModel()
     f = processFilter(request.args, "filter")
-    dataset = varengine.Dataset(family)
-    dataset.loadFromDatabase()
-    energyCache = cacheWrapper(varengine.DataCache, dataset.variables["energy"])
+    familyVar = [v for (k,v) in datacache.variables.iteritems() if v.dataset.idDataset==family]
+    contextVar = [v for (k,v) in datacache.variables.iteritems() if v.dataset.idDataset=="context"]
     # Participating countries
-    countries = energyCache.codeIndex
+    countries = familyVar[0].getVariableCodes()
     # Filter substraction
     if f:
         countries = common.helpers.arraySubstraction(countries, f)
 
-    print datacache.caches["iepg__energy"].data
-
-    ###HERE
-
     # # try:
-    # data = dict()
-    # # Iterate through the years involved in the variable
-    # for year in common.helpers.getVariableYears(family):
-    #     # Check if countryCode is a block. If it is, substract its members
-    #     isBlock = cacheWrapper(common.helpers.isBlock, countryCode)
-    #     if isBlock:
-    #         c = common.helpers.arraySubstraction(countries, 
-    #                                              cacheWrapper(common.helpers.getBlockMembersIso,
-    #                                                           countryCode, year))
-    #     else:
-    #         c = countries
-    #     c = common.helpers.arraySubstraction(c, countryCode)
-    #     c.append(countryCode)
-        
+    out = dict()
+    # Iterate through the years involved in the variable
+    for year in familyVar[0].getVariableYears():
+        # Check if countryCode is a block. If it is, substract its members
+        isBlock = cacheWrapper(common.helpers.isBlock, countryCode)
+        if isBlock:
+            c = common.helpers.arraySubstraction(countries, 
+                                                 cacheWrapper(common.helpers.getBlockMembersIso,
+                                                              countryCode, year))
+        else:
+            c = countries
+        c = common.helpers.arraySubstraction(c, [countryCode, "XBEU"])
+        c.append(countryCode)
+        iepgVariables = dict()
+        for var in familyVar:
+            data = dict()
+            data["code"] = countryCode
+            v = cacheWrapper(common.helpers.getData, var, countryCode, year)
+            print(v)
+            data["value"] = None if numpy.isnan(v["value"]) else v["value"]
+            data["variable"] = const.variableNames[family][var.idVariable]["name_"+lang]
+            data["year"] = year
+            data["ranking"] = common.helpers.getRankingCode(c, year, var,countryCode)
+            print(data)
+            
 
 
     #     y = dict()

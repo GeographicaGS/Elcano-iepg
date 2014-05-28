@@ -5,6 +5,8 @@
 Common helpers.
 
 """
+import common.datacache as datacache
+from common.cachewrapper import cacheWrapper
 import hashlib
 import tweepy
 from config import MemcachedConfig
@@ -15,40 +17,8 @@ if MemcachedConfig["enabled"] == True:
     import memcache
 import collections
 import numpy
-
-
-def blockFunctionLumpSum(values):
-    """Gets a list with values of a variable and returns the lump
-    sum of the values. Returns an integer which is the lump sum."""
-    s = 0
-    for i in values.values():
-        s+=i
-    return(s)
-
-
 import const
 import model.iepgdatamodel
-
-
-def cacheWrapper(funcName, *args, **kwargs):
-    """Cache wrapping helper."""
-    if MemcachedConfig["enabled"]:
-        s = ""
-        for i in args:
-            s+=str(i)
-        for i in kwargs:
-            s+=str(i)
-        h = hashlib.sha256(funcName.__name__+s).hexdigest()
-        mc = memcache.Client([MemcachedConfig["host"]+":"+MemcachedConfig["port"]], debug=0)
-        v = mc.get(h)
-        if v:
-            return(v)
-        else:
-            out = funcName(*args, **kwargs)
-            mc.set(h, out, MemcachedConfig["expiration"])
-            return(out)
-    else:
-        return(funcName(*args, **kwargs))
 
 
 def baseMapData():
@@ -212,20 +182,11 @@ def arraySubstraction(array1, array2):
 # #     """Returns a list of country ISO codes in variable family."""
 # #     return([c for c in cacheWrapper(getCountryDataByVariableFamily, family).keys()])
 
-
 def getBlockMembers(isoBlock, year=None):
     """Returns a list of block members ISO."""
-    out = dict()
-    for m in cacheWrapper(maplex.getBlockMembers, maplex.getIdGeoentityByName(isoBlock, 4)[0]["id_geoentity"],
-                          year=year):
-        print m
-        ###HERE: Optimize with cached codes translation tables
-        # m["es"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 3)[0]["names"][0]
-        # m["en"] = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 2)[0]["names"][0]
-        # iso = cacheWrapper(maplex.getGeoentityNames, m["id_geoentity_child"], 1)[0]["names"][0]
-        # out[iso] = m
-    return(out)
-
+    return([datacache.geoentityToIso[i["id_geoentity_child"]] for i in 
+            cacheWrapper(maplex.getBlockMembers, datacache.isoToGeoentity[isoBlock],
+                         year=year)])
 
 def getBlockMembersIso(isoBlock, year=None):
     """Returns a list of ISO codes for a block and a year."""
@@ -276,16 +237,14 @@ def isBlock(isoGeoentity):
 
 def getData(variable, code=None, year=None):
     """Returns variable value."""
-    if isBlock(code):
+    if code in datacache.blocks:
         if code not in const.precalculatedBlocks:
             if year:
-                ### HERE: optimize for "US", "XBEU" and "XBAP"
+                ###HERE: optimize for "US", "XBEU" and "XBAP"
                 v = dict()
-                # members = getBlockMembers(code, year).keys()
-                members = ['BD', 'CN', 'SG', 'JP', 'VN', 'KR', 'NZ', 'AU', 'TH', 'IN', 'PK', 'PH', 'MY', 'ID']
-                print members
+                members = getBlockMembers(code, year)
+                # members = ['BD', 'CN', 'SG', 'JP', 'VN', 'KR', 'NZ', 'AU', 'TH', 'IN', 'PK', 'PH', 'MY', 'ID']
                 values = {i: j for (i,j) in variable.getData(year=year).iteritems() if i in members}
-                print values
                 v["code"]=code
                 v["year"]=year
                 # v["value"] = const.blockFunctCalcFamilies[variable.dataset.idDataset](values)

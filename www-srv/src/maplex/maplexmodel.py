@@ -153,19 +153,46 @@ class MaplexModel(PostgreSQLModel):
 
         return(self.query(sql,bindings=[idGeoentity, idNameFamily]).result())
 
-
-    def getBlocks(self, timeLapseBlock=None, timeLapseMembers=None):
+    def getBlocks(self, timeLapseBlock, timeLapseMembers, idNameFamily):
         """Retrieves list of blocks, given a time lapse (either given by the block
         timeline itself or that of its members membership."""
-        sql = """
-        select *
-        from maplex.vw__blocks
-        """
-        bindings=[]
-        filter = ""
+        if idNameFamily:
+            sql = """
+            select
+            c.name as id_geoentity_block,
+            a.date_members_first_entry as date_members_first_entry,
+            a.date_members_last_exit as date_members_last_exit,
+            a.description_block as description_block,
+            a.date_in_block as date_in_block,
+            a.date_out_block as date_out_block
+            from
+            maplex.vw__blocks a left join 
+            maplex.geoentity_name b on
+            a.id_geoentity_block=b.id_geoentity left join
+            maplex.name c on
+            b.id_name=c.id_name
+            """
+            filter = " where id_name_family=%s "
+            bindings = [idNameFamily]
+        else:
+            sql = """
+            select
+            a.id_geoentity_block as id_geoentity_block, 
+            a.date_members_first_entry as date_members_first_entry,
+            a.date_members_last_exit as date_members_last_exit,
+            a.description_block as description_block,
+            a.date_in_block as date_in_block,
+            a.date_out_block as date_out_block
+            from
+            maplex.vw__blocks a
+            """
+            filter = ""
+            bindings=[]
+
         if timeLapseBlock:
             a = timeLapseBlock.getSqlFilter(["date_in_block", "date_out_block"])
-            filter = " where "+a["sql"]
+            filter = " where " if filter=="" else filter+" and "
+            filter += a["sql"] 
             bindings.extend(a["bindings"])
         if timeLapseMembers:
             a = timeLapseMembers.getSqlFilter(["date_members_first_entry", "date_members_last_exit"])
@@ -176,15 +203,42 @@ class MaplexModel(PostgreSQLModel):
         sql = sql+filter+";" if filter<>"" else sql+";"
         return(self.query(sql, bindings=bindings).result())
 
-
-    def getBlockMembers(self, idGeoentityBlock, year):
-        """Retrieves block members. TODO: go beyond year."""
-        bindings=[idGeoentityBlock]
-        sql = """
-        select *
-        from
-        maplex.vw__blocks_membership
-        where id_geoentity_block = %s"""
+    def getBlockMembers(self, idGeoentityBlock, year, idNameFamily):
+        """Retrieves block members. TODO: go beyond year. TODO: all members should be multiname."""
+        if idNameFamily:
+            bindings=[idNameFamily, idNameFamily, idGeoentityBlock]
+            sql = """
+            select
+            c.name as id_geoentity_block,
+            a.description_block as description_block,
+            a.date_in_block as date_in_block,
+            a.date_out_block as date_out_block,
+            a.date_in_membership as date_in_membership,
+            a.date_out_membership as date_out_membership,
+            e.name as id_geoentity_child,
+            a.description_child as description_child,
+            a.date_in_child as date_in_child,
+            a.date_out_child as date_out_child
+            from
+            maplex.vw__blocks_membership a left join 
+            maplex.geoentity_name b on
+            a.id_geoentity_block=b.id_geoentity left join
+            maplex.name c on
+            b.id_name=c.id_name left join
+            maplex.geoentity_name d on
+            a.id_geoentity_child=d.id_geoentity left join
+            maplex.name e on
+            d.id_name = e.id_name
+            where
+            b.id_name_family=%s and d.id_name_family=%s and c.name=%s
+            """
+        else:
+            bindings=[idGeoentityBlock]
+            sql = """
+            select *
+            from
+            maplex.vw__blocks_membership
+            where id_geoentity_block = %s"""
 
         if year:
             sql += " and (date_part('YEAR', date_in_membership)<=%s or date_in_membership is null)"
@@ -193,7 +247,6 @@ class MaplexModel(PostgreSQLModel):
         sql += ";"
 
         return(self.query(sql, bindings=bindings).result())
-
 
     def getIdGeoentityByName(self, name, idNameFamily):
         """Retrieves ID geoentity of name and ID name family."""

@@ -4,6 +4,7 @@
 Constants
 """
 import helpers
+import blockfunctions
 
 backend = {
     'autoAuth': False,
@@ -24,7 +25,7 @@ variableDatasets = ["iepg", "iepe", "context"]
 
 # Calculation methods for variable families
 blockFunctCalcFamilies = {
-    'iepg': helpers.blockFunctionLumpSum
+    'iepg': blockfunctions.blockFunctionLumpSum
 }
 
 variableNames = {

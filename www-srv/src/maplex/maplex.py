@@ -97,16 +97,17 @@ def getTranslationTable(idNameFamilyA, idNameFamilyB=None):
 #     return(m.getBlocks(timeLapseBlock, timeLapseMembers))
 
 
-def getBlocks(timeLapseBlock=None, timeLapseMembers=None):
-    """Retrieves basic information about blocks."""
+def getBlocks(timeLapseBlock=None, timeLapseMembers=None, idNameFamily=None):
+    """Retrieves basic information about blocks. If idNameFamily is None, idGeoentity is returned."""
     m = maplexmodel.MaplexModel()
-    return(m.getBlocks(timeLapseBlock, timeLapseMembers))
+    return(m.getBlocks(timeLapseBlock, timeLapseMembers, idNameFamily))
 
 
-def getBlockMembers(idGeoentityBlock, year=None):
-    """Retrieves block members."""
+def getBlockMembers(idGeoentityBlock, year=None, idNameFamily=None):
+    """Retrieves block members. If idNameFamily is None, idGeoentity is returned. TODO: erase the idNameFamily
+    from all functions. Stick exclusively to the id_geoentity. Use translation tables."""
     m = maplexmodel.MaplexModel()
-    return(m.getBlockMembers(idGeoentityBlock, year))
+    return(m.getBlockMembers(idGeoentityBlock, year, idNameFamily))
 
 
 def getGeoentityBlocks(idGeoentity, year=None):

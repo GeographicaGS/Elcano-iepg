@@ -12,6 +12,8 @@ import varengine.varengine as varengine
 reload(varengine)
 
 
+###HERE: clean the varengine schema and fix issue with the const.variables dictionary
+
 d = varengine.Dataset("iepg")
 d.registerInDatabase()
 for k,v in const.variablesIepg.iteritems():

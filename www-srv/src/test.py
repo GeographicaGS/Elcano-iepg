@@ -17,6 +17,7 @@ reload(config)
 
 ds = e.Dataset('iepg')
 ds.loadFromDatabase()
+print ds.variables
 v = ds.variables["information"]
 v.cacheData()
 

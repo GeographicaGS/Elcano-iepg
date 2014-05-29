@@ -10,6 +10,9 @@
 @grey_light2: #e7e7ea;
 @grey_dark: #28282b;
 @grey2: #5e5e62;
+@grey3: #dadade;
+@grey4: #d0d0d5;
+@grey5: #f1f1f3;
 @red: #d60006;
 @yellow : #fdc300;
 @blue : #2b85d0;
@@ -884,4 +887,190 @@ footer{
 	text-align: center;
 	background-color: #ececee;
 }
+
+.divDownlad{
+	margin-top:35px;
+	
+	.firstRow{
+		border-bottom: 1px solid @grey4;
+		padding-bottom: 20px;
+	}
+	
+	h1{
+/* 		text-align: right; */
+		font-size: 24px;
+		color: @red;
+		font-weight: normal;
+		cursor: pointer;
+	}
+	
+	.boxDonwload{
+		width: 255px;
+		height: 45px;
+		background-color: #dadade;
+		color: #fff;
+		font-size: 16px;
+		text-align: center;
+		padding-top: 10px;
+		cursor: pointer;
+		background-image: url("@{imgPath}ELC_icon_boton_descarga.png");
+		background-repeat: no-repeat;
+		background-position: 215px center;
+		padding-right: 35px;
+		margin-top: -13px;
+		margin-left: 52px !important;
+	}
+	
+	.menuDownload{
+		font-size: 16px;
+		color: @grey_dark;
+/* 		text-align: right; */
+		cursor: pointer;
+		
+		div{
+			margin-left:70px;
+			float: left;
+		}
+		
+		img{
+			position: absolute;
+			top: -20px;
+		}
+		
+		.counter{
+			border-radius: 10px;
+			color: #fff;
+			height: 22px;
+			padding: 0px 9px;
+			background-color: #a2a2ac;
+			margin: 12px 0px 0 0;
+			line-height: 23px;
+			margin-left: 10px;
+		}
+	}
+	.tituloDownload{
+	
+	div:nth-child(2){
+		line-height: 90px;
+	}
+	
+	.secondColumn{
+		border-bottom: 1px solid @grey4;
+	}
+	
+	h1{
+		font-size: 21px;
+		color: @grey_light;
+		font-weight: normal;
+	}
+	
+	.siguiente{
+		float: left;
+		margin-left: 10px;
+		border-bottom: 1px solid @yellow;
+		line-height: 25px;
+		margin-top: 32px;
+		cursor: pointer;
+	}
+}
+
+	.active{
+		background-color: @grey5;
+		background-image: url("../img/ELC_icon_seleccionado.svg");
+		background-repeat: no-repeat;
+		background-position: right center;
+		background-origin: content-box;
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+	.active:HOVER{
+		background-image: url("../img/ELC_icon_deseleccionar.svg") !important;
+	}
+
+	#yearDiv{
+		.celda{
+			padding-left: 10px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			border-bottom: 1px solid @grey_light2;
+			cursor: pointer;
+		}
+		
+		.celda:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+			padding-left: 10px;
+		}
+		
+		.all{
+			margin-left: 0px !important;
+		}
+	}
+	
+	#thematicBlock{
+		.row{
+			line-height:55px;
+		}
+		.level2{
+			margin-left:50px;
+			.tematica {
+				margin-right: 35px;
+			}
+			.tematica2 {
+				margin-right: 10px;
+			}
+			
+		}
+		
+		.level3{
+			margin-left:100px;
+			
+			.tematica {
+				margin-right: 64px;
+			}
+			.tematica2 {
+				margin-right: 26px;
+			}
+		}
+		.tematica{
+				padding-left: 10px;
+				margin-left: -10px;
+				border-bottom: 1px solid @grey_light2;
+				cursor: pointer;
+		}
+		.tematica2{
+			padding-left: 10px;
+			margin-right: -10px;
+			border-bottom: 1px solid @grey_light2;
+			cursor: pointer;
+		}
+		
+		.tematica:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+			padding-left: 10px;
+		}
+		.tematica2:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+			padding-left: 10px;
+		}
+		img{
+			float: left;
+			padding-top: 8px;
+			padding-right: 10px;
+		}
+	}
+}
+
+
 

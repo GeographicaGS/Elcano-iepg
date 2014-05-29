@@ -112,14 +112,20 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         this._drawD3Chart(year);
 
-        this._renderChartLegend(year,"iepg");
+        this._renderChartLegend("iepg");
 
         this._forceFetchDataTool = false;
     },
 
     _renderMapAsync: function(){
         this._forceFetchDataTool = false;
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON());
+        var 
+            ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+            year =  ctx.slider[0].date.getFullYear(),
+            family = ctx.family;
+
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,family);
     },
 
     /* Render the tool */
@@ -253,7 +259,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             countries = ctx.countries.list.join(","),
             country = ctx.countries.selection[0],
             variable = ctx.variables[0],
-            year = ctx.slider[0].date.getFullYear()
+            year = ctx.slider[0].date.getFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "country/" + family + "/" + countries + "/" + country + "/" + year + filters;
 
@@ -334,14 +340,15 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         }
 
         var div = d3.select("body").append("div")   
-        .attr("class", "tooltip")               
+        .attr("class", "tooltip")  
         .style("opacity", 0);
 
         var obj = this;
 
-        var root = this._buildModelTree(year),
-            path = svg.selectAll("path")
-              .data(partition.nodes(root))
+        this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).iepg_variables);
+        
+        var path = svg.selectAll("path")
+              .data(partition.nodes(this.tree.get()))
             .enter().append("path")
               .attr("d", arc)
               .style("fill", function(d) { return d.color; })
@@ -368,7 +375,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                     path.transition()
                         .duration(750)
                         .attrTween("d", arcTween(d));
-                    obj._renderChartLegend(year,d.name);
+                    
+                    obj._renderChartLegend(d.name);
                 }
           }
     },
@@ -392,7 +400,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _buildModelTree: function(year){
+    _buildModelTreeDeprecated: function(year){
 
         var variables = this.model.get(year).iepg_variables;
         return {
@@ -509,10 +517,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         return null;
     },
 
-    _renderChartLegend: function(year,name){
+    _renderChartLegend: function(name){
 
         this.$chart_legend.html(this._templateChartLegend({
-            data: this._extractNodeFromTree(year,name)
+            data: this.tree.findElementInTree(name)
         }));
 
     }

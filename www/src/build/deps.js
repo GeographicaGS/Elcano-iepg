@@ -147,6 +147,8 @@ deps.Frontend.JS = {
 			"frontend/js/view/download/download_view.js",
 			"frontend/js/view/download/year_view.js",
 			"frontend/js/view/download/thematic_block_view.js",
+			"frontend/js/view/download/country_view.js",
+			"frontend/js/view/tools/utils.js",
 
 			// router
 			"frontend/js/router.js",
@@ -204,8 +206,7 @@ deps.Explora.JS = {
 			// ------  Models ------
 			// --------------------
 			"explora/js/model/tools/country_tool_model.js",
-		
-
+	
 			
 			// --------------------
 			// --- Collections  ---
@@ -214,6 +215,7 @@ deps.Explora.JS = {
 			"explora/js/collection/filter.js",
 			"explora/js/collection/country_tool_map.js",
 			"explora/js/collection/ranking_tool.js",
+			"explora/js/collection/global_index_collection.js",
 			
 			// --------------------
 			// ------  Views ------
@@ -235,6 +237,8 @@ deps.Explora.JS = {
 
 			// Tools context object
 			"explora/js/view/tools/context.js",
+
+			"explora/js/view/tools/utils.js",
 
 			"explora/js/view/country_selector_view.js",
 			"explora/js/view/tool_selector_view.js",

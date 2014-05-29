@@ -49,7 +49,7 @@ app.view.yearDownload = Backbone.View.extend({
         		$(e.currentTarget).addClass("active")
         	}
     	}
-    	$(".numAniosSelect").text($(".active").length);
+    	$(".numAniosSelect").text($(".celda.active").length);
     },
     
     

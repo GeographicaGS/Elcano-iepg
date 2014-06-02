@@ -3,7 +3,6 @@
 """
 Constants
 """
-import helpers
 import blockfunctions
 
 backend = {

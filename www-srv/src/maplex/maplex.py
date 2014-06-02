@@ -81,10 +81,6 @@ def getTranslationTable(idNameFamilyA, idNameFamilyB=None):
     return(ab, ba)
 
 
-### HERE: cache several translation tables between codes: ISO code to and from english/spanish, 
-### ISO code to and from idGeoentity
-
-
 
 # TODO: redefine this method so it returns blocks whose existence is completely 
 # within the lapse and make a difference on if the lapse is calculated by its members

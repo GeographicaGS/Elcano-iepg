@@ -12,11 +12,9 @@ import varengine.varengine as varengine
 reload(varengine)
 
 
-###HERE: clean the varengine schema and fix issue with the const.variables dictionary
-
 d = varengine.Dataset("iepg")
 d.registerInDatabase()
-for k,v in const.variablesIepg.iteritems():
+for k,v in const.variableNames["iepg"].iteritems():
     var = d.createVariable(k, True, "float")
     var.registerInDatabase()
     var.createVariableTable()
@@ -24,7 +22,7 @@ for k,v in const.variablesIepg.iteritems():
 
 d = varengine.Dataset("iepe")
 d.registerInDatabase()
-for k,v in const.variablesIepe.iteritems():
+for k,v in const.variableNames["iepe"].iteritems():
     var = d.createVariable(k, True, "float")
     var.registerInDatabase()
     var.createVariableTable()

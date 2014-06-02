@@ -15,6 +15,10 @@ Combine Maplex and Engine?
 TODO: Create a class in Elcano to store long lasting dictionaries and translation tables coming from the 
 database to retrieve them easily
 
+TODO: create a plugin architecture for both source data and repository data, so metadata and data can
+be stored to PostgreSQL, or files, or R datasets, or JSON, etc. DataSource with methods both for reading
+and for writing.
+
 """
 import varenginemodel
 import numpy

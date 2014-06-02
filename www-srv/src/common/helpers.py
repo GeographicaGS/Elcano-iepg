@@ -69,12 +69,20 @@ def baseMapData():
 # #             _countries.append(a)
 # #     return(_blocks, _countries)
 
+def getUnprecalculatedBlocksFromCountryList(countryList):
+    """Returns all uncalculated blocks in countryList."""
+    
 
 def getRanking(countryList, year, variable):
     """Calculates rankings, given a country list and a country filter, and
     given that the country list may contain blocks. Returns a dictionary with 
     ISO keys and the ranking. NaN are ignored."""
-    values = {k: v for (k,v) in variable.getData(year=year).iteritems() if k in countryList 
+    print countryList
+
+    ###HERE What the hell is going on with the fucking XBAP USE const.unprecalculatedBlocks and
+    # differenciate
+    print getData(variable, year=year)
+    values = {k: v for (k,v) in getData(variable, year=year).iteritems() if k in countryList 
               and not numpy.isnan(v)}
     valSorted = sorted(set(values.values()), reverse=True)
     out = dict()
@@ -89,9 +97,11 @@ def getRankingCode(countryList, year, variable, countryCode):
     """Calculates rankings, given a country list and a country filter, and
     given that the country list may contain blocks. Returns a dictionary with 
     ISO keys and the ranking. NaN are ignored."""
+    if countryCode not in countryList:
+        return(None)
     values = sorted({v for (k,v) in variable.getData(year=year).iteritems() if k in countryList 
                      and not numpy.isnan(v)}, reverse=True)
-    value = variable.getData(year=year, code=countryCode)["value"]
+    value = getData(variable, year=year, code=countryCode)["value"]
     if numpy.isnan(value):
         return(None)
     else:
@@ -121,14 +131,6 @@ def getRankingCode(countryList, year, variable, countryCode):
 # #     return(_blocks)
 
 
-def arrayIntersection(array1, array2):
-    """Returns the intersection of two arrays."""
-    return([v for v in array1 if v in array2])
-
-
-def arraySubstraction(array1, array2):
-    """Returns array1 without members of array2."""
-    return([v for v in array1 if v not in array2])
 
 
 # # def getBlocks():
@@ -240,15 +242,12 @@ def getData(variable, code=None, year=None):
     if code in datacache.blocks:
         if code not in const.precalculatedBlocks:
             if year:
-                ###HERE: optimize for "US", "XBEU" and "XBAP"
                 v = dict()
                 members = getBlockMembers(code, year)
-                # members = ['BD', 'CN', 'SG', 'JP', 'VN', 'KR', 'NZ', 'AU', 'TH', 'IN', 'PK', 'PH', 'MY', 'ID']
                 values = {i: j for (i,j) in variable.getData(year=year).iteritems() if i in members}
                 v["code"]=code
                 v["year"]=year
-                # v["value"] = const.blockFunctCalcFamilies[variable.dataset.idDataset](values)
-                v["value"] = 99
+                v["value"] = const.blockFunctCalcFamilies[variable.dataset.idDataset](values)
             else:
                 v = dict()
                 for y in variable.getVariableYears():

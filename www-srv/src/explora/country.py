@@ -99,7 +99,7 @@ def countrySheet(lang, family, countryCode):
     familyVar = [v for (k,v) in datacache.variables.iteritems() if v.dataset.idDataset==family]
     contextVar = [v for (k,v) in datacache.variables.iteritems() if v.dataset.idDataset=="context"]
     # Participating countries
-    countries = familyVar[0].getVariableCodes()
+    countries = datacache.countries
     # Filter substraction
     if f:
         countries = common.helpers.arraySubstraction(countries, f)
@@ -116,20 +116,21 @@ def countrySheet(lang, family, countryCode):
                                                               countryCode, year))
         else:
             c = countries
-        c = common.helpers.arraySubstraction(c, [countryCode, "XBEU"])
         c.append(countryCode)
         iepgVariables = dict()
         for var in familyVar:
             data = dict()
             data["code"] = countryCode
             v = cacheWrapper(common.helpers.getData, var, countryCode, year)
-            print(v)
             data["value"] = None if numpy.isnan(v["value"]) else v["value"]
             data["variable"] = const.variableNames[family][var.idVariable]["name_"+lang]
             data["year"] = year
-            data["ranking"] = common.helpers.getRankingCode(c, year, var,countryCode)
+            data["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
+                                                 year, var,countryCode)
+            data["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
+                                                   var, countryCode)
             print(data)
-            
+            ###HERE
 
 
     #     y = dict()
@@ -155,7 +156,6 @@ def countrySheet(lang, family, countryCode):
     #         var["year"]=year
     #         varFamily[v["id_variable"]]=var
 
-    #     ###HERE
 
         
     return(jsonify({"E": 1}))

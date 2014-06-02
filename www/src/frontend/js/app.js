@@ -223,6 +223,10 @@ app.isSMDevice = function(){
     return ($(window).width()<992);
 }
 
+app.isXSMDevice = function(){
+    return ($(window).width()<1025);
+}
+
 app.isSupportedBrowser = function(){
     var browser= app.getBrowser();
 

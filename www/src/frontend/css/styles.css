@@ -1292,8 +1292,5 @@ footer{
 			margin-left: 10px;
 			margin-right: 10px;
 		}
-		.iconPais{
-			content : url("@{imgPath}flags/AE.svg");
-		}
 	}
 }

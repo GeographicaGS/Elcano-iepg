@@ -3,7 +3,7 @@ app.view.thematicBlock = Backbone.View.extend({
     
     initialize: function() {
         
-        this.render();
+//        this.render();
 
         
     },

@@ -52,16 +52,18 @@ class DataCache(object):
         TODO: restricted to years."""
         if code and not year:
             a = self.data[0:,self.codeIndex.index(code)]
-            return({self.timeIndex[i]: a[i] for i in range(0, len(self.timeIndex))})
+            val = {self.timeIndex[i]: a[i] for i in range(0, len(self.timeIndex))}
+            return[{"code": code, "value": v, "year": k} for (k,v) in val.iteritems()]
         if year and not code:
             a = self.data[self.timeIndex.index(year),0:]
-            return({self.codeIndex[i]: a[i] for i in range(0, len(self.codeIndex))})            
+            val = {self.codeIndex[i]: a[i] for i in range(0, len(self.codeIndex))}
+            return[{"code": k, "value": v, "year": year} for (k,v) in val.iteritems()]
         if year and code:
             d = dict()
             d["year"]=year
             d["code"]=code
             d["value"]=self.data[self.timeIndex.index(year),self.codeIndex.index(code)]
-            return(d)
+            return([d])
 
         out = []
         for c in self.codeIndex:
@@ -169,7 +171,7 @@ class Variable(object):
     def populateFromTable(self, sourceTable, dateInColumn, dateOutColumn, 
                           codeColumn, valueColumn):
         """Populates the variable table from another table.
-        TODO: currently, the table must be in the same database. Make it resposive to a PostgreSQL
+        TODO: currently, the table must be in the same database. Make it responsive to a PostgreSQL
         connection to get data elsewhere.
         Create also a version in which dateInColumn and dateOutColumn are not columns, but a timelapse."""
         m = varenginemodel.VarEngineModel()

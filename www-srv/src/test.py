@@ -1,3 +1,5 @@
+import common.blockfunctions
+reload(common.blockfunctions)
 import common.helpers as h
 reload(h)
 import varengine.varengine as e
@@ -15,24 +17,15 @@ reload(config)
 from collections import OrderedDict
 
 import common.datacache as dc
-#reload(dc)
+# reload(dc)
 
 
-# print h.getData(dc.variables["iepg_energy"], year=2013)
-# print h.getData(dc.variables["iepg_energy"], code="US")
-# print h.getData(dc.variables["iepg_energy"], code="US", year=2013)
 
-# print h.getData(dc.variables["iepg_energy"], code="XBEU")
-# print h.getData(dc.variables["iepg_energy"], code="XBEU", year=2013)
 
-# print h.getData(dc.variables["iepg_energy"], code="XBAP")
-# print h.getData(dc.variables["iepg_energy"], code="XBAP", year=2013)
+# print OrderedDict(sorted(h.getRanking(dc.countries, 2013, dc.variables["iepg_energy"]).items(), 
+#                          key=lambda t: t[1]))
 
-dc.countries.append("XBAP")
+print dc.variables["iepg_information"].getData(year=1990)
 
-# print h.getRankingCode(dc.countries, 2013, dc.variables["iepg_energy"], "XBAP")
-print OrderedDict(sorted(h.getRanking(dc.countries, 2013, dc.variables["iepg_energy"]).items(), 
-                         key=lambda t: t[1]))
-
-# print h.getData(dc.variables["iepg_energy"], code=u"XBAP")
-
+print sorted(h.getRanking(dc.blocksAndCountries, 1990, dc.variables["iepg_energy"]), key=lambda t: t["rank"])
+# print OrderedDict(sorted(h.getRankingCode(dc.blocksAndCountries, 1990, dc.variables["iepg_energy"], "US")

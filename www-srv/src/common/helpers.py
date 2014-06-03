@@ -77,21 +77,20 @@ def getRanking(countryList, year, variable):
     """Calculates rankings, given a country list and a country filter, and
     given that the country list may contain blocks. Returns a dictionary with 
     ISO keys and the ranking. NaN are ignored."""
-    print countryList
-
-    ###HERE What the hell is going on with the fucking XBAP USE const.unprecalculatedBlocks and
-    # differenciate
-    print getData(variable, year=year)
-    values = {k: v for (k,v) in getData(variable, year=year).iteritems() if k in countryList 
-              and not numpy.isnan(v)}
-    valSorted = sorted(set(values.values()), reverse=True)
-    out = dict()
-    for i in (countryList):
-        if i in values.keys():
-            out[i] = valSorted.index(values[i])+1
-        else:
-            out[i] = None
+    values = [k for k in getData(variable, year=year, countryList=countryList) if not numpy.isnan(k["value"])]
+    valSorted = sorted(set([k["value"] for k in values]), reverse=True)
+    out = []
+    for i in values:
+        d = {}
+        j = 0
+        while valSorted[j]>i["value"]:
+            j+=1
+        d["code"] = i["code"]
+        d["value"] = i["value"]
+        d["rank"] = j+1
+        out.append(d)
     return(out)
+
 
 def getRankingCode(countryList, year, variable, countryCode):
     """Calculates rankings, given a country list and a country filter, and
@@ -99,16 +98,19 @@ def getRankingCode(countryList, year, variable, countryCode):
     ISO keys and the ranking. NaN are ignored."""
     if countryCode not in countryList:
         return(None)
-    values = sorted({v for (k,v) in variable.getData(year=year).iteritems() if k in countryList 
-                     and not numpy.isnan(v)}, reverse=True)
-    value = getData(variable, year=year, code=countryCode)["value"]
-    if numpy.isnan(value):
+    value = getData(variable, year=year, code=countryCode)[0]
+    if numpy.isnan(value["value"]):
         return(None)
-    else:
-        i = 0
-        while values[i]>value:
-            i+=1
-        return(i+1)
+
+    # TODO: Check if if k["code"] in countryList is necessary
+    dataValues = sorted(set([k["value"] for k in getData(variable, year=year, countryList=countryList)
+                             if k["code"] in countryList
+                             and not numpy.isnan(k["value"])]), reverse=True)
+    i = 0
+    while dataValues[i]>value["value"]:
+        i+=1
+    return(i+1)
+
 
 # # def getVariableValuesSeries(countryList, year, family, variable):
 # #     """Returns a dictionary keyed by ISO with the values of family/variable."""
@@ -237,21 +239,39 @@ def isBlock(isoGeoentity):
     return(maplex.getIdGeoentityByName(isoGeoentity, 4)<>[])
 
 
-def getData(variable, code=None, year=None):
-    """Returns variable value."""
+def getData(variable, code=None, year=None, countryList=None):
+    """Returns variable value. If countryList is present, only data for this countries 
+    are returned. countryList can mix calculated and uncalculated codes."""
+    if countryList:
+        unprecalculated = []
+        calculated = []
+        for v in countryList:
+            if v in datacache.unprecalculatedBlocks:
+                unprecalculated.append(v)
+            else:
+                calculated.append(v)
+        values = getData(variable, code=code, year=year)
+        values = [k for k in values if k["code"] in calculated]
+        for i in unprecalculated:
+            values.extend(getData(variable, code=i, year=year))
+        if code:
+            values = [k for k in values if k["code"]==code]
+        return(values)
+
     if code in datacache.blocks:
         if code not in const.precalculatedBlocks:
             if year:
-                v = dict()
+                va = dict()
                 members = getBlockMembers(code, year)
-                values = {i: j for (i,j) in variable.getData(year=year).iteritems() if i in members}
-                v["code"]=code
-                v["year"]=year
-                v["value"] = const.blockFunctCalcFamilies[variable.dataset.idDataset](values)
+                values = [i for i in variable.getData(year=year) if i["code"] in members]
+                va["code"]=code
+                va["year"]=year
+                va["value"] = const.blockFunctCalcFamilies[variable.dataset.idDataset](values)
+                v = [va]
             else:
-                v = dict()
+                v = []
                 for y in variable.getVariableYears():
-                    v[y] = getData(variable, code=code, year=y)["value"]
+                    v.extend(getData(variable, code=code, year=y))
         else:
             v = variable.getData(code=code, year=year)
     else:

@@ -13,6 +13,7 @@ import maplex.maplex as maplex
 import copy
 import arrayops
 
+
 variables = dict()
 
 for fam in const.variableDatasets:
@@ -23,7 +24,7 @@ for fam in const.variableDatasets:
         variables[var.tableName()] = var
 
 blocks = [maplex.getGeoentityNames(i["id_geoentity_block"], 1)[0]["names"][0] for i in maplex.getBlocks()]
-unprecalculatedBlocks = arraySubstraction(blocks, const.precalculatedBlocks)
+unprecalculatedBlocks = arrayops.arraySubstraction(blocks, const.precalculatedBlocks)
 countriesAndUe = variables["iepg_energy"].getVariableCodes()
 countries = copy.deepcopy(countriesAndUe)
 del countries[countries.index("XBEU")]

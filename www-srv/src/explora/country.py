@@ -8,7 +8,8 @@ Explora country services.
 import common.datacache as datacache
 from explora import app
 from flask import jsonify,request,send_file,make_response
-from common.helpers import cacheWrapper, baseMapData, arrayIntersection
+from common.helpers import cacheWrapper, baseMapData
+import common.arrayops
 import json
 from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError

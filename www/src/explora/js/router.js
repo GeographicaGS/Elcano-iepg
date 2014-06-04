@@ -11,6 +11,7 @@ app.router = Backbone.Router.extend({
         "contributions/:family/:year/:countries/:countries_sel(/:filters)" : "contributions",
         "country/:family/:countries/:country_sel/:year(/:filters)" : "country",
         "ranking/:family/:variable/:year/:year_ref/:countries/:country_sel(/:filters)" : "ranking",
+        "quotes/:family/:variable/:countries/:countries_sel/:year_ref(/:filters)" : "quotes",
         
         "*other"    : "notfound"
             /* This is a default route that also uses a *splat. Consider the
@@ -68,6 +69,17 @@ app.router = Backbone.Router.extend({
             "year" : year,
             "countries": countries,
             "countries_sel" : countries_sel,
+            "filters": filters
+        });
+    },
+
+    quotes: function(family,variable,countries,countries_sel,year_ref,filters){
+        app.baseView.loadQuotesTool({
+            "family" : family,
+            "variable" : variable,
+            "countries": countries,
+            "countries_sel" : countries_sel,
+            "year_ref": year_ref,
             "filters": filters
         });
     }

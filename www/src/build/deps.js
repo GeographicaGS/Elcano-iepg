@@ -210,6 +210,7 @@ deps.Explora.JS = {
 			"explora/js/collection/country_tool_map.js",
 			"explora/js/collection/ranking_tool.js",
 			"explora/js/collection/global_index_collection.js",
+			"explora/js/collection/quotes.js",
 			
 			// --------------------
 			// ------  Views ------

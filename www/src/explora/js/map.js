@@ -200,6 +200,8 @@ app.view.map = function(options){
             "geoJson" : l,
         };
 
+        this.$maplegend.show();
+
         return l;
     };
 

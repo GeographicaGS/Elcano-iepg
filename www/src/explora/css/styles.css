@@ -894,7 +894,7 @@ ul.country_bar{
         
     }
     .co_text{
-        width:20px;
+        width:22px;
         height: 100%;
         background-color: #f8f8f8;
         position: relative;
@@ -973,7 +973,7 @@ ul.country_bar{
 }
 
 div.tooltip {   
-    position: absolute;                                        
+    position: fixed;                                        
     padding: 10px;             
     font: 12px sans-serif;        
     background: @grey_dark;   

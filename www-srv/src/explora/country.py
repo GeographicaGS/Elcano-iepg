@@ -15,8 +15,6 @@ from common.const import variables, years, blocks
 from helpers import processFilter
 
 
-
-
 # TEST BEGINS 
 
 from common.helpers import blocksSumCalculateData
@@ -31,7 +29,6 @@ from common.helpers import blocksSumCalculateData
 
 
 # TEST ENDS
-
 
 
 

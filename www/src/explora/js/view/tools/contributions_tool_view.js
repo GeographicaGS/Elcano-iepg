@@ -83,9 +83,9 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             this.copyGlobalContextToLatestContext();
         });
 
-         this.listenTo(app.events,"countryclick",function(id_country){
+        this.listenTo(app.events,"countryclick",function(id_country){
             //TOREMOVE
-            console.log("countryclick at app.view.tools.CountryPlugin");
+            console.log("countryclick at app.view.tools.ContributionsPlugin");
              var ctxObj = this.getGlobalContext(),
                 ctx = ctxObj.data,
                 selection = ctx.countries.selection
@@ -476,9 +476,9 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
           };
         }
 
-        var div = d3.select("body").append("div")   
-        .attr("class", "tooltip")               
-        .style("opacity", 0);
+        var div = d3.select("#contributions_tool .chart").append("div")   
+            .attr("class", "tooltip")               
+            .style("opacity", 0);
 
         var obj = this;
 

@@ -142,6 +142,7 @@
                 margin-left: @margin-left;
                 border-bottom: 1px solid #b4b4bc;
                 pointer-events:none;
+                background: none;
         }
 
         .information{
@@ -216,6 +217,7 @@
             }   
             div.sep{
                 .bloq_sep(-12deg,8%,-4.6%);
+
             }
         }
     

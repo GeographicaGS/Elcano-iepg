@@ -192,9 +192,9 @@ def getBlockMembers(isoBlock, year=None):
             cacheWrapper(maplex.getBlockMembers, datacache.isoToGeoentity[isoBlock],
                          year=year)])
 
-def getBlockMembersIso(isoBlock, year=None):
-    """Returns a list of ISO codes for a block and a year."""
-    return([c for c in cacheWrapper(getBlockMembers, isoBlock, year=year).keys()])
+# def getBlockMembersIso(isoBlock, year=None):
+#     """Returns a list of ISO codes for a block and a year."""
+#     return([c for c in cacheWrapper(getBlockMembers, isoBlock, year=year).keys()])
 
 
 # # def getListFromDictionary(dictionary, key):
@@ -234,32 +234,28 @@ def getBlockMembersIso(isoBlock, year=None):
 # #     return(engine.getVariables(idFamily))
 
 
-def isBlock(isoGeoentity):
-    """Returns True if isoGeoentity is a block."""
-    return(maplex.getIdGeoentityByName(isoGeoentity, 4)<>[])
+# def isBlock(isoGeoentity):
+#     """Returns True if isoGeoentity is a block."""
+#     return(maplex.getIdGeoentityByName(isoGeoentity, 4)<>[])
 
 
 def getData(variable, code=None, year=None, countryList=None):
     """Returns variable value. If countryList is present, only data for this countries 
-    are returned. countryList can mix calculated and uncalculated codes."""
+    are returned. countryList can mix calculated and uncalculated codes. If code is not None,
+    countryList is ignored."""
     if countryList:
-        unprecalculated = []
-        calculated = []
-        for v in countryList:
-            if v in datacache.unprecalculatedBlocks:
-                unprecalculated.append(v)
-            else:
-                calculated.append(v)
-        values = getData(variable, code=code, year=year)
-        values = [k for k in values if k["code"] in calculated]
-        for i in unprecalculated:
+        values = []
+        for i in countryList:
             values.extend(getData(variable, code=i, year=year))
-        if code:
-            values = [k for k in values if k["code"]==code]
         return(values)
 
-    if code in datacache.blocks:
-        if code not in const.precalculatedBlocks:
+    # Try to get data if it exists in data
+    v = variable.getData(code=code, year=year)
+    if v[0]:
+        out = v
+    else:
+        # It must be a block that has to be precalculated
+        if code in datacache.blocks:
             if year:
                 va = dict()
                 members = getBlockMembers(code, year)
@@ -267,15 +263,13 @@ def getData(variable, code=None, year=None, countryList=None):
                 va["code"]=code
                 va["year"]=year
                 va["value"] = const.blockFunctCalcFamilies[variable.dataset.idDataset](values)
-                v = [va]
+                out = [va]
             else:
                 v = []
                 for y in variable.getVariableYears():
                     v.extend(getData(variable, code=code, year=y))
+                out = v
         else:
-            v = variable.getData(code=code, year=year)
-    else:
-        v = variable.getData(code=code, year=year)
-    return(v)
+            out = [None]
 
-
+    return(out)

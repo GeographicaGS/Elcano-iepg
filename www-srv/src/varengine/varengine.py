@@ -51,14 +51,20 @@ class DataCache(object):
         """Retrieves a data, either sliced by year of by code.
         TODO: restricted to years."""
         if code and not year:
+            if code not in self.codeIndex:
+                return([None])
             a = self.data[0:,self.codeIndex.index(code)]
             val = {self.timeIndex[i]: a[i] for i in range(0, len(self.timeIndex))}
             return[{"code": code, "value": v, "year": k} for (k,v) in val.iteritems()]
         if year and not code:
+            if year not in self.timeIndex:
+                return([None])
             a = self.data[self.timeIndex.index(year),0:]
             val = {self.codeIndex[i]: a[i] for i in range(0, len(self.codeIndex))}
             return[{"code": k, "value": v, "year": year} for (k,v) in val.iteritems()]
         if year and code:
+            if code not in self.codeIndex or year not in self.timeIndex:
+                return([None])
             d = dict()
             d["year"]=year
             d["code"]=code

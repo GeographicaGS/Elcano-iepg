@@ -10,6 +10,8 @@ import maplex.maplexmodel
 reload(maplex.maplexmodel)
 import varengine.varenginemodel
 reload(varengine.varenginemodel)
+import common.arrayops as arrayops
+reload(arrayops)
 import common.const
 reload(common.const)
 import common.config as config
@@ -19,13 +21,8 @@ from collections import OrderedDict
 import common.datacache as dc
 # reload(dc)
 
+code=None
+year=2013
+cl = ["XBAP", "XBEU", "XBSA"]
 
-
-
-# print OrderedDict(sorted(h.getRanking(dc.countries, 2013, dc.variables["iepg_energy"]).items(), 
-#                          key=lambda t: t[1]))
-
-print dc.variables["iepg_information"].getData(year=1990)
-
-print sorted(h.getRanking(dc.blocksAndCountries, 1990, dc.variables["iepg_energy"]), key=lambda t: t["rank"])
-# print OrderedDict(sorted(h.getRankingCode(dc.blocksAndCountries, 1990, dc.variables["iepg_energy"], "US")
+print h.getData(dc.variables["iepg_energy"], code=code, year=year, countryList=cl)

@@ -6,6 +6,7 @@ Explora country services.
 
 """
 import common.datacache as datacache
+import common.arrayops as arrayops
 from explora import app
 from flask import jsonify,request,send_file,make_response
 from common.helpers import cacheWrapper, baseMapData
@@ -21,31 +22,15 @@ import varengine.varengine as varengine
 import numpy as numpy
 
 
-# TEST BEGINS 
-
-# from common.helpers import blocksSumCalculateData
-
-# @app.route('/test/<string:blockCode>/<int:year>/<string:family>/<string:variable>', methods=["GET"])
-# def test(blockCode, year, family, variable):
-#     print(blocksGetData(blockCode))
-
-#     print(blocksSumCalculateData(blockCode, year, family, variable))
-
-#     return(jsonify({"results": "caca"}))
-
-
-# TEST ENDS
-
-
-
-
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
 def countryFilter(lang):
-    m = iepgdatamodel.IepgDataModel()
-    try:
-        return(jsonify({"results": cacheWrapper(m.countryFilter, lang)}))
-    except ElcanoApiRestError as e:
-        return(jsonify(e.toDict()))
+    if lang=="es":
+        iso = datacache.isoToSpanish
+    else:
+        iso = datacache.isoToEnglish
+    data = [{"id": k, "name": v, "short_name_"+lang+"_order": v} for (k,v) in iso.iteritems() 
+            if k in datacache.countries]
+    return(jsonify({"results": data}))
 
 
 @app.route('/blocks/<string:lang>/<int:year>', methods=["GET"])
@@ -103,88 +88,59 @@ def countrySheet(lang, family, countryCode):
     countries = datacache.countries
     # Filter substraction
     if f:
-        countries = common.helpers.arraySubstraction(countries, f)
+        countries = arrayops.arraySubstraction(countries, f)
 
-    # # try:
-    out = dict()
-    # Iterate through the years involved in the variable
-    for year in familyVar[0].getVariableYears():
-        # Check if countryCode is a block. If it is, substract its members
-        isBlock = cacheWrapper(common.helpers.isBlock, countryCode)
-        if isBlock:
-            c = common.helpers.arraySubstraction(countries, 
-                                                 cacheWrapper(common.helpers.getBlockMembersIso,
-                                                              countryCode, year))
-        else:
-            c = countries
-        c.append(countryCode)
-        iepgVariables = dict()
-        for var in familyVar:
-            data = dict()
-            data["code"] = countryCode
-            v = cacheWrapper(common.helpers.getData, var, countryCode, year)
-            data["value"] = None if numpy.isnan(v["value"]) else v["value"]
-            data["variable"] = const.variableNames[family][var.idVariable]["name_"+lang]
-            data["year"] = year
-            data["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
-                                                 year, var,countryCode)
-            data["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
-                                                   var, countryCode)
-            print(data)
-            ###HERE
-
-
-    #     y = dict()
-    #     varFamily = dict()
-    #     context_var = dict()
-    #     # Iterate vars in family
-    #     for v in cacheWrapper(common.helpers.getVariables, family):
-    #         var = dict()
-    #         print(v)
-    #         variableValue = cacheWrapper(common.helpers.getVariableValue, family, v["id_variable"], 
-    #                                                                      countryCode, year)
-    #         if variableValue:
-    #             ranking = cacheWrapper(common.helpers.getRanking, c, year, family, v["id_variable"])[countryCode]
-    #         else:
-    #             ranking = None
-
-    #         print variableValue
-    #         print ranking
-    #         var["code"]=countryCode
-    #         var["ranking"]=ranking
-    #         var["value"]=variableValue
-    #         var["variable"]=v["id_variable"]
-    #         var["year"]=year
-    #         varFamily[v["id_variable"]]=var
-
-
-        
-    return(jsonify({"E": 1}))
-    # except:
-    #     return(jsonify({"E": 2}))
-    
-
-    #         y = dict()
-    #         iepg_var = dict()
-    #         context_var = dict()
-    #         for var,item in variables.items():
-    #             if item["family"]=="iepg":
-    #                 rankData = cacheWrapper(m.ranking, lang, countryCode, 
-    #                                         "iepg", item["key"], year, filter=filter, toolFilter=toolFilter)
-    #                 iepg_var[item["key"]] = rankData[0]
-    #             if item["family"]=="context":
-    #                 rankData = cacheWrapper(m.ranking, lang, countryCode, 
-    #                                         "context", item["key"], year, filter=filter, toolFilter=toolFilter)
-    #                 context_var[item["key"]] = rankData[0]
-
-    #         y["iepg_variables"] = iepg_var
-    #         y["context_var"] = context_var
-    #         y["comment"] = cacheWrapper(m.getIepgComment, lang, countryCode, year)[0]
-    #         data[year]=y
-    #     return(jsonify({"results": data}))
-    # except ElcanoApiRestError as e:
-    #     return(jsonify(e.toDict()))
-
+    try:
+       out = dict()
+       # Iterate through the years involved in the variable
+       for year in familyVar[0].getVariableYears():
+           yearData = dict()
+           # Check if countryCode is a block. If it is, substract its members
+           if countryCode in datacache.blocks:
+               print "block"
+               c = arrayops.arraySubstraction(countries, 
+                                              cacheWrapper(common.helpers.getBlockMembers,
+                                                           countryCode, year))
+               c.append(countryCode)
+           else:
+               c = countries
+   
+           famVariables = dict()
+           for var in familyVar:
+               data = dict()
+               data["code"] = countryCode
+               v = cacheWrapper(common.helpers.getData, var, countryCode, year)
+               data["value"] = None if numpy.isnan(v[0]["value"]) else v[0]["value"]
+               data["variable"] = const.variableNames[family][var.idVariable]["name_"+lang]
+               data["year"] = year
+               data["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
+                                                    year, var,countryCode)
+               data["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
+                                                      var, countryCode)
+               famVariables[var.idVariable] = data
+   
+           contextVariables = dict()
+           for var in contextVar:
+               data = dict()
+               data["code"] = countryCode
+               v = cacheWrapper(common.helpers.getData, var, countryCode, year)
+               data["value"] = None if numpy.isnan(v[0]["value"]) else v[0]["value"]
+               data["variable"] = const.variableNames["context"][var.idVariable]["name_"+lang]
+               data["year"] = year
+               data["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
+                                                    year, var,countryCode)
+               data["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
+                                                      var, countryCode)
+               contextVariables[var.idVariable] = data
+   
+           yearData["iepg_variables"] = famVariables
+           yearData["context_var"] = contextVariables
+           comment = cacheWrapper(m.getIepgComment, lang, countryCode, year)
+           yearData["comment"] = comment[0] if comment else None
+           out[year] = yearData
+       return(jsonify({"results": out}))
+    except ElcanoApiRestError as e:
+        return(jsonify(e.toDict()))
 
 
 @app.route('/mapdata/<string:family>/<string:variable>/<int:year>', methods=['GET'])
@@ -195,14 +151,17 @@ def mapData(family, variable, year):
     """
     filter = processFilter(request.args, "filter")
     toolFilter = processFilter(request.args, "toolfilter")
-    m = iepgdatamodel.IepgDataModel()
-
+    if filter:
+        c = arrayops.arraySubstraction(datacache.countries, filter)
+    else:
+        c = datacache.countries
     try:
-        varData = cacheWrapper(m.variableData, family, variable, year, filter=filter, toolFilter=toolFilter)
+        varData = cacheWrapper(common.helpers.getData, datacache.variables[family+"_"+variable], year=year,
+                               countryList=c)
+        varData = [c for c in varData if not numpy.isnan(c["value"])]
+        return(jsonify({"results": varData}))
     except ElcanoApiRestError as e:
         return(jsonify(e.toDict()))    
-
-    return(jsonify({"results": varData}))
 
 
 @app.route('/mapgeojson', methods=['GET'])
@@ -229,7 +188,7 @@ def mapGeoJson():
 
     return(jsonify(out))
 
-
+###HERE: >>> copy this output
 @app.route('/globalindex/<string:family>/<string:countries>/<string:lang>', methods=['GET'])
 def globalindex(family,countries,lang):
     from random import randint

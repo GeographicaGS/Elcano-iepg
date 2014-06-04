@@ -24,7 +24,8 @@ variableDatasets = ["iepg", "iepe", "context"]
 
 # Calculation methods for variable families
 blockFunctCalcFamilies = {
-    'iepg': blockfunctions.blockFunctionLumpSum
+    'iepg': blockfunctions.blockFunctionLumpSum,
+    'context': blockfunctions.blockFunctionLumpSum
 }
 
 variableNames = {

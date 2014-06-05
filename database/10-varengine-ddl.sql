@@ -14,7 +14,7 @@ begin;
 create schema varengine authorization :user;
 
 create table varengine.dataset(
-  id_dataset varchar(25)
+  id_dataset varchar(250)
 );
 
 alter table varengine.dataset
@@ -23,10 +23,10 @@ primary key (id_dataset);
 
 
 create table varengine.variable(
-  id_dataset varchar(25),
-  id_variable varchar(25),
+  id_dataset varchar(250),
+  id_variable varchar(250),
   continuous boolean,      -- T for continuous variables, F for discrete
-    dataType varchar(25)
+  dataType varchar(25)    
 );
 
 alter table varengine.variable

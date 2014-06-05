@@ -36,13 +36,17 @@ def countryFilter(lang):
 @app.route('/blocks/<string:lang>', methods=["GET"])
 def blocksData(lang):
     """Retrieves currently available blocks data (based on filtered countries)."""
-    m = iepgdatamodel.IepgDataModel()
+    if lang=="es":
+        iso = datacache.isoToSpanish
+    else:
+        iso = datacache.isoToEnglish
     out = dict()
     for b in datacache.blocks:
         year = dict()
         for y in cacheWrapper(datacache.variables["iepg_energy"].getVariableYears):
             m = cacheWrapper(common.helpers.getBlockMembers, b, year=y)
             year[y] = m
+        year["name"] = iso[b]
         out[b] = year
 
     return(jsonify(out))
@@ -75,7 +79,6 @@ def countrySheet(lang, family, countryCode):
            yearData = dict()
            # Check if countryCode is a block. If it is, substract its members
            if countryCode in datacache.blocks:
-               print "block"
                c = arrayops.arraySubstraction(countries, 
                                               cacheWrapper(common.helpers.getBlockMembers,
                                                            countryCode, year))
@@ -85,10 +88,25 @@ def countrySheet(lang, family, countryCode):
    
            famVariables = dict()
            for var in familyVar:
+               print "VAR: "+str(var)
                data = dict()
                data["code"] = countryCode
                v = cacheWrapper(common.helpers.getData, var, countryCode, year)
-               data["value"] = None if numpy.isnan(v[0]["value"]) else v[0]["value"]
+
+               ###HERE
+
+               if not var.idVariable in ["military_global", "economic_global", "soft_global"]:
+                   print("ii "+var.idVariable)
+                   print "RT: "+family+"_relative_contribution_"+var.idVariable
+
+                   vp = cacheWrapper(common.helpers.getData, 
+                                     datacache.variables[family+"_relative_contribution_"+var.idVariable],
+                                     countryCode, year)
+
+                   print(vp)
+
+               data["value"] = None if not v[0] or numpy.isnan(v[0]["value"]) else v[0]["value"]
+               #data["percentage"] = None if not 
                data["variable"] = const.variableNames[family][var.idVariable]["name_"+lang]
                data["year"] = year
                data["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 

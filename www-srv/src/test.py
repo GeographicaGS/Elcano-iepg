@@ -25,4 +25,7 @@ code=None
 year=2013
 cl = ["XBAP", "XBEU", "XBSA"]
 
-print h.getData(dc.variables["iepg_energy"], code=code, year=year, countryList=cl)
+print dc.variables
+
+print h.getData(dc.variables["iepe_individual_contribution_energy"], code=code, 
+                year=year, countryList=cl)

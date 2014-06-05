@@ -38,7 +38,8 @@ def getRanking(countryList, year, variable):
     """Calculates rankings, given a country list and a country filter, and
     given that the country list may contain blocks. Returns a dictionary with 
     ISO keys and the ranking. NaN are ignored."""
-    values = [k for k in getData(variable, year=year, countryList=countryList) if not numpy.isnan(k["value"])]
+    values = [k for k in getData(variable, year=year, countryList=countryList) if k and 
+              not numpy.isnan(k["value"])]
     valSorted = sorted(set([k["value"] for k in values]), reverse=True)
     out = []
     for i in values:
@@ -60,12 +61,12 @@ def getRankingCode(countryList, year, variable, countryCode):
     if countryCode not in countryList:
         return(None)
     value = getData(variable, year=year, code=countryCode)[0]
-    if numpy.isnan(value["value"]):
+    if not value or numpy.isnan(value["value"]):
         return(None)
 
     # TODO: Check if if k["code"] in countryList is necessary
     dataValues = sorted(set([k["value"] for k in getData(variable, year=year, countryList=countryList)
-                             if k["code"] in countryList
+                             if k and k["code"] in countryList
                              and not numpy.isnan(k["value"])]), reverse=True)
     i = 0
     while dataValues[i]>value["value"]:

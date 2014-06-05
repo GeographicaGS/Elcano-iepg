@@ -16,7 +16,7 @@ import arrayops
 
 variables = dict()
 
-for fam in const.variableDatasets:
+for fam in const.variableNames.keys():
     ds = varengine.Dataset(fam)
     ds.loadFromDatabase()
     for k,var in ds.variables.iteritems():

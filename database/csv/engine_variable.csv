@@ -1,7 +1,0 @@
-id_variable|name_en|name_es|description_en|description_es|continuous|id_family|var_table|var_column
-energy|Energy|Energía|IEPG energy component.|Componente energía del IEPG.|t|iepg|iepg_data_redux.iepg_data|energy
-energy|Energy|Energía|IEPE energy component.|Componente energía del IEPE.|t|iepe|iepg_data_redux.iepe_data|energy
-primary_goods|Primary Goods|Bienes primarios|IEPE primary goods component.|Componente bienes primarios del IEPE.|t|iepe|iepg_data_redux.iepe_data|primary_goods
-primary_goods|Primary Goods|Bienes primarios|IEPG primary goods component.|Componente bienes primarios del IEPG.|t|iepg|iepg_data_redux.iepg_data|primary_goods
-manufactures|Manufactures|Manufacturas|IEPE manufactures component.|Componente manufacturas del IEPE.|t|iepe|iepg_data_redux.iepe_data|manufactures
-manufactures|Manufactures|Manufacturas|IEPG manufactures component.|Componente manufacturas del IEPG.|t|iepg|iepg_data_redux.iepg_data|manufactures

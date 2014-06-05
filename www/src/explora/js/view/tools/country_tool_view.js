@@ -99,6 +99,9 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     _renderToolAsync: function(){
+
+        this._forceFetchDataTool = false;
+
         var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
 
         this.$el.html(this._template({
@@ -113,12 +116,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this._drawD3Chart(year);
 
         this._renderChartLegend("iepg");
-
-        this._forceFetchDataTool = false;
+        
     },
 
     _renderMapAsync: function(){
-        this._forceFetchDataTool = false;
+        this._forceFetchDataMap = false;
         var 
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
@@ -126,6 +128,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             family = ctx.family;
 
         this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,family);
+
+        
     },
 
     /* Render the tool */
@@ -284,11 +288,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             app.setFilters(url.filters.split(","));
         }
 
-        ctx.countries.slider = [{
-            "type": "Point",
-            "date" : new Date(url.year)
-        }];
-
         // let's store the context.
         ctxObj.saveContext();
 
@@ -339,9 +338,9 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
           };
         }
 
-        var div = d3.select("body").append("div")   
-        .attr("class", "tooltip")  
-        .style("opacity", 0);
+        var div = d3.select("#country_tool .chart").append("div")   
+            .attr("class", "tooltip")  
+            .style("opacity", 0);
 
         var obj = this;
 
@@ -398,123 +397,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         return html;
 
-    },
-
-    _buildModelTreeDeprecated: function(year){
-
-        var variables = this.model.get(year).iepg_variables;
-        return {
-            "name" : "iepg",
-            "color" : "#fdc300",
-            "size" : variables.iepg.value,
-            "children" : [{
-                "name" : "economic_presence",
-                "color" : "#2b85d0",
-                "size" : variables.economic_presence.value,
-                "children": [{
-                    "name" : "energy",
-                    "size" : variables.energy.value,
-                    "color" : "#4191d5"
-                },
-                {
-                    "name" : "primary_goods",
-                    "size" : variables.primary_goods.value,
-                    "color" : "#559dd9"
-                },
-                {
-                    "name" : "manufactures",
-                    "size" : variables.manufactures.value,
-                    "color" : "#6baade"
-                },
-                 {
-                    "name" : "services",
-                    "size" : variables.services.value,
-                    "color" : "#80b6e3"
-                },
-                {
-                    "name" : "investments",
-                    "size" : variables.investments.value,
-                    "color" : "#95c2e7"
-                }
-                ]
-            },{
-                "name" : "military_presence",
-                "color" : "#669900",
-                "size" : variables.military_presence.value,
-                "children": [{
-                        "name" : "troops",
-                        "size" : variables.troops.value,
-                        "color" : "#76a318"
-                    },{
-                        "name" : "military_equipment",
-                        "size" : variables.military_equipment.value,
-                        "color" : "#85ad33"
-
-                    }]
-            },{
-                "name" : "soft_presence",
-                "color" : "#ff9000",
-                "size" : variables.soft_presence.value,
-                "children": [{
-                        "name" : "migrations",
-                        "size" : variables.migrations.value,
-                        "color" : "#ff960d",
-                    },{
-                        "name" : "tourism",
-                        "size" : variables.tourism.value,
-                        "color" : "#ff9b1a"
-                    },{
-                        "name" : "sports",
-                        "size" : variables.sports.value,
-                        "color" : "#ffa126"
-                    },{
-                        "name" : "culture",
-                        "size" : variables.culture.value,
-                        "color": "#ffa633"
-                    },{
-                        "name" : "information",
-                        "size" : variables.information.value,
-                        "color" : "#ffac40"
-                    },{
-                        "name" : "technology",
-                        "size" : variables.technology.value,
-                        "color" : "#ffb24d"
-                     },{
-                        "name" : "science",
-                        "size" : variables.science.value,
-                        "color" : "#ffb759"
-                    },{
-                        "name" : "education",
-                        "size" : variables.education.value,
-                        "color" : "#ffbc66"
-                    },{
-                        "name" : "cooperation",
-                        "size" : variables.cooperation.value,
-                        "color" : "#ffc273"
-                    }]
-            }
-
-            ]
-        }
-    },
-
-    _extractNodeFromTree: function(year,name){
-        var nodes = this. _buildModelTree(year);
-        if (name == "iepg"){
-            return nodes;
-        }
-        else{
-            nodes = nodes.children;
-        }
-       
-        // find the node in the childrens
-        for(var i=0;i<nodes.length;i++){
-            if (nodes[i].name == name){
-                return nodes[i];
-            }
-        }
-
-        return null;
     },
 
     _renderChartLegend: function(name){

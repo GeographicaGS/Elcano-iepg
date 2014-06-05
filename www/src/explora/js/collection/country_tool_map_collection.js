@@ -4,9 +4,10 @@ app.collection.CountryToolMap = Backbone.Collection.extend({
     _date: null,
 
     initialize: function(models,options) {
-        this._family = options.family;
-        this._variable = options.variable;
-        this._date = options.date;
+
+        this._family = options && options.family ? options.family : null;
+        this._variable = options && options.variable ? options.variable : null;
+        this._date =options && options.family ? options.date : null;
     },
     
     url : function() {

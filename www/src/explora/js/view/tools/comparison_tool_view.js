@@ -1,17 +1,17 @@
-app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
-    _template : _.template( $('#contributions_tool_template').html() ),
-    _templateProportionalFlags : _.template( $('#contributions_tool_proportional_flags_template').html() ),
+app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
+    _template : _.template( $('#comparison_tool_template').html() ),
+   	// This is the template for the chart legend
     _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     // Force fetch data of the left tool. Get the data for the first country
     _forceFetchDataSubToolLeft: false,
     // Force fetch data of the right tool. Get the data for the second country
     _forceFetchDataSubToolRight: false,
     // References to d3 tool
-    _d3: { "left" : null, "right" : null }, 
+    _d3: { "iepg" : null, "iepe" : null }, 
 
-    _models : { "left" : null, "right" : null },
+    _models : { "iepg" : null, "iepe" : null },
 
-    type: "contributions",
+    type: "comparison",
 
     initialize: function() {
         this.slider = new app.view.tools.common.SliderSinglePoint();
@@ -19,9 +19,23 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             "variable" : false,
             "draggable" : true
         });
-        this._collectionGlobalIndex = new app.collection.GlobalIndex();
-        this.listenTo(this._collectionGlobalIndex,"reset",this._renderProportionalFlags);
     },
+
+ 	_events: function(){
+        return _.extend({},
+            app.view.tools.Plugin.prototype._events.apply(this),
+            {
+               "mouseenter .infoover": function(e){
+               		var $e = $(e.target);
+                    $e.closest(".co_ranking").find(".content_infoover").fadeIn(300);
+               },
+               "mouseout .infoover": function(e){
+               		var $e = $(e.target);
+                    $e.closest(".co_ranking").find(".content_infoover").fadeOut(300);
+               }
+           }
+        );
+    },
 
     _setListeners: function(){
         app.view.tools.Plugin.prototype._setListeners.apply(this);
@@ -44,83 +58,32 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.stopListening(app.events,"contextchange:countries");
         this.listenTo(app.events,"contextchange:countries",function(){
             //TOREMOVE
-            console.log("contextchange:countries at app.view.tools.ContributionsPlugin");
+            console.log("contextchange:countries at app.view.tools.ComparisonPlugin");
             
-            this.contextToURL();
-           
-            var countries = app.context.data.countries,
-                selection = countries.selection,
-                lastSelection = this.getLatestContext().data.countries.selection,
-                list = countries.list,
-                redraw = false;
-
-            
-                for (var i=0;i<lastSelection.length;i++){
-                    if (selection.indexOf(lastSelection[i]) == -1){
-                        redraw = true;
-                    }
-                }
-            
-
-            if (redraw){
+            var ctxObj = this.getGlobalContext(),
+            	ctx = ctxObj.data,
+                selection = ctx.countries.selection;
+               
+            if (!selection.length){
                 // Let's force a re-render because we need to adapt the context.
                 this._forceFetchDataTool = true;
                 this.render(); // Implicit call to contextToURL
             }
-            else{
-                // No need of re-render, Let's refresh the list of countries and the proportioanl flags
-                this.countries.render();
-               
-                // It will fire a _renderProportionalFlags
-                this._collectionGlobalIndex._countries = countries.list;
-                this._collectionGlobalIndex.fetch({"reset": true});
-            }
-
+            
             this.copyGlobalContextToLatestContext();
         });
 
         this.listenTo(app.events,"countryclick",function(id_country){
             //TOREMOVE
-            console.log("countryclick at app.view.tools.ContributionsPlugin");
+            console.log("countryclick at app.view.tools.ComparisonPlugin");
              var ctxObj = this.getGlobalContext(),
                 ctx = ctxObj.data,
-                selection = ctx.countries.selection
-                idx = selection.indexOf(id_country);
-
-            if (selection.indexOf(id_country)!= -1){
-                // It's already drawn, let's remove it
-                selection[idx] = null;
-                if (idx == 0){
-                    this._forceFetchDataSubToolLeft = true;
-                    this._renderSubTool("left");
-                }
-                else{
-                    this._forceFetchDataSubToolRight = true;
-                    this._renderSubTool("right");
-                }
-            }
-            else{
-                if (selection[0]==null){
-                    // Add to left
-                    selection[0] = id_country;
-                    this._forceFetchDataSubToolLeft = true;
-                    this._renderSubTool("left");
-                }
-                else{
-                    // Add to right
-                    selection[1] = id_country;
-                    this._forceFetchDataSubToolRight = true;
-                    this._renderSubTool("right");
-                }
-                
-            }
-
-            this.countries.render();
-            ctxObj.saveContext();
-            this.copyGlobalContextToLatestContext();
-
-            this.contextToURL();
+                current = ctx.countries.selection[0];
             
+            if (current != country){
+            	this._forceFetchDataTool = true;
+            	this.render();	
+            }
         });
     },
 
@@ -128,7 +91,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     /* Render the tool */
     renderTool: function(){
         //TOREMOVE
-        console.log("Render app.view.tools.ContributionsPlugin");
+        console.log("Render app.view.tools.ComparisonPlugin");
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
@@ -139,8 +102,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         }));
 
+        this.$co_iepg = this.$("#piepg");
+        this.$co_iepe = this.$("#piepe");
+
         this.$co_left = this.$("#co_chart_left");
         this.$co_right = this.$("#co_chart_right");
+
 
         this.$chart_left = this.$co_left.find(".chart");
         this.$chart_right = this.$co_right.find(".chart");
@@ -148,121 +115,59 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.$chart_legend_left = this.$co_left.find(".chart_legend");
         this.$chart_legend_right = this.$co_right.find(".chart_legend");
 
-        this.$proportional_flags = this.$(".proportional_flags");
-
         // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
         if (this._forceFetchDataTool){
             this._forceFetchDataSubToolLeft = true;
             this._forceFetchDataSubToolRight = true;
-                
-            this._collectionGlobalIndex._family = ctx.family;
-            this._collectionGlobalIndex._countries = ctx.countries.list;
-            // This will call to _renderProportionalFlags
-            this._collectionGlobalIndex.fetch({"reset": true});
-
-        }
-        else{
-            this._renderProportionalFlags();
         }
         
-        this._renderSubTool("left");
-        this._renderSubTool("right");
+        this._renderSubTool("iepg");
+        this._renderSubTool("iepe");
 
-        var _this = this;
-
-        this.$chart_left.droppable({
-            accept: ".country_draggable",
-            hoverClass: "draggable-here",
-            drop: function( event, ui ) {
-                var country = $(ui.helper).find("[code]").attr("code");
-                ctx.countries.selection[0] = country;
-                _this._renderSubTool("left");
-                _this.countries.render();
-                _this.contextToURL();
-
-            }
-        });
-
-        this.$chart_right.droppable({
-            accept: ".country_draggable",
-            hoverClass: "draggable-here",
-            drop: function( event, ui ) {
-                var country = $(ui.helper).find("[code]").attr("code");
-                ctx.countries.selection[1] = country;
-                _this._renderSubTool("right");
-                _this.countries.render();
-                _this.contextToURL();
-            }
-        });
-
-        this.renderMap();
+        this._renderMap();
 
         this._forceFetchDataTool = false;
 
     },
 
-    _renderProportionalFlags : function(){
+    _renderSubTool:function(family){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            year = ctx.slider[0].date.getFullYear();
-
-        this.$proportional_flags.html(this._templateProportionalFlags({
-            collection: this._collectionGlobalIndex.toJSON(),
-            year: year
-        }));
-    },
-
-    _renderSubTool:function(pos){
-        var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data,
-            selection = ctx.countries.selection,
-            // get correct force fecth variable
-            forceFetch = pos == "left" ? this._forceFetchDataSubToolLeft : this._forceFetchDataSubToolRight,
-            // Index 0 is for left position, index 1 is for right position
-            country = pos == "left" ? (selection.length > 0 ? selection[0] : null) :  
-                                        (selection.length > 1 ? selection[1] : null),
-
+            country = ctx.countries.selection[0],
+            forceFetch = family == "iepg" ? this._forceFetchDataSubToolLeft : this._forceFetchDataSubToolRight,
             // Links to DOM Elements
-            $co_chart = pos == "left" ? this.$co_left : this.$co_right,
-           
-            $country_name = $co_chart.find(".name");
-            
-        if (country){
-            // Set the country name
-            $country_name.html(app.countryToString(country)).removeClass("no_data");
+           	$co_chart = family == "iepg" ? this.$co_left : this.$co_right;
+           	
+        // Set country name
+        $co_chart.find(".name").html(app.countryToString(country));
 
-            if (forceFetch){
-                // Fetch the data of this tool
-                this._models[pos] = new app.model.tools.country({
-                    "id" : country,
-                    "family" : ctx.family
-                });
 
-                var _this = this;
-                this._models[pos].fetch({
-                    success: function(){
-                       if (pos == "left"){
-                            _this._forceFetchDataSubToolLeft = false;
-                       }
-                       else{
-                            _this._forceFetchDataSubToolRight = false;
-                       }
-                       _this._drawD3Chart(pos,country,_this._models[pos]);
-                    }
-                });
 
-            }
-            else{
-                //We already have the data, let's draw directly
-                this._drawD3Chart(pos,country,this._models[pos]);
-            }
+        if (forceFetch){
+            // Fetch the data of this tool
+            this._models[family] = new app.model.tools.country({
+                "id" : country,
+                "family" : family
+            });
+
+            var _this = this;
+            this._models[family].fetch({
+                success: function(){
+                   if (family == "iepg"){
+                        _this._forceFetchDataSubToolLeft = false;
+                   }
+                   else{
+                        _this._forceFetchDataSubToolRight = false;
+                   }
+
+                   _this._drawD3Chart(family);
+                }
+            });
         }
         else{
-            $country_name.html("<lang>¿País?</lang>").addClass("no_data");
-            this._drawD3ChartNoData(pos);
+            //We already have the data, let's draw directly
+            this._drawD3Chart(family);
         }
-            
-
     },
 
     _fetchDataMap: function(){
@@ -294,8 +199,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,family);
     },
 
-
-    renderMap: function(){
+    _renderMap: function(){
         // draw the map
         if (this._forceFetchDataMap){
 
@@ -392,45 +296,22 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.copyGlobalContextToLatestContext();
     },
 
-    _drawD3ChartNoData: function(pos){
-        var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data,
-            $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
-            width = $chart.width(),
-            height = $chart.height(),
-            radius = Math.min(width, height) / 2;
-        
-        $chart.html("");
-        var svg = d3.select(" #co_chart_" + pos +" .chart").append("svg")
-            .attr("width", width )
-            .attr("height", height +4)
-          .append("g")
-            .attr("transform", "translate(" + width / 2 + "," + ( 2+(height / 2 ))  + ")")
-            .attr("class", "variable");
-
-        var circle_out = svg.append("circle")
-            .attr("class","drag_circle_out")
-            .attr("r", radius);
-
-        var circle = svg.append("circle")
-            .attr("class","drag_circle")
-            .attr("r", radius -10);
-
-        $chart.append("<div class='co_drag_info'><p class='drag_info' style='width:" + (radius * 1.3)+ "px'><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p></div>");
-
-        this._d3[pos] = null;
-    },
-
-    _drawD3Chart: function(pos,country,model){
+    _drawD3Chart: function(family){
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
+            model = this._models[family],
             year = ctx.slider[0].date.getFullYear(),
             variables = model.get(year).iepg_variables,
-            $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
+            $chart = family == "iepg" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
+            $co = family== "iepg" ? this.$co_iepg : this.$co_iepe,
+            pos = family == "iepg" ? "left" : "right",
             width = $chart.width(),
             height = $chart.height(),
             radius = Math.min(width, height) / 2;
+
+        $co.find(".subheader .index .value").html(sprintf("%.2f",variables["iepg"].value));
+        $co.find(".ranking").html(sprintf("<lang>Puesto %dº </lang>", variables["iepg"].ranking));
 
         $chart.html("");
 
@@ -472,7 +353,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
           };
         }
 
-        var div = d3.select("#contributions_tool .chart").append("div")   
+        var div = d3.select("#comparison_tool .chart").append("div")   
             .attr("class", "tooltip")               
             .style("opacity", 0);
 
@@ -504,50 +385,45 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 if (d.name == "iepg" || d.name == "economic_presence" ||
                     d.name == "soft_presence" || d.name =="military_presence")
                 {
-                    // path.transition()
-                    //     .duration(750)
-                    //     .attrTween("d", arcTween(d));
-
-                    // obj._renderChartLegend(pos,root,d.name);
-                    obj._moveChartSection(pos,d,true);
+                    obj._moveChartSection(family,d,true);
                 }
 
           }
 
-        this._d3[pos] = {};
-        this._d3[pos].path = path;
-        this._d3[pos].tree = tree;
-        this._d3[pos].arcTween = arcTween;
+        this._d3[family] = {};
+        this._d3[family].path = path;
+        this._d3[family].tree = tree;
+        this._d3[family].arcTween = arcTween;
 
-        this._renderChartLegend(pos,ctx.family);
+        this._renderChartLegend(family,family);
     },
 
-    _moveChartSection: function(pos,d,callBrother){
+    _moveChartSection: function(family,d,callBrother){
 
-        this._d3[pos].path.transition()
+        this._d3[family].path.transition()
                         .duration(750)
-                        .attrTween("d", this._d3[pos].arcTween(d));
-        this._renderChartLegend(pos,d.name);
+                        .attrTween("d", this._d3[family].arcTween(d));
+        this._renderChartLegend(family,d.name);
 
         if (!callBrother){
             return;
         }
 
         // Let's find d in the other tree.
-        var  // brother pos
-            bpos = pos == "left" ? "right" : "left";
+        var  // brother family
+            bfam = family == "iepg" ? "iepe" : "iepe";
 
-        if (!this._d3[bpos]){
+        if (!this._d3[bfam]){
             // no brother chart
             return;
         }
 
         var    // brother tree
-            btree = this._d3[bpos].tree,
+            btree = this._d3[bfam].tree,
             // brother data element
             bd = btree.findElementInTree(d.name);
     
-         this._moveChartSection(bpos,bd,false);
+         this._moveChartSection(bfam,bd,false);
 
     },
 
@@ -568,11 +444,15 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _renderChartLegend: function(pos,name){
+    _renderChartLegend: function(family,name){
 
-        $legend = pos == "left" ? this.$chart_legend_left : this.$chart_legend_right;
+        $legend = family == "iepg" ? this.$chart_legend_left : this.$chart_legend_right;
+
+        // Just a trick, this will be changed when service will be fixed
+        if (name=="iepe") name="iepg";
+
         $legend.html(this._templateChartLegend({
-            data: this._d3[pos].tree.findElementInTree(name)
+            data: this._d3[family].tree.findElementInTree(name)
         }));
     },
 
@@ -582,20 +462,16 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             ctx = ctxObj.data,
             filters = app.getFilters().join(",");
 
-        app.router.navigate("contributions/" 
-            + ctx.family + "/"  // Family
+        app.router.navigate("comparison/" 
             + ctx.slider[0].date.getFullYear() + "/" // Year
             + ctx.countries.list.join(",") + "/" // Countries list
-            + ctx.countries.selection.join(",")   // Countries selected
+            + ctx.countries.selection[0]   // Countries selected
             + (filters ? "/" + filters : "") ,{trigger: false});
     },
 
     URLToContext: function(url){
          var ctxObj = app.context,
             ctx = ctxObj.data;
-           
-        // Overwrite the family
-        ctx.family = url.family;
 
         // set the slider
         ctx.countries.slider = [{
@@ -604,15 +480,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         }];
 
         ctx.countries.list = url.countries.split(",");
-        ctx.countries.selection = url.countries_sel.split(",")
-
-        if (ctx.countries.selection[0]==""){
-            ctx.countries.selection[0] = null;
-        }
-
-        if (ctx.countries.selection[1]==""){
-            ctx.countries.selection[1] = null;
-        }
+        ctx.countries.selection = [url.country_sel];
 
         // Do we have filters?
         if (url.filters){

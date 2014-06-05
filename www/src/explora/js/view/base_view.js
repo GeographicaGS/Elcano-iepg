@@ -204,7 +204,9 @@ app.view.Base = Backbone.View.extend({
             case "contributions":
                 return new app.view.tools.ContributionsPlugin();
             case "quotes":
-                return new app.view.tools.QuotesPlugin();            
+                return new app.view.tools.QuotesPlugin();     
+            case "comparison":
+                return new app.view.tools.ComparisonPlugin();            
         }
 
     },
@@ -292,12 +294,52 @@ app.view.Base = Backbone.View.extend({
         }
     },
 
-     loadContributionsTool: function(url){
+    loadContributionsTool: function(url){
          var tool = this._searchToolByType("contributions");
 
         if (!tool){
             // tool not already loaded
             tool = new app.view.tools.ContributionsPlugin();
+            // This method transform the current url in a context 
+            tool.URLToContext(url);
+            // Add the tool
+            this.addTool(tool,true);
+        }
+        else{
+            // This method transform the current url in a context
+            tool.URLToContext(url);
+
+            // move tool to front
+            this.bringToolToFront(tool);   
+        }
+    },
+
+    loadQuotesTool: function(url){
+        var tool = this._searchToolByType("quotes");
+
+        if (!tool){
+            // tool not already loaded
+            tool = new app.view.tools.QuotesPlugin();
+            // This method transform the current url in a context 
+            tool.URLToContext(url);
+            // Add the tool
+            this.addTool(tool,true);
+        }
+        else{
+            // This method transform the current url in a context
+            tool.URLToContext(url);
+
+            // move tool to front
+            this.bringToolToFront(tool);   
+        }
+    },
+
+    loadComparisonTool: function(url){
+         var tool = this._searchToolByType("comparison");
+
+        if (!tool){
+            // tool not already loaded
+            tool = new app.view.tools.ComparisonPlugin();
             // This method transform the current url in a context 
             tool.URLToContext(url);
             // Add the tool
@@ -339,10 +381,6 @@ app.view.Base = Backbone.View.extend({
         }
 
         this._filterSelectorView = new app.view.FilterSelector(); 
-    },
-
-    
-
-    
+    }
     
 });

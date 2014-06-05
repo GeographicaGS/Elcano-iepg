@@ -11,6 +11,7 @@ app.config["SECRET_KEY"] = config["SECRET_KEY"]
 
 import country
 import ranking
+import quotes
 
 @app.route('/', methods = ['GET'])
 def alive():

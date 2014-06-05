@@ -32,45 +32,6 @@ def baseMapData():
         data["geojson"] = r["geojson"]
         out[r["iso_3166_1_2_code"]] = data
     return(jsonify(out))
-
-
-# # def getVariableData(family, key):
-# #     """Retrieves variable data."""
-# #     for k,i in const.variables.items():
-# #         if i["family"]==family and i["key"]==key:
-# #             return i
-    
-# #     return None
-
-
-# # def blocksSumCalculateData(blockCode, year, family, variable):
-# #     """Calculates block data for a variable."""
-# #     m = model.iepgdatamodel.IepgDataModel()
-# #     block = blocks[blockCode]
-# #     if block["precalculated"]:
-# #         pass
-# #     else:
-# #         data = cacheWrapper(m.getCountriesData, block["members"][str(year)], year, family, variable)
-# #         sum = 0
-# #         for a in data:
-# #             sum += a["value"]
-# #     return({"code": blockCode, "value": sum})
-
-
-# # def getBlocksFromCountryList(countryList):
-# #     """Returns two arrays: one with the countries present in the group,
-# #     and another one with the blocks."""
-# #     _countries = []
-# #     _blocks = []
-# #     for a in countryList:
-# #         if a in getBlocks().keys():
-# #             _blocks.append(a)
-# #         else:
-# #             _countries.append(a)
-# #     return(_blocks, _countries)
-
-# def getUnprecalculatedBlocksFromCountryList(countryList):
-#     """Returns all uncalculated blocks in countryList."""
     
 
 def getRanking(countryList, year, variable):
@@ -112,131 +73,11 @@ def getRankingCode(countryList, year, variable, countryCode):
     return(i+1)
 
 
-# # def getVariableValuesSeries(countryList, year, family, variable):
-# #     """Returns a dictionary keyed by ISO with the values of family/variable."""
-# #     values = dict()
-# #     for i in countryList:
-# #         values[i] = getVariableValue(family, variable, i, year)
-# #     return(values)
-
-
-# # def getBlocksCountries(countryList, year, countryFilter=[]):
-# #     """Returns a list of blocks and countries based on the country filter
-# #     in place and expelling from countries those that are included in the 
-# #     given blocks."""
-# #     _blocks, _countries = getBlocksFromCountryList(countryList)
-# #     for b in _blocks:
-# #         _c = blocks[b]["members"][str(year)]
-# #         _countries = arraySubstraction(_countries, _c)
-# #     _countries = arraySubstraction(_countries, countryFilter)
-# #     _blocks.extend(_countries)
-# #     return(_blocks)
-
-
-
-
-# # def getBlocks():
-# #     """Returns a dictionary of block's data keyed by ISO codes."""
-# #     names = cacheWrapper(maplex.getNames)
-# #     isoCodes = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==4}
-# #     spanishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==3 and 
-# #                     v["id_geoentity"] in isoCodes.keys()}
-# #     englishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==2 and 
-# #                     v["id_geoentity"] in isoCodes.keys()}
-
-# #     countries = dict()
-# #     for k,v in isoCodes.iteritems():
-# #         n = dict()
-# #         n["es"] = spanishNames[k]
-# #         n["en"] = englishNames[k]
-# #         n["idGeoentity"] = k
-# #         countries[v] = n
-            
-# #     return(countries)
-
-
-# # def getBlocksIso():
-# #     """Returns a list of blocks ISO codes."""
-# #     return([v for v in cacheWrapper(getBlocks).keys()])
-    
-
-# # def getCountryDataByVariableFamily(family):
-# #     """Returns a dictionary with country data keyed by ISO codes of the given family."""
-# #     m = arraySubstraction(cacheWrapper(varengine.getVariableCodes, family, 'energy'), 
-# #                           cacheWrapper(getBlocksIso))
-# #     names = cacheWrapper(maplex.getNames)
-# #     isoCodes = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==1 and v["name"] in m}
-# #     spanishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==3 and 
-# #                     v["id_geoentity"] in isoCodes.keys()}
-# #     englishNames = {v["id_geoentity"]: v["name"] for v in names if v["id_name_family"]==2 and 
-# #                     v["id_geoentity"] in isoCodes.keys()}
-
-# #     countries = dict()
-# #     for k,v in isoCodes.iteritems():
-# #         n = dict()
-# #         n["es"] = spanishNames[k]
-# #         n["en"] = englishNames[k]
-# #         n["idGeoentity"] = k
-# #         countries[v] = n
-            
-# #     return(countries)
-
-
-# # def getCountriesIsoByVariableFamily(family):
-# #     """Returns a list of country ISO codes in variable family."""
-# #     return([c for c in cacheWrapper(getCountryDataByVariableFamily, family).keys()])
-
 def getBlockMembers(isoBlock, year=None):
     """Returns a list of block members ISO."""
     return([datacache.geoentityToIso[i["id_geoentity_child"]] for i in 
             cacheWrapper(maplex.getBlockMembers, datacache.isoToGeoentity[isoBlock],
                          year=year)])
-
-# def getBlockMembersIso(isoBlock, year=None):
-#     """Returns a list of ISO codes for a block and a year."""
-#     return([c for c in cacheWrapper(getBlockMembers, isoBlock, year=year).keys()])
-
-
-# # def getListFromDictionary(dictionary, key):
-# #     """Returns a list from the elements with a key in a dictionary."""
-# #     out = []
-# #     for i in dictionary:
-# #         out.append(i[key])
-# #     return(out)
-
-
-# # def getOrderedDictionary(dict):
-# #     """Returns an ordered dictionaty."""
-# #     collator = PyICU.Collator.createInstance(PyICU.Locale("es_ES.UTF-8"))
-# #     od = collections.OrderedDict()
-# #     s = sorted(dict.keys(), cmp=collator.compare)
-# #     for i in s:
-# #         od[i] = dict[i]
-
-# #     return od
-
-
-# def getVariableYears(family):
-#     """Returns a list for years present in IEPG/IEPE data."""
-#     return(sorted(varengine.getVariableYears(family, 'energy')))
-    
-
-# # def getGeoentityBlocks(isoGeoentity, year=None):
-# #     """Return the ISO code of block from isoGeoentity."""
-# #     id = maplex.getIdGeoentityByName(isoGeoentity, 1)
-# #     blocks = maplex.getGeoentityBlocks(id[0]["id_geoentity"], year)
-# #     return(maplex.getGeoentityNames(blocks[0]["id_geoentity_block"], 4)[0]["names"][0])
-
-
-# # def getVariables(family=None):
-# #     """Return variables for an optional family."""
-# #     idFamily = engine.getIdFamilyByName(family) if family else None
-# #     return(engine.getVariables(idFamily))
-
-
-# def isBlock(isoGeoentity):
-#     """Returns True if isoGeoentity is a block."""
-#     return(maplex.getIdGeoentityByName(isoGeoentity, 4)<>[])
 
 
 def getData(variable, code=None, year=None, countryList=None):

@@ -87,10 +87,8 @@ def getTranslationTable(idNameFamilyA, idNameFamilyB=None):
 # or the block itself
 # Create a time topology: adjacency of timelapses, intersection of timelapses, containment of, etc...
 # add after, before, coincident
-# def getBlocks(timeLapseBlock=None, timeLapseMembers=None):
-#     """Retrieves basic information about blocks."""
-#     m = maplexmodel.MaplexModel()
-#     return(m.getBlocks(timeLapseBlock, timeLapseMembers))
+
+
 
 
 def getBlocks(timeLapseBlock=None, timeLapseMembers=None, idNameFamily=None):

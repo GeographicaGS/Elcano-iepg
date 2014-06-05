@@ -8,7 +8,7 @@ TODO: create functions that returns the database information in dictionaries but
 
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
-# import common.timelapse
+
 
 class MaplexModel(PostgreSQLModel):
     """Maplex model."""

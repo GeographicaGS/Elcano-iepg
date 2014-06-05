@@ -31,7 +31,9 @@
                             <span class="grey uppercase size_11"><%= app.variableToString(ctx.family) %></span>
                         </div>
                         <div class="col-sm-4 col-md-4">
-                            <img src="/img/flags/<%= country %>.svg" class="flag" />
+                            <div class="co_flag">
+                                <img src="/img/flags/<%= country %>.svg" class="flag" />
+                            </div>
                             <span class="grey size_21 fleft mt7 ml"><%= sprintf("%0.2f",variable.value) %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
@@ -77,7 +79,7 @@
                             <span class="grey size_16"><%= parseInt(population.value).toLocaleString() %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <span><%= sprintf("<lang>Puesto %dº</lang>", population.ranking) %></span>
+                            <span><%= sprintf("<lang>Puesto %dº </lang>", population.ranking) %></span>
                         </div>
                     </div>
 

@@ -1,0 +1,103 @@
+<%
+    country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
+    year = ctx.slider[0].date.getFullYear();
+%>
+
+<div id="comparison_tool">
+
+    <div class="header" data-variable="comparison">
+        <a class="close" href="#"></a>
+        <span id="tool_name" ><lang>Presencia global frente a presencia europea</lang></span>
+        <span id="tool_year"><lang>Año</lang> <%= year %></span>
+    </div>
+
+    <div class="body">
+        <div class="container-comp">
+            <div id="piepg" data-family=iepg>
+                <div class="subheader">
+                    <div class="name">
+                        <lang>Índice Elcano de presencia global</lang>
+                    </div>
+
+                    <div class="index">
+                        <div class="co_flag">
+                             <img src="/img/flags/<%= country %>.svg"/>
+                        </div>
+                        <span class="value"></span>
+                    </div>
+
+                    <div class="co_ranking">
+                        <img class="infoover" src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+                        <span class="ranking"></span>
+                        <p class="content_infoover" style="display:none">
+                            <lang>Texto información puestos</lang>
+                        </p>
+                    </div>
+
+                    <div class="clear"></div>
+
+                </div>
+           
+                <div id="co_chart_left">
+                    <div class="ico">
+                        <img src="/img/variables/ELC_variable_iepg.svg" />
+                    </div>
+                    <div class="chart"></div>
+                    <p class="name"><%= app.countryToString(country) %></p>
+                    <p class="subname"><lang>Presencia Global</lang></p>
+                    <div class="chart_legend"></div>
+                </div>
+                
+                <div class="clear"></div>
+
+            </div>
+            
+            <div id="pcenter">
+            	<div class="co_vs">
+	                <div class="vs">
+	                    VS
+	                </div>
+	            </div>
+            </div>
+            
+            <div id="piepe" data-family=iepe>
+                <div class="subheader">
+                	<div class="co_ranking">
+                		<span class="ranking"></span>
+                        <img class="infoover" src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+                        <p class="content_infoover" style="display:none">
+                            <lang>Texto información puestos</lang>
+                        </p>
+                    </div>
+
+                    <div class="name">
+                        <lang>Índice Elcano de presencia europea</lang>
+                    </div>
+
+                    <div class="index">
+                    	<span class="value"></span>
+                        <div class="co_flag">
+                             <img src="/img/flags/<%= country %>.svg"/>
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+
+                </div>
+
+                <div id="co_chart_right">
+                    <div class="ico">
+                        <img src="/img/variables/ELC_variable_iepe.svg" />
+                    </div>
+                    <div class="chart"></div>
+                    <p class="name"><%= app.countryToString(country) %></p>
+                    <p class="subname"><lang>Presencia Europea</lang></p>
+                    <div class="chart_legend"></div>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+
+</div>

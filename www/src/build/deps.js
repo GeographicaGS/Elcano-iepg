@@ -205,12 +205,13 @@ deps.Explora.JS = {
 			// --------------------
 			// --- Collections  ---
 			// --------------------
-			"explora/js/collection/countries.js",
-			"explora/js/collection/filter.js",
-			"explora/js/collection/country_tool_map.js",
-			"explora/js/collection/ranking_tool.js",
+			"explora/js/collection/countries_collection.js",
+			"explora/js/collection/filter_collection.js",
+			"explora/js/collection/country_tool_map_collection.js",
+			"explora/js/collection/ranking_tool_collection.js",
 			"explora/js/collection/global_index_collection.js",
-			"explora/js/collection/quotes.js",
+			"explora/js/collection/quotes_collection.js",
+
 			
 			// --------------------
 			// ------  Views ------
@@ -229,6 +230,7 @@ deps.Explora.JS = {
 			"explora/js/view/tools/ranking_tool_view.js",
 			"explora/js/view/tools/contributions_tool_view.js",
 			"explora/js/view/tools/quotes_tool_view.js",
+			"explora/js/view/tools/comparison_tool_view.js",
 
 			// Tools context object
 			"explora/js/view/tools/context.js",

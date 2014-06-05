@@ -111,6 +111,13 @@
         }
     }
 
+    .header[data-variable='comparison']{
+        #tool_name{
+            color: @white;
+        }
+        background-color: @grey_light;
+    }
+
     .header[data-variable='economic_presence']{
        .headerTool(economic_presence,@white);
     }
@@ -212,11 +219,11 @@
         margin-bottom: 10px;
     }
 
-    .flag{
+    .co_flag{
+        margin-top: 5px;
+        float:left;
         height: 25px;
         width: 25px;
-        float:left;
-        margin-top: 5px;
     }
 }
 
@@ -398,6 +405,8 @@
     top: 24px;
     padding: 3px 10px;
     color: @grey;
+    z-index: 5;
+    min-width: 15px;
 }
 
 #ranking_tool{
@@ -488,7 +497,7 @@
 }
 
 
-#contributions_tool{
+#contributions_tool,#comparison_tool{
 
     .co_drag_info{
         position: absolute;
@@ -582,6 +591,169 @@
 
 }
 
+#comparison_tool{
+    #tool_name{
+        border-left: none !important;
+    }
+    .container-comp {
+        display: table;
+        width: 100%;
+    }
+
+    #co_chart_left,#co_chart_right{
+        position: relative;
+    }
+
+    p.subname{
+        text-align: center;
+        .roboto();
+        font-size: 15px;
+        color: @grey_dark;
+    }
+
+    #piepg,#piepe,#pcenter{
+        display: table-cell;
+        width: 45%;
+    }
+
+    #pcenter{
+        width: 10%;
+        vertical-align: top;
+        text-align: center;
+
+        .co_vs{
+            margin-top: 90px;
+            .vs{
+           
+                border-radius: 100%;
+                width:30px;
+                height:30px;
+                .roboto();
+                font-size: 11px;
+                border: 1px solid @grey_light2;
+                margin: auto;
+                line-height: 30px;
+            }
+        }
+       
+    }
+
+    .subheader {
+        
+        border-bottom: 1px solid #d0d0d5;
+        padding-bottom: 5px;
+
+        .name{
+            font-size: 11px;
+            text-transform: uppercase;   
+            width: 80px;
+            color:@grey;
+            line-height: 14px;
+            .roboto();
+
+        }
+
+        .index{
+            margin-top: 22px;
+
+            .co_flag,.value{
+               float:left;
+            }
+            .co_flag{
+                height: 25px;
+                width: 25px;
+            }
+
+            .value{
+                font-size: 21px;
+                margin-top: 1px;
+                .roboto();
+            }
+        }
+
+        .co_ranking{
+            position: relative;
+            margin-top: 23px;
+            img,span{
+                float:left;
+            }
+            img{
+                margin-top: 4px;
+            }
+            span{
+                font-size: 13px;
+            }
+
+        }
+
+       
+    }
+
+    .ico{
+        position: absolute;
+        top:0;
+    }
+
+    #piepg{
+        .subheader{
+            margin-left: 20px;
+            .name{
+                text-align: left;
+                float: left; 
+            }
+
+            .index{
+                float:left;
+                margin-left: 100px;
+
+                .value{
+                    margin-left: 6px;
+                }
+            }
+
+            .co_ranking{
+                float:right;
+                img{
+                    margin-right: 6px;
+                }
+
+            }
+        }
+        .ico{
+            right:0;
+        }
+    }
+
+    #piepe{
+        .subheader{
+            margin-right: 20px;
+            
+            .name{
+                text-align: right;
+                float: right; 
+            }
+
+            .co_ranking{
+                float:left;
+                img{
+                    margin-left: 6px;
+                }
+            }
+
+            .index{
+                float:right;
+                margin-right: 100px;
+                .value{
+                    margin-right: 6px;
+                }
+            }
+        }
+        .ico{
+            left:0;
+        }
+    }
+}
+
 #quotes_tool{
     .co_chart{
         padding: 0 60px 50px 0;
@@ -661,5 +833,4 @@
             }
         }
     }
-
 }

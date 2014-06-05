@@ -69,8 +69,8 @@ def baseMapData():
 # #             _countries.append(a)
 # #     return(_blocks, _countries)
 
-def getUnprecalculatedBlocksFromCountryList(countryList):
-    """Returns all uncalculated blocks in countryList."""
+# def getUnprecalculatedBlocksFromCountryList(countryList):
+#     """Returns all uncalculated blocks in countryList."""
     
 
 def getRanking(countryList, year, variable):

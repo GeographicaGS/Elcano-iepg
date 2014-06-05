@@ -24,10 +24,12 @@ for fam in const.variableDatasets:
         variables[var.tableName()] = var
 
 blocks = [maplex.getGeoentityNames(i["id_geoentity_block"], 1)[0]["names"][0] for i in maplex.getBlocks()]
+blocksNoEu = copy.deepcopy(blocks)
+blocksNoEu.remove("XBEU")
 unprecalculatedBlocks = arrayops.arraySubstraction(blocks, const.precalculatedBlocks)
 countriesAndUe = variables["iepg_energy"].getVariableCodes()
 countries = copy.deepcopy(countriesAndUe)
-del countries[countries.index("XBEU")]
+countries.remove("XBEU")
 blocksAndCountries = copy.deepcopy(countries)
 blocksAndCountries.extend(blocks)
 

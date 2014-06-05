@@ -17,6 +17,7 @@ from common import config as config
 from common import const as cons
 from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage
 import locale
+import common.datacache as datacache
 
 
 @app.route('/home/email', methods=['POST'])
@@ -69,24 +70,22 @@ def countries():
     """
     lang = request.args["lang"]
     year = request.args["year"]
-    blocks = common.helpers.cacheWrapper(common.helpers.getBlocks)
-    blockNames = sorted([v[lang] for (k,v) in blocks.iteritems()], cmp=locale.strcoll)
-    out = []
-    
-    for b in blockNames:
-        blockData = [v for v in blocks.values() if v[lang]==b][0]
-        block = dict()
-        superDict = dict()
-        countries = []
-        for m in common.helpers.cacheWrapper(common.helpers.getBlockMembers, 
-                                             blockData["idGeoentity"], year=year):
-            countries.append(m[lang])
-        block["countries"] = sorted(countries, cmp=locale.strcoll)
-        block["ncountries"] = len(countries)
-        superDict[b] = block
-        out.append(superDict)
+    if lang=="es":
+        trans = datacache.isoToSpanish
+    if lang=="en":
+        trans = datacache.isoToEnglish
 
-    return(jsonify({"results": out}))
+    blocks = {k: {"name": v} for (k,v) in trans.iteritems() 
+              if k in datacache.blocks}
+
+    for k,v in blocks.iteritems():
+        m = common.helpers.getBlockMembers(k, year=year)
+        v["ncountries"] = len(m)
+        members = [{"name": j} for (i,j) in trans.iteritems()
+                   if i in m]
+        v["countries"] = members
+
+    return(jsonify({"results": blocks}))
 
 
 @app.route('/home/years', methods=['GET'])

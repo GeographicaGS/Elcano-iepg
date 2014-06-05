@@ -33,40 +33,18 @@ def countryFilter(lang):
     return(jsonify({"results": data}))
 
 
-@app.route('/blocks/<string:lang>/<int:year>', methods=["GET"])
-def blocksData(lang, year):
-    """Retrieves currently available blocks data (based on filtered countries).
-    Params:
-    
-    filter: country filter
-    """
-    if "filter" in request.args:
-        countryFilter = request.args["filter"]
-        if countryFilter=="":
-            countryFilter = None
-        else:
-            countryFilter = countryFilter.split(",")
-    else:
-        countryFilter = None
-
+@app.route('/blocks/<string:lang>', methods=["GET"])
+def blocksData(lang):
+    """Retrieves currently available blocks data (based on filtered countries)."""
     m = iepgdatamodel.IepgDataModel()
     out = dict()
-    for blockCode,blockData in blocks.items():
-        block = dict()
-        block["name"] = blockData["name_"+lang]
-        blockYears = dict()
-        for year,membersData in blockData["members"].items():
-            if countryFilter:
-                if arrayIntersection(membersData, countryFilter)<>[]:
-                    continue
-            countries = dict()
-            for countryCode in membersData["countries"]:
-                countryName = cacheWrapper(m.getCountryNameByIso2, countryCode, lang)[0]
-                countries[countryCode] = countryName
-            blockYears[year] = countries
-        block["members"] = blockYears
-        if block["members"]<>{}:
-            out[blockCode] = block
+    for b in datacache.blocks:
+        year = dict()
+        for y in cacheWrapper(datacache.variables["iepg_energy"].getVariableYears):
+            m = cacheWrapper(common.helpers.getBlockMembers, b, year=y)
+            year[y] = m
+        out[b] = year
+
     return(jsonify(out))
 
 
@@ -188,7 +166,7 @@ def mapGeoJson():
 
     return(jsonify(out))
 
-###HERE: >>> copy this output
+###HERE > copy this output
 @app.route('/globalindex/<string:family>/<string:countries>/<string:lang>', methods=['GET'])
 def globalindex(family,countries,lang):
     from random import randint

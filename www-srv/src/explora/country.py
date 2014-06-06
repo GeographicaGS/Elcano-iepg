@@ -88,31 +88,25 @@ def countrySheet(lang, family, countryCode):
    
            famVariables = dict()
            for var in familyVar:
-               print "VAR: "+str(var)
                data = dict()
                data["code"] = countryCode
                v = cacheWrapper(common.helpers.getData, var, countryCode, year)
-
-               ###HERE
-
-               if not var.idVariable in ["military_global", "economic_global", "soft_global"]:
-                   print("ii "+var.idVariable)
-                   print "RT: "+family+"_relative_contribution_"+var.idVariable
-
-                   vp = cacheWrapper(common.helpers.getData, 
-                                     datacache.variables[family+"_relative_contribution_"+var.idVariable],
-                                     countryCode, year)
-
-                   print(vp)
-
+               # vp = [None]
+               # if not var.idVariable in ["global", "military_global", "economic_global", "soft_global"]:
+               #     vp = cacheWrapper(common.helpers.getData, 
+               #                       datacache.variables[family+"_relative_contribution_"+var.idVariable],
+               #                       countryCode, year)
                data["value"] = None if not v[0] or numpy.isnan(v[0]["value"]) else v[0]["value"]
-               #data["percentage"] = None if not 
+               # data["percentage"] = None if not vp[0] or numpy.isnan(vp[0]) else vp[0]["value"]
                data["variable"] = const.variableNames[family][var.idVariable]["name_"+lang]
                data["year"] = year
                data["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
                                                     year, var,countryCode)
                data["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
                                                       var, countryCode)
+
+               print data
+
                famVariables[var.idVariable] = data
    
            contextVariables = dict()
@@ -120,7 +114,7 @@ def countrySheet(lang, family, countryCode):
                data = dict()
                data["code"] = countryCode
                v = cacheWrapper(common.helpers.getData, var, countryCode, year)
-               data["value"] = None if numpy.isnan(v[0]["value"]) else v[0]["value"]
+               data["value"] = None if not v[0] else v[0]["value"]
                data["variable"] = const.variableNames["context"][var.idVariable]["name_"+lang]
                data["year"] = year
                data["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 

@@ -113,5 +113,4 @@ def getData(variable, code=None, year=None, countryList=None):
                 out = v
         else:
             out = [None]
-
     return(out)

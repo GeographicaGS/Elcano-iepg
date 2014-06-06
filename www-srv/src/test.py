@@ -21,11 +21,29 @@ from collections import OrderedDict
 import common.datacache as dc
 # reload(dc)
 
-code=None
-year=2013
-cl = ["XBAP", "XBEU", "XBSA"]
 
-print dc.variables
 
-print h.getData(dc.variables["iepe_individual_contribution_energy"], code=code, 
-                year=year, countryList=cl)
+v = e.DataStorePostgreSql("ds")
+print str(v)
+print v.conn
+
+
+
+# This creates a DataStore in PostgreSQL
+datastore = e.DataStorePostgreSql("ds", connection=PostgreSQL.connection)
+# This creates a dataset
+dataset = e.Dataset("dataset")
+
+
+
+# code=None
+# year=2013
+# cl = ["XBAP", "XBEU", "XBSA"]
+
+
+# for k,v in dc.variables.iteritems():
+#     print k
+#     print v.tableName()
+
+# # print h.getData(dc.variables["iepe_individual_contribution_energy"], code=code, 
+# #                 year=year, countryList=cl)

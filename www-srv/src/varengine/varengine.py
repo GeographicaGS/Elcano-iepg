@@ -20,174 +20,317 @@ be stored to PostgreSQL, or files, or R datasets, or JSON, etc. DataSource with 
 and for writing.
 
 """
-import varenginemodel
 import numpy
+import base.PostgreSQL.PostgreSQLModel as PostgreSQLModel
+import common.arrayops as arrayops
+import maplex as maplex
+from psycopg2 import ProgrammingError
+import copy
 
 
-class DataCache(object):
-    """Data cache on Numpy ndarrays. Creates an 2 dimensional xy array with codes in
-    Y, time in X, indexed with two lists of codes and times (years).
-    TODO: restricted to year. Expand to time slice with Maplex."""
-    data = None
-    codeIndex = None
-    timeIndex = None
+class DataSource(object):
+    """DataSource base."""
+    id = None
+    dataSets = None
 
-    def __init__(self, variable):
-        """Adds a variable to the cache. Variable is """
-        data = variable.getData()
-        years = variable.getVariableYears()
-        codes = variable.getVariableCodes()
-        a = numpy.empty((len(years), len(codes)), float)
-        a[:] = numpy.NaN
-        for y in years:
-            for c in codes:
-                fData = [i for i in data if i["code"]==c and i["year"]==y]
-                a[years.index(y),codes.index(c)]=fData[0]["value"] if fData<>[] else numpy.NaN
-        self.data = a
-        self.codeIndex = codes
-        self.timeIndex = years
+    def __init__(self, id):
+        """Initializator."""
+        self.id = id
+        self.dataSets = dict()
 
+    def __str__(self):
+        return(self.id)
+        
     def getData(self, code=None, year=None):
-        """Retrieves a data, either sliced by year of by code.
-        TODO: restricted to years."""
-        if code and not year:
-            if code not in self.codeIndex:
-                return([None])
-            a = self.data[0:,self.codeIndex.index(code)]
-            val = {self.timeIndex[i]: a[i] for i in range(0, len(self.timeIndex))}
-            return[{"code": code, "value": v, "year": k} for (k,v) in val.iteritems()]
-        if year and not code:
-            if year not in self.timeIndex:
-                return([None])
-            a = self.data[self.timeIndex.index(year),0:]
-            val = {self.codeIndex[i]: a[i] for i in range(0, len(self.codeIndex))}
-            return[{"code": k, "value": v, "year": year} for (k,v) in val.iteritems()]
-        if year and code:
-            if code not in self.codeIndex or year not in self.timeIndex:
-                return([None])
-            d = dict()
-            d["year"]=year
-            d["code"]=code
-            d["value"]=self.data[self.timeIndex.index(year),self.codeIndex.index(code)]
-            return([d])
+        """Returns all data in all datasets."""
+        raise NotImplementedError("DataSource getData not implemented.")
 
-        out = []
-        for c in self.codeIndex:
-            for y in self.timeIndex:
-                d = dict()
-                d["year"]=y
-                d["code"]=c
-                d["value"]=self.data[self.timeIndex.index(y),self.codeIndex.index(c)]
-                out.append(d)
-        return(out)
 
-                    
-class Dataset(object):
-    """varengine Dataset class. Manages families of variables.
-    TODO: delete cascade dataset."""
-    idDataset = None
+
+class DataStore(DataSource):
+    """Base class for a data store driver."""
+    def __init__(self, id):
+        """Initializator."""
+        DataSource.__init__(self, id)
+    
+    def __str__(self):
+        """String representation."""
+        return(self.id)
+
+    # def registerDataset(self, key, dataset):
+    #     """Registers a dataset in the DataStore."""
+    #     self.datasets[key] = dataset
+
+
+
+class DataStorePostgreSql(DataStore, PostgreSQLModel.PostgreSQLModel):
+    """DataStore for PostgreSQL.
+    TODO: inheriting PostgreSQLModel directly. Check other possibilities."""
+    schema = None
+
+    def __init__(self, id, schema):
+        """Initializator."""
+        DataStore.__init__(self, id)
+        PostgreSQLModel.PostgreSQLModel.__init__(self)
+        self.schema = schema
+
+    def registerDataSet(self, dataSet):
+        """Registers a DataSet in the DataStore.
+        TODO: PostgreSQL exceptions."""
+        sql = """
+        insert into {}.dataset values(%s);
+        """.format(self.schema)
+        self.queryCommit(sql, bindings=[dataSet.id])
+
+        for i,v in dataSet.variables.iteritems():
+            sql = """
+            insert into {}.variable
+            values(%s, %s, %s, %s);""".format(self.schema)
+            self.queryCommit(sql, bindings=[v.dataSet.id, v.id, v.continuous,
+                                            v.defaultDataType])
+        return(self)
+
+    def remove(self):
+        """Removes the DataStore from database.
+        TODO: PostgreSQL exceptions."""
+        sql = """
+        drop schema {} cascade;
+        """.format(self.schema)
+        self.queryCommit(sql)
+        return(self)
+
+    def setup(self):
+        """Set ups the database structure.
+        TODO: check ownership of this when a proper PostgreSQL connection
+        is in place."""
+        sql = """
+        create schema {};
+
+        create table {}.dataset(
+        id_dataset varchar(250)
+        );
+        
+        alter table {}.dataset
+        add constraint family_pkey
+        primary key (id_dataset);
+
+        create table {}.variable(
+        id_dataset varchar(250),
+        id_variable varchar(250),
+        continuous boolean,
+        dataType varchar(25)    
+        );
+
+        alter table {}.variable
+        add constraint variable_pkey
+        primary key (id_variable, id_dataset);
+
+        alter table {}.variable
+        add constraint variable_dataset_fkey
+        foreign key (id_dataset) references {}.dataset(id_dataset);
+        """.format(self.schema, self.schema, self.schema, self.schema, self.schema, 
+                   self.schema, self.schema)
+
+        try:
+            self.queryCommit(sql)
+        except ProgrammingError as e:
+            raise VarEngineDataStorePostgreSqlException("PostgreSQL error: "+str(e))
+
+
+
+class DataCache(DataSource):
+    """Base class for a data cache driver."""
+    def __init__(self, id):
+        """Initializator."""
+        DataSource.__init__(self, id)
+
+
+
+class DataCacheNumpy(DataCache):
+    """Numpy DataCache."""
+    def __init__(self, id):
+        """Initializator."""
+        DataCache.__init__(self, id)
+
+
+
+class DataSet(object):
+    """Dataset."""
+    id = None
     variables = None
 
-    def __init__(self, idDataset):
-        """Constructor."""
-        self.idDataset = idDataset
+    def __init__(self, id):
+        """Initializator."""
+        self.id = id
         self.variables = dict()
 
     def __str__(self):
-        """String representation."""
-        return(self.idDataset)
+        return(self.id)
 
-    def createVariable(self, idVariable, continuous, dataType):
-        """Creates and registers a variable in this dataset. Returns Variable object."""
-        self.variables[idVariable] = Variable(self, idVariable, continuous, dataType)
-        return(self.variables[idVariable])
+    def registerVariable(self, variable):
+        self.variables[variable.id] = variable
+        return(variable)
 
-    def registerInDatabase(self):
-        """Stores the dataset in the database.
-        TODO: update existing dataset."""
-        m = varenginemodel.VarEngineModel()
-        return(m.registerDataset(self))
-
-    def loadFromDatabase(self):
-        """Reads dataset data from the database."""
-        m = varenginemodel.VarEngineModel()
-        data = m.loadVariablesForDataset(self)
-        for i in data:
-            self.variables[i["id_variable"]] = Variable(self, i["id_variable"], 
-                                                        i["continuous"], i["datatype"])
 
 
 class Variable(object):
-    """varengine Variable class. Manages variable data. Should not be created alone.
-    Generate variables from dataset."""
-    dataset = None
-    idVariable = None
-    continuous = None
-    dataType = None
-    cache = None
+    """Variable. This is a mix of variable metadata and a data structure. Currently is 
+    restricted to years. Data structure is:
 
-    def __init__(self, dataset, idVariable, continuous, dataType):
-        self.dataset = dataset
-        self.idVariable = idVariable
+    {
+    "CodeYear": {
+    "code": code,
+    "type": type,
+    "value": value,
+    "year": year}
+    }"""
+    id = None
+    dataSet = None
+    continuous = None
+    defaultDataType = None
+    data = None
+
+    def __init__(self, id, continuous, defaultDataType, dataSet=None):
+        """Initializator."""
+        self.id = id
+        self.dataSet = dataSet
         self.continuous = continuous
-        self.dataType = dataType
+        self.defaultDataType = defaultDataType
+        self.data = dict()
+        self.codeIndex = []
+        self.yearIndex = []
+        if self.dataSet:
+            self.dataSet.registerVariable(self)
+
+    def __str__(self):
+        return(self.id)
+
+    def loadFromDataInterface(self, dataInterface, variable):
+        """Load that from a DataInterface.
+        TODO: constricted to years"""
+        self.data = copy.deepcopy(dataInterface.data[variable])
+        for k,v in dataInterface.data[variable].iteritems():
+            self.data[k]["type"] = self.defaultDataType
+            self.data[k]["year"] = v["year"]
+
+    def addValue(self, code, year, dataType, value):
+        """Adds a value. TODO: restricted to years."""
+        self.data[code+str(year)] = {
+            "code": code, 
+            "year": year, 
+            "type": dataType, 
+            "value": str(value)
+        }
+
+    ###HERE
+    def getData(self, code=None, year=None):
+        """Get data from variable.
+        TODO: restricted to years. TODO: Type management can be more sophisticated. Create
+        datatype classes and try to pickle it."""
+        if code and year:
+            a = {code+str(year): {k: v for (k,v) in self.data[code+str(year)].iteritems()}}
+            return(self.__processData(a[a.keys()[0]]))
+        if code:
+            return({k: v for (k,v) in self.data.iteritems() if code in k})
+        if year:
+            return({k: v for (k,v) in self.data.iteritems() if str(year) in k})
+        return(__processData(self.data))
+    
+    ###HERE end the blockfunc call. Don't forget to change the datatype in the variable data
+    # once the function has been executed.
+
+    def __processData(self, data):
+        print data
+        if "blockfunc::" in data["type"]:
+            module, function = data["type"][data["type"].find("::")+2:].split(".")
+            print module, function
+            m = __import__(module)
+            
+        if data["type"]=="float":
+            data["value"] = float(data["value"])
+            return(data)
+            
+
+
+class DataInterface(object):
+    """Data interface base class."""
+    def __init__(self):
+        """Initializator."""
+
+
+
+class DataInterfacePostgreSql(DataInterface, PostgreSQLModel.PostgreSQLModel):
+    """Data interface for PostgreSQL."""
+    cursor = None
+    data = None
+
+    def __init__(self):
+        """Initializator. TODO: create a custom connection."""
+        PostgreSQLModel.PostgreSQLModel.__init__(self)
+        self.cursor = None
+        self.data = dict()
+
+    def readAll(self, table, codeColumn, dateInColumn, dateOutColumn):
+        """Reads all data from a table.
+        TODO: make it with a cursor.
+        TODO: restricted to years."""
+        sql = """
+        select *
+        from {};
+        """.format(table)
+        query = self.query(sql).result()
+        variables = arrayops.arraySubstraction(query[0].keys(), [codeColumn, dateInColumn, dateOutColumn])
+        for i in variables:
+            variable = dict()
+            for a in query:
+                d = {
+                    "code": a[codeColumn], 
+                    "year": a[dateInColumn].year,
+                    "value": a[i]
+                }
+                variable[str(d["code"])+str(d["year"])] = d
+            self.data[i] = variable
+
+    def read(self, table, codeColumn, dateInColumn, dateOutColumn, valueColumn):
+        """Reads all data from a column of a PostgreSQL table.
+        TODO: restricted to years."""
+        sql = """
+        select 
+        {} as code,
+        {} as date_in,
+        {} as date_out,
+        {} as value
+        from {};
+        """.format(codeColumn, dateInColumn, dateOutColumn, valueColumn, table)
+        query = self.query(sql).result()
+        variable = {}
+        for a in query:
+            d = {
+                "code": a["code"], 
+                "year": a["date_in"].year,
+                "value": a["value"]
+            }
+            variable[str(d["code"])+str(d["year"])] = d
+
+        self.data[valueColumn] = variable
+
+
+
+class VarEngineException(Exception):
+    """Generic VarEngineException."""
+    def __init__(self, value):
+        self.value = value
     
     def __str__(self):
-        """String representation."""
-        return("Dataset: "+self.dataset.idDataset+", Variable: "+self.idVariable)
+        return repr(self.value)
 
-    def createVariableTable(self):
-        """Creates the table in the database for variable data."""
-        m = varenginemodel.VarEngineModel()
-        return(m.createVariableTable(self))
 
-    def registerInDatabase(self):
-        """Registers variable in the database."""
-        m = varenginemodel.VarEngineModel()
-        return(m.registerVariable(self))
 
-    def tableName(self):
-        """Returns variable table name."""
-        return(self.dataset.idDataset+"_"+self.idVariable)
+class VarEngineDataStorePostgreSqlException(VarEngineException):
+    """Generic exception for PostgreSQL DataStore."""
+    def __init__(self, value):
+        VarEngineException.__init__(self, value)
 
-    def getVariableYears(self):
-        """Returns years present in a variable. TODO: make it generic."""
-        if self.cache:
-            return(self.cache.timeIndex)
-        else:
-            return(list(set([int(i["year"]) for i in self.getData()])))
-    
-    def getVariableCodes(self):
-        """Returns codes present in a variable."""
-        if self.cache:
-            return(self.cache.codeIndex)
-        else:
-            return(list(set([i["code"] for i in self.getData()])))
+    def __str__(self):
+        return repr(self.value)
 
-    def getData(self, code=None, year=None):
-        """Returns available codes for variable idVariable. TODO: This isn't correct, since in
-        the original data not all codes may have a value for the given year. Nulls are only
-        well handle with cache."""
-        if self.cache:
-            return(self.cache.getData(code=code, year=year))
-        else:
-            m = varenginemodel.VarEngineModel()
-            return(m.getData(self, year, code))
-    
-    def populateFromTable(self, sourceTable, dateInColumn, dateOutColumn, 
-                          codeColumn, valueColumn):
-        """Populates the variable table from another table.
-        TODO: currently, the table must be in the same database. Make it responsive to a PostgreSQL
-        connection to get data elsewhere.
-        Create also a version in which dateInColumn and dateOutColumn are not columns, but a timelapse."""
-        m = varenginemodel.VarEngineModel()
-        return(m.populateFromTable(self, sourceTable, dateInColumn, dateOutColumn, codeColumn,
-                                         valueColumn))
-
-    def cacheData(self, cacheWrapperFunc=None):
-        """Creates a cache with variable data. Returns the cache."""
-        if cacheWrapperFunc:
-            self.cache = cacheWrapperFunc(DataCache, self)
-        else:
-            self.cache = DataCache(self)
-        return(self.cache)

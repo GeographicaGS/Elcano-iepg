@@ -5,12 +5,14 @@
 Block processing functions.
 
 """
+# import common.helpers as helpers
+# import common.datacache as datacache
 
-###HERE: pass data and process it
+###HERE: pass data and process it. Rewrite datacache and process here.
 def blockFunctionLumpSum(data):
     """Gets a list with values of a variable and returns the lump
     sum of the values. Returns an integer which is the lump sum."""
-    print("blockfunc: "+data)
+    print("blockfunc: "+str(data))
     # s = 0
     # for i in value:
     #     s+=i["value"]

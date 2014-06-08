@@ -35,10 +35,10 @@ dataSet = e.DataSet("dataset")
 variable = e.Variable("variable", True, "float", dataSet=dataSet)
 variable.loadFromDataInterface(dataInterface, "energy")
 dataStore.registerDataSet(dataSet)
-variable.addValue("XBAP", "1990", "blockfunc::blockfunctions.blockFunctionLumpSum", None)
-variable.addValue("XBAP", "1995", "blockfunc::blockfunctions.blockFunctionLumpSum", None)
-variable.addValue("XBAP", "2000", "blockfunc::blockfunctions.blockFunctionLumpSum", None)
-variable.addValue("XBAP", "2005", "blockfunc::blockfunctions.blockFunctionLumpSum", None)
+variable.addValue("XBAP", "1990", "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
+variable.addValue("XBAP", "1995", "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
+variable.addValue("XBAP", "2000", "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
+variable.addValue("XBAP", "2005", "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
 
 
 

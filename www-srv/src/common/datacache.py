@@ -17,7 +17,7 @@ import arrayops
 variables = dict()
 
 for fam in const.variableNames.keys():
-    ds = varengine.Dataset(fam)
+    ds = varengine.DataSet(fam)
     ds.loadFromDatabase()
     for k,var in ds.variables.iteritems():
         var.cacheData(cacheWrapperFunc=cachewrapper.cacheWrapper)

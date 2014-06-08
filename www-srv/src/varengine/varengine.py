@@ -26,6 +26,7 @@ import common.arrayops as arrayops
 import maplex as maplex
 from psycopg2 import ProgrammingError
 import copy
+import importlib
 
 
 class DataSource(object):
@@ -240,14 +241,18 @@ class Variable(object):
     # once the function has been executed.
 
     def __processData(self, data):
-        print data
+        """Process data, without changing them."""
         if "blockfunc::" in data["type"]:
-            module, function = data["type"][data["type"].find("::")+2:].split(".")
-            print module, function
-            m = __import__(module)
+            module, function = data["type"][data["type"].find("::")+2:].rsplit(".",1)
+            mod = importlib.import_module(module)
+            func = getattr(mod, function)
+            data["value"] = func(data)
+            data["type"] = self.defaultDataType
+            return(data)
             
         if data["type"]=="float":
             data["value"] = float(data["value"])
+            data["type"] = self.defaultDataType
             return(data)
             
 

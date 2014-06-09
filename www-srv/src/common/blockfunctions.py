@@ -12,8 +12,7 @@ Block processing functions.
 def blockFunctionLumpSum(data):
     """Gets a list with values of a variable and returns the lump
     sum of the values. Returns an integer which is the lump sum."""
-    print("blockfunc: "+str(data))
     # s = 0
     # for i in value:
     #     s+=i["value"]
-    return(3)
+    return(float(3))

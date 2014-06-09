@@ -21,16 +21,17 @@ and for writing.
 
 """
 import numpy
+import copy
 import base.PostgreSQL.PostgreSQLModel as PostgreSQLModel
 import common.arrayops as arrayops
 import maplex as maplex
 from psycopg2 import ProgrammingError
-import copy
 import importlib
 
 
-class DataSource(object):
-    """DataSource base."""
+
+class DataStore(object):
+    """Base class for a data store driver."""
     id = None
     dataSets = None
 
@@ -38,29 +39,10 @@ class DataSource(object):
         """Initializator."""
         self.id = id
         self.dataSets = dict()
-
-    def __str__(self):
-        return(self.id)
-        
-    def getData(self, code=None, year=None):
-        """Returns all data in all datasets."""
-        raise NotImplementedError("DataSource getData not implemented.")
-
-
-
-class DataStore(DataSource):
-    """Base class for a data store driver."""
-    def __init__(self, id):
-        """Initializator."""
-        DataSource.__init__(self, id)
     
     def __str__(self):
         """String representation."""
         return(self.id)
-
-    # def registerDataset(self, key, dataset):
-    #     """Registers a dataset in the DataStore."""
-    #     self.datasets[key] = dataset
 
 
 
@@ -74,6 +56,29 @@ class DataStorePostgreSql(DataStore, PostgreSQLModel.PostgreSQLModel):
         DataStore.__init__(self, id)
         PostgreSQLModel.PostgreSQLModel.__init__(self)
         self.schema = schema
+
+    def createDataSet(self, dataSetName):
+        """Creates a new DataSet."""
+        sql = """
+        insert into {}.dataset
+        values(%s);
+        """.format(self.schema)
+        self.queryCommit(sql, bindings=[dataSetName])
+        self.dataSets[dataSetName] = DataSet(dataSetName)
+
+    def createVariable(self, dataSet, variableName, continuous, dataType):
+        """Creates a new variable."""
+        sql = """
+        insert into {}.variable
+        values(%s,%s,%s,%s);
+        """.format(self.schema)
+        self.queryCommit(sql, bindings=[dataSet, variableName, continuous, dataType])
+        var = Variable(id, continuous, dataType, dataSet=self.dataSets[dataSet])
+
+    ###HERE, create a function to get a DataInterface and populate variables based on it's name by default
+    # from DataInterface data. Optionally, create a map for DataInterfaceName>VariableName. Don't load
+    # data into variables, left them unloaded. Write to the DataStore < as an option.
+    def loadFromDataInterface(self, dataSet
 
     def registerDataSet(self, dataSet):
         """Registers a DataSet in the DataStore.
@@ -89,7 +94,52 @@ class DataStorePostgreSql(DataStore, PostgreSQLModel.PostgreSQLModel):
             values(%s, %s, %s, %s);""".format(self.schema)
             self.queryCommit(sql, bindings=[v.dataSet.id, v.id, v.continuous,
                                             v.defaultDataType])
+
+        # TODO: use COPY
+        # (http://stackoverflow.com/questions/1869973/recreating-postgres-copy-directly-in-python)
+        for i,j in dataSet.variables.iteritems():
+            self.__createVariableTable(j.id)
+            for k,v in j.data.iteritems():
+                sql = """
+                insert into {}.{}
+                values(%s, %s, %s, %s);""".format(self.schema, j.id)
+                self.queryCommit(sql, bindings=[v["code"], v["type"], v["value"], v["year"]])
         return(self)
+
+    # def getVariableData(self, dataSet, 
+
+    def getDataSetNames(self):
+        """Returns DataSet names."""
+        sql = """
+        select * from {}.dataset;
+        """.format(self.schema)
+        return([v["id_dataset"] for v in self.query(sql).result()])
+
+    def getVariables(self, dataSetName):
+        """Returns variables of the given DataSet."""
+        sql = """
+        select * from {}.variable;
+        """.format(self.schema)
+        out = []
+        for v in self.query(sql).result():
+            var = Variable(v["id_variable"], v["continuous"], v["datatype"])
+            out.append(var)
+        return(out)
+
+    def getDataSet(self, dataSetName):
+        """Returns a DataSet with all variables loaded."""
+        ds = DataSet(dataSetName)
+
+    def __createVariableTable(self, name):
+        """Creates a table for a variable. TODO: restricted to years."""
+        sql = """
+        create table {}.{}(
+        code varchar(250),
+        type varchar(250),
+        value varchar(500),
+        year integer);
+        """.format(self.schema, name)
+        self.queryCommit(sql)
 
     def remove(self):
         """Removes the DataStore from database.
@@ -131,7 +181,6 @@ class DataStorePostgreSql(DataStore, PostgreSQLModel.PostgreSQLModel):
         foreign key (id_dataset) references {}.dataset(id_dataset);
         """.format(self.schema, self.schema, self.schema, self.schema, self.schema, 
                    self.schema, self.schema)
-
         try:
             self.queryCommit(sql)
         except ProgrammingError as e:
@@ -139,19 +188,96 @@ class DataStorePostgreSql(DataStore, PostgreSQLModel.PostgreSQLModel):
 
 
 
-class DataCache(DataSource):
+class DataCache(object):
     """Base class for a data cache driver."""
+    id = None
+    data = None
+    dataType = None
+
     def __init__(self, id):
         """Initializator."""
-        DataSource.__init__(self, id)
+        self.id = id
+        self.data = None
+        self.dataType = None
 
 
 
 class DataCacheNumpy(DataCache):
-    """Numpy DataCache."""
+    """Numpy DataCache. Data cache on Numpy ndarrays. Creates an 2 dimensional xy array with codes in
+    Y, time in X, indexed with two lists of codes and times (years).
+    TODO: restricted to year. Expand to time slice with Maplex."""
+    codeIndex = None
+    timeIndex = None
+
     def __init__(self, id):
         """Initializator."""
         DataCache.__init__(self, id)
+        codeIndex = None
+        timeIndex = None
+
+    def cacheData(self, variable):
+        """Gets the data from the variable and caches them."""
+        varData = variable.getData()
+        self.dataType = variable.defaultDataType
+        years = variable.getVariableYears()
+        codes = variable.getVariableCodes()
+        a = numpy.empty((len(years), len(codes)), float)
+        a[:] = numpy.NaN
+        for y in years:
+            for c in codes:
+                fData = [v for (k,v) in varData.iteritems() if v["code"]==c and v["year"]==y]
+                a[years.index(y),codes.index(c)]=fData[0]["value"] if fData<>[] else None
+        self.data = a
+        self.codeIndex = codes
+        self.timeIndex = years
+
+    def getData(self, code=None, year=None):
+        """Retrieves a data, either sliced by year of by code.
+        TODO: restricted to years."""
+        if code and not year:
+            if code not in self.codeIndex:
+                return([None])
+            a = self.data[0:,self.codeIndex.index(code)]
+            v = {code+str(self.timeIndex[int(i)]): 
+                 {"code": code,
+                  "type": self.dataType,
+                  "value": a[i] if not numpy.isnan(a[i]) else None,
+                  "year": self.timeIndex[int(i)]}
+                 for i in range(0, len(self.timeIndex))}
+            return(v)
+        if year and not code:
+            if year not in self.timeIndex:
+                return([None])
+            a = self.data[self.timeIndex.index(year),0:]
+            v = {self.codeIndex[i]+str(year):
+                 {"code": self.codeIndex[i],
+                  "type": self.dataType,
+                  "value": a[i] if not numpy.isnan(a[i]) else None,
+                  "year": year}
+                 for i in range(0, len(self.codeIndex))}
+            return(v)
+        if year and code:
+            if code not in self.codeIndex or year not in self.timeIndex:
+                return([None])
+            d = dict()
+            d["year"]=year
+            d["code"]=code
+            d["type"]=self.dataType
+            v =self.data[self.timeIndex.index(year),self.codeIndex.index(code)]
+            d["value"] = v if not numpy.isnan(v) else None
+            return({code+str(year): d})
+
+        out = {}
+        for c in self.codeIndex:
+            for y in self.timeIndex:
+                d = dict()
+                d["year"]=y
+                d["code"]=c
+                d["type"]=self.dataType
+                v =self.data[self.timeIndex.index(y),self.codeIndex.index(c)]
+                d["value"] = v if not numpy.isnan(v) else None
+                out[c+str(y)] = d
+        return(out)
 
 
 
@@ -179,7 +305,7 @@ class Variable(object):
     restricted to years. Data structure is:
 
     {
-    "CodeYear": {
+    "Code+Year": {
     "code": code,
     "type": type,
     "value": value,
@@ -200,6 +326,7 @@ class Variable(object):
         self.data = dict()
         self.codeIndex = []
         self.yearIndex = []
+        self.cache = None
         if self.dataSet:
             self.dataSet.registerVariable(self)
 
@@ -207,12 +334,16 @@ class Variable(object):
         return(self.id)
 
     def loadFromDataInterface(self, dataInterface, variable):
-        """Load that from a DataInterface.
+        """Load that from a DataInterface. Erases any data in variable data.
         TODO: constricted to years"""
         self.data = copy.deepcopy(dataInterface.data[variable])
         for k,v in dataInterface.data[variable].iteritems():
             self.data[k]["type"] = self.defaultDataType
             self.data[k]["year"] = v["year"]
+
+    def loadFromDataStore(self, dataStore, dataSet, variable):
+        """Loads from a DataStore. Erases any data in variable data."""
+        # self.data = 
 
     def addValue(self, code, year, dataType, value):
         """Adds a value. TODO: restricted to years."""
@@ -223,51 +354,74 @@ class Variable(object):
             "value": str(value)
         }
 
-    ###HERE
+    def getVariableYears(self):
+        """Returns years in the variable. TODO: Restricted to years."""
+        return(list(set([v["year"] for (k,v) in self.data.iteritems()])))
+
+    def getVariableCodes(self):
+        """Returns codes in the variable."""
+        return(list(set([v["code"] for (k,v) in self.data.iteritems()])))
+
     def getData(self, code=None, year=None):
         """Get data from variable.
         TODO: restricted to years. TODO: Type management can be more sophisticated. Create
         datatype classes and try to pickle it."""
         if code and year:
-            a = {code+str(year): {k: v for (k,v) in self.data[code+str(year)].iteritems()}}
-            return(self.__processData(a[a.keys()[0]]))
+            try:
+                return({code+str(year): self.__processData(self.data[code+str(year)])})
+            except:
+                return({code+str(year): {"code": code, "type": self.defaultDataType,
+                                         "value": None, "year": year}})
         if code:
-            return({k: v for (k,v) in self.data.iteritems() if code in k})
+            try: 
+                return({k: self.__processData(v) for (k,v) in self.data.iteritems() if code in k})
+            except:
+                return({code+str(year): {"code": code, "type": self.defaultDataType,
+                                         "value": None, "year": year}})
         if year:
-            return({k: v for (k,v) in self.data.iteritems() if str(year) in k})
-        return(__processData(self.data))
+            try:
+                return({k: self.__processData(v) for (k,v) in self.data.iteritems() if str(year) in k})
+            except:
+                return({code+str(year): {"code": code, "type": self.defaultDataType,
+                                         "value": None, "year": year}})
+        return({k: self.__processData(v) for (k,v) in self.data.iteritems()})
     
-    ###HERE end the blockfunc call. Don't forget to change the datatype in the variable data
-    # once the function has been executed.
-
     def __processData(self, data):
         """Process data, without changing them."""
         if "blockfunc::" in data["type"]:
-            module, function = data["type"][data["type"].find("::")+2:].rsplit(".",1)
+            d = copy.deepcopy(data)
+            module, function = d["type"][d["type"].find("::")+2:].rsplit(".",1)
             mod = importlib.import_module(module)
             func = getattr(mod, function)
-            data["value"] = func(data)
-            data["type"] = self.defaultDataType
-            return(data)
+            d["value"] = func(d)
+            d["type"] = self.defaultDataType
+            return(d)
             
         if data["type"]=="float":
-            data["value"] = float(data["value"])
-            data["type"] = self.defaultDataType
-            return(data)
+            d = copy.deepcopy(data)
+            d["value"] = float(d["value"])
+            d["type"] = self.defaultDataType
+            return(d)
             
 
 
 class DataInterface(object):
     """Data interface base class."""
+    data = None
+
     def __init__(self):
         """Initializator."""
+        self.data = None
 
+    def clearData(self):
+        """Clears data from the DataInterface."""
+        self.data = None
 
+        
 
 class DataInterfacePostgreSql(DataInterface, PostgreSQLModel.PostgreSQLModel):
     """Data interface for PostgreSQL."""
     cursor = None
-    data = None
 
     def __init__(self):
         """Initializator. TODO: create a custom connection."""
@@ -295,6 +449,7 @@ class DataInterfacePostgreSql(DataInterface, PostgreSQLModel.PostgreSQLModel):
                 }
                 variable[str(d["code"])+str(d["year"])] = d
             self.data[i] = variable
+        print self.data
 
     def read(self, table, codeColumn, dateInColumn, dateOutColumn, valueColumn):
         """Reads all data from a column of a PostgreSQL table.

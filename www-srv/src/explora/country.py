@@ -76,37 +76,52 @@ def countrySheet(lang, family, countryCode):
     print
     print
 
-    famData = datacache.dataSets[family].getData(code=countryCode)
-    conData = datacache.dataSets["context"].getData(code=countryCode)
-
-    print "famData : "+str(famData)
-    print
-    print
-    print "conData : "+str(conData)
-    print
-    print
+    # famData = datacache.dataSets[family].getData(code=countryCode)
+    # conData = datacache.dataSets["context"].getData(code=countryCode)
 
     ###HERE
+    try:
+        out = dict()
+        # Iterate through the years involved in the variable
+        for year in const.years:
+            famData = datacache.dataSets[family].getData(code=countryCode, year=year)
+            print famData
+            print
+            print
 
+            for k,v in famData.iteritems():
+                a = v.values()[0]
+                d = {
+                    "code": a["code"],
+                    "value": a["value"],
+                    "variable": k,
+                    "year": year
+                }
 
-    
+                # Check if countryCode is a block. If it is, substract its members from countries
+                if countryCode in datacache.blocks:
+                    c = arrayops.arraySubstraction(countries, 
+                                                   cacheWrapper(common.helpers.getBlockMembers,
+                                                                countryCode, year))
+                    c.append(countryCode)
+                else:
+                    c = countries
+                    
+                print c
+                ###HERE > rewrite ranking methods
+                d["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
+                                                  year, var,countryCode)
+                d["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
+                                                    var, countryCode)
 
-    # try:
-    #     out = dict()
-    #     # Iterate through the years involved in the variable
-    #     for year in const.years:
-    #         print year
-    #         yearData = dict()
-    #         # Check if countryCode is a block. If it is, substract its members from countries
-    #         if countryCode in datacache.blocks:
-    #             c = arrayops.arraySubstraction(countries, 
-    #                                            cacheWrapper(common.helpers.getBlockMembers,
-    #                                                         countryCode, year))
-    #             c.append(countryCode)
-    #         else:
-    #             c = countries
+                print d
+                print
                 
-    #         print c
+
+                
+            
+
+
 
         # for var in familyVar:
         #     data = dict()

@@ -86,31 +86,7 @@ def getData(variable, code=None, year=None, countryList=None):
     are returned. countryList can mix calculated and uncalculated codes. If code is not None,
     countryList is ignored."""
     if countryList:
-        values = []
-        for i in countryList:
-            values.extend(getData(variable, code=i, year=year))
-        return(values)
-
-    # Try to get data if it exists in data
-    v = variable.getData(code=code, year=year)
-    if v[0]:
-        out = v
-    else:
-        # It must be a block that has to be precalculated
-        if code in datacache.blocks:
-            if year:
-                va = dict()
-                members = getBlockMembers(code, year)
-                values = [i for i in variable.getData(year=year) if i["code"] in members]
-                va["code"]=code
-                va["year"]=year
-                va["value"] = const.blockFunctCalcFamilies[variable.dataset.idDataset](values)
-                out = [va]
-            else:
-                v = []
-                for y in variable.getVariableYears():
-                    v.extend(getData(variable, code=code, year=y))
-                out = v
-        else:
-            out = [None]
-    return(out)
+        return({u.keys()[0]: u.values()[0] for u 
+                in [getData(variable, code=i, year=year) 
+                    for i in countryList]})
+    return(variable.getData(code=code, year=year))

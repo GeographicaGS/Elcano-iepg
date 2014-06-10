@@ -19,21 +19,8 @@ frontend = {
 }
 
 lang = ["en", "es"]
-precalculatedBlocks = ["XBEU"]
-# variableDatasets = ["iepg", "iepe", "context"]
 
-# Calculation methods for variable families
-blockFunctCalcFamilies = {
-    'iepg': blockfunctions.blockFunctionLumpSum,
-    'iepe': blockfunctions.blockFunctionLumpSum,
-    'context': blockfunctions.blockFunctionLumpSum,
-    'iepe_individual_contribution': blockfunctions.blockFunctionLumpSum,
-    'iepe_quota': blockfunctions.blockFunctionLumpSum,
-    'iepe_relative_contribution': blockfunctions.blockFunctionLumpSum,
-    'iepg_individual_contribution': blockfunctions.blockFunctionLumpSum,
-    'iepg_quota': blockfunctions.blockFunctionLumpSum,
-    'iepg_relative_contribution': blockfunctions.blockFunctionLumpSum,
-}
+years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]
 
 variableNames = {
     "iepg": {
@@ -202,7 +189,7 @@ variableNames = {
     },
     "context": {
         "gdp": {
-            "column": "gdp",
+            "column": "pib",
             "name_en": "GDP",
             "name_es": "PIB"},
         "population": {

@@ -12,6 +12,9 @@ in a family more than one name for the same geoentity.
 
 Combine Maplex and Engine?
 
+Create DataSets and variables at an abstract level. At DataSet level, pass a DataInterface to
+load source data from it, and a DataStore to store and load DataSet information for it.3
+
 TODO: Create a class in Elcano to store long lasting dictionaries and translation tables coming from the 
 database to retrieve them easily
 
@@ -30,15 +33,21 @@ import importlib
 
 
 
-class DataStore(object):
-    """Base class for a data store driver."""
+class DataSource(object):
+    """Base class for a DataSource."""
     id = None
-    dataSets = None
 
     def __init__(self, id):
         """Initializator."""
         self.id = id
-        self.dataSets = dict()
+
+
+
+class DataStore(DataSource):
+    """Base class for a data store driver."""
+    def __init__(self, id):
+        """Initializator."""
+        DataSource.__init__(self, id)
     
     def __str__(self):
         """String representation."""
@@ -56,29 +65,6 @@ class DataStorePostgreSql(DataStore, PostgreSQLModel.PostgreSQLModel):
         DataStore.__init__(self, id)
         PostgreSQLModel.PostgreSQLModel.__init__(self)
         self.schema = schema
-
-    def createDataSet(self, dataSetName):
-        """Creates a new DataSet."""
-        sql = """
-        insert into {}.dataset
-        values(%s);
-        """.format(self.schema)
-        self.queryCommit(sql, bindings=[dataSetName])
-        self.dataSets[dataSetName] = DataSet(dataSetName)
-
-    def createVariable(self, dataSet, variableName, continuous, dataType):
-        """Creates a new variable."""
-        sql = """
-        insert into {}.variable
-        values(%s,%s,%s,%s);
-        """.format(self.schema)
-        self.queryCommit(sql, bindings=[dataSet, variableName, continuous, dataType])
-        var = Variable(id, continuous, dataType, dataSet=self.dataSets[dataSet])
-
-    ###HERE, create a function to get a DataInterface and populate variables based on it's name by default
-    # from DataInterface data. Optionally, create a map for DataInterfaceName>VariableName. Don't load
-    # data into variables, left them unloaded. Write to the DataStore < as an option.
-    def loadFromDataInterface(self, dataSet
 
     def registerDataSet(self, dataSet):
         """Registers a DataSet in the DataStore.
@@ -105,8 +91,6 @@ class DataStorePostgreSql(DataStore, PostgreSQLModel.PostgreSQLModel):
                 values(%s, %s, %s, %s);""".format(self.schema, j.id)
                 self.queryCommit(sql, bindings=[v["code"], v["type"], v["value"], v["year"]])
         return(self)
-
-    # def getVariableData(self, dataSet, 
 
     def getDataSetNames(self):
         """Returns DataSet names."""
@@ -294,9 +278,26 @@ class DataSet(object):
     def __str__(self):
         return(self.id)
 
+    def getData(self, variableName=None, code=None, year=None):
+        """Returns data."""
+        if variableName:
+            return(self.variables[variableName].getData(code=code, year=year))
+        else:
+            return({k: v.getData(code=code, year=year) for (k,v) in self.variables.iteritems()})
+
     def registerVariable(self, variable):
         self.variables[variable.id] = variable
         return(variable)
+
+    def loadVariableDataFromDataInterface(self, dataInterface, variable=None, mapping=None):
+        """Loads data from DataInterface into variables in the DataSet. Name to name matching.
+        Erases variable data. TODO: create a mapping between DataInterface names and variable names.
+        Variable (not implemented) designates the variable to load."""
+        for k,v in self.variables.iteritems():
+            if mapping:
+                v.loadFromDataInterface(dataInterface, mapping[v.id])
+            else:
+                v.loadFromDataInterface(dataInterface, v.id)
 
 
 
@@ -316,6 +317,7 @@ class Variable(object):
     continuous = None
     defaultDataType = None
     data = None
+    cache = None
 
     def __init__(self, id, continuous, defaultDataType, dataSet=None):
         """Initializator."""
@@ -330,8 +332,20 @@ class Variable(object):
         if self.dataSet:
             self.dataSet.registerVariable(self)
 
+    def setupCache(self, cacheType):
+        """Set ups a cache of cacheType type."""
+        self.cache=cacheType(self.id)
+        
+    def cacheData(self):
+        """Populates the cache with variable data."""
+        self.cache.cacheData(self)
+
     def __str__(self):
         return(self.id)
+
+    def clearData(self):
+        """Clears internal data."""
+        self.data = None
 
     def loadFromDataInterface(self, dataInterface, variable):
         """Load that from a DataInterface. Erases any data in variable data.
@@ -340,10 +354,6 @@ class Variable(object):
         for k,v in dataInterface.data[variable].iteritems():
             self.data[k]["type"] = self.defaultDataType
             self.data[k]["year"] = v["year"]
-
-    def loadFromDataStore(self, dataStore, dataSet, variable):
-        """Loads from a DataStore. Erases any data in variable data."""
-        # self.data = 
 
     def addValue(self, code, year, dataType, value):
         """Adds a value. TODO: restricted to years."""
@@ -366,25 +376,29 @@ class Variable(object):
         """Get data from variable.
         TODO: restricted to years. TODO: Type management can be more sophisticated. Create
         datatype classes and try to pickle it."""
-        if code and year:
-            try:
-                return({code+str(year): self.__processData(self.data[code+str(year)])})
-            except:
-                return({code+str(year): {"code": code, "type": self.defaultDataType,
-                                         "value": None, "year": year}})
-        if code:
-            try: 
-                return({k: self.__processData(v) for (k,v) in self.data.iteritems() if code in k})
-            except:
-                return({code+str(year): {"code": code, "type": self.defaultDataType,
-                                         "value": None, "year": year}})
-        if year:
-            try:
-                return({k: self.__processData(v) for (k,v) in self.data.iteritems() if str(year) in k})
-            except:
-                return({code+str(year): {"code": code, "type": self.defaultDataType,
-                                         "value": None, "year": year}})
-        return({k: self.__processData(v) for (k,v) in self.data.iteritems()})
+        try:
+            if self.cache.data.any():
+                return(self.cache.getData(code=code, year=year))
+        except:
+            if code and year:
+                try:
+                    return({code+str(year): self.__processData(self.data[code+str(year)])})
+                except:
+                    return({code+str(year): {"code": code, "type": self.defaultDataType,
+                                             "value": None, "year": year}})
+            if code:
+                try: 
+                    return({k: self.__processData(v) for (k,v) in self.data.iteritems() if code in k})
+                except:
+                    return({code+str(year): {"code": code, "type": self.defaultDataType,
+                                             "value": None, "year": year}})
+            if year:
+                try:
+                    return({k: self.__processData(v) for (k,v) in self.data.iteritems() if str(year) in k})
+                except:
+                    return({code+str(year): {"code": code, "type": self.defaultDataType,
+                                             "value": None, "year": year}})
+            return({k: self.__processData(v) for (k,v) in self.data.iteritems()})
     
     def __processData(self, data):
         """Process data, without changing them."""
@@ -393,24 +407,28 @@ class Variable(object):
             module, function = d["type"][d["type"].find("::")+2:].rsplit(".",1)
             mod = importlib.import_module(module)
             func = getattr(mod, function)
-            d["value"] = func(d)
+            d["value"] = func(d, context=self)
             d["type"] = self.defaultDataType
-            return(d)
+            return(self.__processData(d))
             
         if data["type"]=="float":
             d = copy.deepcopy(data)
-            d["value"] = float(d["value"])
+            if d["value"]:
+                d["value"] = float(d["value"])
+            else:
+                d["value"] = None
             d["type"] = self.defaultDataType
             return(d)
             
 
 
-class DataInterface(object):
+class DataInterface(DataSource):
     """Data interface base class."""
     data = None
 
     def __init__(self):
         """Initializator."""
+        DataSource.__init__(self, id)
         self.data = None
 
     def clearData(self):
@@ -449,7 +467,6 @@ class DataInterfacePostgreSql(DataInterface, PostgreSQLModel.PostgreSQLModel):
                 }
                 variable[str(d["code"])+str(d["year"])] = d
             self.data[i] = variable
-        print self.data
 
     def read(self, table, codeColumn, dateInColumn, dateOutColumn, valueColumn):
         """Reads all data from a column of a PostgreSQL table.

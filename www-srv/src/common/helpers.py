@@ -38,19 +38,22 @@ def getRanking(countryList, year, variable):
     """Calculates rankings, given a country list and a country filter, and
     given that the country list may contain blocks. Returns a dictionary with 
     ISO keys and the ranking. NaN are ignored."""
-    values = [k for k in getData(variable, year=year, countryList=countryList) if k and 
-              not numpy.isnan(k["value"])]
-    valSorted = sorted(set([k["value"] for k in values]), reverse=True)
-    out = []
-    for i in values:
-        d = {}
-        j = 0
-        while valSorted[j]>i["value"]:
-            j+=1
-        d["code"] = i["code"]
-        d["value"] = i["value"]
-        d["rank"] = j+1
-        out.append(d)
+    data = sorted([v for (k,v) in getData(variable, year=year, countryList=countryList).iteritems()
+            if v["code"] in countryList], key=lambda x: x["value"], reverse=True)
+    values = sorted(set([k["value"] for k in data if k["value"] is not None]), reverse=True)
+    out = {}
+    i = 0
+    j = 0
+    while j<len(values):
+        if values[i]==data[j]["value"]:
+            d = {
+                "value": data[j]["value"],
+                "rank": i+1
+            }
+            out[data[j]["code"]] = d
+            j += 1
+        else:
+            i += 1
     return(out)
 
 
@@ -60,16 +63,14 @@ def getRankingCode(countryList, year, variable, countryCode):
     ISO keys and the ranking. NaN are ignored."""
     if countryCode not in countryList:
         return(None)
-    value = getData(variable, year=year, code=countryCode)[0]
-    if not value or numpy.isnan(value["value"]):
+    value = getData(variable, year=year, code=countryCode).values()[0]["value"]
+    if not value:
         return(None)
-
-    # TODO: Check if if k["code"] in countryList is necessary
-    dataValues = sorted(set([k["value"] for k in getData(variable, year=year, countryList=countryList)
-                             if k and k["code"] in countryList
-                             and not numpy.isnan(k["value"])]), reverse=True)
+    dataValues = sorted(set([v["value"] for (k,v) in 
+                            getData(variable, year=year, countryList=countryList).iteritems()
+                            if v["value"]]), reverse=True)
     i = 0
-    while dataValues[i]>value["value"]:
+    while dataValues[i]>value:
         i+=1
     return(i+1)
 

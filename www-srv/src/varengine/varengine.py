@@ -220,7 +220,11 @@ class DataCacheNumpy(DataCache):
         TODO: restricted to years."""
         if code and not year:
             if code not in self.codeIndex:
-                return([None])
+                return({code+str(year):
+                        {"code": code,
+                         "type": self.dataType,
+                         "value": None,
+                         "year": year}})
             a = self.data[0:,self.codeIndex.index(code)]
             v = {code+str(self.timeIndex[int(i)]): 
                  {"code": code,
@@ -231,7 +235,11 @@ class DataCacheNumpy(DataCache):
             return(v)
         if year and not code:
             if year not in self.timeIndex:
-                return([None])
+                return({code+str(year):
+                        {"code": code,
+                         "type": self.dataType,
+                         "value": None,
+                         "year": year}})
             a = self.data[self.timeIndex.index(year),0:]
             v = {self.codeIndex[i]+str(year):
                  {"code": self.codeIndex[i],
@@ -242,7 +250,11 @@ class DataCacheNumpy(DataCache):
             return(v)
         if year and code:
             if code not in self.codeIndex or year not in self.timeIndex:
-                return([None])
+                return({code+str(year):
+                        {"code": code,
+                         "type": self.dataType,
+                         "value": None,
+                         "year": year}})
             d = dict()
             d["year"]=year
             d["code"]=code
@@ -340,6 +352,10 @@ class Variable(object):
         """Populates the cache with variable data."""
         self.cache.cacheData(self)
 
+    def clearCache(self):
+        """Clears the cache."""
+        self.cache = None
+
     def __str__(self):
         return(self.id)
 
@@ -347,11 +363,11 @@ class Variable(object):
         """Clears internal data."""
         self.data = None
 
-    def loadFromDataInterface(self, dataInterface, variable):
+    def loadFromDataInterface(self, dataInterface, variableName):
         """Load that from a DataInterface. Erases any data in variable data.
         TODO: constricted to years"""
-        self.data = copy.deepcopy(dataInterface.data[variable])
-        for k,v in dataInterface.data[variable].iteritems():
+        self.data = copy.deepcopy(dataInterface.data[variableName])
+        for k,v in dataInterface.data[variableName].iteritems():
             self.data[k]["type"] = self.defaultDataType
             self.data[k]["year"] = v["year"]
 
@@ -413,7 +429,7 @@ class Variable(object):
             
         if data["type"]=="float":
             d = copy.deepcopy(data)
-            if d["value"]:
+            if d["value"] is not None:
                 d["value"] = float(d["value"])
             else:
                 d["value"] = None
@@ -421,7 +437,7 @@ class Variable(object):
             return(d)
             
 
-
+            
 class DataInterface(DataSource):
     """Data interface base class."""
     data = None
@@ -435,7 +451,11 @@ class DataInterface(DataSource):
         """Clears data from the DataInterface."""
         self.data = None
 
-        
+    def readAll(self, table, codeField, dateInField, dateOutField):
+        """Reads a table as a whole."""
+        raise NotImplementedError("DataInterface.readAll not implemented.")
+
+
 
 class DataInterfacePostgreSql(DataInterface, PostgreSQLModel.PostgreSQLModel):
     """Data interface for PostgreSQL."""

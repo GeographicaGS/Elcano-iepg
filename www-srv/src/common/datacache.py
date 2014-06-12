@@ -22,16 +22,16 @@ def createCache():
     tables = {
         "iepg": "iepg_data",
         # "iepe": "iepe_data",
-        "context": "pob_pib" #,
+        "context": "pob_pib",
         # "iepe_individual_contribution": "iepe_individual_contribution",
         # "iepe_quota": "iepe_quota",
         # "iepe_relative_contribution": "iepe_relative_contribution",
-        # "iepg_individual_contribution": "iepg_individual_contribution",
+        "iepg_individual_contribution": "iepg_individual_contribution" #,
         # "iepg_quota": "iepg_quota",
         # "iepg_relative_contribution": "iepg_relative_contribution"
     }
 
-    for fam in ["iepg", "context"]: # const.variableNames.keys():
+    for fam in ["iepg", "context", "iepg_individual_contribution"]: # const.variableNames.keys():
         dataSets[fam] = varengine.DataSet(fam)
         mapping = dict()
         dataInterface.readAll("iepg_data_redux."+tables[fam], 

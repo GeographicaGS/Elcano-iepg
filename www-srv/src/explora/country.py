@@ -62,32 +62,24 @@ def countrySheet(lang, family, countryCode):
 
     entities is mandatory, although it has no effect in this tool.
     """
-    # m = iepgdatamodel.IepgDataModel()
+    m = iepgdatamodel.IepgDataModel()
     f = processFilter(request.args, "filter")
-    # familyVar = datacache.dataSets[family].variables.values()
-    # contextVar = datacache.dataSets["context"].variables.values()
     # Participating countries
     countries = datacache.countries
     # Filter substraction
     if f:
         countries = arrayops.arraySubstraction(countries, f)
 
-    print countries
-    print
-    print
-
-    # famData = datacache.dataSets[family].getData(code=countryCode)
-    # conData = datacache.dataSets["context"].getData(code=countryCode)
-
-    ###HERE
     try:
         out = dict()
         # Iterate through the years involved in the variable
         for year in const.years:
+            yearData = dict()
             famData = datacache.dataSets[family].getData(code=countryCode, year=year)
-            print famData
-            print
-            print
+            famPercentage = datacache.dataSets[family+"_individual_contribution"].\
+                            getData(code=countryCode, year=year)
+            conData = datacache.dataSets["context"].getData(code=countryCode, year=year)
+            famDict = dict()
 
             for k,v in famData.iteritems():
                 a = v.values()[0]
@@ -95,7 +87,36 @@ def countrySheet(lang, family, countryCode):
                     "code": a["code"],
                     "value": a["value"],
                     "variable": k,
-                    "year": year
+                    "year": year,
+                    "percentage": famPercentage[k].values()[0]["value"] if k not in ["global"] else None
+                }
+
+                # Check if countryCode is a block. If it is, substract its members from countries
+                # This is expensive. Cache block members.
+                if countryCode in datacache.blocks:
+                    c = arrayops.arraySubstraction(countries, 
+                                                   cacheWrapper(common.helpers.getBlockMembers,
+                                                                countryCode, year))
+                    c.append(countryCode)
+                else:
+                    c = countries
+
+                d["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
+                                                  year, datacache.dataSets[family].variables[k], 
+                                                  countryCode)
+                d["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
+                                                    datacache.dataSets[family].variables[k], countryCode)
+                famDict[k] = d
+            conDict = dict()
+
+            for k,v in conData.iteritems():
+                a = v.values()[0]
+                d = {
+                    "code": a["code"],
+                    "value": a["value"],
+                    "variable": k,
+                    "year": year,
+                    "percentage": None
                 }
 
                 # Check if countryCode is a block. If it is, substract its members from countries
@@ -106,72 +127,23 @@ def countrySheet(lang, family, countryCode):
                     c.append(countryCode)
                 else:
                     c = countries
-                    
-                print c
-                ###HERE > rewrite ranking methods
+
                 d["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
-                                                  year, var,countryCode)
+                                                  year, datacache.dataSets["context"].variables[k], 
+                                                  countryCode)
                 d["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
-                                                    var, countryCode)
-
-                print d
-                print
+                                                    datacache.dataSets["context"].variables[k], countryCode)
                 
-
-                
-            
-
-
-
-        # for var in familyVar:
-        #     data = dict()
-        #     data["code"] = countryCode
-        #     v = cacheWrapper(common.helpers.getData, var, countryCode, year)
-        #     print str(var)+" "+str(v)
-        #     print "II : "+str(common.helpers.getData(var, countryList=c))
-
-    #            # vp = [None]
-    #            # if not var.idVariable in ["global", "military_global", "economic_global", "soft_global"]:
-    #            #     vp = cacheWrapper(common.helpers.getData, 
-    #            #                       datacache.variables[family+"_relative_contribution_"+var.idVariable],
-    #            #                       countryCode, year)
-    #            data["value"] = None if not v[0] or numpy.isnan(v[0]["value"]) else v[0]["value"]
-    #            # data["percentage"] = None if not vp[0] or numpy.isnan(vp[0]) else vp[0]["value"]
-    #            data["variable"] = const.variableNames[family][var.idVariable]["name_"+lang]
-    #            data["year"] = year
-    #            data["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
-    #                                                 year, var,countryCode)
-    #            data["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
-    #                                                   var, countryCode)
-
-    #            print data
-
-    #            famVariables[var.idVariable] = data
-   
-    #        contextVariables = dict()
-    #        for var in contextVar:
-    #            data = dict()
-    #            data["code"] = countryCode
-    #            v = cacheWrapper(common.helpers.getData, var, countryCode, year)
-    #            data["value"] = None if not v[0] else v[0]["value"]
-    #            data["variable"] = const.variableNames["context"][var.idVariable]["name_"+lang]
-    #            data["year"] = year
-    #            data["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
-    #                                                 year, var,countryCode)
-    #            data["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
-    #                                                   var, countryCode)
-    #            contextVariables[var.idVariable] = data
-   
-    #        yearData["iepg_variables"] = famVariables
-    #        yearData["context_var"] = contextVariables
-    #        comment = cacheWrapper(m.getIepgComment, lang, countryCode, year)
-    #        yearData["comment"] = comment[0] if comment else None
-    #        out[year] = yearData
-    #    return(jsonify({"results": out}))
+                conDict[k] = d
+                yearData[family] = famDict
+                yearData["context"] = conDict
+                comment = cacheWrapper(m.getIepgComment, lang, countryCode, year)
+                yearData["comment"] = comment[0] if comment else None
+                out[year] = yearData
+        return(jsonify({"results": out}))
     except ElcanoApiRestError as e:
         return(jsonify(e.toDict()))
 
-    return(jsonify({"E": 1}))
 
 @app.route('/mapdata/<string:family>/<string:variable>/<int:year>', methods=['GET'])
 def mapData(family, variable, year):

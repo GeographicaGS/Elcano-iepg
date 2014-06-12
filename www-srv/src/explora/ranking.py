@@ -16,30 +16,41 @@ import common.datacache as datacache
 import common.arrayops as arrayops
 
 
-@app.route('/ranking/<string:lang>/<int:year>/<string:family>/<string:variable>', methods=['GET'])
-def ranking(lang, year, family, variable):
+@app.route('/ranking/<string:lang>/<int:year>/<string:family>/<string:variable>/<int:blocks>', 
+           methods=['GET'])
+def ranking(lang, year, family, variable, blocks):
     """Retrieves ranking for a year and a variable. Examples:
 
-    /ranking/es/1990/iepg/energy
-    /ranking/en/2012/iepe/manufactures?filter=ES,NL,DE&entities=ES,NL&blocks=t
+    /ranking/es/1990/iepg/energy/0
+    /ranking/en/2012/iepe/manufactures/1?filter=US,DE&entities=ES,NL,XBAP,XBSA
     """
-    filter = helpers.processFilter(request.args, "filter")
-    entities = helpers.processFilter(request.args, "entities")
-    blocks = True if helpers.processArgs(request.args, "blocks") else False
 
-    if blocks and entities:
-        c = arrayops.arraySubstraction(datacache.countries, filter)
-        if family=="iepe":
-            c = arrayops.arraySubstraction(c, datacache.blocks)
-        else:
-            blocksInEntities = [b for b in entities if b in datacache.blocks]
-            for bl in blocksInEntities:
-                if chelpers.getData(datacache.variables[family+"_"+variable], code=bl, year=year):
-                    c = arrayops.arraySubstraction(c, chelpers.getBlockMembers(bl, year=year))
-            c.extend(entities)
-        c = list(set(c))
+    r = {"e": 1}
+
+    f = processFilter(request.args, "filter")
+    e = processFilter(request.args, "entities")
+    countries = datacache.countries
+    entitiesBlocks = [v for v in e if v in datacache.blocks]
+    v = datacache.dataSets[family].variables[variable]
+
+    if f:
+        c = arrayops.arraySubstraction(countries, f)
     else:
-        c = arrayops.arraySubstraction(datacache.countries, filter)
+        c = countries
 
-    r = chelpers.getRanking(c, year, datacache.variables[family+"_"+variable])
-    return(jsonify({"results": r}))
+    if blocks:
+        for i in entitiesBlocks:
+            c = arrayops.arraySubstraction(c, chelpers.getBlockMembers(i, year=year))
+            c.append(i)
+
+    ranking = chelpers.getRanking(c, year, v)
+    out = []
+    for k,v in ranking.iteritems():
+        d = {
+            "code": k,
+            "ranking": v["rank"],
+            "value": v["value"]
+        }
+        out.append(d)
+
+    return(jsonify({"results": out}))

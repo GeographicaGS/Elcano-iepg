@@ -20,18 +20,19 @@ def createCache():
     dataSets = dict()
     dataInterface = varengine.DataInterfacePostgreSql()
     tables = {
-        "iepg": "iepg_data",
-        # "iepe": "iepe_data",
-        "context": "pob_pib",
+        "iepg": "iepg_data" #,
+        # "iepe": "iepe_data" #,
+        # "context": "pob_pib",
         # "iepe_individual_contribution": "iepe_individual_contribution",
         # "iepe_quota": "iepe_quota",
         # "iepe_relative_contribution": "iepe_relative_contribution",
-        "iepg_individual_contribution": "iepg_individual_contribution" #,
+        # "iepg_individual_contribution": "iepg_individual_contribution" #,
         # "iepg_quota": "iepg_quota",
         # "iepg_relative_contribution": "iepg_relative_contribution"
     }
 
-    for fam in ["iepg", "context", "iepg_individual_contribution"]: # const.variableNames.keys():
+    for fam in ["iepg"]: # , "iepe"]: #, "iepe_individual_contribution", "context", 
+                # "iepg_individual_contribution"]: # const.variableNames.keys():
         dataSets[fam] = varengine.DataSet(fam)
         mapping = dict()
         dataInterface.readAll("iepg_data_redux."+tables[fam], 
@@ -76,3 +77,5 @@ englishToIso = {key: value for key,value in englishToIso.iteritems() if value in
 isoToGeoentity, geoentityToIso = cachewrapper.cacheWrapper(maplex.getTranslationTable, 1)
 isoToGeoentity = {key: value for key,value in isoToGeoentity.iteritems() if key in blocksAndCountries}
 geoentityToIso = {key: value for key,value in geoentityToIso.iteritems() if value in blocksAndCountries}
+
+print "Cache done."

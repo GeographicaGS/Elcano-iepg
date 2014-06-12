@@ -1,3 +1,5 @@
+# coding=UTF8
+
 import common.blockfunctions
 #reload(common.blockfunctions)
 import common.helpers as h
@@ -19,13 +21,14 @@ import common.config as config
 from collections import OrderedDict
 
 import common.datacache as dc
-# reload(dc)
+#reload(dc)
 
 
-print dc.dataSets["context"].variables["gdp"].getData(code="US", year=1990)
-print dc.dataSets["context"].variables["gdp"].getData(code="XBEU", year=1990)
+# print h.getRanking(dc.blocksAndCountries, 1990, dc.dataSets["iepg"].variables["information"])
 
-# print h.getRanking(dc.blocksAndCountries, 2013, dc.dataSets["iepg"].variables["information"])
+print h.getData(dc.dataSets["iepg"].variables["manufactures"], year=2013, countryList=["US", "DE", "ES", "NZ"])
+
+# print h.getData(dc.dataSets["iepg"].variables["manufactures"])
 
 # print h.getRanking(["NZ", "MX", "ES", "XBAP", "XBEU"], 2000, dc.dataSets["iepg"].variables["energy"])
 

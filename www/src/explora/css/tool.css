@@ -494,6 +494,10 @@
         top: 15px;
         background: url("@{imgPath}ELC_icon_scroll_up.svg") no-repeat left center;
     }
+
+    .tooltip{
+        position: absolute;
+    }
 }
 
 

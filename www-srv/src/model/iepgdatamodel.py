@@ -11,7 +11,6 @@ TODO: review SQL parsing. Use bindings.
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 from common.errorhandling import DataValidator
 import common.helpers
-import enginemodel
 
 
 class IepgDataModel(PostgreSQLModel):

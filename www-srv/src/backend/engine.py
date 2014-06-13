@@ -2,11 +2,11 @@
 
 """
 
-Variable engine.
+Variable engine services.
 
 """
 from backend import app
-import model.enginemodel as enginemodel
+import varengine.varenginemodel as enginemodel
 from backend.utils import auth
 from flask import jsonify, request
 import datetime
@@ -45,16 +45,18 @@ def addVariable():
 @auth
 def getVariables():
     """Returns variables."""
-    m = enginemodel.EngineModel()
-    return(jsonify({"results": m.getVariables()}))
+    pass
+    # m = enginemodel.EngineModel()
+    # return(jsonify({"results": m.getVariables()}))
 
 
 @app.route('/engine/getvariable/<int:idVariable>', methods=["GET"])
 @auth
 def getVariable(idVariable):
     """Returns variable with ID idVariable."""
-    m = enginemodel.EngineModel()
-    return(jsonify(m.getVariable(idVariable)))
+    pass
+    # m = enginemodel.EngineModel()
+    # return(jsonify(m.getVariable(idVariable)))
 
 
 @app.route('/engine/getvariablecodes/<int:idVariable>', methods=["GET"])
@@ -66,24 +68,25 @@ def getVariableCodes(idVariable):
 
     TODO: get down to the hour
     """
-    m = enginemodel.EngineModel()
-    dateIn = None
-    dateOut = None
-    if "date_in" in request.args:
-        dateIn = request.args["date_in"]
-        if dateIn == "":
-            dateIn = None
-        else:
-            dateIn = datetime.datetime.strptime(dateIn, '%Y-%m-%d')
-    if "date_out" in request.args:
-        dateOut = request.args["date_out"]
-        if dateOut == "":
-            dateOut = None
-        else:
-            dateOut = datetime.datetime.strptime(dateOut, '%Y-%m-%d')
+    pass
+    # m = enginemodel.EngineModel()
+    # dateIn = None
+    # dateOut = None
+    # if "date_in" in request.args:
+    #     dateIn = request.args["date_in"]
+    #     if dateIn == "":
+    #         dateIn = None
+    #     else:
+    #         dateIn = datetime.datetime.strptime(dateIn, '%Y-%m-%d')
+    # if "date_out" in request.args:
+    #     dateOut = request.args["date_out"]
+    #     if dateOut == "":
+    #         dateOut = None
+    #     else:
+    #         dateOut = datetime.datetime.strptime(dateOut, '%Y-%m-%d')
 
-    variable = m.getVariable(idVariable)
-    return(jsonify({"results": m.getVariableCodes(variable["var_table"], dateIn=dateIn, dateOut=dateOut)}))
+    # variable = m.getVariable(idVariable)
+    # return(jsonify({"results": m.getVariableCodes(variable["var_table"], dateIn=dateIn, dateOut=dateOut)}))
 
 
 @app.route('/engine/addfamily', methods=["POST"])

@@ -103,10 +103,10 @@ csv header quote '"';
 \copy iepg_data_redux.iepg_comment to 'redux_iepg_comment.csv' with delimiter '|' csv header quote '"'
 
 
--- engine
+-- varengine
 
-\copy engine.variable to 'csv/engine_variable.csv' with delimiter '|' csv header quote '"'
+\copy varengine.variable to 'csv/varengine_variable.csv' with delimiter '|' csv header quote '"'
 
-\copy engine.family to 'csv/engine_family.csv' with delimiter '|' csv header quote '"'
+\copy varengine.dataset to 'csv/varengine_dataset.csv' with delimiter '|' csv header quote '"'
 
 \c :dbname :user :host :port

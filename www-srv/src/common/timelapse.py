@@ -45,9 +45,6 @@ class TimeLapse(object):
 
     def getSqlFilter(self, fields):
         """Returns a SQL filter."""
-
-        print("kked", self.dateIn, self.dateOut)
-
         bindings = []
         sql = ""
         if self.dateIn:
@@ -56,7 +53,7 @@ class TimeLapse(object):
         if self.dateOut:
             if sql<>"":
                 sql += " and "
-            sql +="("+fields[1]+"<=%s or "+fields[1]+" is null)"
+            sql += fields[1]+"<=%s"
             bindings.append(self.dateOut.time)
 
         return({"sql":sql, "bindings": bindings})

@@ -5,15 +5,18 @@ Frontend home services.
 """
 from frontend import app
 from flask import jsonify,request
+from flask.json import dump
 from model.homemodel import HomeModel
 from model.iepgdatamodel import IepgDataModel
 from model.highlightmodel import HighlightModel
 from model.labelmodel import LabelModel
 import helpers
-import collections
+import common.helpers
 from common import config as config
 from common import const as cons
 from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage
+import locale
+import common.datacache as datacache
 
 
 @app.route('/home/email', methods=['POST'])
@@ -48,6 +51,8 @@ def countries():
     Returns a JSON:
 
     {
+    results: [
+    {
       "block":
         {
           "name": "América",
@@ -56,29 +61,30 @@ def countries():
             {"name": "USA"},
             {"name": "Canadá"}
           ]
-        },
+        }
+    },
+    ]
     }
       
     """
-    m = IepgDataModel()
-    a = m.countries(request.args["lang"], request.args["year"])
-    blocks=dict()
-    countries = dict()
-    final = dict()
-    
-    for r in a:
-        if r["block_name"] not in blocks.keys():
-            blocks[r["block_name"]]=dict()
-            blocks[r["block_name"]]["countries"] = [r["country_name"]]
-        else:
-            blocks[r["block_name"]]["countries"].append(r["country_name"])
+    lang = request.args["lang"]
+    year = request.args["year"]
+    if lang=="es":
+        trans = datacache.isoToSpanish
+    if lang=="en":
+        trans = datacache.isoToEnglish
 
-    for key, value in blocks.items():
-        value["ncountries"] = len(value["countries"])
+    blocks = {k: {"name": v} for (k,v) in trans.iteritems() 
+              if k in datacache.blocks}
 
-    od = collections.OrderedDict(sorted(blocks.items()))
+    for k,v in blocks.iteritems():
+        m = common.helpers.getBlockMembers(k, year=year)
+        v["ncountries"] = len(m)
+        members = [{"name": j} for (i,j) in trans.iteritems()
+                   if i in m]
+        v["countries"] = members
 
-    return(jsonify(od))
+    return(jsonify({"results": blocks}))
 
 
 @app.route('/home/years', methods=['GET'])

@@ -1,13 +1,41 @@
-import common.timelapse as timelapse
-reload(timelapse)
-import maplex.core as core
-reload(core)
+# coding=UTF8
+
+import common.blockfunctions
+#reload(common.blockfunctions)
+import common.helpers as h
+reload(h)
+import varengine.varengine as e
+reload(e)
+import maplex.maplex as m
+#reload(m)
 import maplex.maplexmodel
-reload(maplex.maplexmodel)
+#reload(maplex.maplexmodel)
+# import varengine.varenginemodel
+# reload(varengine.varenginemodel)
+import common.arrayops as arrayops
+#reload(arrayops)
+import common.const
+#reload(common.const)
+import common.config as config
+#reload(config)
+from collections import OrderedDict
 
-tl01 = timelapse.TimeLapse()
-tl01.initByStrings(None, "1989-01-01 00:00")
-print(tl01)
-print(tl01.getSqlFilter(["a", "b"]))
+import common.datacache as dc
+#reload(dc)
 
-print(core.getBlocks(timeLapseBlock=tl01))
+
+# print h.getRanking(dc.blocksAndCountries, 1990, dc.dataSets["iepg"].variables["information"])
+
+print h.getData(dc.dataSets["iepg"].variables["manufactures"], year=2013, countryList=["US", "DE", "ES", "NZ"])
+
+# print h.getData(dc.dataSets["iepg"].variables["manufactures"])
+
+# print h.getRanking(["NZ", "MX", "ES", "XBAP", "XBEU"], 2000, dc.dataSets["iepg"].variables["energy"])
+
+
+# di = e.DataInterfacePostgreSql()
+# di.readAll("iepg_data_redux.iepg_data", "code", "date_in", "date_out")
+# vinfo = e.Variable("information", True, "float")
+# vinfo.loadFromDataInterface(di, "information")
+# vinfo.setupCache(e.DataCacheNumpy)
+# vinfo.cacheData()

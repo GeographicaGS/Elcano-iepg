@@ -24,9 +24,6 @@ def ranking(lang, year, family, variable, blocks):
     /ranking/es/1990/iepg/energy/0
     /ranking/en/2012/iepe/manufactures/1?filter=US,DE&entities=ES,NL,XBAP,XBSA
     """
-
-    r = {"e": 1}
-
     f = processFilter(request.args, "filter")
     e = processFilter(request.args, "entities")
     countries = datacache.countries

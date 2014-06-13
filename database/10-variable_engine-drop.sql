@@ -9,7 +9,7 @@
 
 begin;
 
-drop schema :s_engine cascade;
+drop schema engine cascade;
 
 commit;
 

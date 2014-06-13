@@ -26,7 +26,8 @@ import common.datacache as dc
 
 # print h.getRanking(dc.blocksAndCountries, 1990, dc.dataSets["iepg"].variables["information"])
 
-print h.getData(dc.dataSets["iepg"].variables["manufactures"], year=2013, countryList=["US", "DE", "ES", "NZ"])
+print h.getData(dc.dataSets["iepg"].variables["manufactures"], year=2013, 
+                countryList=["XBSA", "XBEU", "XBNA", "XBE2", "XBLA", "XBMM", "XBAP"])
 
 # print h.getData(dc.dataSets["iepg"].variables["manufactures"])
 

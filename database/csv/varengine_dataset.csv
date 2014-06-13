@@ -1,4 +1,10 @@
 id_dataset
 iepg
 iepe
+iepe_individual_contribution
+iepe_quota
+iepe_relative_contribution
+iepg_individual_contribution
+iepg_quota
+iepg_relative_contribution
 context

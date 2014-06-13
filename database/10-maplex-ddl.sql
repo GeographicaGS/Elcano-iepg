@@ -113,7 +113,7 @@ create table maplex.block(
 
 alter table maplex.block
 add constraint block_pkey
-primary key(id_geoentity_block, id_geoentity_child);
+primary key(id_geoentity_block, id_geoentity_child, date_in);
 
 
 -- Foreign keys

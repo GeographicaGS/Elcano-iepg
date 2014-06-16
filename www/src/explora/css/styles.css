@@ -577,15 +577,16 @@ main{
     }
 }
 
-
 ul.flag_wrapper{
     li{
         cursor: pointer;
         line-height: 2*@line_height;
         border-bottom: 1px solid @grey_light2;
+        
 
         img,span{
             float:left;
+            opacity: 0.5;
         }
 
         img{
@@ -600,7 +601,6 @@ ul.flag_wrapper{
             font-size: 16px;
             color: @grey_dark;
         }
-        
     }
 
     li[selected],li:hover{
@@ -608,15 +608,85 @@ ul.flag_wrapper{
         span{
             .roboto(bold);
         }
+        span,img{
+            opacity: 1.0;
+        }
     }
+
     li:hover{
-        background-image: url("@{imgPath}ELC_icon_seleccionado_hover.svg");
+        background-image: url("@{imgPath}ELC_icon_seleccionar.svg");
+        span{
+            .roboto();
+        }
     }
 
     li[selected]:hover{
-         background-image: url("@{imgPath}ELC_icon_deseleccionar.svg");
+        background-image: url("@{imgPath}ELC_icon_deseleccionar.svg");
+         span{
+            .roboto(bold);
+        }
     }
-    
+}
+
+.line_through(){
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 2px;
+    background: @red;
+    content: "";
+    width: 100%;
+    display: block;
+}
+
+ul.flag_wrapper.filter{
+    li{
+        background-image: none !important;
+        span{
+            position: relative;
+            .roboto();
+        }
+        span:after{
+            .line_through();
+        }
+
+        span,img{
+            opacity: 0.5;
+        }
+    }
+
+    li:hover{
+        span{
+            .roboto();
+        }
+        /*span:after{
+            display: none;
+        }
+        span,img{
+            opacity: 1.0;
+        }*/
+    }
+
+    li,li[selected]:hover{
+        span:after{
+            .line_through();
+        }
+    }
+
+    li[selected]{
+        span,img{
+            opacity: 1.0;
+        }
+        span:after{
+            display:none;
+        }
+    }
+
+}
+
+.body.filter.disable{
+    opacity: 0.3;
+    pointer-events: none;
 }
 
 ul.country_bar{
@@ -1025,4 +1095,8 @@ div.tooltip {
             text-transform: uppercase;
         }
     }
+}
+
+.co_all_countries{
+    
 }

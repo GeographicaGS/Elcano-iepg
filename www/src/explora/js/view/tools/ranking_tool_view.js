@@ -88,7 +88,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         }
     },
 
-     _renderToolAsync: function(){
+    _renderToolAsync: function(){
 
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
@@ -103,12 +103,18 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         this._dataMap = new app.view.map({
             "container": "data_map",
-            "zoom" : 1
+            "zoom" : 1,
+            "tooltip" : this.$("#ranking_map_tooltip")
         }).initialize();
 
-        this._dataMap.drawChoropleth(this.collection.toJSON());
+         var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            year = ctx.slider[0].date.getFullYear(),
+            variable = ctx.variables[0];
 
-        this.mapLayer = app.map.drawChoropleth(this.collection.toJSON());
+        this._dataMap.drawChoropleth(this.collection.toJSON(),year,variable);
+
+        this.mapLayer = app.map.drawChoropleth(this.collection.toJSON(),year,variable);
     },
 
     /* Render the tool */
@@ -153,15 +159,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             + (filters ? "/" + filters : "") ,{trigger: false});
     },
 
-    /* app.baseView.loadRankingTool({
-            "family" : family,
-            "variable": variable,
-            "year" : year,
-            "year_ref": year_ref,
-            "countries": countries,
-            "country_sel" : country_sel,
-            "filters": filters
-        });*/
     URLToContext: function(url){
          var ctxObj = app.context,
             ctx = ctxObj.data;
@@ -415,10 +412,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             zoom.translate([0,newzoom]);
             zoomed();
         });
-
-
     },
-
 
     _htmlChartToolTip: function(d){
         var ctx = this.getGlobalContext().data,

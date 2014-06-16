@@ -12,6 +12,9 @@ app.view.map = function(options){
     this.container = options.container;
     this.zoom = options.zoom ? options.zoom : 2;
     this.center = options.center ? options.center  : L.latLng(0,0);
+    this.$tooltip = options.tooltip ? options.tooltip : $("#map_tooltip");
+    this.$maplabel = options.maplabel ? options.maplabel : $("#map_label");
+    this.$maplegend = options.maplegend ? options.maplegend : $("#map_legend");
 
     this.initialize = function(options){
 
@@ -21,9 +24,7 @@ app.view.map = function(options){
         }).setView( this.center, this.zoom);
 
         this.loadBaseMap();
-        this.$tooltip = $("#map_tooltip");
-        this.$maplabel = $("#map_label");
-        this.$maplegend = $("#map_legend");
+    
         return this;
     };
 

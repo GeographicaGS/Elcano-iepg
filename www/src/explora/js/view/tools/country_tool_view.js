@@ -267,7 +267,12 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "country/" + family + "/" + countries + "/" + country + "/" + year + filters;
 
-         app.router.navigate(url, {trigger: false});
+        if (!family || !countries || !country || !variable || !year ){
+            app.router.navigate("/", {trigger: false});
+        }
+        else{
+            app.router.navigate(url, {trigger: false});
+        }
     },
 
     URLToContext: function(url){

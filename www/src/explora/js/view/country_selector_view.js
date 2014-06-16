@@ -54,6 +54,8 @@ app.view.CountrySelector = Backbone.View.extend({
 
         this.$n_selected = this.$("#n_selected");
 
+        this.refreshCounterElements();
+
         return this;
     },
 
@@ -85,7 +87,7 @@ app.view.CountrySelector = Backbone.View.extend({
             html ="<lang>1 país seleccionado</lang>";
         }
         else{
-            html = sprintf("<lang>%d países seleccionados</lang>",n);   
+            html = sprintf("<lang> %d países seleccionados</lang>",n);   
         }
         
         this.$n_selected.html(html);

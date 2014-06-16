@@ -7,8 +7,12 @@ Data cache.
 """
 
 import common.cachewrapper as cachewrapper
+import const
 
-dataSets = cachewrapper.getM("dataSets")
+dataSets = dict()
+for fam in const.variableNames.keys():
+    dataSets[fam] = cachewrapper.getM(fam)
+
 blocks = cachewrapper.getM("blocks")
 blocksNoEu = cachewrapper.getM("blocksNoEu")
 countriesAndUe = cachewrapper.getM("countriesAndUe")

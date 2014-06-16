@@ -7,9 +7,7 @@ Data cache.
 """
 
 import varengine.varengine as varengine
-reload(varengine)
 import const
-reload(const)
 import memcache
 import maplex.maplex as maplex
 import copy
@@ -42,6 +40,8 @@ def createCache():
             v = varengine.Variable(k, True, "float", dataSet=dataSets[fam])
             mapping[k]=var["column"]
             dataSets[fam].loadVariableDataFromDataInterface(dataInterface, mapping=mapping)
+
+        mc.set(fam, dataSets[fam], 0)
 
     return(dataSets)
 

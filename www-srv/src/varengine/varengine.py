@@ -84,7 +84,7 @@ class DataStorePostgreSql(DataStore, PostgreSQLModel.PostgreSQLModel):
         # TODO: use COPY
         # (http://stackoverflow.com/questions/1869973/recreating-postgres-copy-directly-in-python)
         for i,j in dataSet.variables.iteritems():
-            self.__createVariableTable(j.id)
+            self.__createVariableTable(dataSet.id+"_"+j.id)
             for k,v in j.data.iteritems():
                 sql = """
                 insert into {}.{}

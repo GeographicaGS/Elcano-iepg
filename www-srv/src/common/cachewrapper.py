@@ -30,4 +30,7 @@ def cacheWrapper(funcName, *args, **kwargs):
     else:
         return(funcName(*args, **kwargs))
 
-
+def getM(data):
+    """Returns from the cache."""
+    mc = memcache.Client([config.MemcachedConfig["host"]+":"+config.MemcachedConfig["port"]], debug=0)
+    return(mc.get(data))

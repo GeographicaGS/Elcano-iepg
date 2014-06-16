@@ -20,8 +20,11 @@ import common.config as config
 #reload(config)
 from collections import OrderedDict
 
-import common.datacache as dc
+#import common.datacache as dc
 #reload(dc)
+
+import common.cachewrapper
+import datacache_memcache
 
 
 # print h.getRanking(dc.blocksAndCountries, 1990, dc.dataSets["iepg"].variables["information"])

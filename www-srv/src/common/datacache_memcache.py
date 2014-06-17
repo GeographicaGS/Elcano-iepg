@@ -38,8 +38,14 @@ def createCache():
                               "code", "date_in", "date_out")
         for k,var in const.variableNames[fam].iteritems():
             v = varengine.Variable(k, True, "float", dataSet=dataSets[fam])
+            for y in [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]:
+                for b in ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"]:
+                    v.addValue(b, y, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
+            v.setupCache(varengine.DataCacheNumpy)
+            v.cacheData()
             mapping[k]=var["column"]
             dataSets[fam].loadVariableDataFromDataInterface(dataInterface, mapping=mapping)
+
 
         mc.set(fam, dataSets[fam], 0)
 
@@ -47,22 +53,24 @@ def createCache():
 
 dataSets = createCache()
 
-for ds in dataSets.values():
-    for v in ds.variables.values():
-        for y in [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]:
-            for b in ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"]:
-                v.addValue(b, y, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
-        v.setupCache(varengine.DataCacheNumpy)
-        v.cacheData()
+# for ds in dataSets.values():
+#     for v in ds.variables.values():
+#         for y in [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]:
+#             for b in ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"]:
+#                 v.addValue(b, y, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
+#         v.setupCache(varengine.DataCacheNumpy)
+#         v.cacheData()
 
 blocks = [maplex.getGeoentityNames(i["id_geoentity_block"], 1)[0]["names"][0] for i in maplex.getBlocks()]
 blocksNoEu = copy.deepcopy(blocks)
 blocksNoEu.remove("XBEU")
 countriesAndUe = dataSets["iepg"].variables["energy"].getVariableCodes()
 
-for b in blocks:
-    countriesAndUe.remove(b)
-countriesAndUe.append("XBEU")
+print blocks
+
+# for b in blocks:
+#     countriesAndUe.remove(b)
+# countriesAndUe.append("XBEU")
 countries = copy.deepcopy(countriesAndUe)
 countries.remove("XBEU")
 blocksAndCountries = copy.deepcopy(countries)

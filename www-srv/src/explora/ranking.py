@@ -14,15 +14,16 @@ import common.helpers as chelpers
 import helpers
 import common.datacache as datacache
 import common.arrayops as arrayops
+from collections import OrderedDict
 
 
-@app.route('/ranking/<string:lang>/<int:year>/<string:family>/<string:variable>/<int:blocks>', 
+@app.route('/ranking/<string:lang>/<int:currentYear>/<int:referenceYear>/<string:family>/<string:variable>/<int:blocks>', 
            methods=['GET'])
-def ranking(lang, year, family, variable, blocks):
+def ranking(lang, currentYear, referenceYear, family, variable, blocks):
     """Retrieves ranking for a year and a variable. Examples:
 
-    /ranking/es/1990/iepg/energy/0
-    /ranking/en/2012/iepe/manufactures/1?filter=US,DE&entities=ES,NL,XBAP,XBSA
+    /ranking/es/1995/1990/iepg/energy/0
+    /ranking/en/2012/1995/iepe/manufactures/1?filter=US,DE&entities=ES,NL,XBAP,XBSA
     """
     f = processFilter(request.args, "filter")
     e = processFilter(request.args, "entities")
@@ -31,22 +32,35 @@ def ranking(lang, year, family, variable, blocks):
     v = datacache.dataSets[family].variables[variable]
 
     if f:
-        c = arrayops.arraySubstraction(countries, f)
+        currentC = arrayops.arraySubstraction(countries, f)
+        referenceC = currentC
     else:
-        c = countries
+        currentC = countries
+        referenceC = currentC
 
     if blocks:
         for i in entitiesBlocks:
-            c = arrayops.arraySubstraction(c, chelpers.getBlockMembers(i, year=year))
-            c.append(i)
+            currentC = arrayops.arraySubstraction(currentC, chelpers.getBlockMembers(i, year=currentYear))
+            currentC.append(i)
+            referenceC = arrayops.arraySubstraction(referenceC, chelpers.getBlockMembers(i, year=referenceYear))
+            referenceC.append(i)
 
-    ranking = chelpers.getRanking(c, year, v)
+    currentRanking = OrderedDict(sorted(chelpers.getRanking(currentC, currentYear, v).items(), 
+                                        key=lambda t: t[1]["rank"]))
+    referenceRanking = chelpers.getRanking(referenceC, referenceYear, v)
+
+    print currentRanking
+    print
+    print referenceRanking
+
     out = []
-    for k,v in ranking.iteritems():
+    for k,v in currentRanking.iteritems():
         d = {
             "code": k,
-            "ranking": v["rank"],
-            "value": v["value"]
+            "currentRanking": v["rank"],
+            "currentValue": v["value"],
+            "referenceRanking": referenceRanking[k]["rank"],
+            "referenceValue": referenceRanking[k]["value"]
         }
         out.append(d)
 

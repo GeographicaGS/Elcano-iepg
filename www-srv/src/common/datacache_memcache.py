@@ -80,17 +80,16 @@ isoToGeoentity, geoentityToIso = maplex.getTranslationTable(1)
 isoToGeoentity = {key: value for key,value in isoToGeoentity.iteritems() if key in blocksAndCountries}
 geoentityToIso = {key: value for key,value in geoentityToIso.iteritems() if value in blocksAndCountries}
 
-mc.set("dataSets", dataSets, 0)
-# mc.set("blocks", blocks, 0)
-# mc.set("blocksNoEu", blocksNoEu, 0)
-# mc.set("countriesAndUe", countriesAndUe, 0)
-# mc.set("countries", countries, 0)
-# mc.set("blocksAndCountries", blocksAndCountries, 0)
-# mc.set("isoToSpanish", isoToSpanish, 0)
-# mc.set("spanishToIso", spanishToIso, 0)
-# mc.set("isoToEnglish", isoToEnglish, 0)
-# mc.set("englishToIso", englishToIso, 0)
-# mc.set("isoToGeoentity", isoToGeoentity, 0)
-# mc.set("geoentityToIso", geoentityToIso, 0)
+mc.set("blocks", blocks, 0)
+mc.set("blocksNoEu", blocksNoEu, 0)
+mc.set("countriesAndUe", countriesAndUe, 0)
+mc.set("countries", countries, 0)
+mc.set("blocksAndCountries", blocksAndCountries, 0)
+mc.set("isoToSpanish", isoToSpanish, 0)
+mc.set("spanishToIso", spanishToIso, 0)
+mc.set("isoToEnglish", isoToEnglish, 0)
+mc.set("englishToIso", englishToIso, 0)
+mc.set("isoToGeoentity", isoToGeoentity, 0)
+mc.set("geoentityToIso", geoentityToIso, 0)
 
 print "Cache done."

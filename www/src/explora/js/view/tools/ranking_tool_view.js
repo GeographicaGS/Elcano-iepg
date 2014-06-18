@@ -409,7 +409,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             variable = ctx.variables[0],
             family = ctx.family;
 
-
             html = "<div>" 
                     +   "<span>" + d.pos + "º " +app.countryToString(d.code) + "</span>"
                     +   "<span>" + d.year + "</span>"
@@ -419,7 +418,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                     +   "<span>" + app.variableToString(variable,family) + "</span>"
                     +   "<span>" + sprintf("%0.2f",d.value) + "</span>"
                     +   "<div class='clear'></div>"
-                    +"</div>"
+                    +"</div>";
 
         return html;
 

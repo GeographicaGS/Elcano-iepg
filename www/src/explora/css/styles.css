@@ -409,6 +409,7 @@ footer{
     background-color: @grey;
     height: 73px;
     border-top: 1px solid @grey_dark;
+    overflow-x: hidden;
 }
 
 main{

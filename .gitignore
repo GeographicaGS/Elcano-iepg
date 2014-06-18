@@ -8,4 +8,4 @@ venv
 *.sublime-*
 config.py
 00-config.sql
-
+config.js

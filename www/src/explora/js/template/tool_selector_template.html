@@ -16,19 +16,7 @@ n_selected = app.baseView.tools.length;
                 </div>
             </div>
             <div class="row">
-                 <div class="col-xs-12" id="n_selected">
-                    <%
-                        if (n_selected === 0){
-                            print("<lang>0 herramientos seleccionadas</lang>");
-                        }
-                        else if (n_selected==1){
-                            print("<lang>1 herramienta seleccionada</lang>");
-                        }
-                        else{
-                            print(sprintf("<lang>%d herramientas seleccionadas</lang>",n_selected));   
-                        }
-                    %>
-                </div>
+                 <div class="col-xs-12" id="n_selected"></div>
             </div>
         </div>
 

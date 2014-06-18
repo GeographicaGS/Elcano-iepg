@@ -15,7 +15,7 @@
 
         <div class="body">
             <div class="col-md-4">
-                <h4><%= app.variableToString(ctx.variables[0]) %></h4>
+                <h4><%= app.variableToString(ctx.variables[0],ctx.family) %></h4>
 
                 <p id="iepg_text" class="desc">
                     <lang>Variable IEPG desc TEXTO</lang>
@@ -24,15 +24,15 @@
                     <lang>Variable IEPE desc TEXTO</lang>
                 </p>
 
-                <p id="economic_presence_text" class="desc">
+                <p id="economic_global_text" class="desc">
                     <lang>Variable economic_presence desc TEXTO</lang>
                 </p>
 
-                 <p id="soft_presence_text" class="desc">
+                 <p id="soft_global_text" class="desc">
                     <lang>Variable soft_presence desc TEXTO</lang>
                 </p>
 
-                <p id="military_presence_text" class="desc">
+                <p id="military_global_text" class="desc">
                     <lang>Variable military_presence desc TEXTO</lang>
                 </p>
 
@@ -96,12 +96,14 @@
                 <div class="co_wheel">
                     <div class="wheel">
                         <div class="l0">
-                            <div class="iepg"><div class="img" variable="iepg"></div></div>
+                            <div class="global" family=<%= ctx.family %>>
+                                <div class="img" variable="global"></div>
+                            </div>
                         </div>
                         <div class="l1">
-                            <div class="eco"><div class="img" variable="economic_presence"></div></div>
-                            <div class="soft"><div class="img" variable="soft_presence"></div></div>
-                            <div class="militar"><div class="img" variable="military_presence"></div></div>
+                            <div class="eco"><div class="img" variable="economic_global"></div></div>
+                            <div class="soft"><div class="img" variable="soft_global"></div></div>
+                            <div class="militar"><div class="img" variable="military_global"></div></div>
                         </div>
                         <div class="l2">
                             <div class="troops">

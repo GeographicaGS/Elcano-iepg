@@ -9,7 +9,7 @@ app.collection.GlobalIndex = Backbone.Collection.extend({
     },
     
     url : function() {
-        return app.config.API_URL + "/globalindex/" + this._family + "/" + this._countries.join(",") + "/" + app.lang;
+        return app.config.API_URL + "/globalindex/" + this._family + "/global/" + this._countries.join(",") + "/" + app.lang;
     },
 
     parse: function(response){

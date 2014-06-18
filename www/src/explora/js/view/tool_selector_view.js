@@ -53,11 +53,9 @@ app.view.ToolSelector = Backbone.View.extend({
         this.$el.html(this._template({
             ctx: app.context.data,
         }));
-    
-        //this.$(".body").height(this.$el.closest(".fancybox-inner").height() - this.$(".header").outerHeight(true));
-
+  
         this.$n_selected = this.$("#n_selected");
-
+        this.refreshCounterElements();
         return this;
     },
 
@@ -110,13 +108,13 @@ app.view.ToolSelector = Backbone.View.extend({
         var html = "";
 
         if (n === 0){
-            html = "<lang>0 países seleccionados</lang>";
+            html = "<lang>No hay herramientas seleccionadas</lang>";
         }
         else if (n==1){
-            html ="<lang>1 país seleccionado</lang>";
+            html ="<lang>1 herramienta seleccionada</lang>";
         }
         else{
-            html = sprintf("<lang>%d países seleccionados</lang>",n);   
+            html = sprintf("<lang>%d herramientas seleccionadas</lang>",n);   
         }
         
         this.$n_selected.html(html);

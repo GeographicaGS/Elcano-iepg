@@ -1,6 +1,6 @@
 <div id="ranking_tool">
 
-    <div class="header" data-variable=<%=ctx.variables[0]%>>
+    <div class="header" data-variable=<%= ctx.variables[0] == "global" ? ctx.family : ctx.variables[0] %>>
         <a class="close" href="#"></a>
         <span id="tool_name"><lang>Ranking</lang></span>
   

@@ -178,7 +178,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         // Fetch the collection from the server
         this._mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
-            "variable" : ctx.family, // this is a trick, the map of this tool always show the family variable
+            "variable" : "global",
             "date" : ctx.slider[0].date.getFullYear()
         });
         
@@ -196,7 +196,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             year =  ctx.slider[0].date.getFullYear(),
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,family);
+        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,"global",family);
     },
 
     _renderMap: function(){
@@ -302,7 +302,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             ctx = ctxObj.data,
             model = this._models[family],
             year = ctx.slider[0].date.getFullYear(),
-            variables = model.get(year).iepg_variables,
+            variables = model.get(year).family,
             $chart = family == "iepg" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
             $co = family== "iepg" ? this.$co_iepg : this.$co_iepe,
             pos = family == "iepg" ? "left" : "right",
@@ -310,8 +310,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             height = $chart.height(),
             radius = Math.min(width, height) / 2;
 
-        $co.find(".subheader .index .value").html(sprintf("%.2f",variables["iepg"].value));
-        $co.find(".ranking").html(sprintf("<lang>Puesto %dº </lang>", variables["iepg"].ranking));
+        $co.find(".subheader .index .value").html(sprintf("%.2f",variables["global"].value));
+        $co.find(".ranking").html(sprintf("<lang>Puesto %dº </lang>", variables["global"].globalranking));
 
         $chart.html("");
 
@@ -370,7 +370,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 div.transition()        
                     .duration(200)      
                     .style("opacity", 1);      
-                div.html(obj._htmlToolTip(model.get(year).iepg_variables[d.name]))  
+                div.html(obj._htmlToolTip(model.get(year).family[d.name]))  
                     .style("left", (d3.event.pageX) + "px")     
                     .style("top", (d3.event.pageY - 28) + "px");    
                 })                  
@@ -382,8 +382,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         
 
             function click(d) {
-                if (d.name == "iepg" || d.name == "economic_presence" ||
-                    d.name == "soft_presence" || d.name =="military_presence")
+                if (d.name == "global" || d.name == "economic_global" ||
+                    d.name == "soft_global" || d.name =="military_global")
                 {
                     obj._moveChartSection(family,d,true);
                 }
@@ -395,7 +395,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this._d3[family].tree = tree;
         this._d3[family].arcTween = arcTween;
 
-        this._renderChartLegend(family,family);
+        this._renderChartLegend(family,"global");
     },
 
     _moveChartSection: function(family,d,callBrother){
@@ -430,12 +430,12 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
     _htmlToolTip: function(variable){
         
         var html = "<div>" 
-                    +   "<span>" + variable.ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +   "<span>" + variable.globalranking + "º " +app.countryToString(variable.code) + "</span>"
                     +   "<span>" + variable.year + "</span>"
                     +   "<div class='clear'></div>"
                     + "</div>"
                     + "<div>" 
-                    +   "<span>" + variable.variable + "</span>"
+                    +   "<span>" + app.variableToString(variable.variable,this.getGlobalContext().data.family) + "</span>"
                     +   "<span>" + sprintf("%0.2f",variable.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>"
@@ -452,7 +452,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         if (name=="iepe") name="iepg";
 
         $legend.html(this._templateChartLegend({
-            data: this._d3[family].tree.findElementInTree(name)
+            data: this._d3[family].tree.findElementInTree(name),
+            family: this.getGlobalContext().data.family
         }));
     },
 

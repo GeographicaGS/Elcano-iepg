@@ -9,6 +9,8 @@ app.config = {
         new Date("2000-01-01"),
         new Date("2005-01-01"),
         new Date("2010-01-01"),
+        new Date("2011-01-01"),
+        new Date("2012-01-01"),
         new Date("2013-01-01")
     ]
 }

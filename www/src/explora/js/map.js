@@ -53,7 +53,7 @@ app.view.map = function(options){
     };
 
     /* This method created a choropleth Map with the data supplied in the parameter */ 
-    this.drawChoropleth = function(data,time,variable){
+    this.drawChoropleth = function(data,time,variable,family){
 
         var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
         // Just for security
@@ -80,6 +80,7 @@ app.view.map = function(options){
             country.properties.time = time;
             country.properties.value = data[i].value;
             country.properties.variable = variable;
+            country.properties.family = family;
 
             bigJSON.push(country);
         }
@@ -135,7 +136,7 @@ app.view.map = function(options){
                     +   "<div class='clear'></div>"
                     + "</div>"
                     + "<div>" 
-                    +   "<span>" + app.variableToString(v.variable) + "</span>"
+                    +   "<span>" + app.variableToString(v.variable,v.family) + "</span>"
                     +   "<span>" + sprintf("%0.2f",v.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
@@ -194,7 +195,7 @@ app.view.map = function(options){
 
         this.$maplegend.html(html);
 
-        this.$maplabel.find(".variable").html(app.variableToString(variable));
+        this.$maplabel.find(".variable").html(app.variableToString(variable,family));
         this.$maplabel.find(".time").html(time);
 
         this._choroplethOVerlay = {

@@ -20,6 +20,8 @@ import common.const as const
 from helpers import processFilter
 import varengine.varengine as varengine
 import numpy as numpy
+from collections import OrderedDict
+import locale
 
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
@@ -33,21 +35,24 @@ def countryFilter(lang):
     return(jsonify({"results": data}))
 
 
-@app.route('/blocks/<string:lang>', methods=["GET"])
-def blocksData(lang):
-    """Retrieves currently available blocks data (based on filtered countries)."""
-    if lang=="es":
-        iso = datacache.isoToSpanish
-    else:
-        iso = datacache.isoToEnglish
+@app.route('/blocks', methods=["GET"])
+def blocksData():
+    """Retrieves blocks data."""
+    isoSpanish = {k: v for (k,v) in datacache.isoToSpanish.iteritems() if k in datacache.blocks}
+    isoEnglish = {k: v for (k,v) in datacache.isoToEnglish.iteritems() if k in datacache.blocks}
     out = dict()
     for b in datacache.blocks:
         year = dict()
         for y in cacheWrapper(datacache.dataSets["iepg"].variables["energy"].getVariableYears):
             m = cacheWrapper(common.helpers.getBlockMembers, b, year=y)
             year[y] = m
-        year["name"] = iso[b]
+        year["name_es"] = isoSpanish[b]
+        year["name_en"] = isoEnglish[b]
         out[b] = year
+
+    locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")
+    out["es"] = [k[0] for k in sorted(isoSpanish.items(), key=lambda t: t[1], cmp=locale.strcoll)]
+    out["en"] = [k[0] for k in sorted(isoEnglish.items(), key=lambda t: t[1], cmp=locale.strcoll)]
 
     return(jsonify(out))
 
@@ -194,8 +199,14 @@ def mapGeoJson():
 @app.route('/globalindex/<string:family>/<string:variable>/<string:countries>/<string:lang>', methods=['GET'])
 def globalindex(family,variable,countries,lang):
     countriesArray = countries.split(",")
+
+    print countriesArray
+
     varData = common.helpers.getData(datacache.dataSets[family].variables[variable],
                                      countryList=countriesArray)
+
+    print varData
+
     out = []
     codes = set([j["code"] for (i,j) in varData.iteritems()])
     for k in codes:

@@ -318,7 +318,7 @@ class Variable(object):
     restricted to years. Data structure is:
 
     {
-    "Code+Year": {
+    "Code@Year": {
     "code": code,
     "type": type,
     "value": value,
@@ -373,7 +373,7 @@ class Variable(object):
 
     def addValue(self, code, year, dataType, value):
         """Adds a value. TODO: restricted to years."""
-        self.data[code+str(year)] = {
+        self.data[str(code)+"@"+str(year)] = {
             "code": code, 
             "year": year, 
             "type": dataType, 
@@ -398,22 +398,30 @@ class Variable(object):
         except:
             if code and year:
                 try:
-                    return({code+str(year): self.__processData(self.data[code+str(year)])})
+                    return({str(code)+"@"+str(year): self.__processData(self.data[str(code)+"@"+str(year)])})
                 except:
-                    return({code+str(year): {"code": code, "type": self.defaultDataType,
-                                             "value": None, "year": year}})
+                    return({str(code)+"@"+str(year): {"code": code, "type": self.defaultDataType,
+                                                      "value": None, "year": year}})
             if code:
+
+
+
+                # import ipdb
+                # ipdb.set_trace()
+
                 try: 
-                    return({k: self.__processData(v) for (k,v) in self.data.iteritems() if code in k})
+                    return({k: self.__processData(v) for (k,v) in self.data.iteritems() if 
+                            code==k.split("@")[0]})
                 except:
-                    return({code+str(year): {"code": code, "type": self.defaultDataType,
-                                             "value": None, "year": year}})
+                    return({str(code)+"@"+str(year): {"code": code, "type": self.defaultDataType,
+                                                      "value": None, "year": year}})
             if year:
                 try:
-                    return({k: self.__processData(v) for (k,v) in self.data.iteritems() if str(year) in k})
+                    return({k: self.__processData(v) for (k,v) in self.data.iteritems() 
+                            if str(year)==k.split("@")[0]})
                 except:
-                    return({code+str(year): {"code": code, "type": self.defaultDataType,
-                                             "value": None, "year": year}})
+                    return({str(code)+"@"+str(year): {"code": code, "type": self.defaultDataType,
+                                                      "value": None, "year": year}})
             return({k: self.__processData(v) for (k,v) in self.data.iteritems()})
 
     def processData(self):
@@ -423,6 +431,11 @@ class Variable(object):
     
     def __processData(self, data):
         """Process data, without changing them."""
+
+
+        # import ipdb
+        # ipdb.set_trace()
+
         if "blockfunc::" in data["type"]:
             d = copy.deepcopy(data)
             module, function = d["type"][d["type"].find("::")+2:].rsplit(".",1)
@@ -490,7 +503,7 @@ class DataInterfacePostgreSql(DataInterface, PostgreSQLModel.PostgreSQLModel):
                     "year": a[dateInColumn].year,
                     "value": a[i]
                 }
-                variable[str(d["code"])+str(d["year"])] = d
+                variable[str(d["code"])+"@"+str(d["year"])] = d
             self.data[i] = variable
 
     def read(self, table, codeColumn, dateInColumn, dateOutColumn, valueColumn):

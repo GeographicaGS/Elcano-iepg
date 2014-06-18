@@ -80,7 +80,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 ctx = ctxObj.data,
                 current = ctx.countries.selection[0];
             
-            if (current != country){
+            if (current != id_country){
+                ctx.countries.selection[0] = id_country;
             	this._forceFetchDataTool = true;
             	this.render();	
             }

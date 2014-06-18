@@ -6,7 +6,6 @@
     /*margin-right: 20px;*/
     pointer-events: none;
 
-   
 }
 
 #tool_data{
@@ -415,6 +414,10 @@
         height: 100%;
     }
 
+    h5{
+        margin: 20px 0 0px 20px;
+    }
+
     #data_map,.chart{
         width: 100%;
         height: 100%;
@@ -761,6 +764,10 @@
 #quotes_tool{
     .co_chart{
         padding: 0 60px 50px 0;
+    }
+
+    h5{
+        margin: 20px 0 0 20px;
     }
     .chart{
 

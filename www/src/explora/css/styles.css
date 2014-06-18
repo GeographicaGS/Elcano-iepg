@@ -1057,6 +1057,7 @@ div.tooltip {
     pointer-events: none;     
     z-index: 3;    
 
+    left: -1000px;
     span{
         line-height: 24px;
         font-size:13px;

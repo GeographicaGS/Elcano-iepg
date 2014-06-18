@@ -494,7 +494,7 @@
     }
 
     #scroll_up{
-        top: 15px;
+        top: 100px;
         background: url("@{imgPath}ELC_icon_scroll_up.svg") no-repeat left center;
     }
 
@@ -621,6 +621,7 @@
     #piepg,#piepe,#pcenter{
         display: table-cell;
         width: 45%;
+        vertical-align: top;
     }
 
     #pcenter{

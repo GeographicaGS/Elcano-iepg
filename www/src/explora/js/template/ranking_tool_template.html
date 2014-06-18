@@ -17,15 +17,16 @@
 
         <div class="conteiner-fluid">
             <div class="row">
+
                 <div class="col-sm-6">
-                    <h5><%= app.variableToString(ctx.variables[0],ctx.family) %></h5>
-                    <div class="row">
-                        <div class="col-sm-12 co_chart">
-                            <a id="scroll_down" href="#"></a>
-                            <a id="scroll_up" href="#"></a>
-                            <div class="co_xaxis"></div>
-                            <div class="chart"></div>
-                        </div>
+                      
+                    <h5><%= app.variableToString("global",ctx.family) %></h5>
+                      
+                    <div class="co_chart">
+                        <a id="scroll_down" href="#"></a>
+                        <a id="scroll_up" href="#"></a>
+                        <div class="co_xaxis"></div>
+                        <div class="chart"></div>
                     </div>
                 </div>
                 <div class="col-sm-6 co_data_map" >

@@ -38,8 +38,7 @@ def createCache():
                               "code", "date_in", "date_out")
         for k,var in const.variableNames[fam].iteritems():
             v = varengine.Variable(k, True, "float", dataSet=dataSets[fam])
-            # mapping[k]=var["column"]
-            v.loadFromDataInterface(dataInterface, var["column"]) #, mapping=mapping)
+            v.loadFromDataInterface(dataInterface, var["column"]) 
             for y in [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]:
                 for b in ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"]:
                     v.addValue(b, y, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
@@ -51,24 +50,13 @@ def createCache():
 
 dataSets = createCache()
 
-# for ds in dataSets.values():
-#     for v in ds.variables.values():
-#         for y in [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]:
-#             for b in ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"]:
-#                 v.addValue(b, y, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
-#         v.setupCache(varengine.DataCacheNumpy)
-#         v.cacheData()
-
 blocks = [maplex.getGeoentityNames(i["id_geoentity_block"], 1)[0]["names"][0] for i in maplex.getBlocks()]
 blocksNoEu = copy.deepcopy(blocks)
 blocksNoEu.remove("XBEU")
-countriesAndUe = dataSets["iepg"].variables["energy"].getVariableCodes()
-
-
-# for b in blocks:
-#     countriesAndUe.remove(b)
-# countriesAndUe.append("XBEU")
-countries = copy.deepcopy(countriesAndUe)
+countriesAndEu = dataSets["iepg"].variables["energy"].getVariableCodes()
+countriesAndEu = arrayops.arraySubstraction(countriesAndEu, blocks)
+countriesAndEu.append("XBEU")
+countries = copy.deepcopy(countriesAndEu)
 countries.remove("XBEU")
 blocksAndCountries = copy.deepcopy(countries)
 blocksAndCountries.extend(blocks)
@@ -87,7 +75,7 @@ geoentityToIso = {key: value for key,value in geoentityToIso.iteritems() if valu
 
 mc.set("blocks", blocks, 0)
 mc.set("blocksNoEu", blocksNoEu, 0)
-mc.set("countriesAndUe", countriesAndUe, 0)
+mc.set("countriesAndEu", countriesAndEu, 0)
 mc.set("countries", countries, 0)
 mc.set("blocksAndCountries", blocksAndCountries, 0)
 mc.set("isoToSpanish", isoToSpanish, 0)

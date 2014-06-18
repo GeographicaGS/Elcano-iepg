@@ -28,6 +28,11 @@ def ranking(lang, currentYear, referenceYear, family, variable, blocks):
     f = processFilter(request.args, "filter")
     e = processFilter(request.args, "entities")
     countries = datacache.countries
+
+    print countries
+    print
+    print
+
     entitiesBlocks = [v for v in e if v in datacache.blocks]
     v = datacache.dataSets[family].variables[variable]
 
@@ -38,7 +43,13 @@ def ranking(lang, currentYear, referenceYear, family, variable, blocks):
         currentC = countries
         referenceC = currentC
 
+    print currentC
+    print
+    print
+    print referenceC
+
     if blocks:
+        print blocks
         for i in entitiesBlocks:
             currentC = arrayops.arraySubstraction(currentC, chelpers.getBlockMembers(i, year=currentYear))
             currentC.append(i)

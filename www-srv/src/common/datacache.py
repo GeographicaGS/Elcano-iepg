@@ -15,7 +15,7 @@ for fam in const.variableNames.keys():
 
 blocks = cachewrapper.getM("blocks")
 blocksNoEu = cachewrapper.getM("blocksNoEu")
-countriesAndUe = cachewrapper.getM("countriesAndUe")
+countriesAndEu = cachewrapper.getM("countriesAndEu")
 countries = cachewrapper.getM("countries")
 blocksAndCountries = cachewrapper.getM("blocksAndCountries")
 isoToSpanish = cachewrapper.getM("isoToSpanish")

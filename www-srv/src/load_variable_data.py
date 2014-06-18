@@ -12,7 +12,7 @@ import varengine.varengine as varengine
 reload(varengine)
 
 dataStore = varengine.DataStorePostgreSql("store", "store")
-dataStore.remove()
+#dataStore.remove()
 dataStore.setup()
 
 for fam in const.variableNames.keys():

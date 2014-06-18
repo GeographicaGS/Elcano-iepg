@@ -92,14 +92,20 @@ def getBlockMembers(isoBlock, year=None):
 
 
 # TODO: code can be an array of codes, years the same
-def getData(variable, code=None, year=None, countryList=None):
-    """Returns variable value. If countryList is present, only data for this countries 
-    are returned. countryList can mix calculated and uncalculated codes. If code is not None,
-    countryList is ignored."""
-    if countryList:
-        out = {}
-        for i in countryList:
-            for k,v in getData(variable, code=i, year=year).iteritems():
-                out[k] = v
-        return(out)
-    return(variable.getData(code=code, year=year))
+def getData(variable=None, code=None, year=None):
+    """Returns data. code and year can be None, single values or lists of them. variable can be a DataSet,
+    a variable, a list of DataSets or variables, or even None."""
+    var = []
+    if isinstance(variable, list):
+        for a in variable:
+            if isinstance(a, varengine.DataSet):
+                print "d"
+
+
+    # if countryList:
+    #     out = {}
+    #     for i in countryList:
+    #         for k,v in getData(variable, code=i, year=year).iteritems():
+    #             out[k] = v
+    #     return(out)
+    # return(variable.getData(code=code, year=year))

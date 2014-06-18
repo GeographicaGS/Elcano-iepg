@@ -39,9 +39,19 @@ from collections import OrderedDict
 
 di = e.DataInterfacePostgreSql()
 di.readAll("iepg_data_redux.iepg_data", "code", "date_in", "date_out")
-vinfo = e.Variable("information", True, "float")
+ds = e.DataSet("iepg")
+vinfo = e.Variable("information", True, "float", dataSet=ds)
 vinfo.loadFromDataInterface(di, "information")
+vinfo.addValue("XBAP", 1950, "float", 99)
 vinfo.addValue("XBAP", 2013, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
 vinfo.addValue("XBSA", 2013, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
+
+print vinfo.getData(code="XBAP")
+
+
+
+
+# vinfo.addValue("XBAP", 2013, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
+# vinfo.addValue("XBSA", 2013, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
 # vinfo.setupCache(e.DataCacheNumpy)
 # vinfo.cacheData()

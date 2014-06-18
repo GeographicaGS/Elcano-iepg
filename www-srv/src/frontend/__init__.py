@@ -12,6 +12,7 @@ import documentcatalog
 import document
 import new
 import locale
+import downloads
 
 @app.route('/', methods = ['GET'])                                            
 def alive():

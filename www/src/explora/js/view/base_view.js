@@ -10,8 +10,8 @@ app.view.Base = Backbone.View.extend({
 
         this.$tool = $("#tool");
         // Let's save the original left, this will be modified by animations in toggleTools
-        this.originLeft =  this.$tool.offset().left;
-
+        this.originLeft =  this.$tool.offset().left;    
+        
         this.$control_panel = this.$("#control_panel");
         this.$panelTools = this.$control_panel.find("ul");
 

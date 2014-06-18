@@ -405,6 +405,11 @@ h4{
     color: @red;
 }
 
+h5{
+    color: @red;
+    font-size: 18px;
+    .roboto(light);
+}
 footer{
     background-color: @grey;
     height: 73px;
@@ -1052,6 +1057,7 @@ div.tooltip {
     pointer-events: none;     
     z-index: 3;    
 
+    left: -1000px;
     span{
         line-height: 24px;
         font-size:13px;

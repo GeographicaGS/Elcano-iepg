@@ -86,6 +86,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         this.$chart = this.$(".chart");
 
+        this.$(".co_chart").height(this.$(".body").height()- this.$("h5").outerHeight(true)- 20);
+
         this._drawD3Chart();
 
         this._forceFetchDataTool = false;
@@ -407,7 +409,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             variable = ctx.variables[0],
             family = ctx.family;
 
-
             html = "<div>" 
                     +   "<span>" + d.pos + "º " +app.countryToString(d.code) + "</span>"
                     +   "<span>" + d.year + "</span>"
@@ -417,7 +418,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                     +   "<span>" + app.variableToString(variable,family) + "</span>"
                     +   "<span>" + sprintf("%0.2f",d.value) + "</span>"
                     +   "<div class='clear'></div>"
-                    +"</div>"
+                    +"</div>";
 
         return html;
 

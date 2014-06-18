@@ -24,18 +24,26 @@
     <div class="body">
         <div class="container-fluid">
             <div class="row mth1">
+
                 <div class="col-sm-6 col-md-6">
-                    <div class="row ">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5><%= app.variableToString("global",ctx.family) %></h5>
+                        </div>
+                    </div>
+                    <div class="row mth1">
                         <div class="col-sm-3 col-md-3">
-                            <span class="grey uppercase size_11"><%= app.variableToString("global",ctx.family) %></span>
+                            <span class="grey uppercase size_11"><lang>Valor</lang></span>
                         </div>
                         <div class="col-sm-4 col-md-4">
                             <div class="co_flag">
                                 <img src="/img/flags/<%= country %>.svg" class="flag" />
                             </div>
-                            <span class="grey size_21 fleft mt7 ml"><%= sprintf("%0.2f",variable.value) %></span>
+                            <span class="grey size_21 fleft mt7 ml roboto_light"><%= country %></span>
+                            <span class="grey size_21 fleft mt7 ml roboto_bold"><%= sprintf("%0.2f",variable.value) %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
+
                             <span><%= sprintf("<lang> Puesto %dº</lang>", variable.globalranking) %></span>
                             <span>(<%= sprintf("%d", variable.relativeranking) %>)</span>
                             <img class="infoover" src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />

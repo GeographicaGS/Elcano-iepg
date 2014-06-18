@@ -7,11 +7,11 @@ Data cache.
 """
 
 import varengine.varengine as varengine
-import const
+import common.const as const
 import memcache
 import maplex.maplex as maplex
 import copy
-import arrayops
+import common.arrayops as arrayops
 import common.config as config
 
 mc = memcache.Client([config.MemcachedConfig["host"]+":"+config.MemcachedConfig["port"]], debug=0)
@@ -38,14 +38,12 @@ def createCache():
                               "code", "date_in", "date_out")
         for k,var in const.variableNames[fam].iteritems():
             v = varengine.Variable(k, True, "float", dataSet=dataSets[fam])
+            # mapping[k]=var["column"]
+            v.loadFromDataInterface(dataInterface, var["column"]) #, mapping=mapping)
             for y in [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]:
                 for b in ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"]:
                     v.addValue(b, y, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
-            v.setupCache(varengine.DataCacheNumpy)
-            v.cacheData()
-            mapping[k]=var["column"]
-            dataSets[fam].loadVariableDataFromDataInterface(dataInterface, mapping=mapping)
-
+            v.processData()
 
         mc.set(fam, dataSets[fam], 0)
 
@@ -66,7 +64,6 @@ blocksNoEu = copy.deepcopy(blocks)
 blocksNoEu.remove("XBEU")
 countriesAndUe = dataSets["iepg"].variables["energy"].getVariableCodes()
 
-print blocks
 
 # for b in blocks:
 #     countriesAndUe.remove(b)

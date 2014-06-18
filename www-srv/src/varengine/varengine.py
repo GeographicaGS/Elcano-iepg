@@ -377,7 +377,7 @@ class Variable(object):
             "code": code, 
             "year": year, 
             "type": dataType, 
-            "value": str(value)
+            "value": value
         }
 
     def getVariableYears(self):
@@ -415,6 +415,11 @@ class Variable(object):
                     return({code+str(year): {"code": code, "type": self.defaultDataType,
                                              "value": None, "year": year}})
             return({k: self.__processData(v) for (k,v) in self.data.iteritems()})
+
+    def processData(self):
+        """Process all data stored in the variable."""
+        for i,j in self.data.iteritems():
+            self.data[i] = self.__processData(j)
     
     def __processData(self, data):
         """Process data, without changing them."""
@@ -430,7 +435,7 @@ class Variable(object):
         if data["type"]=="float":
             d = copy.deepcopy(data)
             if d["value"] is not None:
-                d["value"] = float(d["value"])
+                d["value"] = float(str(d["value"]))
             else:
                 d["value"] = None
             d["type"] = self.defaultDataType

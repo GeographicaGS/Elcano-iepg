@@ -23,23 +23,25 @@ from collections import OrderedDict
 #import common.datacache as dc
 #reload(dc)
 
-import common.cachewrapper
-import datacache_memcache
+# import common.cachewrapper
+# import datacache_memcache
 
 
 # print h.getRanking(dc.blocksAndCountries, 1990, dc.dataSets["iepg"].variables["information"])
 
-print h.getData(dc.dataSets["iepg"].variables["manufactures"], year=2013, 
-                countryList=["XBSA", "XBEU", "XBNA", "XBE2", "XBLA", "XBMM", "XBAP"])
+# print h.getData(dc.dataSets["iepg"].variables["manufactures"], year=2013, 
+#                 countryList=["XBSA", "XBEU", "XBNA", "XBE2", "XBLA", "XBMM", "XBAP"])
 
 # print h.getData(dc.dataSets["iepg"].variables["manufactures"])
 
 # print h.getRanking(["NZ", "MX", "ES", "XBAP", "XBEU"], 2000, dc.dataSets["iepg"].variables["energy"])
 
 
-# di = e.DataInterfacePostgreSql()
-# di.readAll("iepg_data_redux.iepg_data", "code", "date_in", "date_out")
-# vinfo = e.Variable("information", True, "float")
-# vinfo.loadFromDataInterface(di, "information")
+di = e.DataInterfacePostgreSql()
+di.readAll("iepg_data_redux.iepg_data", "code", "date_in", "date_out")
+vinfo = e.Variable("information", True, "float")
+vinfo.loadFromDataInterface(di, "information")
+vinfo.addValue("XBAP", 2013, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
+vinfo.addValue("XBSA", 2013, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
 # vinfo.setupCache(e.DataCacheNumpy)
 # vinfo.cacheData()

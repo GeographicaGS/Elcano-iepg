@@ -16,7 +16,7 @@ def blockFunctionLumpSum(data, context=None):
     values = False
     for i in maplex.getBlockMembers(data["code"], year=data["year"], idNameFamily=1):
         v = context.getData(code=i["id_geoentity_child"], year=data["year"]).values()[0]["value"]
-        if v:
+        if v is not None:
             values = True
             s += v
     if values:

@@ -49,10 +49,6 @@ def ranking(lang, currentYear, referenceYear, family, variable, blocks):
                                         key=lambda t: t[1]["rank"]))
     referenceRanking = chelpers.getRanking(referenceC, referenceYear, v)
 
-    print currentRanking
-    print
-    print referenceRanking
-
     out = []
     for k,v in currentRanking.iteritems():
         d = {

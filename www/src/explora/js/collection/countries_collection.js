@@ -18,8 +18,9 @@ app.collection.Countries = Backbone.Collection.extend({
         }
 
         var filtered = this.filter(function(c) {
-            return filters.indexOf(c.get("id"))!= -1;
+            return filters.indexOf(c.get("id"))== -1;
         });
+        
         return new app.collection.Countries(filtered);
     }
     

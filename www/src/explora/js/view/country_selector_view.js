@@ -32,7 +32,8 @@ app.view.CountrySelector = Backbone.View.extend({
     events : {
         "click #save": "save",
         "click #cancel": "cancel",
-        "click li[code]" : "clickCountry"
+        "click li[code]" : "clickCountry",
+        "click .ctrl_cb li a": "clickPanelCtrl"
     },
 
     onClose: function(){
@@ -107,6 +108,8 @@ app.view.CountrySelector = Backbone.View.extend({
 
 
     clickCountry: function(e){
+        e.preventDefault();
+
         var $e = $(e.target).closest("li"),
             sel = $e.attr("selected"),
             code = $e.attr("code");
@@ -122,6 +125,24 @@ app.view.CountrySelector = Backbone.View.extend({
             this._addCountryToTopStack(code);
         }
         this.refreshCounterElements();
+    },
+
+    clickPanelCtrl: function(e){
+
+        e.preventDefault();
+
+        var $e = $(e.target),
+            $target = this.$("#"+ $e.attr("data-rel"));
+
+        this.$(".body > div").fadeOut(300, function(){
+            $target.show();
+        });
+
+        this.$("ul.ctrl_cb li").removeAttr("selected");
+        $e.closest("li").attr("selected",true);
+       
+        
+        
     }
 
 

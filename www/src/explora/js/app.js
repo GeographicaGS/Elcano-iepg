@@ -299,7 +299,7 @@ app.filterschanged = function(filters){
     this.setFilters(filters);
 
     // we've to remove from the context the countries which are not present in the filter
-    this.context.removeCountriesNotPresentInFilter();
+    this.context.removeCountriesInFilter();
     this.context.saveContext();
 
     if (app.baseView.currentTool){

@@ -1,12 +1,6 @@
-<%
-    filters = app.getFilters();
-%>
 <ul class="country_bar">
     <%_.each(ctx.countries.list,function(c){ 
         
-        if (filters.length && filters.indexOf(c) == -1 )
-            return;
-
         sel = ctx.countries.selection.indexOf(c) != -1 ? "selected" : "";
         %>
         <li class="country_draggable">

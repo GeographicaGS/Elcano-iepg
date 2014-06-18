@@ -28,8 +28,8 @@ def countryFilter(lang):
         iso = datacache.isoToSpanish
     else:
         iso = datacache.isoToEnglish
-    data = [{"id": k, "name": v, "short_name_"+lang+"_order": v} for (k,v) in iso.iteritems() 
-            if k in datacache.countries]
+    data = sorted([{"id": k, "name": v, "short_name_"+lang+"_order": v} for (k,v) in iso.iteritems() 
+            if k in datacache.countries], key=lambda t: t["short_name_"+lang+"_order"])
     return(jsonify({"results": data}))
 
 

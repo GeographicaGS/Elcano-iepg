@@ -1,8 +1,7 @@
 <div id="quotes_tool">
-	<div class="header" data-variable=<%=ctx.variables[0]%>>
+	<div class="header" data-variable=<%= ctx.variables[0] == "global" ? ctx.family : ctx.variables[0] %>>
 	    <a class="close" href="#"></a>
 	    <span id="tool_name"><lang>Cuotas de presencia</lang></span>
-	    <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %></span>
 	    <span id="tool_year"><lang>Año</lang> <%= ctx.slider[0].date.getFullYear()%></span>
 
 	    <select id="ctrl_family">

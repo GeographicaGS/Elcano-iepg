@@ -23,7 +23,7 @@ app.view.tools.context = function(id){
         // List of the current slider in the context. 
         "slider": [],
         // List of variables
-        "variables": ["iepg"],
+        "variables": ["global"],
 
         // Family it could be iepg or iepe
         "family" : "iepg"

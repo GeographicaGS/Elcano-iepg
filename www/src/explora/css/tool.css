@@ -118,7 +118,7 @@
         background-color: @grey_light;
     }
 
-    .header[data-variable='economic_presence']{
+    .header[data-variable='economic_global']{
        .headerTool(economic_presence,@white);
     }
 
@@ -142,7 +142,7 @@
        .headerTool(investments,@white);
     }
      
-    .header[data-variable='military_presence']{
+    .header[data-variable='military_global']{
        .headerTool(military_presence,@white);
     }
 
@@ -154,7 +154,7 @@
        .headerTool(military_equipment,@white);
     }
 
-    .header[data-variable='soft_presence']{
+    .header[data-variable='soft_global']{
        .headerTool(soft_presence,@white);
     }
 
@@ -241,7 +241,7 @@
 
 }   
 
-#contributions_tool,#country_tool{
+#contributions_tool,#country_tool,#comparison_tool{
     .chart{
         path:hover {
           fill: @grey_dark !important;
@@ -493,6 +493,10 @@
     #scroll_up{
         top: 15px;
         background: url("@{imgPath}ELC_icon_scroll_up.svg") no-repeat left center;
+    }
+
+    .tooltip{
+        position: absolute;
     }
 }
 
@@ -833,4 +837,24 @@
             }
         }
     }
+
+    @media all and (max-height: 768px){
+        .chart{
+            height: 400px;
+        }
+    }
+
+    @media all and (min-height: 850px) and (max-height: 1024px){
+        .chart{
+            height: 450px;
+        }
+    }
+
+    @media all and (min-height: 1024){
+        .chart{
+            height: 500px;
+            background-color: red;
+        }
+    }
+
 }

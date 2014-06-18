@@ -42,8 +42,15 @@ app.view.VariableSelector = Backbone.View.extend({
 
     _renderVariableInfo: function(v){
         this.$(".desc").hide();
-        this.$("h4").html(app.variableToString(v));
-        this.$("#" + v + "_text").show();
+        this.$("h4").html(app.variableToString(v,app.context.data.family));
+
+        if (v == "global"){
+            this.$("#" + app.context.data.family + "_text").show();
+        }
+        else{
+            this.$("#" + v + "_text").show();
+        }
+       
     },
 
     render: function(){

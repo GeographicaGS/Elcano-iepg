@@ -88,7 +88,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         // Fetch the collection from the server
         this.mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
-            "variable" : ctx.family, // this is a trick, the map of this tool always show the family variable
+            "variable" : "global",
             "date" : ctx.slider[0].date.getFullYear()
         });
         
@@ -115,7 +115,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         this._drawD3Chart(year);
 
-        this._renderChartLegend("iepg");
+        this._renderChartLegend("global");
         
     },
 
@@ -127,7 +127,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             year =  ctx.slider[0].date.getFullYear(),
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,family);
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,"global",family);
 
         
     },
@@ -267,7 +267,12 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "country/" + family + "/" + countries + "/" + country + "/" + year + filters;
 
-         app.router.navigate(url, {trigger: false});
+        if (!family || !countries || !country || !variable || !year ){
+            app.router.navigate("/", {trigger: false});
+        }
+        else{
+            app.router.navigate(url, {trigger: false});
+        }
     },
 
     URLToContext: function(url){
@@ -344,7 +349,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         var obj = this;
 
-        this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).iepg_variables);
+        this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).family);
         
         var path = svg.selectAll("path")
               .data(partition.nodes(this.tree.get()))
@@ -368,8 +373,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         
 
             function click(d) {
-                if (d.name == "iepg" || d.name == "economic_presence" ||
-                    d.name == "soft_presence" || d.name =="military_presence")
+                if (d.name == "global" || d.name == "economic_global" ||
+                    d.name == "soft_global" || d.name =="military_global")
                 {
                     path.transition()
                         .duration(750)
@@ -380,17 +385,23 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
           }
     },
 
-    _htmlToolTip: function(variable){
-        var year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
-            variable = this.model.get(year).iepg_variables[variable];
+    _htmlToolTip: function(tvariable){
+          var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            family = ctx.family,
+            year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
+            variable = tvariable == "iepg" || tvariable ==  "iepe" ? this.model.get(year).family.global 
+                        : this.model.get(year).family[tvariable];
+
+
 
             html = "<div>" 
-                    +   "<span>" + variable.ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +   "<span>" + variable.globalranking + "º " +app.countryToString(variable.code) + "</span>"
                     +   "<span>" + year + "</span>"
                     +   "<div class='clear'></div>"
                     + "</div>"
                     + "<div>" 
-                    +   "<span>" + variable.variable + "</span>"
+                    +   "<span>" + app.variableToString(variable.variable,family) + "</span>"
                     +   "<span>" + sprintf("%0.2f",variable.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>"
@@ -400,11 +411,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     _renderChartLegend: function(name){
-
         this.$chart_legend.html(this._templateChartLegend({
-            data: this.tree.findElementInTree(name)
+            data: this.tree.findElementInTree(name),
+            family : this.getGlobalContext().data.family
         }));
-
     }
     
 });

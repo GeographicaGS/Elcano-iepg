@@ -462,53 +462,19 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
     },
     _htmlToolTip: function(el){
-        // var ctx = this.getGlobalContext().data,
-        //     variable = ctx.variables[0];
-
-        // // Let's find wich axis tick is the closest one
-
-        // var closestIdx = 0,
-        //     i = 0,
-        //     closestDistanceFound = Number.MAX_VALUE,
-        //     $ticks = $(".chart .x.axis .tick");
-
-        // $ticks.each(function(){
-        //     var tpos = $(this).position().left,
-        //         distance = Math.abs(pos -tpos);
-
-        //     if (distance<closestDistanceFound){
-        //         closestIdx = i;
-        //         closestDistanceFound = distance;
-        //     }
-        //     i++;
-        // });
-
-        // var el = d[closestIdx],
-        //     html = "<div>" 
-        //             +   "<span>" + app.countryToString(el.country) + "</span>"
-        //             +   "<span>" + el.year + "</span>"
-        //             +   "<div class='clear'></div>"
-        //             + "</div>"
-        //             + "<div>" 
-        //             +   "<span>" + app.variableToString(variable) + "</span>"
-        //             +   "<span>" + sprintf("%0.2f",el.value) + "</span>"
-        //             +   "<div class='clear'></div>"
-        //             +"</div>"
-
-        // return html;
-
+        
         var ctx = this.getGlobalContext().data,
-            variable = ctx.variables[0];
+            variable = ctx.variables[0],
+            family = ctx.family;
 
         // Let's find wich axis tick is the closest one
-
         var html = "<div>" 
                     +   "<span>" + app.countryToString(el.country) + "</span>"
                     +   "<span>" + el.year + "</span>"
                     +   "<div class='clear'></div>"
                     + "</div>"
                     + "<div>" 
-                    +   "<span>" + app.variableToString(variable) + "</span>"
+                    +   "<span>" + app.variableToString(variable,family) + "</span>"
                     +   "<span>" + sprintf("%0.2f",el.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>"

@@ -1,9 +1,9 @@
 <div id="ranking_tool">
 
-    <div class="header" data-variable=<%=ctx.variables[0]%>>
+    <div class="header" data-variable=<%= ctx.variables[0] == "global" ? ctx.family : ctx.variables[0] %>>
         <a class="close" href="#"></a>
         <span id="tool_name"><lang>Ranking</lang></span>
-        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %></span>
+  
         <span id="tool_year"><lang>Año</lang> <%= ctx.slider[0].date.getFullYear()%></span>
         <span id="tool_year_ref"><lang>Referencia</lang> <%= ctx.slider[1].date.getFullYear()%></span>
 
@@ -25,6 +25,7 @@
                 </div>
                 <div class="col-sm-6 co_data_map" >
                     <div id="data_map"></div>
+                    <div id="ranking_map_tooltip" class="tooltip"></div>
                 </div>
             </div>
         </div>

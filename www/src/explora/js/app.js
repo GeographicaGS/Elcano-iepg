@@ -178,18 +178,24 @@ app.scrollToEl = function($el){
     }, 500);    
 };
 
-app.variableToString = function(variable){
+app.variableToString = function(variable,family){
     switch(variable){
-        case "IEPG":
-        case "iepg":
-            return "<lang>Índice Elcano de Presencia Global</lang>";
-        case "iepe":
-            return "<lang>Índice Elcano de Presencia Europea</lang>";
-        case "economic_presence":
+        case "global":
+            if (family == "iepg"){
+                return "<lang>Índice Elcano de Presencia Global</lang>";
+            }
+            else if (family == "iepe"){
+                return "<lang>Índice Elcano de Presencia Europea</lang>";
+            }
+            else{
+                return "No definida"
+            }
+      
+        case "economic_global":
             return "<lang>Presencia económica</lang>";
-        case "soft_presence":
+        case "soft_global":
             return "<lang>Presencia blanda</lang>";
-        case "military_presence":
+        case "military_global":
             return "<lang>Presencia militar</lang>";
 
         // Military presence

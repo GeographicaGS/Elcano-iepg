@@ -4,7 +4,7 @@ var perc = (100 / (app.config.SLIDER.length -1));
 
 for (var i=0; i<app.config.SLIDER.length;i++){
     var d = app.config.SLIDER[i],
-        width = i == (app.config.SLIDER.length -1) ? 0 : perc;
+        width = perc;
     %>
    <li style="left:<%= i * perc %>%;width:<%=width%>%"  base> 
         <a href="#" class="point" year="<%= d.getFullYear() %>"></a>
@@ -28,10 +28,10 @@ for (var i=0; i<app.config.SLIDER.length;i++){
         }
     }
 
-    width_sel = idx_sel == (app.config.SLIDER.length -1) ? 0 : perc;
+    width_sel = perc;
     d_sel = app.config.SLIDER[idx_sel];
 
-    width_ref = idx_ref == (app.config.SLIDER.length -1) ? 0 : perc;
+    width_ref = perc;
     d_ref = app.config.SLIDER[idx_ref];
 %>
 

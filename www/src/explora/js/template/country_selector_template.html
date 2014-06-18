@@ -13,43 +13,23 @@
             </div>
             <div class="row">
                  <div class="col-xs-12" id="n_selected">
-                    <%
-                        if (n_selected === 0){
-                            print("<lang>0 países seleccionados</lang>");
-                        }
-                        else if (n_selected==1){
-                            print("<lang>1 país seleccionado</lang>");
-                        }
-                        else{
-                            print(sprintf("<lang>%d países seleccionados</lang>",n_selected));   
-                        }
-                    %>
+                  
                 </div>
             </div>
         </div>
 
         <div id="countries_plain" class="body">
             <%
-            var n_interval = collection.length < 3 ? 1 : 
-                                app.isSMDevice() ? 2 : 3,
-                interval = parseInt(collection.length / n_interval),
-                offset = collection.length % n_interval;
+  
+
+            var n_interval = app.isSMDevice() ? 2 : 3,
+             interval = parseInt(Math.ceil(collection.length / n_interval));
                         
             for (var i=0;i<n_interval;i++){
-                var start = interval*i,
-                    end = interval*(i+1);
-                    
-                if (offset){
-                    end += offset; 
-                    if (i>0){
-                        start += offset;
-                    }
-                }
-
-
+               
             %>
             <ul class="flag_wrapper col-md-4 col-sm-6">
-                <% _.each(collection.slice(start,end),function (d){
+                <% _.each(collection.slice(interval*i,interval*(i+1)),function (d){
                     sel = ctx.countries.list.indexOf(d.id) != -1 ? "selected" : "";
                  %>
                     <li code="<%=d.id %>" <%= sel %> title="<%= d.name %>">

@@ -1,16 +1,15 @@
 <table>
 	<tr>
-	
-		<th><div style="background-color:<%= data.color%>"></div><span><%= app.variableToString(data.name) %></span></th>
+		<th><div style="background-color:<%= data.color%>"></div><span><%= app.variableToString(data.name,family) %></span></th>
 		<th><%= sprintf("%.2f",data.size) %></th>
-		<th><%= sprintf("%.2f",data.size) %> %</th>
+		<th><%= data.perc ? sprintf("%.2f",data.perc) : "--" %> %</th>
 	</tr>
 	<% _.each(data.children, function(d){ %>
 		<tr>
 			
-			<td><div style="background-color:<%= d.color%>"></div><span><%= app.variableToString(d.name) %></span></td>
+			<td><div style="background-color:<%= d.color%>"></div><span><%= app.variableToString(d.name,family) %></span></td>
 			<td><%= sprintf("%.2f",d.size) %></td>
-			<td><%= sprintf("%.2f",d.size) %> %</td>
+			<td><%= d.perc ? sprintf("%.2f",d.perc) : "--"%> %</td>
 		</tr>
 
 	<% }); %>

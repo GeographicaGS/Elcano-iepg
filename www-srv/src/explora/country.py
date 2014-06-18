@@ -194,8 +194,14 @@ def mapGeoJson():
 @app.route('/globalindex/<string:family>/<string:variable>/<string:countries>/<string:lang>', methods=['GET'])
 def globalindex(family,variable,countries,lang):
     countriesArray = countries.split(",")
+
+    print countriesArray
+
     varData = common.helpers.getData(datacache.dataSets[family].variables[variable],
                                      countryList=countriesArray)
+
+    print varData
+
     out = []
     codes = set([j["code"] for (i,j) in varData.iteritems()])
     for k in codes:

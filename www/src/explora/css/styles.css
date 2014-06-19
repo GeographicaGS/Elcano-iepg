@@ -410,6 +410,12 @@ h5{
     font-size: 18px;
     .roboto(light);
 }
+
+h6{
+    color: @grey;
+    font-size: 14px;
+    .roboto();
+}
 footer{
     background-color: @grey;
     height: 73px;

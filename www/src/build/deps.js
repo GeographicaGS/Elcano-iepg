@@ -244,12 +244,16 @@ deps.Explora.JS = {
 			"explora/js/view/notfound_view.js",
 			"explora/js/view/error_view.js",
 
+			"explora/js/data/blocks.json",
+
 			//map
 			"explora/js/map.js",
 			// router
 			"explora/js/router.js",
 			// app
 			"explora/js/app.js",
+
+
 		],
 		desc: "Core library."
 	}

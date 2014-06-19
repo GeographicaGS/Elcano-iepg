@@ -243,11 +243,20 @@ app.variableToString = function(variable,family){
 }
 
 app.countryToString = function(id_country){
-    for (var i=0;i<countriesGeoJSON.features.length;i++){
 
-        if (countriesGeoJSON.features[i].properties.code == id_country){
-            return countriesGeoJSON.features[i].properties["name_"+app.lang];
+    if (id_country.length == 2){
+
+
+        for (var i=0;i<countriesGeoJSON.features.length;i++){
+
+            if (countriesGeoJSON.features[i].properties.code == id_country){
+                return countriesGeoJSON.features[i].properties["name_"+app.lang];
+            }
         }
+    }
+    else{
+        // It's a block
+        return app.blocks[id_country]["name_" + app.lang];
     }
     
     return "No country name found";

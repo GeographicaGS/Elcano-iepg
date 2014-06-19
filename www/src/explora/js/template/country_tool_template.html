@@ -1,6 +1,7 @@
 <%
-    console.log(model);
+    
     variable = model ? model.family.global : null;
+    console.log(model);
     gdp = model ? model.context.gdp : null;
     population = model ? model.context.population : null;
     country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
@@ -29,6 +30,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <h5><%= app.variableToString("global",ctx.family) %></h5>
+                            <h6><%= app.countryToString(country) %></h6>
                         </div>
                     </div>
                     <div class="row mth1">
@@ -59,6 +61,7 @@
                         </div>
                     </div>
 
+                    <% if (country.length == 2) { %>
                     <div class="row ">
                         <div class="col-sm-3 col-md-3">
                             <span class="grey uppercase size_11"><lang>PIB</lang></span>
@@ -72,7 +75,7 @@
                             <span>(<%= sprintf("%d", gdp.relativeranking) %>)</span>
                         </div>
                     </div>
-
+                  
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="sep"></div>
@@ -100,6 +103,9 @@
                         </div>
                     </div>
 
+                    <% } %>
+
+                    <% if (model.comment && model.comment.comment) { %>
                     <div class="row">
                         <div class="col-xs-12">
                             <span class="grey uppercase size_11"><lang>Resumen</lang></span>
@@ -109,6 +115,7 @@
                             <p class="size_16"><%= model.comment.comment %></p>
                         </div>
                     </div>
+                    <% } %>
 
                 </div>
 

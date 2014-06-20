@@ -184,6 +184,7 @@ app.view.Base = Backbone.View.extend({
             this.currentTool.bringToBack();
         }
         this.currentTool = tool;
+        this.currentTool.forceFetchDataOnNextRender();
         this.currentTool.bringToFront();
 
 

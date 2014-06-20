@@ -311,6 +311,7 @@ input[placeholder]{
 .roboto_cond_bold{.roboto_cond(bold);}
 .roboto_bold{.roboto(bold);}
 .text_bold{ .roboto(bold);}
+.roboto_italic{ .roboto(italic);}
 
 .trans_opacity(){
     -webkit-transition: opacity 200ms linear;
@@ -631,6 +632,18 @@ main{
             }
         }
 
+    }
+
+    &.help{
+        #cancel{
+            margin: -8px 15px 15px 15px;
+        }
+        h6{
+            .roboto(bold);
+        }
+        p{
+            margin-bottom: @line_height;
+        }
     }
 }
 

@@ -181,7 +181,7 @@ deps.Explora.JS = {
 			"explora/js/lib/backbone-min.js",
 			"explora/js/lib/d3.v3.min.js",
 			"explora/js/lib/fancybox/source/jquery.fancybox.pack.js",
-			"explora/js/lib/sprintf.min.js",
+			// "explora/js/lib/sprintf.min.js",
 			"explora/js/lib/leaflet-0.7.2.js",
 			"explora/js/lib/countries.geojson",
 			
@@ -191,6 +191,7 @@ deps.Explora.JS = {
 	,Core: {
 		src: [
 		
+			"explora/js/lib/sprintf.js",
 			// Namespace
 			"explora/js/namespace.js",
 			// Config file

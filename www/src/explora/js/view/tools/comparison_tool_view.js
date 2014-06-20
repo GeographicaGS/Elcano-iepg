@@ -143,7 +143,6 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         $co_chart.find(".name").html(app.countryToString(country));
 
 
-
         if (forceFetch){
             // Fetch the data of this tool
             this._models[family] = new app.model.tools.country({
@@ -412,7 +411,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
         // Let's find d in the other tree.
         var  // brother family
-            bfam = family == "iepg" ? "iepe" : "iepe";
+            bfam = family == "iepg" ? "iepe" : "iepg";
 
         if (!this._d3[bfam]){
             // no brother chart

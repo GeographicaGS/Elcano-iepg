@@ -1,5 +1,6 @@
 app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_template : _.template( $('#country_tool_template').html() ),
+    _templateHelp : _.template( $('#country_tool_help_template').html() ),
     _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     type: "country",
   
@@ -20,7 +21,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                },
                "mouseout .infoover": function(e){
                     this.$(".content_infoover").fadeOut(300);
-               }
+               },
+               "click a.helpIcon": "launchHelp"
            }
         );
     },
@@ -415,6 +417,21 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             data: this.tree.findElementInTree(name),
             family : this.getGlobalContext().data.family
         }));
+    },
+
+    launchHelp: function(e){
+        e.preventDefault();
+
+        var opts = app.fancyboxOpts();
+
+         opts["afterShow"] = function () {
+            $("#cancel").click(function(e){
+                e.preventDefault();
+                $.fancybox.close();
+            });
+        };
+        
+        $.fancybox(this._templateHelp(), opts);
     }
     
 });

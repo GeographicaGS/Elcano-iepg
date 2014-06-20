@@ -23,6 +23,9 @@
 
     <% if (model && variable.value) { %>
     <div class="body">
+        <a href="#" class="helpIcon">
+            <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+        </a>
         <div class="container-fluid">
             <div class="row mth1">
 
@@ -37,21 +40,28 @@
                         <div class="col-sm-3 col-md-3">
                             <span class="grey uppercase size_11"><lang>Valor</lang></span>
                         </div>
-                        <div class="col-sm-4 col-md-4">
-                            <div class="co_flag">
+                        <div class="col-sm-4 col-md-4" title="<%=  app.countryToString(country) %>">
+                            <div class="co_flag" >
                                 <img src="/img/flags/<%= country %>.svg" class="flag" />
                             </div>
-                            <span class="grey size_21 fleft mt7 ml roboto_light"><%= country %></span>
+                            <span class="grey size_21 fleft mt7 ml roboto_light" title="<%=  app.countryToString(country) %>">
+                                <%= country.length == 2 ? country : country.substring(2) %>
+                            </span>
                             <span class="grey size_21 fleft mt7 ml roboto_bold"><%= sprintf("%0.2f",variable.value) %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-
-                            <span><%= sprintf("<lang> Puesto %dº</lang>", variable.globalranking) %></span>
-                            <span>(<%= sprintf("%d", variable.relativeranking) %>)</span>
-                            <img class="infoover" src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
-                            <p class="content_infoover" style="display:none">
-                                <lang>Texto información puestos</lang>
-                            </p>
+                            <% if (country.length == 2) { %>
+                                <span class="size_13">
+                                    <%= sprintf("<lang> Puesto %dº</lang>", variable.globalranking) %>
+                                </span>
+                                <% if (app.getFilters().length && variable.relativeranking) { %>
+                                    <span class="size_13 roboto_italic">(<%= sprintf("%dº", variable.relativeranking) %>)</span>
+                                <% }%>
+                            <% } else { %>
+                                <span class="size_13">
+                                    <%= sprintf("<lang> Puesto %dº</lang>", variable.relativeranking) %>
+                                </span>
+                            <% } %>
                         </div>
                     </div>
 
@@ -61,18 +71,29 @@
                         </div>
                     </div>
 
-                    <% if (country.length == 2) { %>
+                     <% if (gdp.value) { %>
                     <div class="row ">
                         <div class="col-sm-3 col-md-3">
                             <span class="grey uppercase size_11"><lang>PIB</lang></span>
-                            <span class="grey_light uppercase size_11">[US$]</span>
                         </div>
                         <div class="col-sm-4 col-md-4">
                             <span class="grey size_16"><%= parseInt(gdp.value).toLocaleString() %></span>
+                            <span class="grey_light uppercase size_13">[US$]</span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <span><%= sprintf("<lang> Puesto %dº</lang>", gdp.globalranking) %></span>
-                            <span>(<%= sprintf("%d", gdp.relativeranking) %>)</span>
+                            <% if (country.length == 2) { %>
+                                <span class="size_13">
+                                    <%= sprintf("<lang> Puesto %dº</lang>", gdp.globalranking) %>
+                                </span>
+                                <% if (app.getFilters().length && gdp.relativeranking) { %>
+                                    <span class="size_13 roboto_italic">(<%= sprintf("%dº", gdp.relativeranking) %>)</span>
+                                <% }%>
+                            <% } else { %>
+                                <span class="size_13">
+                                    <%= sprintf("<lang> Puesto %dº</lang>", gdp.relativeranking) %>
+                                </span>
+                            <% } %>
+                           
                         </div>
                     </div>
                   
@@ -82,18 +103,32 @@
                         </div>
                     </div>
 
+                    <% } %>
+
+                    <% if (population.value) { %>
                     <div class="row ">
                         <div class="col-sm-3 col-md-3">
                             <span class="grey uppercase size_11"><lang>Población</lang></span>
-                            <span class="grey_light uppercase size_11">[<lang>hab</lang>]</span>
+                            
                         </div>
                         <div class="col-sm-4 col-md-4">
                             <span class="grey size_16"><%= parseInt(population.value).toLocaleString() %></span>
+                            <span class="grey_light uppercase size_13">[<lang>hab</lang>]</span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
                             
-                            <span><%= sprintf("<lang> Puesto %dº </lang>", population.globalranking) %></span>
-                            <span>(<%= sprintf("%d", population.relativeranking) %>)</span>
+                            <% if (country.length == 2) { %>
+                                <span class="size_13">
+                                    <%= sprintf("<lang> Puesto %dº</lang>", population.globalranking) %>
+                                </span>
+                                <% if (app.getFilters().length && population.relativeranking) { %>
+                                    <span class="size_13 roboto_italic">(<%= sprintf("%dº", population.relativeranking) %>)</span>
+                                <% }%>
+                            <% } else { %>
+                                <span class="size_13">
+                                    <%= sprintf("<lang> Puesto %dº</lang>", population.relativeranking) %>
+                                </span>
+                            <% } %>
                         </div>
                     </div>
 
@@ -102,8 +137,9 @@
                             <div class="sep"></div>
                         </div>
                     </div>
-
+                    
                     <% } %>
+                   
 
                     <% if (model.comment && model.comment.comment) { %>
                     <div class="row">
@@ -120,8 +156,6 @@
                 </div>
 
                 <div class="col-sm-6 col-md-6">
-                    
-                   
                     <div class="chart"></div>
                     <div class="chart_legend">
                         
@@ -135,16 +169,22 @@
 
     <%} else if (model && !variable.value){ %>
         <div class="body">
+            <a href="#" class="helpIcon">
+                <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+            </a>
             <div class="container-fluid">
                 <div class="row mth1">
                     <p class="col-xs-12">
-                        <lang>Este país no esta incluído en el estudio de presencia europea</lang>.
+                        <lang>No hay datos disponibles con los parámetros seleccionados</lang>.
                     </p>
                 <div>
             </div>
         </div>
     <% } else { %>
         <div class="body">
+            <a href="#" class="helpIcon">
+                <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+            </a>
             <div class="container-fluid">
                 <div class="row mth1">
                     <p class="col-xs-12">

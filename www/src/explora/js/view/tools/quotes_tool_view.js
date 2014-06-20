@@ -13,10 +13,8 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
 
         this.toolCollection = new app.collection.Quotes();
-        this.listenTo(this.toolCollection,"reset",this._renderToolAsync);
-
         this.mapCollection = new app.collection.CountryToolMap();
-        this.listenTo(this.mapCollection,"reset",this._renderMapAsync);
+        
     },
 
     _events: function(){
@@ -28,6 +26,10 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
     _setListeners: function(){
         app.view.tools.Plugin.prototype._setListeners.apply(this);
+
+        this.listenTo(this.toolCollection,"reset",this._renderToolAsync);
+
+        this.listenTo(this.mapCollection,"reset",this._renderMapAsync);
 
         this.stopListening(app.events,"contextchange:countries");
         this.listenTo(app.events,"contextchange:countries",function(){
@@ -456,10 +458,6 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             }
             
         }
-
-        
-
-
     },
     _htmlToolTip: function(el){
         

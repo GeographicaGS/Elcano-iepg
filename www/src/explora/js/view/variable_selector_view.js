@@ -5,7 +5,6 @@ app.view.VariableSelector = Backbone.View.extend({
 
         this._variable = app.context.data.variables[0];
 
-
         var self = this;
 
         var opts = app.fancyboxOpts();

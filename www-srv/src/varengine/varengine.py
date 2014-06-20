@@ -318,10 +318,9 @@ class Variable(object):
     restricted to years. Data structure is:
 
     {
-    "DataSet@Variable@Code@Year": {
-    "dataset": dataset,
-    "variable": variable,
+    "Code@Year": {
     "code": code,
+    "type": type,
     "value": value,
     "year": year}
     }"""
@@ -367,24 +366,19 @@ class Variable(object):
     def loadFromDataInterface(self, dataInterface, variableName):
         """Load that from a DataInterface. Erases any data in variable data.
         TODO: constricted to years"""
-        for k,v in {k: v for (k,v) in dataInterface.data.iteritems()
-                    if v["variable"]==variableName}.iteritems():
-            v["variable"] = self.id
-            v["type"] = self.defaultDataType
-            v["dataset"] = self.dataSet.id if self.dataSet else None
-
-            self.data[str(v["dataset"])+"@"+str(v["variable"])+"@"+
-                      str(v["code"])+"@"+str(v["year"])] = v
+        self.data = copy.deepcopy(dataInterface.data[variableName])
+        for k,v in dataInterface.data[variableName].iteritems():
+            self.data[k]["type"] = self.defaultDataType
+            self.data[k]["year"] = v["year"]
 
     def addValue(self, code, year, dataType, value):
         """Adds a value. TODO: restricted to years."""
-        self.data[str(self.dataSet.id)+"@"+str(self.id)+"@"+
-                  str(code)+"@"+str(year)] = {
-                      "code": code, 
-                      "year": year, 
-                      "type": dataType, 
-                      "value": value
-                  }
+        self.data[str(code)+"@"+str(year)] = {
+            "code": code, 
+            "year": year, 
+            "type": dataType, 
+            "value": value
+        }
 
     def getVariableYears(self):
         """Returns years in the variable. TODO: Restricted to years."""
@@ -395,7 +389,7 @@ class Variable(object):
         return(list(set([v["code"] for (k,v) in self.data.iteritems()])))
 
     def getData(self, code=None, year=None):
-        """Get data from variable. code and year can be a list or a value.
+        """Get data from variable.
         TODO: restricted to years. TODO: Type management can be more sophisticated. Create
         datatype classes and try to pickle it."""
         try:
@@ -409,16 +403,18 @@ class Variable(object):
                     return({str(code)+"@"+str(year): {"code": code, "type": self.defaultDataType,
                                                       "value": None, "year": year}})
             if code:
-                if isinstance(code, list):
-                    try: 
-                        return({k: self.__processData(v) for (k,v) in self.data.iteritems() if 
-                                code==v["code"]})
-                    except:
-                        return({str(self.dataSet.id)+"@"+str(self.id)+"@"+str(code)+"@"+str(year): 
-                                {"dataset": self.dataSet.id, "variable": self.id, "code": code, 
-                                 "type": self.defaultDataType, "value": None, "year": year}})
-                else:
-                    ###HERE
+
+
+
+                # import ipdb
+                # ipdb.set_trace()
+
+                try: 
+                    return({k: self.__processData(v) for (k,v) in self.data.iteritems() if 
+                            code==k.split("@")[0]})
+                except:
+                    return({str(code)+"@"+str(year): {"code": code, "type": self.defaultDataType,
+                                                      "value": None, "year": year}})
             if year:
                 try:
                     return({k: self.__processData(v) for (k,v) in self.data.iteritems() 
@@ -435,12 +431,12 @@ class Variable(object):
     
     def __processData(self, data):
         """Process data, without changing them."""
+
+
+        # import ipdb
+        # ipdb.set_trace()
+
         if "blockfunc::" in data["type"]:
-
-
-            print("Block")
-
-
             d = copy.deepcopy(data)
             module, function = d["type"][d["type"].find("::")+2:].rsplit(".",1)
             mod = importlib.import_module(module)
@@ -500,16 +496,15 @@ class DataInterfacePostgreSql(DataInterface, PostgreSQLModel.PostgreSQLModel):
         query = self.query(sql).result()
         variables = arrayops.arraySubstraction(query[0].keys(), [codeColumn, dateInColumn, dateOutColumn])
         for i in variables:
+            variable = dict()
             for a in query:
                 d = {
-                    "dataset": None,
-                    "variable": i,
                     "code": a[codeColumn], 
                     "year": a[dateInColumn].year,
                     "value": a[i]
                 }
-                self.data[str(d["dataset"])+"@"+str(d["variable"])+"@"+
-                          str(d["code"])+"@"+str(d["year"])] = d
+                variable[str(d["code"])+"@"+str(d["year"])] = d
+            self.data[i] = variable
 
     def read(self, table, codeColumn, dateInColumn, dateOutColumn, valueColumn):
         """Reads all data from a column of a PostgreSQL table.

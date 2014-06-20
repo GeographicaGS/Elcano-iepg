@@ -36,11 +36,11 @@
 
             if (i==0) { 
                 sel_all = !filters.length || filters.length==collection.length  ? "selected" : "";
-            } 
+            }
 
             %>
             <% _.each(collection.slice(interval*i,interval*(i+1)),function (d){
-                sel = sel_all || filters.indexOf(d.id) != -1 ? "selected" : "";
+                sel = sel_all || filters.indexOf(d.id) == -1 ? "selected" : "";
              %>
                 <li code="<%=d.id %>" <%= sel %> title="<%= d.name %>">
                     <img src="/img/flags/<%= d.id %>.svg" />

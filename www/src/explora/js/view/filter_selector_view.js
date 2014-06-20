@@ -55,7 +55,7 @@ app.view.FilterSelector = Backbone.View.extend({
         $.fancybox.close();
 
         app.events.trigger("closepopup",this);
-        var filters = $.map(this.$("ul.flag_wrapper li[selected]"),function(e) { return $(e).attr("code") });
+        var filters = $.map(this.$("ul.flag_wrapper li").not("[selected]"),function(e) { return $(e).attr("code") });
 
         if (filters.length == this.collection.length){
             // all selected is the same as no filters
@@ -65,12 +65,12 @@ app.view.FilterSelector = Backbone.View.extend({
     },
 
     refreshCounterElements: function(){
-        var n = this.$("ul.flag_wrapper li[code]:not([selected])").length;
+        var n = this.$("ul.flag_wrapper li").not("[selected]").length;
 
         var html = "";
 
         if (n === 0 || n== this.collection.length) {
-            html = "<lang>Ningún páis filtrado</lang>";
+            html = "<lang>Ningún país filtrado</lang>";
         }
         else if (n===1){
             html ="<lang>1 país filtrado</lang>";
@@ -86,7 +86,6 @@ app.view.FilterSelector = Backbone.View.extend({
     clickCountry: function(e){
         var $e = $(e.target).closest("li"),
             sel = $e.attr("selected"),
-            n = this.$("ul.flag_wrapper li[code][selected]").length,
             $toggle = this.$("input#all_countries");
 
         if (sel !== undefined && sel!="undefined"){
@@ -97,7 +96,8 @@ app.view.FilterSelector = Backbone.View.extend({
             $e.attr("selected",true);
         }
 
-        if (n != this.collection.length){
+        var n = this.$("ul.flag_wrapper li[code]:not([selected])").length;
+        if (n == 0){
             $toggle.attr("checked",true);
         }
         else{

@@ -410,6 +410,12 @@ h5{
     font-size: 18px;
     .roboto(light);
 }
+
+h6{
+    color: @grey;
+    font-size: 14px;
+    .roboto();
+}
 footer{
     background-color: @grey;
     height: 73px;
@@ -555,6 +561,7 @@ main{
         top: 0px;
         left: 0;
         width: 100%;
+        overflow-x : hidden;
 
         #cancel,#save{
             float:right;
@@ -581,7 +588,53 @@ main{
         bottom: 0;
         width: 100%;
     }
+
+    &.country_selector{
+        .ctrl_cb{
+            margin-top: 5px;
+            li{
+                width: 50%;
+                float: left;
+                background-color: #f3f3f4;
+                font-size: 16px;
+                .roboto(medium);
+               
+                border-bottom: 1px solid #d0d0d5;
+                height:45px;
+                a{
+                    width: 100%;
+                    display: block;
+                    margin-left: 10px;
+                    color: @grey_light;
+                    line-height: 45px;    
+                }
+                
+            }
+            li[selected]{
+                background-color: transparent;  
+                border-bottom: 1px solid @red;
+                a{
+                    color:@red;    
+                }
+            }
+        }
+
+        .body{
+            top:166px;
+        }
+
+        .header{
+            border-bottom: none;
+            padding: 2*@line_height 0 0 0;
+            >div.row{
+                padding:0 20px 0px 20px;
+            }
+        }
+
+    }
 }
+
+
 
 ul.flag_wrapper{
     li{

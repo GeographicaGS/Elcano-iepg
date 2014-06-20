@@ -1,7 +1,7 @@
 app.view.CountrySelector = Backbone.View.extend({
     _template : _.template( $('#country_selector_template').html() ),
     // Stack to stored the selection stack
-    _selectedStack : null,
+    _selectedCountriesStack : null,
     initialize: function(options){
         this.collection = new app.collection.Countries();
         
@@ -15,12 +15,18 @@ app.view.CountrySelector = Backbone.View.extend({
 
         $.fancybox(this.$el, app.fancyboxOpts());
 
-        this._selectedStack = [];
+        this._selectedCountriesStack = [];
+        this._selectedBlocksStack = [];
 
         var countries =  app.context.data.countries.list;
         // Add tools to the stack.
         for (var i=0;i<countries.length;i++){
-            this._selectedStack.push(countries[i]);
+            if (countries[i].length == 2){
+                this._selectedCountriesStack.push(countries[i]);    
+            }
+            else{
+                this._selectedBlocksStack.push(countries[i]);       
+            }
         }
 
         var self = this;
@@ -32,7 +38,8 @@ app.view.CountrySelector = Backbone.View.extend({
     events : {
         "click #save": "save",
         "click #cancel": "cancel",
-        "click li[code]" : "clickCountry"
+        "click li[code]" : "clickCountry",
+        "click .ctrl_cb li a": "clickPanelCtrl"
     },
 
     onClose: function(){
@@ -48,8 +55,7 @@ app.view.CountrySelector = Backbone.View.extend({
 
         this.$el.html(this._template({
             collection :  col.toJSON(),
-            ctx: app.context.data,
-            n_selected : this._selectedStack.length,
+            ctx: app.context.data
         }));
 
         this.$n_selected = this.$("#n_selected");
@@ -68,7 +74,7 @@ app.view.CountrySelector = Backbone.View.extend({
         $.fancybox.close();
         
         var ctx =  app.context;
-        ctx.data.countries.list = this._selectedStack;
+        ctx.data.countries.list = _.union(this._selectedCountriesStack,this._selectedBlocksStack);
         ctx.removeInvalidSelected();
 
         app.events.trigger("closepopup",this);
@@ -76,37 +82,47 @@ app.view.CountrySelector = Backbone.View.extend({
     },
 
     refreshCounterElements: function(){
-        var n = this._selectedStack.length;
+        var nc = this._selectedCountriesStack.length,
+            nb = this._selectedBlocksStack.length;
 
         var html = "";
 
-        if (n === 0){
-            html = "<lang>0 países seleccionados</lang>";
-        }
-        else if (n==1){
-            html ="<lang>1 país seleccionado</lang>";
+        if (nb==1){
+            html ="<lang>1 bloque</lang>";
         }
         else{
-            html = sprintf("<lang> %d países seleccionados</lang>",n);   
+            html = sprintf("<lang> %d bloques</lang>",nb);   
         }
-        
+
+        html += " <lang>y</lang> ";
+       
+        if (nc==1){
+            html +="<lang>1 país </lang>";
+        }
+        else{
+            html += sprintf("<lang> %d países</lang>",nc);   
+        }
+
+        html += "<lang> selecccionados</lang>";       
         this.$n_selected.html(html);
 
     },
 
-    _removeCountryFromStack: function(c){
-        var index = this._selectedStack.indexOf(c);
+    _removeFromStack: function(stack,c){
+        var index = stack.indexOf(c);
         if (index > -1) {
-            this._selectedStack.splice(index, 1);
+            stack.splice(index, 1);
         }
     },
 
-    _addCountryToTopStack: function(c){
-        this._selectedStack.push(c);
+    _addToTopStack: function(stack,c){
+        stack.push(c);
     },
 
 
     clickCountry: function(e){
+        e.preventDefault();
+
         var $e = $(e.target).closest("li"),
             sel = $e.attr("selected"),
             code = $e.attr("code");
@@ -114,14 +130,44 @@ app.view.CountrySelector = Backbone.View.extend({
         if (sel !== undefined && sel!="undefined"){
             // Unselect element
             $e.removeAttr("selected");
-            this._removeCountryFromStack(code);
+            if (code.length == 2){
+                this._removeFromStack(this._selectedCountriesStack,code);    
+            }
+            else{
+                this._removeFromStack(this._selectedBlocksStack,code);
+            }
+            
 
         } 
         else{
             $e.attr("selected",true);
-            this._addCountryToTopStack(code);
+            if (code.length == 2){
+                this._addToTopStack(this._selectedCountriesStack,code);    
+            }
+            else{
+                this._addToTopStack(this._selectedBlocksStack,code);
+            }
         }
+        
         this.refreshCounterElements();
+    },
+
+    clickPanelCtrl: function(e){
+
+        e.preventDefault();
+
+        var $e = $(e.target),
+            $target = this.$("#"+ $e.attr("data-rel"));
+
+        this.$(".body > div").fadeOut(300, function(){
+            $target.show();
+        });
+
+        this.$("ul.ctrl_cb li").removeAttr("selected");
+        $e.closest("li").attr("selected",true);
+       
+        
+        
     }
 
 

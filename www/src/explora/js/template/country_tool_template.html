@@ -45,21 +45,21 @@
                                 <img src="/img/flags/<%= country %>.svg" class="flag" />
                             </div>
                             <span class="grey size_21 fleft mt7 ml roboto_light" title="<%=  app.countryToString(country) %>">
-                                <%= country.length == 2 ? country : country.substring(2) %>
+                                <%= app.countryCodeToStr(country) %>
                             </span>
                             <span class="grey size_21 fleft mt7 ml roboto_bold"><%= sprintf("%0.2f",variable.value) %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
                             <% if (country.length == 2) { %>
                                 <span class="size_13">
-                                    <%= sprintf("<lang> Puesto %dº</lang>", variable.globalranking) %>
+                                    <%= sprintf("<lang> Ranking %dº</lang>", variable.globalranking) %>
                                 </span>
                                 <% if (app.getFilters().length && variable.relativeranking) { %>
-                                    <span class="size_13 roboto_italic">(<%= sprintf("%dº", variable.relativeranking) %>)</span>
+                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", variable.relativeranking) %></span>
                                 <% }%>
                             <% } else { %>
                                 <span class="size_13">
-                                    <%= sprintf("<lang> Puesto %dº</lang>", variable.relativeranking) %>
+                                    <%= sprintf("<lang> Ranking de bloque %dº</lang>", variable.relativeranking) %>
                                 </span>
                             <% } %>
                         </div>
@@ -83,14 +83,14 @@
                         <div class="col-sm-5 col-md-5 co_ranking">
                             <% if (country.length == 2) { %>
                                 <span class="size_13">
-                                    <%= sprintf("<lang> Puesto %dº</lang>", gdp.globalranking) %>
+                                    <%= sprintf("<lang> Ranking %dº</lang>", gdp.globalranking) %>
                                 </span>
                                 <% if (app.getFilters().length && gdp.relativeranking) { %>
-                                    <span class="size_13 roboto_italic">(<%= sprintf("%dº", gdp.relativeranking) %>)</span>
+                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", gdp.relativeranking) %></span>
                                 <% }%>
                             <% } else { %>
                                 <span class="size_13">
-                                    <%= sprintf("<lang> Puesto %dº</lang>", gdp.relativeranking) %>
+                                    <%= sprintf("<lang> Ranking de bloque %dº</lang>", gdp.relativeranking) %>
                                 </span>
                             <% } %>
                            
@@ -119,14 +119,14 @@
                             
                             <% if (country.length == 2) { %>
                                 <span class="size_13">
-                                    <%= sprintf("<lang> Puesto %dº</lang>", population.globalranking) %>
+                                    <%= sprintf("<lang> Ranking %dº</lang>", population.globalranking) %>
                                 </span>
                                 <% if (app.getFilters().length && population.relativeranking) { %>
-                                    <span class="size_13 roboto_italic">(<%= sprintf("%dº", population.relativeranking) %>)</span>
+                                    <span class="size_13 roboto_italic">/<%= sprintf("<lang> Ranking con filtro %dº</lang>", population.relativeranking) %></span>
                                 <% }%>
                             <% } else { %>
                                 <span class="size_13">
-                                    <%= sprintf("<lang> Puesto %dº</lang>", population.relativeranking) %>
+                                    <%= sprintf("<lang> Ranking de bloque %dº</lang>", population.relativeranking) %>
                                 </span>
                             <% } %>
                         </div>

@@ -6,28 +6,38 @@ Download section.
 
 
 """
-from flask import jsonify
+from flask import jsonify, request, send_file
 from frontend import app
 import common.helpers as chelpers
 import common.datacache as dc
+from common.config import backend
 import xlsxwriter
 import common.const as const
 from collections import OrderedDict
+import hashlib
+import os.path
 
 
-@app.route('/download/<string:years>/<string:variables>/<string:countries>', methods=["GET"])
-def getDownloadData(years, variables, countries):
+@app.route('/download/<string:language>/<string:years>/<string:variables>/<string:countries>', methods=["GET"])
+def getDownloadData(language, years, variables, countries):
     """Gets download data. Call examples:
 
-    /download/1990,1995,2000,2005/energy@iepg,soft@iepg,military@iepg,soft@iepe,energy@iepg/EN,ES,US,GB,FR
+    /download/es/1990,1995,2000,2005/energy@iepg,soft@iepg,military@iepg,soft@iepe,energy@iepg/EN,ES,US,GB,FR
     
-    /download/1990,2000/energy@iepg,energy@iepe,iepg,iepe,military_presence@iepg,military_presence@iepe/EN,ES,US
+    /download/en/1990,2000/energy@iepg,energy@iepe,iepg,iepe,military_presence@iepg,military_presence@iepe/EN,ES,US
     """
-    years = years.split(",")
+    fileName = os.path.join(backend["tmpFolder"], 
+                            hashlib.sha256(request.url.strip(request.url_root)).hexdigest()+".xlsx")
+    if os.path.isfile(fileName):
+        return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+                         attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
+                         as_attachment=True))
+
+    years = sorted(years.split(","))
     variables = variables.split(",")
     countries = countries.split(",")
     translate = dc.isoToEnglish if language=="en" else dc.isoToSpanish
-    workbook = xlsxwriter.Workbook("Test.xlsx")
+    workbook = xlsxwriter.Workbook(fileName)
     url_format = workbook.add_format({
         "font_color": "blue",
         "underline": 1
@@ -108,3 +118,7 @@ def getDownloadData(years, variables, countries):
         worksheet.write_url(row+1, 1, "http://www.globalpresence.realinstitutoelcano.org", url_format,
                             "http://www.globalpresence.realinstitutoelcano.org")
     workbook.close()
+
+    return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+                     attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
+                     as_attachment=True))

@@ -303,7 +303,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     _drawD3Chart: function(year){
-        var width = this.$chart.width(),
+        var ctxObj = app.context,
+            ctx = ctxObj.data,
+            family = ctx.family,
+            width = this.$chart.width(),
             height = this.$chart.height(),
             radius = Math.min(width, height) / 2;
 
@@ -351,7 +354,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         var obj = this;
 
-        this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).family);
+        this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).family,family);
         
         var path = svg.selectAll("path")
               .data(partition.nodes(this.tree.get()))
@@ -393,12 +396,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             family = ctx.family,
             year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
             variable = tvariable == "iepg" || tvariable ==  "iepe" ? this.model.get(year).family.global 
-                        : this.model.get(year).family[tvariable];
-
-
+                        : this.model.get(year).family[tvariable],
+            ranking = variable.globalranking ? variable.globalranking : variable.relativeranking;
 
             html = "<div>" 
-                    +   "<span>" + variable.globalranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +   "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
                     +   "<span>" + year + "</span>"
                     +   "<div class='clear'></div>"
                     + "</div>"
@@ -422,9 +424,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     launchHelp: function(e){
         e.preventDefault();
 
-        var opts = app.fancyboxOpts();
-
-         opts["afterShow"] = function () {
+        var opts = app.fancyboxOptsHelper();
+    
+        
+        opts["afterShow"] = function () {
             $("#cancel").click(function(e){
                 e.preventDefault();
                 $.fancybox.close();

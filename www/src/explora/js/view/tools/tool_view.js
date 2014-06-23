@@ -197,7 +197,7 @@ app.view.tools.Plugin = Backbone.View.extend({
     render: function(){  
         this.adaptGlobalContext();
         this.contextToURL();
-        this.$el.show().html("Loading");
+        this.$el.show().html(app.getLoadingHTML());
 
         this.renderTool();
 

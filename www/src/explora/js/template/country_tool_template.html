@@ -23,7 +23,7 @@
 
     <% if (model && variable.value) { %>
     <div class="body">
-        <a href="#" class="helpIcon">
+        <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
             <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
         </a>
         <div class="container-fluid">
@@ -33,14 +33,13 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <h5><%= app.variableToString("global",ctx.family) %></h5>
-                            <h6><%= app.countryToString(country) %></h6>
                         </div>
                     </div>
                     <div class="row mth1">
-                        <div class="col-sm-3 col-md-3">
+                        <div class="col-sm-2 col-md-2">
                             <span class="grey uppercase size_11"><lang>Valor</lang></span>
                         </div>
-                        <div class="col-sm-4 col-md-4" title="<%=  app.countryToString(country) %>">
+                        <div class="col-sm-5 col-md-5" title="<%=  app.countryToString(country) %>">
                             <div class="co_flag" >
                                 <img src="/img/flags/<%= country %>.svg" class="flag" />
                             </div>
@@ -73,10 +72,10 @@
 
                      <% if (gdp.value) { %>
                     <div class="row ">
-                        <div class="col-sm-3 col-md-3">
+                        <div class="col-sm-2 col-md-2">
                             <span class="grey uppercase size_11"><lang>PIB</lang></span>
                         </div>
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-5 col-md-5">
                             <span class="grey size_16"><%= parseInt(gdp.value).toLocaleString() %></span>
                             <span class="grey_light uppercase size_13">[US$]</span>
                         </div>
@@ -99,7 +98,7 @@
                   
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="sep"></div>
+                            <div class="sep level2"></div>
                         </div>
                     </div>
 
@@ -107,11 +106,11 @@
 
                     <% if (population.value) { %>
                     <div class="row ">
-                        <div class="col-sm-3 col-md-3">
+                        <div class="col-sm-2 col-md-2">
                             <span class="grey uppercase size_11"><lang>Población</lang></span>
                             
                         </div>
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-5 col-md-5">
                             <span class="grey size_16"><%= parseInt(population.value).toLocaleString() %></span>
                             <span class="grey_light uppercase size_13">[<lang>hab</lang>]</span>
                         </div>
@@ -134,7 +133,7 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="sep"></div>
+                            <div class="sep level2"></div>
                         </div>
                     </div>
                     
@@ -157,6 +156,7 @@
 
                 <div class="col-sm-6 col-md-6">
                     <div class="chart"></div>
+                    <div class="country_name"><%= app.countryToString(country) + " " + year %></div>
                     <div class="chart_legend">
                         
                     </div>
@@ -169,7 +169,7 @@
 
     <%} else if (model && !variable.value){ %>
         <div class="body">
-            <a href="#" class="helpIcon">
+            <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
                 <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
             </a>
             <div class="container-fluid">
@@ -182,7 +182,7 @@
         </div>
     <% } else { %>
         <div class="body">
-            <a href="#" class="helpIcon">
+            <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
                 <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
             </a>
             <div class="container-fluid">

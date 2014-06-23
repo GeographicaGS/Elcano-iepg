@@ -218,6 +218,8 @@ app.view.map = function(options){
         }
 
         return this;
-    }   
+    }
+
+      
 
 }

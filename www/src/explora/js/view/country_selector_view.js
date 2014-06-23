@@ -87,20 +87,21 @@ app.view.CountrySelector = Backbone.View.extend({
 
         var html = "";
 
-        if (nb==1){
-            html ="<lang>1 bloque</lang>";
+      
+        if (nc==1){
+            html ="<lang>1 país </lang>";
         }
         else{
-            html = sprintf("<lang> %d bloques</lang>",nb);   
+            html = sprintf("<lang> %d países</lang>",nc);   
         }
 
         html += " <lang>y</lang> ";
-       
-        if (nc==1){
-            html +="<lang>1 país </lang>";
+
+        if (nb==1){
+            html +="<lang>1 bloque</lang>";
         }
         else{
-            html += sprintf("<lang> %d países</lang>",nc);   
+            html += sprintf("<lang> %d bloques</lang>",nb);   
         }
 
         html += "<lang> selecccionados</lang>";       

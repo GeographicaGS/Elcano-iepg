@@ -1,7 +1,7 @@
-app.view.tools.utils.variablesTree = function(variables){
+app.view.tools.utils.variablesTree = function(variables,family){
 	this.data = {
         "name" : "global",
-        "color" : "#fdc300",
+        "color" : family == "iepg" ? "#fdc300" : "#039",
         "size" : variables.global.value,
         "perc" : variables.global.percentage,
         "children" : [{

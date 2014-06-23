@@ -425,6 +425,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
+            family = ctx.family,
             year = ctx.slider[0].date.getFullYear(),
             variables = model.get(year).family,
             $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
@@ -478,7 +479,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         var obj = this;
 
-        var tree =  new app.view.tools.utils.variablesTree(variables),
+        var tree =  new app.view.tools.utils.variablesTree(variables,family),
             path = svg.selectAll("path")
               .data(partition.nodes(tree.get()))
             .enter().append("path")

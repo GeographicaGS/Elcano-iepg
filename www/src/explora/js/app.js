@@ -347,6 +347,20 @@ app.reset = function(){
     window.location  = "/es";
 }
 
+app.countryCodeToStr = function(country){
+    if (country.length == 2) {
+        return country;
+    }
+    else{
+        var s = country.substring(2);
+        if (s=="E2"){
+            return "EU";
+        }
+        else{
+            return s;
+        }
+    }
+}
 
 
 

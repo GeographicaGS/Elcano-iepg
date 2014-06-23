@@ -1,10 +1,10 @@
-<ul class="country_bar">
+    <ul class="country_bar">
     <%_.each(ctx.countries.list,function(c){ 
         
         sel = ctx.countries.selection.indexOf(c) != -1 ? "selected" : "";
         %>
-        <li class="country_draggable">
-            <a href="#" title="<%= c %>" code="<%= c %>"  <%= sel %>>
+        <li class="country_draggable" >
+            <a href="#"  code="<%= c %>"  <%= sel %> title="<%= app.countryToString(c) %>">
                 <img src="/img/flags/<%= c%>.svg"/>
             </a>
         </li>

@@ -22,6 +22,7 @@ import varengine.varengine as varengine
 import numpy as numpy
 from collections import OrderedDict
 import locale
+import copy
 
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
@@ -70,7 +71,7 @@ def countrySheet(lang, family, countryCode):
     m = iepgdatamodel.IepgDataModel()
     f = processFilter(request.args, "filter")
     # Participating countries
-    countries = datacache.countries
+    countries = copy.deepcopy(datacache.countries)
     # Filter substraction
     if f:
         countries = arrayops.arraySubstraction(countries, f)
@@ -199,14 +200,8 @@ def mapGeoJson():
 @app.route('/globalindex/<string:family>/<string:variable>/<string:countries>/<string:lang>', methods=['GET'])
 def globalindex(family,variable,countries,lang):
     countriesArray = countries.split(",")
-
-    print countriesArray
-
     varData = common.helpers.getData(datacache.dataSets[family].variables[variable],
                                      countryList=countriesArray)
-
-    print varData
-
     out = []
     codes = set([j["code"] for (i,j) in varData.iteritems()])
     for k in codes:

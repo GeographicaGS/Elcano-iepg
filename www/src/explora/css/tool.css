@@ -217,6 +217,10 @@
         stroke: #fff;
         fill-rule: evenodd;
     }
+
+    path[enhanced]{
+        fill: @grey_dark !important;
+    }
 }   
 
 @media all and (max-height: 768px){
@@ -809,13 +813,9 @@
             &[selected]{
                 stroke: @red;
             }
-
-
         }
         
         .tick{
-            
-
             line{
                 stroke: @grey_light2;
             }

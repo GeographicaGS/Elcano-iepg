@@ -426,6 +426,13 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         $chart.append("<div class='co_drag_info'><p class='drag_info' style='width:" + (radius * 1.3)+ "px'><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p></div>");
 
         this._d3[pos] = null;
+
+        if (pos == "left"){
+            this.$chart_legend_left.html("");
+        }
+        else{
+            this.$chart_legend_right.html("");
+        }   
     },
 
     _drawD3Chart: function(pos,country,model){

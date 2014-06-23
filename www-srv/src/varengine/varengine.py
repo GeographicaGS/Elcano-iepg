@@ -403,12 +403,6 @@ class Variable(object):
                     return({str(code)+"@"+str(year): {"code": code, "type": self.defaultDataType,
                                                       "value": None, "year": year}})
             if code:
-
-
-
-                # import ipdb
-                # ipdb.set_trace()
-
                 try: 
                     return({k: self.__processData(v) for (k,v) in self.data.iteritems() if 
                             code==k.split("@")[0]})
@@ -431,11 +425,6 @@ class Variable(object):
     
     def __processData(self, data):
         """Process data, without changing them."""
-
-
-        # import ipdb
-        # ipdb.set_trace()
-
         if "blockfunc::" in data["type"]:
             d = copy.deepcopy(data)
             module, function = d["type"][d["type"].find("::")+2:].rsplit(".",1)

@@ -7,7 +7,6 @@ Common helpers.
 """
 import common.datacache as datacache
 from common.cachewrapper import cacheWrapper
-import hashlib
 import tweepy
 from config import MemcachedConfig
 from flask import jsonify

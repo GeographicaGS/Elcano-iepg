@@ -3,6 +3,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _templateProportionalFlags : _.template( $('#contributions_tool_proportional_flags_template').html() ),
     _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     _templateError : _.template($("#country_error_template").html()),
+    _templateHelp : _.template( $('#contributions_tool_help_template').html() ),
     // Force fetch data of the left tool. Get the data for the first country
     _forceFetchDataSubToolLeft: false,
     // Force fetch data of the right tool. Get the data for the second country
@@ -707,5 +708,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         // copy to latest context
         this.copyGlobalContextToLatestContext();
-    }
+    },
+
+
 });

@@ -782,6 +782,10 @@
             left:0;
         }
     }
+
+    .container-comp .helpIcon{
+        top: 80px !important;
+    }
 }
 
 #quotes_tool{

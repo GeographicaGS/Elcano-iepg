@@ -389,7 +389,8 @@ app.getLoadingHTML = function(){
                         "<img src='/img/ELC_icon_loading_white.gif' />" + 
                         "<span><lang>Loading</lang></span>" + 
                    
-                "</div>";
+                "</div>" +
+            "</div>";
 }
 
 

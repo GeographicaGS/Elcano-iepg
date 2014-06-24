@@ -22,7 +22,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             "draggable" : true
         });
         this._collectionGlobalIndex = new app.collection.GlobalIndex();
-        this.listenTo(this._collectionGlobalIndex,"reset",this._renderProportionalFlags);
+        
     },
 
     _setListeners: function(){
@@ -125,6 +125,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             this.contextToURL();
             
         });
+
+        this.listenTo(this._collectionGlobalIndex,"reset",this._renderProportionalFlags);
     },
 
 

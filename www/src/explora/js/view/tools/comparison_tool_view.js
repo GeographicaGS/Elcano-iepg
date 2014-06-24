@@ -2,6 +2,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#comparison_tool_template').html() ),
    	// This is the template for the chart legend
     _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
+
+    _templateHelp : _.template( $('#comparison_tool_help_template').html() ),
     // Force fetch data of the left tool. Get the data for the first country
     _forceFetchDataSubToolLeft: false,
     // Force fetch data of the right tool. Get the data for the second country
@@ -69,6 +71,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 this._forceFetchDataTool = true;
                 this.render(); // Implicit call to contextToURL
             }
+            this.countries.render();
             
             this.copyGlobalContextToLatestContext();
         });
@@ -96,11 +99,11 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            year = ctx.slider[0].date.getFullYear();
+            year = ctx.slider[0].date.getFullYear(),
+            country = ctx.countries.selection[0];
 
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
-
         }));
 
         this.$co_iepg = this.$("#piepg");
@@ -116,59 +119,147 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this.$chart_legend_left = this.$co_left.find(".chart_legend");
         this.$chart_legend_right = this.$co_right.find(".chart_legend");
 
-        // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
-        if (this._forceFetchDataTool){
-            this._forceFetchDataSubToolLeft = true;
-            this._forceFetchDataSubToolRight = true;
+        if (year<= 2000 // No data avalaible for iepe before year 2000
+            || country.length > 2  // Only blocks
+            || app.blocks.XBEU[year].indexOf(country) == -1 // Only UE countries
+            ){
+
+            this._showError();
         }
-        
-        this._renderSubTool("iepg");
-        this._renderSubTool("iepe");
 
-        this._renderMap();
+        else{
+             // Get the data from server if _forceFetchDataTool is set to true. 
+            if (this._forceFetchDataTool){
+                this._n_fetches = 0;
+                this._errorfetch = false;
+      
+                // Fetch the data 
+                for (var family in {"iepg":null ,"iepe":null}){
+                    this._fetchModelClosure(family);
+                }
+            }
+            else{
+                //We already have the data, let's draw directly
+                
+                if (!this._models["iepg"].get(year).family.global.value
+                    || !this._models["iepe"].get(year).family.global.value){
+                    this._showError();
+                }
+                else{
+                    this._showChart();
+                    this._renderSubTool("iepg");
+                    this._renderSubTool("iepe");
+                    this._renderMap();
+                }   
+            }
+        }
 
-        this._forceFetchDataTool = false;
-
+       
     },
 
+    _showError:function(){
+        this.$(".body > div").hide();
+        this.$(".body > div.error").show();
+    },
+
+    _showChart: function(){
+        this.$(".body > div").hide();
+        this.$(".body .container-comp").show();
+    },
+
+    _fetchModelClosure: function(family){
+
+        this._models[family] = new app.model.tools.country({
+            "id" : country,
+            "family" : family
+        });
+        
+        var _this = this;
+        this._models[family].fetch({
+            success: function(){
+                _this._n_fetches++;
+                
+                if (!_this._models[family].get(year).family.global.value){
+                    _this._errorfetch = true;
+                }
+
+                if (_this._n_fetches == 2){
+                    _this._forceFetchDataTool = false;
+
+                   
+                    if (_this._errorfetch){
+                        _this._showError();
+                    }
+                    else{
+                        _this._showChart();
+                        _this._renderSubTool("iepg");
+                        _this._renderSubTool("iepe");
+                        _this._renderMap();
+                    }
+                }
+            }
+        });
+    },
+    
     _renderSubTool:function(family){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             country = ctx.countries.selection[0],
-            forceFetch = family == "iepg" ? this._forceFetchDataSubToolLeft : this._forceFetchDataSubToolRight,
             // Links to DOM Elements
-           	$co_chart = family == "iepg" ? this.$co_left : this.$co_right;
-           	
+            $co_chart = family == "iepg" ? this.$co_left : this.$co_right;
+            
         // Set country name
         $co_chart.find(".name").html(app.countryToString(country));
 
-
-        if (forceFetch){
-            // Fetch the data of this tool
-            this._models[family] = new app.model.tools.country({
-                "id" : country,
-                "family" : family
-            });
-
-            var _this = this;
-            this._models[family].fetch({
-                success: function(){
-                   if (family == "iepg"){
-                        _this._forceFetchDataSubToolLeft = false;
-                   }
-                   else{
-                        _this._forceFetchDataSubToolRight = false;
-                   }
-
-                   _this._drawD3Chart(family);
-                }
-            });
-        }
-        else{
-            //We already have the data, let's draw directly
-            this._drawD3Chart(family);
-        }
+        this._drawD3Chart(family);
+        
     },
+    // _renderSubTool:function(family){
+    //     var ctxObj = this.getGlobalContext(),
+    //         ctx = ctxObj.data,
+    //         country = ctx.countries.selection[0],
+    //         forceFetch = family == "iepg" ? this._forceFetchDataSubToolLeft : this._forceFetchDataSubToolRight,
+    //         // Links to DOM Elements
+    //        	$co_chart = family == "iepg" ? this.$co_left : this.$co_right;
+           	
+    //     // Set country name
+    //     $co_chart.find(".name").html(app.countryToString(country));
+
+
+    //     if (forceFetch){
+    //         this._nfetches = 0;
+    //         // Fetch the data of this tool
+    //         this._models[family] = new app.model.tools.country({
+    //             "id" : country,
+    //             "family" : family
+    //         });
+
+    //         var _this = this;
+    //         this._models[family].fetch({
+    //             success: function(){
+    //                 _this
+    //                if (family == "iepg"){
+    //                     _this._forceFetchDataSubToolLeft = false;
+    //                }
+    //                else{
+    //                     _this._forceFetchDataSubToolRight = false;
+    //                }
+
+    //                if (!_this._models[family].get(year).family.global.value){
+    //                     _this.$el.find(".body").html(_this._templateError());
+    //                }
+    //                else{
+    //                     _this._drawD3Chart(family); 
+    //                }
+                   
+    //             }
+    //         });
+    //     }
+    //     else{
+    //         //We already have the data, let's draw directly
+    //         this._drawD3Chart(family);
+    //     }
+    // },
 
     _fetchDataMap: function(){
 
@@ -353,9 +444,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
           };
         }
 
-        var div = d3.select("#comparison_tool .chart").append("div")   
-            .attr("class", "tooltip")               
-            .style("opacity", 0);
+        var div = d3.select(".tooltip").style("opacity", 0);
 
         var obj = this;
 
@@ -366,19 +455,29 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
               .attr("d", arc)
               .style("fill", function(d) { return d.color; })
             .on("click", click)
-            .on("mouseover", function(d) {     
+            .on("mouseover", function(d) { 
+
+                var variable = model.get(year).family[d.name],
+                // brother model
+                bmodel = family == "iepg" ? obj._models["iepe"] : obj._models["iepg"],
+                // brother variables 
+                bvariable = bmodel ? bmodel.get(year).family[d.name] : null;
+
                 div.transition()        
                     .duration(200)      
                     .style("opacity", 1);      
-                div.html(obj._htmlToolTip(model.get(year).family[d.name]))  
+                div.html(obj._htmlToolTip(variable,bvariable)) 
                     .style("left", (d3.event.pageX) + "px")     
-                    .style("top", (d3.event.pageY - 28) + "px");    
+                    .style("top", (d3.event.pageY - 28) + "px");  
+                $("path[data-variable='" + d.name+"']").attr("enhanced","true");   
                 })                  
             .on("mouseout", function(d) {       
                 div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
-            });
+                $("path[data-variable='" + d.name+"']").removeAttr("enhanced");
+            })
+            .attr("data-variable",function(d){return d.name });
         
 
             function click(d) {
@@ -427,22 +526,63 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _htmlToolTip: function(variable){
-        
-        var html = "<div>" 
-                    +   "<span>" + variable.globalranking + "º " +app.countryToString(variable.code) + "</span>"
-                    +   "<span>" + variable.year + "</span>"
-                    +   "<div class='clear'></div>"
-                    + "</div>"
-                    + "<div>" 
-                    +   "<span>" + app.variableToString(variable.variable,this.getGlobalContext().data.family) + "</span>"
-                    +   "<span>" + sprintf("%0.2f",variable.value) + "</span>"
-                    +   "<div class='clear'></div>"
-                    +"</div>"
+    _htmlToolTip: function(variable,bvariable){
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            family = ctx.family,
+            ranking = variable.globalranking  ? variable.globalranking  : variable.relativeranking;
 
-        return html;
+        if (!bvariable){
+             return "<div>"
+                    +      "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +       "<span>" + variable.year + "</span>"
+                    +      "<div class='clear'></div>"
+                    +   "</div>"
+                    +   "<div>" 
+                    +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
+                    +       "<span>" + sprintf("%0.2f",variable.value) + "</span>"
+                    +       "<div class='clear'></div>"
+                    +   "</div>";
+        }
+        else{
+
+            var branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
+                max = _.max([bvariable.value,variable.value]),
+                progress = 100 * variable.value / max,
+                bprogress = 100 * bvariable.value / max
+
+            return "<div>"
+                    +      "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +       "<span>" + variable.year + "</span>"
+                    +      "<div class='clear'></div>"
+                    +   "</div>"
+                    +   "<div>" 
+                    +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
+                    +       "<span>" + sprintf("%0.2f",variable.value) + "</span>"
+                    +       "<div class='clear'></div>"
+                    +   "</div>"
+                   
+                    + "<div class='co_progress'>"
+                    +       "<div class='progress'><div  style='width:" + progress + "%'></div></div>"
+                    +       "<div class='progress'><div  style='width:" + bprogress  + "%'></div></div>"
+                    + "</div>"
+                    
+                 
+                    +   "<div class='compare'>" 
+                    +       "<span class='ml'>" + app.variableToString(bvariable.variable,family) + "</span>"
+                    +       "<span class='mr'>" + sprintf("%0.2f",bvariable.value) + "</span>"
+                    +       "<div class='clear'></div>"
+                    +   "</div>"
+                    +   "<div class='compare'>"
+                    +       "<span class='white ml'>" + branking + "º " +app.countryToString(bvariable.code) + "</span>"
+                    +       "<span class='year mr'>" + bvariable.year + "</span>"
+                    +       "<div class='clear'></div>"
+                    +   "</div>";
+
+        }
 
     },
+
 
     _renderChartLegend: function(family,name){
 

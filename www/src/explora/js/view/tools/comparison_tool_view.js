@@ -466,7 +466,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 div.transition()        
                     .duration(200)      
                     .style("opacity", 1);      
-                div.html(obj._htmlToolTip(variable,bvariable)) 
+                div.html(obj._htmlToolTip(variable,bvariable,family)) 
                     .style("left", (d3.event.pageX) + "px")     
                     .style("top", (d3.event.pageY - 28) + "px");  
                 $("path[data-variable='" + d.name+"']").attr("enhanced","true");   
@@ -526,43 +526,43 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _htmlToolTip: function(variable,bvariable){
+    _htmlToolTip: function(variable,bvariable,family){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            family = ctx.family,
             ranking = variable.globalranking  ? variable.globalranking  : variable.relativeranking
             branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
+            bfamily = family == "iepg" ? "IEPE" : "IEPG",
                 max = _.max([bvariable.value,variable.value]),
                 progress = 100 * variable.value / max,
-                bprogress = 100 * bvariable.value / max
+                bprogress = 100 * bvariable.value / max;
 
-            return "<div>"
-                    +      "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
-                    +       "<span>" + variable.year + "</span>"
-                    +      "<div class='clear'></div>"
-                    +   "</div>"
-                    +   "<div>" 
-                    +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                    +       "<span>" + sprintf("%0.2f",variable.value) + "</span>"
-                    +       "<div class='clear'></div>"
-                    +   "</div>"
-                   
-                    + "<div class='co_progress'>"
-                    +       "<div class='progress'><div  style='width:" + progress + "%'></div></div>"
-                    +       "<div class='progress'><div  style='width:" + bprogress  + "%'></div></div>"
-                    + "</div>"
-                    
-                 
-                    +   "<div class='compare'>" 
-                    +       "<span class='ml'>" + app.variableToString(bvariable.variable,family) + "</span>"
-                    +       "<span class='mr'>" + sprintf("%0.2f",bvariable.value) + "</span>"
-                    +       "<div class='clear'></div>"
-                    +   "</div>"
-                    +   "<div class='compare'>"
-                    +       "<span class='white ml'>" + branking + "º " +app.countryToString(bvariable.code) + "</span>"
-                    +       "<span class='year mr'>" + bvariable.year + "</span>"
-                    +       "<div class='clear'></div>"
-                    +   "</div>";
+        return "<div>"
+                +      "<span>" + ranking + "º " + family.toUpperCase() + "</span>"
+                +       "<span>" + variable.year + "</span>"
+                +      "<div class='clear'></div>"
+                +   "</div>"
+                +   "<div>" 
+                +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
+                +       "<span>" + sprintf("%0.2f",variable.value) + "</span>"
+                +       "<div class='clear'></div>"
+                +   "</div>"
+               
+                + "<div class='co_progress'>"
+                +       "<div class='progress'><div  style='width:" + progress + "%'></div></div>"
+                +       "<div class='progress'><div  style='width:" + bprogress  + "%'></div></div>"
+                + "</div>"
+                
+             
+                +   "<div class='compare'>" 
+                +       "<span class='ml'>" + app.variableToString(bvariable.variable,family) + "</span>"
+                +       "<span class='mr'>" + sprintf("%0.2f",bvariable.value) + "</span>"
+                +       "<div class='clear'></div>"
+                +   "</div>"
+                +   "<div class='compare'>"
+                +       "<span class='white ml'>" + branking + "º " + bfamily + "</span>"
+                +       "<span class='year mr'>" + bvariable.year + "</span>"
+                +       "<div class='clear'></div>"
+                +   "</div>";
 
         
 

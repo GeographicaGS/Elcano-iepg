@@ -2,6 +2,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#contributions_tool_template').html() ),
     _templateProportionalFlags : _.template( $('#contributions_tool_proportional_flags_template').html() ),
     _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
+    _templateError : _.template($("#country_error_template").html()),
+    _templateHelp : _.template( $('#contributions_tool_help_template').html() ),
     // Force fetch data of the left tool. Get the data for the first country
     _forceFetchDataSubToolLeft: false,
     // Force fetch data of the right tool. Get the data for the second country
@@ -53,7 +55,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 lastSelection = this.getLatestContext().data.countries.selection,
                 list = countries.list,
                 redraw = false;
-
             
                 for (var i=0;i<lastSelection.length;i++){
                     if (selection.indexOf(lastSelection[i]) == -1){
@@ -91,11 +92,13 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 // It's already drawn, let's remove it
                 selection[idx] = null;
                 if (idx == 0){
-                    this._forceFetchDataSubToolLeft = true;
+                    this._forceFetchDataSubToolLeft = false;
+                    this._models["left"] = null;
                     this._renderSubTool("left");
                 }
                 else{
-                    this._forceFetchDataSubToolRight = true;
+                    this._forceFetchDataSubToolRight = false;
+                    this._models["right"] = null;
                     this._renderSubTool("right");
                 }
             }
@@ -176,6 +179,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             drop: function( event, ui ) {
                 var country = $(ui.helper).find("[code]").attr("code");
                 ctx.countries.selection[0] = country;
+                _this._forceFetchDataSubToolLeft = true;
                 _this._renderSubTool("left");
                 _this.countries.render();
                 _this.contextToURL();
@@ -189,6 +193,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             drop: function( event, ui ) {
                 var country = $(ui.helper).find("[code]").attr("code");
                 ctx.countries.selection[1] = country;
+                _this._forceFetchDataSubToolRight = true;
                 _this._renderSubTool("right");
                 _this.countries.render();
                 _this.contextToURL();
@@ -216,6 +221,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             selection = ctx.countries.selection,
+            year =  ctx.slider[0].date.getFullYear(),
             // get correct force fecth variable
             forceFetch = pos == "left" ? this._forceFetchDataSubToolLeft : this._forceFetchDataSubToolRight,
             // Index 0 is for left position, index 1 is for right position
@@ -238,23 +244,42 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     "family" : ctx.family
                 });
 
+                $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart");
+
+                $chart.html(app.getLoadingHTML());
+
                 var _this = this;
                 this._models[pos].fetch({
                     success: function(){
-                       if (pos == "left"){
+                        model =  _this._models[pos];
+                        if (pos == "left"){
                             _this._forceFetchDataSubToolLeft = false;
-                       }
-                       else{
+                        }
+                        else{
                             _this._forceFetchDataSubToolRight = false;
-                       }
-                       _this._drawD3Chart(pos,country,_this._models[pos]);
+                        }
+
+                        if (!model.get(year).family.global.value){
+                            // No data 
+                            _this._drawD3ChartNoData(pos,true);
+                        }
+                        else{
+                            _this._drawD3Chart(pos,country,model); 
+                        }
                     }
                 });
 
             }
             else{
+                model =  this._models[pos];
                 //We already have the data, let's draw directly
-                this._drawD3Chart(pos,country,this._models[pos]);
+                if (!model.get(year).family.global.value){
+                    // No data 
+                    this._drawD3ChartNoData(pos,true);
+                }
+                else{
+                    this._drawD3Chart(pos,country,model);
+                }
             }
         }
         else{
@@ -392,10 +417,11 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.copyGlobalContextToLatestContext();
     },
 
-    _drawD3ChartNoData: function(pos){
+    _drawD3ChartNoData: function(pos,error){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
+            $chart_legend = pos == "left" ? this.$chart_legend_left : this.$chart_legend_right,
             width = $chart.width(),
             height = $chart.height(),
             radius = Math.min(width, height) / 2;
@@ -419,6 +445,14 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         $chart.append("<div class='co_drag_info'><p class='drag_info' style='width:" + (radius * 1.3)+ "px'><lang>Seleccione un país o arrástrelo hasta aquí desde la cabecera de análisis</lang></p></div>");
 
         this._d3[pos] = null;
+
+        if (!error){
+            $chart_legend.html("");
+        }
+        else{
+            $chart_legend.html(this._templateError());
+        }
+
     },
 
     _drawD3Chart: function(pos,country,model){
@@ -473,9 +507,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
           };
         }
 
-        var div = d3.select("#contributions_tool .chart").append("div")   
-            .attr("class", "tooltip")               
-            .style("opacity", 0);
+        var div = d3.select(".tooltip").style("opacity", 0);
 
         var obj = this;
 
@@ -486,19 +518,30 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
               .attr("d", arc)
               .style("fill", function(d) { return d.color; })
             .on("click", click)
-            .on("mouseover", function(d) {     
+            .on("mouseover", function(d) {  
+
+                var variable = model.get(year).family[d.name],
+                // brother model
+                bmodel = pos == "left" ? obj._models["right"] : obj._models["left"],
+                // brother variables 
+                bvariable = bmodel ? bmodel.get(year).family[d.name] : null;
+
                 div.transition()        
                     .duration(200)      
-                    .style("opacity", 1);      
-                div.html(obj._htmlToolTip(model.get(year).family[d.name]))  
+                    .style("opacity", 1);     
+
+                div.html(obj._htmlToolTip(variable,bvariable))  
                     .style("left", (d3.event.pageX) + "px")     
-                    .style("top", (d3.event.pageY - 28) + "px");    
+                    .style("top", (d3.event.pageY - 28) + "px"); 
+                    $("path[data-variable='" + d.name+"']").attr("enhanced","true"); 
                 })                  
             .on("mouseout", function(d) {       
                 div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
-            });
+                $("path[data-variable='" + d.name+"']").removeAttr("enhanced");
+            })
+            .attr("data-variable",function(d){return d.name });
         
 
             function click(d) {
@@ -552,23 +595,60 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _htmlToolTip: function(variable){
+    _htmlToolTip: function(variable,bvariable){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            family = ctx.family;
+            family = ctx.family,
+            ranking = variable.globalranking  ? variable.globalranking  : variable.relativeranking;
 
-        var html = "<div>" 
-                    +   "<span>" + variable.globalranking + "º " +app.countryToString(variable.code) + "</span>"
-                    +   "<span>" + variable.year + "</span>"
-                    +   "<div class='clear'></div>"
+        if (!bvariable){
+             return "<div>"
+                    +      "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +       "<span>" + variable.year + "</span>"
+                    +      "<div class='clear'></div>"
+                    +   "</div>"
+                    +   "<div>" 
+                    +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
+                    +       "<span>" + sprintf("%0.2f",variable.value) + "</span>"
+                    +       "<div class='clear'></div>"
+                    +   "</div>";
+        }
+        else{
+
+            var branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
+                max = _.max([bvariable.value,variable.value]),
+                progress = 100 * variable.value / max,
+                bprogress = 100 * bvariable.value / max
+
+            return "<div>"
+                    +      "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +       "<span>" + variable.year + "</span>"
+                    +      "<div class='clear'></div>"
+                    +   "</div>"
+                    +   "<div>" 
+                    +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
+                    +       "<span>" + sprintf("%0.2f",variable.value) + "</span>"
+                    +       "<div class='clear'></div>"
+                    +   "</div>"
+                   
+                    + "<div class='co_progress'>"
+                    +       "<div class='progress'><div  style='width:" + progress + "%'></div></div>"
+                    +       "<div class='progress'><div  style='width:" + bprogress  + "%'></div></div>"
                     + "</div>"
-                    + "<div>" 
-                    +   "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                    +   "<span>" + sprintf("%0.2f",variable.value) + "</span>"
-                    +   "<div class='clear'></div>"
-                    +"</div>"
+                    
+                 
+                    +   "<div class='compare'>" 
+                    +       "<span class='ml'>" + app.variableToString(bvariable.variable,family) + "</span>"
+                    +       "<span class='mr'>" + sprintf("%0.2f",bvariable.value) + "</span>"
+                    +       "<div class='clear'></div>"
+                    +   "</div>"
+                    +   "<div class='compare'>"
+                    +       "<span class='white ml'>" + branking + "º " +app.countryToString(bvariable.code) + "</span>"
+                    +       "<span class='year mr'>" + bvariable.year + "</span>"
+                    +       "<div class='clear'></div>"
+                    +   "</div>";
 
-        return html;
+        }
 
     },
 
@@ -628,5 +708,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         // copy to latest context
         this.copyGlobalContextToLatestContext();
-    }
+    },
+
+
 });

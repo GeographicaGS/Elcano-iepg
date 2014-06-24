@@ -1,6 +1,9 @@
 <%
+
+	collection = _.filter(collection, function(d) { return d.years[year] && d.years[year].value });
+	collection = _.sortBy(collection, function(d){ return d.years[year].value });
+
 var 
-	collection = _.sortBy(collection, function(d){ return d.years[year].value }),
 	min = collection.length ? collection[0].years[year].value : 0,
 	max = collection.length ? collection[collection.length-1].years[year].value : 0,
 	maxSize = 120,
@@ -18,7 +21,7 @@ for (var i=collection.length-1;i>=0;i--){
 		<div class="co_flag" style="width: <%=flagSize%>px;height: <%=flagSize%>px" >
 			<img src="/img/flags/<%= d.country %>.svg" />
 		</div>
-		<p><strong><%= d.country %></strong> <%= sprintf("%.2f",v) %></p>
+		<p><strong><%= app.countryCodeToStr(d.country) %></strong> <%= sprintf("%.2f",v) %></p>
 
 	</li>
 <% } %>

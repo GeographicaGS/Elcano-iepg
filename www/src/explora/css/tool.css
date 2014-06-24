@@ -217,6 +217,10 @@
         stroke: #fff;
         fill-rule: evenodd;
     }
+
+    path[enhanced]{
+        fill: @grey_dark !important;
+    }
 }   
 
 @media all and (max-height: 768px){
@@ -608,6 +612,12 @@
         color: @grey_dark !important;
     }
 
+    .nodata{
+        h4{
+            font-size: 18px;
+        }
+    }
+
 }
 
 #comparison_tool{
@@ -809,13 +819,9 @@
             &[selected]{
                 stroke: @red;
             }
-
-
         }
         
         .tick{
-            
-
             line{
                 stroke: @grey_light2;
             }

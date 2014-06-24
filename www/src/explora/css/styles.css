@@ -205,6 +205,7 @@ input[placeholder]{
 .green { color: @green;}
 .orange { color: @orange;}
 .grey2 { color:@grey2;}
+.white{ color:@white;}
 
 
 /* Fonts */
@@ -1153,6 +1154,7 @@ div.tooltip {
         }
     }
 
+
     div:nth-child(2){
         border-top: 1px solid #4a4a4d;
         margin-top: 5px;
@@ -1168,8 +1170,64 @@ div.tooltip {
             text-transform: uppercase;
         }
     }
+
+    
 }
 
+div.tooltip.comp{
+    .co_progress{
+        height: 38px;
+        background-color: #eee;
+        padding: 10px;
+
+        .progress{
+            display: block;
+            height:6px;
+            margin: 0 0 10px 0px;
+            padding: 0;
+            border: none;
+        
+            background-color: @white;
+
+            div{
+                background-color: #2a86d3;
+                height:100%;
+            }
+        }
+    }
+
+    .compare{
+        background-color: #525156;
+        margin-left: -10px;
+        margin-right: -10px;
+        height:30px;
+        padding-top: 5px;
+
+        span{
+            font-size: 11px;
+            text-transform: uppercase;
+            color:@grey_light;
+        }
+
+        span.year{
+            background-color: @red;
+            padding: 0px 5px;
+            line-height: 20px;
+            color:@white;
+            font-size:13px;
+        }
+        span.white{
+            color:@white;
+        }
+
+        &:last-child{
+            margin-bottom:-10px;
+            border-top: 1px solid #5e5d62;
+            height:35px;
+        }
+
+    }
+}
 .co_all_countries{
     
 }
@@ -1194,6 +1252,29 @@ div.tooltip {
             color:@grey_light;
         }
     }
+}
 
-    
+.nodata{
+    h6,p,h4,li{
+        .roboto(light);
+        line-height: 2*line_height;
+
+    }
+    h4{
+        margin-top: @line_height;
+    }
+    h4{
+        .roboto(light);
+        font-size: 24px;
+    }
+
+    h4,h6{
+        margin-bottom: @line_height;
+    }
+
+    ol{
+        margin: 0 20px 40px 40px;
+    }
+
+   
 }

@@ -21,8 +21,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                },
                "mouseout .infoover": function(e){
                     this.$(".content_infoover").fadeOut(300);
-               },
-               "click a.helpIcon": "launchHelp"
+               }
            }
         );
     },
@@ -419,22 +418,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             data: this.tree.findElementInTree(name),
             family : this.getGlobalContext().data.family
         }));
-    },
-
-    launchHelp: function(e){
-        e.preventDefault();
-
-        var opts = app.fancyboxOptsHelper();
-    
-        
-        opts["afterShow"] = function () {
-            $("#cancel").click(function(e){
-                e.preventDefault();
-                $.fancybox.close();
-            });
-        };
-        
-        $.fancybox(this._templateHelp(), opts);
     }
     
 });

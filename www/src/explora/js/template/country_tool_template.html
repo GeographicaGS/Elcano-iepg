@@ -1,7 +1,6 @@
 <%
     
     variable = model ? model.family.global : null;
-    console.log(model);
     gdp = model ? model.context.gdp : null;
     population = model ? model.context.population : null;
     country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
@@ -174,9 +173,9 @@
             </a>
             <div class="container-fluid">
                 <div class="row mth1">
-                    <p class="col-xs-12">
-                        <lang>No hay datos disponibles con los parámetros seleccionados</lang>.
-                    </p>
+                    <div class="col-xs-12 ">
+                       <%= _.template($("#country_error_template").html())() %>
+                    </div>
                 <div>
             </div>
         </div>

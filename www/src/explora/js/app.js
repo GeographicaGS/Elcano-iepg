@@ -285,6 +285,26 @@ app.fancyboxOpts = function(){
     }  
 };
 
+
+app.fancyboxOptsHelper = function(){
+
+    return   {
+        padding : 0,
+        autoHeight : false,
+        autoSize : false,
+        width : "90%",
+        maxWidth : 960,
+        closeBtn : false,
+        helpers : {
+            overlay : {
+                css : {
+                    'background' : 'rgba(81, 81, 85, 0.94)'
+                }
+            }
+        }
+    }  
+};
+
 app.findCountry = function(id_country){
     for (var i=0;i<countriesGeoJSON.features.length;i++){
 
@@ -360,6 +380,16 @@ app.countryCodeToStr = function(country){
             return s;
         }
     }
+}
+
+app.getLoadingHTML = function(){
+    return "<div class='co_loading'>" + 
+                "<div class='loading'> " + 
+                   
+                        "<img src='/img/ELC_icon_loading_white.gif' />" + 
+                        "<span><lang>Loading</lang></span>" + 
+                   
+                "</div>";
 }
 
 

@@ -359,7 +359,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
         var obj = this;
 
-        var tree =  new app.view.tools.utils.variablesTree(variables),
+        var tree =  new app.view.tools.utils.variablesTree(variables,family),
             path = svg.selectAll("path")
               .data(partition.nodes(tree.get()))
             .enter().append("path")

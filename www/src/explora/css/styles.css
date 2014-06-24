@@ -764,7 +764,7 @@ ul.flag_wrapper.filter{
 ul.country_bar{
     li{
         height: 45px;
-        margin: 7px 10px 0 10px;
+        margin: 7px 2px 0 2px;
         float:left;
 
         &.ui-draggable{
@@ -1171,5 +1171,29 @@ div.tooltip {
 }
 
 .co_all_countries{
+    
+}
+
+.co_loading{
+    height: 100%;
+    display: table;
+    width: 100%;
+    margin:auto;
+    .loading{
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+
+        img,span{
+            vertical-align: middle;
+        }
+        span{
+            padding-left: 5px;
+            .roboto();
+            font-size:14px;
+            color:@grey_light;
+        }
+    }
+
     
 }

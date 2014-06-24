@@ -530,23 +530,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             family = ctx.family,
-            ranking = variable.globalranking  ? variable.globalranking  : variable.relativeranking;
-
-        if (!bvariable){
-             return "<div>"
-                    +      "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
-                    +       "<span>" + variable.year + "</span>"
-                    +      "<div class='clear'></div>"
-                    +   "</div>"
-                    +   "<div>" 
-                    +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                    +       "<span>" + sprintf("%0.2f",variable.value) + "</span>"
-                    +       "<div class='clear'></div>"
-                    +   "</div>";
-        }
-        else{
-
-            var branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
+            ranking = variable.globalranking  ? variable.globalranking  : variable.relativeranking
+            branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
                 max = _.max([bvariable.value,variable.value]),
                 progress = 100 * variable.value / max,
                 bprogress = 100 * bvariable.value / max
@@ -579,7 +564,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                     +       "<div class='clear'></div>"
                     +   "</div>";
 
-        }
+        
 
     },
 

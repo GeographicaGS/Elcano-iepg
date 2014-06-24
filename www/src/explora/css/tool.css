@@ -612,6 +612,12 @@
         color: @grey_dark !important;
     }
 
+    .nodata{
+        h4{
+            font-size: 18px;
+        }
+    }
+
 }
 
 #comparison_tool{

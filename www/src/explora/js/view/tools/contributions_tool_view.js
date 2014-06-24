@@ -2,6 +2,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#contributions_tool_template').html() ),
     _templateProportionalFlags : _.template( $('#contributions_tool_proportional_flags_template').html() ),
     _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
+    _templateError : _.template($("#country_error_template").html()),
     // Force fetch data of the left tool. Get the data for the first country
     _forceFetchDataSubToolLeft: false,
     // Force fetch data of the right tool. Get the data for the second country
@@ -219,6 +220,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             selection = ctx.countries.selection,
+            year =  ctx.slider[0].date.getFullYear(),
             // get correct force fecth variable
             forceFetch = pos == "left" ? this._forceFetchDataSubToolLeft : this._forceFetchDataSubToolRight,
             // Index 0 is for left position, index 1 is for right position
@@ -248,20 +250,35 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 var _this = this;
                 this._models[pos].fetch({
                     success: function(){
-                       if (pos == "left"){
+                        model =  _this._models[pos];
+                        if (pos == "left"){
                             _this._forceFetchDataSubToolLeft = false;
-                       }
-                       else{
+                        }
+                        else{
                             _this._forceFetchDataSubToolRight = false;
-                       }
-                       _this._drawD3Chart(pos,country,_this._models[pos]);
+                        }
+
+                        if (!model.get(year).family.global.value){
+                            // No data 
+                            _this._drawD3ChartNoData(pos,true);
+                        }
+                        else{
+                            _this._drawD3Chart(pos,country,model); 
+                        }
                     }
                 });
 
             }
             else{
+                model =  this._models[pos];
                 //We already have the data, let's draw directly
-                this._drawD3Chart(pos,country,this._models[pos]);
+                if (!model.get(year).family.global.value){
+                    // No data 
+                    this._drawD3ChartNoData(pos,true);
+                }
+                else{
+                    this._drawD3Chart(pos,country,model);
+                }
             }
         }
         else{
@@ -399,10 +416,11 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.copyGlobalContextToLatestContext();
     },
 
-    _drawD3ChartNoData: function(pos){
+    _drawD3ChartNoData: function(pos,error){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
+            $chart_legend = pos == "left" ? this.$chart_legend_left : this.$chart_legend_right,
             width = $chart.width(),
             height = $chart.height(),
             radius = Math.min(width, height) / 2;
@@ -427,12 +445,13 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         this._d3[pos] = null;
 
-        if (pos == "left"){
-            this.$chart_legend_left.html("");
+        if (!error){
+            $chart_legend.html("");
         }
         else{
-            this.$chart_legend_right.html("");
-        }   
+            $chart_legend.html(this._templateError());
+        }
+
     },
 
     _drawD3Chart: function(pos,country,model){

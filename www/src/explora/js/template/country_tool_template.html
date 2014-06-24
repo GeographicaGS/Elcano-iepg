@@ -1,7 +1,6 @@
 <%
     
     variable = model ? model.family.global : null;
-    console.log(model);
     gdp = model ? model.context.gdp : null;
     population = model ? model.context.population : null;
     country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
@@ -174,17 +173,8 @@
             </a>
             <div class="container-fluid">
                 <div class="row mth1">
-                    <div class="col-xs-12 nodata">
-                        <h4>
-                            <lang>No hay datos disponibles con los parámetros seleccionados</lang>
-                        </h4>
-                        <h6><lang>Esto puede ser debido a:</lang><h6>
-                        <ol>
-                            <li><lang>Se ha seleccionado presencia europea y es un país no europeo o un bloque</lang>.</li>
-                            <li><lang>El bloque o país no existía en el año seleccionado</lang>.</li>
-                            <li><lang>No hay datos para la configuración seleccionada</lang>.</li>
-                            <li><lang>Si no es debido a ninguno de los puntos anteriores consulte la ayuda de la herramienta, pulsando la &apos;i&apos; de información de la esquina superior izquierda</lang>.</li>
-                        </ol>
+                    <div class="col-xs-12 ">
+                       <%= _.template($("#country_error_template").html())() %>
                     </div>
                 <div>
             </div>

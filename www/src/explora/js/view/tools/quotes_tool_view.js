@@ -155,7 +155,6 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             "date" : new Date(url.year_ref)
         }];
 
-
         // Do we have filters?
         if (url.filters){
             app.setFilters(url.filters.split(","));
@@ -264,21 +263,36 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
     _collectionToD3Data: function(){
         var col = this.toolCollection.toJSON(),
-            resp = {};
+            resp = {
+                "data" : {} ,
+                "min_year" : Number.MAX_VALUE,
+                "max_year" : Number.MIN_VALUE
+            };
 
         _.each(col,function(c){
             var year = c.year;
 
             _.each(c.values,function(v){
-                if (!resp.hasOwnProperty(v.country)){
-                    resp[v.country] = [];    
-                }
-                resp[v.country].push({
-                    "year" : year,
-                    "value" : v.value,
-                    "country" : v.country
+                if (v.value){
+                    if (!resp.data.hasOwnProperty(v.country)){
+                        resp.data[v.country] = [];    
+                    }
 
-                });
+                    if (year < resp.min_year){
+                        resp.min_year = year;
+                    }
+
+                    if (year > resp.max_year){
+                        resp.max_year = year;
+                    }
+
+                    resp.data[v.country].push({
+                        "year" : year,
+                        "value" : v.value,
+                        "country" : v.country
+
+                    });    
+                }
             });
         });
 
@@ -293,22 +307,15 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
         var margin = {top: 40, right: 50, bottom: 50, left: 70},
             width = this.$chart.width() - margin.left - margin.right,
-            height = this.$chart.height() - margin.top - margin.bottom;
+            height = this.$chart.height() - margin.top - margin.bottom,
 
-        // var x = d3.scale.linear()
-        //     .domain(_.map(app.config.SLIDER, function(d){ return d.getFullYear(); }))
-        //     .range(_.map(app.config.SLIDER, function(d){ 
-        //             var idx = app.config.SLIDER.indexOf(d),
-        //                 w = width / app.config.SLIDER.length;
-
-        //             return w*idx; 
-        //         })
-        //     );
+            resp = this._collectionToD3Data(),
+            data = resp.data;
 
         // let's add a year at each side to simulate a padding in the chart
-        var yearDomain = [app.config.SLIDER[0].getFullYear()-1,app.config.SLIDER[app.config.SLIDER.length -1].getFullYear() +1];
+        var yearDomain = [resp.min_year-1, resp.max_year+1];
 
-         var x = d3.scale.linear()
+        var x = d3.scale.linear()
             .domain(yearDomain)
             .range([0,width]);
 
@@ -340,8 +347,6 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             .attr("height",  height + margin.top + margin.bottom)
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        var data = this._collectionToD3Data();
        
         // Get the max 
         var max = Number.MIN_VALUE;
@@ -350,11 +355,10 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             if (tmp_max>max)
                 max = tmp_max;
         });
-
     
         y.domain([0,max]);
 
-         // Draw axis
+        // Draw axis
         svg.append("g")
           .attr("class", "x axis")
           .attr("transform", "translate(0," + height + ")")
@@ -379,7 +383,6 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         //highlight the current year
         var idx = _.map(app.config.SLIDER, function(d){ return d.getFullYear(); }).indexOf(year);
         $($(".chart .x.axis .tick")[idx]).attr("selected",true);
-
 
         // Div for Tooltip
         var div = d3.select("#quotes_tool .chart").append("div")   
@@ -410,13 +413,13 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
               .attr("transform", "translate("+ textMinPos.left +"," + textMinPos.top + ")")
               .attr("class","co_line_label")
               .append("text")
-                .text(country);
+                .text(app.countryCodeToStr(country));
 
             var textMax = svg.append("g")
               .attr("transform", "translate("+ textMaxPos.left +"," + textMaxPos.top + ")")
               .attr("class","co_line_label")
               .append("text")
-                .text(country);
+                .text(app.countryCodeToStr(country));
 
             // Draw splines
             var circle = svg.selectAll("circle")

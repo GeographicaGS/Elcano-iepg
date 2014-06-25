@@ -944,6 +944,7 @@ ul.country_bar{
                     position: absolute;
                     top:5px;
                     right: 5px;
+                    opacity: 0.0;
                 }
 
                 .ico::before{
@@ -957,16 +958,18 @@ ul.country_bar{
                     top:0;
                     right: 0;
                 }
+
+                img{
+                    opacity: 0.5;
+                }
             }
 
             a:hover{
-                .ico::before{
-                    border-right: 60px solid @red;    
-                }
-
                 .ico::after{
                     background-image: url("@{imgPath}ELC_icon_seleccionada_herramienta.svg");
+                    opacity: 1.0;
                 }
+                
             }
 
             a[selected]{
@@ -976,8 +979,14 @@ ul.country_bar{
 
                 .ico::after{
                     background-image: url("@{imgPath}ELC_icon_seleccionada_herramienta.svg");
+                    opacity: 1.0;
+                }
+
+                img{
+                    opacity: 1.0;
                 }
             }
+
             a[selected]:hover{
                 .ico::after{
                     background-image: url("@{imgPath}ELC_icon_seleccionada_herramienta_hover.svg");

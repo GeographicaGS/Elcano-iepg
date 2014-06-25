@@ -373,7 +373,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
          co_label.append("text")
             .attr("x",40)
             .attr("y", 17)
-            .text(function(d){ return d.code });
+            .text(function(d){ return app.countryCodeToStr(d.code) });
 
         co_label.append("text")
             .attr("class","number")

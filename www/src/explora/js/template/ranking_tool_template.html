@@ -18,20 +18,14 @@
             <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
         </a>
 
-        <div class="conteiner-fluid">
+        <div class="container-fluid" style="height:100%">
             <div class="row">
-
                 <div class="col-sm-6">
-                      
                     <h5><%= app.variableToString(ctx.variables[0],ctx.family) %></h5>
                     <div class="analyze">
                         <span class="label">Análisis por bloques</span>
-                        <a href="#" block-analyze="<%= ctx.block_analize ? "true" : "false" %>">
-
-                        </a>
-
+                        <a href="#" block-analyze="<%= ctx.block_analize ? "true" : "false" %>"></a>
                     </div>
-                      
                     <div class="co_chart">
                         <a id="scroll_down" href="#"></a>
                         <a id="scroll_up" href="#"></a>

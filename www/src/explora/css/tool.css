@@ -517,6 +517,46 @@
     .tooltip{
         position: absolute;
     }
+
+    h5{
+        float:left;
+    }
+    .analyze{
+        float:right;
+        margin-top: @line_height;
+        
+        span,a{
+            display: inline-block;
+            vertical-align: middle;
+            color: @grey_dark;
+        }
+        span{
+            font-size: 13px;
+        }
+
+        a{
+            height: @line_height;
+            width: 32px;
+            border-radius: 10px;
+            background-color: #d0d0d5;
+            &:before{
+                content:"";
+                float:left;
+                margin: 5px;
+                width: 8px;
+                height: 8px;
+                background-color: @white;
+                border-radius: 8px;
+                .roboto();
+            }
+        }
+        a[block-analyze='true']{
+            background-color: @red;
+            &:before{
+                float:right;
+            }
+        }
+    }
 }
 
 
@@ -702,6 +742,7 @@
         }
 
         .co_ranking{
+
             position: relative;
             margin-top: 23px;
             img,span{

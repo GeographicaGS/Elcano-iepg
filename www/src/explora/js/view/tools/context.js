@@ -26,7 +26,9 @@ app.view.tools.context = function(id){
         "variables": ["global"],
 
         // Family it could be iepg or iepe
-        "family" : "iepg"
+        "family" : "iepg",
+
+        "block_analize" : false
     };
 
 

@@ -8,6 +8,15 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         this.countries = new app.view.tools.common.Countries();
     },
 
+    _events: function(){
+        return _.extend({},
+            app.view.tools.Plugin.prototype._events.apply(this),
+            {
+               "click a[block-analyze]": "changeBlockAnalysis"
+           }
+        );
+    },
+
     _setListeners: function(){
         app.view.tools.Plugin.prototype._setListeners.apply(this);
 
@@ -61,6 +70,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             "yearRef" : ctxObj.getFirstSliderElement("PointReference").date.getFullYear(),
             "variable" : ctx.variables[0],
             "family" : ctx.family,
+            "block_analize" : ctx.block_analize,
             "entities" : ctx.countries.list
         });
 
@@ -157,7 +167,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             + ctx.slider[0].date.getFullYear() + "/" // Year
             + ctx.slider[1].date.getFullYear() + "/" // Reference year 
             + ctx.countries.list.join(",") + "/" // Countries list
-            + ctx.countries.selection[0]  // Country selected
+            + ctx.countries.selection[0]  + "/" // Country selected
+            + (ctx.block_analize ? 1 : 0)
             + (filters ? "/" + filters : "") ,{trigger: false});
     },
 
@@ -182,6 +193,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         ctx.countries.list = url.countries.split(",");
         ctx.countries.selection = [url.country_sel];
+
+        ctx.block_analize = url.block_analize==0 ? false : true;
 
         // Do we have filters?
         if (url.filters){
@@ -354,7 +367,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("width",25)
             .attr("height",25)
             .attr("xlink:href",function(d){
-                return  "/img/flags/" + d.code + ".svg"
+                return  "/img/flags/ranking/" + d.code + ".svg"
             });
 
          co_label.append("text")
@@ -509,6 +522,15 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             }
         }
 
+        if (!ctx.block_analize){
+            if (latestCtx.block_analize){
+                ctx.block_analize = latestCtx.block_analize;
+            }
+            else{
+                ctx.block_analize = 0;
+            }
+        }
+
         // Save context
         ctxObj.saveContext();
 
@@ -531,7 +553,23 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         console.log("Scroll up");
     },
 
-    testZoom: function(){
+    changeBlockAnalysis: function(e){
+        var $e= $(e.target);
+        e.preventDefault();
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+        ctx.block_analize = $e.attr("block-analyze") == "true" ? false : true;
+
+          // Save context
+        ctxObj.saveContext();
+
+        // update the latest context
+        this.copyGlobalContextToLatestContext();
+
+        this._forceFetchDataTool = true;
+        this.render();
 
     }
 });

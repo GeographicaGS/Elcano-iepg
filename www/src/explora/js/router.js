@@ -9,7 +9,7 @@ app.router = Backbone.Router.extend({
         "error" : "error",
         "tool/:type" : "bringToolToFront",
         "country/:family/:countries/:country_sel/:year(/:filters)" : "country",
-        "ranking/:family/:variable/:year/:year_ref/:countries/:country_sel(/:filters)" : "ranking",
+        "ranking/:family/:variable/:year/:year_ref/:countries/:country_sel/:block_analize(/:filters)" : "ranking",
         "contributions/:family/:year/:countries/:countries_sel(/:filters)" : "contributions",
         "quotes/:family/:variable/:countries/:countries_sel/:year_ref(/:filters)" : "quotes",
         "comparison/:year/:countries/:country_sel(/:filters)" : "comparison",
@@ -52,7 +52,7 @@ app.router = Backbone.Router.extend({
         });
     },
 
-    ranking: function(family,variable,year,year_ref,countries,country_sel,filters){
+    ranking: function(family,variable,year,year_ref,countries,country_sel,block_analize,filters){
         app.baseView.loadRankingTool({
             "family" : family,
             "variable": variable,
@@ -60,7 +60,8 @@ app.router = Backbone.Router.extend({
             "year_ref": year_ref,
             "countries": countries,
             "country_sel" : country_sel,
-            "filters": filters
+            "filters": filters,
+            "block_analize" : block_analize
         });
     },
 

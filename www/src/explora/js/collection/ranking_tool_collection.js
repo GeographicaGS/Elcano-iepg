@@ -5,6 +5,7 @@ app.collection.RankingTool = Backbone.Collection.extend({
     _family : null,
     _variable : null,
     _entities : null,
+    _block_analize : null,
 
     initialize: function(models,options){
         this._year = options.year;
@@ -12,11 +13,12 @@ app.collection.RankingTool = Backbone.Collection.extend({
         this._variable = options.variable;
         this._entities = options.entities;
         this._yearRef = options.yearRef;
+        this._block_analize = options.block_analize ? 1 : 0;
     },
 
     url: function(){
         return this.urlRoot() + "/" + app.lang +  "/" + this._year  + "/" + this._yearRef + "/" 
-                + this._family + "/" + this._variable + "/0?entities=" + this._entities.join(",") 
+                + this._family + "/" + this._variable + "/" + this._block_analize + "?entities=" + this._entities.join(",") 
                 + "&filter=" + app.getFilters().join(",");
     },
 

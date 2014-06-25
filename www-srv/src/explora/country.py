@@ -75,7 +75,6 @@ def countrySheet(lang, family, countryCode):
     # Filter substraction
     if f:
         countries = arrayops.arraySubstraction(countries, f)
-
     try:
         out = dict()
         # Iterate through the years involved in the variable

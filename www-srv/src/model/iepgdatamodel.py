@@ -198,16 +198,13 @@ class IepgDataModel(PostgreSQLModel):
         """Returns the IEPG comment for the given country and year."""
         sql = """
         select
-        a.iso_3166_1_2_code as code,
-        date_part('year', b.date_in) as year,
-        b.comment
+        code,
+        date_part('year', date_in) as year,
+        comment
         from
-        iepg_data.master_country a inner join
-        iepg_data.iepg_comment b on
-        a.id_master_country=b.id_master_country
+        iepg_data_redux.iepg_comment 
         where
-        a.iso_3166_1_2_code=%s and date_part('year', b.date_in)=%s and language=%s;"""
-
+        code=%s and date_part('year', date_in)=%s and language=%s;"""
         return(self.query(sql, bindings=[countryCode, year, lang]).result())
 
 

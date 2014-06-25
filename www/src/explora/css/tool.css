@@ -386,6 +386,7 @@
     right: 20px;
     background-color: @grey_dark;
     padding: 0 10px 0 36px;
+
     span{
         float:left;
         height: 35px;
@@ -401,8 +402,11 @@
         .roboto(bold);
         margin: 7px 0 0 10px;
         padding: 0 5px;
+    }
 
-
+    &:before{
+        content:"";
+        background: url("@{imgPath}ELC_icon_leyenda_map.svg") no-repeat top left;
     }
 }
 
@@ -550,6 +554,7 @@
                 .roboto();
             }
         }
+
         a[block-analyze='true']{
             background-color: @red;
             &:before{

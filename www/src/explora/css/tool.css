@@ -407,6 +407,11 @@
     &:before{
         content:"";
         background: url("@{imgPath}ELC_icon_leyenda_map.svg") no-repeat top left;
+        position: absolute;
+        left:0;
+        width: 34px;
+        height: 34px;
+
     }
 }
 

@@ -28,9 +28,9 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             var ctx = this.getGlobalContext();
             ctx.data.countries.selection = [id_country];
     
-            // Render again the tool with the new context
-            this._forceFetchDataTool = true;
-            this.render(); // implicit save the context
+            // // Render again the tool with the new context
+            // this._forceFetchDataTool = true;
+            // this.render(); // implicit save the context
         });
 
         this.stopListening(app.events,"slider:singlepointclick");
@@ -121,7 +121,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         for (var i=0;i<colJSON.length;i++){
             mapArray.push({
                 "code" : colJSON[i].code,
-                "value" : colJSON[i].currentRanking,
+                "value" : colJSON[i].currentValue,
             })
         }
 
@@ -216,14 +216,15 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
     _drawD3Chart: function(){
          var data = _.filter(this.collection.toJSON(), function(d){ return d.code; }),
-            max = data[0].currentValue > data[0].referenceValue 
+            max = !data[0].referenceValue || 
+                    data[0].currentValue > data[0].referenceValue 
                     ?  data[0].currentValue 
                     : data[0].referenceValue,
             margin = {top: 60, right: 20, bottom: 30, left: 140},
             width = this.$chart.width() - margin.left - margin.right,
             barHeight = 20,
             totalCountryHeight = barHeight * 2 + 10 /*padding*/,
-            height = data.length * totalCountryHeight - margin.top - margin.bottom,
+            height = (data.length+1) * totalCountryHeight - margin.top - margin.bottom,
             yAxisWidth = 100,
             visibleHeight = this.$chart.height(),
             ctxObj = this.getGlobalContext(),
@@ -381,7 +382,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("x",yAxisWidth - 30)
             .attr("y", 17)
             .attr("width",40)
-            .text(function(d){ return data.indexOf(d) + 1});
+            .text(function(d){ return d.currentRanking });
 
 
         function zoomed() {

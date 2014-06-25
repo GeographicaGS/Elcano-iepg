@@ -52,7 +52,9 @@
                                 <span class="size_13">
                                     <%= sprintf("<lang> Ranking %dº</lang>", variable.globalranking) %>
                                 </span>
-                                <% if (app.getFilters().length && variable.relativeranking) { %>
+                                <% if (app.getFilters().length 
+                                    && variable.relativeranking 
+                                    && variable.relativeranking!=variable.relativeranking ){ %>
                                     <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", variable.relativeranking) %></span>
                                 <% }%>
                             <% } else { %>
@@ -83,7 +85,9 @@
                                 <span class="size_13">
                                     <%= sprintf("<lang> Ranking %dº</lang>", gdp.globalranking) %>
                                 </span>
-                                <% if (app.getFilters().length && gdp.relativeranking) { %>
+                                <% if (app.getFilters().length 
+                                    && gdp.relativeranking
+                                    && gdp.relativeranking!=gdp.relativeranking) { %>
                                     <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", gdp.relativeranking) %></span>
                                 <% }%>
                             <% } else { %>
@@ -119,7 +123,9 @@
                                 <span class="size_13">
                                     <%= sprintf("<lang> Ranking %dº</lang>", population.globalranking) %>
                                 </span>
-                                <% if (app.getFilters().length && population.relativeranking) { %>
+                                <% if (app.getFilters().length 
+                                    && population.relativeranking
+                                    && population.relativeranking!= population.globalranking) { %>
                                     <span class="size_13 roboto_italic">/<%= sprintf("<lang> Ranking con filtro %dº</lang>", population.relativeranking) %></span>
                                 <% }%>
                             <% } else { %>

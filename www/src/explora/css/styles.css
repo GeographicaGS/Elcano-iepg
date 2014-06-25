@@ -855,6 +855,7 @@ ul.country_bar{
             .ornament{
                 display: block;
                 position: absolute;
+                z-index:2;
                 color: @white;
                 .roboto(bold);
                 font-size: 11px;
@@ -862,7 +863,7 @@ ul.country_bar{
                 border: 1px solid @grey_light;
                 padding: 0px 3px;
                 line-height: 15px;
-                z-index: 1;
+                z-index: 2;
                 top: -20px;
                 left: -15px;
                 cursor: pointer;
@@ -878,11 +879,15 @@ ul.country_bar{
                 position: absolute;
                 left: 3px;
                 top: 19px;
-                z-index: 1;
+                z-index: 2;
             }
 
             .ornament.ref{
                 background-color: @grey;
+                z-index: 1;
+                &:before{
+                    z-index:1;
+                }
             }
 
             .ornament.ref::before{

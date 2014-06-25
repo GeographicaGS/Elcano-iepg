@@ -28,7 +28,7 @@ app.collection.RankingTool = Backbone.Collection.extend({
     
     parse : function(response,options){
         return _.filter(response.results, function(item) {
-             return (item.currentRanking && item.referenceRanking);
+             return item.currentRanking ;
         });
     }
 });

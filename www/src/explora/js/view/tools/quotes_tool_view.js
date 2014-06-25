@@ -401,11 +401,11 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             var textMinMargin = { "left" : 23 , "top" : 11} ,
                 textMaxMargin = { "left" : 7 , "top" : 4} ,
                 textMinPos = {
-                    left: x(app.config.SLIDER[0].getFullYear()) - textMinMargin.left,
+                    left: x(c[0].year) - textMinMargin.left,
                     top: y(d3.min(c, function(d) { return d.value; }) - textMinMargin.top)
                 },
                 textMaxPos = {
-                    left: x(app.config.SLIDER[app.config.SLIDER.length -1].getFullYear()) + textMaxMargin.left,
+                    left: x(c[c.length-1].year) + textMaxMargin.left,
                     top: y(d3.max(c, function(d) { return d.value; })) + textMaxMargin.top 
                 };
 

@@ -435,6 +435,9 @@
 
 #ranking_tool{
 
+    .body{
+        overflow: hidden;
+    }
     .co_data_map,.wrapper_chart,.conteiner-fluid,.row{
         height: 100%;
     }
@@ -553,7 +556,10 @@
     }
 
     #data_map{
-        border: 10px solid #fff;
+        border-top: 20px solid #fff;
+        border-bottom: 20px solid #fff;
+        border-left: 20px solid #fff;
+        
         .info.data{
             margin: 5px 10px !important;
         }

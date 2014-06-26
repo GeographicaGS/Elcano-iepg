@@ -435,12 +435,65 @@
 
 #ranking_tool{
 
-    .co_data_map,.co_chart,.conteiner-fluid,.row{
+    .co_data_map,.wrapper_chart,.conteiner-fluid,.row{
         height: 100%;
     }
 
-    h5{
-        margin: 20px 0 0px 20px;
+    .wrapper_chart{
+        position: relative;
+
+
+        .chart_header,.co_chart{
+            position: absolute;
+            width: 100%;
+        }
+        .chart_header{
+            top: @line_height;
+            h5{
+                float:left;
+            }
+            .analyze{
+                float:right;
+                
+                span,a{
+                    display: inline-block;
+                    vertical-align: middle;
+                    color: @grey_dark;
+                }
+                span{
+                    font-size: 13px;
+                }
+
+                a{
+                    height: @line_height;
+                    width: 32px;
+                    border-radius: 10px;
+                    background-color: #d0d0d5;
+                    &:before{
+                        content:"";
+                        float:left;
+                        margin: 5px;
+                        width: 8px;
+                        height: 8px;
+                        background-color: @white;
+                        border-radius: 8px;
+                        .roboto();
+                    }
+                }
+
+                a[block-analyze='true']{
+                    background-color: @red;
+                    &:before{
+                        float:right;
+                    }
+                }
+            }
+        }
+
+        .co_chart{
+            top: 60px;
+            bottom: 0;
+        }
     }
 
     #data_map,.chart{
@@ -507,10 +560,10 @@
     }
 
     #scroll_down,#scroll_up{
-         position: absolute;
+        position: absolute;
         height: 30px;
         width: 30px;
-        right: 0px;
+        right: -20px;
     }
 
     #scroll_down{
@@ -519,53 +572,12 @@
     }
 
     #scroll_up{
-        top: 100px;
+        top: 56px;
         background: url("@{imgPath}ELC_icon_scroll_up.svg") no-repeat left center;
     }
 
     .tooltip{
         position: absolute;
-    }
-
-    h5{
-        float:left;
-    }
-    .analyze{
-        float:right;
-        margin-top: @line_height;
-        
-        span,a{
-            display: inline-block;
-            vertical-align: middle;
-            color: @grey_dark;
-        }
-        span{
-            font-size: 13px;
-        }
-
-        a{
-            height: @line_height;
-            width: 32px;
-            border-radius: 10px;
-            background-color: #d0d0d5;
-            &:before{
-                content:"";
-                float:left;
-                margin: 5px;
-                width: 8px;
-                height: 8px;
-                background-color: @white;
-                border-radius: 8px;
-                .roboto();
-            }
-        }
-
-        a[block-analyze='true']{
-            background-color: @red;
-            &:before{
-                float:right;
-            }
-        }
     }
 }
 

@@ -20,17 +20,21 @@
 
         <div class="container-fluid" style="height:100%">
             <div class="row">
-                <div class="col-sm-6">
-                    <h5><%= app.variableToString(ctx.variables[0],ctx.family) %></h5>
-                    <div class="analyze">
-                        <span class="label">Análisis por bloques</span>
-                        <a href="#" block-analyze="<%= ctx.block_analize ? "true" : "false" %>"></a>
-                    </div>
-                    <div class="co_chart">
-                        <a id="scroll_down" href="#"></a>
-                        <a id="scroll_up" href="#"></a>
-                        <div class="co_xaxis"></div>
-                        <div class="chart"></div>
+                <div class="col-sm-6 " style="height:100%">
+                    <div class="wrapper_chart">
+                        <div class="chart_header">
+                            <h5><%= app.variableToString(ctx.variables[0],ctx.family) %></h5>
+                            <div class="analyze">
+                                <span class="label">Análisis por bloques</span>
+                                <a href="#" block-analyze="<%= ctx.block_analize ? "true" : "false" %>"></a>
+                            </div>
+                        </div>
+                        <div class="co_chart">
+                            <a id="scroll_down" href="#"></a>
+                            <a id="scroll_up" href="#"></a>
+                            <div class="co_xaxis"></div>
+                            <div class="chart"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6 co_data_map" >

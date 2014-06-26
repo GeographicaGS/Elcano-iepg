@@ -467,12 +467,6 @@ main{
 
     a{
         display: block;
-        opacity: 0.35;
-        .trans_opacity();
-    }
-
-    a:hover{
-        opacity: 1.0;
     }
 
     #ctrl_tool{
@@ -508,27 +502,86 @@ main{
         ul{
             li{
                 a{ 
-                    background-color: @white;
+                    height: 24px;
                     text-align: center;
-                    font-size: 15px;
-                    .roboto_cond();
-                    
-                    margin-bottom: 2px;
-                    background-color: @grey_dark;
-                    color: @white;
+                    background: @grey_dark url("@{imgPath}ELC_icon_h_ranking.svg") no-repeat center center;
                     border-right:1px solid transparent;
                     border-top:1px solid transparent;
                     border-bottom:1px solid grey_light;
                 }
 
+                &[tool='country']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_fichapais_off.svg");
+                    }
+                }
+                &[tool='ranking']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_ranking_off.svg");
+                    }
+                }
+                &[tool='contributions']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_contribuciones_off.svg");
+                    }
+                }
+                &[tool='quotes']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_cuotas_off.svg");
+                    }
+                }
+                &[tool='comparison']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_iepg-iepe_off.svg");
+                    }
+                }
+
             }
-            li[selected] a {
-                color: @grey_dark;
-                background-color: @white;
-                border-right:1px solid @grey_dark;
-                border-top:1px solid @grey_dark;
-                border-bottom:1px solid @grey_dark;
+            li[selected] {
+                a {
+                    background-color: @white;
+                    border-right:1px solid @grey_dark;
+                    border-top:1px solid @grey_dark;
+                    border-bottom:1px solid @grey_dark;
+                }
+                &[tool='country']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_fichapais.svg") ;
+                    }
+                }
+                &[tool='ranking']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_ranking.svg");
+                    }
+                }
+                &[tool='contributions']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_contribuciones.svg");
+                    }
+                }
+                &[tool='quotes']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_cuotas.svg");
+                    }
+                }
+                &[tool='comparison']{
+                    a{
+                        background-image: url("@{imgPath}ELC_icon_h_iepg-iepe.svg");
+                    }
+                }
             }
+
+            /*li[tool='ranking']{
+                a::after{
+                    content:"";
+                    width: 20px;
+                    height: 20px;
+
+                }
+            }*/
+
+
+
         }
     }
 

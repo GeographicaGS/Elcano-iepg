@@ -319,7 +319,6 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             .domain(yearDomain)
             .range([0,width]);
 
-
         var y = d3.scale.linear()
             .range([height, 0]);
 

@@ -476,7 +476,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(variable,family) + "</span>"
-                    +   "<span>" + sprintf("%0.2f",el.value) + "</span>"
+                    +   "<span>" + app.formatNumber(el.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>"
 

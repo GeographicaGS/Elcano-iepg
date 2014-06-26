@@ -14,6 +14,7 @@
     </div>
 
     <div class="body">
+
         <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>" style="left:50%">
             <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
         </a>
@@ -21,6 +22,7 @@
         <div class="container-fluid" style="height:100%">
             <div class="row">
                 <div class="col-sm-6 " style="height:100%">
+
                     <div class="wrapper_chart">
                         <div class="chart_header">
                             <h5><%= app.variableToString(ctx.variables[0],ctx.family) %></h5>
@@ -34,6 +36,8 @@
                             <a id="scroll_up" href="#"></a>
                             <div class="co_xaxis"></div>
                             <div class="chart"></div>
+                             <div id="ranking_chart_tooltip" class="tooltip" style="position:fixed"> </div>
+
                         </div>
                     </div>
                 </div>

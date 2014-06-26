@@ -347,9 +347,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
           };
         }
 
-        var div = d3.select("#country_tool .chart").append("div")   
-            .attr("class", "tooltip")  
-            .style("opacity", 0);
+        var div = d3.select("#country_tool .tooltip");
 
         var obj = this;
 
@@ -405,7 +403,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                    +   "<span>" + sprintf("%0.2f",variable.value) + "</span>"
+                    +   "<span>" + app.formatNumber(variable.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>"
 

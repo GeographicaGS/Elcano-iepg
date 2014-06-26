@@ -393,5 +393,27 @@ app.getLoadingHTML = function(){
             "</div>";
 }
 
+app.formatNumber = function (n,decimals){
+
+    if (!decimals){
+        decimals = 2;
+    }
+
+    if (typeof n == "number"){
+        return parseFloat(sprintf("%."+ decimals + "f",n)).toLocaleString();
+    }
+    else{
+        
+        if (n.indexOf(".") != -1){
+            n = sprintf("%."+ decimals + "f",n);
+            return parseFloat(n).toLocaleString();    
+        }
+        else{
+
+            return parseInt(n).toLocaleString();
+        }    
+    }
+}
+
 
 

@@ -137,7 +137,7 @@ app.view.map = function(options){
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(v.variable,v.family) + "</span>"
-                    +   "<span>" + sprintf("%0.2f",v.value) + "</span>"
+                    +   "<span>" + app.formatNumber(v.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
 

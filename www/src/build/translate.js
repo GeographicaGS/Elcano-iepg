@@ -19,6 +19,8 @@ function getLangTags(s){
 }
 
 function replaceLangString(str,origin,target){
+    origin = origin.replace("(","\\(");
+    origin = origin.replace(")","\\)");
     var regex = new RegExp("<lang>"+ origin + "</lang>","g");
     return str.replace(regex,target);
 }

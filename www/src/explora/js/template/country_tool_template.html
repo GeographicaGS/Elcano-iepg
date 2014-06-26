@@ -22,6 +22,7 @@
 
     <% if (model && variable.value) { %>
     <div class="body">
+
         <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
             <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
         </a>
@@ -45,7 +46,7 @@
                             <span class="grey size_21 fleft mt7 ml roboto_light" title="<%=  app.countryToString(country) %>">
                                 <%= app.countryCodeToStr(country) %>
                             </span>
-                            <span class="grey size_21 fleft mt7 ml roboto_bold"><%= sprintf("%0.2f",variable.value) %></span>
+                            <span class="grey size_21 fleft mt7 ml roboto_bold"><%= app.formatNumber(sprintf("%0.2f",variable.value)) %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
                             <% if (country.length == 2) { %>
@@ -77,7 +78,7 @@
                             <span class="grey uppercase size_11"><lang>PIB</lang></span>
                         </div>
                         <div class="col-sm-5 col-md-5">
-                            <span class="grey size_16"><%= parseInt(gdp.value).toLocaleString() %></span>
+                            <span class="grey size_16"><%= app.formatNumber(gdp.value) %></span>
                             <span class="grey_light uppercase size_13">[US$]</span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
@@ -114,7 +115,7 @@
                             
                         </div>
                         <div class="col-sm-5 col-md-5">
-                            <span class="grey size_16"><%= parseInt(population.value).toLocaleString() %></span>
+                            <span class="grey size_16"><%= app.formatNumber(population.value) %></span>
                             <span class="grey_light uppercase size_13">[<lang>hab</lang>]</span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
@@ -162,9 +163,8 @@
                 <div class="col-sm-6 col-md-6">
                     <div class="chart"></div>
                     <div class="country_name"><%= app.countryToString(country) + " " + year %></div>
-                    <div class="chart_legend">
-                        
-                    </div>
+                    <div class="chart_legend"></div>
+                    <div class="tooltip"></div>
                 </div>
             </div>
             

@@ -292,9 +292,10 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         // Let's add the data
         var subset = canvas.selectAll(".bar").data(data);
 
-        var div = d3.select("body").append("div")   
-        .attr("class", "tooltip")               
-        .style("opacity", 0);
+        var div = d3.select("#ranking_chart_tooltip") ;
+        // var div = d3.select("body").append("div")   
+        // .attr("class", "tooltip")               
+        // .style("opacity", 0);
 
         var obj = this;
 
@@ -431,7 +432,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(variable,family) + "</span>"
-                    +   "<span>" + sprintf("%0.2f",d.value) + "</span>"
+                    +   "<span>" + app.formatNumber(d.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
 

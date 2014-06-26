@@ -242,7 +242,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient("top")
-            .tickSize(-height);
+            .tickSize(-height)
+            .tickFormat(function(d) { return app.formatNumber(d); });
 
         var yAxis = d3.svg.axis()
             .scale(y)
@@ -253,6 +254,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         var zoom = d3.behavior.zoom()
             .y(y)
             .on("zoom", zoomed);
+
 
         var svg = d3.select(".chart").append("svg")
             .attr("width", width + margin.left + margin.right)

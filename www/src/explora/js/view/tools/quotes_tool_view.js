@@ -336,6 +336,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             .tickSize(-width,6)
             .tickPadding(10)
             //.outerTickSize(0)
+            .tickFormat(function(d) { return app.formatNumber(d); })
             .orient("left");
 
         var line = d3.svg.line()

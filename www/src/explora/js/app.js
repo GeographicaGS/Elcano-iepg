@@ -87,6 +87,7 @@ app.resize = function(){
 app.ini = function(){
 
     this.lang = this.detectCurrentLanguage();
+
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
     this.$extraPanel = $("#extra_panel");
@@ -118,6 +119,9 @@ app.ini = function(){
     this.baseView.render();
 
     this.resize();
+
+
+ 
 
     $(window).resize(function(){
         app.resize();

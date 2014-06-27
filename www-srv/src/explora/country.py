@@ -142,7 +142,7 @@ def countrySheet(lang, family, countryCode):
                 conDict[k] = d
                 yearData["family"] = famDict
                 yearData["context"] = conDict
-                comment = cacheWrapper(m.getIepgComment, lang, countryCode, 2013)
+                comment = m.getIepgComment(lang, countryCode, 2013)
                 yearData["comment"] = comment[0] if comment else None
                 out[year] = yearData
         return(jsonify({"results": out}))

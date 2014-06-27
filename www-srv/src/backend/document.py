@@ -191,18 +191,8 @@ def getDocumentList():
     out = []
 
     search = request.args["search"] if "search" in request.args else None
-    # orderbyfield = request.args["orderbyfield"] if "orderbyfield" in request.args else "title"
-    # orderbyorder = request.args["orderbyorder"] if "orderbyorder" in request.args else "asc"
     orderbyfield = "last_edit_time"
     orderbyorder = "desc"
-
-    # if "orderbyorder" in request.args:
-    #     if request.args["orderbyorder"] not in cons.orderBy:
-    #         return(jsonify(cons.errors["-2"]))
-
-    # if "orderbyfield" in request.args:
-    #     if request.args["orderbyfield"] not in cons.documentOrderFields:
-    #         return(jsonify(cons.errors["-3"]))
 
     totalSize = m.getDocumentListSize(search=search)
     docs = m.getDocumentList(request.args["page"], cons.backend["DocumentListLength"], \

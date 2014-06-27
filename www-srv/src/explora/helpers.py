@@ -6,9 +6,17 @@ Explora helpers.
 
 """
 
-def processFilter(request_args, filterName):
-    """Gets request_args from a call and analyzes the filter."""
+def processFilter(requestArgs, filterName):
+    """Gets request_args from a call and analyzes the filter, returns a list."""
     filter = None
-    if filterName in request_args:
-        filter=(None if request_args[filterName].split(",")[0]=="" else request_args[filterName].split(","))
+    if filterName in requestArgs:
+        filter = (None if requestArgs[filterName].split(",")[0]=="" else requestArgs[filterName].split(","))
     return filter
+
+
+def processArgs(requestArgs, argName):
+    """Process an argument from request.args."""
+    arg = None
+    if argName in requestArgs:
+        arg = (None if requestArgs[argName]=="" else requestArgs[argName])
+    return arg

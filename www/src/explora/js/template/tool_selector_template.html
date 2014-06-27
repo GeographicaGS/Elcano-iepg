@@ -16,19 +16,7 @@ n_selected = app.baseView.tools.length;
                 </div>
             </div>
             <div class="row">
-                 <div class="col-xs-12" id="n_selected">
-                    <%
-                        if (n_selected === 0){
-                            print("<lang>0 herramientos seleccionadas</lang>");
-                        }
-                        else if (n_selected==1){
-                            print("<lang>1 herramienta seleccionada</lang>");
-                        }
-                        else{
-                            print(sprintf("<lang>%d herramientas seleccionadas</lang>",n_selected));   
-                        }
-                    %>
-                </div>
+                 <div class="col-xs-12" id="n_selected"></div>
             </div>
         </div>
 
@@ -36,7 +24,7 @@ n_selected = app.baseView.tools.length;
             <ul class="">
                 <li class="col-md-4 col-sm-6">
                     <a href="#" tool="country" <%= app.baseView.getToolByType("country") ? "selected" : "" %>>
-                        <img src="/<lang>lang</lang>/img/test.png">
+                        <img src="/img/ELC_img_h_fichapais-2x.jpg" width="300px" height="180px">
                         <p>
                             <strong>1. <lang>Ficha país</lang></strong>
                             <lang>Ficha país descripción TEXTO</lang>
@@ -46,7 +34,7 @@ n_selected = app.baseView.tools.length;
                 </li>
                 <li class="col-md-4 col-sm-6">
                     <a href="#" tool="ranking" <%= app.baseView.getToolByType("ranking") ? "selected" : "" %>>
-                        <img src="/<lang>lang</lang>/img/test.png">
+                        <img src="/img/ELC_img_h_ranking-2x.jpg" width="300px" height="180px">
                         <p>
                             <strong>2. <lang>Ranking</lang></strong>
                             <lang>Ranking descripción TEXTO</lang>
@@ -56,7 +44,7 @@ n_selected = app.baseView.tools.length;
                 </li>
                 <li class="col-md-4 col-sm-6">
                     <a href="#" tool="contributions" <%= app.baseView.getToolByType("contributions") ? "selected" : "" %>>
-                        <img src="/<lang>lang</lang>/img/test.png">
+                         <img src="/img/ELC_img_h_contribuciones-2x.jpg" width="300px" height="180px">
                         <p>
                             <strong>3. <lang>Contribuciones de presencia</lang></strong>
                             <lang>Contribuciones de presencia descripción TEXTO</lang>
@@ -66,10 +54,21 @@ n_selected = app.baseView.tools.length;
                 </li>
                 <li class="col-md-4 col-sm-6">
                     <a href="#" tool="quotes" <%= app.baseView.getToolByType("quotes") ? "selected" : "" %>>
-                        <img src="/<lang>lang</lang>/img/test.png">
+                        <img src="/img/ELC_img_h_cuotas-2x.jpg" width="300px" height="180px">
                         <p>
                             <strong>4. <lang>Cuotas de presencia</lang></strong>
                             <lang>Cuotas de presencia descripción TEXTO</lang>
+                        </p> 
+                        <div class="ico"></div>
+                    </a>
+                </li>
+
+                <li class="col-md-4 col-sm-6">
+                    <a href="#" tool="comparison" <%= app.baseView.getToolByType("comparison") ? "selected" : "" %>>
+                        <img src="/img/ELC_img_h_iepg-iepe-2x.jpg" width="300px" height="180px">
+                        <p>
+                            <strong>5. <lang>Presencia global frente a presencia europea</lang></strong>
+                            <lang>Presencia global frente a presencia europea descripción TEXTO</lang>
                         </p> 
                         <div class="ico"></div>
                     </a>

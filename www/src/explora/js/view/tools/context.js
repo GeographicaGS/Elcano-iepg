@@ -23,10 +23,12 @@ app.view.tools.context = function(id){
         // List of the current slider in the context. 
         "slider": [],
         // List of variables
-        "variables": ["iepg"],
+        "variables": ["global"],
 
         // Family it could be iepg or iepe
-        "family" : "iepg"
+        "family" : "iepg",
+
+        "block_analize" : false
     };
 
 
@@ -100,44 +102,21 @@ app.view.tools.context = function(id){
     };
 
     this.removeInvalidSelected = function(){
-        // for (var i=0;i<this.data.countries.selection.length;i++){
-        //     var index = this.data.countries.list.indexOf(this.data.countries.selection[i]);
-        //     if (index == -1) {
-        //         this.data.countries.selection.splice(i, 1);
-        //     }
-        // }    
-       this.data.countries.selection =  _.intersection(this.data.countries.selection,this.data.countries.list);
-        
-        
+        this.data.countries.selection =  _.intersection(this.data.countries.selection,this.data.countries.list);
     },
 
     this.clear = function(){
         localStorage.removeItem("context-"+this.id);
     }
 
-    // This method remove countries which are not present in the filter
-    this.removeCountriesNotPresentInFilter = function(){
+    // This method remove countries which are in the filter
+    this.removeCountriesInFilter = function(){
         var filters = app.getFilters();
         if (filters.length){
-            // Remove missing countries
-            for (var i=0;i<this.data.countries.list.length;i++){
-                var index = filters.indexOf(this.data.countries.list[i]);
-                if (index == -1) {
-                    this.data.countries.list.splice(i, 1);
-                }
-            }    
 
-            // Remove selected missing countries
-            for (var i=0;i<this.data.countries.selection.length;i++){
-                var index = filters.indexOf(this.data.countries.selection[i]);
-                if (index == -1) {
-                    this.data.countries.selection.splice(i, 1);
-                }
-            }    
+            this.data.countries.list = _.difference(this.data.countries.list, filters);
+            this.removeInvalidSelected();
         }
-
-
-
-    }    
+    }
 
 };

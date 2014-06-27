@@ -17,7 +17,8 @@ app.view.tools.Plugin = Backbone.View.extend({
     // Events are apply on render and disable on hideTool
     _events: function (){
         return {
-            "change #ctrl_family" : "_changeFamily"
+            "change #ctrl_family" : "_changeFamily",
+            "click a.helpIcon": "launchHelp"
         };
     },
 
@@ -197,7 +198,7 @@ app.view.tools.Plugin = Backbone.View.extend({
     render: function(){  
         this.adaptGlobalContext();
         this.contextToURL();
-        this.$el.show().html("Loading");
+        this.$el.show().html(app.getLoadingHTML());
 
         this.renderTool();
 
@@ -243,7 +244,29 @@ app.view.tools.Plugin = Backbone.View.extend({
 
     clearMap: function(){
         
+    },
+
+    launchHelp: function(e){
+        e.preventDefault();
+
+        if (this._templateHelp){
+            var opts = app.fancyboxOptsHelper();
+    
+        
+            opts["afterShow"] = function () {
+                $("#cancel").click(function(e){
+                    e.preventDefault();
+                    $.fancybox.close();
+                });
+            };
+            
+            $.fancybox(this._templateHelp(), opts);    
+        }
+
+        
     }
+
+
 
 
 

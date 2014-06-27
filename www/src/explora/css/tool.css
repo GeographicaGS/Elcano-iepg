@@ -6,7 +6,6 @@
     /*margin-right: 20px;*/
     pointer-events: none;
 
-   
 }
 
 #tool_data{
@@ -111,7 +110,14 @@
         }
     }
 
-    .header[data-variable='economic_presence']{
+    .header[data-variable='comparison']{
+        #tool_name{
+            color: @white;
+        }
+        background-color: @grey_light;
+    }
+
+    .header[data-variable='economic_global']{
        .headerTool(economic_presence,@white);
     }
 
@@ -135,7 +141,7 @@
        .headerTool(investments,@white);
     }
      
-    .header[data-variable='military_presence']{
+    .header[data-variable='military_global']{
        .headerTool(military_presence,@white);
     }
 
@@ -147,7 +153,7 @@
        .headerTool(military_equipment,@white);
     }
 
-    .header[data-variable='soft_presence']{
+    .header[data-variable='soft_global']{
        .headerTool(soft_presence,@white);
     }
 
@@ -187,8 +193,6 @@
        .headerTool(cooperation,@white);
     }
 
-
-
     .body{
         overflow-y : auto;
         position: absolute;
@@ -196,9 +200,46 @@
         bottom: 0;
         left: 0;
         right: 0;
+
+        .helpIcon{
+            position: absolute;
+            z-index:3;
+            right: 20px;
+            top: 20px;
+        }
     }
 }
 
+.chart{
+    position: relative;
+    min-height : 300px;
+    path {
+        stroke: #fff;
+        fill-rule: evenodd;
+    }
+
+    path[enhanced]{
+        fill: @grey_dark !important;
+    }
+}   
+
+@media all and (max-height: 768px){
+    .chart{
+        height: 300px;
+    }
+}
+
+@media all and (min-height: 850px) and (max-height: 1024px){
+    .chart{
+        height: 350px;
+    }
+}
+
+@media all and (min-height: 1024){
+    .chart{
+        height: 400px;
+    }
+}
 #country_tool {
 
     .co_ranking{
@@ -210,50 +251,38 @@
         background-color: @grey_light;
         margin-top: 10px;
         margin-bottom: 10px;
+
+        &.level2{
+            background-color: #e7e7ea;
+        }
     }
 
-    .flag{
+
+
+    .co_flag{
+        margin-top: 5px;
+        float:left;
         height: 25px;
         width: 25px;
-        float:left;
-        margin-top: 5px;
     }
+
+    .country_name{
+        text-align: center;
+        font-size: 15px;
+        .roboto(bold);
+        margin-top: 10px;
+    }
+
+  
 }
 
-
-.chart{
-    position: relative;
-    min-height : 330px;
-    path {
-        stroke: #fff;
-        fill-rule: evenodd;
-    }
-
-    path:hover {
-      fill: @grey_dark !important;
-      cursor: pointer;
-    }
-
-
-}   
-
-@media all and (max-height: 768px){
+#contributions_tool,#country_tool,#comparison_tool{
     .chart{
-        height: 340px;
-    }
-}
-
-@media all and (min-height: 850px) and (max-height: 1024px){
-    .chart{
-        height: 390px;
-    }
-}
-
-@media all and (min-height: 1024){
-    .chart{
-        height: 440px;
-        background-color: red;
-    }
+        path:hover {
+          fill: @grey_dark !important;
+          cursor: pointer;
+        }    
+    }   
 }
 
 .chart_legend{
@@ -357,6 +386,7 @@
     right: 20px;
     background-color: @grey_dark;
     padding: 0 10px 0 36px;
+
     span{
         float:left;
         height: 35px;
@@ -372,7 +402,15 @@
         .roboto(bold);
         margin: 7px 0 0 10px;
         padding: 0 5px;
+    }
 
+    &:before{
+        content:"";
+        background: url("@{imgPath}ELC_icon_leyenda_map.svg") no-repeat top left;
+        position: absolute;
+        left:0;
+        width: 34px;
+        height: 34px;
 
     }
 }
@@ -391,12 +429,74 @@
     top: 24px;
     padding: 3px 10px;
     color: @grey;
+    z-index: 5;
+    min-width: 15px;
 }
 
 #ranking_tool{
 
-    .co_data_map,.co_chart,.conteiner-fluid,.row{
+    .body{
+        overflow: hidden;
+    }
+    .co_data_map,.wrapper_chart,.conteiner-fluid,.row{
         height: 100%;
+    }
+
+    .wrapper_chart{
+        position: relative;
+
+
+        .chart_header,.co_chart{
+            position: absolute;
+            width: 100%;
+        }
+        .chart_header{
+            top: @line_height;
+            h5{
+                float:left;
+            }
+            .analyze{
+                float:right;
+                
+                span,a{
+                    display: inline-block;
+                    vertical-align: middle;
+                    color: @grey_dark;
+                }
+                span{
+                    font-size: 13px;
+                }
+
+                a{
+                    height: @line_height;
+                    width: 32px;
+                    border-radius: 10px;
+                    background-color: #d0d0d5;
+                    &:before{
+                        content:"";
+                        float:left;
+                        margin: 5px;
+                        width: 8px;
+                        height: 8px;
+                        background-color: @white;
+                        border-radius: 8px;
+                        .roboto();
+                    }
+                }
+
+                a[block-analyze='true']{
+                    background-color: @red;
+                    &:before{
+                        float:right;
+                    }
+                }
+            }
+        }
+
+        .co_chart{
+            top: 60px;
+            bottom: 0;
+        }
     }
 
     #data_map,.chart{
@@ -456,17 +556,20 @@
     }
 
     #data_map{
-        border: 10px solid #fff;
+        border-top: 20px solid #fff;
+        border-bottom: 20px solid #fff;
+        border-left: 20px solid #fff;
+        
         .info.data{
             margin: 5px 10px !important;
         }
     }
 
     #scroll_down,#scroll_up{
-         position: absolute;
+        position: absolute;
         height: 30px;
         width: 30px;
-        right: 0px;
+        right: -20px;
     }
 
     #scroll_down{
@@ -475,13 +578,17 @@
     }
 
     #scroll_up{
-        top: 15px;
+        top: 56px;
         background: url("@{imgPath}ELC_icon_scroll_up.svg") no-repeat left center;
+    }
+
+    .tooltip{
+        position: absolute;
     }
 }
 
 
-#contributions_tool{
+#contributions_tool,#comparison_tool{
 
     .co_drag_info{
         position: absolute;
@@ -571,6 +678,282 @@
         }
 
         color: @grey_dark !important;
+    }
+
+    .nodata{
+        h4{
+            font-size: 18px;
+        }
+    }
+
+}
+
+#comparison_tool{
+    #tool_name{
+        border-left: none !important;
+    }
+    .container-comp {
+        display: table;
+        width: 100%;
+    }
+
+    #co_chart_left,#co_chart_right{
+        position: relative;
+    }
+
+    p.subname{
+        text-align: center;
+        .roboto();
+        font-size: 15px;
+        color: @grey_dark;
+    }
+
+    #piepg,#piepe,#pcenter{
+        display: table-cell;
+        width: 45%;
+        vertical-align: top;
+    }
+
+    #pcenter{
+        width: 10%;
+        vertical-align: top;
+        text-align: center;
+
+        .co_vs{
+            margin-top: 90px;
+            .vs{
+           
+                border-radius: 100%;
+                width:30px;
+                height:30px;
+                .roboto();
+                font-size: 11px;
+                border: 1px solid @grey_light2;
+                margin: auto;
+                line-height: 30px;
+            }
+        }
+       
+    }
+
+    .subheader {
+        
+        border-bottom: 1px solid #d0d0d5;
+        padding-bottom: 5px;
+
+        .name{
+            font-size: 11px;
+            text-transform: uppercase;   
+            width: 80px;
+            color:@grey;
+            line-height: 14px;
+            .roboto();
+
+        }
+
+        .index{
+            margin-top: 22px;
+
+            .co_flag,.value{
+               float:left;
+            }
+            .co_flag{
+                height: 25px;
+                width: 25px;
+            }
+
+            .value{
+                font-size: 21px;
+                margin-top: 1px;
+                .roboto();
+            }
+        }
+
+        .co_ranking{
+
+            position: relative;
+            margin-top: 23px;
+            img,span{
+                float:left;
+            }
+            img{
+                margin-top: 4px;
+            }
+            span{
+                font-size: 13px;
+            }
+
+        }
+
+       
+    }
+
+    .ico{
+        position: absolute;
+        top:0;
+    }
+
+    #piepg{
+        .subheader{
+            margin-left: 20px;
+            .name{
+                text-align: left;
+                float: left; 
+            }
+
+            .index{
+                float:left;
+                margin-left: 100px;
+
+                .value{
+                    margin-left: 6px;
+                }
+            }
+
+            .co_ranking{
+                float:right;
+                img{
+                    margin-right: 6px;
+                }
+
+            }
+        }
+        .ico{
+            right:0;
+        }
+    }
+
+    #piepe{
+        .subheader{
+            margin-right: 20px;
+            
+            .name{
+                text-align: right;
+                float: right; 
+            }
+
+            .co_ranking{
+                float:left;
+                img{
+                    margin-left: 6px;
+                }
+            }
+
+            .index{
+                float:right;
+                margin-right: 100px;
+                .value{
+                    margin-right: 6px;
+                }
+            }
+        }
+        .ico{
+            left:0;
+        }
+    }
+
+    .container-comp .helpIcon{
+        top: 80px !important;
+    }
+}
+
+#quotes_tool{
+    .co_chart{
+        padding: 0 60px 50px 0;
+    }
+
+    h5{
+        margin: 20px 0 0 20px;
+    }
+    .chart{
+
+        text{
+            fill:@grey;
+            font-size: 13px;
+            .roboto(cond);
+           
+        }
+
+        .axis path,.axis line {
+            fill: none;
+            stroke: @grey_light;
+            shape-rendering: crispEdges;
+        }
+
+        .x.axis path {
+            display: none;
+        }
+
+        .line {
+            fill: none;
+            stroke: @grey_light;
+            stroke-width: 2px;
+           
+            &[selected]{
+                stroke: @red;
+            }
+        }
+        
+        .tick{
+            line{
+                stroke: @grey_light2;
+            }
+
+            &[selected]{
+                text{
+                    fill:@red;    
+                }
+            }
+        }
+
+        .x.axis{
+             line{
+                stroke: @grey_light;
+            }
+        }
+        
+
+        .line_ref{
+            fill: none;
+            stroke: #fbe5e6;
+            stroke-width: 1px;
+        }
+
+        .co_line_label{
+            text{
+                fill: @grey_light;
+                &[selected]{
+                    fill: @red;
+                }
+            }
+        }
+
+        circle{
+            cursor: pointer;
+            fill: @grey_light;
+            &[selected='true']{
+                fill: @red;
+            }
+        }
+    }
+
+    @media all and (max-height: 768px){
+        .chart{
+            height: 400px;
+        }
+    }
+
+    @media all and (min-height: 850px) and (max-height: 1024px){
+        .chart{
+            height: 450px;
+        }
+    }
+
+    @media all and (min-height: 1024){
+        .chart{
+            height: 500px;
+            background-color: red;
+        }
     }
 
 }

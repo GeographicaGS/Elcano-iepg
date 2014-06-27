@@ -187,7 +187,7 @@ deps.Explora.JS = {
 			"explora/js/lib/backbone-min.js",
 			"explora/js/lib/d3.v3.min.js",
 			"explora/js/lib/fancybox/source/jquery.fancybox.pack.js",
-			"explora/js/lib/sprintf.min.js",
+			// "explora/js/lib/sprintf.min.js",
 			"explora/js/lib/leaflet-0.7.2.js",
 			"explora/js/lib/countries.geojson",
 			
@@ -197,6 +197,7 @@ deps.Explora.JS = {
 	,Core: {
 		src: [
 		
+			"explora/js/lib/sprintf.js",
 			// Namespace
 			"explora/js/namespace.js",
 			// Config file
@@ -211,11 +212,13 @@ deps.Explora.JS = {
 			// --------------------
 			// --- Collections  ---
 			// --------------------
-			"explora/js/collection/countries.js",
-			"explora/js/collection/filter.js",
-			"explora/js/collection/country_tool_map.js",
-			"explora/js/collection/ranking_tool.js",
+			"explora/js/collection/countries_collection.js",
+			"explora/js/collection/filter_collection.js",
+			"explora/js/collection/country_tool_map_collection.js",
+			"explora/js/collection/ranking_tool_collection.js",
 			"explora/js/collection/global_index_collection.js",
+			"explora/js/collection/quotes_collection.js",
+
 			
 			// --------------------
 			// ------  Views ------
@@ -234,6 +237,7 @@ deps.Explora.JS = {
 			"explora/js/view/tools/ranking_tool_view.js",
 			"explora/js/view/tools/contributions_tool_view.js",
 			"explora/js/view/tools/quotes_tool_view.js",
+			"explora/js/view/tools/comparison_tool_view.js",
 
 			// Tools context object
 			"explora/js/view/tools/context.js",
@@ -244,9 +248,10 @@ deps.Explora.JS = {
 			"explora/js/view/tool_selector_view.js",
 			"explora/js/view/variable_selector_view.js",
 			"explora/js/view/filter_selector_view.js",
-			"explora/js/view/filter_view.js",
 			"explora/js/view/notfound_view.js",
 			"explora/js/view/error_view.js",
+
+			"explora/js/data/blocks.json",
 
 			//map
 			"explora/js/map.js",
@@ -254,6 +259,8 @@ deps.Explora.JS = {
 			"explora/js/router.js",
 			// app
 			"explora/js/app.js",
+
+
 		],
 		desc: "Core library."
 	}

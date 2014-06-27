@@ -1,9 +1,9 @@
 <div id="ranking_tool">
 
-    <div class="header" data-variable=<%=ctx.variables[0]%>>
+    <div class="header" data-variable=<%= ctx.variables[0] == "global" ? ctx.family : ctx.variables[0] %>>
         <a class="close" href="#"></a>
         <span id="tool_name"><lang>Ranking</lang></span>
-        <span id="tool_title"> <%= app.variableToString(ctx.variables[0]) %></span>
+  
         <span id="tool_year"><lang>Año</lang> <%= ctx.slider[0].date.getFullYear()%></span>
         <span id="tool_year_ref"><lang>Referencia</lang> <%= ctx.slider[1].date.getFullYear()%></span>
 
@@ -15,16 +15,35 @@
 
     <div class="body">
 
-        <div class="conteiner-fluid">
+        <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>" style="left:50%">
+            <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+        </a>
+
+        <div class="container-fluid" style="height:100%">
             <div class="row">
-                <div class="col-sm-6 co_chart">
-                    <a id="scroll_down" href="#"></a>
-                    <a id="scroll_up" href="#"></a>
-                    <div class="co_xaxis"></div>
-                    <div class="chart"></div>
+                <div class="col-sm-6 " style="height:100%">
+
+                    <div class="wrapper_chart">
+                        <div class="chart_header">
+                            <h5><%= app.variableToString(ctx.variables[0],ctx.family) %></h5>
+                            <div class="analyze">
+                                <span class="label">Análisis por bloques</span>
+                                <a href="#" block-analyze="<%= ctx.block_analize ? "true" : "false" %>"></a>
+                            </div>
+                        </div>
+                        <div class="co_chart">
+                            <a id="scroll_down" href="#"></a>
+                            <a id="scroll_up" href="#"></a>
+                            <div class="co_xaxis"></div>
+                            <div class="chart"></div>
+                             <div id="ranking_chart_tooltip" class="tooltip" style="position:fixed"> </div>
+
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-6 co_data_map" >
                     <div id="data_map"></div>
+                    <div id="ranking_map_tooltip" class="tooltip"></div>
                 </div>
             </div>
         </div>

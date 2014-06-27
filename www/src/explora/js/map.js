@@ -12,6 +12,9 @@ app.view.map = function(options){
     this.container = options.container;
     this.zoom = options.zoom ? options.zoom : 2;
     this.center = options.center ? options.center  : L.latLng(0,0);
+    this.$tooltip = options.tooltip ? options.tooltip : $("#map_tooltip");
+    this.$maplabel = options.maplabel ? options.maplabel : $("#map_label");
+    this.$maplegend = options.maplegend ? options.maplegend : $("#map_legend");
 
     this.initialize = function(options){
 
@@ -21,9 +24,7 @@ app.view.map = function(options){
         }).setView( this.center, this.zoom);
 
         this.loadBaseMap();
-        this.$tooltip = $("#map_tooltip");
-        this.$maplabel = $("#map_label");
-        this.$maplegend = $("#map_legend");
+    
         return this;
     };
 
@@ -52,7 +53,7 @@ app.view.map = function(options){
     };
 
     /* This method created a choropleth Map with the data supplied in the parameter */ 
-    this.drawChoropleth = function(data,time,variable){
+    this.drawChoropleth = function(data,time,variable,family){
 
         var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
         // Just for security
@@ -79,6 +80,7 @@ app.view.map = function(options){
             country.properties.time = time;
             country.properties.value = data[i].value;
             country.properties.variable = variable;
+            country.properties.family = family;
 
             bigJSON.push(country);
         }
@@ -134,8 +136,8 @@ app.view.map = function(options){
                     +   "<div class='clear'></div>"
                     + "</div>"
                     + "<div>" 
-                    +   "<span>" + app.variableToString(v.variable) + "</span>"
-                    +   "<span>" + sprintf("%0.2f",v.value) + "</span>"
+                    +   "<span>" + app.variableToString(v.variable,v.family) + "</span>"
+                    +   "<span>" + app.formatNumber(v.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
 
@@ -193,12 +195,14 @@ app.view.map = function(options){
 
         this.$maplegend.html(html);
 
-        this.$maplabel.find(".variable").html(app.variableToString(variable));
+        this.$maplabel.find(".variable").html(app.variableToString(variable,family));
         this.$maplabel.find(".time").html(time);
 
         this._choroplethOVerlay = {
             "geoJson" : l,
         };
+
+        this.$maplegend.show();
 
         return l;
     };
@@ -214,6 +218,8 @@ app.view.map = function(options){
         }
 
         return this;
-    }   
+    }
+
+      
 
 }

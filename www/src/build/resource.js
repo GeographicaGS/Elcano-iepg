@@ -16,7 +16,7 @@ function generateIndex(env,lang,templates,debug){
 	index = index.replace("<body>","<body>" + templates);
 	
 	if (!debug) {
-		index = index.replace("</body>",getScriptTag("js/main.min.js") + "</body>").replace(/\n/g,"");
+		index = index.replace("</body>",getScriptTag("/" + lang +"/js/main.min.js") + "</body>").replace(/\n/g,"");
 	}
 	else{
 		var deps = utils.getDeps(env),

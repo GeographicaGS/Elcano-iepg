@@ -1,55 +1,54 @@
 <div class="conteiner-fluid country_selector popup" >
-        <div class="header">
-            <div class="row">
-                <h3 class="col-sm-6 col-md-6">
-                    <lang>Filtro de países</lang>
-                </h3>
+    <div class="header">
+        <div class="row">
+            <h3 class="col-sm-6 col-md-6">
+                <lang>Filtro de países</lang>
+            </h3>
 
-                <div class="col-sm-6  col-md-6">
-                   
-                    <a href="#" id="save" class="button check"><lang>Hecho</lang></a>
-                    <a href="#" id="cancel" class="grey_light">Cancelar</a>
-                </div>
-            </div>
-            <div class="row">
-                 <div class="col-xs-12" id="n_selected">
-                    <%
-                        if (filters.length === 0){
-                            print("<lang>0 países seleccionados</lang>");
-                        }
-                        else if (filters.length==1){
-                            print("<lang>1 país seleccionado</lang>");
-                        }
-                        else{
-                            print(sprintf("<lang>%d países seleccionados</lang>",filters.length));   
-                        }
-                    %>
-                </div>
+            <div class="col-sm-6  col-md-6">
+               
+                <a href="#" id="save" class="button check"><lang>Hecho</lang></a>
+                <a href="#" id="cancel" class="grey_light">Cancelar</a>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-6 co_all_countries" >
+                <input type="checkbox" id="all_countries" 
+                    <%= !filters.length  || filters.length==collection.length ? "checked" : ""%>/>
+                <span><lang>Incluir todos los países en el análisis</lang></span>
+            </div>
+            <div class="col-xs-6" id="n_selected">
+                
+            </div>
+        </div>
+    </div>
 
-        <div id="countries_plain" class="body">
-            <%
-            var n_interval = app.isSMDevice() ? 2 : 3,
-                interval = parseInt(collection.length / n_interval);
-                        
-            for (i=0;i<n_interval;i++){
+    <div id="countries_plain" class="body filter">
+        <%
+        var n_interval = app.isSMDevice() ? 2 : 3,
+            interval = parseInt(Math.ceil(collection.length / n_interval));
+                    
+        for (i=0;i<n_interval;i++){
+
+        %>
+        <ul class="flag_wrapper col-md-4 col-sm-6 filter">
+            <% 
+
+            if (i==0) { 
+                sel_all = !filters.length || filters.length==collection.length  ? "selected" : "";
+            }
 
             %>
-            <ul class="flag_wrapper col-md-4 col-sm-6">
-                <% _.each(collection.slice(interval*i,interval*(i+1)),function (d){
-                    sel = filters.indexOf(d.id) != -1 ? "selected" : "";
-                 %>
-                    <li code="<%=d.id %>" <%= sel %> title="<%= d.name %>">
-                        <img src="/img/flags/<%= d.id %>.svg" />
-                        <span><%= d.name %></span>
-                        <div class="clear"></div>
-                    </li>
-                <% }); %>
-            </ul>
-            <% } %>
-           
-            
-        </div>
+            <% _.each(collection.slice(interval*i,interval*(i+1)),function (d){
+                sel = sel_all || filters.indexOf(d.id) == -1 ? "selected" : "";
+             %>
+                <li code="<%=d.id %>" <%= sel %> title="<%= d.name %>">
+                    <img src="/img/flags/<%= d.id %>.svg" />
+                    <span><%= d.name %></span>
+                    <div class="clear"></div>
+                </li>
+            <% }); %>
+        </ul>
+        <% } %>
     </div>
 </div>

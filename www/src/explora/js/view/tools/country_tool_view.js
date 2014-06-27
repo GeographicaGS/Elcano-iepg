@@ -1,5 +1,6 @@
 app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_template : _.template( $('#country_tool_template').html() ),
+    _templateHelp : _.template( $('#country_tool_help_template').html() ),
     _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     type: "country",
   
@@ -88,7 +89,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         // Fetch the collection from the server
         this.mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
-            "variable" : ctx.family, // this is a trick, the map of this tool always show the family variable
+            "variable" : "global",
             "date" : ctx.slider[0].date.getFullYear()
         });
         
@@ -99,6 +100,9 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     _renderToolAsync: function(){
+
+        this._forceFetchDataTool = false;
+
         var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
 
         this.$el.html(this._template({
@@ -112,20 +116,21 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         this._drawD3Chart(year);
 
-        this._renderChartLegend("iepg");
-
-        this._forceFetchDataTool = false;
+        this._renderChartLegend("global");
+        
     },
 
     _renderMapAsync: function(){
-        this._forceFetchDataTool = false;
+        this._forceFetchDataMap = false;
         var 
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
             year =  ctx.slider[0].date.getFullYear(),
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,family);
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,"global",family);
+
+        
     },
 
     /* Render the tool */
@@ -263,7 +268,12 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "country/" + family + "/" + countries + "/" + country + "/" + year + filters;
 
-         app.router.navigate(url, {trigger: false});
+        if (!family || !countries || !country || !variable || !year ){
+            app.router.navigate("/", {trigger: false});
+        }
+        else{
+            app.router.navigate(url, {trigger: false});
+        }
     },
 
     URLToContext: function(url){
@@ -284,11 +294,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             app.setFilters(url.filters.split(","));
         }
 
-        ctx.countries.slider = [{
-            "type": "Point",
-            "date" : new Date(url.year)
-        }];
-
         // let's store the context.
         ctxObj.saveContext();
 
@@ -297,7 +302,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     },
 
     _drawD3Chart: function(year){
-        var width = this.$chart.width(),
+        var ctxObj = app.context,
+            ctx = ctxObj.data,
+            family = ctx.family,
+            width = this.$chart.width(),
             height = this.$chart.height(),
             radius = Math.min(width, height) / 2;
 
@@ -339,13 +347,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
           };
         }
 
-        var div = d3.select("body").append("div")   
-        .attr("class", "tooltip")  
-        .style("opacity", 0);
+        var div = d3.select("#country_tool .tooltip");
 
         var obj = this;
 
-        this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).iepg_variables);
+        this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).family,family);
         
         var path = svg.selectAll("path")
               .data(partition.nodes(this.tree.get()))
@@ -369,8 +375,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         
 
             function click(d) {
-                if (d.name == "iepg" || d.name == "economic_presence" ||
-                    d.name == "soft_presence" || d.name =="military_presence")
+                if (d.name == "global" || d.name == "economic_global" ||
+                    d.name == "soft_global" || d.name =="military_global")
                 {
                     path.transition()
                         .duration(750)
@@ -381,18 +387,23 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
           }
     },
 
-    _htmlToolTip: function(variable){
-        var year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
-            variable = this.model.get(year).iepg_variables[variable];
+    _htmlToolTip: function(tvariable){
+          var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            family = ctx.family,
+            year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
+            variable = tvariable == "iepg" || tvariable ==  "iepe" ? this.model.get(year).family.global 
+                        : this.model.get(year).family[tvariable],
+            ranking = variable.globalranking ? variable.globalranking : variable.relativeranking;
 
             html = "<div>" 
-                    +   "<span>" + variable.ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +   "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
                     +   "<span>" + year + "</span>"
                     +   "<div class='clear'></div>"
                     + "</div>"
                     + "<div>" 
-                    +   "<span>" + variable.variable + "</span>"
-                    +   "<span>" + sprintf("%0.2f",variable.value) + "</span>"
+                    +   "<span>" + app.variableToString(variable.variable,family) + "</span>"
+                    +   "<span>" + app.formatNumber(variable.value) + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>"
 
@@ -400,129 +411,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _buildModelTreeDeprecated: function(year){
-
-        var variables = this.model.get(year).iepg_variables;
-        return {
-            "name" : "iepg",
-            "color" : "#fdc300",
-            "size" : variables.iepg.value,
-            "children" : [{
-                "name" : "economic_presence",
-                "color" : "#2b85d0",
-                "size" : variables.economic_presence.value,
-                "children": [{
-                    "name" : "energy",
-                    "size" : variables.energy.value,
-                    "color" : "#4191d5"
-                },
-                {
-                    "name" : "primary_goods",
-                    "size" : variables.primary_goods.value,
-                    "color" : "#559dd9"
-                },
-                {
-                    "name" : "manufactures",
-                    "size" : variables.manufactures.value,
-                    "color" : "#6baade"
-                },
-                 {
-                    "name" : "services",
-                    "size" : variables.services.value,
-                    "color" : "#80b6e3"
-                },
-                {
-                    "name" : "investments",
-                    "size" : variables.investments.value,
-                    "color" : "#95c2e7"
-                }
-                ]
-            },{
-                "name" : "military_presence",
-                "color" : "#669900",
-                "size" : variables.military_presence.value,
-                "children": [{
-                        "name" : "troops",
-                        "size" : variables.troops.value,
-                        "color" : "#76a318"
-                    },{
-                        "name" : "military_equipment",
-                        "size" : variables.military_equipment.value,
-                        "color" : "#85ad33"
-
-                    }]
-            },{
-                "name" : "soft_presence",
-                "color" : "#ff9000",
-                "size" : variables.soft_presence.value,
-                "children": [{
-                        "name" : "migrations",
-                        "size" : variables.migrations.value,
-                        "color" : "#ff960d",
-                    },{
-                        "name" : "tourism",
-                        "size" : variables.tourism.value,
-                        "color" : "#ff9b1a"
-                    },{
-                        "name" : "sports",
-                        "size" : variables.sports.value,
-                        "color" : "#ffa126"
-                    },{
-                        "name" : "culture",
-                        "size" : variables.culture.value,
-                        "color": "#ffa633"
-                    },{
-                        "name" : "information",
-                        "size" : variables.information.value,
-                        "color" : "#ffac40"
-                    },{
-                        "name" : "technology",
-                        "size" : variables.technology.value,
-                        "color" : "#ffb24d"
-                     },{
-                        "name" : "science",
-                        "size" : variables.science.value,
-                        "color" : "#ffb759"
-                    },{
-                        "name" : "education",
-                        "size" : variables.education.value,
-                        "color" : "#ffbc66"
-                    },{
-                        "name" : "cooperation",
-                        "size" : variables.cooperation.value,
-                        "color" : "#ffc273"
-                    }]
-            }
-
-            ]
-        }
-    },
-
-    _extractNodeFromTree: function(year,name){
-        var nodes = this. _buildModelTree(year);
-        if (name == "iepg"){
-            return nodes;
-        }
-        else{
-            nodes = nodes.children;
-        }
-       
-        // find the node in the childrens
-        for(var i=0;i<nodes.length;i++){
-            if (nodes[i].name == name){
-                return nodes[i];
-            }
-        }
-
-        return null;
-    },
-
     _renderChartLegend: function(name){
-
         this.$chart_legend.html(this._templateChartLegend({
-            data: this.tree.findElementInTree(name)
+            data: this.tree.findElementInTree(name),
+            family : this.getGlobalContext().data.family
         }));
-
     }
     
 });

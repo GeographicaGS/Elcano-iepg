@@ -10,21 +10,54 @@ from explora import app
 from model import iepgdatamodel
 from flask import jsonify, request
 from common.errorhandling import ElcanoApiRestError
-from common.helpers import cacheWrapper
+import common.helpers as chelpers
+import helpers
+import common.datacache as datacache
+import common.arrayops as arrayops
+from collections import OrderedDict
 
 
-@app.route('/ranking/<string:lang>/<int:year>/<string:family>/<string:variable>', methods=['GET'])
-def ranking(lang, year, family, variable):
+@app.route('/ranking/<string:lang>/<int:currentYear>/<int:referenceYear>/<string:family>/<string:variable>/<int:blocks>', 
+           methods=['GET'])
+def ranking(lang, currentYear, referenceYear, family, variable, blocks):
     """Retrieves ranking for a year and a variable. Examples:
 
-    /ranking/es/1990/iepg/energy
-    /ranking/en/2012/iepe/manufactures?filter=ES,NL,DE&toolfilter=ES,NL
+    /ranking/es/1995/1990/iepg/energy/0
+    /ranking/en/2012/1995/iepe/manufactures/1?filter=US,DE&entities=ES,NL,XBAP,XBSA
     """
-    m = iepgdatamodel.IepgDataModel()
-    filter = processFilter(request.args, "filter")
-    toolFilter = processFilter(request.args, "toolfilter")
-    try:
-        return(jsonify({"results": cacheWrapper(m.rankingComplete, lang, family, variable, 
-                                                year, filter=filter, toolFilter=toolFilter)}))
-    except ElcanoApiRestError as e:
-        return(jsonify(e.toDict()))
+    f = processFilter(request.args, "filter")
+    e = processFilter(request.args, "entities")
+    countries = datacache.countries
+    entitiesBlocks = [v for v in e if v in datacache.blocks]
+    v = datacache.dataSets[family].variables[variable]
+
+    if f:
+        currentC = arrayops.arraySubstraction(countries, f)
+        referenceC = currentC
+    else:
+        currentC = countries
+        referenceC = currentC
+
+    if blocks:
+        for i in entitiesBlocks:
+            currentC = arrayops.arraySubstraction(currentC, chelpers.getBlockMembers(i, year=currentYear))
+            currentC.append(i)
+            referenceC = arrayops.arraySubstraction(referenceC, chelpers.getBlockMembers(i, year=referenceYear))
+            referenceC.append(i)
+
+    currentRanking = OrderedDict(sorted(chelpers.getRanking(currentC, currentYear, v).items(), 
+                                        key=lambda t: t[1]["rank"]))
+    referenceRanking = chelpers.getRanking(referenceC, referenceYear, v)
+
+    out = []
+    for k,v in currentRanking.iteritems():
+        d = {
+            "code": k,
+            "currentRanking": v["rank"],
+            "currentValue": v["value"],
+            "referenceRanking": referenceRanking[k]["rank"],
+            "referenceValue": referenceRanking[k]["value"]
+        }
+        out.append(d)
+
+    return(jsonify({"results": out}))

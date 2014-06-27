@@ -12,7 +12,12 @@ import documentcatalog
 import document
 import new
 import country
+import locale
+import downloads
+
 
 @app.route('/', methods = ['GET'])                                            
 def alive():
     return jsonify( { "status" : "running"})
+
+locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")

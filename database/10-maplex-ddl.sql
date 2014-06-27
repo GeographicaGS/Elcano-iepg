@@ -12,7 +12,7 @@ begin;
 create schema maplex authorization :user;
 
 create table maplex.geoentity(
-  id_geoentity serial,
+  id_geoentity integer,
   description text,
   date_in timestamp,
   date_out timestamp
@@ -24,7 +24,7 @@ primary key(id_geoentity);
 
 
 create table maplex.geometry(
-  id_geometry serial,
+  id_geometry integer,
   description text
 );
 
@@ -46,7 +46,7 @@ using gist(geom);
 
 
 create table maplex.geometry_family(
-  id_geometry_family serial,
+  id_geometry_family integer,
   name varchar(100),
   description text
 );
@@ -70,7 +70,7 @@ primary key(id_geoentity, id_geometry_family, id_geometry);
 
 
 create table maplex.name(
-  id_name serial,
+  id_name integer,
   name varchar(500),
   description text
 );
@@ -81,7 +81,7 @@ primary key(id_name);
 
 
 create table maplex.name_family(
-  id_name_family serial,
+  id_name_family integer,
   name varchar(100),
   description text
 );
@@ -274,8 +274,6 @@ from
 
 \copy maplex.name from 'maplex_name.csv' with delimiter '|' csv header quote '"'
 
-alter sequence maplex.name_id_name_seq restart with 708;
-
 \copy maplex.geometry_family from 'maplex_geometry_family.csv' with delimiter '|' csv header quote '"'
 
 \copy maplex.block from 'maplex_block.csv' with delimiter '|' csv header quote '"'
@@ -288,3 +286,5 @@ alter sequence maplex.name_id_name_seq restart with 708;
 
 
 commit;
+
+vacuum analyze;

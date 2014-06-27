@@ -87,6 +87,7 @@ app.resize = function(){
 app.ini = function(){
 
     this.lang = this.detectCurrentLanguage();
+
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
     this.$extraPanel = $("#extra_panel");
@@ -118,6 +119,9 @@ app.ini = function(){
     this.baseView.render();
 
     this.resize();
+
+
+ 
 
     $(window).resize(function(){
         app.resize();
@@ -178,18 +182,24 @@ app.scrollToEl = function($el){
     }, 500);    
 };
 
-app.variableToString = function(variable){
+app.variableToString = function(variable,family){
     switch(variable){
-        case "IEPG":
-        case "iepg":
-            return "<lang>Índice Elcano de Presencia Global</lang>";
-        case "iepe":
-            return "<lang>Índice Elcano de Presencia Europea</lang>";
-        case "economic_presence":
+        case "global":
+            if (family == "iepg"){
+                return "<lang>Índice Elcano de Presencia Global</lang>";
+            }
+            else if (family == "iepe"){
+                return "<lang>Índice Elcano de Presencia Europea</lang>";
+            }
+            else{
+                return "No definida"
+            }
+      
+        case "economic_global":
             return "<lang>Presencia económica</lang>";
-        case "soft_presence":
+        case "soft_global":
             return "<lang>Presencia blanda</lang>";
-        case "military_presence":
+        case "military_global":
             return "<lang>Presencia militar</lang>";
 
         // Military presence
@@ -237,11 +247,20 @@ app.variableToString = function(variable){
 }
 
 app.countryToString = function(id_country){
-    for (var i=0;i<countriesGeoJSON.features.length;i++){
 
-        if (countriesGeoJSON.features[i].properties.code == id_country){
-            return countriesGeoJSON.features[i].properties["name_"+app.lang];
+    if (id_country.length == 2){
+
+
+        for (var i=0;i<countriesGeoJSON.features.length;i++){
+
+            if (countriesGeoJSON.features[i].properties.code == id_country){
+                return countriesGeoJSON.features[i].properties["name_"+app.lang];
+            }
         }
+    }
+    else{
+        // It's a block
+        return app.blocks[id_country]["name_" + app.lang];
     }
     
     return "No country name found";
@@ -264,6 +283,26 @@ app.fancyboxOpts = function(){
             overlay : {
                 css : {
                     'background' : 'rgba(255, 255, 255, 0.85)'
+                }
+            }
+        }
+    }  
+};
+
+
+app.fancyboxOptsHelper = function(){
+
+    return   {
+        padding : 0,
+        autoHeight : false,
+        autoSize : false,
+        width : "90%",
+        maxWidth : 960,
+        closeBtn : false,
+        helpers : {
+            overlay : {
+                css : {
+                    'background' : 'rgba(81, 81, 85, 0.94)'
                 }
             }
         }
@@ -293,7 +332,7 @@ app.filterschanged = function(filters){
     this.setFilters(filters);
 
     // we've to remove from the context the countries which are not present in the filter
-    this.context.removeCountriesNotPresentInFilter();
+    this.context.removeCountriesInFilter();
     this.context.saveContext();
 
     if (app.baseView.currentTool){
@@ -332,6 +371,53 @@ app.reset = function(){
     window.location  = "/es";
 }
 
+app.countryCodeToStr = function(country){
+    if (country.length == 2) {
+        return country;
+    }
+    else{
+        var s = country.substring(2);
+        if (s=="E2"){
+            return "EU";
+        }
+        else{
+            return s;
+        }
+    }
+}
+
+app.getLoadingHTML = function(){
+    return "<div class='co_loading'>" + 
+                "<div class='loading'> " + 
+                   
+                        "<img src='/img/ELC_icon_loading_white.gif' />" + 
+                        "<span><lang>Loading</lang></span>" + 
+                   
+                "</div>" +
+            "</div>";
+}
+
+app.formatNumber = function (n,decimals){
+
+    if (!decimals){
+        decimals = 2;
+    }
+
+    if (typeof n == "number"){
+        return parseFloat(sprintf("%."+ decimals + "f",n)).toLocaleString();
+    }
+    else{
+        
+        if (n.indexOf(".") != -1){
+            n = sprintf("%."+ decimals + "f",n);
+            return parseFloat(n).toLocaleString();    
+        }
+        else{
+
+            return parseInt(n).toLocaleString();
+        }    
+    }
+}
 
 
 

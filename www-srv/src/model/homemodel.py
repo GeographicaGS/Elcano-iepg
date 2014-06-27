@@ -196,7 +196,5 @@ class HomeModel(PostgreSQLModel):
         order by
         a.short_name_{}1;""".format(lang,lang)
 
-        print(sql)
-
         return(self.query(sql).result())
 

@@ -8,9 +8,11 @@ app.router = Backbone.Router.extend({
         "notfound" : "notfound",
         "error" : "error",
         "tool/:type" : "bringToolToFront",
-        "contributions/:family/:year/:countries/:countries_sel(/:filters)" : "contributions",
         "country/:family/:countries/:country_sel/:year(/:filters)" : "country",
-        "ranking/:family/:variable/:year/:year_ref/:countries/:country_sel(/:filters)" : "ranking",
+        "ranking/:family/:variable/:year/:year_ref/:countries/:country_sel/:block_analize(/:filters)" : "ranking",
+        "contributions/:family/:year/:countries/:countries_sel(/:filters)" : "contributions",
+        "quotes/:family/:variable/:countries/:countries_sel/:year_ref(/:filters)" : "quotes",
+        "comparison/:year/:countries/:country_sel(/:filters)" : "comparison",
         
         "*other"    : "notfound"
             /* This is a default route that also uses a *splat. Consider the
@@ -50,7 +52,7 @@ app.router = Backbone.Router.extend({
         });
     },
 
-    ranking: function(family,variable,year,year_ref,countries,country_sel,filters){
+    ranking: function(family,variable,year,year_ref,countries,country_sel,block_analize,filters){
         app.baseView.loadRankingTool({
             "family" : family,
             "variable": variable,
@@ -58,7 +60,8 @@ app.router = Backbone.Router.extend({
             "year_ref": year_ref,
             "countries": countries,
             "country_sel" : country_sel,
-            "filters": filters
+            "filters": filters,
+            "block_analize" : block_analize
         });
     },
 
@@ -68,6 +71,26 @@ app.router = Backbone.Router.extend({
             "year" : year,
             "countries": countries,
             "countries_sel" : countries_sel,
+            "filters": filters
+        });
+    },
+
+    quotes: function(family,variable,countries,countries_sel,year_ref,filters){
+        app.baseView.loadQuotesTool({
+            "family" : family,
+            "variable" : variable,
+            "countries": countries,
+            "countries_sel" : countries_sel,
+            "year_ref": year_ref,
+            "filters": filters
+        });
+    },
+
+    comparison : function(year,countries,country_sel,filters){
+        app.baseView.loadComparisonTool({
+            "year" : year,
+            "countries" : countries,
+            "country_sel" : country_sel,
             "filters": filters
         });
     }

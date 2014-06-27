@@ -3,6 +3,8 @@
 """
 Constants
 """
+import blockfunctions
+
 backend = {
     'autoAuth': False,
     'DocumentListLength': 16,
@@ -15,6 +17,592 @@ frontend = {
     "newsCatalogPageSize": 16,
     "maxTweets": 15
 }
+
+lang = ["en", "es"]
+
+years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]
+
+variableNames = {
+    "iepg": {
+        "energy": {
+            "order": 0,
+            "column": "energy",
+            "name_en": "Energy",
+            "name_es": "Energía"},
+        "primary_goods": {
+            "order": 5,
+            "column": "primary_goods",
+            "name_en": "Primary Goods",
+            "name_es": "Bienes primarios"},
+        "manufactures": {
+            "order": 10,
+            "column": "manufactures",
+            "name_en": "Manufactures",
+            "name_es": "Manufacturas"},
+        "services": {
+            "order": 15,
+            "column": "services",
+            "name_en": "Services",
+            "name_es": "Servicios"},
+        "investments": {
+            "order": 20,
+            "column": "investments",
+            "name_en": "Investments",
+            "name_es": "Inversiones"},
+        "troops": {
+            "order": 25,
+            "column": "troops",
+            "name_en": "Troops",
+            "name_es": "Tropas"},
+        "military_equipment": {
+            "order": 30,
+            "column": "military_equipment",
+            "name_en": "Military Equipment",
+            "name_es": "Equipo militar"},
+        "migrations": {
+            "order": 35,
+            "column": "migrations",
+            "name_en": "Migrations",
+            "name_es": "Migraciones"},
+        "tourism": {
+            "order": 40,
+            "column": "tourism",
+            "name_en": "Tourism",
+            "name_es": "Turismo"},
+        "sports": {
+            "order": 45,
+            "column": "sports",
+            "name_en": "Sports",
+            "name_es": "Deportes"},
+        "culture": {
+            "order": 50,
+            "column": "culture",
+            "name_en": "Culture",
+            "name_es": "Cultura"},
+        "information": {
+            "order": 55,
+            "column": "information",
+            "name_en": "Information",
+            "name_es": "Información"},
+        "technology": {
+            "order": 60,
+            "column": "technology",
+            "name_en": "Technology",
+            "name_es": "Tecnología"},
+        "science": {
+            "order": 65,
+            "column": "science",
+            "name_en": "Science",
+            "name_es": "Ciencia"},
+        "education": {
+            "order": 70,
+            "column": "education",
+            "name_en": "Education",
+            "name_es": "Educación"},
+        "cooperation": {
+            "order": 75,
+            "column": "cooperation",
+            "name_en": "Cooperation",
+            "name_es": "Cooperación"},
+        "economic_global": {
+            "order": 80,
+            "column": "economic_presence",
+            "name_en": "Economic Presence",
+            "name_es": "Presencia económica"},
+        "military_global": {
+            "order": 85,
+            "column": "military_presence",
+            "name_en": "Military Presence",
+            "name_es": "Presencia militar"},
+        "soft_global": {
+            "order": 90,
+            "column": "soft_presence",
+            "name_en": "Soft Presence",
+            "name_es": "Presencia blanda"},
+        "global": {
+            "order": 95,
+            "column": "iepg",
+            "name_en": "IEPG",
+            "name_es": "IEPG"}
+    },
+    "iepe": {
+        "energy": {
+            "order": 1000,
+            "column": "energy",
+            "name_en": "Energy",
+            "name_es": "Energía"},
+        "primary_goods": {
+            "order": 1005,
+            "column": "primary_goods",
+            "name_en": "Primary Goods",
+            "name_es": "Bienes primarios"},
+        "manufactures": {
+            "order": 1010,
+            "column": "manufactures",
+            "name_en": "Manufactures",
+            "name_es": "Manufacturas"},
+        "services": {
+            "order": 1015,
+            "column": "services",
+            "name_en": "Services",
+            "name_es": "Servicios"},
+        "investments": {
+            "order": 1020,
+            "column": "investments",
+            "name_en": "Investments",
+            "name_es": "Inversiones"},
+        "troops": {
+            "order": 1025,
+            "column": "troops",
+            "name_en": "Troops",
+            "name_es": "Tropas"},
+        "military_equipment": {
+            "order": 1030,
+            "column": "military_equipment",
+            "name_en": "Military Equipment",
+            "name_es": "Equipo militar"},
+        "migrations": {
+            "order": 1035,
+            "column": "migrations",
+            "name_en": "Migrations",
+            "name_es": "Migraciones"},
+        "tourism": {
+            "order": 1040,
+            "column": "tourism",
+            "name_en": "Tourism",
+            "name_es": "Turismo"},
+        "sports": {
+            "order": 1045,
+            "column": "sports",
+            "name_en": "Sports",
+            "name_es": "Deportes"},
+        "culture": {
+            "order": 1050,
+            "column": "culture",
+            "name_en": "Culture",
+            "name_es": "Cultura"},
+        "information": {
+            "order": 1055,
+            "column": "information",
+            "name_en": "Information",
+            "name_es": "Información"},
+        "technology": {
+            "order": 1060,
+            "column": "technology",
+            "name_en": "Technology",
+            "name_es": "Tecnología"},
+        "science": {
+            "order": 1065,
+            "column": "science",
+            "name_en": "Science",
+            "name_es": "Ciencia"},
+        "education": {
+            "order": 1070,
+            "column": "education",
+            "name_en": "Education",
+            "name_es": "Educación"},
+        "cooperation": {
+            "order": 1075,
+            "column": "cooperation",
+            "name_en": "Cooperation",
+            "name_es": "Cooperación"},
+        "economic_global": {
+            "order": 1080,
+            "column": "economic_presence",
+            "name_en": "Economic Presence",
+            "name_es": "Presencia económica"},
+        "military_global": {
+            "order": 1085,
+            "column": "military_presence",
+            "name_en": "Military Presence",
+            "name_es": "Presencia militar"},
+        "soft_global": {
+            "order": 1090,
+            "column": "soft_presence",
+            "name_en": "Soft Presence",
+            "name_es": "Presencia blanda"},
+        "global": {
+            "order": 1095,
+            "column": "iepe",
+            "name_en": "IEPE",
+            "name_es": "IEPE"}
+    },
+    "context": {
+        "gdp": {
+            "column": "pib",
+            "name_en": "GDP",
+            "name_es": "PIB"},
+        "population": {
+            "column": "population",
+            "name_en": "Population",
+            "name_es": "Población"}
+    },
+    "iepe_individual_contribution": {
+        "energy": {
+            "column": "energy",
+            "name_en": "Energy",
+            "name_es": "Energía"},
+        "primary_goods": {
+            "column": "primary_goods",
+            "name_en": "Primary Goods",
+            "name_es": "Bienes primarios"},
+        "manufactures": {
+            "column": "manufactures",
+            "name_en": "Manufactures",
+            "name_es": "Manufacturas"},
+        "services": {
+            "column": "services",
+            "name_en": "Services",
+            "name_es": "Servicios"},
+        "investments": {
+            "column": "investments",
+            "name_en": "Investments",
+            "name_es": "Inversiones"},
+        "troops": {
+            "column": "troops",
+            "name_en": "Troops",
+            "name_es": "Tropas"},
+        "military_equipment": {
+            "column": "military_equipment",
+            "name_en": "Military Equipment",
+            "name_es": "Equipo militar"},
+        "migrations": {
+            "column": "migrations",
+            "name_en": "Migrations",
+            "name_es": "Migraciones"},
+        "tourism": {
+            "column": "tourism",
+            "name_en": "Tourism",
+            "name_es": "Turismo"},
+        "sports": {
+            "column": "sports",
+            "name_en": "Sports",
+            "name_es": "Deportes"},
+        "culture": {
+            "column": "culture",
+            "name_en": "Culture",
+            "name_es": "Cultura"},
+        "information": {
+            "column": "information",
+            "name_en": "Information",
+            "name_es": "Información"},
+        "technology": {
+            "column": "technology",
+            "name_en": "Technology",
+            "name_es": "Tecnología"},
+        "science": {
+            "column": "science",
+            "name_en": "Science",
+            "name_es": "Ciencia"},
+        "education": {
+            "column": "education",
+            "name_en": "Education",
+            "name_es": "Educación"},
+        "cooperation": {
+            "column": "cooperation",
+            "name_en": "Cooperation",
+            "name_es": "Cooperación"},
+        "economic_global": {
+            "column": "economic_contribution",
+            "name_en": "Economic Contribution",
+            "name_es": "Contribución económica"},
+        "military_global": {
+            "column": "military_contribution",
+            "name_en": "Military Contribution",
+            "name_es": "Contribución militar"},
+        "soft_global": {
+            "column": "soft_contribution",
+            "name_en": "Soft Contribution",
+            "name_es": "Contribución blanda"}
+    },
+    "iepe_quota": {
+        "global_global": {
+            "column": "global_quota",
+            "name_en": "Global Quota",
+            "name_es": "Cuota global"},
+        "economic_global": {
+            "column": "economic_quota",
+            "name_en": "Economic Quota",
+            "name_es": "Cuota económica"},
+        "soft_global": {
+            "column": "soft_quota",
+            "name_en": "Soft Quota",
+            "name_es": "Cuota blanda"}
+    },
+    "iepe_relative_contribution": {
+        "energy": {
+            "column": "energy",
+            "name_en": "Energy",
+            "name_es": "Energía"},
+        "primary_goods": {
+            "column": "primary_goods",
+            "name_en": "Primary Goods",
+            "name_es": "Bienes primarios"},
+        "manufactures": {
+            "column": "manufactures",
+            "name_en": "Manufactures",
+            "name_es": "Manufacturas"},
+        "services": {
+            "column": "services",
+            "name_en": "Services",
+            "name_es": "Servicios"},
+        "investments": {
+            "column": "investments",
+            "name_en": "Investments",
+            "name_es": "Inversiones"},
+        "troops": {
+            "column": "troops",
+            "name_en": "Troops",
+            "name_es": "Tropas"},
+        "military_equipment": {
+            "column": "military_equipment",
+            "name_en": "Military Equipment",
+            "name_es": "Equipo militar"},
+        "migrations": {
+            "column": "migrations",
+            "name_en": "Migrations",
+            "name_es": "Migraciones"},
+        "tourism": {
+            "column": "tourism",
+            "name_en": "Tourism",
+            "name_es": "Turismo"},
+        "sports": {
+            "column": "sports",
+            "name_en": "Sports",
+            "name_es": "Deportes"},
+        "culture": {
+            "column": "culture",
+            "name_en": "Culture",
+            "name_es": "Cultura"},
+        "information": {
+            "column": "information",
+            "name_en": "Information",
+            "name_es": "Información"},
+        "technology": {
+            "column": "technology",
+            "name_en": "Technology",
+            "name_es": "Tecnología"},
+        "science": {
+            "column": "science",
+            "name_en": "Science",
+            "name_es": "Ciencia"},
+        "education": {
+            "column": "education",
+            "name_en": "Education",
+            "name_es": "Educación"},
+        "cooperation": {
+            "column": "cooperation",
+            "name_en": "Cooperation",
+            "name_es": "Cooperación"},
+        "economic_global": {
+            "column": "economic_contribution",
+            "name_en": "Economic Contribution",
+            "name_es": "Contribución económica"},
+        "military_global": {
+            "column": "military_contribution",
+            "name_en": "Military Contribution",
+            "name_es": "Contribución militar"},
+        "soft_global": {
+            "column": "soft_contribution",
+            "name_en": "Soft Contribution",
+            "name_es": "Contribución blanda"}
+    },
+    "iepg_individual_contribution": {
+        "energy": {
+            "column": "energy",
+            "name_en": "Energy",
+            "name_es": "Energía"},
+        "primary_goods": {
+            "column": "primary_goods",
+            "name_en": "Primary Goods",
+            "name_es": "Bienes primarios"},
+        "manufactures": {
+            "column": "manufactures",
+            "name_en": "Manufactures",
+            "name_es": "Manufacturas"},
+        "services": {
+            "column": "services",
+            "name_en": "Services",
+            "name_es": "Servicios"},
+        "investments": {
+            "column": "investments",
+            "name_en": "Investments",
+            "name_es": "Inversiones"},
+        "troops": {
+            "column": "troops",
+            "name_en": "Troops",
+            "name_es": "Tropas"},
+        "military_equipment": {
+            "column": "military_equipment",
+            "name_en": "Military Equipment",
+            "name_es": "Equipo militar"},
+        "migrations": {
+            "column": "migrations",
+            "name_en": "Migrations",
+            "name_es": "Migraciones"},
+        "tourism": {
+            "column": "tourism",
+            "name_en": "Tourism",
+            "name_es": "Turismo"},
+        "sports": {
+            "column": "sports",
+            "name_en": "Sports",
+            "name_es": "Deportes"},
+        "culture": {
+            "column": "culture",
+            "name_en": "Culture",
+            "name_es": "Cultura"},
+        "information": {
+            "column": "information",
+            "name_en": "Information",
+            "name_es": "Información"},
+        "technology": {
+            "column": "technology",
+            "name_en": "Technology",
+            "name_es": "Tecnología"},
+        "science": {
+            "column": "science",
+            "name_en": "Science",
+            "name_es": "Ciencia"},
+        "education": {
+            "column": "education",
+            "name_en": "Education",
+            "name_es": "Educación"},
+        "cooperation": {
+            "column": "cooperation",
+            "name_en": "Cooperation",
+            "name_es": "Cooperación"},
+        "economic_global": {
+            "column": "economic_contribution",
+            "name_en": "Economic Contribution",
+            "name_es": "Contribución económica"},
+        "military_global": {
+            "column": "military_contribution",
+            "name_en": "Military Contribution",
+            "name_es": "Contribución militar"},
+        "soft_global": {
+            "column": "soft_contribution",
+            "name_en": "Soft Contribution",
+            "name_es": "Contribución blanda"}
+    },
+    "iepg_quota": {
+        "global_global": {
+            "column": "global_quota",
+            "name_en": "Global Quota",
+            "name_es": "Cuota global"},
+        "economic_global": {
+            "column": "economic_quota",
+            "name_en": "Economic Quota",
+            "name_es": "Cuota económica"},
+        "soft_global": {
+            "column": "soft_quota",
+            "name_en": "Soft Quota",
+            "name_es": "Cuota blanda"}
+    },
+    "iepg_relative_contribution": {
+        "energy": {
+            "column": "energy",
+            "name_en": "Energy",
+            "name_es": "Energía"},
+        "primary_goods": {
+            "column": "primary_goods",
+            "name_en": "Primary Goods",
+            "name_es": "Bienes primarios"},
+        "manufactures": {
+            "column": "manufactures",
+            "name_en": "Manufactures",
+            "name_es": "Manufacturas"},
+        "services": {
+            "column": "services",
+            "name_en": "Services",
+            "name_es": "Servicios"},
+        "investments": {
+            "column": "investments",
+            "name_en": "Investments",
+            "name_es": "Inversiones"},
+        "troops": {
+            "column": "troops",
+            "name_en": "Troops",
+            "name_es": "Tropas"},
+        "military_equipment": {
+            "column": "military_equipment",
+            "name_en": "Military Equipment",
+            "name_es": "Equipo militar"},
+        "migrations": {
+            "column": "migrations",
+            "name_en": "Migrations",
+            "name_es": "Migraciones"},
+        "tourism": {
+            "column": "tourism",
+            "name_en": "Tourism",
+            "name_es": "Turismo"},
+        "sports": {
+            "column": "sports",
+            "name_en": "Sports",
+            "name_es": "Deportes"},
+        "culture": {
+            "column": "culture",
+            "name_en": "Culture",
+            "name_es": "Cultura"},
+        "information": {
+            "column": "information",
+            "name_en": "Information",
+            "name_es": "Información"},
+        "technology": {
+            "column": "technology",
+            "name_en": "Technology",
+            "name_es": "Tecnología"},
+        "science": {
+            "column": "science",
+            "name_en": "Science",
+            "name_es": "Ciencia"},
+        "education": {
+            "column": "education",
+            "name_en": "Education",
+            "name_es": "Educación"},
+        "cooperation": {
+            "column": "cooperation",
+            "name_en": "Cooperation",
+            "name_es": "Cooperación"},
+        "economic_global": {
+            "column": "economic_contribution",
+            "name_en": "Economic Contribution",
+            "name_es": "Contribución económica"},
+        "military_global": {
+            "column": "military_contribution",
+            "name_en": "Military Contribution",
+            "name_es": "Contribución militar"},
+        "soft_global": {
+            "column": "soft_contribution",
+            "name_en": "Soft Contribution",
+            "name_es": "Contribución blanda"}
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # TODO: To be deprecated
 frontend_errors = {
@@ -31,8 +619,6 @@ model_errors = {
     "-3": {"Code": "-3", "Error": "Invalid number."},
     "-4": {"Code": "-4", "Error": "Unknown Twitter user."}
 }
-
-lang = ["en", "es"]
 
 # TODO: to be deprecated
 years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]

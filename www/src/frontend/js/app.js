@@ -223,6 +223,10 @@ app.isSMDevice = function(){
     return ($(window).width()<992);
 }
 
+app.isXSMDevice = function(){
+    return ($(window).width()<1025);
+}
+
 app.isSupportedBrowser = function(){
     var browser= app.getBrowser();
 
@@ -246,4 +250,64 @@ app.getBrowser = function(){
     M= M[2]? [M[1], M[2]]:[navigator.appName, navigator.appVersion, '-?'];
     if((tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
     return M;
+};
+
+
+
+app.variableToString = function(variable){
+    switch(variable){
+        case "IEPG":
+        case "iepg":
+            return "<lang>Índice Elcano de Presencia Global</lang>";
+        case "iepe":
+            return "<lang>Índice Elcano de Presencia Europea</lang>";
+        case "economic_presence":
+            return "<lang>Presencia económica</lang>";
+        case "soft_presence":
+            return "<lang>Presencia blanda</lang>";
+        case "military_presence":
+            return "<lang>Presencia militar</lang>";
+
+        // Military presence
+        case "troops":
+            return "<lang>Tropas</lang>";
+        case "military_equipment":
+            return "<lang>Equipamiento militar</lang>";
+
+        // Economic presence
+        case "energy":
+            return "<lang>Energía</lang>";
+        case "primary_goods":
+            return "<lang>Bienes primarios</lang>";
+        case "manufactures":
+            return "<lang>Manufacturas</lang>";
+        case "services":
+            return "<lang>Servicios</lang>";
+        case "investments":
+            return "<lang>Inversiones</lang>";
+
+        // Soft presences
+        case "migrations":
+            return "<lang>Migraciones</lang>";
+        case "tourism":
+            return "<lang>Turismo</lang>";
+        case "sports":
+            return "<lang>Deportes</lang>";
+        case "culture":
+            return "<lang>Cultura</lang>";
+        case "information":
+            return "<lang>Información</lang>";
+        case "technology":
+            return "<lang>Tecnología</lang>";
+        case "science":
+            return "<lang>Ciencia</lang>";
+        case "education":
+            return "<lang>Educación</lang>";
+        case "cooperation":
+            return "<lang>Cooperación</lang>";
+
+        // TODO complete this mapping 
+        default:
+            return "No definida"
+    }
 };

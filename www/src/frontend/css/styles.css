@@ -10,6 +10,9 @@
 @grey_light2: #e7e7ea;
 @grey_dark: #28282b;
 @grey2: #5e5e62;
+@grey3: #dadade;
+@grey4: #d0d0d5;
+@grey5: #f1f1f3;
 @red: #d60006;
 @yellow : #fdc300;
 @blue : #2b85d0;
@@ -884,4 +887,424 @@ footer{
 .co_nosupported_browser{
 	text-align: center;
 	background-color: #ececee;
+}
+
+
+.divDownlad{
+	margin-top:35px;
+	
+	.firstRow{
+		border-bottom: 1px solid @grey4;
+		padding-bottom: 20px;
+		padding-left: 16.4%;
+		@media (max-width: 930px) {
+			padding-left: 0;
+		}
+	}
+	
+	h1{
+		font-size: 24px;
+		color: @red;
+		font-weight: normal;
+		cursor: pointer;
+	}
+	
+	.boxDonwload{
+		max-width: 255px;
+		height: 45px;
+		background-color: #dadade;
+		color: #fff;
+		font-size: 16px;
+		text-align: center;
+		padding-top: 10px;
+		cursor: pointer;
+		background-image: url("@{imgPath}ELC_icon_boton_descarga.png");
+		background-repeat: no-repeat;
+		background-position: 215px center;
+		padding-left: 10px;
+		padding-right: 47px;
+		margin-top: -13px;
+		margin-left: 52px !important;
+		
+		@media (max-width: 1152px) {
+			width: 86px;
+			white-space: nowrap;
+			word-spacing: 100px;
+		}
+		
+	}
+	
+	.activeDownload{
+		color:inherit; 	
+	}
+	
+	.menuDownload{
+		font-size: 16px;
+		color: @grey_dark;
+		cursor: pointer;
+		
+		div{
+			margin-left:70px;
+			float: left;
+		}
+		
+		img{
+			position: absolute;
+			top: -20px;
+		}
+		
+		.counter{
+			border-radius: 10px;
+			color: #fff;
+			height: 22px;
+			padding: 0px 9px;
+			background-color: #a2a2ac;
+			margin: 12px 0px 0 0;
+			line-height: 23px;
+			margin-left: 10px;
+		}
+	}
+	.tituloDownload{
+	
+	div:nth-child(1){
+		line-height: 90px;
+		margin-left: 8.3%;
+		min-width: 687px;
+	}
+	
+	.secondColumn{
+		border-bottom: 1px solid @grey4;
+	}
+	
+	h1{
+		font-size: 21px;
+		color: @grey_light;
+	}
+	span{
+		font-weight: 300;
+	}
+	
+	.siguiente{
+		float: left;
+		margin-left: 10px;
+		border-bottom: 1px solid @yellow;
+		line-height: 25px;
+		margin-top: 32px;
+		cursor: pointer;
+	}
+}
+
+	.active{
+		background-color: @grey5;
+		background-image: url("../img/ELC_icon_seleccionado.svg");
+		background-repeat: no-repeat;
+		background-position: right center;
+		background-origin: content-box;
+		padding-right: 10px;
+/* 		padding-left: 10px; */
+	}
+	.active:HOVER{
+		background-image: url("../img/ELC_icon_deseleccionar.svg") !important;
+	}
+
+	#yearDiv{
+		.celda{
+			width: 140px;
+			padding-left: 10px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			border-bottom: 1px solid @grey_light2;
+			cursor: pointer;
+		}
+		
+		.celda:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+			padding-left: 10px;
+		}
+		
+		.all{
+			margin-left: 8.31% !important;
+		}
+	}
+	
+	#thematicBlock{
+		.row:last-child{
+			margin-bottom: 90px;
+		}
+		
+		.row{
+			line-height:55px;
+		}
+		.level2{
+			margin-left:30px;
+			.tematica {
+				margin-right: 30px;
+				min-width: 303px;
+			}
+			.tematica2 {
+				margin-right: -5px;
+				min-width: 337px;
+			}
+			
+		}
+		
+		.level3{
+			margin-left:80px;
+			
+			.tematica {
+				margin-right: 55px;
+				min-width: 257px;
+			}
+			.tematica2 {
+				margin-right: -1px;
+				min-width: 312px;
+			}
+		}
+		
+		.todos{
+			padding-left:10px;
+			span{
+				font-weight:bold;
+			}
+			 
+		}
+		
+		.tematica{	
+				margin-left: -10px;
+				border-bottom: 1px solid @grey_light2;
+				cursor: pointer;
+				min-width: 337px;
+				margin-right: 10px;
+		}
+		.tematica2{
+			margin-right: -8px;
+			border-bottom: 1px solid @grey_light2;
+			cursor: pointer;
+			min-width: 357px;
+			
+			img{
+				padding-left: 10px;
+			}
+		}
+		
+		.tematica:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+/* 			padding-left: 10px; */
+		}
+		.tematica2:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+/* 			padding-left: 10px; */
+		}
+		
+		img{
+			float: left;
+			padding-top: 8px;
+			padding-right: 10px;			
+		}
+		
+		.iconVariable[data-variable='iepg']{
+		    content : url("@{imgPath}variables/ELC_variable_iepe_off.svg");
+		}
+		
+		.iconVariable[data-variable='iepe']{
+		    content : url("@{imgPath}variables/ELC_variable_iepe_off.svg");
+		}
+		
+		.iconVariable[data-variable='economic_presence']{
+		    content : url("@{imgPath}variables/ELC_variable_e_presencia_economica_off.svg");
+		}
+		
+		.iconVariable[data-variable='energy']{
+		    content : url("@{imgPath}variables/ELC_variable_e_energia_off.svg");
+		}
+		
+		.iconVariable[data-variable='primary_goods']{
+		    content : url("@{imgPath}variables/ELC_variable_e_bienesprimarios_off.svg");
+		}
+		
+		.iconVariable[data-variable='manufactures']{
+		    content : url("@{imgPath}variables/ELC_variable_e_manufacturas_off.svg");
+		}
+		
+		.iconVariable[data-variable='services']{
+		    content : url("@{imgPath}variables/ELC_variable_e_servicios_off.svg");
+		}
+		
+		.iconVariable[data-variable='investments']{
+		    content : url("@{imgPath}variables/ELC_variable_e_inversiones_off.svg");
+		}
+		
+		.iconVariable[data-variable='military_presence']{
+		    content : url("@{imgPath}variables/ELC_variable_m_presencia_militar_off.svg");
+		}
+		
+		.iconVariable[data-variable='troops']{
+		    content : url("@{imgPath}variables/ELC_variable_m_tropas_off.svg");
+		}
+		
+		.iconVariable[data-variable='military_equipment']{
+		    content : url("@{imgPath}variables/ELC_variable_m_equipamiento_off.svg");
+		}
+		
+		.iconVariable[data-variable='soft_presence']{
+		    content : url("@{imgPath}variables/ELC_variable_b_presencia_blanda_off.svg");
+		}
+		
+		.iconVariable[data-variable='migrations']{
+		    content : url("@{imgPath}variables/ELC_variable_b_migraciones_off.svg");
+		}
+		
+		.iconVariable[data-variable='tourism']{
+		    content : url("@{imgPath}variables/ELC_variable_b_turismo_off.svg");
+		}
+		
+		.iconVariable[data-variable='sports']{
+		    content : url("@{imgPath}variables/ELC_variable_b_deportes_off.svg");
+		}
+		
+		.iconVariable[data-variable='culture']{
+		    content : url("@{imgPath}variables/ELC_variable_b_cultura_off.svg");
+		}
+		
+		.iconVariable[data-variable='information']{
+		    content : url("@{imgPath}variables/ELC_variable_b_informacion_off.svg");
+		}
+		
+		.iconVariable[data-variable='technology']{
+		    content : url("@{imgPath}variables/ELC_variable_b_tecnologia_off.svg");
+		}
+		
+		.iconVariable[data-variable='science']{
+		    content : url("@{imgPath}variables/ELC_variable_b_ciencia_off.svg");
+		}
+		
+		.iconVariable[data-variable='education']{
+		    content : url("@{imgPath}variables/ELC_variable_b_educacion_off.svg");
+		}
+		
+		.iconVariable[data-variable='cooperation']{
+		    content : url("@{imgPath}variables/ELC_variable_b_cooperacion_off.svg");
+		}
+		
+		.iconVariableActive[data-variable='iepg']{
+		    content : url("@{imgPath}variables/ELC_variable_iepe.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='iepe']{
+		    content : url("@{imgPath}variables/ELC_variable_iepe.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='economic_presence']{
+		    content : url("@{imgPath}variables/ELC_variable_e_presencia_economica.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='energy']{
+		    content : url("@{imgPath}variables/ELC_variable_e_energia.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='primary_goods']{
+		    content : url("@{imgPath}variables/ELC_variable_e_bienesprimarios.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='manufactures']{
+		    content : url("@{imgPath}variables/ELC_variable_e_manufacturas.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='services']{
+		    content : url("@{imgPath}variables/ELC_variable_e_servicios.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='investments']{
+		    content : url("@{imgPath}variables/ELC_variable_e_inversiones.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='military_presence']{
+		    content : url("@{imgPath}variables/ELC_variable_m_presencia_militar.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='troops']{
+		    content : url("@{imgPath}variables/ELC_variable_m_tropas.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='military_equipment']{
+		    content : url("@{imgPath}variables/ELC_variable_m_equipamiento.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='soft_presence']{
+		    content : url("@{imgPath}variables/ELC_variable_b_presencia_blanda.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='migrations']{
+		    content : url("@{imgPath}variables/ELC_variable_b_migraciones.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='tourism']{
+		    content : url("@{imgPath}variables/ELC_variable_b_turismo.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='sports']{
+		    content : url("@{imgPath}variables/ELC_variable_b_deportes.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='culture']{
+		    content : url("@{imgPath}variables/ELC_variable_b_cultura.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='information']{
+		    content : url("@{imgPath}variables/ELC_variable_b_informacion.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='technology']{
+		    content : url("@{imgPath}variables/ELC_variable_b_tecnologia.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='science']{
+		    content : url("@{imgPath}variables/ELC_variable_b_ciencia.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='education']{
+		    content : url("@{imgPath}variables/ELC_variable_b_educacion.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='cooperation']{
+		    content : url("@{imgPath}variables/ELC_variable_b_cooperacion.svg") !important;
+		} 
+	}
+	
+	#countryDownload{
+		.pais{
+			line-height: 35px;
+			border-bottom: 1px solid @grey_light2;
+			padding-left: 10px;
+			cursor: pointer;
+		}
+		
+		.pais:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+			padding-left: 10px;
+		}
+		img{
+			float: left;
+			width: 25px;
+			padding-top: 5px;
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+	}
 }

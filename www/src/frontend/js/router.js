@@ -10,7 +10,8 @@ app.router = Backbone.Router.extend({
         "_link contact": {"en": "contact","es" : "contacto" },
         "_link news": {"en": "news","es" : "noticias" },
         "_link about infr": {"en": "structure","es" : "estructura" },
-        "_link about meth": {"en": "methodologic","es" : "metodologia" }
+        "_link about meth": {"en": "methodologic","es" : "metodologia" },
+        "_link download": {"en": "download","es" : "descarga" }
     },
 
     /* define the route and function maps for this router */
@@ -43,6 +44,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link news"][app.lang]+"/", "news");
         this.route(this.langRoutes["_link about infr"][app.lang], "aboutInfr");
         this.route(this.langRoutes["_link about meth"][app.lang], "aboutMeth");
+        this.route(this.langRoutes["_link download"][app.lang], "download");
     },
     
     home: function(){
@@ -127,6 +129,10 @@ app.router = Backbone.Router.extend({
 
     legal: function(){
         app.showView(new app.view.Legal());
+    },
+    
+    download: function(){
+    	app.showView(new app.view.Download());
     }
 
     

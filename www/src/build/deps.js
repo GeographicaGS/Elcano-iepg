@@ -143,6 +143,12 @@ deps.Frontend.JS = {
 			"frontend/js/view/about/about_view.js",
 			"frontend/js/view/about/methodology_view.js",
 			"frontend/js/view/about/structure_view.js",
+			
+			"frontend/js/view/download/download_view.js",
+			"frontend/js/view/download/year_view.js",
+			"frontend/js/view/download/thematic_block_view.js",
+			"frontend/js/view/download/country_view.js",
+			"frontend/js/view/tools/utils.js",
 
 			// router
 			"frontend/js/router.js",

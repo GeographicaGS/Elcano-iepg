@@ -14,7 +14,6 @@ import common.arrayops
 import json
 from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError
-from common.const import variables, years, blocks
 import common.helpers
 import common.const as const
 from helpers import processFilter
@@ -45,7 +44,7 @@ def blocksData():
     for b in datacache.blocks:
         year = dict()
         for y in cacheWrapper(datacache.dataSets["iepg"].variables["energy"].getVariableYears):
-            m = cacheWrapper(common.helpers.getBlockMembers, b, year=y)
+            m = common.helpers.getBlockMembers(b, year=y)
             year[y] = m
         year["name_es"] = isoSpanish[b]
         year["name_en"] = isoEnglish[b]
@@ -156,12 +155,13 @@ def mapData(family, variable, year):
     
     /mapdata/es/iepg/economic_presence/2013?filter=US,DK,ES&toolfilter=US,DK
     """
+    countries = copy.deepcopy(datacache.countries)
     filter = processFilter(request.args, "filter")
     toolFilter = processFilter(request.args, "toolfilter")
     if filter:
-        c = arrayops.arraySubstraction(datacache.countries, filter)
+        c = arrayops.arraySubstraction(countries, filter)
     else:
-        c = datacache.countries
+        c = countries
     try:
         varData = cacheWrapper(common.helpers.getData, datacache.dataSets[family].variables[variable], 
                                year=year, countryList=c)

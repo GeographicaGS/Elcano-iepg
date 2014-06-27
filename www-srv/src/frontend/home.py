@@ -84,7 +84,7 @@ def countries():
                    if i in m]
         v["countries"] = members
 
-    return(jsonify({"results": blocks}))
+    return(jsonify({"results": blocks.values()}))
 
 
 @app.route('/home/years', methods=['GET'])

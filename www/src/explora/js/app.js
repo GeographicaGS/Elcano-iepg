@@ -66,10 +66,7 @@ $(function(){
         app.country = "ES";
         app.ini();  
     }
-    
-
-      
-   
+ 
 });
 
 app.resize = function(){
@@ -98,10 +95,14 @@ app.ini = function(){
     this.$tool_data = $("#tool_data");
     this.$tool = $("#tool");
 
-
     // create the context
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
+    
+    if (app.config.CLEAR_CONTEXT_NOMATCHING_VERSION 
+        && this.context.version != this.version){
+        this.context.reset();
+    }
 
     this.filters =  localStorage.getItem("filters");
     if (!this.filters){
@@ -119,9 +120,6 @@ app.ini = function(){
     this.baseView.render();
 
     this.resize();
-
-
- 
 
     $(window).resize(function(){
         app.resize();

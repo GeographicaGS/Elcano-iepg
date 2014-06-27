@@ -145,9 +145,12 @@ app.view.Slider = Backbone.View.extend({
         else{
             this._firstAnimation = false;
             var m = this.collection.at(this._idx);
-            this.$wrapper_text.find("h3").html(m.get("title"));
-            this.$wrapper_text.find("h4").html(m.get("text"));
-            this.$copyright.html(m.get("credit_img"));
+            if (m){
+                this.$wrapper_text.find("h3").html(m.get("title"));
+                this.$wrapper_text.find("h4").html(m.get("text"));
+                this.$copyright.html(m.get("credit_img"));    
+            }
+            
         }
        
 

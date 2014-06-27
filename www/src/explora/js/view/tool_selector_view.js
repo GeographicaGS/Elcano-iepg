@@ -25,7 +25,9 @@ app.view.ToolSelector = Backbone.View.extend({
         }
 
         // at the current tool at the top of the stack
-        this._toolsSelectedStack.push(app.baseView.currentTool.type);
+        if (app.baseView.currentTool){
+            this._toolsSelectedStack.push(app.baseView.currentTool.type);    
+        }
 
         $(window).on('resize', function(){
             self.render();

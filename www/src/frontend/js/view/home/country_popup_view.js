@@ -6,16 +6,13 @@ app.view.CountryPopup = Backbone.View.extend({
         this.parent = options.parent;
 
         this.country = "España";
-        this.model = new app.model.Countries({
+        this.collection = new app.collection.Countries({},{
             "year": 2012
         });
-        
-        var self = this;
-        this.model.fetch({
-            success: function(){
-                self.render();
-            }
-        });
+
+        this.listenTo(this.collection,"reset",this.render);
+
+        this.collection.fetch({"reset": true});
     },
 
     events: {
@@ -33,10 +30,8 @@ app.view.CountryPopup = Backbone.View.extend({
     },
     
     render: function() {
-        var m = this.model.toJSON();
-        delete m["year"];
         this.$el.html(this._template({
-           model : m,
+           collection : this.collection.toJSON(),
            country: this.country,
         }));
         this.$level_1 = this.$(".level_1");
@@ -66,7 +61,6 @@ app.view.CountryPopup = Backbone.View.extend({
         $l2.attr("selected",true);
 
         this.parent.selectCountry(c);
-
 
     },
 

@@ -108,18 +108,18 @@ deps.Frontend.JS = {
 			// ------  Models ------
 			// --------------------
 			"frontend/js/model/docs/document_model.js",
-			"frontend/js/model/home/countries_model.js",
-
 			
 			// --------------------
 			// --- Collections  ---
 			// --------------------
 			"frontend/js/collection/home/latest_news_collection.js",
 			"frontend/js/collection/home/slider_collection.js",
+			"frontend/js/collection/home/countries_collection.js",
 			"frontend/js/collection/docs/docs_collection.js",
 			"frontend/js/collection/docs/label_collection.js",
 			"frontend/js/collection/news/news_collection.js",
 			"frontend/js/collection/countries_plain_collection.js",
+
 			
 			// --------------------
 			// ------  Views ------

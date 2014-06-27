@@ -10,27 +10,7 @@ function revive(k, v) {
 }
 
 app.view.tools.context = function(id){
-    // ID of the context
-    this.id = id;
     
-    this.data = {
-        "countries": {
-            // List of countries. This list always has a country, the default value will be the country where the user is.
-            "list" : [],
-            // Countries selected. It's a FIFO Queue. 
-            "selection" : []
-        },
-        // List of the current slider in the context. 
-        "slider": [],
-        // List of variables
-        "variables": ["global"],
-
-        // Family it could be iepg or iepe
-        "family" : "iepg",
-
-        "block_analize" : false
-    };
-
 
     /* DATA sample
 
@@ -85,10 +65,8 @@ app.view.tools.context = function(id){
             this.data.slider = [{
                 "type" : "Point",
                 "date" : app.config.SLIDER[app.config.SLIDER.length -1]
-            }]
+            }];
         }
-        
-    
     },
 
     this.getFirstSliderElement= function(type){
@@ -109,6 +87,11 @@ app.view.tools.context = function(id){
         localStorage.removeItem("context-"+this.id);
     }
 
+    this.reset = function(){
+        this.clear();
+        this.data = this._initData();
+    }
+
     // This method remove countries which are in the filter
     this.removeCountriesInFilter = function(){
         var filters = app.getFilters();
@@ -118,5 +101,35 @@ app.view.tools.context = function(id){
             this.removeInvalidSelected();
         }
     }
+
+    this._initData = function(){
+        return {
+            "countries": {
+                // List of countries. This list always has a country, the default value will be spain.
+                "list" : ["ES"],
+                // Countries selected. It's a FIFO Queue. 
+                "selection" : []
+            },
+            // List of the current slider in the context. 
+            "slider": [{
+                "type" : "Point",
+                "date" : app.config.SLIDER[app.config.SLIDER.length -1]
+            }],
+            // List of variables
+            "variables": ["global"],
+
+            // Family it could be iepg or iepe
+            "family" : "iepg",
+
+            "block_analize" : false,
+
+            "version" : app.version
+        };
+    }
+
+    // ID of the context
+    this.id = id;
+    
+    this.data = this._initData();
 
 };

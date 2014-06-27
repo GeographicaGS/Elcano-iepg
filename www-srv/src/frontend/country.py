@@ -7,7 +7,7 @@ Explora country services.
 """
 from frontend import app
 from flask import jsonify,request,send_file,make_response
-from common.helpers import cacheWrapper, baseMapData, arrayIntersection
+from common.helpers import cacheWrapper, baseMapData
 import json
 from model import iepgdatamodel
 from common.errorhandling import ElcanoApiRestError

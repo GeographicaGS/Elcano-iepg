@@ -997,7 +997,7 @@ footer{
 		background-position: right center;
 		background-origin: content-box;
 		padding-right: 10px;
-		padding-left: 10px;
+/* 		padding-left: 10px; */
 	}
 	.active:HOVER{
 		background-image: url("../img/ELC_icon_deseleccionar.svg") !important;
@@ -1028,7 +1028,6 @@ footer{
 	}
 	
 	#thematicBlock{
-		
 		.row:last-child{
 			margin-bottom: 90px;
 		}
@@ -1061,14 +1060,24 @@ footer{
 				min-width: 312px;
 			}
 		}
+		
+		.todos{
+			padding-left:10px;
+			span{
+				font-weight:bold;
+			}
+			 
+		}
+		
 		.tematica{	
 				margin-left: -10px;
 				border-bottom: 1px solid @grey_light2;
 				cursor: pointer;
 				min-width: 337px;
+				margin-right: 10px;
 		}
 		.tematica2{
-			margin-right: -10px;
+			margin-right: -8px;
 			border-bottom: 1px solid @grey_light2;
 			cursor: pointer;
 			min-width: 357px;
@@ -1084,7 +1093,7 @@ footer{
 			background-position: right center;
 			background-origin: content-box;
 			padding-right: 10px;
-			padding-left: 10px;
+/* 			padding-left: 10px; */
 		}
 		.tematica2:HOVER{
 			background-image: url("../img/ELC_icon_seleccionar.svg");
@@ -1092,8 +1101,9 @@ footer{
 			background-position: right center;
 			background-origin: content-box;
 			padding-right: 10px;
-			padding-left: 10px;
+/* 			padding-left: 10px; */
 		}
+		
 		img{
 			float: left;
 			padding-top: 8px;
@@ -1101,7 +1111,7 @@ footer{
 		}
 		
 		.iconVariable[data-variable='iepg']{
-		    content : url("@{imgPath}variables/ELC_variable_b_ciencia_off.svg");
+		    content : url("@{imgPath}variables/ELC_variable_iepe_off.svg");
 		}
 		
 		.iconVariable[data-variable='iepe']{
@@ -1185,7 +1195,7 @@ footer{
 		}
 		
 		.iconVariableActive[data-variable='iepg']{
-		    content : url("@{imgPath}variables/ELC_variable_b_ciencia.svg") !important;
+		    content : url("@{imgPath}variables/ELC_variable_iepe.svg") !important;
 		}
 		
 		.iconVariableActive[data-variable='iepe']{

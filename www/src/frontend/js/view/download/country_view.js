@@ -45,12 +45,12 @@ app.view.countryDownload = Backbone.View.extend({
 											
 											"<div class='col-sm-6 col-md-6'>" +
 												"<img src='/img/flags/" + response.results[i].id + ".svg" + "'>" +
-												"<div class='pais'>" + response.results[i].name + "</div>" +
+												"<div class='pais' id='" + response.results[i].id + "'>" + response.results[i].name + "</div>" +
 											"</div>" +
 											
 											"<div class='col-sm-4 col-md-4'>" +
 											"<img src='/img/flags/" + response.results[i + intervalo].id + ".svg" + "'>" +
-												"<div class='pais'>" + response.results[i + intervalo].name + "</div>" +
+												"<div class='pais' id='" + response.results[i + intervalo].id + "'>" + response.results[i + intervalo].name + "</div>" +
 											"</div>" +
 											
 										"</div>");
@@ -60,17 +60,17 @@ app.view.countryDownload = Backbone.View.extend({
 									"<div class='col-sm-1 col-md-1'></div>" +
 									"<div class='col-sm-3 col-md-3'>" +
 										"<img src='/img/flags/" + response.results[i].id + ".svg" + "'>" +
-										"<div class='pais'>" + response.results[i].name + "</div>" +
+										"<div class='pais' id='" + response.results[0].id + "'>" + response.results[i].name + "</div>" +
 									"</div>" +
 									
 									"<div class='col-sm-3 col-md-3'>" +
 									"<img src='/img/flags/" + response.results[i + intervalo].id + ".svg" + "'>" +
-										"<div class='pais'>" + response.results[i + intervalo].name + "</div>" +
+										"<div class='pais' id='" + response.results[i + intervalo].id + "'>" + response.results[i + intervalo].name + "</div>" +
 									"</div>" +
 									
 									"<div class='col-sm-3 col-md-3'>" +
 									"<img src='/img/flags/" + response.results[i + intervalo*2].id + ".svg" + "'>" +
-										"<div class='pais'>" + response.results[i + intervalo*2].name + "</div>" +
+										"<div class='pais' id='" + response.results[i + intervalo*2].id + "'>" + response.results[i + intervalo*2].name + "</div>" +
 									"</div>"+
 									
 								"</div>");

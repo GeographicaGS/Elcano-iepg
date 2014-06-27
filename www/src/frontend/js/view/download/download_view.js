@@ -11,7 +11,8 @@ app.view.Download = Backbone.View.extend({
     
     events:{
      "click .menuItem" : "menuItemClick",
-     "click .siguiente" : "siguienteClick"
+     "click .siguiente" : "siguienteClick",
+     "click .boxDonwload" : "download"
     },
     
 
@@ -67,7 +68,38 @@ app.view.Download = Backbone.View.extend({
     		this.actual ++;
     	}
     	$(".menuItem[idMenu=" + this.actual + "]").trigger("click");
-    }
+    },
 
+    download:function(){
+    	var aux = $(".yearList").find(".active");
+    	var years = "";
+    	var variables = "";
+    	var paises = "";
+    	
+    	for(var i=0; i<$(aux).length; i++){
+    		years += $(aux[i]).text() + ",";
+    	}
+    	years = years.slice(0,-1);
+    	
+    	aux = $("#thematicBlock").find(".active[key]");
+    	for(var i=0; i<$(aux).length; i++){
+    		if($(aux[i]).attr("key") == "iepg" || $(aux[i]).attr("key") == "iepe"){
+    			variables += $(aux[i]).attr("key") + "," ;
+    		}else{
+    			variables += $(aux[i]).attr("key") + "@";
+        		variables += ($(aux[i]).hasClass("tematica") ? "iepg":"iepe") + ",";
+    		}
+    	}
+    	variables = variables.slice(0,-1);
+    	
+    	aux = $("#countryDownload").find(".active");
+    	for(var i=0; i<$(aux).length; i++){
+    		paises += $(aux[i]).attr("id") + ",";
+    	}
+    	paises = paises.slice(0,-1);
+    	if(years != "" && variables != "" && paises != ""){
+    		window.location="/api/download/" + app.lang + "/" + years + "/" + variables +"/" + paises;
+    	}
+    }
 
 });

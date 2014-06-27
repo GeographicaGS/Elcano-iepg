@@ -100,7 +100,7 @@ app.ini = function(){
     this.context.restoreSavedContext();
     
     if (app.config.CLEAR_CONTEXT_NOMATCHING_VERSION 
-        && this.context.version != this.version){
+        && this.context.data.version != this.version){
         this.context.reset();
     }
 

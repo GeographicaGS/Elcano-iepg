@@ -14,8 +14,6 @@ function generateIndex(version,env,lang,templates,debug){
 		index = fs.readFileSync(tmp +"/index-"+lang + ".html", "utf8");
 	
 	index = index.replace("<body>","<body>" + templates);
-
-	
 	index = index.replace("main.min.css","main.min.css?"+version);
 	
 	if (!debug) {

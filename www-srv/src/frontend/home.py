@@ -50,23 +50,30 @@ def countries():
       year: required
 
     Returns a JSON:
-
+    
     {
-    results: [
+    "results": [
     {
-      "block":
+      "code": "XBSA", 
+      "countries": [
         {
-          "name": "América",
-          "ncountries": "2",
-          "countries": [
-            {"name": "USA"},
-            {"name": "Canadá"}
-          ]
+          "code": "AO", 
+          "name": "Angola"
+        }, 
+        {
+          "code": "NG", 
+          "name": "Nigeria"
+        }, 
+        {
+          "code": "ZA", 
+          "name": "Sud\u00e1frica"
         }
-    },
+      ], 
+      "name": "\u00c1frica sub-sahariana", 
+      "ncountries": 3
+    }, 
     ]
     }
-      
     """
     lang = request.args["lang"]
     year = request.args["year"]
@@ -83,12 +90,11 @@ def countries():
         dBlock["countries"] = []
         countries = common.helpers.getBlockMembers(block, year)
         dBlock["countries"] = sorted([{"code": i, "name": trans[i]} for i in countries], 
-                                     key=lambda t: t["name"])
+                                     key=lambda t: t["name"], cmp=locale.strcoll)
         dBlock["ncountries"] = len(dBlock["countries"])
         blocks.append(dBlock)
 
-    return(jsonify({"results": sorted(blocks, key=lambda t: t["name"])}))
-
+    return(jsonify({"results": sorted(blocks, key=lambda t: t["name"], cmp=locale.strcoll)}))
 
 
 @app.route('/home/years', methods=['GET'])

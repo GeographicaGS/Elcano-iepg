@@ -86,8 +86,8 @@ def getRankingCode(countryList, year, variable, countryCode):
 def getBlockMembers(isoBlock, year=None):
     """Returns a list of block members ISO."""
     return([datacache.geoentityToIso[i["id_geoentity_child"]] for i in 
-            cacheWrapper(maplex.getBlockMembers, datacache.isoToGeoentity[isoBlock],
-                         year=year)])
+            maplex.getBlockMembers(datacache.isoToGeoentity[isoBlock],
+                                   year=year)])
 
 
 # TODO: code can be an array of codes, years the same

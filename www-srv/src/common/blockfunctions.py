@@ -5,8 +5,6 @@
 Block processing functions.
 
 """
-# import common.helpers as helpers
-# import common.datacache as datacache
 import maplex.maplex as maplex
 
 def blockFunctionLumpSum(data, context=None):

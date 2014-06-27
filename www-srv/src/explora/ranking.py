@@ -15,6 +15,7 @@ import helpers
 import common.datacache as datacache
 import common.arrayops as arrayops
 from collections import OrderedDict
+import copy
 
 
 @app.route('/ranking/<string:lang>/<int:currentYear>/<int:referenceYear>/<string:family>/<string:variable>/<int:blocks>', 
@@ -27,7 +28,7 @@ def ranking(lang, currentYear, referenceYear, family, variable, blocks):
     """
     f = processFilter(request.args, "filter")
     e = processFilter(request.args, "entities")
-    countries = datacache.countries
+    countries = copy.deepcopy(datacache.countries)
     entitiesBlocks = [v for v in e if v in datacache.blocks]
     v = datacache.dataSets[family].variables[variable]
 

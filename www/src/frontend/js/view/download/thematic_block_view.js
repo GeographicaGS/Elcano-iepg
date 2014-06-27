@@ -65,6 +65,18 @@ app.view.thematicBlock = Backbone.View.extend({
 		}
     	
     	$(".numBloqsSelect").text($(".tematica.active[key]").length + $(".tematica2.active[key]").length);
+    	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
+    		$(".boxDonwload").removeClass("activeDownload");
+    	}else{
+    		$(".boxDonwload").addClass("activeDownload");
+    	}
+    	
+    	if($(".counter.numBloqsSelect").text() == "0"){
+    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
+    	}else{
+    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
+    	}
+    	
     },
     
     todosClick: function(e){
@@ -82,6 +94,18 @@ app.view.thematicBlock = Backbone.View.extend({
     		}
     	}
     	$(".numBloqsSelect").text($(".tematica.active[key]").length + $(".tematica2.active[key]").length);
+    	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
+    		$(".boxDonwload").removeClass("activeDownload");
+    	}else{
+    		$(".boxDonwload").addClass("activeDownload");
+    	}
+    	
+    	if($(".counter.numBloqsSelect").text() == "0"){
+    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
+    	}else{
+    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
+    	}
+    	
     },
     
     getHtmlThematic: function(name1, name2, key1, key2, level) {

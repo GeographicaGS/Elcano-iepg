@@ -106,6 +106,17 @@ app.view.countryDownload = Backbone.View.extend({
     	}
     	
     	$(".numPaises").text($(".pais.active").length);
+    	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
+    		$(".boxDonwload").removeClass("activeDownload");
+    	}else{
+    		$(".boxDonwload").addClass("activeDownload");
+    	}
+    	
+    	if($(".counter.numPaises").text() == "0"){
+    		$(".counter.numPaises").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
+    	}else{
+    		$(".counter.numPaises").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
+    	}
     }
     
 

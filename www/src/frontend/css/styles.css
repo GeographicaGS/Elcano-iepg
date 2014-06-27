@@ -934,6 +934,10 @@ footer{
 		
 	}
 	
+	.activeDownload{
+		color:inherit; 	
+	}
+	
 	.menuDownload{
 		font-size: 16px;
 		color: @grey_dark;

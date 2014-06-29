@@ -1243,7 +1243,14 @@ div.tooltip.comp{
     }
 }
 .co_all_countries{
-    
+    input,span{
+        display: inline-block;
+        vertical-align: middle;
+    }
+    span{
+        .roboto(light);
+    }
+
 }
 
 .co_loading{

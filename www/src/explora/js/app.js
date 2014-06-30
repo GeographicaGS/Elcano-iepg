@@ -458,6 +458,10 @@ app.showHelp = function() {
                 ctx.stroke();
                 $('#help-bck').append(canvas);
             }
+
+            if( localStorage['dontShowHelp'] === 'true' ){
+                $container.find('.help-checkbox').addClass('checked');
+            }
         }
 
         var $background = $('<div id="help-bck"><div class="content"></div></div>');

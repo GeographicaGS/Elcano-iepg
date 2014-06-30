@@ -33,6 +33,9 @@ app.router = Backbone.Router.extend({
     },
 
     initialize: function(options) {
+        // Bind 'route' event to send Google Analytics info
+        Backbone.history.on("route", this.sendPageview);
+        
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link home"][app.lang]+"/", "home");
         this.route(this.langRoutes["_link about"][app.lang], "about");
@@ -133,6 +136,12 @@ app.router = Backbone.Router.extend({
     
     download: function(){
     	app.showView(new app.view.Download());
+    },
+
+    sendPageview: function(){
+        var url;
+        url = Backbone.history.root + Backbone.history.getFragment()
+        ga('send', 'pageview', url);
     }
 
     

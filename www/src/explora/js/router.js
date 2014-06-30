@@ -23,6 +23,9 @@ app.router = Backbone.Router.extend({
     initialize: function(options) {
         // this.route(this.langRoutes["_link home"][app.lang], "home");
         // this.route(this.langRoutes["_link home"][app.lang]+"/", "home");
+
+        // Bind 'route' event to send Google Analytics info
+        Backbone.history.on("route", this.sendPageview);
     },
 
     root: function(){
@@ -93,5 +96,11 @@ app.router = Backbone.Router.extend({
             "country_sel" : country_sel,
             "filters": filters
         });
+    },
+
+    sendPageview: function(){
+        var url;
+        url = Backbone.history.root + Backbone.history.getFragment()
+        ga('send', 'pageview', url);
     }
 });

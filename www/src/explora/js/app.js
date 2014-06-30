@@ -435,18 +435,24 @@ app.showHelp = function() {
             if(elem){
                 var $elem = $('#'+elem);
                 $elem.addClass('elemHighlighted');
+                var $content = $('#help-bck > .content > div');
                 
                 var canvas = document.createElement('canvas');
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 var elemPos = $elem.offset();
-                var titlePos = $('h2').offset();
+                var titlePos = $content.offset();
                 var ctx = canvas.getContext("2d");
-                ctx.setLineDash([15]);
+                ctx.setLineDash([12]);
                 ctx.lineWidth = 2;
                 ctx.strokeStyle = '#fdc300';
-                ctx.moveTo(canvas.width / 2 ,titlePos.top);
-                ctx.lineTo(elemPos.left,elemPos.top);
+                if(titlePos.top > elemPos.top){
+                    ctx.moveTo(canvas.width / 2 ,titlePos.top - 15);
+                    ctx.lineTo(elemPos.left,elemPos.top + $elem.height() - 15);
+                }else{
+                    ctx.moveTo(canvas.width / 2 ,titlePos.top + $content.height() + 15);
+                    ctx.lineTo($elem.width() / 2 ,elemPos.top);
+                }
                 ctx.stroke();
                 $('#help-bck').append(canvas);
             }

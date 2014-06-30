@@ -387,6 +387,46 @@ header{
         padding-top: 14px;
     }
 
+    #help_btn {
+        float: right;
+        height: 100%;
+        margin-right: 20px;
+        border-right: 1px solid #515055;
+        padding: 13px 20px;
+
+        & > * {
+            vertical-align: middle;
+        }
+
+        img {
+            display: inline-block;
+            opacity: .5;
+            transition: opacity .3s ease-in;
+            height: 24px;
+        }
+
+        span {
+            display: inline-block;
+            opacity: 0;
+            color: @grey_light;
+            font-size: 12px;
+            margin-right: 6px;
+            transition: opacity .3s ease-in;
+        }
+
+
+        &:hover {
+
+            img {
+                opacity: 1;
+            }
+
+            span {
+                opacity: 1;
+            }
+        }
+    }
+
 }
 
 h2{
@@ -1298,4 +1338,163 @@ div.tooltip.comp{
     }
 
    
+}
+
+#help-bck {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background-color: rgba(81,81,85, .92);
+    color: @white;
+    display: table;
+
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .content {
+        display: table-cell;
+        vertical-align: middle;
+
+        .textblock {
+            text-align: center;
+
+            h2 {
+                .roboto(light);
+                font-size: 24px;
+                color: @yellow;
+                margin-bottom: 10px;
+
+                strong {
+                    .roboto(bold);
+                }
+            }
+
+            h3 {
+                .roboto(light);
+                color: @white;
+                font-size: 18px;
+            }
+
+            p {
+                margin-bottom: 25px;
+                font-size: 14px;
+                .roboto(regular);
+
+                &.big {
+                    font-size: 24px;
+                }
+            }
+
+            &.separator {
+                padding-bottom: 125px;
+                border-bottom: 1px solid @yellow;
+                margin-bottom: 40px;
+            }
+
+            &.relative {
+                position: relative;
+            }
+
+            .help-btn_grey {
+                background-color: @grey_dark;
+                padding: 15px;
+                .roboto(medium);
+
+                margin-top: 62px;
+                display: inline-block;
+
+                position: static;
+                right: auto;
+
+                img {
+                    margin-left: 15px;
+                }
+            }
+
+            .help-link {
+                .roboto(medium);
+                padding-bottom: 2px;
+                border-bottom: 1px solid @grey_light;
+            }
+
+            .help-checkbox {
+                position: absolute;
+                right: 30px;
+                vertical-align: middle;
+                opacity: .5;
+                transition: opacity .3s ease-in;
+
+                &:before {
+                    content: url('/img/Ayuda/ELC_icon_checkbox_2.svg');
+                    display: inline-block;
+                    margin-right: 10px;
+                    vertical-align: middle;
+                    position: relative;
+                    top: 2px;
+                }
+
+                &.checked {
+                    opacity: 1;
+                    
+                    &:before {
+                        content: url('/img/Ayuda/ELC_icon_checkbox_1.svg');
+                    }
+                }
+            }
+
+            /* FIX last page */
+            .help-btn_grey ~ .help-checkbox {
+                top: 75px;
+            }
+
+            @media(max-width: 1000px) {
+                .help-btn_grey ~ .help-checkbox {
+                    top: 140px;
+                }
+            }
+
+            .dots {
+                margin: 36px 0;
+
+                span {
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    background-color: @grey_light;
+                    border-radius: 5px;
+                    margin: 0 7px;
+
+                    &.selected {
+                        background-color: @yellow;
+                    }
+                }
+            }
+        }
+
+        .help-btn_goback, .help-btn_continue {
+            display: block;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            margin-top: -32px;
+            z-index: 6;
+        }
+
+        .help-btn_continue {
+            right: 20px;
+            left: auto;
+        }
+    }
+}
+
+.elemHighlighted {
+    z-index: 9999 !important;
+    box-shadow: 0 0 10px 5px @yellow;
+    position: relative;
 }

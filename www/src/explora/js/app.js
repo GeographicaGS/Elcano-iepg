@@ -140,6 +140,24 @@ app.ini = function(){
         app.showHelp();
     });
 
+    // Events for top menu on touch screens
+    $("nav > div").click(function(){
+        $(this).toggleClass('opened');
+    });
+
+    $("nav > div .quees").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
+        $(this).toggleClass('opened'); 
+    });
+
+    $("nav > div .quees a").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
+    });
+
     Backbone.history.start({pushState: true,root: this.basePath });
 };
 

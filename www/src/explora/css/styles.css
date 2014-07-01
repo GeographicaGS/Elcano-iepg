@@ -10,11 +10,15 @@
 @grey_light2: #e7e7ea;
 @grey_dark: #28282b;
 @grey2: #5e5e62;
+@grey_menu: #3e3e41;
+@grey_menu_text: #d6d6d6;
+@grey_menu_sep: #515155;
 @red: #d60006;
 @yellow : #fdc300;
 @blue : #2b85d0;
 @green : #669900;
 @orange : #ff9000;
+@black: #000;
 @white : #fff;
 @white2 : #f8f8f8;
 
@@ -385,6 +389,104 @@ header{
         float:right;
         margin-right: 20px;
         padding-top: 14px;
+    }
+
+    nav {
+        float: left;
+
+        & > div, & > div > a {
+            display: block;
+            width: 54px;
+            height: 55px;
+            float: left;
+            background-color: @grey_menu;
+            cursor: pointer;
+
+            & > img {
+                padding: 15px;
+            }
+
+            & > ul {
+                display: none;
+            }
+
+            &:hover, &.opened {
+                background-color: @yellow;
+
+                & > ul {
+                    position: relative;
+                    top: -5px;
+                    display: block;
+                    min-width: 215px;
+                    background-color: @grey_dark;
+                    color: @grey_menu_text;
+                    .roboto_cond();
+
+                    li {
+                        position: relative;
+                        border-top: 1px solid @grey_menu_sep;
+
+                        & > a {
+                            display: inline-block;
+                            width: 100%;
+                            height: 48px;
+                            padding: 11px 15px 13px 15px;
+                        }
+
+                        &:hover {
+                            background-color: @yellow;
+                            color: @grey_dark;
+                        }
+
+                        &.quees {
+                            
+                            & > ul {
+                                display: none;
+                            }
+
+                            & > a:after {
+                                content: url('/img/ELC_icon_acceder_form.svg');
+                                float: right;
+                            }
+
+                            &:hover, &.opened {
+                                background-color: @grey_menu;
+                                color: @grey_menu_text;
+
+                                & > ul {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 215px;
+                                    display: block;
+                                    min-width: 215px;
+                                    background-color: @grey_dark;
+                                    color: @grey_menu_text;
+
+                                    li {
+                                        border: solid @grey_menu_sep;
+                                        border-width: 1px 0 0 1px;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.explora {
+                            & > a:before{
+                                content: url('/img/exploraBT_ico.svg');
+                                vertical-align: middle;
+                                margin-right: 8px;
+                            }
+
+                            &:hover {
+                                & > a:before {
+                                    content: url('/img/exploraBT_ico_hover.svg');
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     #help_btn {

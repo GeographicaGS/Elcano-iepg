@@ -1453,7 +1453,7 @@ div.tooltip.comp{
                 top: 75px;
             }
 
-            @media(max-width: 1000px) {
+            @media(max-width: 1340px) {
                 .help-btn_grey ~ .help-checkbox {
                     top: 140px;
                 }

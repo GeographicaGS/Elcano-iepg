@@ -10,7 +10,11 @@ Backbone.View.prototype.close = function(){
 }
 
 $(function() {
-    
+    // If device's screen width is smaller than 768px, force to 768px
+    if(screen.width < 768) {
+        var vp = document.getElementById('appViewport');
+        vp.setAttribute('content','width=768');
+    }
 
     app.resizeMe();
 
@@ -67,6 +71,32 @@ $(function() {
         var $el = $(this).closest("[data-has-submenu]");
         $el.find(" > a").css("color","").css("background-color","");
         $el.find("ul").fadeOut(300);
+    });
+
+    // Fixed menu events
+    $(window).scroll(function(){
+        if(window.pageYOffset > 190){
+            $('header#fixed_menu').addClass('visible');
+        }else{
+            $('header#fixed_menu').removeClass('visible');
+        }
+    });
+
+    $("nav > div").click(function(){
+        $(this).toggleClass('opened');
+    });
+
+    $("nav > div .quees").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
+        $(this).toggleClass('opened'); 
+    });
+
+    $("nav > div .quees a").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
     });
 
     app.ini();

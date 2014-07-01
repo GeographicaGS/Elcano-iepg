@@ -7,7 +7,11 @@ app.view.tools.common.Countries = Backbone.View.extend({
     initialize: function(options){
         this._variableCtrlStatus = options && options.variable!=undefined && options.variable!="undefined" ? options.variable : true; 
         this._draggable = options && options.draggable!=undefined && options.draggable!="undefined" ? options.draggable : false; 
-       
+        
+        var self = this;
+        $(window).on('resize', function(){
+            self.render();
+        });
     },
 
     _events: {

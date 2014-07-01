@@ -632,6 +632,22 @@ main{
     }
 
     &.country_selector{
+
+        .deselect_btn {
+            opacity: 0;
+            transition: opacity .3s ease;
+            color: @grey_light;
+
+            img {
+                margin-right: 5px;
+                vertical-align: text-bottom;
+            }
+
+            &.active {
+                opacity: 1;
+            }
+        }
+        
         .ctrl_cb{
             margin-top: 5px;
             li{

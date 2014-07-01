@@ -10,7 +10,11 @@ Backbone.View.prototype.close = function(){
 }
 
 $(function() {
-    
+    // If device's screen width is smaller than 768px, force to 768px
+    if(screen.width < 768) {
+        var vp = document.getElementById('appViewport');
+        vp.setAttribute('content','width=768');
+    }
 
     app.resizeMe();
 

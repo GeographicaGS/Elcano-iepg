@@ -73,6 +73,32 @@ $(function() {
         $el.find("ul").fadeOut(300);
     });
 
+    // Fixed menu events
+    $(window).scroll(function(){
+        if(window.pageYOffset > 190){
+            $('header#fixed_menu').addClass('visible');
+        }else{
+            $('header#fixed_menu').removeClass('visible');
+        }
+    });
+
+    $("nav > div").click(function(){
+        $(this).toggleClass('opened');
+    });
+
+    $("nav > div .quees").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
+        $(this).toggleClass('opened'); 
+    });
+
+    $("nav > div .quees a").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
+    });
+
     app.ini();
 
     $(window).resize(function(){

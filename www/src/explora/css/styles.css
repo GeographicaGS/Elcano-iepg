@@ -984,7 +984,11 @@ ul.flag_wrapper.filter{
 
             &.ui-draggable{
                 z-index: 1 !important;
-                /*transition: opacity .3s ease;*/
+                opacity: 100;
+
+                &.dragged {
+                    opacity: 0;
+                }
             }
 
             a{
@@ -1012,8 +1016,11 @@ ul.flag_wrapper.filter{
     }
 }
 
-li.ui-draggable {
+body > li.ui-draggable {
     list-style: none;
+    position: relative;
+    top: 25px;
+    left: 25px;
 }
 
 #slider{

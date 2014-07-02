@@ -182,7 +182,8 @@ deps.Explora.JS = {
 	ThirdParty:{
 		src: [
 			"explora/js/lib/jquery-2.0.3.min.js",
-			"explora/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",
+			//"explora/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",
+			"explora/js/lib/jquery-ui/jquery-ui.min.js",
 			"explora/js/lib/underscore-min.js",
 			"explora/js/lib/backbone-min.js",
 			"explora/js/lib/d3.v3.min.js",

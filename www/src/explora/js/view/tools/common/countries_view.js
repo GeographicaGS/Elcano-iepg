@@ -45,7 +45,20 @@ app.view.tools.common.Countries = Backbone.View.extend({
         }));
 
         if (this._draggable){
-            this.$("ul.country_bar li").draggable({ revert: true});    
+            this.$("ul.country_bar li").draggable({
+                //revert: true,
+                helper: 'clone',
+                start: function(event, ui){ //hide original when showing clone
+                    $(this).css('opacity',0);
+                },
+                stop: function(event, ui){ //show original when hiding clone
+                    $(this).css('opacity',100);
+                },
+                appendTo: 'body',
+                zIndex: 100,
+                containment: 'window',
+                scroll: false
+            });    
         }
 
         this.$btn_prev = this.$('.country_bar_prev');

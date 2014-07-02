@@ -82,21 +82,26 @@ $(function() {
         }
     });
 
-    $("nav > div").click(function(){
+    $("header#fixed_menu nav > div").click(function(){
         $(this).toggleClass('opened');
     });
 
-    $("nav > div .quees").click(function(e){
+    $("header#fixed_menunav > div .quees").click(function(e){
         e.preventDefault();
 
-        $("nav > div").eq(0).toggleClass('opened');
+        $("header#fixed_menu nav > div").eq(0).toggleClass('opened');
         $(this).toggleClass('opened'); 
     });
 
-    $("nav > div .quees a").click(function(e){
+    $("header#fixed_menunav > div .quees a").click(function(e){
         e.preventDefault();
 
-        $("nav > div").eq(0).toggleClass('opened');
+        $("header#fixed_menu nav > div").eq(0).toggleClass('opened');
+    });
+
+    $("header#fixed_menu .goTop").click(function(e){
+        e.preventDefault();
+        app.scrollTop();
     });
 
     app.ini();
@@ -171,6 +176,7 @@ app.events.on("menu", function(id){
    
     app.$menu.children().removeAttr("selected");
     app.$menu.find("[data-menu="+id+"]").closest("li").attr("selected",true);
+    $('header#fixed_menu h1 span').html(app.$menu.find("[data-menu="+id+"]").html());
 });
 
 app.scrollTop = function(){

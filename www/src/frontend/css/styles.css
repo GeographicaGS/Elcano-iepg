@@ -90,6 +90,9 @@ a.label{
     font-size: 13px;
     cursor: pointer;
     border-bottom: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 a.label:hover{
@@ -328,8 +331,21 @@ header#fixed_menu {
     left: 0;
     transition: top .3s ease-in-out;
 
+    .goTop {
+        position: fixed;
+        bottom: -54px;
+        right: 10px;
+        opacity: 0;
+        transition: opacity .3s ease, bottom .3s ease;
+    }
+
 	&.visible {
 		top: 0;
+
+        .goTop {
+            opacity: 1;
+            bottom: 10px;
+        }
 	}
 
     #top_logo{
@@ -343,6 +359,7 @@ header#fixed_menu {
     }
 
     h1{
+        margin-top: 0;
         padding-top: 16px;
         text-align: center;
         border: none;
@@ -359,6 +376,7 @@ header#fixed_menu {
         float:right;
         margin-right: 20px;
         padding-top: 14px;
+        color: @red;
     }
 
     nav {

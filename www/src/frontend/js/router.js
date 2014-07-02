@@ -119,10 +119,7 @@ app.router = Backbone.Router.extend({
     },
 
     explora: function(){
-        window.open(
-          app.config.EXPLORA_URL,
-          "_blank" // <- This is what makes it open in a new window.
-        );
+        window.location.href = app.config.EXPLORA_URL;
         this.navigate("/");
     },
 

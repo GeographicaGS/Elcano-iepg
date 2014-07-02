@@ -101,9 +101,7 @@ app.router = Backbone.Router.extend({
     },
 
     external: function(url){
-        var absoluteUrl = app.config.FRONT_URL + "/" + url;
-        console.log(absoluteUrl);
-        window.open(absoluteUrl, "_blank");
+        window.location.href = app.config.FRONT_URL + "/" + url;
         this.navigate("/");
     },
 

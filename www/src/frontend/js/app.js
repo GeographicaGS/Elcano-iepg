@@ -114,7 +114,7 @@ $(function() {
     $("header#fixed_menu nav > div .quees a").click(function(e){
         e.preventDefault();
 
-        $("header#fixed_menu nav > div").eq(0).toggleClass('opened');
+        $("header#fixed_menu nav > div").eq(0).removeClass('opened');
     });
 
     $("header#fixed_menu .goTop").click(function(e){

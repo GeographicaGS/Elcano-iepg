@@ -22,10 +22,10 @@ Backbone.View.prototype.close = function(){
 $(function(){
 
     // If device's screen width is smaller than 768px, force to 768px
-    if(screen.width < 768) {
+    /*if(screen.width < 768) {
         var vp = document.getElementById('appViewport');
         vp.setAttribute('content','width=768');
-    }
+    }*/
 
     $("body").on("click","a",function(e){
         
@@ -85,6 +85,10 @@ app.resize = function(){
             - toolDataMarginAndPadding);
 
     this.map.resize();
+
+    if(app.baseView.currentTool && app.baseView.currentTool.countries){
+        app.baseView.currentTool.countries.render();
+    }
 }
 
 app.ini = function(){
@@ -167,7 +171,7 @@ app.ini = function(){
     $("nav > div .quees a").click(function(e){
         e.preventDefault();
 
-        $("nav > div").eq(0).toggleClass('opened');
+        $("nav > div").eq(0).removeClass('opened');
     });
 
     Backbone.history.start({pushState: true,root: this.basePath });
@@ -492,7 +496,7 @@ app.showHelp = function() {
                     ctx.lineTo($elem.width() / 2 ,elemPos.top);
                 }
                 ctx.stroke();
-                $('#help-bck').append(canvas);
+                $('#help-bck').prepend(canvas);
             }
 
             if( localStorage['dontShowHelp'] === 'true' ){

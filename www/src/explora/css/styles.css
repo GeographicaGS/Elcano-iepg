@@ -28,7 +28,7 @@
 @variable_soft : #ff9000;
 
 
-html, body{ height:100%;}
+html, body{ height:100%; min-width: 768px;}
 
 .fillVariable(){
 
@@ -1612,6 +1612,7 @@ div.tooltip.comp{
 
             .help-checkbox {
                 position: absolute;
+                top: 0;
                 right: 30px;
                 vertical-align: middle;
                 opacity: .5;
@@ -1643,6 +1644,14 @@ div.tooltip.comp{
             @media(max-width: 1340px) {
                 .help-btn_grey ~ .help-checkbox {
                     top: 140px;
+                }
+            }
+
+            @media(max-width: 1080px) {
+                .help-btn_close ~ .help-checkbox {
+                    position: static;
+                    display: block;
+                    margin-top: 20px;
                 }
             }
 

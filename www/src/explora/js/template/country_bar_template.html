@@ -1,15 +1,21 @@
+<div class="country_bar_nav">
+    <a class="country_bar_prev" href="#"></a>
+    <a class="country_bar_next" href="#"></a>
+</div>
+<div class="country_bar_container">
     <ul class="country_bar">
-    <%_.each(ctx.countries.list,function(c){ 
-        
-        sel = ctx.countries.selection.indexOf(c) != -1 ? "selected" : "";
-        %>
-        <li class="country_draggable" >
-            <a href="#"  code="<%= c %>"  <%= sel %> title="<%= app.countryToString(c) %>">
-                <img src="/img/flags/<%= c%>.svg"/>
-            </a>
-        </li>
-    <% }); %>
-</ul>
+        <%_.each(ctx.countries.list,function(c){ 
+            
+            sel = ctx.countries.selection.indexOf(c) != -1 ? "selected" : "";
+            %>
+            <li class="country_draggable" >
+                <a href="#"  code="<%= c %>"  <%= sel %> title="<%= app.countryToString(c) %>">
+                    <img src="/img/flags/<%= c%>.svg"/>
+                </a>
+            </li>
+        <% }); %>
+    </ul>
+</div>
 
 <a id="ctrl_countries" href="#"></a>
 

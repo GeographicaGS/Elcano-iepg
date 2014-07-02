@@ -19,15 +19,20 @@
  _.each(collection,function(d){ %>
     <div class="row mt12">
         <div class="col-md-2 stamp ">
-            <span class="date"><%= app.dateTimeFormat(d.time) %><br/><lang>Por</lang></span>
+            <span class="date"><%= app.dateTimeFormat(d.time) %><br/> <lang>Por</lang></span>
             <div class="authors">
                 <% 
                 i = 0;
                 
                 _.each(d.authors,function(a){
                     i++;
-                    if (i>1){
-                        print(", ");
+
+                    if (i == 2){
+                        print(" + ");
+                    }else{
+                        if (i>2){
+                            print(", ");
+                        }
                     }
                 %>
                     <a href="/<lang>lang</lang>/<lang>_link docs</lang>/null/<%= a.twitter_user ? a.twitter_user : a.name %>" > 

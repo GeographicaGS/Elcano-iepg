@@ -4,7 +4,7 @@
     <meta charset="utf-8">  
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <!--  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <meta name="viewport" content="width=768">
+    <meta id="appViewport" name="viewport" content="width=device-width">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="/img/favicon.png">
@@ -21,12 +21,40 @@
     <![endif]-->
   </head>
 <body>
-    <header>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-52414901-2', 'auto');
 
+        // Script for localhost test
+        //ga('create', 'UA-52414901-2', {'cookieDomain': 'none'});
+    </script>
+    
+    <header>
         <a id="top_logo" href="#" title="Real Instituto Elcano Royal institute">
             <img src="/img/ELC_simbolo_cab.svg" alt="Real Instituto Elcano Royal institute">
         </a>
-       
+        <nav>
+            <div>
+                <img src="/img/ELC_icon_menu_cab.svg">
+                <ul>
+                    <li><a data-menu="home" href="/<lang>lang</lang>/<lang>home</lang>/<lang>lang</lang>/<lang>_link home</lang>" jslink><lang>Portada</lang></a></li>
+                    <li class="quees">
+                        <a data-menu="about" href="/<lang>lang</lang>/<lang>home</lang>/<lang>lang</lang>/<lang>_link about</lang>" jslink><lang>Qué es</lang></a>
+                        <ul>
+                            <li><a data-menu="about" href="/<lang>lang</lang>/<lang>home</lang>/<lang>lang</lang>/<lang>_link about</lang>" jslink><lang>Definición del proyecto</lang></a></li>
+                            <li><a data-submenu="infr" href="/<lang>lang</lang>/<lang>home</lang>/<lang>lang</lang>/<lang>_link about infr</lang>" jslink><lang>Estructura del IEPG</lang></a></li>
+                            <li><a data-submenu="meth" href="/<lang>lang</lang>/<lang>home</lang>/<lang>lang</lang>/<lang>_link about meth</lang>" jslink><lang>Metodología</lang></a></li>
+                        </ul>
+                    </li>
+                    <li class="explora"><a href="/<lang>lang</lang>/<lang>home</lang>/<lang>lang</lang>/explora" jslink><lang>Explora</lang></a></li>
+                    <li><a data-menu="news" href="/<lang>lang</lang>/<lang>home</lang>/<lang>lang</lang>/<lang>_link news</lang>" jslink><lang>Noticias</lang></a></li>
+                    <li><a data-menu="docs" href="/<lang>lang</lang>/<lang>home</lang>/<lang>lang</lang>/<lang>_link docs</lang>" jslink><lang>Documentos y publicaciones</lang></a></li>
+                </ul>
+            </div>
+        </nav>
         <h2>
             <lang>Índice Elcano de Presencia Global</lang>
         </h2>

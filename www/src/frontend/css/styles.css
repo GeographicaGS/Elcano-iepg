@@ -13,6 +13,9 @@
 @grey3: #dadade;
 @grey4: #d0d0d5;
 @grey5: #f1f1f3;
+@grey_menu: #3e3e41;
+@grey_menu_text: #d6d6d6;
+@grey_menu_sep: #515155;
 @red: #d60006;
 @yellow : #fdc300;
 @blue : #2b85d0;
@@ -87,6 +90,9 @@ a.label{
     font-size: 13px;
     cursor: pointer;
     border-bottom: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 a.label:hover{
@@ -313,6 +319,204 @@ header > nav{
 	height: 45px;
 	background-color: @grey_dark;
 	color:@grey_light;
+}
+
+header#fixed_menu {
+	height: 55px;
+    width: 100%;
+    background-color: @grey_dark;
+    z-index: 5;
+    position: fixed;
+	top: -100px;
+    left: 0;
+    transition: top .3s ease-in-out;
+
+    .goTop {
+        position: fixed;
+        bottom: -54px;
+        right: 10px;
+        opacity: 0;
+        transition: opacity .3s ease, bottom .3s ease;
+    }
+
+	&.visible {
+		top: 0;
+
+        .goTop {
+            opacity: 1;
+            bottom: 10px;
+        }
+	}
+
+    #top_logo{
+        float:left;
+        margin-left: 20px;
+    }
+
+    a {
+    	text-decoration: none;
+    	border-bottom: none;
+    }
+
+    h1{
+        margin-top: 0;
+        padding-top: 16px;
+        text-align: center;
+        border: none;
+        span{
+            background: url("@{imgPath}/ELC_icon_explora_cab.svg") no-repeat left center;    
+            padding-left: 32px;
+            .roboto(light);
+            color:@white;
+            font-size: 21px
+        }
+    }   
+
+    h2{
+        float:right;
+        margin-right: 20px;
+        padding-top: 14px;
+        color: @red;
+    }
+
+    nav {
+        float: left;
+
+        & > div, & > div > a {
+            display: block;
+            width: 54px;
+            height: 55px;
+            float: left;
+            background-color: @grey_menu;
+            cursor: pointer;
+
+            & > img {
+                padding: 15px;
+            }
+
+            & > ul {
+                display: none;
+            }
+
+            &.opened {
+                background-color: @yellow;
+
+                & > ul {
+                    position: relative;
+                    top: -5px;
+                    display: block;
+                    min-width: 215px;
+                    background-color: @grey_dark;
+                    color: @grey_menu_text;
+                    .roboto_cond();
+
+                    li {
+                        position: relative;
+                        border-top: 1px solid @grey_menu_sep;
+
+                        & > a {
+                            display: inline-block;
+                            width: 100%;
+                            height: 48px;
+                            padding: 11px 15px 13px 15px;
+                    		color: @grey_menu_text;
+                        }
+
+                        &:hover, &:hover > a {
+                            background-color: @yellow;
+                            color: @grey_dark;
+                        }
+
+                        &.quees {
+                            
+                            & > ul {
+                                display: none;
+                            }
+
+                            & > a:after {
+                                content: url('/img/ELC_icon_acceder_form.svg');
+                                float: right;
+                            }
+
+                            &.opened {
+                                background-color: @grey_menu;
+                                color: @grey_menu_text;
+
+                                & > ul {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 215px;
+                                    display: block;
+                                    min-width: 215px;
+                                    background-color: @grey_dark;
+                                    color: @grey_menu_text;
+
+                                    li {
+                                        border: solid @grey_menu_sep;
+                                        border-width: 1px 0 0 1px;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.explora {
+                            & > a:before{
+                                content: url('/img/exploraBT_ico.svg');
+                                vertical-align: middle;
+                                margin-right: 8px;
+                            }
+
+                            &:hover {
+                                & > a:before {
+                                    content: url('/img/exploraBT_ico_hover.svg');
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #help_btn {
+        float: right;
+        height: 100%;
+        margin-right: 20px;
+        border-right: 1px solid #515055;
+        padding: 13px 20px;
+
+        & > * {
+            vertical-align: middle;
+        }
+
+        img {
+            display: inline-block;
+            opacity: .5;
+            transition: opacity .3s ease-in;
+            height: 24px;
+        }
+
+        span {
+            display: inline-block;
+            opacity: 0;
+            color: @grey_light;
+            font-size: 12px;
+            margin-right: 6px;
+            transition: opacity .3s ease-in;
+        }
+
+
+        &:hover {
+
+            img {
+                opacity: 1;
+            }
+
+            span {
+                opacity: 1;
+            }
+        }
+    }
 }
 
 

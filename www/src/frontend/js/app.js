@@ -10,7 +10,11 @@ Backbone.View.prototype.close = function(){
 }
 
 $(function() {
-    
+    // If device's screen width is smaller than 768px, force to 768px
+    if(screen.width < 768) {
+        var vp = document.getElementById('appViewport');
+        vp.setAttribute('content','width=768');
+    }
 
     app.resizeMe();
 
@@ -67,6 +71,55 @@ $(function() {
         var $el = $(this).closest("[data-has-submenu]");
         $el.find(" > a").css("color","").css("background-color","");
         $el.find("ul").fadeOut(300);
+    });
+
+    // Fixed menu events
+    $(window).scroll(function(){
+        if(window.pageYOffset > 190){
+            $('header#fixed_menu').addClass('visible');
+        }else{
+            $('header#fixed_menu').removeClass('visible');
+        }
+    });
+
+    $("header#fixed_menu nav > div").click(function(){
+        $(this).toggleClass('opened');
+    });
+
+    $("header#fixed_menu nav > div").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("header#fixed_menu nav > div a").click(function(e){
+        e.preventDefault();
+
+        $("header#fixed_menu nav > div").eq(0).removeClass('opened');
+    });
+
+    $("header#fixed_menu nav > div .quees").click(function(e){
+        e.preventDefault();
+
+        $("header#fixed_menu nav > div").eq(0).toggleClass('opened');
+        $(this).toggleClass('opened'); 
+    });
+
+    $("header#fixed_menu nav > div .quees").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("header#fixed_menu nav > div .quees a").click(function(e){
+        e.preventDefault();
+
+        $("header#fixed_menu nav > div").eq(0).toggleClass('opened');
+    });
+
+    $("header#fixed_menu .goTop").click(function(e){
+        e.preventDefault();
+        app.scrollTop();
     });
 
     app.ini();
@@ -141,6 +194,7 @@ app.events.on("menu", function(id){
    
     app.$menu.children().removeAttr("selected");
     app.$menu.find("[data-menu="+id+"]").closest("li").attr("selected",true);
+    $('header#fixed_menu h1 span').html(app.$menu.find("[data-menu="+id+"]").html());
 });
 
 app.scrollTop = function(){

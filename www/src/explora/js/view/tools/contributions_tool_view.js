@@ -185,7 +185,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 _this._renderSubTool("left");
                 _this.countries.render();
                 _this.contextToURL();
-
+                $(ui.helper).remove();
             }
         });
 
@@ -199,6 +199,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 _this._renderSubTool("right");
                 _this.countries.render();
                 _this.contextToURL();
+                $(ui.helper).remove();
             }
         });
 

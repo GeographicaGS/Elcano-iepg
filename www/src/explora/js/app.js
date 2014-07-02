@@ -21,6 +21,12 @@ Backbone.View.prototype.close = function(){
 
 $(function(){
 
+    // If device's screen width is smaller than 768px, force to 768px
+    if(screen.width < 768) {
+        var vp = document.getElementById('appViewport');
+        vp.setAttribute('content','width=768');
+    }
+
     $("body").on("click","a",function(e){
         
         var attr = $(this).attr("jslink"),
@@ -132,6 +138,36 @@ app.ini = function(){
     $("#help_btn").click(function(e){
         e.preventDefault();
         app.showHelp();
+    });
+
+    // Events for top menu on touch screens
+    $("nav > div").click(function(){
+        $(this).toggleClass('opened');
+    });
+
+    $("nav > div").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("nav > div .quees").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
+        $(this).toggleClass('opened'); 
+    });
+
+    $("nav > div .quees").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("nav > div .quees a").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
     });
 
     Backbone.history.start({pushState: true,root: this.basePath });

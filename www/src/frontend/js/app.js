@@ -86,14 +86,32 @@ $(function() {
         $(this).toggleClass('opened');
     });
 
-    $("header#fixed_menunav > div .quees").click(function(e){
+    $("header#fixed_menu nav > div").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("header#fixed_menu nav > div a").click(function(e){
+        e.preventDefault();
+
+        $("header#fixed_menu nav > div").eq(0).removeClass('opened');
+    });
+
+    $("header#fixed_menu nav > div .quees").click(function(e){
         e.preventDefault();
 
         $("header#fixed_menu nav > div").eq(0).toggleClass('opened');
         $(this).toggleClass('opened'); 
     });
 
-    $("header#fixed_menunav > div .quees a").click(function(e){
+    $("header#fixed_menu nav > div .quees").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("header#fixed_menu nav > div .quees a").click(function(e){
         e.preventDefault();
 
         $("header#fixed_menu nav > div").eq(0).toggleClass('opened');

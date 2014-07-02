@@ -398,7 +398,7 @@ header#fixed_menu {
                 display: none;
             }
 
-            &:hover, &.opened {
+            &.opened {
                 background-color: @yellow;
 
                 & > ul {
@@ -438,7 +438,7 @@ header#fixed_menu {
                                 float: right;
                             }
 
-                            &:hover, &.opened {
+                            &.opened {
                                 background-color: @grey_menu;
                                 color: @grey_menu_text;
 

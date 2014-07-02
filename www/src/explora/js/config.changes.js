@@ -1,5 +1,6 @@
 app.config = {
     "API_URL": "http://localhost/api",
+    "FRONT_URL": "",
     "BASE_PATH" : "",
     "PAGE_SIZE" : 16,
     "SEARCH_TIMER" : 300,

@@ -145,11 +145,23 @@ app.ini = function(){
         $(this).toggleClass('opened');
     });
 
+    $("nav > div").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
     $("nav > div .quees").click(function(e){
         e.preventDefault();
 
         $("nav > div").eq(0).toggleClass('opened');
         $(this).toggleClass('opened'); 
+    });
+
+    $("nav > div .quees").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
     });
 
     $("nav > div .quees a").click(function(e){

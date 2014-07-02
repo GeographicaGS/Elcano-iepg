@@ -29,10 +29,11 @@ app.view.CountrySelector = Backbone.View.extend({
             }
         }
 
-        var self = this;
+        /*var self = this;
         $(window).on('resize', function(){
             self.render();
-        });
+        });*/
+        $(window).bind("resize.c_sel", _.bind(this.render, this));
     },
 
     events : {
@@ -47,7 +48,7 @@ app.view.CountrySelector = Backbone.View.extend({
         // Remove events on close
         this.stopListening();
     
-        $(window).off('resize', this.repositionBoards)
+        $(window).unbind("resize.c_sel");
     },
 
     render: function(){

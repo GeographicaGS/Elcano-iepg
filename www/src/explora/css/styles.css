@@ -28,7 +28,18 @@
 @variable_soft : #ff9000;
 
 
-html, body{ height:100%; min-width: 768px;}
+/* VIEWPORT */
+@-ms-viewport {
+   width: device-width;
+}
+@-o-viewport { 
+   width: device-width;
+}
+@viewport {
+   width: device-width; 
+}
+
+html, body{ height:100%; min-width: 1024px;}
 
 .fillVariable(){
 

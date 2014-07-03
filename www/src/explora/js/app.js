@@ -20,7 +20,6 @@ Backbone.View.prototype.close = function(){
 }
 
 $(function(){
-
     $("body").on("click","a",function(e){
         
         var attr = $(this).attr("jslink"),
@@ -66,13 +65,18 @@ $(function(){
         app.country = "ES";
         app.ini();  
     }
-    
-
-      
-   
+ 
 });
 
 app.resize = function(){
+    // If device's screen width is smaller than 768px, force to 768px
+    var vp = document.getElementById('appViewport');
+    if(screen.width < 768) {
+        vp.setAttribute('content','width=768');
+    }else{
+        vp.setAttribute('content','width=device-width, initial-scale=1');
+    }
+    
     var h = $(window).height()-this.$header.outerHeight(true) - this.$footer.outerHeight(true);
     this.$main.height(h);
 
@@ -82,6 +86,10 @@ app.resize = function(){
             - toolDataMarginAndPadding);
 
     this.map.resize();
+
+    if(app.baseView.currentTool && app.baseView.currentTool.countries){
+        app.baseView.currentTool.countries.render();
+    }
 }
 
 app.ini = function(){
@@ -98,10 +106,14 @@ app.ini = function(){
     this.$tool_data = $("#tool_data");
     this.$tool = $("#tool");
 
-
     // create the context
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
+    
+    if (app.config.CLEAR_CONTEXT_NOMATCHING_VERSION 
+        && this.context.data.version != this.version){
+        this.context.reset();
+    }
 
     this.filters =  localStorage.getItem("filters");
     if (!this.filters){
@@ -120,14 +132,48 @@ app.ini = function(){
 
     this.resize();
 
-
- 
-
     $(window).resize(function(){
         app.resize();
     });
 
-    
+    // Check and show help
+    if (!(localStorage['dontShowHelp'] === 'true')) {
+        app.showHelp();
+    }
+    $("#help_btn").click(function(e){
+        e.preventDefault();
+        app.showHelp();
+    });
+
+    // Events for top menu on touch screens
+    $("nav > div").click(function(){
+        $(this).toggleClass('opened');
+    });
+
+    $("nav > div").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("nav > div .quees").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
+        $(this).toggleClass('opened'); 
+    });
+
+    $("nav > div .quees").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("nav > div .quees a").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).removeClass('opened');
+    });
 
     Backbone.history.start({pushState: true,root: this.basePath });
 };
@@ -279,6 +325,7 @@ app.fancyboxOpts = function(){
         width : "90%",
         maxWidth : 960,
         closeBtn : false,
+        modal : true,
         helpers : {
             overlay : {
                 css : {
@@ -299,6 +346,7 @@ app.fancyboxOptsHelper = function(){
         width : "90%",
         maxWidth : 960,
         closeBtn : false,
+        modal : true,
         helpers : {
             overlay : {
                 css : {
@@ -419,5 +467,103 @@ app.formatNumber = function (n,decimals){
     }
 }
 
+app.showHelp = function() {
+    // Create and insert element
+    if($('#help-bck').length == 0){
 
+        loadHelpPage = function(idx, elem){
+            // Remove old elements
+            $('.elemHighlighted').removeClass('elemHighlighted');
+            $('canvas').remove();
 
+            $('#help-bck .content').html($($('#help_template').html())[idx]);
+            if(elem){
+                var $elem = $('#'+elem);
+                $elem.addClass('elemHighlighted');
+                var $content = $('#help-bck > .content > div');
+                
+                var canvas = document.createElement('canvas');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                var elemPos = $elem.offset();
+                var titlePos = $content.offset();
+                var ctx = canvas.getContext("2d");
+                ctx.setLineDash([12]);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#fdc300';
+                if(titlePos.top > elemPos.top){
+                    ctx.moveTo(canvas.width / 2 ,titlePos.top - 15);
+                    ctx.lineTo(elemPos.left,elemPos.top + $elem.height() - 15);
+                }else{
+                    ctx.moveTo(canvas.width / 2 ,titlePos.top + $content.height() + 15);
+                    ctx.lineTo($elem.width() / 2 ,elemPos.top);
+                }
+                ctx.stroke();
+                $('#help-bck').prepend(canvas);
+            }
+
+            if( localStorage['dontShowHelp'] === 'true' ){
+                $container.find('.help-checkbox').addClass('checked');
+            }
+        }
+
+        var $background = $('<div id="help-bck"><div class="content"></div></div>');
+        var $container = $background.children().eq(0);
+        $('body').prepend($background);
+
+        // Load first page
+        var $content = $($('#help_template').html());
+        loadHelpPage(0);
+        if( localStorage['dontShowHelp'] === 'true' ){
+            $container.find('.help-checkbox').addClass('checked');
+        }
+
+        // Bind events
+        $background.on('click', '.help-btn_continue', function(e){
+            e.preventDefault();
+
+            var $this = $(this);
+            var next_idx = $this.attr('next-idx');
+            var elem = $this.attr('elem');
+            
+            loadHelpPage(next_idx, elem);
+        });
+
+        $background.on('click', '.help-btn_goback', function(e){
+            e.preventDefault();
+
+            var $this = $(this);
+            var prev_idx = $this.attr('prev-idx');
+            var elem = $this.attr('elem');
+            
+            loadHelpPage(prev_idx, elem);
+        });
+
+        $background.on('click', '.help-checkbox', function(e){
+            e.preventDefault();
+
+            var $this = $(this);
+            if ($this.hasClass('checked')){
+                $this.removeClass('checked');
+                localStorage['dontShowHelp'] = false;
+            }else{
+                $this.addClass('checked');
+                localStorage['dontShowHelp'] = true;
+            }
+        });
+
+        $background.on('click','.help-btn_close', function(e){
+            e.preventDefault();
+            
+            // Remove old elements
+            $('.elemHighlighted').removeClass('elemHighlighted');
+            $('canvas').remove();
+            // Unbind events
+            $('.help-btn_next').off('click');
+            $('.help-checkbox').off('click');
+            $('.help-btn_close').off('click');
+
+            $background.remove();
+        });
+    }
+}

@@ -108,18 +108,18 @@ deps.Frontend.JS = {
 			// ------  Models ------
 			// --------------------
 			"frontend/js/model/docs/document_model.js",
-			"frontend/js/model/home/countries_model.js",
-
 			
 			// --------------------
 			// --- Collections  ---
 			// --------------------
 			"frontend/js/collection/home/latest_news_collection.js",
 			"frontend/js/collection/home/slider_collection.js",
+			"frontend/js/collection/home/countries_collection.js",
 			"frontend/js/collection/docs/docs_collection.js",
 			"frontend/js/collection/docs/label_collection.js",
 			"frontend/js/collection/news/news_collection.js",
 			"frontend/js/collection/countries_plain_collection.js",
+
 			
 			// --------------------
 			// ------  Views ------
@@ -143,6 +143,12 @@ deps.Frontend.JS = {
 			"frontend/js/view/about/about_view.js",
 			"frontend/js/view/about/methodology_view.js",
 			"frontend/js/view/about/structure_view.js",
+			
+			"frontend/js/view/download/download_view.js",
+			"frontend/js/view/download/year_view.js",
+			"frontend/js/view/download/thematic_block_view.js",
+			"frontend/js/view/download/country_view.js",
+			"frontend/js/view/tools/utils.js",
 
 			// router
 			"frontend/js/router.js",
@@ -176,7 +182,8 @@ deps.Explora.JS = {
 	ThirdParty:{
 		src: [
 			"explora/js/lib/jquery-2.0.3.min.js",
-			"explora/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",
+			//"explora/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",
+			"explora/js/lib/jquery-ui/jquery-ui.min.js",
 			"explora/js/lib/underscore-min.js",
 			"explora/js/lib/backbone-min.js",
 			"explora/js/lib/d3.v3.min.js",

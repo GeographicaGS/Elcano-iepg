@@ -10,7 +10,11 @@ Backbone.View.prototype.close = function(){
 }
 
 $(function() {
-    
+    // If device's screen width is smaller than 768px, force to 768px
+    if(screen.width < 768) {
+        var vp = document.getElementById('appViewport');
+        vp.setAttribute('content','width=768');
+    }
 
     app.resizeMe();
 
@@ -69,6 +73,55 @@ $(function() {
         $el.find("ul").fadeOut(300);
     });
 
+    // Fixed menu events
+    $(window).scroll(function(){
+        if(window.pageYOffset > 190){
+            $('header#fixed_menu').addClass('visible');
+        }else{
+            $('header#fixed_menu').removeClass('visible');
+        }
+    });
+
+    $("header#fixed_menu nav > div").click(function(){
+        $(this).toggleClass('opened');
+    });
+
+    $("header#fixed_menu nav > div").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("header#fixed_menu nav > div a").click(function(e){
+        e.preventDefault();
+
+        $("header#fixed_menu nav > div").eq(0).removeClass('opened');
+    });
+
+    $("header#fixed_menu nav > div .quees").click(function(e){
+        e.preventDefault();
+
+        $("header#fixed_menu nav > div").eq(0).toggleClass('opened');
+        $(this).toggleClass('opened'); 
+    });
+
+    $("header#fixed_menu nav > div .quees").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("header#fixed_menu nav > div .quees a").click(function(e){
+        e.preventDefault();
+
+        $("header#fixed_menu nav > div").eq(0).removeClass('opened');
+    });
+
+    $("header#fixed_menu .goTop").click(function(e){
+        e.preventDefault();
+        app.scrollTop();
+    });
+
     app.ini();
 
     $(window).resize(function(){
@@ -80,6 +133,14 @@ $(function() {
 });
 
 app.resizeMe = function(){
+    // If device's screen width is smaller than 768px, force to 768px
+    var vp = document.getElementById('appViewport');
+    if(screen.width < 768) {
+        vp.setAttribute('content','width=768');
+    }else{
+        vp.setAttribute('content','width=device-width, initial-scale=1');
+    }
+    
     $("main").css("min-height",$(window).height() - $("footer").height() - $("header").height() + 300 )  ;
 };
 
@@ -141,6 +202,7 @@ app.events.on("menu", function(id){
    
     app.$menu.children().removeAttr("selected");
     app.$menu.find("[data-menu="+id+"]").closest("li").attr("selected",true);
+    $('header#fixed_menu h1 span').html(app.$menu.find("[data-menu="+id+"]").html());
 });
 
 app.scrollTop = function(){
@@ -223,6 +285,10 @@ app.isSMDevice = function(){
     return ($(window).width()<992);
 }
 
+app.isXSMDevice = function(){
+    return ($(window).width()<1025);
+}
+
 app.isSupportedBrowser = function(){
     var browser= app.getBrowser();
 
@@ -246,4 +312,64 @@ app.getBrowser = function(){
     M= M[2]? [M[1], M[2]]:[navigator.appName, navigator.appVersion, '-?'];
     if((tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
     return M;
+};
+
+
+
+app.variableToString = function(variable){
+    switch(variable){
+        case "IEPG":
+        case "iepg":
+            return "<lang>Índice Elcano de Presencia Global</lang>";
+        case "iepe":
+            return "<lang>Índice Elcano de Presencia Europea</lang>";
+        case "economic_presence":
+            return "<lang>Presencia económica</lang>";
+        case "soft_presence":
+            return "<lang>Presencia blanda</lang>";
+        case "military_presence":
+            return "<lang>Presencia militar</lang>";
+
+        // Military presence
+        case "troops":
+            return "<lang>Tropas</lang>";
+        case "military_equipment":
+            return "<lang>Equipamiento militar</lang>";
+
+        // Economic presence
+        case "energy":
+            return "<lang>Energía</lang>";
+        case "primary_goods":
+            return "<lang>Bienes primarios</lang>";
+        case "manufactures":
+            return "<lang>Manufacturas</lang>";
+        case "services":
+            return "<lang>Servicios</lang>";
+        case "investments":
+            return "<lang>Inversiones</lang>";
+
+        // Soft presences
+        case "migrations":
+            return "<lang>Migraciones</lang>";
+        case "tourism":
+            return "<lang>Turismo</lang>";
+        case "sports":
+            return "<lang>Deportes</lang>";
+        case "culture":
+            return "<lang>Cultura</lang>";
+        case "information":
+            return "<lang>Información</lang>";
+        case "technology":
+            return "<lang>Tecnología</lang>";
+        case "science":
+            return "<lang>Ciencia</lang>";
+        case "education":
+            return "<lang>Educación</lang>";
+        case "cooperation":
+            return "<lang>Cooperación</lang>";
+
+        // TODO complete this mapping 
+        default:
+            return "No definida"
+    }
 };

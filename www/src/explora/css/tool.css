@@ -32,8 +32,6 @@
             float:right;
         }
 
-
-
         #tool_name,#tool_title,#tool_year{
             float:left;
         }
@@ -96,7 +94,6 @@
         #tool_title{
             color:@color_text;    
         }
-
     }
 
     .header[data-variable='iepg']{

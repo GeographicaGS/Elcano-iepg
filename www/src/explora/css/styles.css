@@ -1493,12 +1493,12 @@ div.tooltip.comp{
     .co_progress{
         height: 38px;
         background-color: #eee;
-        padding: 10px;
+        padding: 10px 10px 20px 10px;
 
         .progress{
             display: block;
             height:6px;
-            margin: 0 0 10px 0px;
+            margin: 0 0 7px 0px;
             padding: 0;
             border: none;
         
@@ -1519,7 +1519,7 @@ div.tooltip.comp{
         padding-top: 5px;
 
         span{
-            font-size: 11px;
+            font-size: 13px;
             text-transform: uppercase;
             color:@grey_light;
         }
@@ -1529,10 +1529,17 @@ div.tooltip.comp{
             padding: 0px 5px;
             line-height: 20px;
             color:@white;
-            font-size:13px;
+        }
+        span.vname{
+            font-size: 11px;
+        }
+        span.vvalue{
+            font-size: f;
         }
         span.white{
             color:@white;
+            text-transform: none;
+
         }
 
         &:last-child{
@@ -1543,6 +1550,7 @@ div.tooltip.comp{
 
     }
 }
+
 .co_all_countries{
     input,span{
         display: inline-block;

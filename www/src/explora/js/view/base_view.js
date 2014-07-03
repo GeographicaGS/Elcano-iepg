@@ -49,7 +49,9 @@ app.view.Base = Backbone.View.extend({
         var html = "";
         for (var i=0;i<this.tools.length;i++){
             var sel = this.currentTool == this.tools[i] ? "selected" : "";
-            html += "<li " + sel + "><a href='" + app.getJSURL("tool/" + this.tools[i].type) + "' jslink>" + (i+1) + "</a></li>";
+            html += "<li " + sel + " tool='" + this.tools[i].type+ "' title='"+app.toolTypeToString(this.tools[i].type) +"'>" + 
+                        "<a href='" + app.getJSURL("tool/" + this.tools[i].type) + "' jslink ></a>" + 
+                    "</li>";
         }
 
         this.$panelTools.html(html);

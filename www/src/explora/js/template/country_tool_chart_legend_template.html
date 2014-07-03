@@ -2,7 +2,7 @@
 	<tr>
 		<th><div style="background-color:<%= data.color%>"></div><span><%= app.variableToString(data.name,family) %></span></th>
 		<th><%= app.formatNumber(data.size) %></th>
-		<th><%= data.perc ? app.formatNumber(app.data.perc) : "--" %> %</th>
+		<th><%= data.perc ? app.formatNumber(data.perc) + " %": "--" %> </th>
 	</tr>
 	<% _.each(data.children, function(d){ %>
 		<tr>

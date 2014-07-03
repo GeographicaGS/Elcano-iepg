@@ -325,6 +325,7 @@ app.fancyboxOpts = function(){
         width : "90%",
         maxWidth : 960,
         closeBtn : false,
+        modal : true,
         helpers : {
             overlay : {
                 css : {
@@ -345,6 +346,7 @@ app.fancyboxOptsHelper = function(){
         width : "90%",
         maxWidth : 960,
         closeBtn : false,
+        modal : true,
         helpers : {
             overlay : {
                 css : {
@@ -430,7 +432,7 @@ app.countryCodeToStr = function(country){
             return s;
         }
     }
-}
+};
 
 app.getLoadingHTML = function(){
     return "<div class='co_loading'>" + 
@@ -441,7 +443,7 @@ app.getLoadingHTML = function(){
                    
                 "</div>" +
             "</div>";
-}
+};
 
 app.formatNumber = function (n,decimals){
 
@@ -463,7 +465,24 @@ app.formatNumber = function (n,decimals){
             return parseInt(n).toLocaleString();
         }    
     }
-}
+};
+
+app.toolTypeToString = function(type){
+    switch(type)
+    {
+        case "country":
+            return "<lang>Ficha país</lang>";
+        case "ranking":
+            return "Ranking";
+        case "contributions":
+            return "<lang>Contribuciones de presencia</lang>";
+        case "quotes":
+            return "<lang>Cuotas de presencia</lang>";
+        case "comparison":
+            return "<lang>Presencia global frente a presencia europea</lang>";
+
+    }
+};
 
 app.showHelp = function() {
     // Create and insert element

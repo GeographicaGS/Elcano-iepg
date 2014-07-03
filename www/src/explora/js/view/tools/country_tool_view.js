@@ -37,6 +37,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             // The context has changed will be store by a call to contextToURL. 
             if (!app.context.data.countries.selection.length){
                 // Let's force a re-render because we need to adapt the context.
+                this.forceFetchDataOnNextRender();
                 this.render(); // Implicit call to contextToURL
             }
             else{

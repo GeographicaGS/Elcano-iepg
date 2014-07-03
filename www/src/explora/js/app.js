@@ -325,6 +325,7 @@ app.fancyboxOpts = function(){
         width : "90%",
         maxWidth : 960,
         closeBtn : false,
+        modal : true,
         helpers : {
             overlay : {
                 css : {
@@ -345,6 +346,7 @@ app.fancyboxOptsHelper = function(){
         width : "90%",
         maxWidth : 960,
         closeBtn : false,
+        modal : true,
         helpers : {
             overlay : {
                 css : {

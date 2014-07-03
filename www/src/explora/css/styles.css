@@ -28,7 +28,7 @@
 @variable_soft : #ff9000;
 
 
-html, body{ height:100%; min-width: 768px;}
+html, body{ height:100%; min-width: 1024px;}
 
 .fillVariable(){
 

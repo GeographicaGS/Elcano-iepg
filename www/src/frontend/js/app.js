@@ -82,8 +82,8 @@ $(function() {
         }
     });
 
-    $("header#fixed_menu nav > div").click(function(){
-        $(this).toggleClass('opened');
+    $("header#fixed_menu nav > div > img").click(function(){
+        $(this).parent().toggleClass('opened');
     });
 
     $("header#fixed_menu nav > div").mouseenter(function(){
@@ -140,7 +140,7 @@ app.resizeMe = function(){
     }else{
         vp.setAttribute('content','width=device-width, initial-scale=1');
     }
-    
+
     $("main").css("min-height",$(window).height() - $("footer").height() - $("header").height() + 300 )  ;
 };
 

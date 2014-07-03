@@ -9,7 +9,7 @@
                 </div>
                 <ul id="labels">
                     <% _.each(model.labels,function(l){ %>
-                        <li class="mb"><a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%=l.id_label %>"> <%= l.label %></a></li>
+                        <li class="mb"><a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%=l.id_label %>" title="<%= l.label %>"> <%= l.label %></a></li>
                     <% }); %>
                 </ul>
             </div>

@@ -1,3 +1,28 @@
+app.view.tools.utils.variablesColors = {
+    "iepg" :"#fdc300",
+    "iepe" : "#039",
+    "economic_global" : "#2b85d0",
+    "energy": "#4191d5",
+    "primary_goods" : "#559dd9",
+    "manufactures" : "#6baade",
+    "name" : "#80b6e3",
+    "investments": "#95c2e7",
+    "military_global" : "#669900",
+    "troops" : "#76a318",
+    "military_equipment":"#85ad33",
+    "soft_global": "#ff9000",
+    "migrations" : "#ff960d",
+    "tourism" : "#ff9b1a",
+    "sports" : "#ffa126",
+    "culture" : "#ffa633",
+    "information" : "#ffac40",
+    "technology" : "#ffb24d",
+    "science" : "#ffb759",
+    "education" : "#ffbc66",
+    "cooperation" : "#ffc273"
+};
+
+
 app.view.tools.utils.variablesTree = function(variables,family){
 	this.data = {
         "name" : "global",

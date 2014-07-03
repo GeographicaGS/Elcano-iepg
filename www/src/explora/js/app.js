@@ -175,6 +175,10 @@ app.ini = function(){
         $("nav > div").eq(0).removeClass('opened');
     });
 
+    $("#menu_btn li.explora a").click(function(e){
+        e.preventDefault();
+    });
+
     Backbone.history.start({pushState: true,root: this.basePath });
 };
 

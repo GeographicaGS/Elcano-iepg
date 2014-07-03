@@ -76,7 +76,7 @@ app.resize = function(){
     }else{
         vp.setAttribute('content','width=device-width, initial-scale=1');
     }
-    
+
     var h = $(window).height()-this.$header.outerHeight(true) - this.$footer.outerHeight(true);
     this.$main.height(h);
 
@@ -146,8 +146,8 @@ app.ini = function(){
     });
 
     // Events for top menu on touch screens
-    $("nav > div").click(function(){
-        $(this).toggleClass('opened');
+    $("nav > div > img").click(function(){
+        $(this).parent().toggleClass('opened');
     });
 
     $("nav > div").mouseenter(function(){
@@ -490,8 +490,13 @@ app.showHelp = function() {
                 ctx.lineWidth = 2;
                 ctx.strokeStyle = '#fdc300';
                 if(titlePos.top > elemPos.top){
-                    ctx.moveTo(canvas.width / 2 ,titlePos.top - 15);
-                    ctx.lineTo(elemPos.left,elemPos.top + $elem.height() - 15);
+                    if($elem.width() < canvas.width / 2 - 150){
+                        ctx.moveTo(canvas.width / 2 ,titlePos.top - 15);
+                        ctx.lineTo(elemPos.left,elemPos.top + $elem.height() - 15);
+                    }else{
+                        ctx.moveTo(canvas.width / 2 ,titlePos.top - 15);
+                        ctx.lineTo(elemPos.left + $elem.width() / 2 ,elemPos.top + $elem.height() - 15);
+                    }
                 }else{
                     ctx.moveTo(canvas.width / 2 ,titlePos.top + $content.height() + 15);
                     ctx.lineTo($elem.width() / 2 ,elemPos.top);

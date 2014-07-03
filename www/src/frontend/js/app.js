@@ -133,6 +133,14 @@ $(function() {
 });
 
 app.resizeMe = function(){
+    // If device's screen width is smaller than 768px, force to 768px
+    var vp = document.getElementById('appViewport');
+    if(screen.width < 768) {
+        vp.setAttribute('content','width=768');
+    }else{
+        vp.setAttribute('content','width=device-width, initial-scale=1');
+    }
+    
     $("main").css("min-height",$(window).height() - $("footer").height() - $("header").height() + 300 )  ;
 };
 

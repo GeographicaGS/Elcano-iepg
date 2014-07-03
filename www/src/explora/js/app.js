@@ -20,13 +20,6 @@ Backbone.View.prototype.close = function(){
 }
 
 $(function(){
-
-    // If device's screen width is smaller than 768px, force to 768px
-    if(screen.width < 1024) {
-        var vp = document.getElementById('appViewport');
-        vp.setAttribute('content','width=1024, initial-scale=0.1');
-    }
-
     $("body").on("click","a",function(e){
         
         var attr = $(this).attr("jslink"),
@@ -76,6 +69,14 @@ $(function(){
 });
 
 app.resize = function(){
+    // If device's screen width is smaller than 768px, force to 768px
+    var vp = document.getElementById('appViewport');
+    if(screen.width < 768) {
+        vp.setAttribute('content','width=768');
+    }else{
+        vp.setAttribute('content','width=device-width, initial-scale=1');
+    }
+    
     var h = $(window).height()-this.$header.outerHeight(true) - this.$footer.outerHeight(true);
     this.$main.height(h);
 

@@ -42,7 +42,7 @@
    zoom: 2;
 }
 
-html, body{ height:100%; min-width: 1024px;}
+html, body{ height:100%; /*min-width: 1024px;*/}
 
 .fillVariable(){
 

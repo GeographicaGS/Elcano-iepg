@@ -330,6 +330,8 @@ input[placeholder]{
     .trans_opacity();
 }
 
+
+
 .button{
     display: inline-block;
     height: 45px;
@@ -612,25 +614,31 @@ main{
     }
 
     #ctrl_tool{
-        background: url("@{imgPath}ELC_bot_desplegar_herramientas.svg") no-repeat center center;
+        background: @grey_light url("@{imgPath}ELC_bot_desplegar_herramientas.svg") no-repeat center center;
         width: 54px;
         height: 90px;
-        /*border-top: 1px solid @grey_dark;
-        border-right: 1px solid @grey_dark;
-        border-bottom: 1px solid @grey_dark;*/
+
+        &:hover{
+            background-color: @grey_dark !important;
+            .transition(0.7s);
+        } 
     }
 
     #ctrl_tool.open{
-        background: url("@{imgPath}ELC_bot_plegar_herramientas.svg") no-repeat center center;
+        background: @grey_light url("@{imgPath}ELC_bot_plegar_herramientas.svg") no-repeat center center;
     }
 
     #control_panel{
         margin-top: 18px;
         #add_tool{
             a{
-                background: url("@{imgPath}ELC_icon_abrir_herramientas.svg") no-repeat center center;
+                background: @grey_light url("@{imgPath}ELC_icon_abrir_herramientas.svg") no-repeat center center;
                 width:54px;
-                height: 54px;        
+                height: 54px; 
+                &:hover{
+                    background-color: @grey_dark;
+                    .transition(0.7s);
+                } 
             }
             span{
                  display: block;
@@ -644,12 +652,20 @@ main{
         ul{
             li{
                 a{ 
-                    height: 24px;
+                    height: 34px;
                     text-align: center;
-                    background: @grey_dark url("@{imgPath}ELC_icon_h_ranking.svg") no-repeat center center;
+                    background: @grey_light url("@{imgPath}ELC_icon_h_ranking.svg") no-repeat center center;
                     border-right:1px solid transparent;
                     border-top:1px solid transparent;
-                    border-bottom:1px solid grey_light;
+                    border-bottom:1px solid transparent;
+
+                    height: 34px;
+                    margin-bottom: 2px;
+
+                    &:hover{
+                        background-color: @grey_dark;
+                        .transition(0.7s);
+                    } 
                 }
 
                 &[tool='country']{
@@ -682,9 +698,13 @@ main{
             li[selected] {
                 a {
                     background-color: @white;
-                    border-right:1px solid @grey_dark;
-                    border-top:1px solid @grey_dark;
-                    border-bottom:1px solid @grey_dark;
+                    border-right:1px solid @grey_light;
+                    border-top:1px solid @grey_light;
+                    border-bottom:1px solid @grey_light;
+
+                    &:hover{
+                        background-color: transparent;
+                    } 
                 }
                 &[tool='country']{
                     a{
@@ -1407,6 +1427,7 @@ body > li.ui-draggable {
     #co_sel_countries{
 
     }
+    
 }
 
 div.tooltip {   

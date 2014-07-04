@@ -80,7 +80,7 @@ def countrySheet(lang, family, countryCode):
         for year in const.years:
             yearData = dict()
             famData = datacache.dataSets[family].getData(code=countryCode, year=year)
-            famPercentage = datacache.dataSets[family+"_individual_contribution"].\
+            famPercentage = datacache.dataSets[family+"_relative_contribution"].\
                             getData(code=countryCode, year=year)
             conData = datacache.dataSets["context"].getData(code=countryCode, year=year)
             famDict = dict()

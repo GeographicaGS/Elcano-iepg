@@ -1,7 +1,7 @@
 # coding=UTF8
 
 import common.blockfunctions
-#reload(common.blockfunctions)
+reload(common.blockfunctions)
 import common.helpers as h
 reload(h)
 import varengine.varengine as e
@@ -20,7 +20,10 @@ import common.config as config
 #reload(config)
 from collections import OrderedDict
 
-#import common.datacache as dc
-#reload(dc)
+import common.datacache as dc
+reload(dc)
 
 
+var = dc.dataSets["iepg_relative_contribution"].variables["soft_global"]
+var.addValue("XBSA", 2013, "blockfunc::common.blockfunctions.blockFunctionRelativeContributions", None)
+print var.getData(code="XBSA", year=2013)

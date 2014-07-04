@@ -380,6 +380,23 @@ class Variable(object):
             "value": value
         }
 
+    def delValue(self, code=None, year=None):
+        """Deletes a value."""
+        if code and year:
+            return(self.data.pop(str(code)+"@"+str(year)))
+        if code:
+            keys = []
+            for a in [i for i in self.data.keys() if i.split("@")[0]==code]:
+                self.data.pop(a)
+                keys.append(a)
+            return(keys)
+        if year:
+            keys = []
+            for a in [i for i in self.data.keys() if i.split("@")[1]==str(year)]:
+                self.data.pop(a)
+                keys.append(a)
+            return(keys)
+
     def getVariableYears(self):
         """Returns years in the variable. TODO: Restricted to years."""
         return(list(set([v["year"] for (k,v) in self.data.iteritems()])))
@@ -410,9 +427,10 @@ class Variable(object):
                     return({str(code)+"@"+str(year): {"code": code, "type": self.defaultDataType,
                                                       "value": None, "year": year}})
             if year:
+                print year
                 try:
                     return({k: self.__processData(v) for (k,v) in self.data.iteritems() 
-                            if str(year)==k.split("@")[0]})
+                            if str(year)==k.split("@")[1]})
                 except:
                     return({str(code)+"@"+str(year): {"code": code, "type": self.defaultDataType,
                                                       "value": None, "year": year}})

@@ -497,7 +497,11 @@ variableNames = {
         "soft_global": {
             "column": "soft_quota",
             "name_en": "Soft Quota",
-            "name_es": "Cuota blanda"}
+            "name_es": "Cuota blanda"},
+        "military_global": {
+            "column": "military_quota",
+            "name_en": "Military Quota",
+            "name_es": "Cuota militar"}
     },
     "iepg_relative_contribution": {
         "energy": {

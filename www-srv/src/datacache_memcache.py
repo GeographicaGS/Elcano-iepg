@@ -31,6 +31,37 @@ def createCache():
         "iepg_relative_contribution": "iepg_relative_contribution"
     }
 
+    years = {
+        "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
+        "iepe": [2005, 2010, 2011, 2012, 2013],
+        "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
+        "iepe_individual_contribution": [2005, 2010, 2011, 2012, 2013],
+        "iepe_quota": [2005, 2010, 2011, 2012, 2013],
+        "iepe_relative_contribution": [2005, 2010, 2011, 2012, 2013],
+        "iepg_individual_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
+        "iepg_quota": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
+        "iepg_relative_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]
+    }
+
+    blockFunctions = {
+        "iepg": {
+            "blocks": ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"],
+            "function": "blockfunc::common.blockfunctions.blockFunctionLumpSum"
+        },
+        "context": {
+            "blocks": ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"],
+            "function": "blockfunc::common.blockfunctions.blockFunctionLumpSum"
+        },
+        "iepg_quota": {
+            "blocks": ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"],
+            "function": "blockfunc::common.blockfunctions.blockFunctionLumpSum"
+        },
+        "iepg_relative_contribution": {
+            "blocks": ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"],
+            "function": "blockfunc::common.blockfunctions.blockFunctionRelativeContributions"
+        }
+    }
+
     for fam in const.variableNames.keys():
         dataSets[fam] = varengine.DataSet(fam)
         mapping = dict()
@@ -39,9 +70,10 @@ def createCache():
         for k,var in const.variableNames[fam].iteritems():
             v = varengine.Variable(k, True, "float", dataSet=dataSets[fam])
             v.loadFromDataInterface(dataInterface, var["column"]) 
-            for y in [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]:
-                for b in ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"]:
-                    v.addValue(b, y, "blockfunc::common.blockfunctions.blockFunctionLumpSum", None)
+            if fam in blockFunctions:
+                for y in years[fam]:
+                    for b in blockFunctions[fam]["blocks"]:
+                        v.addValue(b, y, blockFunctions[fam]["function"], None)
             v.processData()
 
         mc.set(fam, dataSets[fam], 0)

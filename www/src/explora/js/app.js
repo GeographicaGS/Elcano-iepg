@@ -80,7 +80,7 @@ app.resize = function(){
     var h = $(window).height()-this.$header.outerHeight(true) - this.$footer.outerHeight(true);
     this.$main.height(h);
 
-    var toolDataMarginAndPadding = this.$tool_data.outerHeight(true) - this.$tool_data.height();
+    var toolDataMarginAndPadding = this.$tool_data.outerHeight(true) - this.$tool_data.height() + 20;
 
     this.$tool_data.height($(window).height() - this.$footer.outerHeight(true) - this.$tool_data.offset().top 
             - toolDataMarginAndPadding);
@@ -173,6 +173,10 @@ app.ini = function(){
         e.preventDefault();
 
         $("nav > div").eq(0).removeClass('opened');
+    });
+
+    $("#menu_btn li.explora a").click(function(e){
+        e.preventDefault();
     });
 
     Backbone.history.start({pushState: true,root: this.basePath });

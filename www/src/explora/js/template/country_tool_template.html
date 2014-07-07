@@ -55,7 +55,7 @@
                                 </span>
                                 <% if (app.getFilters().length 
                                     && variable.relativeranking 
-                                    && variable.relativeranking!=variable.relativeranking ){ %>
+                                    && variable.relativeranking!=variable.globalranking ){ %>
                                     <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", variable.relativeranking) %></span>
                                 <% }%>
                             <% } else { %>
@@ -88,7 +88,7 @@
                                 </span>
                                 <% if (app.getFilters().length 
                                     && gdp.relativeranking
-                                    && gdp.relativeranking!=gdp.relativeranking) { %>
+                                    && gdp.relativeranking!=gdp.globalranking) { %>
                                     <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", gdp.relativeranking) %></span>
                                 <% }%>
                             <% } else { %>

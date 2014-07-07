@@ -621,7 +621,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             var branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
                 max = _.max([bvariable.value,variable.value]),
                 progress = 100 * variable.value / max,
-                bprogress = 100 * bvariable.value / max
+                bprogress = 100 * bvariable.value / max,
+                colorVariable = this._d3.left.tree.findElementInTree(variable.variable).color;
 
             return "<div>"
                     +      "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
@@ -634,19 +635,19 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     +       "<div class='clear'></div>"
                     +   "</div>"
                    
-                    + "<div class='co_progress'>"
-                    +       "<div class='progress'><div  style='width:" + progress + "%'></div></div>"
-                    +       "<div class='progress'><div  style='width:" + bprogress  + "%'></div></div>"
+                    + "<div class='co_progress' style='margin-left:-10px;margin-right:-10px'>"
+                    +       "<div class='progress' ><div  style='width:" + progress + "%;background-color:" + colorVariable + ";'></div></div>"
+                    +       "<div class='progress'><div  style='width:" + bprogress + "%;background-color:" + colorVariable + ";'></div></div>"
                     + "</div>"
                     
                  
                     +   "<div class='compare'>" 
-                    +       "<span class='ml'>" + app.variableToString(bvariable.variable,family) + "</span>"
-                    +       "<span class='mr'>" + app.formatNumber(bvariable.value) + "</span>"
+                    +       "<span class='ml vname'>" + app.variableToString(bvariable.variable,family) + "</span>"
+                    +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.value) + "</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>"
                     +   "<div class='compare'>"
-                    +       "<span class='white ml'>" + branking + "º " +app.countryToString(bvariable.code) + "</span>"
+                    +       "<span class='white ml' >" + branking + "º " +app.countryToString(bvariable.code) + "</span>"
                     +       "<span class='year mr'>" + bvariable.year + "</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>";

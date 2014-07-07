@@ -119,7 +119,7 @@ app.router = Backbone.Router.extend({
     },
 
     explora: function(){
-        window.location.href = app.config.EXPLORA_URL;
+        window.location.href = app.config.EXPLORA_URL + "/" + app.lang;
         this.navigate("/");
     },
 

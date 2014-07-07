@@ -329,7 +329,6 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             .tickFormat(d3.format('d'))
             .orient("bottom");
 
-
         var yAxis = d3.svg.axis()
             .scale(y)
             .tickSize(-width,6)
@@ -398,15 +397,15 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
               .attr("d", line);
 
             // Add line labels
-            var textMinMargin = { "left" : 23 , "top" : 11} ,
+            var textMinMargin = { "left" : 23 , "top" : 4} ,
                 textMaxMargin = { "left" : 7 , "top" : 4} ,
                 textMinPos = {
                     left: x(c[0].year) - textMinMargin.left,
-                    top: y(d3.min(c, function(d) { return d.value; }) - textMinMargin.top)
+                    top: y(c[0].value) + textMinMargin.top
                 },
                 textMaxPos = {
                     left: x(c[c.length-1].year) + textMaxMargin.left,
-                    top: y(d3.max(c, function(d) { return d.value; })) + textMaxMargin.top 
+                    top: y(c[c.length-1].value) + textMaxMargin.top 
                 };
 
             var textMin = svg.append("g")

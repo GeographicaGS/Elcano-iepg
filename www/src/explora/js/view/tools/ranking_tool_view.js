@@ -228,8 +228,14 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             yAxisWidth = 100,
             visibleHeight = this.$chart.height(),
             ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
             year = ctxObj.getFirstSliderElement("Point").date.getFullYear(),
-            yearRef = ctxObj.getFirstSliderElement("PointReference").date.getFullYear();
+            yearRef = ctxObj.getFirstSliderElement("PointReference").date.getFullYear(),
+            // get color variable
+            colorVariable = app.view.tools.utils.variablesColors[
+                ctx.variables[0] == "global" ?  ctx.family : ctx.variables[0]
+            ];
+
 
         var x = d3.scale.linear()
             .range([0, width])
@@ -306,6 +312,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
           .attr("class", "bar")
           .attr("x", yAxisWidth)
           .attr("width", function(d) { return x(d.currentValue); })
+          .attr("style","fill:"+colorVariable)
           .attr("y", function(d) { return y(data.indexOf(d) + 1); })
           .attr("height", barHeight)
           .on("mouseover", function(d) {     

@@ -518,11 +518,11 @@
         }
 
         .bar.ref{
-            fill:@grey;
+            fill:@grey ;
         }
 
         .bar:hover {
-          fill: @red;
+          fill: @red !important;
         }
 
         .axis {

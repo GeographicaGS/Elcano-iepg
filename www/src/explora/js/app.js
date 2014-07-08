@@ -455,6 +455,10 @@ app.formatNumber = function (n,decimals){
         decimals = 2;
     }
 
+    if (n===null){
+        return "";
+    }
+
     if (typeof n == "number"){
         return parseFloat(sprintf("%."+ decimals + "f",n)).toLocaleString();
     }

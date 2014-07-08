@@ -1542,12 +1542,7 @@ div.tooltip.comp{
             line-height: 20px;
             color:@white;
         }
-        span.vname{
-            font-size: 11px;
-        }
-        span.vvalue{
-            font-size: f;
-        }
+      
         span.white{
             color:@white;
             text-transform: none;
@@ -1560,6 +1555,21 @@ div.tooltip.comp{
             height:35px;
         }
 
+        span.vname{
+            font-size: 11px;
+        }
+        span.vvalue{
+            font-size: 13px;
+        }
+
+    }
+
+    span.vname{
+        color: #d1d1d6;
+    }
+    
+    span.vvalue{
+        color:@white;
     }
 }
 

@@ -531,14 +531,18 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             ctx = ctxObj.data,
             ranking = variable.globalranking  ? variable.globalranking  : variable.relativeranking
             branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
-            bfamily = family == "iepg" ? "IEPE" : "IEPG",
-                max = _.max([bvariable.value,variable.value]),
-                progress = 100 * variable.value / max,
-                bprogress = 100 * bvariable.value / max,
-                colorVariable = this._d3.iepg.tree.findElementInTree(variable.variable).color;
+            bfamily = family == "iepg" ? "iepe" : "iepg",
+            max = _.max([bvariable.value,variable.value]),
+            progress = 100 * variable.value / max,
+            bprogress = 100 * bvariable.value / max,
+
+            colorVariable = this._d3[family].tree.findElementInTree(variable.variable).color;
+            bcolorVariable = this._d3[bfamily].tree.findElementInTree(bvariable.variable).color;
+
+        console.log(bvariable.variable);
 
         return "<div>"
-                +      "<span>" + ranking + "º " + family.toUpperCase() + "</span>"
+                +      "<span >" + ranking + "º  <lang>Presencia Global</lang></span>"
                 +       "<span>" + variable.year + "</span>"
                 +      "<div class='clear'></div>"
                 +   "</div>"
@@ -550,15 +554,15 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                
                 + "<div class='co_progress' style='margin-left:-10px;margin-right:-10px'>"
                     +       "<div class='progress' ><div  style='width:" + progress + "%;background-color:" + colorVariable + ";'></div></div>"
-                    +       "<div class='progress'><div  style='width:" + bprogress + "%;background-color:" + colorVariable + ";'></div></div>"
+                    +       "<div class='progress'><div  style='width:" + bprogress + "%;background-color:" + bcolorVariable + ";'></div></div>"
                 + "</div>"
                 +   "<div class='compare'>" 
-                +       "<span class='ml vname'>" + app.variableToString(bvariable.variable,family) + "</span>"
+                +       "<span class='ml vname'>" + app.variableToString(bvariable.variable,bfamily) + "</span>"
                 +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.value) + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>"
                 +   "<div class='compare'>"
-                +       "<span class='white ml'>" + branking + "º " + bfamily + "</span>"
+                +       "<span class='white ml'>" + branking + "º <lang>Presencia Europea</lang></span>"
                 +       "<span class='year mr'>" + bvariable.year + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>";

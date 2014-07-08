@@ -59,6 +59,8 @@ app.view.map = function(options){
         // Just for security
         if (!data || !data.length) return;
 
+        this._choroplethColors = app.view.tools.utils.getChoroplethColors(family,variable)
+
         // Remove previous choropleth, needed for redraws
         this.removeChoropleth();
 
@@ -198,6 +200,8 @@ app.view.map = function(options){
         this.$maplabel.find(".variable").html(app.variableToString(variable,family));
         this.$maplabel.find(".time").html(time);
 
+        this.$maplabel.show();
+
         this._choroplethOVerlay = {
             "geoJson" : l,
         };
@@ -213,6 +217,7 @@ app.view.map = function(options){
             this._map.removeLayer(this._choroplethOVerlay["geoJson"]);
             this.$tooltip.hide();
             this.$maplegend.hide();
+            this.$maplabel.hide();
             
             this._choroplethOVerlay = null;
         }

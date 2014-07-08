@@ -612,7 +612,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     +   "</div>"
                     +   "<div>" 
                     +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                    +       "<span>" + app.formatNumber(variable.value) + "</span>"
+                    +       "<span>" + app.formatNumber(variable.percentage) + "</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>";
         }
@@ -630,8 +630,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     +      "<div class='clear'></div>"
                     +   "</div>"
                     +   "<div>" 
-                    +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                    +       "<span>" + app.formatNumber(variable.value) + "</span>"
+                    +       "<span class='vname'>" + app.variableToString(variable.variable,family) + "</span>"
+                    +       "<span class='vvalue'>" + app.formatNumber(variable.percentage) + "</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>"
                    
@@ -643,7 +643,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                  
                     +   "<div class='compare'>" 
                     +       "<span class='ml vname'>" + app.variableToString(bvariable.variable,family) + "</span>"
-                    +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.value) + "</span>"
+                    +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.percentage) + "</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>"
                     +   "<div class='compare'>"

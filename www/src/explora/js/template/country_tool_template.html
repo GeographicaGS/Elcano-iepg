@@ -44,7 +44,7 @@
                                 <img src="/img/flags/<%= country %>.svg" class="flag" />
                             </div>
                             <span class="grey size_21 fleft mt7 ml roboto_light" title="<%=  app.countryToString(country) %>">
-                                <%= app.countryCodeToStr(country) %>
+                                <abbr title="<%= app.countryToString(country)%>"><%= app.countryCodeToStr(country) %></abbr>
                             </span>
                             <span class="grey size_21 fleft mt7 ml roboto_bold"><%= app.formatNumber(sprintf("%0.2f",variable.value)) %></span>
                         </div>

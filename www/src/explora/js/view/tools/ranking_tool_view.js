@@ -27,6 +27,22 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             var ctx = this.getGlobalContext();
             ctx.data.countries.selection = [id_country];
+
+            this._zoomToSelected();
+
+            this.countries.render();
+
+            this.saveAllContexts();
+
+            this.contextToURL();
+
+
+        //     this._d3Zoom = {};
+        // this._d3Zoom.zoomed = zoomed; 
+        // this._d3Zoom.zoom = zoom;
+        // this._d3Zoom.canvas = canvas;
+
+
     
             // // Render again the tool with the new context
             // this._forceFetchDataTool = true;
@@ -307,6 +323,14 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         var obj = this;
 
+        canvas.append("rect")
+            .attr("width", this.$chart.width() )
+            .attr("height", barHeight*2)
+            .attr("id","selection_mark")
+            .attr("style","fill:#fbe5e6")
+            .attr("x", 0)
+            .attr("y", 0)
+
         // Variable bars
         canvas.selectAll(".bar").data(data).enter().append("rect")
           .attr("class", "bar")
@@ -314,6 +338,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
           .attr("width", function(d) { return x(d.currentValue); })
           .attr("style","fill:"+colorVariable)
           .attr("y", function(d) { return y(data.indexOf(d) + 1); })
+          .attr("country",function(d){ return d.code;})
           .attr("height", barHeight)
           .on("mouseover", function(d) {     
                 div.transition()        
@@ -427,6 +452,29 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             zoom.translate([0,newzoom]);
             zoomed();
         });
+
+        this._d3Zoom = {};
+        this._d3Zoom.zoom = zoom;
+        this._d3Zoom.canvas = canvas;
+    },
+
+    _zoomToSelected: function(){
+
+        var ctx = this.getGlobalContext(),
+            id_country = ctx.data.countries.selection[0],
+            newzoom =  d3.select("rect[country='"+id_country + "']").attr("y")*1
+            gap = this.$(".co_chart").height() / 2 - 50,
+            newzoom_d3 = (newzoom - gap)*-1;
+
+        if (newzoom_d3>0){
+            newzoom_d3 = 0;
+        }
+
+        this._d3Zoom.zoom.translate([0,newzoom_d3]);
+        this._d3Zoom.canvas.attr("transform", "translate(0," + (newzoom_d3) + ")");
+
+        d3.select("#selection_mark").attr("y",newzoom);
+
     },
 
     _htmlChartToolTip: function(d){

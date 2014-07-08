@@ -6,8 +6,8 @@ Block processing functions.
 
 """
 import maplex.maplex as maplex
-import const
-import datacache
+
+
 
 def blockFunctionLumpSum(data, context=None):
     """Gets a list with values of a variable and returns the lump
@@ -27,56 +27,23 @@ def blockFunctionLumpSum(data, context=None):
 
 def blockFunctionRelativeContributions(data, context=None):
     """Calculates relative contributions for a block."""
-    print context
+    dataSetContext = context.dataSet.context
     family = context.dataSet.id.partition("_")[0]
-    print family
-    print 
-
-    var = datacache.dataSets[family].variables[context.id]
-    globalVar = datacache.dataSets[family].variables["global"]
+    var = dataSetContext["dataSets"][family].variables[context.id]
+    globalVar = dataSetContext["dataSets"][family].variables["global"]
 
     members = [i["id_geoentity_child"] for i in 
                maplex.getBlockMembers(data["code"], year=data["year"], idNameFamily=1)]
-
-    print members
+    members = [data["code"]] if members==[] else members
     
     varTotal = 0
     globalTotal = 0
 
     for i in members:
-        varTotal += var.getData(code=i, year=data["year"]).values()[0]["value"]
-        globalTotal += globalVar.getData(code=i, year=data["year"]).values()[0]["value"]
+        varData = var.getData(code=i, year=data["year"]).values()[0]["value"]
+        globalData = globalVar.getData(code=i, year=data["year"]).values()[0]["value"]
+        varTotal = varTotal+varData if varData else varTotal
+        globalTotal = globalTotal+globalData if globalData else globalTotal
 
-    print varTotal, globalTotal
-
-
-
-    # print "IN: "+str(data)
-    # print "Context: "+str(context.dataSet.id+" "+context.id)
-    # print context.dataSet.variables
-    # print
-
-
-    # print "dataSets : "+str(datacache.dataSets)
-
-    # # vGlobal = context.variables["
-
-    # iepgIndividualContribution = datacache.dataSets["iepg_individual_contribution"].variables[context.id]
-
-    # print
-    # print "Individual : " + str(iepgIndividualContribution.getData(code="DE", year=2013))
-    # print
-
-
-    # print "Members: "+str(members)
-    # print
-
-    # varData = 0
-    # for i in members:
-    #     print i
-    #     print context.getData(code=i, year=data["year"]).values()[0]["value"]
-   #     varData += context.getData(code=i, year=data["year"]).values()[0]["value"]
-
-    # print "varData: "+str(varData)
-
-    return(-1)
+    coeficient = dataSetContext["const"][family][var.id]["coeficient"]
+    return(varTotal*coeficient/globalTotal*100)

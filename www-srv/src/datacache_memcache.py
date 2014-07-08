@@ -57,6 +57,9 @@ def createCache():
             "function": "blockfunc::common.blockfunctions.blockFunctionLumpSum"
         },
         "iepg_relative_contribution": {
+            "variables": ["energy", "primary_goods", "manufactures", "services", "investments",
+                          "troops", "military_equipment", "migrations", "tourism", "sports", "culture",
+                          "information", "technology", "science", "education", "cooperation"],
             "blocks": ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"],
             "function": "blockfunc::common.blockfunctions.blockFunctionRelativeContributions"
         }
@@ -64,6 +67,8 @@ def createCache():
 
     for fam in const.variableNames.keys():
         dataSets[fam] = varengine.DataSet(fam)
+        dataSets[fam].context["dataSets"] = dataSets
+
         mapping = dict()
         dataInterface.readAll("iepg_data_redux."+tables[fam], 
                               "code", "date_in", "date_out")
@@ -71,13 +76,33 @@ def createCache():
             v = varengine.Variable(k, True, "float", dataSet=dataSets[fam])
             v.loadFromDataInterface(dataInterface, var["column"]) 
             if fam in blockFunctions:
+                d = blockFunctions[fam]
                 for y in years[fam]:
-                    for b in blockFunctions[fam]["blocks"]:
-                        v.addValue(b, y, blockFunctions[fam]["function"], None)
-            v.processData()
+                    for b in d["blocks"]:
+                        if "variables" in d:
+                            if k in d["variables"]:
+                                v.addValue(b, y, d["function"], None)
+                        else:
+                            v.addValue(b, y, d["function"], None)
 
-        mc.set(fam, dataSets[fam], 0)
+    for dsKey, dataSet in dataSets.iteritems():
+        dataSet.addToContext("const", const.variableNames)
+        for varKey, variable in dataSet.variables.iteritems():
+            variable.processData()
+        dataSet.dropContext()
 
+    for y in const.years:
+        ds = dataSets["iepg_relative_contribution"]
+        for b in ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"]:
+            for c, dim in const.dimensions.iteritems():
+                data = 0
+                for var in dim:
+                    v = ds.variables[var].getData(code=b, year=y)[str(b)+"@"+str(y)]["value"]
+                    data = v+data if v else data
+                ds.variables[c].addValue(b, y, "float", data)
+                
+    for dsKey in dataSets:
+        mc.set(dsKey, dataSets[dsKey], 0)
     return(dataSets)
 
 dataSets = createCache()

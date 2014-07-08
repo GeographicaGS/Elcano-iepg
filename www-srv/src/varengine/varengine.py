@@ -281,11 +281,21 @@ class DataSet(object):
     """Dataset."""
     id = None
     variables = None
+    context = None
 
     def __init__(self, id):
         """Initializator."""
         self.id = id
         self.variables = dict()
+        self.context = dict()
+
+    def addToContext(self, key, data):
+        """Add a data to the context."""
+        self.context[key] = data
+
+    def dropContext(self):
+        """Drops the context."""
+        self.context = None
 
     def __str__(self):
         return(self.id)

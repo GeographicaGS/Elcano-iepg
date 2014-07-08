@@ -22,106 +22,133 @@ lang = ["en", "es"]
 
 years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]
 
+dimensions = {
+    "economic_global": ["energy", "primary_goods", "manufactures", "services", "investments"],
+    "military_global": ["troops", "military_equipment"],
+    "soft_global": ["migrations", "tourism", "sports", "culture", "information", "technology", 
+                    "science", "education", "cooperation"]
+}
+
 variableNames = {
     "iepg": {
         "energy": {
             "order": 0,
             "column": "energy",
+            "coeficient": 0.0695,
             "name_en": "Energy",
             "name_es": "Energía"},
         "primary_goods": {
             "order": 5,
             "column": "primary_goods",
+            "coeficient": 0.0513,
             "name_en": "Primary Goods",
             "name_es": "Bienes primarios"},
         "manufactures": {
             "order": 10,
             "column": "manufactures",
+            "coeficient": 0.0744,
             "name_en": "Manufactures",
             "name_es": "Manufacturas"},
         "services": {
             "order": 15,
             "column": "services",
+            "coeficient": 0.0888,
             "name_en": "Services",
             "name_es": "Servicios"},
         "investments": {
             "order": 20,
             "column": "investments",
+            "coeficient": 0.101,
             "name_en": "Investments",
             "name_es": "Inversiones"},
         "troops": {
             "order": 25,
             "column": "troops",
+            "coeficient": 0.0795,
             "name_en": "Troops",
             "name_es": "Tropas"},
         "military_equipment": {
             "order": 30,
             "column": "military_equipment",
+            "coeficient": 0.0757,
             "name_en": "Military Equipment",
             "name_es": "Equipo militar"},
         "migrations": {
             "order": 35,
             "column": "migrations",
+            "coeficient": 0.0411,
             "name_en": "Migrations",
             "name_es": "Migraciones"},
         "tourism": {
             "order": 40,
             "column": "tourism",
+            "coeficient": 0.041,
             "name_en": "Tourism",
             "name_es": "Turismo"},
         "sports": {
             "order": 45,
             "column": "sports",
+            "coeficient": 0.0342,
             "name_en": "Sports",
             "name_es": "Deportes"},
         "culture": {
             "order": 50,
             "column": "culture",
+            "coeficient": 0.0698,
             "name_en": "Culture",
             "name_es": "Cultura"},
         "information": {
             "order": 55,
             "column": "information",
+            "coeficient": 0.0599,
             "name_en": "Information",
             "name_es": "Información"},
         "technology": {
             "order": 60,
             "column": "technology",
+            "coeficient": 0.0582,
             "name_en": "Technology",
             "name_es": "Tecnología"},
         "science": {
             "order": 65,
             "column": "science",
+            "coeficient": 0.0571,
             "name_en": "Science",
             "name_es": "Ciencia"},
         "education": {
             "order": 70,
             "column": "education",
+            "coeficient": 0.0545,
             "name_en": "Education",
             "name_es": "Educación"},
         "cooperation": {
             "order": 75,
             "column": "cooperation",
+            "coeficient": 0.044,
             "name_en": "Cooperation",
             "name_es": "Cooperación"},
         "economic_global": {
             "order": 80,
             "column": "economic_presence",
+            "coeficient": 1,
             "name_en": "Economic Presence",
             "name_es": "Presencia económica"},
         "military_global": {
             "order": 85,
             "column": "military_presence",
+            "coeficient": 1,
             "name_en": "Military Presence",
             "name_es": "Presencia militar"},
         "soft_global": {
             "order": 90,
             "column": "soft_presence",
+            "coeficient": 1,
             "name_en": "Soft Presence",
             "name_es": "Presencia blanda"},
         "global": {
             "order": 95,
             "column": "iepg",
+            "coeficient": 1,
             "name_en": "IEPG",
             "name_es": "IEPG"}
     },
@@ -129,81 +156,97 @@ variableNames = {
         "energy": {
             "order": 1000,
             "column": "energy",
+            "coeficient": 0.0695,
             "name_en": "Energy",
             "name_es": "Energía"},
         "primary_goods": {
             "order": 1005,
             "column": "primary_goods",
+            "coeficient": 0.0513,
             "name_en": "Primary Goods",
             "name_es": "Bienes primarios"},
         "manufactures": {
             "order": 1010,
             "column": "manufactures",
+            "coeficient": 0.0744,
             "name_en": "Manufactures",
             "name_es": "Manufacturas"},
         "services": {
             "order": 1015,
             "column": "services",
+            "coeficient": 0.0888,
             "name_en": "Services",
             "name_es": "Servicios"},
         "investments": {
             "order": 1020,
             "column": "investments",
+            "coeficient": 0.101,
             "name_en": "Investments",
             "name_es": "Inversiones"},
         "troops": {
             "order": 1025,
             "column": "troops",
+            "coeficient": 0.0795,
             "name_en": "Troops",
             "name_es": "Tropas"},
         "military_equipment": {
             "order": 1030,
             "column": "military_equipment",
+            "coeficient": 0.0757,
             "name_en": "Military Equipment",
             "name_es": "Equipo militar"},
         "migrations": {
             "order": 1035,
             "column": "migrations",
+            "coeficient": 0.0411,
             "name_en": "Migrations",
             "name_es": "Migraciones"},
         "tourism": {
             "order": 1040,
             "column": "tourism",
+            "coeficient": 0.041,
             "name_en": "Tourism",
             "name_es": "Turismo"},
         "sports": {
             "order": 1045,
             "column": "sports",
+            "coeficient": 0.0342,
             "name_en": "Sports",
             "name_es": "Deportes"},
         "culture": {
             "order": 1050,
             "column": "culture",
+            "coeficient": 0.0698,
             "name_en": "Culture",
             "name_es": "Cultura"},
         "information": {
             "order": 1055,
             "column": "information",
+            "coeficient": 0.0599,
             "name_en": "Information",
             "name_es": "Información"},
         "technology": {
             "order": 1060,
             "column": "technology",
+            "coeficient": 0.0582,
             "name_en": "Technology",
             "name_es": "Tecnología"},
         "science": {
             "order": 1065,
             "column": "science",
+            "coeficient": 0.0571,
             "name_en": "Science",
             "name_es": "Ciencia"},
         "education": {
             "order": 1070,
             "column": "education",
+            "coeficient": 0.0545,
             "name_en": "Education",
             "name_es": "Educación"},
         "cooperation": {
             "order": 1075,
             "column": "cooperation",
+            "coeficient": 0.044,
             "name_en": "Cooperation",
             "name_es": "Cooperación"},
         "economic_global": {

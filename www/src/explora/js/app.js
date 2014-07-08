@@ -513,16 +513,23 @@ app.showHelp = function() {
                 ctx.lineWidth = 2;
                 ctx.strokeStyle = '#fdc300';
                 if(titlePos.top > elemPos.top){
-                    if($elem.width() < canvas.width / 2 - 150){
-                        ctx.moveTo(canvas.width / 2 ,titlePos.top - 15);
-                        ctx.lineTo(elemPos.left,elemPos.top + $elem.height() - 15);
+                    if(elemPos.left < canvas.width / 2) {
+                        var $title = $content.find('h2').first();
+                        ctx.moveTo($title.offset().left - 15 ,$title.offset().top + $title.height() / 2);
+                        ctx.lineTo(elemPos.left + $elem.width(), elemPos.top + $elem.height() / 2);
                     }else{
                         ctx.moveTo(canvas.width / 2 ,titlePos.top - 15);
                         ctx.lineTo(elemPos.left + $elem.width() / 2 ,elemPos.top + $elem.height() - 15);
                     }
                 }else{
-                    ctx.moveTo(canvas.width / 2 ,titlePos.top + $content.height() + 15);
-                    ctx.lineTo($elem.width() / 2 ,elemPos.top);
+                    var $title = $content.find('h2').first();
+                    if(elemPos.left + $elem.width() < canvas.width / 2) {
+                        ctx.moveTo($title.offset().left - 15 ,$title.offset().top + $title.height() / 2);
+                        ctx.lineTo(elemPos.left + $elem.width(), elemPos.top);
+                    }else{
+                        ctx.moveTo(canvas.width / 2 ,titlePos.top + $content.height() + 15);
+                        ctx.lineTo($elem.width() / 2 ,elemPos.top);
+                    }
                 }
                 ctx.stroke();
                 $('#help-bck').prepend(canvas);

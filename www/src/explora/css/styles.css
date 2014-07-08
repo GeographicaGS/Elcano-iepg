@@ -510,6 +510,13 @@ header{
         border-right: 1px solid #515055;
         padding: 13px 20px;
 
+        &.elemHighlighted {
+            /*box-shadow: none;*/
+
+            img { opacity: 1;}
+            span { opacity: 1;}
+        }
+
         & > * {
             vertical-align: middle;
         }
@@ -618,7 +625,7 @@ main{
 #control_area{
     left: 0;
     width: 54px;
-    z-index: 4;
+    /*z-index: 4;*/
 
 
     a{
@@ -629,6 +636,8 @@ main{
         background: @grey_light url("@{imgPath}ELC_bot_desplegar_herramientas.svg") no-repeat center center;
         width: 54px;
         height: 90px;
+        z-index: 4;
+        position: relative;
 
         &:hover{
             background-color: @grey_dark !important;
@@ -642,6 +651,9 @@ main{
 
     #control_panel{
         margin-top: 18px;
+        z-index: 4;
+        position: relative;
+
         #add_tool{
             a{
                 background: @grey_light url("@{imgPath}ELC_icon_abrir_herramientas.svg") no-repeat center center;
@@ -1660,6 +1672,7 @@ div.tooltip.comp{
                 font-size: 24px;
                 color: @yellow;
                 margin-bottom: 10px;
+                display: inline-block;
 
                 strong {
                     .roboto(bold);
@@ -1784,11 +1797,20 @@ div.tooltip.comp{
             top: 50%;
             margin-top: -32px;
             z-index: 6;
+
+            &.offset {
+                left: 70px;
+            }
         }
 
         .help-btn_continue {
             right: 20px;
             left: auto;
+
+            &.offset {
+                left: auto;
+                right: 70px;
+            }
         }
     }
 }

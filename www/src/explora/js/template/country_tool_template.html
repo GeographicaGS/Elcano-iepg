@@ -158,6 +158,40 @@
                     </div>
                     <% } %>
 
+
+                    <% if (country.length > 2) { %>
+                        <% if (!model.comment || !model.comment.comment) { %>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="grey uppercase size_11"><lang>Resumen</lang></span>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <div class="row">
+                            <p class="col-xs-12 mth1 mb">
+                                <%= sprintf("<lang>El bloque %s está compuesto por</lang>",app.countryToString(country)) %>:
+                            </p>
+                        </div>
+                        <div class="row">
+                            <ul class="flag_wrapper noclickable col-xs-12">
+                                <% 
+                                for (var i=0;i<app.blocks[country][year].length;i++) 
+                                {
+                                    c = app.blocks[country][year][i];
+                                %>
+                                    <li>
+                                        <img src="/img/flags/<%= c %>.svg" />
+                                        <span><%= app.countryToString(c)%></span>
+                                        <div class="clear"></div>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    <% } %>
+
+                    <div class="mth1"></div>
+
                 </div>
 
                 <div class="col-sm-6 col-md-6">

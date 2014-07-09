@@ -456,6 +456,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         this._d3Zoom = {};
         this._d3Zoom.zoom = zoom;
         this._d3Zoom.canvas = canvas;
+
+        this._zoomToSelected();
     },
 
     _zoomToSelected: function(){

@@ -903,9 +903,9 @@ main{
     }
 }
 
-
-
 ul.flag_wrapper{
+
+
     li{
         cursor: pointer;
         line-height: 2*@line_height;
@@ -952,6 +952,29 @@ ul.flag_wrapper{
         background-image: url("@{imgPath}ELC_icon_deseleccionar.svg");
          span{
             .roboto(bold);
+        }
+    }
+
+    &.noclickable{
+        li{
+            cursor: text;    
+        }
+        
+
+        img,span{
+            opacity: 1;
+        }
+
+        span{
+            .roboto();
+        }
+
+        img{
+            margin-left: 10px;
+        }
+
+        li:hover{
+            background: none;
         }
     }
 }

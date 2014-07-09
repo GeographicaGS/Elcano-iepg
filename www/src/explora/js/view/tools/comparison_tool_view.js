@@ -402,7 +402,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             radius = Math.min(width, height) / 2;
 
         $co.find(".subheader .index .value").html(sprintf("%.2f",variables["global"].value));
-        $co.find(".ranking").html(sprintf("<lang>Puesto %dº </lang>", variables["global"].globalranking));
+        $co.find(".ranking").html(sprintf("<lang>Ranking %dº </lang>", variables["global"].globalranking));
 
         $chart.html("");
 
@@ -532,14 +532,12 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             ranking = variable.globalranking  ? variable.globalranking  : variable.relativeranking
             branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
             bfamily = family == "iepg" ? "iepe" : "iepg",
-            max = _.max([bvariable.value,variable.value]),
-            progress = 100 * variable.value / max,
-            bprogress = 100 * bvariable.value / max,
+            max = _.max([bvariable.percentage,variable.percentage]),
+            progress = 100 * variable.percentage / max,
+            bprogress = 100 * bvariable.percentage / max,
 
             colorVariable = this._d3[family].tree.findElementInTree(variable.variable).color;
             bcolorVariable = this._d3[bfamily].tree.findElementInTree(bvariable.variable).color;
-
-        console.log(bvariable.variable);
 
         return "<div>"
                 +      "<span >" + ranking + "º  <lang>Presencia Global</lang></span>"
@@ -548,7 +546,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 +   "</div>"
                 +   "<div>" 
                 +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                +       "<span>" + app.formatNumber(variable.value) + "</span>"
+                +       "<span>" + app.formatNumber(variable.percentage) + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>"
                
@@ -558,7 +556,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 + "</div>"
                 +   "<div class='compare'>" 
                 +       "<span class='ml vname'>" + app.variableToString(bvariable.variable,bfamily) + "</span>"
-                +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.value) + "</span>"
+                +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.percentage) + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>"
                 +   "<div class='compare'>"

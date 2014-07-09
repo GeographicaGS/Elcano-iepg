@@ -15,6 +15,12 @@ app.view.Base = Backbone.View.extend({
         this.$control_panel = this.$("#control_panel");
         this.$panelTools = this.$control_panel.find("ul");
 
+        this.$country_panel = this.$("#country_panel");
+        this.originCountryPanel = this.$country_panel.css("right").replace("px","")*1;
+
+        this.$ctrl_filter = this.$("#ctrl_filter");
+        this.originCtrlFilter = this.$ctrl_filter.css("right").replace("px","")*1;
+
         // Load default tools
         var localTools =  localStorage.getItem("tools");
 
@@ -56,6 +62,7 @@ app.view.Base = Backbone.View.extend({
 
         this.$panelTools.html(html);
 
+       
         // refresh the tools panel
         return this;
     },
@@ -157,8 +164,12 @@ app.view.Base = Backbone.View.extend({
             ml = this.$tool.width() * -1;
 
             this.$tool.find("#tool_data").width( $(window).width() -  this.originLeft - 20).height();
+            
 
             this.$tool.animate({"left": ml});
+            this.$country_panel.animate({"right": (this.$country_panel.width() + this.originCountryPanel)*-1 });
+            this.$ctrl_filter.animate({"right": (this.$ctrl_filter.width() + this.originCtrlFilter)*-1 });
+
             this.$control_panel.fadeOut(300);
         }
 
@@ -171,6 +182,8 @@ app.view.Base = Backbone.View.extend({
                 $(this).find("#tool_data").css('width', 'auto');
             });
 
+            this.$country_panel.animate({"right":this.originCountryPanel});
+            this.$ctrl_filter.animate({"right":this.originCtrlFilter});
 
         }
 

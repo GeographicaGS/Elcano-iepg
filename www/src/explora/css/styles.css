@@ -1092,6 +1092,13 @@ ul.flag_wrapper.filter{
     overflow: hidden;
     float: left;
 
+    .nocountries{
+        display: block;
+        margin:18px 5px 0 10px;
+        font-size: 14px;
+        .roboto();
+        color:@red;
+    }
     ul.country_bar{
         position: relative;
         left: 0;

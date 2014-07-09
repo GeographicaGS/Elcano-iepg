@@ -32,7 +32,9 @@
                 <div class="col-sm-6 col-md-6">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h5><%= app.variableToString("global",ctx.family) %></h5>
+                            <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText("global",ctx.family)%>">
+                                <%= app.variableToString("global",ctx.family) %>
+                            </h5>
                         </div>
                     </div>
                     <div class="row mth1">
@@ -176,9 +178,10 @@
                         <div class="row">
                             <ul class="flag_wrapper noclickable col-xs-12">
                                 <% 
-                                for (var i=0;i<app.blocks[country][year].length;i++) 
+                                country_list = _.sortBy(app.blocks[country][year], function(c){ return  app.countryToString(c) });
+                                for (var i=0;i<country_list.length;i++) 
                                 {
-                                    c = app.blocks[country][year][i];
+                                    c = country_list[i];
                                 %>
                                     <li>
                                         <img src="/img/flags/<%= c %>.svg" />

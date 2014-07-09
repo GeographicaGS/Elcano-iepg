@@ -13,7 +13,9 @@
 	<div class="body">
 		<% if (collection) { %>
 			<div>
-                <h5><%= app.variableToString(ctx.variables[0],ctx.family) %></h5>
+                <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText(ctx.variables[0],ctx.family)%>">
+                	<%= app.variableToString(ctx.variables[0],ctx.family) %>
+               	</h5>
             </div>
 			<div class="co_chart">
 		    	<div class="chart"></div>

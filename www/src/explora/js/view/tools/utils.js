@@ -22,6 +22,19 @@ app.view.tools.utils.variablesColors = {
     "cooperation" : "#ffc273"
 };
 
+app.view.tools.utils.getVariablesColorsForText = function(variable,family){
+    if (variable == "global")
+        if (family == "iepg"){
+            return "#d60006"
+        }
+        else{
+            return app.view.tools.utils.variablesColors["iepe"];    
+        }
+        
+    else
+        return app.view.tools.utils.variablesColors[variable];
+}
+
 app.view.tools.utils.choroplethColors = {
     "iepg": ["#ffd88b","#f9be84","#fa976a","#ee6756","#de3338"],
     "iepe" : ["#ffe6b5","#e0cca4","#9f9a91","#607194","#264c97"],
@@ -29,6 +42,7 @@ app.view.tools.utils.choroplethColors = {
     "military_global": ["#fae5b8","#efd687","#cdc05c","#9ba333","#6b950e"],
     "soft_global": ["#ffe3b5","#ffd38d","#ff9922","#ff931f","#ff790a"]
 }
+
 
 app.view.tools.utils.getChoroplethColors = function(family,variable){
     switch(variable)
@@ -204,11 +218,8 @@ app.view.tools.utils.variablesTree = function(variables,family){
             }
 
         }
-
         return null;
     }
-
-
 
     return this;
 

@@ -619,9 +619,9 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         else{
 
             var branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
-                max = _.max([bvariable.value,variable.value]),
-                progress = 100 * variable.value / max,
-                bprogress = 100 * bvariable.value / max,
+                max = _.max([bvariable.percentage,variable.percentage]),
+                progress = 100 * variable.percentage / max,
+                bprogress = 100 * bvariable.percentage / max,
                 colorVariable = this._d3.left.tree.findElementInTree(variable.variable).color;
 
             return "<div>"

@@ -464,18 +464,23 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         var ctx = this.getGlobalContext(),
             id_country = ctx.data.countries.selection[0],
-            newzoom =  d3.select("rect[country='"+id_country + "']").attr("y")*1
-            gap = this.$(".co_chart").height() / 2 - 50,
-            newzoom_d3 = (newzoom - gap)*-1;
+            el = d3.select("rect[country='"+id_country + "']");
 
-        if (newzoom_d3>0){
-            newzoom_d3 = 0;
+        if (!el.empty()){
+            var newzoom =  d3.select("rect[country='"+id_country + "']").attr("y")*1
+                gap = this.$(".co_chart").height() / 2 - 50,
+                newzoom_d3 = (newzoom - gap)*-1;
+
+            if (newzoom_d3>0){
+                newzoom_d3 = 0;
+            }
+
+            this._d3Zoom.zoom.translate([0,newzoom_d3]);
+            this._d3Zoom.canvas.attr("transform", "translate(0," + (newzoom_d3) + ")");
+
+            d3.select("#selection_mark").attr("y",newzoom);
         }
-
-        this._d3Zoom.zoom.translate([0,newzoom_d3]);
-        this._d3Zoom.canvas.attr("transform", "translate(0," + (newzoom_d3) + ")");
-
-        d3.select("#selection_mark").attr("y",newzoom);
+            
 
     },
 

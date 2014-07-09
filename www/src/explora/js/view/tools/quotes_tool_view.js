@@ -65,6 +65,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
                 
             }
 
+
             this._forceFetchDataTool = true;
             this.render();
             
@@ -256,9 +257,10 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
             year =  ctx.slider[0].date.getFullYear(),
+            variable = ctx.variables[0],
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,family);
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,variable,family);
     },
 
     _collectionToD3Data: function(){

@@ -52,6 +52,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             ctx.saveContext();
             this.copyGlobalContextToLatestContext();
 
+            this._forceFetchDataMap = true;
+
             this.render();
             
         });

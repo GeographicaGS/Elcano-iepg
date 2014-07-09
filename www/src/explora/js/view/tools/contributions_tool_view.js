@@ -38,6 +38,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             ctx.saveContext();
             this.copyGlobalContextToLatestContext();
 
+            this._forceFetchDataMap = true;
+
             this.render();
             
         });
@@ -238,7 +240,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             
         if (country){
             // Set the country name
-            $country_name.html(app.countryToString(country)).removeClass("no_data");
+            $country_name.html(app.countryToString(country) + " " + year).removeClass("no_data");
 
             if (forceFetch){
                 // Fetch the data of this tool
@@ -488,7 +490,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             .attr("class", "variable");
 
         var partition = d3.layout.partition()
-            .value(function(d) { return d.size; });
+            .value(function(d) { return d.perc; });
 
         var arc = d3.svg.arc()
             .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
@@ -612,7 +614,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     +   "</div>"
                     +   "<div>" 
                     +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                    +       "<span>" + app.formatNumber(variable.percentage) + "</span>"
+                    +       "<span>" + app.formatNumber(variable.percentage) + " %</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>";
         }
@@ -631,7 +633,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     +   "</div>"
                     +   "<div>" 
                     +       "<span class='vname'>" + app.variableToString(variable.variable,family) + "</span>"
-                    +       "<span class='vvalue'>" + app.formatNumber(variable.percentage) + "</span>"
+                    +       "<span class='vvalue'>" + app.formatNumber(variable.percentage) + " %</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>"
                    
@@ -643,7 +645,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                  
                     +   "<div class='compare'>" 
                     +       "<span class='ml vname'>" + app.variableToString(bvariable.variable,family) + "</span>"
-                    +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.percentage) + "</span>"
+                    +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.percentage) + " %</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>"
                     +   "<div class='compare'>"

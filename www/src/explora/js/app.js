@@ -226,9 +226,10 @@ app.scrollTop = function(){
     });
 };
 
-app.scrollToEl = function($el){
+app.scrollToEl = function($el,offset){
+    if (!offset) offset = 0;
     $('html, body').animate({
-        scrollTop: $el.offset().top
+        scrollTop: $el.offset().top + offset
     }, 500);    
 };
 
@@ -297,6 +298,16 @@ app.variableToString = function(variable,family){
 }
 
 app.countryToString = function(id_country){
+
+    // Temporal, we must add singapur to countries's geojson
+    if (id_country == "SG"){
+        if (app.lang == "es"){
+            return "Singapur";  
+        }
+        else{
+            return "Singapore";
+        }
+    }
 
     if (id_country.length == 2){
 

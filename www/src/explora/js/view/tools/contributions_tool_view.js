@@ -380,7 +380,25 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             }
         }
         else if (ctx.countries.selection.length==1){
-            ctx.countries.selection[1] = null;
+            // Let's try to find the second element inside the latest Context
+            for(var i=0,flag=true;i<latestCtx.countries.selection.length && flag;i++){
+               
+                if (
+                    // Is the country already selected
+                    ctx.countries.selection[0] != latestCtx.countries.selection[i]
+                    &&
+                    // Is the selected country in the context list?
+                    ctx.countries.list.indexOf(latestCtx.countries.selection[i]) != -1
+                    ){
+                    ctx.countries.selection.push(latestCtx.countries.selection[i]);    
+                    flag = false;
+                }
+            }
+
+            if (flag){
+                ctx.countries.selection[1] = null;
+            }
+
         }
         else if (ctx.countries.selection.length>2){
             // Cut off extra elements in the selection

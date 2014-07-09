@@ -23,16 +23,41 @@ app.view.tools.utils.variablesColors = {
 };
 
 app.view.tools.utils.getVariablesColorsForText = function(variable,family){
-    if (variable == "global")
-        if (family == "iepg"){
-            return "#d60006"
-        }
-        else{
-            return app.view.tools.utils.variablesColors["iepe"];    
-        }
-        
-    else
-        return app.view.tools.utils.variablesColors[variable];
+    switch(variable)
+    {
+        case "global":
+            if (family == "iepg"){
+                return "#d60006"
+            }
+            else{
+                return app.view.tools.utils.variablesColors["iepe"];    
+            }
+
+        case "economic_global":
+        case "energy":
+        case "primary_goods":
+        case "manufactures":
+        case "services":
+        case "investments":
+            return app.view.tools.utils.variablesColors["economic_global"];
+
+        case "military_global":
+        case "troops":
+        case "military_equipment":
+            return app.view.tools.utils.variablesColors["military_global"];
+
+        case "soft_global":
+        case "migrations":
+        case "tourism":
+        case "sports":
+        case "culture":
+        case "information":
+        case "technology":
+        case "science":
+        case "education":
+        case "cooperation":
+            return app.view.tools.utils.variablesColors["soft_global"];
+    }
 }
 
 app.view.tools.utils.choroplethColors = {

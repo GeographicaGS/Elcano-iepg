@@ -346,13 +346,9 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 // Do nothing
             }
         }
-        else if (ctx.countries.selection.length==1){
-            ctx.countries.selection[1] = null;
-        }
-        else if (ctx.countries.selection.length>2){
+        else if (ctx.countries.selection.length>1){
             // Cut off extra elements in the selection
-            ctx.countries.selection = ctx.countries.selection.slice(0,2);
-
+            ctx.countries.selection = ctx.countries.selection.slice(0,1);
         }
 
         // This tool works with a slider composed by a single point and a reference point. 

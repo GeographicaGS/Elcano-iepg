@@ -59,6 +59,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
+            this.for
             this.render(); // implicit save the context
         });
 
@@ -327,7 +328,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("width", this.$chart.width() )
             .attr("height", barHeight*2)
             .attr("id","selection_mark")
-            .attr("style","fill:#fbe5e6")
+            .attr("style","fill:#a2a2ac;opacity:0.2")
             .attr("x", 0)
             .attr("y", 0)
 

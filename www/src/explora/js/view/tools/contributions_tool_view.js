@@ -143,7 +143,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
-
         }));
 
         this.$co_left = this.$("#co_chart_left");
@@ -158,7 +157,19 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.$proportional_flags = this.$(".proportional_flags");
 
         // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
-        if (this._forceFetchDataTool){
+        if (ctx.countries.list.length==0){
+            // no countries selected
+            this._forceFetchDataSubToolLeft = false;
+            this._forceFetchDataSubToolRight = false;
+            for (var i in this._models){
+                if (this._models[i]){
+                    this._models[i].clear();    
+                }
+            }
+            // This will call to _renderProportionalFlags
+            this._collectionGlobalIndex.reset();
+        }
+        else if (this._forceFetchDataTool ){
             this._forceFetchDataSubToolLeft = true;
             this._forceFetchDataSubToolRight = true;
                 

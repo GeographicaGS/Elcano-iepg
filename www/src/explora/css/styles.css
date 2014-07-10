@@ -1094,10 +1094,14 @@ ul.flag_wrapper.filter{
 
     .nocountries{
         display: block;
-        margin:18px 5px 0 10px;
+        margin:18px 0px 0 20px;
         font-size: 14px;
         .roboto();
-        color:@red;
+        color:@grey_dark;
+        &:hover,&.hover{
+            color:@red;
+        }
+
     }
     ul.country_bar{
         position: relative;
@@ -1471,11 +1475,11 @@ body > li.ui-draggable {
         background: url("@{imgPath}ELC_icon_seleccionar_pais.svg") @white no-repeat center center;
         height:100%;
         width: 40px;
-        margin:0 20px 0 15px;
-    }
+        margin:0 20px 0 10px;
 
-    a#ctrl_countries:hover{
-        background-image: url("@{imgPath}ELC_icon_seleccionar_pais_hover.svg");
+        &:hover,&.hover{
+            background-image: url("@{imgPath}ELC_icon_seleccionar_pais_hover.svg");
+        }
     }
 
     #co_sel_countries{

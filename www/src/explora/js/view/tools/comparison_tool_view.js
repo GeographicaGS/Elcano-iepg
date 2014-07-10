@@ -122,15 +122,18 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this.$chart_legend_right = this.$co_right.find(".chart_legend");
 
         if (year<= 2000 // No data avalaible for iepe before year 2000
+            || ctx.countries.list.length==0
             || country.length > 2  // Only blocks
             || app.blocks.XBEU[year].indexOf(country) == -1 // Only UE countries
+            
             ){
 
             this._showError();
         }
 
         else{
-             // Get the data from server if _forceFetchDataTool is set to true. 
+
+            // Get the data from server if _forceFetchDataTool is set to true. 
             if (this._forceFetchDataTool){
                 this._n_fetches = 0;
                 this._errorfetch = false;

@@ -299,6 +299,10 @@ app.variableToString = function(variable,family){
 
 app.countryToString = function(id_country){
 
+    if(!id_country){
+        return "";
+    }
+    
     // Temporal, we must add singapur to countries's geojson
     if (id_country == "SG"){
         if (app.lang == "es"){

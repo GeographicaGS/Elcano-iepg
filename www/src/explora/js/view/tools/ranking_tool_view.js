@@ -546,7 +546,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             }
         }
         else{
-            // Do nothing
+            ctx.countries.selection = ctx.countries.selection.slice(0,1);
         }
 
         // This tool works with a slider composed by a single point and a reference point. 

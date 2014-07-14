@@ -210,13 +210,14 @@ app.scrollTop = function(){
     body.animate({scrollTop:0}, '500', 'swing', function() { 
        
     });
-}
+};
 
-app.scrollToEl = function($el){
+app.scrollToEl = function($el,offset){
+    if (!offset) offset=0;
     $('html, body').animate({
-        scrollTop: $el.offset().top
+        scrollTop: $el.offset().top + offset
     }, 500);    
-}
+};
 
 
 app.nl2br = function nl2br(str, is_xhtml) {

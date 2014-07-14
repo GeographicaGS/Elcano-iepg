@@ -25,7 +25,7 @@ app.view.FAQ = Backbone.View.extend({
         var $e = $(e.target),
             idx = $e.index() +1;
 
-        app.scrollToEl(this.$("[data-el="+idx+"]"));
+        app.scrollToEl(this.$("[data-el="+idx+"]"),-30);
     }
 
 

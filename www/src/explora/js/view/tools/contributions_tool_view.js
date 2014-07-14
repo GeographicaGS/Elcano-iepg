@@ -38,6 +38,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             ctx.saveContext();
             this.copyGlobalContextToLatestContext();
 
+            this._forceFetchDataMap = true;
+
             this.render();
             
         });
@@ -141,7 +143,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
-
         }));
 
         this.$co_left = this.$("#co_chart_left");
@@ -156,7 +157,19 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.$proportional_flags = this.$(".proportional_flags");
 
         // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
-        if (this._forceFetchDataTool){
+        if (ctx.countries.list.length==0){
+            // no countries selected
+            this._forceFetchDataSubToolLeft = false;
+            this._forceFetchDataSubToolRight = false;
+            for (var i in this._models){
+                if (this._models[i]){
+                    this._models[i].clear();    
+                }
+            }
+            // This will call to _renderProportionalFlags
+            this._collectionGlobalIndex.reset();
+        }
+        else if (this._forceFetchDataTool ){
             this._forceFetchDataSubToolLeft = true;
             this._forceFetchDataSubToolRight = true;
                 
@@ -238,7 +251,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             
         if (country){
             // Set the country name
-            $country_name.html(app.countryToString(country)).removeClass("no_data");
+            $country_name.html(app.countryToString(country) + " " + year).removeClass("no_data");
 
             if (forceFetch){
                 // Fetch the data of this tool
@@ -378,7 +391,25 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             }
         }
         else if (ctx.countries.selection.length==1){
-            ctx.countries.selection[1] = null;
+            // Let's try to find the second element inside the latest Context
+            for(var i=0,flag=true;i<latestCtx.countries.selection.length && flag;i++){
+               
+                if (
+                    // Is the country already selected
+                    ctx.countries.selection[0] != latestCtx.countries.selection[i]
+                    &&
+                    // Is the selected country in the context list?
+                    ctx.countries.list.indexOf(latestCtx.countries.selection[i]) != -1
+                    ){
+                    ctx.countries.selection.push(latestCtx.countries.selection[i]);    
+                    flag = false;
+                }
+            }
+
+            if (flag){
+                ctx.countries.selection[1] = null;
+            }
+
         }
         else if (ctx.countries.selection.length>2){
             // Cut off extra elements in the selection
@@ -488,7 +519,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             .attr("class", "variable");
 
         var partition = d3.layout.partition()
-            .value(function(d) { return d.size; });
+            .value(function(d) { return d.perc; });
 
         var arc = d3.svg.arc()
             .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
@@ -612,16 +643,16 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     +   "</div>"
                     +   "<div>" 
                     +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                    +       "<span>" + app.formatNumber(variable.value) + "</span>"
+                    +       "<span>" + app.formatNumber(variable.percentage) + " %</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>";
         }
         else{
 
             var branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
-                max = _.max([bvariable.value,variable.value]),
-                progress = 100 * variable.value / max,
-                bprogress = 100 * bvariable.value / max,
+                max = _.max([bvariable.percentage,variable.percentage]),
+                progress = 100 * variable.percentage / max,
+                bprogress = 100 * bvariable.percentage / max,
                 colorVariable = this._d3.left.tree.findElementInTree(variable.variable).color;
 
             return "<div>"
@@ -630,8 +661,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     +      "<div class='clear'></div>"
                     +   "</div>"
                     +   "<div>" 
-                    +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
-                    +       "<span>" + app.formatNumber(variable.value) + "</span>"
+                    +       "<span class='vname'>" + app.variableToString(variable.variable,family) + "</span>"
+                    +       "<span class='vvalue'>" + app.formatNumber(variable.percentage) + " %</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>"
                    
@@ -643,7 +674,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                  
                     +   "<div class='compare'>" 
                     +       "<span class='ml vname'>" + app.variableToString(bvariable.variable,family) + "</span>"
-                    +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.value) + "</span>"
+                    +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.percentage) + " %</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>"
                     +   "<div class='compare'>"

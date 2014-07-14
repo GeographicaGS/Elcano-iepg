@@ -200,10 +200,12 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.contextToURL();
         this.$el.show().html(app.getLoadingHTML());
 
-        this.renderTool();
-
         this.slider.render();
         this.countries.render();
+
+        this.renderTool();
+
+       
 
         return this;
     },

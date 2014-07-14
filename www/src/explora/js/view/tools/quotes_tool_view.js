@@ -65,6 +65,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
                 
             }
 
+
             this._forceFetchDataTool = true;
             this.render();
             
@@ -131,8 +132,8 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             family = ctx.family,
-            countries = ctx.countries.list.join(","),
-            countries_sel = ctx.countries.selection.join(","),
+            countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
+            countries_sel = ctx.countries.selection.length>0 ? ctx.countries.selection.join(",") : "null",
             variable = ctx.variables[0],
             year_ref = ctx.slider[0].date.getFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
@@ -148,8 +149,8 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             
         ctx.family = url.family;
         ctx.variables = [url.variable];
-        ctx.countries.list = url.countries.split(",");
-        ctx.countries.selection = url.countries_sel.split(",");
+        ctx.countries.list = url.countries != "null" ? url.countries.split(",") : [];
+        ctx.countries.selection = url.countries_sel!= "null" ? url.countries_sel.split(",") : [];
         ctx.countries.slider = [{
             "type": "Point",
             "date" : new Date(url.year_ref)
@@ -256,9 +257,10 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
             year =  ctx.slider[0].date.getFullYear(),
+            variable = ctx.variables[0],
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,family);
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,variable,family);
     },
 
     _collectionToD3Data: function(){

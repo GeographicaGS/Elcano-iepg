@@ -56,7 +56,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
-            this._forceFetchDataMap = false;
             this.render(); // Implicit call to contextToURL
         });
 

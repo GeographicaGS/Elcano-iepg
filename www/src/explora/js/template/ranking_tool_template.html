@@ -25,7 +25,9 @@
 
                     <div class="wrapper_chart">
                         <div class="chart_header">
-                            <h5><%= app.variableToString(ctx.variables[0],ctx.family) %></h5>
+                            <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText(ctx.variables[0],ctx.family)%>">
+                                <%= app.variableToString(ctx.variables[0],ctx.family) %>
+                            </h5>
                             <div class="analyze">
                                 <span class="label">Análisis por bloques</span>
                                 <a href="#" block-analyze="<%= ctx.block_analize ? "true" : "false" %>"></a>

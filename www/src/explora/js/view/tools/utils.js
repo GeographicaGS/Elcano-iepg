@@ -5,7 +5,7 @@ app.view.tools.utils.variablesColors = {
     "energy": "#4191d5",
     "primary_goods" : "#559dd9",
     "manufactures" : "#6baade",
-    "name" : "#80b6e3",
+    "services" : "#80b6e3",
     "investments": "#95c2e7",
     "military_global" : "#669900",
     "troops" : "#76a318",
@@ -21,6 +21,86 @@ app.view.tools.utils.variablesColors = {
     "education" : "#ffbc66",
     "cooperation" : "#ffc273"
 };
+
+app.view.tools.utils.getVariablesColorsForText = function(variable,family){
+    switch(variable)
+    {
+        case "global":
+            if (family == "iepg"){
+                return "#d60006"
+            }
+            else{
+                return app.view.tools.utils.variablesColors["iepe"];    
+            }
+
+        case "economic_global":
+        case "energy":
+        case "primary_goods":
+        case "manufactures":
+        case "services":
+        case "investments":
+            return app.view.tools.utils.variablesColors["economic_global"];
+
+        case "military_global":
+        case "troops":
+        case "military_equipment":
+            return app.view.tools.utils.variablesColors["military_global"];
+
+        case "soft_global":
+        case "migrations":
+        case "tourism":
+        case "sports":
+        case "culture":
+        case "information":
+        case "technology":
+        case "science":
+        case "education":
+        case "cooperation":
+            return app.view.tools.utils.variablesColors["soft_global"];
+    }
+}
+
+app.view.tools.utils.choroplethColors = {
+    "iepg": ["#ffd88b","#f9be84","#fa976a","#ee6756","#de3338"],
+    "iepe" : ["#ffe6b5","#e0cca4","#9f9a91","#607194","#264c97"],
+    "economic_global" : ["#ffe0a2","#dfcc96","#a4ae99","#6e98ac","#4086bc"],
+    "military_global": ["#fae5b8","#efd687","#cdc05c","#9ba333","#6b950e"],
+    "soft_global": ["#ffe3b5","#ffd38d","#ff9922","#ff931f","#ff790a"]
+}
+
+
+app.view.tools.utils.getChoroplethColors = function(family,variable){
+    switch(variable)
+    {
+        case "global":
+            return app.view.tools.utils.choroplethColors[family];
+
+        case "economic_global":
+        case "energy":
+        case "primary_goods":
+        case "manufactures":
+        case "services":
+        case "investments":
+            return app.view.tools.utils.choroplethColors["economic_global"];
+
+        case "military_global":
+        case "troops":
+        case "military_equipment":
+            return app.view.tools.utils.choroplethColors["military_global"];
+
+        case "soft_global":
+        case "migrations":
+        case "tourism":
+        case "sports":
+        case "culture":
+        case "information":
+        case "technology":
+        case "science":
+        case "education":
+        case "cooperation":
+            return app.view.tools.utils.choroplethColors["soft_global"];
+    }
+}
 
 
 app.view.tools.utils.variablesTree = function(variables,family){
@@ -163,11 +243,8 @@ app.view.tools.utils.variablesTree = function(variables,family){
             }
 
         }
-
         return null;
     }
-
-
 
     return this;
 

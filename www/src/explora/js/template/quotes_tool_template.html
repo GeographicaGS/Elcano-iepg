@@ -13,7 +13,9 @@
 	<div class="body">
 		<% if (collection) { %>
 			<div>
-                <h5><%= app.variableToString(ctx.variables[0],ctx.family) %></h5>
+                <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText(ctx.variables[0],ctx.family)%>">
+                	<%= app.variableToString(ctx.variables[0],ctx.family) %>
+               	</h5>
             </div>
 			<div class="co_chart">
 		    	<div class="chart"></div>
@@ -21,9 +23,9 @@
 	    <% } else { %>
             <div class="container-fluid">
                 <div class="row mth1">
-                    <p class="col-xs-12">
-                        <lang>Seleccione al menos un país</lang>
-                    </p>
+                    <h5 class="col-xs-12 red">
+                        <lang>Añada al menos un país a la <i>cabereca de análisis</i></lang>.
+                    </h5>
                 <div>
             </div>
 	    <% } %>

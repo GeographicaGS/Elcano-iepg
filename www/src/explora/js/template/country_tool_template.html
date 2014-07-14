@@ -32,7 +32,9 @@
                 <div class="col-sm-6 col-md-6">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h5><%= app.variableToString("global",ctx.family) %></h5>
+                            <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText("global",ctx.family)%>">
+                                <%= app.variableToString("global",ctx.family) %>
+                            </h5>
                         </div>
                     </div>
                     <div class="row mth1">
@@ -44,7 +46,7 @@
                                 <img src="/img/flags/<%= country %>.svg" class="flag" />
                             </div>
                             <span class="grey size_21 fleft mt7 ml roboto_light" title="<%=  app.countryToString(country) %>">
-                                <%= app.countryCodeToStr(country) %>
+                                <abbr title="<%= app.countryToString(country)%>"><%= app.countryCodeToStr(country) %></abbr>
                             </span>
                             <span class="grey size_21 fleft mt7 ml roboto_bold"><%= app.formatNumber(sprintf("%0.2f",variable.value)) %></span>
                         </div>
@@ -158,6 +160,41 @@
                     </div>
                     <% } %>
 
+
+                    <% if (country.length > 2) { %>
+                        <% if (!model.comment || !model.comment.comment) { %>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="grey uppercase size_11"><lang>Resumen</lang></span>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <div class="row">
+                            <p class="col-xs-12 mth1 mb">
+                                <%= sprintf("<lang>El bloque %s está compuesto por</lang>",app.countryToString(country)) %>:
+                            </p>
+                        </div>
+                        <div class="row">
+                            <ul class="flag_wrapper noclickable col-xs-12">
+                                <% 
+                                country_list = _.sortBy(app.blocks[country][year], function(c){ return  app.countryToString(c) });
+                                for (var i=0;i<country_list.length;i++) 
+                                {
+                                    c = country_list[i];
+                                %>
+                                    <li>
+                                        <img src="/img/flags/<%= c %>.svg" />
+                                        <span><%= app.countryToString(c)%></span>
+                                        <div class="clear"></div>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    <% } %>
+
+                    <div class="mth1"></div>
+
                 </div>
 
                 <div class="col-sm-6 col-md-6">
@@ -192,9 +229,9 @@
             </a>
             <div class="container-fluid">
                 <div class="row mth1">
-                    <p class="col-xs-12">
-                        <lang>Seleccione un país</lang>.
-                    </p>
+                    <h5 class="col-xs-12 red">
+                        <lang>Añada al menos un país a la <i>cabereca de análisis</i></lang>.
+                    </h5>
                 <div>
             </div>
         </div>

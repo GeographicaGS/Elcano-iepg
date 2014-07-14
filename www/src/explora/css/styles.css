@@ -510,6 +510,13 @@ header{
         border-right: 1px solid #515055;
         padding: 13px 20px;
 
+        &.elemHighlighted {
+            /*box-shadow: none;*/
+
+            img { opacity: 1;}
+            span { opacity: 1;}
+        }
+
         & > * {
             vertical-align: middle;
         }
@@ -618,7 +625,7 @@ main{
 #control_area{
     left: 0;
     width: 54px;
-    z-index: 4;
+    /*z-index: 4;*/
 
 
     a{
@@ -629,6 +636,8 @@ main{
         background: @grey_light url("@{imgPath}ELC_bot_desplegar_herramientas.svg") no-repeat center center;
         width: 54px;
         height: 90px;
+        z-index: 4;
+        position: relative;
 
         &:hover{
             background-color: @grey_dark !important;
@@ -642,6 +651,9 @@ main{
 
     #control_panel{
         margin-top: 18px;
+        z-index: 4;
+        position: relative;
+
         #add_tool{
             a{
                 background: @grey_light url("@{imgPath}ELC_icon_abrir_herramientas.svg") no-repeat center center;
@@ -891,9 +903,9 @@ main{
     }
 }
 
-
-
 ul.flag_wrapper{
+
+
     li{
         cursor: pointer;
         line-height: 2*@line_height;
@@ -940,6 +952,29 @@ ul.flag_wrapper{
         background-image: url("@{imgPath}ELC_icon_deseleccionar.svg");
          span{
             .roboto(bold);
+        }
+    }
+
+    &.noclickable{
+        li{
+            cursor: text;    
+        }
+        
+
+        img,span{
+            opacity: 1;
+        }
+
+        span{
+            .roboto();
+        }
+
+        img{
+            margin-left: 10px;
+        }
+
+        li:hover{
+            background: none;
         }
     }
 }
@@ -1057,6 +1092,17 @@ ul.flag_wrapper.filter{
     overflow: hidden;
     float: left;
 
+    .nocountries{
+        display: block;
+        margin:18px 0px 0 20px;
+        font-size: 14px;
+        .roboto();
+        color:@grey_dark;
+        &:hover,&.hover{
+            color:@red;
+        }
+
+    }
     ul.country_bar{
         position: relative;
         left: 0;
@@ -1429,11 +1475,11 @@ body > li.ui-draggable {
         background: url("@{imgPath}ELC_icon_seleccionar_pais.svg") @white no-repeat center center;
         height:100%;
         width: 40px;
-        margin:0 20px 0 15px;
-    }
+        margin:0 20px 0 10px;
 
-    a#ctrl_countries:hover{
-        background-image: url("@{imgPath}ELC_icon_seleccionar_pais_hover.svg");
+        &:hover,&.hover{
+            background-image: url("@{imgPath}ELC_icon_seleccionar_pais_hover.svg");
+        }
     }
 
     #co_sel_countries{
@@ -1542,12 +1588,7 @@ div.tooltip.comp{
             line-height: 20px;
             color:@white;
         }
-        span.vname{
-            font-size: 11px;
-        }
-        span.vvalue{
-            font-size: f;
-        }
+      
         span.white{
             color:@white;
             text-transform: none;
@@ -1560,6 +1601,21 @@ div.tooltip.comp{
             height:35px;
         }
 
+        span.vname{
+            font-size: 11px;
+        }
+        span.vvalue{
+            font-size: 13px;
+        }
+
+    }
+
+    span.vname{
+        color: #d1d1d6;
+    }
+    
+    span.vvalue{
+        color:@white;
     }
 }
 
@@ -1650,6 +1706,7 @@ div.tooltip.comp{
                 font-size: 24px;
                 color: @yellow;
                 margin-bottom: 10px;
+                display: inline-block;
 
                 strong {
                     .roboto(bold);
@@ -1774,11 +1831,20 @@ div.tooltip.comp{
             top: 50%;
             margin-top: -32px;
             z-index: 6;
+
+            &.offset {
+                left: 70px;
+            }
         }
 
         .help-btn_continue {
             right: 20px;
             left: auto;
+
+            &.offset {
+                left: auto;
+                right: 70px;
+            }
         }
     }
 }

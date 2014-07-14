@@ -12,11 +12,19 @@ app.view.tools.common.Countries = Backbone.View.extend({
     },
 
     _events: {
-        "click #ctrl_countries": "launchCountriesSelector",
+        "click #ctrl_countries,.nocountries": "launchCountriesSelector",
         "click ul.country_bar a": "clickCountry",
         "click #ctrl_variables" : "clickAddVariableSelectorView",
         "click .country_bar_prev.active": "moveBarLeft",
-        "click .country_bar_next.active": "moveBarRight"
+        "click .country_bar_next.active": "moveBarRight",
+        "mouseenter #ctrl_countries,.nocountries" : function(e){
+            this.$("#ctrl_countries,.nocountries").addClass("hover");
+
+        },
+
+        "mouseleave #ctrl_countries,.nocountries" : function(e){
+            this.$("#ctrl_countries,.nocountries").removeClass("hover");
+        }
     },
 
     _setListeners: function(){

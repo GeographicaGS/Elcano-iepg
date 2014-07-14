@@ -9,7 +9,7 @@ import common.datacache as datacache
 import common.arrayops as arrayops
 from explora import app
 from flask import jsonify,request,send_file,make_response
-from common.helpers import cacheWrapper, baseMapData
+from common.helpers import baseMapData
 import common.arrayops
 import json
 from model import iepgdatamodel, basemap
@@ -43,7 +43,7 @@ def blocksData():
     out = dict()
     for b in datacache.blocks:
         year = dict()
-        for y in cacheWrapper(datacache.dataSets["iepg"].variables["energy"].getVariableYears):
+        for y in datacache.dataSets["iepg"].variables["energy"].getVariableYears:
             m = common.helpers.getBlockMembers(b, year=y)
             year[y] = m
         year["name_es"] = isoSpanish[b]
@@ -99,17 +99,23 @@ def countrySheet(lang, family, countryCode):
                 # This is expensive. Cache block members.
                 if countryCode in datacache.blocks:
                     c = arrayops.arraySubstraction(countries, 
-                                                   cacheWrapper(common.helpers.getBlockMembers,
-                                                                countryCode, year))
+                                                   common.helpers.getBlockMembers(countryCode, year))
                     c.append(countryCode)
                 else:
                     c = countries
 
-                d["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
-                                                  year, datacache.dataSets[family].variables[k], 
-                                                  countryCode)
-                d["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
-                                                    datacache.dataSets[family].variables[k], countryCode)
+                d["globalranking"] = common.helpers.getRankingCode(datacache.countries, 
+                                                                   year, 
+                                                                   datacache.dataSets[family].variables[k], 
+                                                                   countryCode)
+
+                if f:
+                    d["relativeranking"] = common.helpers.getRankingCode(c, year, 
+                                                                         datacache.dataSets[family].variables[k],
+                                                                         countryCode)
+                else:
+                    d["relativeranking"] = d["globalranking"]
+
                 famDict[k] = d
             conDict = dict()
 
@@ -132,11 +138,13 @@ def countrySheet(lang, family, countryCode):
                 else:
                     c = countries
 
-                d["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
-                                                  year, datacache.dataSets["context"].variables[k], 
-                                                  countryCode)
-                d["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
-                                                    datacache.dataSets["context"].variables[k], countryCode)
+                d["globalranking"] = common.helpers.getRankingCode(datacache.countries, 
+                                                                   year, 
+                                                                   datacache.dataSets["context"].variables[k], 
+                                                                   countryCode)
+                d["relativeranking"] = common.helpers.getRankingCode(c, year,
+                                                                     datacache.dataSets["context"].variables[k],
+                                                                     countryCode)
                 
                 conDict[k] = d
                 yearData["family"] = famDict
@@ -144,6 +152,7 @@ def countrySheet(lang, family, countryCode):
                 comment = m.getIepgComment(lang, countryCode, 2013)
                 yearData["comment"] = comment[0] if comment else None
                 out[year] = yearData
+
         return(jsonify({"results": out}))
     except ElcanoApiRestError as e:
         return(jsonify(e.toDict()))
@@ -163,8 +172,8 @@ def mapData(family, variable, year):
     else:
         c = countries
     try:
-        varData = cacheWrapper(common.helpers.getData, datacache.dataSets[family].variables[variable], 
-                               year=year, countryList=c)
+        varData = common.helpers.getData(datacache.dataSets[family].variables[variable], 
+                                         year=year, countryList=c)
         varData = [v for (k,v) in varData.iteritems() if v["value"] is not None]
         return(jsonify({"results": varData}))
     except ElcanoApiRestError as e:
@@ -175,7 +184,7 @@ def mapData(family, variable, year):
 def mapGeoJson():
     """Returns the map GeoJSON."""
     m = basemap.GeometryData()
-    data = cacheWrapper(m.geometryData)
+    data = m.geometryData
     out = dict()
     out["type"] = "FeatureCollection"
     

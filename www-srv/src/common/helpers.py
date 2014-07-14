@@ -6,7 +6,6 @@ Common helpers.
 
 """
 import common.datacache as datacache
-from common.cachewrapper import cacheWrapper
 import tweepy
 from config import MemcachedConfig
 from flask import jsonify
@@ -22,7 +21,7 @@ import model.iepgdatamodel
 
 def baseMapData():
     m = basemap.GeometryData()
-    geomData = cacheWrapper(m.geometryData)
+    geomData = m.geometryData()
     out = dict()
     for r in geomData:
         data = dict()
@@ -37,6 +36,9 @@ def getRanking(countryList, year, variable):
     """Calculates rankings, given a country list and a country filter, and
     given that the country list may contain blocks. Returns a dictionary with 
     ISO keys and the ranking. NaN are ignored."""
+
+    print "GetRangink : ",countryList, year, variable
+
     data = sorted([v for (k,v) in getData(variable, year=year, countryList=countryList).iteritems()
                    if v["code"] in countryList], key=lambda x: x["value"], reverse=True)
     values = sorted(set([k["value"] for k in data if k["value"] is not None]), reverse=True)
@@ -69,6 +71,9 @@ def getRankingCode(countryList, year, variable, countryCode):
     """Calculates rankings, given a country list and a country filter, and
     given that the country list may contain blocks. Returns a dictionary with 
     ISO keys and the ranking. NaN are ignored."""
+
+    print "GetRankingCode : ",countryList, year, variable, countryCode
+
     if countryCode not in countryList:
         return(None)
     value = getData(variable, year=year, code=countryCode).values()[0]["value"]

@@ -37,8 +37,6 @@ def getRanking(countryList, year, variable):
     given that the country list may contain blocks. Returns a dictionary with 
     ISO keys and the ranking. NaN are ignored."""
 
-    print "GetRangink : ",countryList, year, variable
-
     data = sorted([v for (k,v) in getData(variable, year=year, countryList=countryList).iteritems()
                    if v["code"] in countryList], key=lambda x: x["value"], reverse=True)
     values = sorted(set([k["value"] for k in data if k["value"] is not None]), reverse=True)
@@ -71,8 +69,6 @@ def getRankingCode(countryList, year, variable, countryCode):
     """Calculates rankings, given a country list and a country filter, and
     given that the country list may contain blocks. Returns a dictionary with 
     ISO keys and the ranking. NaN are ignored."""
-
-    print "GetRankingCode : ",countryList, year, variable, countryCode
 
     if countryCode not in countryList:
         return(None)

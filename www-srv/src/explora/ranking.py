@@ -18,8 +18,7 @@ from collections import OrderedDict
 import copy
 
 
-@app.route('/ranking/<string:lang>/<int:currentYear>/<int:referenceYear>/<string:family>/<string:variable>/<int:blocks>', 
-           methods=['GET'])
+@app.route('/ranking/<string:lang>/<int:currentYear>/<int:referenceYear>/<string:family>/<string:variable>/<int:blocks>', methods=['GET'])
 def ranking(lang, currentYear, referenceYear, family, variable, blocks):
     """Retrieves ranking for a year and a variable. Examples:
 
@@ -28,8 +27,9 @@ def ranking(lang, currentYear, referenceYear, family, variable, blocks):
     """
     f = processFilter(request.args, "filter")
     e = processFilter(request.args, "entities")
+
     countries = copy.deepcopy(datacache.countries)
-    entitiesBlocks = [v for v in e if v in datacache.blocks]
+    entitiesBlocks = [v for v in e if v in datacache.blocks] if e else None
     v = datacache.dataSets[family].variables[variable]
 
     if f:

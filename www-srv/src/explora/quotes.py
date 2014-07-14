@@ -18,10 +18,6 @@ def quotes(family,variable,countries,lang):
     """
     family = family+"_quota"
     variable = variable+"_global" if variable=="global" else variable
-
-    print family
-    print variable
-
     countriesArray = countries.split(",")
 
     out = []    
@@ -46,5 +42,6 @@ def quotes(family,variable,countries,lang):
             "values": countryData
         }
         out.append(yearData)
+
+    out = sorted(out, key=lambda t: t["year"])
     return jsonify({"results": out})
-    

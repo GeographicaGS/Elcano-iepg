@@ -69,11 +69,24 @@ def countrySheet(lang, family, countryCode):
     """
     m = iepgdatamodel.IepgDataModel()
     f = processFilter(request.args, "filter")
-    # Participating countries
-    countries = copy.deepcopy(datacache.countries)
+
+    # Check the type of country code (country, EU, or block)
+    if countryCode in datacache.countries:
+        rankType = 0
+        population = copy.deepcopy(datacache.countries)
+    if countryCode in datacache.blocks:
+        rankType = 2
+        population = copy.deepcopy(datacache.blocksNoEu)
+    if countryCode=="XBEU":
+        rankType = 1
+        population = copy.deepcopy(datacache.countriesAndEu)
+
     # Filter substraction
     if f:
-        countries = arrayops.arraySubstraction(countries, f)
+        filteredPopulation = arrayops.arraySubstraction(population, f)
+    else:
+        filteredPopulation = population
+
     try:
         out = dict()
         # Iterate through the years involved in the variable
@@ -98,13 +111,13 @@ def countrySheet(lang, family, countryCode):
                 # Check if countryCode is a block. If it is, substract its members from countries
                 # This is expensive. Cache block members.
                 if countryCode in datacache.blocks:
-                    c = arrayops.arraySubstraction(countries, 
+                    c = arrayops.arraySubstraction(filteredPopulation, 
                                                    common.helpers.getBlockMembers(countryCode, year))
-                    c.append(countryCode)
+                    # c.append(countryCode)
                 else:
-                    c = countries
+                    c = filteredPopulation
 
-                d["globalranking"] = common.helpers.getRankingCode(datacache.countries, 
+                d["globalranking"] = common.helpers.getRankingCode(population, 
                                                                    year, 
                                                                    datacache.dataSets[family].variables[k], 
                                                                    countryCode)
@@ -131,14 +144,13 @@ def countrySheet(lang, family, countryCode):
 
                 # Check if countryCode is a block. If it is, substract its members from countries
                 if countryCode in datacache.blocks:
-                    c = arrayops.arraySubstraction(countries, 
-                                                   cacheWrapper(common.helpers.getBlockMembers,
-                                                                countryCode, year))
-                    c.append(countryCode)
+                    c = arrayops.arraySubstraction(filteredPopulation, 
+                                                   common.helpers.getBlockMembers(countryCode, year))
+                    # c.append(countryCode)
                 else:
-                    c = countries
+                    c = filteredPopulation
 
-                d["globalranking"] = common.helpers.getRankingCode(datacache.countries, 
+                d["globalranking"] = common.helpers.getRankingCode(population, 
                                                                    year, 
                                                                    datacache.dataSets["context"].variables[k], 
                                                                    countryCode)

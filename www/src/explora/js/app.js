@@ -69,10 +69,10 @@ $(function(){
 });
 
 app.resize = function(){
-    // If device's screen width is smaller than 768px, force to 768px
+    // If device's screen width is smaller than 1024px, force to 1024px
     var vp = document.getElementById('appViewport');
-    if(screen.width < 768) {
-        vp.setAttribute('content','width=768');
+    if(screen.width < 1024) {
+        vp.setAttribute('content','width=1024');
     }else{
         vp.setAttribute('content','width=device-width, initial-scale=1');
     }

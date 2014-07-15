@@ -201,7 +201,7 @@ def mapData(family, variable, year, mode):
     varData = common.helpers.getData(datacache.dataSets[family].variables[variable], 
                                      year=year, countryList=c)
 
-    finalData = {}
+    finalData = []
     for k,v in varData.iteritems():
         if v["code"] in datacache.blocks:
             for m in common.helpers.getBlockMembers(v["code"], year=year):
@@ -211,10 +211,10 @@ def mapData(family, variable, year, mode):
                     "value": v["value"],
                     "year": year
                 }
-                finalData[m] = d
+                finalData.append(d)
         else:
-            finalData[v["code"]] = v
-    return(jsonify({"res": finalData}))
+            finalData.append(v)
+    return(jsonify({"results": finalData}))
 
 
 @app.route('/mapgeojson', methods=['GET'])

@@ -109,15 +109,32 @@ def getDownloadData(language, years, variables, countries, columns, rows):
                                           const.variableNames[t[0].split("@")[0]][t[0].split("@")[1]]["order"]))
 
 
+    print "allVariables : ", allVariables
+
+
+
     for tabData in data[tabs]:
         print "tabData : ", tabData
 
         col = 1
-        worksheet = workbook.add_worksheet((str(tabData)).decode("utf-8"))
-        title = "Data from Elcano Global Presence Index ("+str(tabData)+")" if language=="en" else \
-                "Datos del Índice de Presencia Globaldfdfdfdf Elcano ("+str(tabData)+")"
-        worksheet.set_row(0,30,title_format)
-        worksheet.write(0,0,title.decode("utf-8"))
+
+        if tabs=="variable":
+            varSplitted = tabData.split("@")
+            varName = (const.variableNames[varSplitted[1]][varSplitted[0]]["name_"+language])
+            print "kjkj :", varSplitted[1]
+            familyName = varSplitted[1] #.decode("utf-8").upper())
+
+            tabName = varName+" ("+familyName+")"
+
+            print "UYewer :",varName, familyName, tabName
+
+            # title = "Data from Elcano Global Presence Index (Data for "+str(tabName)+")" if language=="en" \
+            #         else "Datos del Índice de Presencia Global Elcano (Datos para "+str(tabName)+")"
+
+
+        # worksheet = workbook.add_worksheet((tabName).decode("utf-8"))
+        # worksheet.set_row(0,30,title_format)
+        # worksheet.write(0,0,title.decode("utf-8"))
         # for k,v in allVariables.iteritems():
         #     data = sorted(chelpers.getData(v, countryList=countries, year=year).values(),
         #                   key=lambda t: translate[t["code"]])
@@ -140,10 +157,10 @@ def getDownloadData(language, years, variables, countries, columns, rows):
 
         row = 10
 
-        worksheet.write(row+1, 0, "Más información:".decode("utf-8") if language=="es" else 
-                        "More information:".decode("utf-8"), bold_format)
-        worksheet.write_url(row+1, 1, "http://www.globalpresence.realinstitutoelcano.org", url_format,
-                            "http://www.globalpresence.realinstitutoelcano.org")
+        # worksheet.write(row+1, 0, "Más información:".decode("utf-8") if language=="es" else 
+        #                 "More information:".decode("utf-8"), bold_format)
+        # worksheet.write_url(row+1, 1, "http://www.globalpresence.realinstitutoelcano.org", url_format,
+        #                     "http://www.globalpresence.realinstitutoelcano.org")
     workbook.close()
 
     return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 

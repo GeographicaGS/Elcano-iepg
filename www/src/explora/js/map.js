@@ -1,4 +1,3 @@
-
 app.view.map = function(options){
     this.baseLayer = null;
 
@@ -83,6 +82,7 @@ app.view.map = function(options){
                     if (!country){
                         continue;
                     }
+                    country.properties.code = data[i].code;
                     country.properties.name_es = app.blocks[data[i].code]["name_es"];
                     country.properties.name_en = app.blocks[data[i].code]["name_en"];
                     country.properties.time = time;

@@ -380,7 +380,8 @@ app.findCountry = function(id_country){
     for (var i=0;i<countriesGeoJSON.features.length;i++){
 
         if (countriesGeoJSON.features[i].properties.code == id_country){
-            return countriesGeoJSON.features[i];
+            return $.extend(true, {}, countriesGeoJSON.features[i]);
+            //return countriesGeoJSON.features[i];
         }
     }
 };

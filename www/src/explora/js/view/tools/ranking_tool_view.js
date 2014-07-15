@@ -114,8 +114,10 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         this.$chart = this.$(".chart");
 
-        this.$(".co_chart").height(this.$(".body").height()- this.$(".chart_header").outerHeight(true));
+        var h = this.$(".body").height()- this.$(".chart_header").outerHeight(true);
+        this.$(".co_chart").height(h);
 
+        this.$(".co_chart").css("top",this.$(".chart_header").outerHeight(true) + "px");
         this._drawD3Chart();
 
         this._forceFetchDataTool = false;

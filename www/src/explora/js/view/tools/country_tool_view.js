@@ -90,7 +90,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             "family" :  ctx.family,
             "variable" : "global",
             "date" : ctx.slider[0].date.getFullYear(),
-            "mode" : ctx.countries.selection[0].length == 2 ? 0 :
+            "mode" : !ctx.countries.selection.length ? 0 :
+                    ctx.countries.selection[0].length == 2 ? 0 :
                     ctx.countries.selection[0] == "XBEU" ? 1 : 2
         });
         

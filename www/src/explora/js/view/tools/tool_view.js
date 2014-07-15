@@ -28,6 +28,10 @@ app.view.tools.Plugin = Backbone.View.extend({
         // Let's modify the context with the current family
         var ctx = this.getGlobalContext();
         ctx.data.family = f;
+
+        if (f == "iepe"){
+            ctx.data.block_analize = 0;
+        }
         ctx.saveContext();
         
         // Copy the global context to the latest

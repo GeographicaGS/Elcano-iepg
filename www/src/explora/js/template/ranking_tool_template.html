@@ -29,9 +29,10 @@
                                 <%= app.variableToString(ctx.variables[0],ctx.family) %>
                             </h5>
                            
+                           <% if (ctx.family =="iepg") { %>
                             <ul class="analyze">
                                 <% for (var i=0;i<3;i++) { %>
-                                <li <%= ctx.block_analize == i ? "selected" : "" %>>
+                                <li <%= ctx.block_analize == i ? "selected" : "" %> >
                                     <a href="#" block-analyze="<%= i %>">
                                         <% 
                                             if (ctx.block_analize == i ){
@@ -51,6 +52,7 @@
                                 </li>
                                 <% } %>
                             </ul>
+                            <% } %>
                         </div>
                         <div class="co_chart">
                             <a id="scroll_down" href="#"></a>

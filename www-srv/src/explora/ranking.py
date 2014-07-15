@@ -63,10 +63,15 @@ def ranking(lang, currentYear, referenceYear, family, variable, mode):
         d = {
             "code": k,
             "currentRanking": v["rank"],
-            "currentValue": v["value"],
-            "referenceRanking": referenceRanking[k]["rank"],
-            "referenceValue": referenceRanking[k]["value"]
+            "currentValue": v["value"]
         }
+        if k in referenceRanking:
+            d["referenceRanking"]=referenceRanking[k]["rank"]
+            d["referenceValue"]=referenceRanking[k]["value"]
+        else:
+            d["referenceRanking"]=None
+            d["referenceValue"]=None
+
         out.append(d)
 
     return(jsonify({"results": out}))

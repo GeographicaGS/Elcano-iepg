@@ -578,8 +578,9 @@
             }*/
 
             ul.analyze{
+                margin-top:18px;
                 li{
-                    height: 21px;
+                    height: 20px;
                     a{
                         .roboto();
                         font-size: 13px;
@@ -615,7 +616,7 @@
         }
 
         .co_chart{
-            top: 60px;
+            top: 90px;
             bottom: 18px;
             z-index: 1;
         }

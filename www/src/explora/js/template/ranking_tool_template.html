@@ -34,8 +34,11 @@
                                 <li <%= ctx.block_analize == i ? "selected" : "" %>>
                                     <a href="#" block-analyze="<%= i %>">
                                         <% 
+                                            if (ctx.block_analize == i ){
+                                                print("<lang>Ranking de </lang>");
+                                            }
                                             if (i==0){ 
-                                                print("<lang>Ranking de países</lang>");
+                                                print("<lang>Países</lang>");
                                             }
                                             else if(i==1){
                                                 print("<lang>Países + UE</lang>");   

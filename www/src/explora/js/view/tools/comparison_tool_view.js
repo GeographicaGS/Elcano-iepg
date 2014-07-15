@@ -540,6 +540,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             colorVariable = this._d3[family].tree.findElementInTree(variable.variable).color;
             bcolorVariable = this._d3[bfamily].tree.findElementInTree(bvariable.variable).color;
 
+        
+
         return "<div>"
                 +      "<span >" + ranking + "º  <lang>Presencia Global</lang></span>"
                 +       "<span>" + variable.year + "</span>"
@@ -561,7 +563,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 +       "<div class='clear'></div>"
                 +   "</div>"
                 +   "<div class='compare'>"
-                +       "<span class='white ml'>" + branking + "º <lang>Presencia Europea</lang></span>"
+                +       "<span class='white ml'>" + (branking ? branking + "º" : "" ) + " <lang>Presencia Europea</lang></span>"
                 +       "<span class='year mr'>" + bvariable.year + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>";

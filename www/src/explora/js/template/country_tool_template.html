@@ -34,7 +34,12 @@
                         <div class="col-sm-12">
                             <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText("global",ctx.family)%>">
                                 <%= app.variableToString("global",ctx.family) %>
+                                <span class="subcolor">
+                                &nbsp;-&nbsp;
+                                <%=  app.countryToString(country) %>
+                                </span>
                             </h5>
+                            
                         </div>
                     </div>
                     <div class="row mth1">
@@ -45,9 +50,9 @@
                             <div class="co_flag" >
                                 <img src="/img/flags/<%= country %>.svg" class="flag" />
                             </div>
-                            <span class="grey size_21 fleft mt7 ml roboto_light" title="<%=  app.countryToString(country) %>">
+                           <!--  <span class="grey size_21 fleft mt7 ml roboto_light" title="<%=  app.countryToString(country) %>">
                                 <abbr title="<%= app.countryToString(country)%>"><%= app.countryCodeToStr(country) %></abbr>
-                            </span>
+                            </span> -->
                             <span class="grey size_21 fleft mt7 ml roboto_bold"><%= app.formatNumber(sprintf("%0.2f",variable.value)) %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">

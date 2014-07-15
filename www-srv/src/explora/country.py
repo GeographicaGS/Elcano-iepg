@@ -22,6 +22,7 @@ import numpy as numpy
 from collections import OrderedDict
 import locale
 import copy
+import maplex
 
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
@@ -170,26 +171,55 @@ def countrySheet(lang, family, countryCode):
         return(jsonify(e.toDict()))
 
 
-@app.route('/mapdata/<string:family>/<string:variable>/<int:year>', methods=['GET'])
-def mapData(family, variable, year):
+@app.route('/mapdata/<string:family>/<string:variable>/<int:year>/<int:mode>', methods=['GET'])
+def mapData(family, variable, year, mode):
     """Retrieves map data. Service call:
     
-    /mapdata/es/iepg/economic_presence/2013?filter=US,DK,ES&toolfilter=US,DK
+    /mapdata/es/iepg/economic_presence/2013/0?filter=US,DK,ES&toolfilter=US,DK
+
+    Modes are:
+    0: countries
+    1: countries+EU
+    2: blocks
     """
-    countries = copy.deepcopy(datacache.countries)
+    if mode==0:
+        population = copy.deepcopy(datacache.countries)
+    if mode==1:
+        population = copy.deepcopy(datacache.countriesAndEu)
+    if mode==2:
+        population = copy.deepcopy(datacache.blocksNoEu)
+
+
+
     filter = processFilter(request.args, "filter")
     toolFilter = processFilter(request.args, "toolfilter")
     if filter:
-        c = arrayops.arraySubstraction(countries, filter)
+        c = arrayops.arraySubstraction(population, filter)
     else:
-        c = countries
-    try:
-        varData = common.helpers.getData(datacache.dataSets[family].variables[variable], 
-                                         year=year, countryList=c)
-        varData = [v for (k,v) in varData.iteritems() if v["value"] is not None]
-        return(jsonify({"results": varData}))
-    except ElcanoApiRestError as e:
-        return(jsonify(e.toDict()))    
+        c = population
+    
+    varData = common.helpers.getData(datacache.dataSets[family].variables[variable], 
+                                     year=year, countryList=c)
+
+    print "pop : ",population
+    print "var : ", varData
+
+    # finalData = {}
+    # for k,v in varData.iteritems():
+    #     print k,v
+    #     if v["code"] in datacache.blocks:
+    #         members = maplex.getBlockMembers(v["code"], year=year, idNameFamily=1)
+    #         print "m : ", members
+            
+
+    return(jsonify({"res": varData}))
+
+    # try:
+    
+    #     varData = [v for (k,v) in varData.iteritems() if v["value"] is not None]
+    #     return(jsonify({"results": varData}))
+    # except ElcanoApiRestError as e:
+    #     return(jsonify(e.toDict()))    
 
 
 @app.route('/mapgeojson', methods=['GET'])

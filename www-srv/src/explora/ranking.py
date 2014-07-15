@@ -18,33 +18,41 @@ from collections import OrderedDict
 import copy
 
 
-@app.route('/ranking/<string:lang>/<int:currentYear>/<int:referenceYear>/<string:family>/<string:variable>/<int:blocks>', methods=['GET'])
-def ranking(lang, currentYear, referenceYear, family, variable, blocks):
+@app.route('/ranking/<string:lang>/<int:currentYear>/<int:referenceYear>/<string:family>/<string:variable>/<int:mode>', methods=['GET'])
+def ranking(lang, currentYear, referenceYear, family, variable, mode):
     """Retrieves ranking for a year and a variable. Examples:
 
     /ranking/es/1995/1990/iepg/energy/0
     /ranking/en/2012/1995/iepe/manufactures/1?filter=US,DE&entities=ES,NL,XBAP,XBSA
+
+    Modes are:
+
+    0: country ranking
+    1: countries+UE ranking
+    2: block ranking
     """
     f = processFilter(request.args, "filter")
     e = processFilter(request.args, "entities")
 
-    countries = copy.deepcopy(datacache.countries)
-    entitiesBlocks = [v for v in e if v in datacache.blocks] if e else None
+    if mode==0:
+        population=copy.deepcopy(datacache.countries)
+    if mode==1:
+        population=copy.deepcopy(datacache.countriesAndEu)
+    if mode==2:
+        population=copy.deepcopy(datacache.blocksNoEu)
+
     v = datacache.dataSets[family].variables[variable]
 
     if f:
-        currentC = arrayops.arraySubstraction(countries, f)
-        referenceC = currentC
+        currentC = arrayops.arraySubstraction(population, f)
     else:
-        currentC = countries
-        referenceC = currentC
+        currentC = population
 
-    if blocks:
-        for i in entitiesBlocks:
-            currentC = arrayops.arraySubstraction(currentC, chelpers.getBlockMembers(i, year=currentYear))
-            currentC.append(i)
-            referenceC = arrayops.arraySubstraction(referenceC, chelpers.getBlockMembers(i, year=referenceYear))
-            referenceC.append(i)
+    referenceC = currentC
+
+    if mode==1:
+        currentC = arrayops.arraySubstraction(currentC, chelpers.getBlockMembers("XBEU", year=currentYear))
+        referenceC = arrayops.arraySubstraction(referenceC, chelpers.getBlockMembers("XBEU", year=referenceYear))
 
     currentRanking = OrderedDict(sorted(chelpers.getRanking(currentC, currentYear, v).items(), 
                                         key=lambda t: t[1]["rank"]))

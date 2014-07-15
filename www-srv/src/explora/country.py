@@ -211,9 +211,9 @@ def mapData(family, variable, year, mode):
                     "value": v["value"],
                     "year": year
                 }
-                finalData[m+"@"+str(year)] = d
+                finalData[m] = d
         else:
-            finalData[k] = v
+            finalData[v["code"]] = v
     return(jsonify({"res": finalData}))
 
 

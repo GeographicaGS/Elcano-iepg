@@ -22,7 +22,7 @@ import numpy as numpy
 from collections import OrderedDict
 import locale
 import copy
-import maplex
+import maplex as maplex
 
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
@@ -185,11 +185,11 @@ def mapData(family, variable, year, mode):
     if mode==0:
         population = copy.deepcopy(datacache.countries)
     if mode==1:
-        population = copy.deepcopy(datacache.countriesAndEu)
+        population = arrayops.arraySubstraction(
+            copy.deepcopy(datacache.countriesAndEu),
+            common.helpers.getBlockMembers("XBEU", year=year))
     if mode==2:
         population = copy.deepcopy(datacache.blocksNoEu)
-
-
 
     filter = processFilter(request.args, "filter")
     toolFilter = processFilter(request.args, "toolfilter")
@@ -201,25 +201,20 @@ def mapData(family, variable, year, mode):
     varData = common.helpers.getData(datacache.dataSets[family].variables[variable], 
                                      year=year, countryList=c)
 
-    print "pop : ",population
-    print "var : ", varData
-
-    # finalData = {}
-    # for k,v in varData.iteritems():
-    #     print k,v
-    #     if v["code"] in datacache.blocks:
-    #         members = maplex.getBlockMembers(v["code"], year=year, idNameFamily=1)
-    #         print "m : ", members
-            
-
-    return(jsonify({"res": varData}))
-
-    # try:
-    
-    #     varData = [v for (k,v) in varData.iteritems() if v["value"] is not None]
-    #     return(jsonify({"results": varData}))
-    # except ElcanoApiRestError as e:
-    #     return(jsonify(e.toDict()))    
+    finalData = {}
+    for k,v in varData.iteritems():
+        if v["code"] in datacache.blocks:
+            for m in common.helpers.getBlockMembers(v["code"], year=year):
+                d = {
+                    "code": m,
+                    "type": "float",
+                    "value": v["value"],
+                    "year": year
+                }
+                finalData[m+"@"+str(year)] = d
+        else:
+            finalData[k] = v
+    return(jsonify({"res": finalData}))
 
 
 @app.route('/mapgeojson', methods=['GET'])

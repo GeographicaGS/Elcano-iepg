@@ -1,5 +1,6 @@
 app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#quotes_tool_template').html() ),
+    _templateHelp : _.template( $('#quotes_tool_help_template').html() ),
 
     mapCollection : null,
     toolCollection : null,

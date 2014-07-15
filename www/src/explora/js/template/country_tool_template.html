@@ -51,20 +51,26 @@
                             <span class="grey size_21 fleft mt7 ml roboto_bold"><%= app.formatNumber(sprintf("%0.2f",variable.value)) %></span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <% if (country.length == 2) { %>
-                                <span class="size_13">
-                                    <%= sprintf("<lang> Ranking %dº</lang>", variable.globalranking) %>
-                                </span>
-                                <% if (app.getFilters().length 
+                            
+                            <span class="size_13">
+                                <% 
+                                    if (country.length == 2) { 
+                                        print(sprintf("<lang> Ranking de país %dº</lang>", variable.globalranking));
+                                    } else if (country == "XBEU") {
+                                        print(sprintf("<lang> Ranking de país + UE %dº</lang>", variable.globalranking));
+                                    }
+                                    else{
+                                        print(sprintf("<lang> Ranking de bloque %dº</lang>", variable.globalranking));
+                                    }
+                                %>
+                            </span>
+
+                            <% if (app.getFilters().length 
                                     && variable.relativeranking 
                                     && variable.relativeranking!=variable.globalranking ){ %>
                                     <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", variable.relativeranking) %></span>
-                                <% }%>
-                            <% } else { %>
-                                <span class="size_13">
-                                    <%= sprintf("<lang> Ranking de bloque %dº</lang>", variable.relativeranking) %>
-                                </span>
-                            <% } %>
+                            <% }%>
+                            
                         </div>
                     </div>
 
@@ -84,20 +90,24 @@
                             <span class="grey_light uppercase size_13">[US$]</span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            <% if (country.length == 2) { %>
-                                <span class="size_13">
-                                    <%= sprintf("<lang> Ranking %dº</lang>", gdp.globalranking) %>
-                                </span>
-                                <% if (app.getFilters().length 
-                                    && gdp.relativeranking
-                                    && gdp.relativeranking!=gdp.globalranking) { %>
+                            <span class="size_13">
+                                <% 
+                                    if (country.length == 2) { 
+                                        print(sprintf("<lang> Ranking de país %dº</lang>", gdp.globalranking));
+                                    } else if (country == "XBEU") {
+                                        print(sprintf("<lang> Ranking de país + UE %dº</lang>", gdp.globalranking));
+                                    }
+                                    else{
+                                        print(sprintf("<lang> Ranking de bloque %dº</lang>", gdp.globalranking));
+                                    }
+                                %>
+                            </span>
+
+                            <% if (app.getFilters().length 
+                                    && gdp.relativeranking 
+                                    && gdp.relativeranking!=gdp.globalranking ){ %>
                                     <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", gdp.relativeranking) %></span>
-                                <% }%>
-                            <% } else { %>
-                                <span class="size_13">
-                                    <%= sprintf("<lang> Ranking de bloque %dº</lang>", gdp.relativeranking) %>
-                                </span>
-                            <% } %>
+                            <% }%>
                            
                         </div>
                     </div>
@@ -121,21 +131,24 @@
                             <span class="grey_light uppercase size_13">[<lang>hab</lang>]</span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
-                            
-                            <% if (country.length == 2) { %>
-                                <span class="size_13">
-                                    <%= sprintf("<lang> Ranking %dº</lang>", population.globalranking) %>
-                                </span>
-                                <% if (app.getFilters().length 
-                                    && population.relativeranking
-                                    && population.relativeranking!= population.globalranking) { %>
-                                    <span class="size_13 roboto_italic">/<%= sprintf("<lang> Ranking con filtro %dº</lang>", population.relativeranking) %></span>
-                                <% }%>
-                            <% } else { %>
-                                <span class="size_13">
-                                    <%= sprintf("<lang> Ranking de bloque %dº</lang>", population.relativeranking) %>
-                                </span>
-                            <% } %>
+                              <span class="size_13">
+                            <% 
+                                    if (country.length == 2) { 
+                                        print(sprintf("<lang> Ranking de país %dº</lang>", population.globalranking));
+                                    } else if (country == "XBEU") {
+                                        print(sprintf("<lang> Ranking de país + UE %dº</lang>", population.globalranking));
+                                    }
+                                    else{
+                                        print(sprintf("<lang> Ranking de bloque %dº</lang>", population.globalranking));
+                                    }
+                                %>
+                            </span>
+
+                            <% if (app.getFilters().length 
+                                    && population.relativeranking 
+                                    && population.relativeranking!=population.globalranking ){ %>
+                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", population.relativeranking) %></span>
+                            <% }%>
                         </div>
                     </div>
 
@@ -176,9 +189,10 @@
                             </p>
                         </div>
                         <div class="row">
-                            <ul class="flag_wrapper noclickable col-xs-12">
+                            <ul class="flag_wrapper noclickable col-xs-6">
                                 <% 
                                 country_list = _.sortBy(app.blocks[country][year], function(c){ return  app.countryToString(c) });
+
                                 for (var i=0;i<country_list.length;i++) 
                                 {
                                     c = country_list[i];

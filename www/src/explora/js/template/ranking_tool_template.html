@@ -28,10 +28,26 @@
                             <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText(ctx.variables[0],ctx.family)%>">
                                 <%= app.variableToString(ctx.variables[0],ctx.family) %>
                             </h5>
-                            <div class="analyze">
-                                <span class="label">Análisis por bloques</span>
-                                <a href="#" block-analyze="<%= ctx.block_analize ? "true" : "false" %>"></a>
-                            </div>
+                           
+                            <ul class="analyze">
+                                <% for (var i=0;i<3;i++) { %>
+                                <li <%= ctx.block_analize == i ? "selected" : "" %>>
+                                    <a href="#" block-analyze="<%= i %>">
+                                        <% 
+                                            if (i==0){ 
+                                                print("<lang>Ranking de países</lang>");
+                                            }
+                                            else if(i==1){
+                                                print("<lang>Países + UE</lang>");   
+                                            }
+                                            else{
+                                                print("<lang>Bloques</lang>");   
+                                            }
+                                        %>
+                                    </a>
+                                </li>
+                                <% } %>
+                            </ul>
                         </div>
                         <div class="co_chart">
                             <a id="scroll_down" href="#"></a>

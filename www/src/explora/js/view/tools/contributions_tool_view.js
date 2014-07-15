@@ -632,12 +632,11 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _htmlToolTip: function(variable,bvariable){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            family = ctx.family,
-            ranking = variable.globalranking  ? variable.globalranking  : variable.relativeranking;
+            family = ctx.family;
 
         if (!bvariable){
              return "<div>"
-                    +      "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +      "<span>" + app.countryToString(variable.code) + "</span>"
                     +       "<span>" + variable.year + "</span>"
                     +      "<div class='clear'></div>"
                     +   "</div>"
@@ -649,14 +648,13 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         }
         else{
 
-            var branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
-                max = _.max([bvariable.percentage,variable.percentage]),
+            var max = _.max([bvariable.percentage,variable.percentage]),
                 progress = 100 * variable.percentage / max,
                 bprogress = 100 * bvariable.percentage / max,
                 colorVariable = this._d3.left.tree.findElementInTree(variable.variable).color;
 
             return "<div>"
-                    +      "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +      "<span>" + app.countryToString(variable.code) + "</span>"
                     +       "<span>" + variable.year + "</span>"
                     +      "<div class='clear'></div>"
                     +   "</div>"
@@ -678,7 +676,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     +       "<div class='clear'></div>"
                     +   "</div>"
                     +   "<div class='compare'>"
-                    +       "<span class='white ml' >" + branking + "º " +app.countryToString(bvariable.code) + "</span>"
+                    +       "<span class='white ml' >" +app.countryToString(bvariable.code) + "</span>"
                     +       "<span class='year mr'>" + bvariable.year + "</span>"
                     +       "<div class='clear'></div>"
                     +   "</div>";

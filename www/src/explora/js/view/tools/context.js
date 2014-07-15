@@ -121,7 +121,7 @@ app.view.tools.context = function(id){
             // Family it could be iepg or iepe
             "family" : "iepg",
 
-            "block_analize" : false,
+            "block_analize" : 0,
 
             "version" : app.version
         };

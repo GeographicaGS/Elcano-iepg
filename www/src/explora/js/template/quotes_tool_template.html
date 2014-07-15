@@ -11,7 +11,10 @@
 	</div>
 
 	<div class="body">
-		<% if (collection) { %>
+		 <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
+            <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+        </a>
+		<% if (collection && collection.length > 0) { %>
 			<div>
                 <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText(ctx.variables[0],ctx.family)%>">
                 	<%= app.variableToString(ctx.variables[0],ctx.family) %>
@@ -20,6 +23,22 @@
 			<div class="co_chart">
 		    	<div class="chart"></div>
 		    </div>
+	    <% } else if (collection.length == 0){ %>
+
+	    	<div class="container-fluid">
+                
+                <div class="nodata">
+				    <h4>
+				        <lang>No hay datos disponibles con los parámetros seleccionados</lang>
+				    </h4>
+				    <h6><lang>Esto puede ser debido a:</lang><h6>
+				    <ol>
+				        <li><lang>Se ha seleccionado una variable para la que no hay datos para el año seleccionado</lang>.</li>
+				        <li><lang>Si no es debido a ninguno de los puntos anteriores consulte la ayuda de la herramienta, pulsando la &apos;i&apos; de información de la esquina superior derecha</lang>.</li>
+				    </ol>
+				</div>
+               
+            </div>
 	    <% } else { %>
             <div class="container-fluid">
                 <div class="row mth1">

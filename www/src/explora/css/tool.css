@@ -5,7 +5,97 @@
     right: 20px;
     /*margin-right: 20px;*/
     pointer-events: none;
+}
 
+.iconVariableImage(@variable){
+    .iconVariable(@variable);
+    background: url(@iconVariable) no-repeat center center;
+    width: 24px;
+    height: 24px;
+}
+
+.variableIcon[data-variable='iepg']{
+   .iconVariableImage(iepg);
+}
+
+.variableIcon[data-variable='iepe']{
+    .iconVariableImage(iepe);
+}
+
+.variableIcon[data-variable='economic_global']{
+   .iconVariableImage(economic_presence);
+}
+
+.variableIcon[data-variable='energy']{
+   .iconVariableImage(energy);
+}
+
+.variableIcon[data-variable='primary_goods']{
+   .iconVariableImage(primary_goods);
+}
+
+.variableIcon[data-variable='manufactures']{
+   .iconVariableImage(manufactures);
+}
+
+.variableIcon[data-variable='services']{
+   .iconVariableImage(services);
+}
+
+.variableIcon[data-variable='investments']{
+   .iconVariableImage(investments);
+}
+ 
+.variableIcon[data-variable='military_global']{
+   .iconVariableImage(military_presence);
+}
+
+.variableIcon[data-variable='troops']{
+   .iconVariableImage(troops);
+}
+
+.variableIcon[data-variable='military_equipment']{
+   .iconVariableImage(military_equipment);
+}
+
+.variableIcon[data-variable='soft_global']{
+   .iconVariableImage(soft_presence);
+}
+
+.variableIcon[data-variable='migrations']{
+   .iconVariableImage(migrations);
+}
+
+.variableIcon[data-variable='tourism']{
+   .iconVariableImage(tourism);
+}
+
+.variableIcon[data-variable='sports']{
+   .iconVariableImage(sports);
+}
+
+.variableIcon[data-variable='culture']{
+   .iconVariableImage(culture);
+}
+
+.variableIcon[data-variable='information']{
+   .iconVariableImage(information);
+}
+
+.variableIcon[data-variable='technology']{
+   .iconVariableImage(technology);
+}
+
+.variableIcon[data-variable='science']{
+   .iconVariableImage(science);
+}
+
+.variableIcon[data-variable='education']{
+   .iconVariableImage(education);
+}
+
+.variableIcon[data-variable='cooperation']{
+   .iconVariableImage(cooperation);
 }
 
 #tool_data{
@@ -319,9 +409,8 @@
                     float:left;
                 }
                 div{
-                    width:15px;
-                    height:15px;
-                    margin: 10px 10px 0 20px ;
+                    background-size: 24px 24px;
+                    margin: 5px 10px 0 20px ;
                 }
                 text-align: left;
             }
@@ -449,10 +538,9 @@
         }
         .chart_header{
             top: @line_height;
-            h5{
-                float:left;
-            }
-            .analyze{
+            z-index:2;
+           /* DEPRECATED
+           .analyze{
                 float:right;
                 
                 span,a{
@@ -487,12 +575,49 @@
                         float:right;
                     }
                 }
+            }*/
+
+            ul.analyze{
+                li{
+                    height: 21px;
+                    a{
+                        .roboto();
+                        font-size: 13px;
+                        color: @grey_light;
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+
+                    a::before{
+                        content: "";
+                        display: inline-block;
+                        vertical-align: middle;
+                        background-color: @white;
+                        border: 4px solid @grey_light;
+                        border-radius: 100%;
+                        width:15px;
+                        height: 15px;
+                    }
+
+                    &[selected]{
+                        a{
+                            color:@grey_dark;
+                        }
+
+                        a::before{
+                             background-color: @yellow;
+                             border-color: #000;
+                             
+                        }
+                    }
+                }
             }
         }
 
         .co_chart{
             top: 60px;
             bottom: 18px;
+            z-index: 1;
         }
     }
 
@@ -505,6 +630,7 @@
     .chart{
         width: 100%;
         height: 100%;
+        min-height: 0 !important;
        /* overflow-y: scroll;
 */
         .co_bar{

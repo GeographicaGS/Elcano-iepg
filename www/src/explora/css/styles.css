@@ -152,6 +152,91 @@ html, body{ height:100%; min-width: 768px;}
     @iconVariableHeader : "@{imgPath}variables/ELC_variable_b_cooperacion_cab.svg";
 }   
 
+.iconVariable(@name) when (@name = iepg){
+    @iconVariable : "@{imgPath}variables/ELC_variable_iepg.svg";
+}
+
+.iconVariable(@name) when (@name = iepe){
+    @iconVariable : "@{imgPath}variables/ELC_variable_iepe.svg";
+}
+
+.iconVariable(@name) when (@name = economic_presence){
+    @iconVariable : "@{imgPath}variables/ELC_variable_e_presencia_economica.svg";
+}
+
+.iconVariable(@name) when (@name = energy){
+    @iconVariable : "@{imgPath}variables/ELC_variable_e_energia.svg";
+}
+
+.iconVariable(@name) when (@name = primary_goods){
+    @iconVariable : "@{imgPath}variables/ELC_variable_e_bienesprimarios.svg";
+}
+
+.iconVariable(@name) when (@name = manufactures){
+    @iconVariable : "@{imgPath}variables/ELC_variable_e_manufacturas.svg";
+}
+
+.iconVariable(@name) when (@name = services){
+    @iconVariable : "@{imgPath}variables/ELC_variable_e_servicios.svg";
+}
+
+.iconVariable(@name) when (@name = investments){
+    @iconVariable : "@{imgPath}variables/ELC_variable_e_inversiones.svg";
+}
+
+/* Military icons */ 
+.iconVariable(@name) when (@name = military_presence){
+    @iconVariable : "@{imgPath}variables/ELC_variable_m_presencia_militar.svg";
+}
+
+.iconVariable(@name) when (@name = troops){
+    @iconVariable : "@{imgPath}variables/ELC_variable_m_tropas.svg";
+}
+
+.iconVariable(@name) when (@name = military_equipment){
+    @iconVariable : "@{imgPath}variables/ELC_variable_m_equipamiento.svg";
+}
+
+.iconVariable(@name) when (@name = soft_presence){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_presencia_blanda.svg";
+}
+
+.iconVariable(@name) when (@name = migrations){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_migraciones.svg";
+}
+
+.iconVariable(@name) when (@name = tourism){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_turismo.svg";
+}
+
+.iconVariable(@name) when (@name = sports){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_deportes.svg";
+}
+
+.iconVariable(@name) when (@name = culture){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_cultura.svg";
+}
+
+.iconVariable(@name) when (@name = information){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_informacion.svg";
+}
+
+.iconVariable(@name) when (@name = technology){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_tecnologia.svg";
+}
+
+.iconVariable(@name) when (@name = science){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_ciencia.svg";
+}
+
+.iconVariable(@name) when (@name = education){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_educacion.svg";
+}
+
+.iconVariable(@name) when (@name = cooperation){
+    @iconVariable : "@{imgPath}variables/ELC_variable_b_cooperacion.svg";
+}   
+
 body {
 	.roboto();
 	color:@grey;

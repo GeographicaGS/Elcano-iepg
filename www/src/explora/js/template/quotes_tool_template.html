@@ -4,10 +4,7 @@
 	    <span id="tool_name"><lang>Cuotas de presencia</lang></span>
 	    <span id="tool_year"><lang>Año</lang> <%= ctx.slider[0].date.getFullYear()%></span>
 
-	    <select id="ctrl_family">
-	        <option value="iepg" <%= ctx.family == "iepg" ? "selected" : "" %>><lang>Presencia Global</lang></option>
-	        <option value="iepe" <%= ctx.family == "iepe" ? "selected" : "" %> ><lang>Presencia Europea</lang></option>
-	    </select>
+	    <%= _.template($("#ctrl_family_template").html())({ctx : ctx}) %>
 	</div>
 
 	<div class="body">

@@ -17,13 +17,13 @@ app.view.tools.Plugin = Backbone.View.extend({
     // Events are apply on render and disable on hideTool
     _events: function (){
         return {
-            "change #ctrl_family" : "_changeFamily",
+            "click #ctrl_family li" : "_changeFamily",
             "click a.helpIcon": "launchHelp"
         };
     },
 
     _changeFamily: function(e){
-        var f = $(e.target).val();
+        var f = $(e.target).attr("family");
 
         // Let's modify the context with the current family
         var ctx = this.getGlobalContext();

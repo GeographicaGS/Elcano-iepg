@@ -53,9 +53,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
             var ctx = this.getGlobalContext();
             ctx.data.countries.selection = [id_country];
-
-            // Render again the tool with the new context
-            this._forceFetchDataTool = true;
+            
+            this.forceFetchDataOnNextRender();
             this.render(); // Implicit call to contextToURL
         });
 
@@ -90,7 +89,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this.mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
             "variable" : "global",
-            "date" : ctx.slider[0].date.getFullYear()
+            "date" : ctx.slider[0].date.getFullYear(),
+            "mode" : !ctx.countries.selection.length ? 0 :
+                    ctx.countries.selection[0].length == 2 ? 0 :
+                    ctx.countries.selection[0] == "XBEU" ? 1 : 2
         });
         
         this.listenTo(this.mapCollection,"reset",this._renderMapAsync);

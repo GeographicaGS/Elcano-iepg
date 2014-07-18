@@ -1,5 +1,6 @@
 app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#quotes_tool_template').html() ),
+    _templateHelp : _.template( $('#quotes_tool_help_template').html() ),
 
     mapCollection : null,
     toolCollection : null,
@@ -336,7 +337,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             .tickSize(-width,6)
             .tickPadding(10)
             //.outerTickSize(0)
-            .tickFormat(function(d) { return app.formatNumber(d); })
+            .tickFormat(function(d) { return app.formatNumber(d) + " %"; })
             .orient("left");
 
         var line = d3.svg.line()
@@ -477,7 +478,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(variable,family) + "</span>"
-                    +   "<span>" + app.formatNumber(el.value) + "</span>"
+                    +   "<span>" + app.formatNumber(el.value) + " %</span>"
                     +   "<div class='clear'></div>"
                     +"</div>"
 

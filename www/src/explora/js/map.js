@@ -1,4 +1,3 @@
-
 app.view.map = function(options){
     this.baseLayer = null;
 
@@ -75,16 +74,40 @@ app.view.map = function(options){
             if (!data[i].code){
                 continue;
             }
-            var country = app.findCountry(data[i].code);
-            if (!country){
-                continue;
-            }
-            country.properties.time = time;
-            country.properties.value = data[i].value;
-            country.properties.variable = variable;
-            country.properties.family = family;
 
-            bigJSON.push(country);
+            if(data[i].code.length>2){
+                //It's a block, let's find all countries inside this block
+                for(var j=0;j<app.blocks[data[i].code][time].length;j++){
+                    var country = app.findCountry(app.blocks[data[i].code][time][j]);
+                    if (!country){
+                        continue;
+                    }
+                    country.properties.code = data[i].code;
+                    country.properties.name_es = app.blocks[data[i].code]["name_es"];
+                    country.properties.name_en = app.blocks[data[i].code]["name_en"];
+                    country.properties.time = time;
+                    country.properties.value = data[i].value;
+                    country.properties.variable = variable;
+                    country.properties.family = family;
+
+                    bigJSON.push(country);
+                   
+                }
+            }
+            else{
+                var country = app.findCountry(data[i].code);
+                if (!country){
+                    continue;
+                }
+                country.properties.time = time;
+                country.properties.value = data[i].value;
+                country.properties.variable = variable;
+                country.properties.family = family;
+                bigJSON.push(country);
+            }
+           
+
+            
         }
 
         var _this = this;

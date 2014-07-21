@@ -68,6 +68,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             	ctx = ctxObj.data,
                 selection = ctx.countries.selection;
                
+
             if (!selection.length){
                 // Let's force a re-render because we need to adapt the context.
                 this._forceFetchDataTool = true;
@@ -346,7 +347,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
             }
             else{
-                // Do nothing
+                // the first on the list will be the selected
+                ctx.countries.selection = ctx.countries.list.length ? [ctx.countries.list[0]] : [];
             }
         }
         else if (ctx.countries.selection.length>1){

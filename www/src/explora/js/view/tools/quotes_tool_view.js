@@ -14,7 +14,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
 
         this.toolCollection = new app.collection.Quotes();
-        this.mapCollection = new app.collection.CountryToolMap();
+        this.mapCollection = new app.collection.QuotesToolMap();
         
     },
 
@@ -261,7 +261,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             variable = ctx.variables[0],
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,variable,family);
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,variable,family,"%");
     },
 
     _collectionToD3Data: function(){

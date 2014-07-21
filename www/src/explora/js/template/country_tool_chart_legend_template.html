@@ -6,7 +6,7 @@
 	</tr>
 
 	<% 
-	childs = _.sortBy(data.children, function(d){ return app.variableToString(d.name,family) });
+	childs = _.sortBy(data.children, function(d){ return d.ord });
 	_.each(childs, function(d){ %>
 		<tr>
 			<td><div class="variableIcon" data-variable="<%= d.name%>"></div><span><%= app.variableToString(d.name,family) %></span></td>

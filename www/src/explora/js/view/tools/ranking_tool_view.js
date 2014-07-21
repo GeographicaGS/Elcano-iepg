@@ -1,6 +1,6 @@
 app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#ranking_tool_template').html() ),
-    _templateNodata : _.template( $('#ranking_tool_error_template').html() ),
+    _templateNodataUE : _.template( $('#ranking_tool_error_ue_template').html() ),
     _templateHelp : _.template( $('#ranking_tool_help_template').html() ),
     type: "ranking",
     _dataMap : null,
@@ -106,11 +106,15 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         }
     },
 
-    _renderBaseTemplate: function(){
-            this.$el.html(this._template({
-                ctx: this.getGlobalContext().data
-            }));
+    _renderBaseTemplate: function(drawerror){
+        if (!drawerror) drawerror = false;
 
+        this.$el.html(this._template({
+            ctx: this.getGlobalContext().data,
+            drawerror : drawerror
+        }));
+
+        if (!drawerror){
             this._dataMap = new app.view.map({
                 "container": "data_map",
                 "zoom" : 1,
@@ -123,39 +127,42 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             this.$(".co_chart").height(h);
 
             this.$(".co_chart").css("top",this.$(".chart_header").outerHeight(true) + "px");
+        }
+        
     },
 
     _renderToolAsync: function(){
 
-        this._renderBaseTemplate();
-       
-        this._drawD3Chart();
-
         this._forceFetchDataTool = false;
-
-        
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             year = ctx.slider[0].date.getFullYear(),
             variable = ctx.variables[0],
-            family = ctx.family;
+            family = ctx.family
+            colJSON = this.collection.toJSON(),
+            mapArray = [];
 
-        var mapArray = [],
-            colJSON = this.collection.toJSON();
-
-     
-        for (var i=0;i<colJSON.length;i++){
+    
+        this._renderBaseTemplate(colJSON.length==0);
        
-            mapArray.push({
-                "code" : colJSON[i].code,
-                "value" : colJSON[i].currentRanking,
-            });
+        if (colJSON.length>0){
+
+            this._drawD3Chart();
+
+            for (var i=0;i<colJSON.length;i++){
+           
+                mapArray.push({
+                    "code" : colJSON[i].code,
+                    "value" : colJSON[i].currentRanking,
+                });
+            }
+
+            this._dataMap.drawChoropleth(mapArray,year,variable,family,"º");
+
+            this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family,"º");
         }
-
-        this._dataMap.drawChoropleth(mapArray,year,variable,family,"º");
-
-        this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family,"º");
+        
     },
 
     /* Render the tool */
@@ -163,21 +170,21 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         //TOREMOVE
         console.log("Render app.view.tools.RankingPlugin");
 
-
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             year = ctx.slider[0].date.getFullYear() ;
 
+        // Remove previous map
+        app.map.removeChoropleth();
 
         if (ctx.block_analize == 1 // country +UE
             && year<2005 // UE was included in the study at year 2005
             ){
 
-            this._renderBaseTemplate();
-            this.$chart.html(this._templateNodata({}));
+            this._renderBaseTemplate(false);
+            this.$chart.html(this._templateNodataUE({}));
             this.$("#scroll_up,#scroll_down,#ranking_chart_tooltip").remove();
-            // Remove previous map
-            app.map.removeChoropleth();
+            
             
         }
         else{

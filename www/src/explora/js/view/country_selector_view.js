@@ -21,7 +21,7 @@ app.view.CountrySelector = Backbone.View.extend({
         var countries =  app.context.data.countries.list;
         // Add tools to the stack.
         for (var i=0;i<countries.length;i++){
-            if (countries[i].length == 2){
+            if (countries[i].length == 2 || countries[i] =="XBEU"){
                 this._selectedCountriesStack.push(countries[i]);    
             }
             else{
@@ -107,7 +107,7 @@ app.view.CountrySelector = Backbone.View.extend({
             html += sprintf("<lang> %d bloques</lang>",nb);   
         }
 
-        html += "<lang> selecccionados</lang>";       
+        html += " <lang>selecccionados</lang>";       
         this.$n_selected.html(html);
 
     },

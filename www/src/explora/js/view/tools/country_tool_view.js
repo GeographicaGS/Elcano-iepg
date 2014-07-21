@@ -132,7 +132,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,"global",family);
 
-        
     },
 
     /* Render the tool */

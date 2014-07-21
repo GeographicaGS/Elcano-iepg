@@ -241,10 +241,13 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
         var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
 
+        this._collectionToD3Data();
+        
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
             collection: this.toolCollection.toJSON(),
         }));
+ 
 
         this.$chart = this.$(".chart");
 
@@ -303,7 +306,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _drawD3Chart: function(){
+    _drawD3Chart: function(resp){
         var _this = this,
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
@@ -312,8 +315,14 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             width = this.$chart.width() - margin.left - margin.right,
             height = this.$chart.height() - margin.top - margin.bottom,
 
-            resp = this._collectionToD3Data(),
+            resp =
             data = resp.data;
+
+
+        if (Object.keys(data).length == 0){
+            // No data
+
+        }
 
         // let's add a year at each side to simulate a padding in the chart
         var yearDomain = [resp.min_year-1, resp.max_year+1];
@@ -464,6 +473,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             
         }
     },
+
     _htmlToolTip: function(el){
         
         var ctx = this.getGlobalContext().data,
@@ -484,6 +494,5 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
         return html;
     }
-
 
 });

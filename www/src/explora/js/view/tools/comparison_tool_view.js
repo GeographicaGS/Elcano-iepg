@@ -538,14 +538,13 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             max = _.max([bvariable.value,variable.value]),
             progress = 100 * variable.value / max,
             bprogress = 100 * bvariable.value / max,
-
-            colorVariable = this._d3[family].tree.findElementInTree(variable.variable).color;
-            bcolorVariable = this._d3[bfamily].tree.findElementInTree(bvariable.variable).color;
-
-        
+            colorVariable = this._d3[family].tree.findElementInTree(variable.variable).color,
+            bcolorVariable = this._d3[bfamily].tree.findElementInTree(bvariable.variable).color,
+            text = family == "iepg" ? "<lang>Presencia Global</lang>" : "<lang>Presencia Europea</lang>"
+            btext = family == "iepe" ? "<lang>Presencia Global</lang>" : "<lang>Presencia Europea</lang>";
 
         return "<div>"
-                +      "<span >" + ranking + "º  <lang>Presencia Global</lang></span>"
+                +      "<span>" + ranking + "º  " + text + "</span>"
                 +       "<span>" + variable.year + "</span>"
                 +      "<div class='clear'></div>"
                 +   "</div>"
@@ -565,7 +564,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 +       "<div class='clear'></div>"
                 +   "</div>"
                 +   "<div class='compare'>"
-                +       "<span class='white ml'>" + (branking ? branking + "º" : "" ) + " <lang>Presencia Europea</lang></span>"
+                +       "<span class='white ml'>" + (branking ? branking + "º" : "" ) + " " + btext +"</span>"
                 +       "<span class='year mr'>" + bvariable.year + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>";

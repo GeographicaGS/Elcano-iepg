@@ -38,7 +38,6 @@
                 };
                 eubl["short_name_" +app.lang + "_order" ] = app.blocks.XBEU["name_"+app.lang];
 
-
                 collection.push(eubl);
                 collection = _.sortBy(collection, function(d){ return d["short_name_" +app.lang + "_order"]});
                 var n_interval = app.isSMDevice() ? 2 : 3,
@@ -66,15 +65,15 @@
                     blocks = app.blocks[app.lang];
 
                     n_interval = 2;
-                    interval = parseInt(Math.ceil((blocks.length -1 )/ n_interval));
+                    interval = parseInt(Math.ceil(blocks.length / n_interval));
                     
                     for (var i=0;i<n_interval;i++){
                     %>
                     <ul class="flag_wrapper col-sm-6">
                         <% _.each(blocks.slice(interval*i,interval*(i+1)),function (d){
-                            if (d == "XBEU"){
+                            if (d == "XBEU")
                                 return;
-                            }
+                            
                             sel = ctx.countries.list.indexOf(d) != -1 ? "selected" : "";
                          %>
                             <li code="<%=d %>" <%= sel %> title="<%= app.blocks[d]["name_" + app.lang]  %>">

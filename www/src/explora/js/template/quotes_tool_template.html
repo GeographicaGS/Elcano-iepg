@@ -11,7 +11,7 @@
 		 <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
             <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
         </a>
-		<% if (collection && collection.length > 0) { %>
+		<% if (uitype=="data") { %>
 			<div>
                 <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText(ctx.variables[0],ctx.family)%>">
                 	<%= app.variableToString(ctx.variables[0],ctx.family) %>
@@ -20,7 +20,7 @@
 			<div class="co_chart">
 		    	<div class="chart"></div>
 		    </div>
-	    <% } else if (collection==null) { %>
+	    <% } else if (uitype=="nocountry") { %>
             <div class="container-fluid">
                 <div class="row mth1">
                     <h5 class="col-xs-12 red">
@@ -28,7 +28,7 @@
                     </h5>
                 <div>
             </div>
-	    <% } else { %>
+	    <% } else if (uitype=="nodata"){ %>
 
 	    	<div class="container-fluid">
                 

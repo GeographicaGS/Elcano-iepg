@@ -13,7 +13,7 @@ app.collection.RankingTool = Backbone.Collection.extend({
         this._variable = options.variable;
         this._entities = options.entities;
         this._yearRef = options.yearRef;
-        this._block_analize = options.block_analize ? 1 : 0;
+        this._block_analize = options.block_analize ;
     },
 
     url: function(){

@@ -18,13 +18,15 @@ import hashlib
 import os.path
 
 
-@app.route('/download/<string:language>/<string:years>/<string:variables>/<string:countries>', methods=["GET"])
-def getDownloadData(language, years, variables, countries):
+@app.route('/download/<string:language>/<string:years>/<string:variables>/<string:countries>/<string:columns>/<string:rows>', methods=["GET"])
+def getDownloadData(language, years, variables, countries, columns, rows):
     """Gets download data. Call examples:
 
-    /download/es/1990,1995,2000,2005/energy@iepg,soft@iepg,military@iepg,soft@iepe,energy@iepg/EN,ES,US,GB,FR
+    /download/es/1990,1995,2000,2005/energy@iepg,soft@iepg,military@iepg,soft@iepe,energy@iepg/EN,ES,US,GB,FR/year/variable
     
-    /download/en/1990,2000/energy@iepg,energy@iepe,iepg,iepe,military_presence@iepg,military_presence@iepe/EN,ES,US
+    /download/en/1990,2000/energy@iepg,energy@iepe,iepg,iepe,military_presence@iepg,military_presence@iepe/EN,ES,US/country/variable
+
+    Both columns and rows can have the following values: year, country, variable
     """
     fileName = os.path.join(backend["tmpFolder"], 
                             hashlib.sha256(request.url.strip(request.url_root)).hexdigest()+".xlsx")
@@ -33,10 +35,31 @@ def getDownloadData(language, years, variables, countries):
                          attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
                          as_attachment=True))
 
-    years = sorted(years.split(","))
-    variables = variables.split(",")
-    countries = countries.split(",")
+    data = {
+        "year": sorted(years.split(",")),
+        "variable": variables.split(","),
+        "country": countries.split(",")
+    }
     translate = dc.isoToEnglish if language=="en" else dc.isoToSpanish
+
+    tabs = ["year", "country", "variable"]
+    tabs.remove(columns)
+    tabs.remove(rows)
+    tabs = tabs[0]
+
+
+
+    print "kkjdfsdfs"
+
+    print "T :",tabs
+
+
+    print "d :", data
+
+
+
+
+
     workbook = xlsxwriter.Workbook(fileName)
     url_format = workbook.add_format({
         "font_color": "blue",
@@ -68,7 +91,7 @@ def getDownloadData(language, years, variables, countries):
     })
 
     allVariables = dict()
-    for var in variables:
+    for var in data["variable"]:
         varSplitted = var.split("@")
         if len(varSplitted)==1:
             varFamily = varSplitted[0]
@@ -86,11 +109,14 @@ def getDownloadData(language, years, variables, countries):
         allVariables = OrderedDict(sorted(allVariables.items(), key=lambda t: 
                                           const.variableNames[t[0].split("@")[0]][t[0].split("@")[1]]["order"]))
 
-    for year in years:
+
+    for tabData in data[tabs]:
+        print "tabData : ", tabData
+
         col = 1
         worksheet = workbook.add_worksheet(('Datos año '+str(year)).decode("utf-8"))
-        title = "Data from Elcano Global Presence Index (year "+str(year)+")" if language=="en" else \
-                "Datos del Índice de Presencia Global Elcano (año "+str(year)+")"
+        title = "Data from Elcano Global Presedfdfdfdfnce Index (year "+str(year)+")" if language=="en" else \
+                "Datos del Índice de Presencia Globaldfdfdfdf Elcano (año "+str(year)+")"
         worksheet.set_row(0,30,title_format)
         worksheet.write(0,0,title.decode("utf-8"))
         for k,v in allVariables.iteritems():
@@ -113,7 +139,7 @@ def getDownloadData(language, years, variables, countries):
                 row+=1
             col+=1
 
-        worksheet.write(row+1, 0, "Más información:".decode("utf-8") if language=="es" else 
+        worksheet.write(row+1, 0, "Más inforkdkdkdkmación:".decode("utf-8") if language=="es" else 
                         "More information:".decode("utf-8"), bold_format)
         worksheet.write_url(row+1, 1, "http://www.globalpresence.realinstitutoelcano.org", url_format,
                             "http://www.globalpresence.realinstitutoelcano.org")

@@ -1,4 +1,3 @@
-
 app.view.map = function(options){
     this.baseLayer = null;
 
@@ -53,11 +52,17 @@ app.view.map = function(options){
     };
 
     /* This method created a choropleth Map with the data supplied in the parameter */ 
-    this.drawChoropleth = function(data,time,variable,family){
+    this.drawChoropleth = function(data,time,variable,family,units){
+
+
+        if (!units) units = ""
 
         var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
         // Just for security
         if (!data || !data.length) return;
+
+
+        this._choroplethColors = app.view.tools.utils.getChoroplethColors(family,variable)
 
         // Remove previous choropleth, needed for redraws
         this.removeChoropleth();
@@ -73,16 +78,40 @@ app.view.map = function(options){
             if (!data[i].code){
                 continue;
             }
-            var country = app.findCountry(data[i].code);
-            if (!country){
-                continue;
-            }
-            country.properties.time = time;
-            country.properties.value = data[i].value;
-            country.properties.variable = variable;
-            country.properties.family = family;
 
-            bigJSON.push(country);
+            if(data[i].code.length>2){
+                //It's a block, let's find all countries inside this block
+                for(var j=0;j<app.blocks[data[i].code][time].length;j++){
+                    var country = app.findCountry(app.blocks[data[i].code][time][j]);
+                    if (!country){
+                        continue;
+                    }
+                    country.properties.code = data[i].code;
+                    country.properties.name_es = app.blocks[data[i].code]["name_es"];
+                    country.properties.name_en = app.blocks[data[i].code]["name_en"];
+                    country.properties.time = time;
+                    country.properties.value = data[i].value;
+                    country.properties.variable = variable;
+                    country.properties.family = family;
+
+                    bigJSON.push(country);
+                   
+                }
+            }
+            else{
+                var country = app.findCountry(data[i].code);
+                if (!country){
+                    continue;
+                }
+                country.properties.time = time;
+                country.properties.value = data[i].value;
+                country.properties.variable = variable;
+                country.properties.family = family;
+                bigJSON.push(country);
+            }
+           
+
+            
         }
 
         var _this = this;
@@ -137,7 +166,7 @@ app.view.map = function(options){
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(v.variable,v.family) + "</span>"
-                    +   "<span>" + app.formatNumber(v.value) + "</span>"
+                    +   "<span>" + app.formatNumber(v.value) + units + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
 
@@ -198,6 +227,8 @@ app.view.map = function(options){
         this.$maplabel.find(".variable").html(app.variableToString(variable,family));
         this.$maplabel.find(".time").html(time);
 
+        this.$maplabel.show();
+
         this._choroplethOVerlay = {
             "geoJson" : l,
         };
@@ -213,6 +244,7 @@ app.view.map = function(options){
             this._map.removeLayer(this._choroplethOVerlay["geoJson"]);
             this.$tooltip.hide();
             this.$maplegend.hide();
+            this.$maplabel.hide();
             
             this._choroplethOVerlay = null;
         }

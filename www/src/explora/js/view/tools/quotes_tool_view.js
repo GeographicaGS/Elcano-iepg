@@ -1,5 +1,6 @@
 app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#quotes_tool_template').html() ),
+    _templateHelp : _.template( $('#quotes_tool_help_template').html() ),
 
     mapCollection : null,
     toolCollection : null,
@@ -13,7 +14,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
 
         this.toolCollection = new app.collection.Quotes();
-        this.mapCollection = new app.collection.CountryToolMap();
+        this.mapCollection = new app.collection.QuotesToolMap();
         
     },
 
@@ -64,6 +65,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
                selection.push(id_country);
                 
             }
+
 
             this._forceFetchDataTool = true;
             this.render();
@@ -131,8 +133,8 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             family = ctx.family,
-            countries = ctx.countries.list.join(","),
-            countries_sel = ctx.countries.selection.join(","),
+            countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
+            countries_sel = ctx.countries.selection.length>0 ? ctx.countries.selection.join(",") : "null",
             variable = ctx.variables[0],
             year_ref = ctx.slider[0].date.getFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
@@ -148,8 +150,8 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             
         ctx.family = url.family;
         ctx.variables = [url.variable];
-        ctx.countries.list = url.countries.split(",");
-        ctx.countries.selection = url.countries_sel.split(",");
+        ctx.countries.list = url.countries != "null" ? url.countries.split(",") : [];
+        ctx.countries.selection = url.countries_sel!= "null" ? url.countries_sel.split(",") : [];
         ctx.countries.slider = [{
             "type": "Point",
             "date" : new Date(url.year_ref)
@@ -256,9 +258,10 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
             year =  ctx.slider[0].date.getFullYear(),
+            variable = ctx.variables[0],
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,family);
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,variable,family,"%");
     },
 
     _collectionToD3Data: function(){
@@ -319,7 +322,6 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             .domain(yearDomain)
             .range([0,width]);
 
-
         var y = d3.scale.linear()
             .range([height, 0]);
 
@@ -330,13 +332,12 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             .tickFormat(d3.format('d'))
             .orient("bottom");
 
-
         var yAxis = d3.svg.axis()
             .scale(y)
             .tickSize(-width,6)
             .tickPadding(10)
             //.outerTickSize(0)
-            .tickFormat(function(d) { return app.formatNumber(d); })
+            .tickFormat(function(d) { return app.formatNumber(d) + " %"; })
             .orient("left");
 
         var line = d3.svg.line()
@@ -399,15 +400,15 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
               .attr("d", line);
 
             // Add line labels
-            var textMinMargin = { "left" : 23 , "top" : 11} ,
+            var textMinMargin = { "left" : 23 , "top" : 4} ,
                 textMaxMargin = { "left" : 7 , "top" : 4} ,
                 textMinPos = {
                     left: x(c[0].year) - textMinMargin.left,
-                    top: y(d3.min(c, function(d) { return d.value; }) - textMinMargin.top)
+                    top: y(c[0].value) + textMinMargin.top
                 },
                 textMaxPos = {
                     left: x(c[c.length-1].year) + textMaxMargin.left,
-                    top: y(d3.max(c, function(d) { return d.value; })) + textMaxMargin.top 
+                    top: y(c[c.length-1].value) + textMaxMargin.top 
                 };
 
             var textMin = svg.append("g")
@@ -477,7 +478,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(variable,family) + "</span>"
-                    +   "<span>" + app.formatNumber(el.value) + "</span>"
+                    +   "<span>" + app.formatNumber(el.value) + " %</span>"
                     +   "<div class='clear'></div>"
                     +"</div>"
 

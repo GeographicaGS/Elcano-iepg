@@ -7,16 +7,17 @@ Explora country services.
 """
 from frontend import app
 from flask import jsonify,request,send_file,make_response
-from common.helpers import cacheWrapper, baseMapData
+from common.helpers import baseMapData
 import json
 from model import iepgdatamodel
 from common.errorhandling import ElcanoApiRestError
 from common.const import variables, years, blocks
+import common.datacache as dc
+from collections import OrderedDict
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
 def countryFilter(lang):
-    m = iepgdatamodel.IepgDataModel()
-    try:
-        return(jsonify({"results": cacheWrapper(m.countryFilter, lang)}))
-    except ElcanoApiRestError as e:
-        return(jsonify(e.toDict()))
+    isoTable = dc.isoToEnglish if lang=="en" else dc.isoToSpanish
+    countries = sorted([{"id": x, "name": k}  for (x,k) in isoTable.iteritems() if x in dc.countries],
+                       key=lambda t: t["name"])
+    return(jsonify({"results": countries}))

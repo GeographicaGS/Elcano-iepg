@@ -13,6 +13,9 @@
 @grey3: #dadade;
 @grey4: #d0d0d5;
 @grey5: #f1f1f3;
+@grey_menu: #3e3e41;
+@grey_menu_text: #d6d6d6;
+@grey_menu_sep: #515155;
 @red: #d60006;
 @yellow : #fdc300;
 @blue : #2b85d0;
@@ -20,7 +23,7 @@
 @orange : #ff9000;
 @white :#fff;
 
-html, body{ height:100%;}
+html, body{ height:100%; min-width: 768px;}
 body {
 	.roboto();
 	color:@grey;
@@ -83,10 +86,14 @@ a.label{
     padding: 0 5px;
     line-height: 20px;
     height:20px;
+    max-width: 100%;
     background-color: @yellow;
     font-size: 13px;
     cursor: pointer;
     border-bottom: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 a.label:hover{
@@ -296,7 +303,8 @@ header{
 		padding: 10px 0 0 112px;
 		a{
 			color:@red !important;
-			.roboto(bold);
+			.roboto_cond(bold);
+            font-size: 20px;
 		}
 		a:hover{
 			border-bottom: 1px solid @grey_light !important;
@@ -313,6 +321,216 @@ header > nav{
 	height: 45px;
 	background-color: @grey_dark;
 	color:@grey_light;
+}
+
+header#fixed_menu {
+	height: 55px;
+    width: 100%;
+    background-color: @grey_dark;
+    z-index: 5;
+    position: fixed;
+	top: -100px;
+    left: 0;
+    transition: top .3s ease-in-out;
+
+    .goTop {
+        position: fixed;
+        bottom: -54px;
+        right: 16px;
+        opacity: 0;
+        transition: opacity .3s ease, bottom .3s ease;
+    }
+
+	&.visible {
+		top: 0;
+
+        .goTop {
+            opacity: 1;
+            bottom: 10px;
+        }
+	}
+
+    #top_logo{
+        float:left;
+        margin-left: 20px;
+    }
+
+    a {
+    	text-decoration: none;
+    	border-bottom: none;
+    }
+
+    h1{
+        margin-top: 0;
+        padding-top: 16px;
+        text-align: center;
+        border: none;
+        span{
+            background: url("@{imgPath}/ELC_icon_explora_cab.svg") no-repeat left center;    
+            padding-left: 32px;
+            .roboto(light);
+            color:@white;
+            font-size: 21px
+        }
+    }   
+
+    h2{
+        float:right;
+        margin-right: 20px;
+        padding-top: 14px;
+        color: @red;
+        .roboto_cond(bold);
+    }
+
+    nav {
+        float: left;
+        margin-left: 20px;
+        font-size: 14px;
+
+        & > div, & > div > a {
+            display: block;
+            width: 54px;
+            height: 55px;
+            float: left;
+            background-color: @grey_menu;
+            cursor: pointer;
+
+            & > img {
+                padding: 15px;
+            }
+
+            #menu_btn {
+                background: url('/img/ELC_icon_menu_cab-simple.svg') 50% 50% no-repeat;
+                height: 54px;
+                width: 54px;
+            }
+
+            & > ul {
+                display: none;
+            }
+
+            &.opened {
+                background-color: @yellow;
+
+                #menu_btn {
+                    background: url('/img/ELC_icon_menu_cab-simple_hover.svg') 50% 50% no-repeat;
+                }
+
+                & > ul {
+                    display: block;
+                    min-width: 215px;
+                    background-color: @grey_dark;
+                    color: @grey_menu_text;
+                    .roboto_cond();
+
+                    li {
+                        position: relative;
+                        border-top: 1px solid @grey_menu_sep;
+                        color: @grey_menu_text;
+
+                        & > a {
+                            display: inline-block;
+                            width: 100%;
+                            height: 36px;
+                            padding: 7px 15px 13px 15px;
+                            color: inherit;
+                        }
+
+                        &:hover {
+                            background-color: @yellow;
+                            color: @grey_dark;
+                        }
+
+                        &.quees {
+                            
+                            & > ul {
+                                display: none;
+                            }
+
+                            & > a:after {
+                                content: url('/img/ELC_icon_acceder_form.svg');
+                                float: right;
+                            }
+
+                            &.opened {
+                                background-color: @grey_menu;
+                                color: @grey_menu_text;
+
+                                & > ul {
+                                    position: absolute;
+                                    top: -1px;
+                                    left: 215px;
+                                    display: block;
+                                    min-width: 215px;
+                                    background-color: @grey_dark;
+                                    color: @grey_menu_text;
+
+                                    li {
+                                        border: solid @grey_menu_sep;
+                                        border-width: 1px 0 0 1px;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.explora {
+                            & > a:before{
+                                content: url('/img/exploraBT_ico.svg');
+                                vertical-align: middle;
+                                margin-right: 8px;
+                            }
+
+                            &:hover {
+                                & > a:before {
+                                    content: url('/img/exploraBT_ico_hover.svg');
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #help_btn {
+        float: right;
+        height: 100%;
+        margin-right: 20px;
+        border-right: 1px solid #515055;
+        padding: 13px 20px;
+
+        & > * {
+            vertical-align: middle;
+        }
+
+        img {
+            display: inline-block;
+            opacity: .5;
+            transition: opacity .3s ease-in;
+            height: 24px;
+        }
+
+        span {
+            display: inline-block;
+            opacity: 0;
+            color: @grey_light;
+            font-size: 12px;
+            margin-right: 6px;
+            transition: opacity .3s ease-in;
+        }
+
+
+        &:hover {
+
+            img {
+                opacity: 1;
+            }
+
+            span {
+                opacity: 1;
+            }
+        }
+    }
 }
 
 
@@ -396,10 +614,10 @@ ul#menu{
 
 	li[selected]{
 		.roboto_cond(bold);
-        line-height: 44px;
         margin-top: 0px;
 
-        a{
+        & > a{
+            line-height: 44px;
         	color: @white;
         	line-height: 46px;
         }

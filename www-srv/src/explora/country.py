@@ -9,12 +9,11 @@ import common.datacache as datacache
 import common.arrayops as arrayops
 from explora import app
 from flask import jsonify,request,send_file,make_response
-from common.helpers import cacheWrapper, baseMapData
+from common.helpers import baseMapData
 import common.arrayops
 import json
 from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError
-from common.const import variables, years, blocks
 import common.helpers
 import common.const as const
 from helpers import processFilter
@@ -23,6 +22,7 @@ import numpy as numpy
 from collections import OrderedDict
 import locale
 import copy
+import maplex as maplex
 
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
@@ -44,8 +44,8 @@ def blocksData():
     out = dict()
     for b in datacache.blocks:
         year = dict()
-        for y in cacheWrapper(datacache.dataSets["iepg"].variables["energy"].getVariableYears):
-            m = cacheWrapper(common.helpers.getBlockMembers, b, year=y)
+        for y in datacache.dataSets["iepg"].variables["energy"].getVariableYears:
+            m = common.helpers.getBlockMembers(b, year=y)
             year[y] = m
         year["name_es"] = isoSpanish[b]
         year["name_en"] = isoEnglish[b]
@@ -70,18 +70,31 @@ def countrySheet(lang, family, countryCode):
     """
     m = iepgdatamodel.IepgDataModel()
     f = processFilter(request.args, "filter")
-    # Participating countries
-    countries = copy.deepcopy(datacache.countries)
+
+    # Check the type of country code (country, EU, or block)
+    if countryCode in datacache.countries:
+        rankType = 0
+        population = copy.deepcopy(datacache.countries)
+    if countryCode in datacache.blocks:
+        rankType = 2
+        population = copy.deepcopy(datacache.blocksNoEu)
+    if countryCode=="XBEU":
+        rankType = 1
+        population = copy.deepcopy(datacache.countriesAndEu)
+
     # Filter substraction
     if f:
-        countries = arrayops.arraySubstraction(countries, f)
+        filteredPopulation = arrayops.arraySubstraction(population, f)
+    else:
+        filteredPopulation = population
+
     try:
         out = dict()
         # Iterate through the years involved in the variable
         for year in const.years:
             yearData = dict()
             famData = datacache.dataSets[family].getData(code=countryCode, year=year)
-            famPercentage = datacache.dataSets[family+"_individual_contribution"].\
+            famPercentage = datacache.dataSets[family+"_relative_contribution"].\
                             getData(code=countryCode, year=year)
             conData = datacache.dataSets["context"].getData(code=countryCode, year=year)
             famDict = dict()
@@ -99,22 +112,34 @@ def countrySheet(lang, family, countryCode):
                 # Check if countryCode is a block. If it is, substract its members from countries
                 # This is expensive. Cache block members.
                 if countryCode in datacache.blocks:
-                    c = arrayops.arraySubstraction(countries, 
-                                                   cacheWrapper(common.helpers.getBlockMembers,
-                                                                countryCode, year))
-                    c.append(countryCode)
+                    c = arrayops.arraySubstraction(filteredPopulation, 
+                                                   common.helpers.getBlockMembers(countryCode, year))
                 else:
-                    c = countries
+                    c = filteredPopulation
 
-                d["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
-                                                  year, datacache.dataSets[family].variables[k], 
-                                                  countryCode)
-                d["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
-                                                    datacache.dataSets[family].variables[k], countryCode)
+                d["globalranking"] = common.helpers.getRankingCode(population, 
+                                                                   year, 
+                                                                   datacache.dataSets[family].variables[k], 
+                                                                   countryCode)
+
+                if f:
+                    d["relativeranking"] = common.helpers.getRankingCode(c, year, 
+                                                                         datacache.dataSets[family].variables[k],
+                                                                         countryCode)
+                else:
+                    d["relativeranking"] = d["globalranking"]
+
                 famDict[k] = d
             conDict = dict()
 
             for k,v in conData.iteritems():
+                if family=="iepe":
+                    population = common.helpers.getBlockMembers("XBEU", year)
+                    if f:
+                        filteredPopulation = arrayops.arraySubstraction(population, f)
+                    else:
+                        filteredPopulation = population
+
                 a = v.values()[0]
                 d = {
                     "code": a["code"],
@@ -126,56 +151,69 @@ def countrySheet(lang, family, countryCode):
 
                 # Check if countryCode is a block. If it is, substract its members from countries
                 if countryCode in datacache.blocks:
-                    c = arrayops.arraySubstraction(countries, 
-                                                   cacheWrapper(common.helpers.getBlockMembers,
-                                                                countryCode, year))
-                    c.append(countryCode)
+                    c = arrayops.arraySubstraction(filteredPopulation, 
+                                                   common.helpers.getBlockMembers(countryCode, year))
                 else:
-                    c = countries
+                    c = filteredPopulation
 
-                d["globalranking"] = cacheWrapper(common.helpers.getRankingCode, datacache.countries, 
-                                                  year, datacache.dataSets["context"].variables[k], 
-                                                  countryCode)
-                d["relativeranking"] = cacheWrapper(common.helpers.getRankingCode, c, year,
-                                                    datacache.dataSets["context"].variables[k], countryCode)
-                
+                d["globalranking"] = common.helpers.getRankingCode(population, 
+                                                                   year, 
+                                                                   datacache.dataSets["context"].variables[k], 
+                                                                   countryCode)
+                d["relativeranking"] = common.helpers.getRankingCode(c, year,
+                                                                     datacache.dataSets["context"].variables[k],
+                                                                      countryCode)
+
                 conDict[k] = d
                 yearData["family"] = famDict
                 yearData["context"] = conDict
-                comment = cacheWrapper(m.getIepgComment, lang, countryCode, 2013)
+                comment = m.getIepgComment(lang, countryCode, 2013)
                 yearData["comment"] = comment[0] if comment else None
                 out[year] = yearData
+
         return(jsonify({"results": out}))
     except ElcanoApiRestError as e:
         return(jsonify(e.toDict()))
 
 
-@app.route('/mapdata/<string:family>/<string:variable>/<int:year>', methods=['GET'])
-def mapData(family, variable, year):
+@app.route('/mapdata/<string:family>/<string:variable>/<int:year>/<int:mode>', methods=['GET'])
+def mapData(family, variable, year, mode):
     """Retrieves map data. Service call:
     
-    /mapdata/es/iepg/economic_presence/2013?filter=US,DK,ES&toolfilter=US,DK
+    /mapdata/es/iepg/economic_presence/2013/0?filter=US,DK,ES&toolfilter=US,DK
+
+    Modes are:
+    0: countries
+    1: countries+EU
+    2: blocks
     """
+    if mode==0:
+        population = copy.deepcopy(datacache.countries)
+    if mode==1:
+        population = arrayops.arraySubstraction(
+            copy.deepcopy(datacache.countriesAndEu),
+            common.helpers.getBlockMembers("XBEU", year=year))
+    if mode==2:
+        population = copy.deepcopy(datacache.blocksNoEu)
+
     filter = processFilter(request.args, "filter")
     toolFilter = processFilter(request.args, "toolfilter")
     if filter:
-        c = arrayops.arraySubstraction(datacache.countries, filter)
+        c = arrayops.arraySubstraction(population, filter)
     else:
-        c = datacache.countries
-    try:
-        varData = cacheWrapper(common.helpers.getData, datacache.dataSets[family].variables[variable], 
-                               year=year, countryList=c)
-        varData = [v for (k,v) in varData.iteritems() if v["value"] is not None]
-        return(jsonify({"results": varData}))
-    except ElcanoApiRestError as e:
-        return(jsonify(e.toDict()))    
+        c = population
+    
+    varData = [v for (k,v) in 
+               common.helpers.getData(datacache.dataSets[family].variables[variable], 
+                                      year=year, countryList=c).iteritems()]
+    return(jsonify({"results": varData}))
 
 
 @app.route('/mapgeojson', methods=['GET'])
 def mapGeoJson():
     """Returns the map GeoJSON."""
     m = basemap.GeometryData()
-    data = cacheWrapper(m.geometryData)
+    data = m.geometryData
     out = dict()
     out["type"] = "FeatureCollection"
     

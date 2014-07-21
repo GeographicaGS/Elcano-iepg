@@ -14,6 +14,8 @@ app.router = Backbone.Router.extend({
         "quotes/:family/:variable/:countries/:countries_sel/:year_ref(/:filters)" : "quotes",
         "comparison/:year/:countries/:country_sel(/:filters)" : "comparison",
         
+        "home/*url": "external",
+
         "*other"    : "notfound"
             /* This is a default route that also uses a *splat. Consider the
             default route a wildcard for URLs that are either not matched or where
@@ -23,6 +25,9 @@ app.router = Backbone.Router.extend({
     initialize: function(options) {
         // this.route(this.langRoutes["_link home"][app.lang], "home");
         // this.route(this.langRoutes["_link home"][app.lang]+"/", "home");
+
+        // Bind 'route' event to send Google Analytics info
+        Backbone.history.on("route", this.sendPageview);
     },
 
     root: function(){
@@ -93,5 +98,16 @@ app.router = Backbone.Router.extend({
             "country_sel" : country_sel,
             "filters": filters
         });
+    },
+
+    external: function(url){
+        window.location.href = app.config.FRONT_URL + "/" + url;
+        this.navigate("/");
+    },
+
+    sendPageview: function(){
+        var url;
+        url = Backbone.history.root + Backbone.history.getFragment()
+        ga('send', 'pageview', url);
     }
 });

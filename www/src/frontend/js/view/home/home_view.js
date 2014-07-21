@@ -1,5 +1,6 @@
 app.view.Home = Backbone.View.extend({
     _template : _.template( $('#home_template').html() ),
+    _currentCountry : null,
     
     initialize: function() {
         app.events.trigger("menu","home");
@@ -37,7 +38,9 @@ app.view.Home = Backbone.View.extend({
         "click #news ul li" :"selectNewsMenu",
         "click #year" : "togglePopupYear",
         "click #popup_year a" : "selectYear",
-        "click #country": "togglePopupCountry"
+        "click #country": "togglePopupCountry",
+        "click button.go_explora": "goExplora"
+
     },
     
     hoverExploraDesc: function(e){
@@ -95,6 +98,7 @@ app.view.Home = Backbone.View.extend({
 
         this.$year = this.$("#year");
         this.$country = this.$("#country");
+        this.$co_country = this.$("#co_country");
         return this;
     },
 
@@ -133,13 +137,35 @@ app.view.Home = Backbone.View.extend({
         }
     },
 
-    selectCountry: function(country){
+    selectCountry: function(code,name){
         this.togglePopupCountry();
-        this.$country.html(country);
+        this._currentCountry = {
+            "code" : code,
+            "name" : name
+        };
+        this.$country.html(name);
+        this.$co_country.removeClass("invalid");
+
+    },
+
+    getCountry: function(){
+        return this._currentCountry;
     },
 
     goToStructure: function(){
         app.router.navigate(app.router.langRoutes["_link about infr"][app.lang],{trigger: true});
+    },
+
+    goExplora: function(e){
+        e.preventDefault();
+        
+        if (this._currentCountry){
+            window.location = app.config.EXPLORA_URL + "/" + app.lang + "/country/iepg/" +
+                    this._currentCountry.code + "/" + this._currentCountry.code + "/" + $("#year").html();
+        }
+        else{
+            this.$co_country.addClass("invalid");
+        }
     }
 
 

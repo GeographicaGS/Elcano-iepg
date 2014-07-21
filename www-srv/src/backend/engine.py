@@ -6,7 +6,7 @@ Variable engine services.
 
 """
 from backend import app
-import varengine.varenginemodel as enginemodel
+#import varengine.varenginemodel as enginemodel
 from backend.utils import auth
 from flask import jsonify, request
 import datetime

@@ -20,7 +20,6 @@ Backbone.View.prototype.close = function(){
 }
 
 $(function(){
-
     $("body").on("click","a",function(e){
         
         var attr = $(this).attr("jslink"),
@@ -66,22 +65,31 @@ $(function(){
         app.country = "ES";
         app.ini();  
     }
-    
-
-      
-   
+ 
 });
 
 app.resize = function(){
+    // If device's screen width is smaller than 1024px, force to 1024px
+    var vp = document.getElementById('appViewport');
+    if(screen.width < 1024) {
+        vp.setAttribute('content','width=1024');
+    }else{
+        vp.setAttribute('content','width=device-width, initial-scale=1');
+    }
+
     var h = $(window).height()-this.$header.outerHeight(true) - this.$footer.outerHeight(true);
     this.$main.height(h);
 
-    var toolDataMarginAndPadding = this.$tool_data.outerHeight(true) - this.$tool_data.height();
+    var toolDataMarginAndPadding = this.$tool_data.outerHeight(true) - this.$tool_data.height() + 20;
 
     this.$tool_data.height($(window).height() - this.$footer.outerHeight(true) - this.$tool_data.offset().top 
             - toolDataMarginAndPadding);
 
     this.map.resize();
+
+    if(app.baseView.currentTool && app.baseView.currentTool.countries){
+        app.baseView.currentTool.countries.render();
+    }
 }
 
 app.ini = function(){
@@ -98,10 +106,14 @@ app.ini = function(){
     this.$tool_data = $("#tool_data");
     this.$tool = $("#tool");
 
-
     // create the context
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
+    
+    if (app.config.CLEAR_CONTEXT_NOMATCHING_VERSION 
+        && this.context.data.version != this.version){
+        this.context.reset();
+    }
 
     this.filters =  localStorage.getItem("filters");
     if (!this.filters){
@@ -120,14 +132,52 @@ app.ini = function(){
 
     this.resize();
 
-
- 
-
     $(window).resize(function(){
         app.resize();
     });
 
-    
+    // Check and show help
+    if (!(localStorage['dontShowHelp'] === 'true')) {
+        app.showHelp();
+    }
+    $("#help_btn").click(function(e){
+        e.preventDefault();
+        app.showHelp();
+    });
+
+    // Events for top menu on touch screens
+    $("nav > div > img").click(function(){
+        $(this).parent().toggleClass('opened');
+    });
+
+    $("nav > div").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("nav > div .quees").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).toggleClass('opened');
+        $(this).toggleClass('opened'); 
+    });
+
+    $("nav > div .quees").mouseenter(function(){
+        $(this).addClass('opened');
+    }).mouseleave(function(){
+        $(this).removeClass('opened');
+    });
+
+    $("nav > div .quees a").click(function(e){
+        e.preventDefault();
+
+        $("nav > div").eq(0).removeClass('opened');
+    });
+
+    $("#menu_btn li.explora a").click(function(e){
+        e.preventDefault();
+    });
 
     Backbone.history.start({pushState: true,root: this.basePath });
 };
@@ -176,9 +226,10 @@ app.scrollTop = function(){
     });
 };
 
-app.scrollToEl = function($el){
+app.scrollToEl = function($el,offset){
+    if (!offset) offset = 0;
     $('html, body').animate({
-        scrollTop: $el.offset().top
+        scrollTop: $el.offset().top + offset
     }, 500);    
 };
 
@@ -248,6 +299,20 @@ app.variableToString = function(variable,family){
 
 app.countryToString = function(id_country){
 
+    if(!id_country){
+        return "";
+    }
+    
+    // Temporal, we must add singapur to countries's geojson
+    if (id_country == "SG"){
+        if (app.lang == "es"){
+            return "Singapur";  
+        }
+        else{
+            return "Singapore";
+        }
+    }
+
     if (id_country.length == 2){
 
 
@@ -279,6 +344,7 @@ app.fancyboxOpts = function(){
         width : "90%",
         maxWidth : 960,
         closeBtn : false,
+        modal : true,
         helpers : {
             overlay : {
                 css : {
@@ -299,6 +365,7 @@ app.fancyboxOptsHelper = function(){
         width : "90%",
         maxWidth : 960,
         closeBtn : false,
+        modal : true,
         helpers : {
             overlay : {
                 css : {
@@ -313,7 +380,8 @@ app.findCountry = function(id_country){
     for (var i=0;i<countriesGeoJSON.features.length;i++){
 
         if (countriesGeoJSON.features[i].properties.code == id_country){
-            return countriesGeoJSON.features[i];
+            return $.extend(true, {}, countriesGeoJSON.features[i]);
+            //return countriesGeoJSON.features[i];
         }
     }
 };
@@ -384,7 +452,7 @@ app.countryCodeToStr = function(country){
             return s;
         }
     }
-}
+};
 
 app.getLoadingHTML = function(){
     return "<div class='co_loading'>" + 
@@ -395,12 +463,16 @@ app.getLoadingHTML = function(){
                    
                 "</div>" +
             "</div>";
-}
+};
 
 app.formatNumber = function (n,decimals){
 
     if (!decimals){
         decimals = 2;
+    }
+
+    if (n===null){
+        return "";
     }
 
     if (typeof n == "number"){
@@ -417,7 +489,134 @@ app.formatNumber = function (n,decimals){
             return parseInt(n).toLocaleString();
         }    
     }
+};
+
+app.toolTypeToString = function(type){
+    switch(type)
+    {
+        case "country":
+            return "<lang>Ficha país</lang>";
+        case "ranking":
+            return "Ranking";
+        case "contributions":
+            return "<lang>Contribuciones de presencia</lang>";
+        case "quotes":
+            return "<lang>Cuotas de presencia</lang>";
+        case "comparison":
+            return "<lang>Presencia global frente a presencia europea</lang>";
+
+    }
+};
+
+app.showHelp = function() {
+    // Create and insert element
+    if($('#help-bck').length == 0){
+
+        loadHelpPage = function(idx, elem){
+            // Remove old elements
+            $('.elemHighlighted').removeClass('elemHighlighted');
+            $('canvas').remove();
+
+            $('#help-bck .content').html($($('#help_template').html())[idx]);
+            if(elem){
+                var $elem = $('#'+elem);
+                $elem.addClass('elemHighlighted');
+                var $content = $('#help-bck > .content > div');
+                
+                var canvas = document.createElement('canvas');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                var elemPos = $elem.offset();
+                var titlePos = $content.offset();
+                var ctx = canvas.getContext("2d");
+                ctx.setLineDash([12]);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#fdc300';
+                if(titlePos.top > elemPos.top){
+                    if(elemPos.left < canvas.width / 2) {
+                        var $title = $content.find('h2').first();
+                        ctx.moveTo($title.offset().left - 15 ,$title.offset().top + $title.height() / 2);
+                        ctx.lineTo(elemPos.left + $elem.width(), elemPos.top + $elem.height() / 2);
+                    }else{
+                        ctx.moveTo(canvas.width / 2 ,titlePos.top - 15);
+                        ctx.lineTo(elemPos.left + $elem.width() / 2 ,elemPos.top + $elem.height() - 15);
+                    }
+                }else{
+                    var $title = $content.find('h2').first();
+                    if(elemPos.left + $elem.width() < canvas.width / 2) {
+                        ctx.moveTo($title.offset().left - 15 ,$title.offset().top + $title.height() / 2);
+                        ctx.lineTo(elemPos.left + $elem.width(), elemPos.top);
+                    }else{
+                        ctx.moveTo(canvas.width / 2 ,titlePos.top + $content.height() + 15);
+                        ctx.lineTo($elem.width() / 2 ,elemPos.top);
+                    }
+                }
+                ctx.stroke();
+                $('#help-bck').prepend(canvas);
+            }
+
+            if( localStorage['dontShowHelp'] === 'true' ){
+                $container.find('.help-checkbox').addClass('checked');
+            }
+        }
+
+        var $background = $('<div id="help-bck"><div class="content"></div></div>');
+        var $container = $background.children().eq(0);
+        $('body').prepend($background);
+
+        // Load first page
+        var $content = $($('#help_template').html());
+        loadHelpPage(0);
+        if( localStorage['dontShowHelp'] === 'true' ){
+            $container.find('.help-checkbox').addClass('checked');
+        }
+
+        // Bind events
+        $background.on('click', '.help-btn_continue', function(e){
+            e.preventDefault();
+
+            var $this = $(this);
+            var next_idx = $this.attr('next-idx');
+            var elem = $this.attr('elem');
+            
+            loadHelpPage(next_idx, elem);
+        });
+
+        $background.on('click', '.help-btn_goback', function(e){
+            e.preventDefault();
+
+            var $this = $(this);
+            var prev_idx = $this.attr('prev-idx');
+            var elem = $this.attr('elem');
+            
+            loadHelpPage(prev_idx, elem);
+        });
+
+        $background.on('click', '.help-checkbox', function(e){
+            e.preventDefault();
+
+            var $this = $(this);
+            if ($this.hasClass('checked')){
+                $this.removeClass('checked');
+                localStorage['dontShowHelp'] = false;
+            }else{
+                $this.addClass('checked');
+                localStorage['dontShowHelp'] = true;
+            }
+        });
+
+        $background.on('click','.help-btn_close', function(e){
+            e.preventDefault();
+            
+            // Remove old elements
+            $('.elemHighlighted').removeClass('elemHighlighted');
+            $('canvas').remove();
+            // Unbind events
+            $('.help-btn_next').off('click');
+            $('.help-checkbox').off('click');
+            $('.help-btn_close').off('click');
+
+            $background.remove();
+        });
+    }
 }
-
-
-

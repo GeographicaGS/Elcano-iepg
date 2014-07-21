@@ -33,6 +33,9 @@ app.router = Backbone.Router.extend({
     },
 
     initialize: function(options) {
+        // Bind 'route' event to send Google Analytics info
+        Backbone.history.on("route", this.sendPageview);
+        
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link home"][app.lang]+"/", "home");
         this.route(this.langRoutes["_link about"][app.lang], "about");
@@ -116,10 +119,7 @@ app.router = Backbone.Router.extend({
     },
 
     explora: function(){
-        window.open(
-          app.config.EXPLORA_URL,
-          "_blank" // <- This is what makes it open in a new window.
-        );
+        window.location.href = app.config.EXPLORA_URL + "/" + app.lang;
         this.navigate("/");
     },
 
@@ -133,6 +133,12 @@ app.router = Backbone.Router.extend({
     
     download: function(){
     	app.showView(new app.view.Download());
+    },
+
+    sendPageview: function(){
+        var url;
+        url = Backbone.history.root + Backbone.history.getFragment()
+        ga('send', 'pageview', url);
     }
 
     

@@ -97,6 +97,14 @@
         }
         #co_country{
             background: url("@{imgPath}ELC_icon_paises_form.png") no-repeat right 10px center @white;
+
+            #country{
+                height: 100%;
+            }
+
+            &.invalid{
+                border: 2px solid @red;
+            }
             .popup_content{
                 width: 390px;
 
@@ -138,7 +146,7 @@
                 }
 
                 .level_1{
-                    height:271px;
+                    height:220px;
                     overflow-y: auto;
 
                     ul {

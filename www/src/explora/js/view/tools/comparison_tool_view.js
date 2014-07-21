@@ -52,6 +52,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             ctx.saveContext();
             this.copyGlobalContextToLatestContext();
 
+            this._forceFetchDataMap = true;
+
             this.render();
             
         });
@@ -66,6 +68,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             	ctx = ctxObj.data,
                 selection = ctx.countries.selection;
                
+
             if (!selection.length){
                 // Let's force a re-render because we need to adapt the context.
                 this._forceFetchDataTool = true;
@@ -120,15 +123,18 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this.$chart_legend_right = this.$co_right.find(".chart_legend");
 
         if (year<= 2000 // No data avalaible for iepe before year 2000
+            || ctx.countries.list.length==0
             || country.length > 2  // Only blocks
             || app.blocks.XBEU[year].indexOf(country) == -1 // Only UE countries
+            
             ){
 
             this._showError();
         }
 
         else{
-             // Get the data from server if _forceFetchDataTool is set to true. 
+
+            // Get the data from server if _forceFetchDataTool is set to true. 
             if (this._forceFetchDataTool){
                 this._n_fetches = 0;
                 this._errorfetch = false;
@@ -341,16 +347,13 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
             }
             else{
-                // Do nothing
+                // the first on the list will be the selected
+                ctx.countries.selection = ctx.countries.list.length ? [ctx.countries.list[0]] : [];
             }
         }
-        else if (ctx.countries.selection.length==1){
-            ctx.countries.selection[1] = null;
-        }
-        else if (ctx.countries.selection.length>2){
+        else if (ctx.countries.selection.length>1){
             // Cut off extra elements in the selection
-            ctx.countries.selection = ctx.countries.selection.slice(0,2);
-
+            ctx.countries.selection = ctx.countries.selection.slice(0,1);
         }
 
         // This tool works with a slider composed by a single point and a reference point. 
@@ -402,7 +405,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             radius = Math.min(width, height) / 2;
 
         $co.find(".subheader .index .value").html(sprintf("%.2f",variables["global"].value));
-        $co.find(".ranking").html(sprintf("<lang>Puesto %dº </lang>", variables["global"].globalranking));
+        $co.find(".ranking").html(sprintf("<lang>Ranking %dº </lang>", variables["global"].globalranking));
 
         $chart.html("");
 
@@ -531,13 +534,18 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             ctx = ctxObj.data,
             ranking = variable.globalranking  ? variable.globalranking  : variable.relativeranking
             branking = bvariable.globalranking  ? bvariable.globalranking  : bvariable.relativeranking,
-            bfamily = family == "iepg" ? "IEPE" : "IEPG",
-                max = _.max([bvariable.value,variable.value]),
-                progress = 100 * variable.value / max,
-                bprogress = 100 * bvariable.value / max;
+            bfamily = family == "iepg" ? "iepe" : "iepg",
+            max = _.max([bvariable.value,variable.value]),
+            progress = 100 * variable.value / max,
+            bprogress = 100 * bvariable.value / max,
+
+            colorVariable = this._d3[family].tree.findElementInTree(variable.variable).color;
+            bcolorVariable = this._d3[bfamily].tree.findElementInTree(bvariable.variable).color;
+
+        
 
         return "<div>"
-                +      "<span>" + ranking + "º " + family.toUpperCase() + "</span>"
+                +      "<span >" + ranking + "º  <lang>Presencia Global</lang></span>"
                 +       "<span>" + variable.year + "</span>"
                 +      "<div class='clear'></div>"
                 +   "</div>"
@@ -547,19 +555,17 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 +       "<div class='clear'></div>"
                 +   "</div>"
                
-                + "<div class='co_progress'>"
-                +       "<div class='progress'><div  style='width:" + progress + "%'></div></div>"
-                +       "<div class='progress'><div  style='width:" + bprogress  + "%'></div></div>"
+                + "<div class='co_progress' style='margin-left:-10px;margin-right:-10px'>"
+                    +       "<div class='progress' ><div  style='width:" + progress + "%;background-color:" + colorVariable + ";'></div></div>"
+                    +       "<div class='progress'><div  style='width:" + bprogress + "%;background-color:" + bcolorVariable + ";'></div></div>"
                 + "</div>"
-                
-             
                 +   "<div class='compare'>" 
-                +       "<span class='ml'>" + app.variableToString(bvariable.variable,family) + "</span>"
-                +       "<span class='mr'>" + app.formatNumber(bvariable.value) + "</span>"
+                +       "<span class='ml vname'>" + app.variableToString(bvariable.variable,bfamily) + "</span>"
+                +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.value) + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>"
                 +   "<div class='compare'>"
-                +       "<span class='white ml'>" + branking + "º " + bfamily + "</span>"
+                +       "<span class='white ml'>" + (branking ? branking + "º" : "" ) + " <lang>Presencia Europea</lang></span>"
                 +       "<span class='year mr'>" + bvariable.year + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>";

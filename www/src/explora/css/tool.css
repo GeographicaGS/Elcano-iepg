@@ -5,7 +5,97 @@
     right: 20px;
     /*margin-right: 20px;*/
     pointer-events: none;
+}
 
+.iconVariableImage(@variable){
+    .iconVariable(@variable);
+    background: url(@iconVariable) no-repeat center center;
+    width: 24px;
+    height: 24px;
+}
+
+.variableIcon[data-variable='iepg']{
+   .iconVariableImage(iepg);
+}
+
+.variableIcon[data-variable='iepe']{
+    .iconVariableImage(iepe);
+}
+
+.variableIcon[data-variable='economic_global']{
+   .iconVariableImage(economic_presence);
+}
+
+.variableIcon[data-variable='energy']{
+   .iconVariableImage(energy);
+}
+
+.variableIcon[data-variable='primary_goods']{
+   .iconVariableImage(primary_goods);
+}
+
+.variableIcon[data-variable='manufactures']{
+   .iconVariableImage(manufactures);
+}
+
+.variableIcon[data-variable='services']{
+   .iconVariableImage(services);
+}
+
+.variableIcon[data-variable='investments']{
+   .iconVariableImage(investments);
+}
+ 
+.variableIcon[data-variable='military_global']{
+   .iconVariableImage(military_presence);
+}
+
+.variableIcon[data-variable='troops']{
+   .iconVariableImage(troops);
+}
+
+.variableIcon[data-variable='military_equipment']{
+   .iconVariableImage(military_equipment);
+}
+
+.variableIcon[data-variable='soft_global']{
+   .iconVariableImage(soft_presence);
+}
+
+.variableIcon[data-variable='migrations']{
+   .iconVariableImage(migrations);
+}
+
+.variableIcon[data-variable='tourism']{
+   .iconVariableImage(tourism);
+}
+
+.variableIcon[data-variable='sports']{
+   .iconVariableImage(sports);
+}
+
+.variableIcon[data-variable='culture']{
+   .iconVariableImage(culture);
+}
+
+.variableIcon[data-variable='information']{
+   .iconVariableImage(information);
+}
+
+.variableIcon[data-variable='technology']{
+   .iconVariableImage(technology);
+}
+
+.variableIcon[data-variable='science']{
+   .iconVariableImage(science);
+}
+
+.variableIcon[data-variable='education']{
+   .iconVariableImage(education);
+}
+
+.variableIcon[data-variable='cooperation']{
+   .iconVariableImage(cooperation);
 }
 
 #tool_data{
@@ -31,8 +121,6 @@
             margin: 13px 20px 0 0;
             float:right;
         }
-
-
 
         #tool_name,#tool_title,#tool_year{
             float:left;
@@ -72,6 +160,8 @@
             /*padding: 3px 5px;*/
         }
 
+        /*
+            Deprecated
         #ctrl_family{
             float:right;
             margin: 10px 20px 0 0 ;
@@ -84,6 +174,48 @@
             padding:0 30px 0 10px;
             -webkit-appearance: none;
             background: url("@{imgPath}ELC_flecha_selector.svg") @grey_dark no-repeat right 10px center;
+        }*/
+
+        #ctrl_family{
+            float:right;
+            margin-right: 20px;
+            label,ul,ul li{
+                display: inline-block;
+            }
+            label{
+                font-size: 13px;
+                color:@white;
+                margin-right: 8px;
+            }
+            ul{
+                li{
+                    height: 24px;
+                    line-height: 24px;
+                    color:@grey_dark;
+                    font-size: 13px;
+                    background-color: rgba(255,255,255,0.5);
+                    
+                    cursor: pointer;
+
+                    &:nth-child(1){
+                        border-radius: 20px 0 0 20px;
+                        padding: 0 12px;
+                    }
+
+                    &:nth-child(2){
+                        border-radius: 0 20px 20px 0;
+                        padding: 0 12px;
+                    }
+
+                    &[selected]{
+                        background-color: @grey_dark;
+                        color:@white;
+                        .roboto(bold);
+                        
+                    }
+                }
+            }
+
         }
 
     }
@@ -96,7 +228,6 @@
         #tool_title{
             color:@color_text;    
         }
-
     }
 
     .header[data-variable='iepg']{
@@ -322,9 +453,8 @@
                     float:left;
                 }
                 div{
-                    width:15px;
-                    height:15px;
-                    margin: 10px 10px 0 20px ;
+                    background-size: 24px 24px;
+                    margin: 5px 10px 0 20px ;
                 }
                 text-align: left;
             }
@@ -452,10 +582,9 @@
         }
         .chart_header{
             top: @line_height;
-            h5{
-                float:left;
-            }
-            .analyze{
+            z-index:2;
+           /* DEPRECATED
+           .analyze{
                 float:right;
                 
                 span,a{
@@ -490,12 +619,50 @@
                         float:right;
                     }
                 }
+            }*/
+
+            ul.analyze{
+                margin-top:18px;
+                li{
+                    height: 20px;
+                    a{
+                        .roboto();
+                        font-size: 13px;
+                        color: @grey_light;
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+
+                    a::before{
+                        content: "";
+                        display: inline-block;
+                        vertical-align: middle;
+                        background-color: @white;
+                        border: 4px solid @grey_light;
+                        border-radius: 100%;
+                        width:15px;
+                        height: 15px;
+                    }
+
+                    &[selected]{
+                        a{
+                            color:@grey_dark;
+                        }
+
+                        a::before{
+                             background-color: @yellow;
+                             border-color: #000;
+                             
+                        }
+                    }
+                }
             }
         }
 
         .co_chart{
-            top: 60px;
-            bottom: 0;
+            top: 90px;
+            bottom: 18px;
+            z-index: 1;
         }
     }
 
@@ -508,6 +675,7 @@
     .chart{
         width: 100%;
         height: 100%;
+        min-height: 0 !important;
        /* overflow-y: scroll;
 */
         .co_bar{
@@ -521,11 +689,11 @@
         }
 
         .bar.ref{
-            fill:@grey;
+            fill:@grey ;
         }
 
         .bar:hover {
-          fill: @red;
+          fill: @red !important;
         }
 
         .axis {
@@ -556,6 +724,7 @@
     }
 
     #data_map{
+        background-color: #ececee;
         border-top: 20px solid #fff;
         border-bottom: 20px solid #fff;
         border-left: 20px solid #fff;

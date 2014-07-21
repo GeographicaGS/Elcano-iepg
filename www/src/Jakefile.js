@@ -14,10 +14,11 @@ To run the tests, run "jake test".
 var build = require("./build/build.js");
 var translate = require("./build/translate.js");
 var resource = require("./build/resource.js");
-var utils = require("./build/utils.js")
+var utils = require("./build/utils.js");
+var exec = require("child_process").exec;
+var version = null;
 
 utils.createDirIfNotExist(utils.tmp);
-
 
 function buildCSS(env){	
 	build.buildCSS(env,buildUnderScoreTemplate);
@@ -26,6 +27,14 @@ function buildCSS(env){
 function buildUnderScoreTemplate(env){	
 	build.buildTemplate(env,complete);
 }
+
+desc("Get current version");
+task("version", {async: true}, function () {
+	exec("git rev-parse HEAD",function (error, stdout, stderr){
+       	version = stdout.replace(/(\r\n|\n|\r)/gm,"");
+       	complete();
+    });
+});
 
 desc("Combine and compress source files for the backend");
 task("build-backend", {async: true}, function () {
@@ -117,7 +126,7 @@ task("resource-backend", {async: true}, function () {
 	console.log("\n-----------------------------------------------");
 	console.log("---------- BUILDING BACKEND RESOURCES ---------");
 	console.log("-----------------------------------------------");
-	resource.create("backend",complete,false);
+	resource.create(version,"backend",complete,false);
 });
 
 desc("Generate resources frontend")
@@ -125,7 +134,7 @@ task("resource-frontend", {async: true}, function () {
 	console.log("\n------------------------------------------------");
 	console.log("---------- BUILDING FRONTEND RESOURCES ---------");
 	console.log("------------------------------------------------");
-	resource.create("frontend",complete,false);
+	resource.create(version,"frontend",complete,false);
 });
 
 desc("Generate resources explora")
@@ -133,7 +142,7 @@ task("resource-explora", {async: true}, function () {
 	console.log("\n------------------------------------------------");
 	console.log("---------- BUILDING EXPLORA RESOURCES ---------");
 	console.log("------------------------------------------------");
-	resource.create("explora",complete,false);
+	resource.create(version,"explora",complete,false);
 });
 
 desc("Generate resources")
@@ -145,7 +154,7 @@ task("resource-backend-debug", {async: true}, function () {
 	console.log("\n-----------------------------------------------");
 	console.log("---------- BUILDING BACKEND RESOURCES ---------");
 	console.log("-----------------------------------------------");
-	resource.create("backend",complete,true);
+	resource.create(version,"backend",complete,true);
 });
 
 desc("Generate resources frontend debug")
@@ -153,7 +162,7 @@ task("resource-frontend-debug", {async: true}, function () {
 	console.log("\n------------------------------------------------");
 	console.log("---------- BUILDING FRONTEND RESOURCES ---------");
 	console.log("------------------------------------------------");
-	resource.create("frontend",complete,true);
+	resource.create(version,"frontend",complete,true);
 });
 
 desc("Generate resources explora debug")
@@ -161,7 +170,7 @@ task("resource-explora-debug", {async: true}, function () {
 	console.log("\n------------------------------------------------");
 	console.log("---------- BUILDING EXPLORA RESOURCES ---------");
 	console.log("------------------------------------------------");
-	resource.create("explora",complete,true);
+	resource.create(version,"explora",complete,true);
 });
 
 desc("Generate resources")
@@ -169,12 +178,12 @@ task("resource-debug", ["resource-backend-debug","resource-frontend-debug","reso
 
 
 desc("Production builder")
-task("default", ["build","translate","resource"],function(){
+task("default", ["version","build","translate","resource"],function(){
 	console.log("\n\nBUILD COMPLETE SUCCESSFULLY\n\n");
 });
 
 desc("Debug builder")
-task("debug", ["build","translate-debug","resource-debug"],function(){
+task("debug", ["version","build","translate-debug","resource-debug"],function(){
 	console.log("\n\nDEBUG BUILD COMPLETE SUCCESSFULLY\n\n");
 });
 

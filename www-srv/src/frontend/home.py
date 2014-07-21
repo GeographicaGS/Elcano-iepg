@@ -17,6 +17,7 @@ from common import const as cons
 from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage
 import locale
 import common.datacache as datacache
+from collections import OrderedDict
 
 
 @app.route('/home/email', methods=['POST'])
@@ -49,23 +50,30 @@ def countries():
       year: required
 
     Returns a JSON:
-
+    
     {
-    results: [
+    "results": [
     {
-      "block":
+      "code": "XBSA", 
+      "countries": [
         {
-          "name": "América",
-          "ncountries": "2",
-          "countries": [
-            {"name": "USA"},
-            {"name": "Canadá"}
-          ]
+          "code": "AO", 
+          "name": "Angola"
+        }, 
+        {
+          "code": "NG", 
+          "name": "Nigeria"
+        }, 
+        {
+          "code": "ZA", 
+          "name": "Sud\u00e1frica"
         }
-    },
+      ], 
+      "name": "\u00c1frica sub-sahariana", 
+      "ncountries": 3
+    }, 
     ]
     }
-      
     """
     lang = request.args["lang"]
     year = request.args["year"]
@@ -74,17 +82,19 @@ def countries():
     if lang=="en":
         trans = datacache.isoToEnglish
 
-    blocks = {k: {"name": v} for (k,v) in trans.iteritems() 
-              if k in datacache.blocks}
+    blocks = []
+    for block in datacache.blocksNoEu:
+        dBlock = dict()
+        dBlock["code"] = block
+        dBlock["name"] = trans[block]
+        dBlock["countries"] = []
+        countries = common.helpers.getBlockMembers(block, year)
+        dBlock["countries"] = sorted([{"code": i, "name": trans[i]} for i in countries], 
+                                     key=lambda t: t["name"], cmp=locale.strcoll)
+        dBlock["ncountries"] = len(dBlock["countries"])
+        blocks.append(dBlock)
 
-    for k,v in blocks.iteritems():
-        m = common.helpers.getBlockMembers(k, year=year)
-        v["ncountries"] = len(m)
-        members = [{"name": j} for (i,j) in trans.iteritems()
-                   if i in m]
-        v["countries"] = members
-
-    return(jsonify({"results": blocks}))
+    return(jsonify({"results": sorted(blocks, key=lambda t: t["name"], cmp=locale.strcoll)}))
 
 
 @app.route('/home/years', methods=['GET'])

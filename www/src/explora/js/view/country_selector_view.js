@@ -29,24 +29,26 @@ app.view.CountrySelector = Backbone.View.extend({
             }
         }
 
-        var self = this;
+        /*var self = this;
         $(window).on('resize', function(){
             self.render();
-        });
+        });*/
+        $(window).bind("resize.c_sel", _.bind(this.render, this));
     },
 
     events : {
         "click #save": "save",
         "click #cancel": "cancel",
         "click li[code]" : "clickCountry",
-        "click .ctrl_cb li a": "clickPanelCtrl"
+        "click .ctrl_cb li a": "clickPanelCtrl",
+        "click .deselect_btn": "deselectAll"
     },
 
     onClose: function(){
         // Remove events on close
         this.stopListening();
     
-        $(window).off('resize', this.repositionBoards)
+        $(window).unbind("resize.c_sel");
     },
 
     render: function(){
@@ -61,6 +63,7 @@ app.view.CountrySelector = Backbone.View.extend({
         this.$n_selected = this.$("#n_selected");
 
         this.refreshCounterElements();
+        this.showHideDeselectBtn();
 
         return this;
     },
@@ -131,7 +134,7 @@ app.view.CountrySelector = Backbone.View.extend({
         if (sel !== undefined && sel!="undefined"){
             // Unselect element
             $e.removeAttr("selected");
-            if (code.length == 2){
+            if (code.length == 2 || code =="XBEU"){
                 this._removeFromStack(this._selectedCountriesStack,code);    
             }
             else{
@@ -142,7 +145,7 @@ app.view.CountrySelector = Backbone.View.extend({
         } 
         else{
             $e.attr("selected",true);
-            if (code.length == 2){
+            if (code.length == 2 || code =="XBEU"){
                 this._addToTopStack(this._selectedCountriesStack,code);    
             }
             else{
@@ -151,6 +154,7 @@ app.view.CountrySelector = Backbone.View.extend({
         }
         
         this.refreshCounterElements();
+        this.showHideDeselectBtn();
     },
 
     clickPanelCtrl: function(e){
@@ -166,12 +170,25 @@ app.view.CountrySelector = Backbone.View.extend({
 
         this.$("ul.ctrl_cb li").removeAttr("selected");
         $e.closest("li").attr("selected",true);
-       
-        
-        
+    },
+
+    showHideDeselectBtn: function(){
+        if(this._selectedBlocksStack.length > 0 || this._selectedCountriesStack.length > 0){
+            this.$('.deselect_btn').addClass('active');
+        }else{
+            this.$('.deselect_btn').removeClass('active');
+        }
+    },
+
+    deselectAll: function(e){
+        e.preventDefault();
+
+        this._selectedCountriesStack = [];
+        this._selectedBlocksStack = [];
+
+        this.$('.sel_container li[selected]').removeAttr('selected');
+
+        this.refreshCounterElements();
+        this.showHideDeselectBtn();
     }
-
-
-    
-
 });

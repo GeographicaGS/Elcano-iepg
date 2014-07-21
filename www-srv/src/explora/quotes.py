@@ -14,11 +14,19 @@ import common.datacache as datacache
 def quotes(family,variable,countries,lang):
     """Quotes service. Call example:
 
-    /quotes/iepg/manufactures/US,DK,ES,NZ/es
+    /quotes/iepg/global_global/US,DK,ES,NZ/es
     """
+    family = family+"_quota"
+    variable = variable+"_global" if variable=="global" else variable
     countriesArray = countries.split(",")
-    years = datacache.dataSets[family].variables[variable].getVariableYears()
-    out = []
+
+    out = []    
+    try:
+        years = datacache.dataSets[family].variables[variable].getVariableYears()
+        print(years)
+    except:
+        return(jsonify({"results": out}))
+
     for year in years:
         varData = chelpers.getData(datacache.dataSets[family].variables[variable], 
                                    year=year, countryList=countriesArray)
@@ -34,5 +42,6 @@ def quotes(family,variable,countries,lang):
             "values": countryData
         }
         out.append(yearData)
+
+    out = sorted(out, key=lambda t: t["year"])
     return jsonify({"results": out})
-    

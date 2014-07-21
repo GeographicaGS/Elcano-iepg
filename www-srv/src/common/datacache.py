@@ -12,7 +12,7 @@ import const
 dataSets = dict()
 for fam in const.variableNames.keys():
     dataSets[fam] = cachewrapper.getM(fam)
-
+    
 blocks = cachewrapper.getM("blocks")
 blocksNoEu = cachewrapper.getM("blocksNoEu")
 countriesAndEu = cachewrapper.getM("countriesAndEu")

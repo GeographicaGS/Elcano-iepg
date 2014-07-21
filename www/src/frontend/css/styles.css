@@ -1115,7 +1115,7 @@ footer{
 		}
 		
 		.iconVariable[data-variable='iepg']{
-		    content : url("@{imgPath}variables/ELC_variable_iepe_off.svg");
+		    content : url("@{imgPath}variables/ELC_variable_iepg_off.svg");
 		}
 		
 		.iconVariable[data-variable='iepe']{
@@ -1199,7 +1199,7 @@ footer{
 		}
 		
 		.iconVariableActive[data-variable='iepg']{
-		    content : url("@{imgPath}variables/ELC_variable_iepe.svg") !important;
+		    content : url("@{imgPath}variables/ELC_variable_iepg.svg") !important;
 		}
 		
 		.iconVariableActive[data-variable='iepe']{
@@ -1298,6 +1298,10 @@ footer{
 			background-origin: content-box;
 			padding-right: 10px;
 			padding-left: 10px;
+		}
+
+		.todos{
+			/*font-weight: bold;*/
 		}
 		img{
 			float: left;

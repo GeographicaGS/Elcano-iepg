@@ -9,7 +9,8 @@ app.view.countryDownload = Backbone.View.extend({
     },
     
     events:{
-    	"click .pais": "paisClick",  	
+    	"click .pais": "paisClick",
+    	"click .todos": "todosClick",
     },
     
 
@@ -83,7 +84,7 @@ app.view.countryDownload = Backbone.View.extend({
 										"<div class='col-sm-7 col-md-7'></div>" +
 										"<div class='col-sm-3 col-md-3'>" +
 										"<img src='/img/flags/" + response.results[response.results.length-1].id + ".svg" + "'>" +
-											"<div class='pais'>" + response.results[response.results.length-1].name + "</div>" +
+											"<div class='pais' id='" + response.results[response.results.length-1].id + "' >" + response.results[response.results.length-1].name + "</div>" +
 										"</div>" +
 										
 									"</div>");
@@ -99,13 +100,41 @@ app.view.countryDownload = Backbone.View.extend({
     },
     
     paisClick: function(e) {
-    	if($(e.currentTarget).hasClass("active")){
-    		$(e.currentTarget).removeClass("active");
-    	}else{
-    		$(e.currentTarget).addClass("active")
+    	if(!$(e.currentTarget).hasClass("todos")){
+	    	if($(e.currentTarget).hasClass("active")){
+	    		$(e.currentTarget).removeClass("active");
+	    	}else{
+	    		$(e.currentTarget).addClass("active")
+	    	}
+
+	    	if($(".pais.active[id]").length == $(".pais[id]").length){
+				$(".pais.todos").addClass("active");
+			}else{
+				$(".pais.todos").removeClass("active");
+			}
+	    	
+	    	$(".numPaises").text($(".pais.active").length);
+	    	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
+	    		$(".boxDonwload").removeClass("activeDownload");
+	    	}else{
+	    		$(".boxDonwload").addClass("activeDownload");
+	    	}
+	    	
+	    	if($(".counter.numPaises").text() == "0"){
+	    		$(".counter.numPaises").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
+	    	}else{
+	    		$(".counter.numPaises").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
+	    	}
     	}
-    	
-    	$(".numPaises").text($(".pais.active").length);
+    },
+
+    todosClick: function(e){
+    	if($(e.currentTarget).hasClass("active")){
+    		$(".pais").removeClass("active");
+    	}else{
+    		$(".pais").addClass("active");
+    	}
+    	$(".numPaises").text($(".pais.active[id]").length);
     	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
     		$(".boxDonwload").removeClass("activeDownload");
     	}else{
@@ -117,7 +146,8 @@ app.view.countryDownload = Backbone.View.extend({
     	}else{
     		$(".counter.numPaises").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
     	}
-    }
+    	
+    },
     
 
 });

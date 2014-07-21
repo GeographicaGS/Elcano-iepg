@@ -52,11 +52,15 @@ app.view.map = function(options){
     };
 
     /* This method created a choropleth Map with the data supplied in the parameter */ 
-    this.drawChoropleth = function(data,time,variable,family){
+    this.drawChoropleth = function(data,time,variable,family,units){
+
+
+        if (!units) units = ""
 
         var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
         // Just for security
         if (!data || !data.length) return;
+
 
         this._choroplethColors = app.view.tools.utils.getChoroplethColors(family,variable)
 
@@ -162,7 +166,7 @@ app.view.map = function(options){
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(v.variable,v.family) + "</span>"
-                    +   "<span>" + app.formatNumber(v.value) + "</span>"
+                    +   "<span>" + app.formatNumber(v.value) + units + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
 

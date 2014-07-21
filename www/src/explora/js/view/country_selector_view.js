@@ -134,7 +134,7 @@ app.view.CountrySelector = Backbone.View.extend({
         if (sel !== undefined && sel!="undefined"){
             // Unselect element
             $e.removeAttr("selected");
-            if (code.length == 2){
+            if (code.length == 2 || code =="XBEU"){
                 this._removeFromStack(this._selectedCountriesStack,code);    
             }
             else{
@@ -145,7 +145,7 @@ app.view.CountrySelector = Backbone.View.extend({
         } 
         else{
             $e.attr("selected",true);
-            if (code.length == 2){
+            if (code.length == 2 || code =="XBEU"){
                 this._addToTopStack(this._selectedCountriesStack,code);    
             }
             else{

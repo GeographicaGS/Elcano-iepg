@@ -1,5 +1,6 @@
 app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#ranking_tool_template').html() ),
+    _templateNodata : _.template( $('#ranking_tool_error_template').html() ),
     _templateHelp : _.template( $('#ranking_tool_help_template').html() ),
     type: "ranking",
     _dataMap : null,
@@ -105,28 +106,34 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         }
     },
 
+    _renderBaseTemplate: function(){
+            this.$el.html(this._template({
+                ctx: this.getGlobalContext().data
+            }));
+
+            this._dataMap = new app.view.map({
+                "container": "data_map",
+                "zoom" : 1,
+                "tooltip" : this.$("#ranking_map_tooltip")
+            }).initialize();
+
+            this.$chart = this.$(".chart");
+
+            var h = this.$(".body").height()- this.$(".chart_header").outerHeight(true);
+            this.$(".co_chart").height(h);
+
+            this.$(".co_chart").css("top",this.$(".chart_header").outerHeight(true) + "px");
+    },
+
     _renderToolAsync: function(){
 
-        this.$el.html(this._template({
-            ctx: this.getGlobalContext().data,
-            collection: this.collection.toJSON(),
-        }));
-
-        this.$chart = this.$(".chart");
-
-        var h = this.$(".body").height()- this.$(".chart_header").outerHeight(true);
-        this.$(".co_chart").height(h);
-
-        this.$(".co_chart").css("top",this.$(".chart_header").outerHeight(true) + "px");
+        this._renderBaseTemplate();
+       
         this._drawD3Chart();
 
         this._forceFetchDataTool = false;
 
-        this._dataMap = new app.view.map({
-            "container": "data_map",
-            "zoom" : 1,
-            "tooltip" : this.$("#ranking_map_tooltip")
-        }).initialize();
+        
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
@@ -139,28 +146,16 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
      
         for (var i=0;i<colJSON.length;i++){
-            // if (colJSON[i].code.length>2){
-            //     // It happens when block_analyze is not 0
-            //     // for(var j=0;j<app.blocks[colJSON[i].code][year].length;j++){
-            //     //     mapArray.push({
-            //     //         "code" : app.blocks[colJSON[i].code][year][j],
-            //     //         "value" : colJSON[i].currentValue,
-            //     //     });
-            //     // }
-            // }
-            // else{
-                mapArray.push({
-                    "code" : colJSON[i].code,
-                    "value" : colJSON[i].currentValue,
-                });
-           // }
+       
+            mapArray.push({
+                "code" : colJSON[i].code,
+                "value" : colJSON[i].currentRanking,
+            });
         }
-        
 
+        this._dataMap.drawChoropleth(mapArray,year,variable,family,"º");
 
-        this._dataMap.drawChoropleth(mapArray,year,variable,family);
-
-        this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family);
+        this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family,"º");
     },
 
     /* Render the tool */
@@ -168,17 +163,25 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         //TOREMOVE
         console.log("Render app.view.tools.RankingPlugin");
 
-        var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data;
 
-        if (false && !ctx.countries.selection.length){
-            // it happens when remove the latest element from the filter
-            this.$el.html(this._template({
-                ctx: this.getGlobalContext().data,
-                collection: null,
-            }));
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,
+            year = ctx.slider[0].date.getFullYear() ;
+
+
+        if (ctx.block_analize == 1 // country +UE
+            && year<2005 // UE was included in the study at year 2005
+            ){
+
+            this._renderBaseTemplate();
+            this.$chart.html(this._templateNodata({}));
+            this.$("#scroll_up,#scroll_down,#ranking_chart_tooltip").remove();
+            // Remove previous map
+            app.map.removeChoropleth();
+            
         }
         else{
+
             // Get the data from server if _forceFetchDataTool is set to true. If _forceFetchDataTool is set to false data is not requested to server
             if (this._forceFetchDataTool){
                 this._fetchDataTool();
@@ -187,7 +190,10 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                 this._renderToolAsync();
             }
         }
+        
     },
+
+
 
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.

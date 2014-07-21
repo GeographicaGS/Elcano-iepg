@@ -1,4 +1,4 @@
-app.collection.CountryToolMap = Backbone.Collection.extend({
+app.collection.QuotesToolMap = Backbone.Collection.extend({
     _family: null,
     _variable : null,
     _date: null,
@@ -12,7 +12,7 @@ app.collection.CountryToolMap = Backbone.Collection.extend({
     },
     
     url : function() {
-        return app.config.API_URL + "/mapdata/" + this._family +  "/" + this._variable +  "/" 
+        return app.config.API_URL + "/mapdata/" + this._family +  "_quota/" + this._variable +  "_global/" 
                 + this._date + "/" + this._mode +"?filter=" + app.getFilters().join(",");
     },
 

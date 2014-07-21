@@ -34,12 +34,19 @@ def ranking(lang, currentYear, referenceYear, family, variable, mode):
     f = processFilter(request.args, "filter")
     e = processFilter(request.args, "entities")
 
-    if mode==0:
-        population=copy.deepcopy(datacache.countries)
-    if mode==1:
-        population=copy.deepcopy(datacache.countriesAndEu)
-    if mode==2:
-        population=copy.deepcopy(datacache.blocksNoEu)
+    if mode==1 and currentYear<2005:
+        return(jsonify({"results": []}))
+
+    if family=="iepg":
+        if mode==0:
+            population=copy.deepcopy(datacache.countries)
+        if mode==1:
+            population=copy.deepcopy(datacache.countriesAndEu)
+        if mode==2:
+            population=copy.deepcopy(datacache.blocksNoEu)
+
+    if family=="iepe":
+        population = chelpers.getBlockMembers("XBEU", year=currentYear)
 
     v = datacache.dataSets[family].variables[variable]
 
@@ -59,12 +66,15 @@ def ranking(lang, currentYear, referenceYear, family, variable, mode):
     referenceRanking = chelpers.getRanking(referenceC, referenceYear, v)
 
     out = []
+    allNull = True
     for k,v in currentRanking.iteritems():
         d = {
             "code": k,
             "currentRanking": v["rank"],
             "currentValue": v["value"]
         }
+        if v["rank"] is not None:
+            allNull = False
         if k in referenceRanking:
             d["referenceRanking"]=referenceRanking[k]["rank"]
             d["referenceValue"]=referenceRanking[k]["value"]
@@ -74,4 +84,7 @@ def ranking(lang, currentYear, referenceYear, family, variable, mode):
 
         out.append(d)
 
-    return(jsonify({"results": out}))
+    if allNull:
+        return(jsonify({"results": []}))
+    else:
+        return(jsonify({"results": out}))

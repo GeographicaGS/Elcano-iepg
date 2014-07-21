@@ -49,7 +49,7 @@ def createCache():
             "function": "blockfunc::common.blockfunctions.blockFunctionLumpSum"
         },
         "context": {
-            "blocks": ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM"],
+            "blocks": ["XBAP", "XBSA", "XBNA", "XBE2", "XBLA", "XBMM", "XBEU"],
             "function": "blockfunc::common.blockfunctions.blockFunctionLumpSum"
         },
         "iepg_quota": {
@@ -100,10 +100,12 @@ def createCache():
                     v = ds.variables[var].getData(code=b, year=y)[str(b)+"@"+str(y)]["value"]
                     data = v+data if v else data
                 ds.variables[c].addValue(b, y, "float", data)
-                
+    
     for dsKey in dataSets:
         mc.set(dsKey, dataSets[dsKey], 0)
     return(dataSets)
+
+    
 
 dataSets = createCache()
 

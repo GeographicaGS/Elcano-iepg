@@ -114,7 +114,6 @@ def countrySheet(lang, family, countryCode):
                 if countryCode in datacache.blocks:
                     c = arrayops.arraySubstraction(filteredPopulation, 
                                                    common.helpers.getBlockMembers(countryCode, year))
-                    # c.append(countryCode)
                 else:
                     c = filteredPopulation
 
@@ -134,6 +133,13 @@ def countrySheet(lang, family, countryCode):
             conDict = dict()
 
             for k,v in conData.iteritems():
+                if family=="iepe":
+                    population = common.helpers.getBlockMembers("XBEU", year)
+                    if f:
+                        filteredPopulation = arrayops.arraySubstraction(population, f)
+                    else:
+                        filteredPopulation = population
+
                 a = v.values()[0]
                 d = {
                     "code": a["code"],
@@ -147,7 +153,6 @@ def countrySheet(lang, family, countryCode):
                 if countryCode in datacache.blocks:
                     c = arrayops.arraySubstraction(filteredPopulation, 
                                                    common.helpers.getBlockMembers(countryCode, year))
-                    # c.append(countryCode)
                 else:
                     c = filteredPopulation
 
@@ -157,8 +162,8 @@ def countrySheet(lang, family, countryCode):
                                                                    countryCode)
                 d["relativeranking"] = common.helpers.getRankingCode(c, year,
                                                                      datacache.dataSets["context"].variables[k],
-                                                                     countryCode)
-                
+                                                                      countryCode)
+
                 conDict[k] = d
                 yearData["family"] = famDict
                 yearData["context"] = conDict

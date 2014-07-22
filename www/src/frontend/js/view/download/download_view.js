@@ -44,62 +44,62 @@ app.view.Download = Backbone.View.extend({
     },
 
     menuItemClick: function(e){
-    	this.actual = parseInt($(e.currentTarget).attr("idMenu"));
-    	$(".contain").hide();
-    	
-    	switch(this.actual) {
-    	case 1:
-    		$("#yearDiv").show();
-    	    break;
-    	case 2:
-    		$("#thematicBlock").show();
-    	    break;
-    	case 3:
-    		$("#countryDownload").show();
-    		break;
-    	}
-    	
+        this.actual = parseInt($(e.currentTarget).attr("idMenu"));
+        $(".contain").hide();
+        
+        switch(this.actual) {
+        case 1:
+            $("#yearDiv").show();
+            break;
+        case 2:
+            $("#thematicBlock").show();
+            break;
+        case 3:
+            $("#countryDownload").show();
+            break;
+        }
+        
     },
     
     siguienteClick: function(){
-    	if(this.actual == 3){
-    		this.actual = 1;
-    	}else{
-    		this.actual ++;
-    	}
-    	$(".menuItem[idMenu=" + this.actual + "]").trigger("click");
+        if(this.actual == 3){
+            this.actual = 1;
+        }else{
+            this.actual ++;
+        }
+        $(".menuItem[idMenu=" + this.actual + "]").trigger("click");
     },
 
     download:function(e){
-    	// var aux = $(".yearList").find(".active");
-    	// var years = "";
-    	// var variables = "";
-    	// var paises = "";
-    	
-    	// for(var i=0; i<$(aux).length; i++){
-    	// 	years += $(aux[i]).text() + ",";
-    	// }
-    	// years = years.slice(0,-1);
-    	
-    	// aux = $("#thematicBlock").find(".active[key]");
-    	// for(var i=0; i<$(aux).length; i++){
-    	// 	if($(aux[i]).attr("key") == "iepg" || $(aux[i]).attr("key") == "iepe"){
-    	// 		variables += $(aux[i]).attr("key") + "," ;
-    	// 	}else{
-    	// 		variables += $(aux[i]).attr("key") + "@";
-     //    		variables += ($(aux[i]).hasClass("tematica") ? "iepg":"iepe") + ",";
-    	// 	}
-    	// }
-    	// variables = variables.slice(0,-1);
-    	
-    	// aux = $("#countryDownload").find(".active");
-    	// for(var i=0; i<$(aux).length; i++){
-    	// 	paises += $(aux[i]).attr("id") + ",";
-    	// }
-    	// paises = paises.slice(0,-1);
-    	// if(years != "" && variables != "" && paises != ""){
-    	// 	window.location="/api/download/" + app.lang + "/" + years + "/" + variables +"/" + paises;
-    	// }
+        // var aux = $(".yearList").find(".active");
+        // var years = "";
+        // var variables = "";
+        // var paises = "";
+        
+        // for(var i=0; i<$(aux).length; i++){
+        //  years += $(aux[i]).text() + ",";
+        // }
+        // years = years.slice(0,-1);
+        
+        // aux = $("#thematicBlock").find(".active[key]");
+        // for(var i=0; i<$(aux).length; i++){
+        //  if($(aux[i]).attr("key") == "iepg" || $(aux[i]).attr("key") == "iepe"){
+        //      variables += $(aux[i]).attr("key") + "," ;
+        //  }else{
+        //      variables += $(aux[i]).attr("key") + "@";
+     //         variables += ($(aux[i]).hasClass("tematica") ? "iepg":"iepe") + ",";
+        //  }
+        // }
+        // variables = variables.slice(0,-1);
+        
+        // aux = $("#countryDownload").find(".active");
+        // for(var i=0; i<$(aux).length; i++){
+        //  paises += $(aux[i]).attr("id") + ",";
+        // }
+        // paises = paises.slice(0,-1);
+        // if(years != "" && variables != "" && paises != ""){
+        //  window.location="/api/download/" + app.lang + "/" + years + "/" + variables +"/" + paises;
+        // }
         if($(e.currentTarget).hasClass("activeDownload")){
             $.fancybox($('#download_popup_template').html(), {
                 'width':'660',

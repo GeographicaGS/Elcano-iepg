@@ -80,9 +80,9 @@ app.view.thematicBlock = Backbone.View.extend({
     	}
     	
     	if($(".counter.numBloqsSelect").text() == "0"){
-    		$(".counter.numBloqsSelect").siblings("div").attr("src","/img/ELC_flecha_descarga_paso.svg")
+    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
     	}else{
-    		$(".counter.numBloqsSelect").siblings("div").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
+    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
     	}
     	
     },
@@ -121,9 +121,9 @@ app.view.thematicBlock = Backbone.View.extend({
     	}
     	
     	if($(".counter.numBloqsSelect").text() == "0"){
-    		$(".counter.numBloqsSelect").siblings("div").attr("src","/img/ELC_flecha_descarga_paso.svg")
+    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
     	}else{
-    		$(".counter.numBloqsSelect").siblings("div").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
+    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
     	}
     	
     },

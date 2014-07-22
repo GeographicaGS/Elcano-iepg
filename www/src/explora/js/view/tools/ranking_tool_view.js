@@ -165,6 +165,11 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         
     },
 
+    resizeMe: function(){
+        app.view.tools.Plugin.prototype.resizeMe.apply(this);
+        this._renderToolAsync();
+    },
+
     /* Render the tool */
     renderTool: function(){
         //TOREMOVE

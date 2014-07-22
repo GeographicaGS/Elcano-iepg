@@ -583,7 +583,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
         $legend.html(this._templateChartLegend({
             data: this._d3[family].tree.findElementInTree(name),
-            family: this.getGlobalContext().data.family
+            family: family
         }));
     },
 

@@ -68,7 +68,16 @@ $(function(){
  
 });
 
+app.delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
+
 app.resize = function(){
+    console.log("resize me");
     // If device's screen width is smaller than 1024px, force to 1024px
     var vp = document.getElementById('appViewport');
     if(screen.width < 1024) {
@@ -87,9 +96,15 @@ app.resize = function(){
 
     this.map.resize();
 
-    if(app.baseView.currentTool && app.baseView.currentTool.countries){
-        app.baseView.currentTool.countries.render();
+    if(app.baseView.currentTool){
+     
+        app.delay(function(){
+            app.baseView.currentTool.resizeMe();
+        },500);
+       
+
     }
+
 }
 
 app.ini = function(){

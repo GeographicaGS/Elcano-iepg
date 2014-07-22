@@ -29,7 +29,7 @@ app.view.ToolSelector = Backbone.View.extend({
             this._toolsSelectedStack.push(app.baseView.currentTool.type);    
         }
 
-        $(window).on('resize', function(){
+        $(window).on("resize.toolSelector", function(){
             self.render();
         });
 
@@ -46,7 +46,7 @@ app.view.ToolSelector = Backbone.View.extend({
         // Remove events on close
         this.stopListening();
     
-        $(window).off('resize');
+        $(window).off("resize.toolSelector");
     },
 
     render: function(){

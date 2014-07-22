@@ -153,7 +153,8 @@ class DocumentModel(PostgreSQLModel):
         link_{} as link,
         last_edit_id_user,
         last_edit_time,
-        published
+        published,
+        publishing_date
         from
         www.document
         where

@@ -35,11 +35,10 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     #                      attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
     #                      as_attachment=True))
 
-    data = {
-        "year": sorted(years.split(",")),
-        "variable": variables.split(","),
-        "country": countries.split(",")
-    }
+    years = sorted(years.split(","))
+    variables = variables.split(",")
+    countries = countries.split(",")
+
     translate = dc.isoToEnglish if language=="en" else dc.isoToSpanish
 
     tabs = ["year", "country", "variable"]
@@ -50,7 +49,8 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     workbook = xlsxwriter.Workbook(fileName)
     url_format = workbook.add_format({
         "font_color": "blue",
-        "underline": 1
+        "underline": 1,
+        "bg_color": "white"
     })
     title_format = workbook.add_format({
         "font_color": "white",
@@ -66,6 +66,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
         "bg_color": "#08608C",
         "font_color": "white",
         "valign": "vcenter",
+        "align": "center",
         "size": 12
     })
     highlight = workbook.add_format({
@@ -77,88 +78,210 @@ def getDownloadData(language, years, variables, countries, rows, columns):
         "valign": "vcenter"
     })
 
-    print "Config : ",tabs,rows,columns
-
-
     allVariables = dict()
-    for var in data["variable"]:
+    for var in variables:
         varName, varFamily = var.split("@")
         allVariables[varFamily+"@"+varName] = dc.dataSets[varFamily].variables[varName]
         allVariables = OrderedDict(sorted(allVariables.items(), key=lambda t: 
                                           const.variableNames[t[0].split("@")[0]][t[0].split("@")[1]]["order"]))
 
-    print "All : ", allVariables
-
-
-    for tabData in data[tabs]:
-        print "Tab : ", tabData
-        col = 1
-
-        if tabs=="variable":
-            varSplitted = tabData.split("@")
+    if tabs=="variable":
+        varTagNum = 1
+        for var in variables:
+            varSplitted = var.split("@")
             varName = unicode(const.variableNames[varSplitted[1]][varSplitted[0]]["name_"+language])
-            if varSplitted[1]=="IEPG":
-                familyName = u"Presencia global" if language=="es" else u"Global Presence"
+            if varSplitted[1]=="iepg":
+                familyName = u"global" if language=="es" else u"global"
             else:
-                familyName = u"Presencia Europea" if language=="es" else u"European Presence"
+                familyName = u"europea" if language=="es" else u"european"
             tabName = (varName+u" ("+familyName+u")")
-            tabTag = tabName if len(tabName)<31 else tabName[0:28]+u"..."
+            tabTag = u"Datos "+str(varTagNum) if language=="es" else u"Data "+str(varTagNum)
 
             title = u"Data from Elcano Global Presence Index (Data for "+tabName+")" if language=="en" \
                     else u"Datos del Índice de Presencia Global Elcano (Datos para "+tabName+")"
             variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
 
-        worksheet = workbook.add_worksheet(tabTag)
-        worksheet.set_row(0,30,title_format)
-        worksheet.write(0,0,title)
+            worksheet = workbook.add_worksheet(tabTag)
+            worksheet.set_row(0,30,title_format)
+            worksheet.set_row(1,30,header_format)
+            worksheet.write(0,0,title)
+            varTagNum+=1
 
-        print data[columns]
-
-        for rowData in data[rows]:
-            print "Row : ", rowData
+            row = 2
             if rows=="year":
-                year=rowData
-            if rows=="country":
-                country=rowData
+                for year in years:
+                    worksheet.write(row,0,year, bold_format)
+                    col = 1
+                    for country in countries:
+                        worksheet.write(1,col, unicode(translate[country].decode("utf-8")))
+                        data = chelpers.getData(variable, year=year, code=country)
+                        val = data.values()[0]["value"]
+                        fval = round(float(val),2) if val!=None else None
+                        worksheet.write(row,col,fval)
+                        if (row+2)%3==0:
+                            worksheet.set_row(row,18,highlight)
+                        else:
+                            worksheet.set_row(row,18)
+                        col+=1
+                    row+=1
+            else:
+                for country in countries:
+                    worksheet.write(row,0,unicode(translate[country].decode("utf-8")),bold_format)
+                    col = 1
+                    for year in years:
+                        worksheet.write(1,col,year)
+                        data = chelpers.getData(variable, year=year, code=country)
+                        val = data.values()[0]["value"]
+                        fval = round(float(val),2) if val!=None else None
+                        worksheet.write(row,col,fval)
+                        if (row+2)%3==0:
+                            worksheet.set_row(row,18,highlight)
+                        else:
+                            worksheet.set_row(row,18)
+                        col+=1
+                    row+=1
+            
+            row+=2
+            worksheet.write(row, 0, "Más información:".decode("utf-8") if language=="es" else 
+                            "More information:".decode("utf-8"), bold_format)
+            worksheet.write_url(row+1, 0, "http://www.globalpresence.realinstitutoelcano.org", url_format,
+                                "http://www.globalpresence.realinstitutoelcano.org")
 
-            for colData in data[columns]:
-                print "Column :",colData
-                if columns=="country":
-                    country=colData
-                if columns=="year":
-                    year=colData
+    if tabs=="year":
+        for year in years:
+            tabTag = u"Año "+str(year) if language=="es" else u"Year "+str(year)
+            title = u"Data from Elcano Global Presence Index (Data for year "+str(year)+")" if language=="en" \
+                    else u"Datos del Índice de Presencia Global Elcano (Datos para el año "+str(year)+")"
 
-                data = chelpers.getData(variable, year=year, code=country)
-                print "Data : ",variable,year,country,data
-        # for k,v in allVariables.iteritems():
+            worksheet = workbook.add_worksheet(tabTag)
+            worksheet.set_row(0,30,title_format)
+            worksheet.set_row(1,30,header_format)
+            worksheet.write(0,0,title)
 
-    #     #     print "jd :", k,v
+            row = 2
+            if rows=="variable":
+                for var in variables:
+                    varSplitted = var.split("@")
+                    varName = unicode(const.variableNames[varSplitted[1]][varSplitted[0]]["name_"+language])
+                    if varSplitted[1]=="iepg":
+                        familyName = u"global" if language=="es" else u"global"
+                    else:
+                        familyName = u"europea" if language=="es" else u"european"
+                    colName = (varName+u" ("+familyName+u")")
+                    variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
+                    worksheet.write(row,0,colName,bold_format)
+                    col = 1
 
-    #     #     data = sorted(chelpers.getData(v, countryList=countries, year=year).values(),
-    #     #                   key=lambda t: translate[t["code"]])
-    #     #     family,name = k.split("@")
-    #     #     worksheet.set_row(1,22,header_format)
-    #     #     worksheet.write(1,col,family.upper()+": "+
-    #     #                     const.variableNames[family][name]["name_"+language].decode("utf-8"), header_format)
-    #     #     row = 2
-    #     #     for d in data:
-    #     #         if (row-1)%3==0:
-    #     #             worksheet.set_row(row,15,highlight)
-    #     #         else:
-    #     #             worksheet.set_row(row,15,no_highlight)
-    #     #         worksheet.write(row, 0, translate[d["code"]].decode("utf-8"))
-    #     #         worksheet.set_column(0, 0, 25)
-    #     #         worksheet.write(row, col, d["value"])
-    #     #         worksheet.set_column(col, col, 15)
-    #     #         row+=1
-    #     #     col+=1
+                    for country in countries:
+                        worksheet.write(1,col, unicode(translate[country].decode("utf-8")))
+                        data = chelpers.getData(variable, year=year, code=country)
+                        val = data.values()[0]["value"]
+                        fval = round(float(val),2) if val!=None else None
+                        worksheet.write(row,col,fval)
+                        if (row+2)%3==0:
+                            worksheet.set_row(row,18,highlight)
+                        else:
+                            worksheet.set_row(row,18)
+                        col+=1
+                    row+=1
+            else:
+                for country in countries:
+                    worksheet.write(row,0,unicode(translate[country].decode("utf-8")),bold_format)
+                    col = 1
+                    for var in variables:
+                        varSplitted = var.split("@")
+                        varName = unicode(const.variableNames[varSplitted[1]][varSplitted[0]]["name_"+language])
+                        if varSplitted[1]=="iepg":
+                            familyName = u"global" if language=="es" else u"global"
+                        else:
+                            familyName = u"europea" if language=="es" else u"european"
+                        colName = (varName+u" ("+familyName+u")")
+                        variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
+                        worksheet.write(1,col,colName)
+                        data = chelpers.getData(variable, year=year, code=country)
+                        val = data.values()[0]["value"]
+                        fval = round(float(val),2) if val!=None else None
+                        worksheet.write(row,col,fval)
+                        if (row+2)%3==0:
+                            worksheet.set_row(row,18,highlight)
+                        else:
+                            worksheet.set_row(row,18)
+                        col+=1
+                    row+=1
+            
+            row+=2
+            worksheet.write(row, 0, "Más información:".decode("utf-8") if language=="es" else 
+                            "More information:".decode("utf-8"), bold_format)
+            worksheet.write_url(row+1, 0, "http://www.globalpresence.realinstitutoelcano.org", url_format,
+                                "http://www.globalpresence.realinstitutoelcano.org")
 
-    #     row = 10
+    if tabs=="country":
+        for country in countries:
+            tabTag = unicode(translate[country].decode("utf-8"))
+            title = u"Data from Elcano Global Presence Index (Data for "+tabTag+")" if language=="en" \
+                    else u"Datos del Índice de Presencia Global Elcano (Datos para "+tabTag+")"
 
-    #     worksheet.write(row+1, 0, "Más información:".decode("utf-8") if language=="es" else 
-    #                     "More information:".decode("utf-8"), bold_format)
-    #     worksheet.write_url(row+1, 1, "http://www.globalpresence.realinstitutoelcano.org", url_format,
-    #                         "http://www.globalpresence.realinstitutoelcano.org")
+            worksheet = workbook.add_worksheet(tabTag)
+            worksheet.set_row(0,30,title_format)
+            worksheet.set_row(1,30,header_format)
+            worksheet.write(0,0,title)
+
+            row = 2
+            if rows=="variable":
+                for var in variables:
+                    varSplitted = var.split("@")
+                    varName = unicode(const.variableNames[varSplitted[1]][varSplitted[0]]["name_"+language])
+                    if varSplitted[1]=="iepg":
+                        familyName = u"global" if language=="es" else u"global"
+                    else:
+                        familyName = u"europea" if language=="es" else u"european"
+                    colName = (varName+u" ("+familyName+u")")
+                    variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
+                    worksheet.write(row,0,colName,bold_format)
+                    col = 1
+                    for year in years:
+                        worksheet.write(1,col, year)
+                        data = chelpers.getData(variable, year=year, code=country)
+                        val = data.values()[0]["value"]
+                        fval = round(float(val),2) if val!=None else None
+                        worksheet.write(row,col,fval)
+                        if (row+2)%3==0:
+                            worksheet.set_row(row,18,highlight)
+                        else:
+                            worksheet.set_row(row,18)
+                        col+=1
+                    row+=1
+            else:
+                for year in years:
+                    worksheet.write(row,0,year,bold_format)
+                    col = 1
+                    for var in variables:
+                        varSplitted = var.split("@")
+                        varName = unicode(const.variableNames[varSplitted[1]][varSplitted[0]]["name_"+language])
+                        if varSplitted[1]=="iepg":
+                            familyName = u"global" if language=="es" else u"global"
+                        else:
+                            familyName = u"europea" if language=="es" else u"european"
+                        colName = (varName+u" ("+familyName+u")")
+                        variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
+                        worksheet.write(1,col,colName)
+                        data = chelpers.getData(variable, year=year, code=country)
+                        val = data.values()[0]["value"]
+                        fval = round(float(val),2) if val!=None else None
+                        worksheet.write(row,col,fval)
+                        if (row+2)%3==0:
+                            worksheet.set_row(row,18,highlight)
+                        else:
+                            worksheet.set_row(row,18)
+                        col+=1
+                    row+=1
+            
+            row+=2
+            worksheet.write(row, 0, "Más información:".decode("utf-8") if language=="es" else 
+                            "More information:".decode("utf-8"), bold_format)
+            worksheet.write_url(row+1, 0, "http://www.globalpresence.realinstitutoelcano.org", url_format,
+                                "http://www.globalpresence.realinstitutoelcano.org")
+
     workbook.close()
 
     return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 

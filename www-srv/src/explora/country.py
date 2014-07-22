@@ -130,10 +130,11 @@ def countrySheet(lang, family, countryCode):
                     d["relativeranking"] = d["globalranking"]
 
                 famDict[k] = d
+
             conDict = dict()
 
             for k,v in conData.iteritems():
-                if family=="iepe":
+                if family=="iepe" and year>=2005:
                     population = common.helpers.getBlockMembers("XBEU", year)
                     if f:
                         filteredPopulation = arrayops.arraySubstraction(population, f)

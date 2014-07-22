@@ -12,7 +12,7 @@
     <td><a href="/<lang>lang</lang>/news/<%= d.id %>"><%= d.title %> </a></td>
     
     <td class="lastEdition greyTable thRight">
-        <%= app.dateTimeFormat(d.time) %>
+        <%= app.dateFormat(d.time) %>
     </td>
     <td>
         <span class="PublicList"> <% if (d.published ) { %><img src="/img/iconos/publicICO.png" alt="Publicado"><% } else { %> &nbsp; <% } %></span>

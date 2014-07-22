@@ -32,6 +32,9 @@ app.model.New = Backbone.Model.extend({
                 maxLength : 500,
                 required: false,
                 pattern : "url"
+            },
+            time : {
+                required: true
             }
         }
     },

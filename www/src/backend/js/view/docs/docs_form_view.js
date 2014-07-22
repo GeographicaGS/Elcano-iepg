@@ -273,13 +273,10 @@ app.view.docs.FormView = Backbone.View.extend({
             "description_es" : app.input(this.$("textarea[name='description_es']").val()),
             "link_en" : app.input(this.$("input[name='link_en']").val()),
             "link_es" : app.input(this.$("input[name='link_es']").val()),
-            
+            "time" : this.$("input[name='time']").val()
         }
 
-
         this.model.set(data);
-
-        
          
         if (this.model.isValid(true)){
 
@@ -297,6 +294,7 @@ app.view.docs.FormView = Backbone.View.extend({
             app.scrollTop();
         }
     },
+    
     render: function() {
 
         this.$el.html(this._template({

@@ -41,6 +41,9 @@ app.model.Document = Backbone.Model.extend({
 				required: false,
 				pattern : "url"
 			},
+			time : {
+				required: true
+			},
 			authors: function(value) {
 				var col = value.filterEmpties(),
 					$error = $("p[name='authors'");

@@ -92,7 +92,8 @@ create table www.document(
   link_es varchar(500),
   last_edit_id_user integer,
   last_edit_time timestamp,
-  published boolean
+  published boolean,
+  publishing_date date
 );
 
 alter table www.document
@@ -172,7 +173,8 @@ create table www.new(
   url_en varchar(250),
   url_es varchar(250),
   id_news_section integer,
-  published boolean
+  published boolean,
+  publishing_date date
 );
 
 alter table www.new

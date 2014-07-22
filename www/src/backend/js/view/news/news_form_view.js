@@ -212,7 +212,8 @@ app.view.news.FormView = Backbone.View.extend({
             "text_es" : app.input(this.$("textarea[name='text_es']").val()),
             "url_en" : app.input(this.$("input[name='url_en']").val()),
             "url_es" : app.input(this.$("input[name='url_es']").val()),
-            "news_section" : this.$("select[name='news_section']").val()
+            "news_section" : this.$("select[name='news_section']").val(),
+            "time" : this.$("input[name='time']").val()
         };
 
         this.model.set(data);

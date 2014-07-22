@@ -659,6 +659,14 @@ frontend_errors = {
     "-5": {"Code": "-5", "Error": "Invalid label ID."}
 }
 
+errors = {
+    "-1": {"Code": "-1", "Error": "Unknown language."},
+    "-3": {"Code": "-3", "Error": "Invalid offset."},
+    "-4": {"Code": "-4", "Error": "Unknown Twitter user."},
+    "-5": {"Code": "-5", "Error": "Invalid label ID."}
+}
+
+
 # TODO: To be deprecated
 model_errors = {
     "-1": {"Code": "-1", "Error": "Unknown language."},

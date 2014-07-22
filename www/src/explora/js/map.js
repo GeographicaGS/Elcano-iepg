@@ -17,9 +17,16 @@ app.view.map = function(options){
 
     this.initialize = function(options){
 
+        var southWest = L.latLng(-85, -190),
+        northEast = L.latLng(85,190),
+        bounds = L.latLngBounds(southWest, northEast);
+
         this._map = L.map(this.container,{
             "attributionControl" : false,
-            "zoomControl" : false
+            "zoomControl" : false,
+            // It doesn't work in ranking tool
+            "maxBounds" : bounds,
+            "minZoom": 2
         }).setView( this.center, this.zoom);
 
         this.loadBaseMap();
@@ -185,10 +192,11 @@ app.view.map = function(options){
         }
 
         function onEachFeature(feature, layer) {
+
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
-                click: zoomToFeature
+                click: !app.isTouchDevice() ? zoomToFeature : highlightFeature
             });
         }
 
@@ -250,6 +258,14 @@ app.view.map = function(options){
         }
 
         return this;
+    }
+
+    this.zoomIn = function(){
+        this._map.setZoom(this._map.getZoom()+1);
+    }
+
+    this.zoomOut = function(){
+        this._map.setZoom(this._map.getZoom()-1);
     }
 
       

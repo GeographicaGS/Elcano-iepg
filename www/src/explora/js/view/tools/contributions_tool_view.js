@@ -299,7 +299,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             }
         }
         else{
-            $country_name.html("<lang>¿País?</lang>").addClass("no_data");
+            $country_name.html("<lang>contribuciones no pais titulo</lang>").addClass("no_data");
             this._drawD3ChartNoData(pos);
         }
             

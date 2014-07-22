@@ -1,6 +1,6 @@
 app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#ranking_tool_template').html() ),
-    _templateNodata : _.template( $('#ranking_tool_error_template').html() ),
+    _templateNodataUE : _.template( $('#ranking_tool_error_ue_template').html() ),
     _templateHelp : _.template( $('#ranking_tool_help_template').html() ),
     type: "ranking",
     _dataMap : null,
@@ -106,11 +106,15 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         }
     },
 
-    _renderBaseTemplate: function(){
-            this.$el.html(this._template({
-                ctx: this.getGlobalContext().data
-            }));
+    _renderBaseTemplate: function(drawerror){
+        if (!drawerror) drawerror = false;
 
+        this.$el.html(this._template({
+            ctx: this.getGlobalContext().data,
+            drawerror : drawerror
+        }));
+
+        if (!drawerror){
             this._dataMap = new app.view.map({
                 "container": "data_map",
                 "zoom" : 1,
@@ -119,43 +123,51 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             this.$chart = this.$(".chart");
 
-            var h = this.$(".body").height()- this.$(".chart_header").outerHeight(true);
+            var h = this.$(".body").height()- this.$(".chart_header").outerHeight(true) - 18;
             this.$(".co_chart").height(h);
 
             this.$(".co_chart").css("top",this.$(".chart_header").outerHeight(true) + "px");
+        }
+        
     },
 
     _renderToolAsync: function(){
 
-        this._renderBaseTemplate();
-       
-        this._drawD3Chart();
-
         this._forceFetchDataTool = false;
-
-        
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             year = ctx.slider[0].date.getFullYear(),
             variable = ctx.variables[0],
-            family = ctx.family;
+            family = ctx.family
+            colJSON = this.collection.toJSON(),
+            mapArray = [];
 
-        var mapArray = [],
-            colJSON = this.collection.toJSON();
-
-     
-        for (var i=0;i<colJSON.length;i++){
+    
+        this._renderBaseTemplate(colJSON.length==0);
        
-            mapArray.push({
-                "code" : colJSON[i].code,
-                "value" : colJSON[i].currentRanking,
-            });
+        if (colJSON.length>0){
+
+            this._drawD3Chart();
+
+            for (var i=0;i<colJSON.length;i++){
+           
+                mapArray.push({
+                    "code" : colJSON[i].code,
+                    "value" : colJSON[i].currentRanking,
+                });
+            }
+
+            this._dataMap.drawChoropleth(mapArray,year,variable,family,"º");
+
+            this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family,"º");
         }
+        
+    },
 
-        this._dataMap.drawChoropleth(mapArray,year,variable,family,"º");
-
-        this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family,"º");
+    resizeMe: function(){
+        app.view.tools.Plugin.prototype.resizeMe.apply(this);
+        this._renderToolAsync();
     },
 
     /* Render the tool */
@@ -163,21 +175,21 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         //TOREMOVE
         console.log("Render app.view.tools.RankingPlugin");
 
-
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             year = ctx.slider[0].date.getFullYear() ;
 
+        // Remove previous map
+        app.map.removeChoropleth();
 
         if (ctx.block_analize == 1 // country +UE
             && year<2005 // UE was included in the study at year 2005
             ){
 
-            this._renderBaseTemplate();
-            this.$chart.html(this._templateNodata({}));
+            this._renderBaseTemplate(false);
+            this.$chart.html(this._templateNodataUE({}));
             this.$("#scroll_up,#scroll_down,#ranking_chart_tooltip").remove();
-            // Remove previous map
-            app.map.removeChoropleth();
+            
             
         }
         else{
@@ -263,7 +275,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             width = this.$chart.width() - margin.left - margin.right,
             barHeight = 20,
             totalCountryHeight = barHeight * 2 + 10 /*padding*/,
-            height = (data.length+1) * totalCountryHeight - margin.top - margin.bottom,
+            height = (data.length+1) * totalCountryHeight - margin.top - margin.bottom - 10,
             yAxisWidth = 100,
             visibleHeight = this.$chart.height(),
             ctxObj = this.getGlobalContext(),
@@ -275,6 +287,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                 ctx.variables[0] == "global" ?  ctx.family : ctx.variables[0]
             ];
 
+    
 
         var x = d3.scale.linear()
             .range([0, width])
@@ -299,6 +312,10 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         var zoom = d3.behavior.zoom()
             .y(y)
             .on("zoom", zoomed);
+
+        if (height < this.$chart.height()){
+            height  = this.$chart.height() - margin.top - margin.bottom;
+        }
 
 
         var svg = d3.select(".chart").append("svg")

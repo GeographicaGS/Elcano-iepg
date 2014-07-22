@@ -575,7 +575,6 @@
     .wrapper_chart{
         position: relative;
 
-
         .chart_header,.co_chart{
             position: absolute;
             width: 100%;
@@ -583,43 +582,6 @@
         .chart_header{
             top: @line_height;
             z-index:2;
-           /* DEPRECATED
-           .analyze{
-                float:right;
-                
-                span,a{
-                    display: inline-block;
-                    vertical-align: middle;
-                    color: @grey_dark;
-                }
-                span{
-                    font-size: 13px;
-                }
-
-                a{
-                    height: @line_height;
-                    width: 32px;
-                    border-radius: 10px;
-                    background-color: #d0d0d5;
-                    &:before{
-                        content:"";
-                        float:left;
-                        margin: 5px;
-                        width: 8px;
-                        height: 8px;
-                        background-color: @white;
-                        border-radius: 8px;
-                        .roboto();
-                    }
-                }
-
-                a[block-analyze='true']{
-                    background-color: @red;
-                    &:before{
-                        float:right;
-                    }
-                }
-            }*/
 
             ul.analyze{
                 margin-top:18px;
@@ -661,7 +623,7 @@
 
         .co_chart{
             top: 90px;
-            bottom: 18px;
+            bottom: 28px;
             z-index: 1;
         }
     }

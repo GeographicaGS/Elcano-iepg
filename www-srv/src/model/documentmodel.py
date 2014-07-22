@@ -153,7 +153,8 @@ class DocumentModel(PostgreSQLModel):
         link_{} as link,
         last_edit_id_user,
         last_edit_time,
-        published
+        published,
+        publishing_date
         from
         www.document
         where
@@ -175,7 +176,8 @@ class DocumentModel(PostgreSQLModel):
                          "last_edit_id_user": session["id_user"],
                          "link_en": data["link_en"],
                          "link_es": data["link_es"],
-                         "published": "False"},
+                         "published": "False",
+                         "publishing_date": data["time"]},
                         returnID="id_document")
 
         if data["labels_en"]:
@@ -225,7 +227,8 @@ class DocumentModel(PostgreSQLModel):
                      "last_edit_id_user": session["id_user"],
                      "last_edit_id_user": "1",
                      "link_en": data["link_en"],
-                     "link_es": data["link_es"]},
+                     "link_es": data["link_es"],
+                     "publishing_date": data["time"]},
                     {"id_document": id_document})
 
         q = "delete from www.author where id_document=%s"
@@ -297,7 +300,7 @@ class DocumentModel(PostgreSQLModel):
         docs = """
         select id_document as id, coalesce(title_es, title_en) as title, 
         title_en, title_es, theme_en, theme_es, description_en, description_es, 
-        link_en, link_es, last_edit_time as time, published from www.document """
+        link_en, link_es, last_edit_time as time, published, publishing_date from www.document """
                
         if search:
             search = '%'+search+'%'

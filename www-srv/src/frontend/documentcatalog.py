@@ -68,7 +68,7 @@ def getDocumentCatalog():
         doc["id"] = docDetail["id_document"]
         doc["title"] = docDetail["title"]
         doc["theme"] = docDetail["theme"]
-        doc["time"] = docDetail["last_edit_time"]
+        doc["time"] = str(docDetail["publishing_date"].isoformat())
         doc["authors"] = []
         doc["labels"] = []
 

@@ -31,7 +31,8 @@ def createNew():
     "url_es": "url_es",
     "news_section": 1,
     "labels_en": [{"id": 1, "label": "US"}, {}...],
-    "labels_es": [{"id": 1, "label": "EEUU"}, {}...]
+    "labels_es": [{"id": 1, "label": "EEUU"}, {}...],
+    "time": "20130216"
     }
 
     where news_section are:
@@ -56,7 +57,7 @@ def createNew():
     return(jsonify({"id": m.createNew(j["title_en"], j["title_es"],
                                       j["text_en"], j["text_es"],
                                       j["url_en"], j["url_es"],
-                                      j["news_section"], labels_en, labels_es)}))
+                                      j["news_section"], labels_en, labels_es, j["time"])}))
 
 
 
@@ -75,7 +76,8 @@ def updateNew(id):
     "url_es": "url_es",
     "news_section": 1,
     "labels_en": [1,2,3,4],
-    "labels_es": [2,3,4,5]
+    "labels_es": [2,3,4,5],
+    "time": "20130216"
     }
 
     where news_section are:
@@ -88,7 +90,7 @@ def updateNew(id):
     return(jsonify({"id": m.editNew(id, j["title_en"], j["title_es"], \
                                         j["text_en"], j["text_es"], \
                                         j["url_en"], j["url_es"], \
-                                        j["news_section"], j["labels_en"], j["labels_es"])}))
+                                        j["news_section"], j["labels_en"], j["labels_es"], j["time"])}))
 
 
 @app.route('/new/<int:id>', methods=['DELETE'])
@@ -137,7 +139,7 @@ def getNewCatalog():
             out["spanish"]=False
         out["title"] = d["title_es"] if d["title_es"]!=None else \
                        d["title_en"] if d["title_en"]!=None else "Sin título"
-        out["time"] = d["new_time"]
+        out["time"] = str(d["publishing_date"].isoformat())
         out["published"] = d["published"]
         out["id"] = d["id"]
         news.append(out)
@@ -160,6 +162,8 @@ def getNew(id):
     labelsEs = nm.getLabelsForNew(newsDetail["id"], "es")
     newsDetail["labels_en"] = labelsEn
     newsDetail["labels_es"] = labelsEs
+    newsDetail["time"] = str(newsDetail["publishing_date"].isoformat())
+    newsDetail.pop("publishing_date")
 
     return(jsonify(newsDetail))
 

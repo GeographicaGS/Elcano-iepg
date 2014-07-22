@@ -12,60 +12,82 @@
 
     <div class="body">
 
-        <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>" style="left:50%">
-            <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
-        </a>
+        <% if (!drawerror) { %>
+            <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>" style="left:50%">
+                <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+            </a>
 
-        <div class="container-fluid" style="height:100%">
-            <div class="row">
-                <div class="col-sm-6 " style="height:100%">
+            <div class="container-fluid" style="height:100%">
+                <div class="row">
+                    <div class="col-sm-6 " style="height:100%">
 
-                    <div class="wrapper_chart">
-                        <div class="chart_header">
-                            <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText(ctx.variables[0],ctx.family)%>">
-                                <%= app.variableToString(ctx.variables[0],ctx.family) %>
-                            </h5>
-                           
-                           <% if (ctx.family =="iepg") { %>
-                            <ul class="analyze">
-                                <% for (var i=0;i<3;i++) { %>
-                                <li <%= ctx.block_analize == i ? "selected" : "" %> >
-                                    <a href="#" block-analyze="<%= i %>">
-                                        <% 
-                                            if (ctx.block_analize == i ){
-                                                print("<lang>Ranking de </lang>");
-                                            }
-                                            if (i==0){ 
-                                                print("<lang>Países</lang>");
-                                            }
-                                            else if(i==1){
-                                                print("<lang>Países + UE</lang>");   
-                                            }
-                                            else{
-                                                print("<lang>Bloques</lang>");   
-                                            }
-                                        %>
-                                    </a>
-                                </li>
+                        <div class="wrapper_chart">
+                            <div class="chart_header">
+                                <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText(ctx.variables[0],ctx.family)%>">
+                                    <%= app.variableToString(ctx.variables[0],ctx.family) %>
+                                </h5>
+                               
+                               <% if (ctx.family =="iepg") { %>
+                                <ul class="analyze">
+                                    <% for (var i=0;i<3;i++) { %>
+                                    <li <%= ctx.block_analize == i ? "selected" : "" %> >
+                                        <a href="#" block-analyze="<%= i %>">
+                                            <% 
+                                                if (ctx.block_analize == i ){
+                                                    print("<strong><lang>Ranking de</lang> </strong>");
+                                                }
+                                                if (i==0){ 
+                                                    print("<lang>Países</lang>");
+                                                }
+                                                else if(i==1){
+                                                    print("<lang>Países más UE</lang>");   
+                                                }
+                                                else{
+                                                    print("<lang>Bloques</lang>");   
+                                                }
+                                            %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                </ul>
                                 <% } %>
-                            </ul>
-                            <% } %>
-                        </div>
-                        <div class="co_chart">
-                            <a id="scroll_down" href="#"></a>
-                            <a id="scroll_up" href="#"></a>
-                            <div class="co_xaxis"></div>
-                            <div class="chart"></div>
-                             <div id="ranking_chart_tooltip" class="tooltip" style="position:fixed"> </div>
+                            </div>
+                            <div class="co_chart">
+                                <a id="scroll_down" href="#"></a>
+                                <a id="scroll_up" href="#"></a>
+                                <div class="co_xaxis"></div>
+                                <div class="chart"></div>
+                                 <div id="ranking_chart_tooltip" class="tooltip" style="position:fixed"> </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 co_data_map" >
-                    <div id="data_map"></div>
-                    <div id="ranking_map_tooltip" class="tooltip"></div>
+                    <div class="col-sm-6 co_data_map" >
+                        <div id="data_map"></div>
+                        <div id="ranking_map_tooltip" class="tooltip"></div>
+                    </div>
                 </div>
             </div>
-        </div>
+
+        <% } else { %>
+
+            <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>" >
+                <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+            </a>
+            <div class="container-fluid">
+                
+                <div class="nodata">
+                    <h4>
+                        <lang>No hay datos disponibles con los parámetros seleccionados</lang>
+                    </h4>
+                    <h6><lang>Esto puede ser debido a:</lang><h6>
+                    <ol>
+                        <li><lang>Se ha seleccionado una variable para la que no hay datos para el año seleccionado</lang>.</li>
+                        <li><lang>Si no es debido a ninguno de los puntos anteriores consulte la ayuda de la herramienta, pulsando la &apos;i&apos; de información de la esquina superior derecha</lang>.</li>
+                    </ol>
+                </div>
+               
+            </div>
+        <% } %>
     </div>
 </div>

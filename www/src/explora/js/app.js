@@ -456,7 +456,11 @@ app.events.on("filterschanged", function(filters) {
 }); 
 
 app.clearData = function(){
-    localStorage.clear();
+    for (var key in localStorage){
+        if (key != "dontShowHelp"){
+            localStorage.removeItem(key);
+        }
+    }
 }
 
 app.reset = function(){

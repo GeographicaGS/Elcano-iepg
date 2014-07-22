@@ -17,13 +17,14 @@ app.view.map = function(options){
 
     this.initialize = function(options){
 
-        var southWest = L.latLng(-180, -85),
-        northEast = L.latLng(180, 85),
+        var southWest = L.latLng(-85, -190),
+        northEast = L.latLng(85,190),
         bounds = L.latLngBounds(southWest, northEast);
 
         this._map = L.map(this.container,{
             "attributionControl" : false,
             "zoomControl" : false,
+            // It doesn't work in ranking tool
             "maxBounds" : bounds,
             "minZoom": 2
         }).setView( this.center, this.zoom);

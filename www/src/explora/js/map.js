@@ -17,9 +17,15 @@ app.view.map = function(options){
 
     this.initialize = function(options){
 
+        var southWest = L.latLng(-180, -85),
+        northEast = L.latLng(180, 85),
+        bounds = L.latLngBounds(southWest, northEast);
+
         this._map = L.map(this.container,{
             "attributionControl" : false,
-            "zoomControl" : false
+            "zoomControl" : false,
+            "maxBounds" : bounds,
+            "minZoom": 2
         }).setView( this.center, this.zoom);
 
         this.loadBaseMap();
@@ -250,6 +256,14 @@ app.view.map = function(options){
         }
 
         return this;
+    }
+
+    this.zoomIn = function(){
+        this._map.setZoom(this._map.getZoom()+1);
+    }
+
+    this.zoomOut = function(){
+        this._map.setZoom(this._map.getZoom()-1);
     }
 
       

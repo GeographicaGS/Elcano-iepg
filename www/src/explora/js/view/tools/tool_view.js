@@ -270,6 +270,19 @@ app.view.tools.Plugin = Backbone.View.extend({
         }
 
         
+    },
+
+    resizeMe: function(){
+        // This function is executed when a resize event happens. This should be overwritten by each tool.
+        // This is really important to force a countries.render
+
+        if (this.countries){
+            this.countries.render();
+        }
+
+        if (this.slider){
+            this.slider.render();
+        }
     }
 
 

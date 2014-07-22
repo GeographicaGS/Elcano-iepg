@@ -14,7 +14,7 @@ app.view.FilterSelector = Backbone.View.extend({
         $.fancybox(this.$el, app.fancyboxOpts());
 
         var self = this;
-        $(window).on('resize', function(){
+        $(window).on("resize.filterSelector", function(){
             self.render();
         });
     },
@@ -30,7 +30,7 @@ app.view.FilterSelector = Backbone.View.extend({
         // Remove events on close
         this.stopListening();
     
-        $(window).off('resize', this.repositionBoards)
+        $(window).off("resize.filterSelector", this.repositionBoards)
     },
 
     render: function(){

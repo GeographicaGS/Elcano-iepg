@@ -144,11 +144,21 @@ def countrySheet(lang, family, countryCode):
                 a = v.values()[0]
                 d = {
                     "code": a["code"],
-                    "value": a["value"],
                     "variable": k,
                     "year": year,
                     "percentage": None
                 }
+
+                if lang=="en":
+                    if k=="gdp":
+                        d["value"] = round(a["value"]/1000000000, 2)
+                    if k=="population":
+                        d["value"] = round(a["value"]/1000000, 2)
+                if lang=="es":
+                    if k=="gdp":
+                        d["value"] = round(a["value"]/1000000000000, 2)
+                    if k=="population":
+                        d["value"] = round(a["value"]/1000000, 2)
 
                 # Check if countryCode is a block. If it is, substract its members from countries
                 if countryCode in datacache.blocks:

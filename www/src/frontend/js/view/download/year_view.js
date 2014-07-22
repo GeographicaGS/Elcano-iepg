@@ -26,7 +26,7 @@ app.view.yearDownload = Backbone.View.extend({
         this.$el.html(this._template());
         
         var self = this;
-        $(app.config.YEARS).each(function() {
+        $(app.config.SLIDER).each(function() {
         	self.$(".yearList").append("<div class='celda'>" + this.getFullYear() + "</div>");
         });
         
@@ -50,6 +50,14 @@ app.view.yearDownload = Backbone.View.extend({
         	}
     	}
     	$(".numAniosSelect").text($(".celda.active").length);
+
+
+        if($(".celda.active").length == "1"){
+            $(".numAniosSelect2").html("<lang>" + $(".celda.active").length + " año seleccionado</lang>");
+        }else{
+            $(".numAniosSelect2").html($(".celda.active").length + "<lang> años seleccionados</lang>");
+        }
+
     	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
     		$(".boxDonwload").removeClass("activeDownload");
     	}else{

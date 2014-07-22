@@ -1944,3 +1944,36 @@ div.tooltip.comp{
     box-shadow: 0 0 10px 5px @yellow;
     position: relative;
 }
+
+
+#ctrl_map_zoom{
+    position: absolute;
+    right: 20px;
+    top: 9px;
+    z-index: 2;
+    /* Control zoom are show when map goes full screen */
+    display: none;
+
+    #map_zoom_in, #map_zoom_out{
+        display: block;
+        opacity: 0.5;
+
+        &:hover{
+            .trans_opacity();
+            opacity: 1;
+
+        } 
+    }
+    #map_zoom_in{
+        background: url("@{imgPath}ELC_icon_zoom-mas.svg") no-repeat center center;
+        width: 35px;
+        height:35px;
+    }
+
+    #map_zoom_out{
+        background: url("@{imgPath}ELC_icon_zoom-menos.svg") no-repeat center center;
+        width: 25px;
+        height:25px;
+        margin: 5px 0 0 6px;
+    }
+}

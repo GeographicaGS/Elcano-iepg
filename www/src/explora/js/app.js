@@ -194,6 +194,16 @@ app.ini = function(){
         e.preventDefault();
     });
 
+    $("#map_zoom_in").click(function(e){
+         e.preventDefault();
+         app.map.zoomIn();
+    });
+
+    $("#map_zoom_out").click(function(e){
+         e.preventDefault();
+         app.map.zoomOut();
+    });
+
     Backbone.history.start({pushState: true,root: this.basePath });
 };
 

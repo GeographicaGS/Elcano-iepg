@@ -184,6 +184,7 @@ def newStuff():
                         lab.append(a)
 
         s["labels"] = lab
+        s["time"] = str(s["time"].isoformat())
 
     return(jsonify({"results": stuff}))
 

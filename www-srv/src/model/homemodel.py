@@ -40,7 +40,7 @@ class HomeModel(PostgreSQLModel):
         select
         a.id_new::integer as id,
         (b.name || ' ' || b.surname)::varchar as wwwuser,
-        new_time::timestamp as time,
+        publishing_date::date as time,
         title_{} as title,
         a.id_news_section as id_section,
         description_{}::varchar as section,
@@ -85,7 +85,7 @@ class HomeModel(PostgreSQLModel):
         a.id_document::integer as id,
         (b.name || ' ' || b.surname)::varchar as wwwuser,
         null as link,
-        last_edit_time::timestamp as time,
+        publishing_date::date as time,
         title_{} as title,
         '{}'::varchar as section,
         array_agg(d.id_label_{})::varchar[] as labels
@@ -128,7 +128,7 @@ class HomeModel(PostgreSQLModel):
         select
         a.id_new::integer as id,
         (b.name || ' ' || b.surname)::varchar as wwwuser,
-        new_time::timestamp as time,
+        publishing_date::date as time,
         a.url_{} as link,
         title_{} as title,
         description_{}::varchar as section,
@@ -148,7 +148,7 @@ class HomeModel(PostgreSQLModel):
         select
         a.id_document::integer as id,
         (b.name || ' ' || b.surname) as wwwuser,
-        last_edit_time::timestamp as time,
+        publishing_date::date as time,
         null as link,
         title_{} as title,
         '{}'::varchar as section,

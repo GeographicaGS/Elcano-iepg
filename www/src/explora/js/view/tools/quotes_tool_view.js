@@ -83,8 +83,6 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             latestCtxObj = this.getLatestContext(),
             latestCtx = latestCtxObj.data;
 
-        // This tool could have from 0 to N countries selected.
-
         // This tool works with a single point slider. 
         var firstPoint = ctxObj.getFirstSliderElement("Point");
 
@@ -186,7 +184,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             // it happens when remove the latest element from the filter
             this.$el.html(this._template({
                 ctx: ctx,
-                collection: null,
+                uitype: "nocountry",
             }));
         }
         else{
@@ -239,19 +237,33 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
         this._forceFetchDataTool = false;
 
-        var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
+        var ctx = this.getGlobalContext().data
+            year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
+            d3data = this._collectionToD3Data(),
+            uitype = null;
 
-        this._collectionToD3Data();
-        
+        if (!ctx.countries.list.length){
+            uitype = "nocountry"
+        }
+        else if (!Object.keys(d3data.data).length){
+            //
+            uitype = "nodata";
+        }
+        else{
+            uitype = "data"
+        }
+
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
-            collection: this.toolCollection.toJSON(),
+            uitype: uitype,
         }));
- 
 
         this.$chart = this.$(".chart");
 
-        this._drawD3Chart();
+        if (Object.keys(d3data.data).length){
+            // No data
+             this._drawD3Chart(d3data);
+        }
 
     },
 
@@ -314,15 +326,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         var margin = {top: 40, right: 50, bottom: 50, left: 70},
             width = this.$chart.width() - margin.left - margin.right,
             height = this.$chart.height() - margin.top - margin.bottom,
-
-            resp =
             data = resp.data;
-
-
-        if (Object.keys(data).length == 0){
-            // No data
-
-        }
 
         // let's add a year at each side to simulate a padding in the chart
         var yearDomain = [resp.min_year-1, resp.max_year+1];

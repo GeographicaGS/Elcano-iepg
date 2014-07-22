@@ -7,8 +7,6 @@ app.view.tools.common.Countries = Backbone.View.extend({
     initialize: function(options){
         this._variableCtrlStatus = options && options.variable!=undefined && options.variable!="undefined" ? options.variable : true; 
         this._draggable = options && options.draggable!=undefined && options.draggable!="undefined" ? options.draggable : false;
-
-        $(window).bind("resize.bar", _.bind(this.render, this));
     },
 
     _events: {
@@ -92,7 +90,7 @@ app.view.tools.common.Countries = Backbone.View.extend({
     },
 
     onClose: function(){
-        $(window).unbind("resize.bar");
+        
     },
     
     close: function(){

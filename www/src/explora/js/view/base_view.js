@@ -21,6 +21,8 @@ app.view.Base = Backbone.View.extend({
         this.$ctrl_filter = this.$("#ctrl_filter");
         this.originCtrlFilter = this.$ctrl_filter.css("right").replace("px","")*1;
 
+        this.$ctrl_map_zoom = this.$("#ctrl_map_zoom");
+
         // Load default tools
         var localTools =  localStorage.getItem("tools");
 
@@ -171,6 +173,8 @@ app.view.Base = Backbone.View.extend({
             this.$ctrl_filter.animate({"right": (this.$ctrl_filter.width() + this.originCtrlFilter)*-1 });
 
             this.$control_panel.fadeOut(300);
+
+            this.$ctrl_map_zoom.fadeIn(300);
         }
 
         else{
@@ -184,6 +188,7 @@ app.view.Base = Backbone.View.extend({
 
             this.$country_panel.animate({"right":this.originCountryPanel});
             this.$ctrl_filter.animate({"right":this.originCtrlFilter});
+            this.$ctrl_map_zoom.fadeOut(300);
 
         }
 

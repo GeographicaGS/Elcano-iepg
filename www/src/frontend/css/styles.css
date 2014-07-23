@@ -771,7 +771,7 @@ ul#menu{
             float: right;
             width: 170px;
             height: 45px;
-            background-color: @grey_light;
+            background-color: @grey3;
             background-image: url("../img/ELC_icon_boton_descarga.png");
             background-repeat: no-repeat;
             background-position: 137px 11px;
@@ -781,8 +781,11 @@ ul#menu{
             margin-top: 20px;
         }
         div.active{
-            background-color: @grey_dark;
+            background-color: @grey_light;
             cursor: pointer;
+        }
+        div.active:HOVER{
+            background-color: @grey_dark;
         }
     }
     
@@ -1239,25 +1242,29 @@ footer{
 		font-size: 16px;
 		text-align: center;
 		padding-top: 10px;
-		padding-left: 10px;
-		padding-right: 10px;
+		padding-left: 15px;
+		padding-right: 15px;
 		margin-top: -13px;
         cursor: default;
 		margin-left: 52px !important;
 		
 		@media (max-width: 1152px) {
-			width: 86px;
+			width: 98px;
 			white-space: nowrap;
-			word-spacing: 100px;
+			word-spacing: 12px;
 		}
 		
 	}
 	
 	.activeDownload{
-		background-color: @grey_dark;
+		background-color: @grey_light;
         cursor: pointer;
 	}
 	
+    .activeDownload:HOVER{
+        background-color: @grey_dark;
+    }
+
 	.menuDownload{
 		font-size: 16px;
 		color: @grey_dark;
@@ -1274,14 +1281,14 @@ footer{
 		}
 		
 		.counter{
-			border-radius: 10px;
-			color: #fff;
-			height: 22px;
-			padding: 0px 9px;
-			background-color: #a2a2ac;
-			margin: 12px 0px 0 0;
-			line-height: 23px;
-			margin-left: 10px;
+			border-radius: 12px;
+            color: #fff;
+            /* height: 22px; */
+            padding: 2px 12px;
+            background-color: #a2a2ac;
+            margin: 12px 0px 0 0;
+            line-height: 23px;
+            margin-left: 10px;
 		}
 	}
 	.tituloDownload{
@@ -1331,8 +1338,9 @@ footer{
 		.celda{
 			width: 140px;
 			padding-left: 10px;
-			padding-top: 10px;
-			padding-bottom: 10px;
+			/*padding-top: 10px;*/
+			/*padding-bottom: 10px;*/
+            line-height: 36px;
 			border-bottom: 1px solid @grey_light2;
 			cursor: pointer;
 		}
@@ -1347,6 +1355,7 @@ footer{
 		}
 		
 		.all{
+            font-weight: bold;
 			/*margin-left: 8.31% !important;*/
 		}
 	}
@@ -1628,14 +1637,19 @@ footer{
 		}
 
 		.todos{
-			/*font-weight: bold;*/
+            span{
+                font-weight: bold;
+            }
 		}
 		img{
 			float: left;
 			width: 25px;
-			padding-top: 5px;
+			margin-top: 5px;
 			margin-left: 10px;
 			margin-right: 10px;
+
+            border-radius: 100%;
+            border: 1px solid @grey_light;
 		}
 	}
 }

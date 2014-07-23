@@ -38,6 +38,15 @@ app.view.countryDownload = Backbone.View.extend({
 		        	var intervalo = Math.floor(response.results.length/offset);
 		        	var paises = [];
 		        	var aux;
+
+		        	if(app.isXSMDevice()){
+		        		$(".pais.todos").parent().addClass("col-sm-6");
+		        		$(".pais.todos").parent().addClass("col-md-6");
+		        	}else{
+		        		$(".pais.todos").parent().addClass("col-sm-4");
+		        		$(".pais.todos").parent().addClass("col-md-4");
+		        	}
+
 		        	for(var i=0; i<intervalo; i++){
 		        		
 		        		if(app.isXSMDevice()){
@@ -81,8 +90,8 @@ app.view.countryDownload = Backbone.View.extend({
 		        	
 		        	if(intervalo * offset < response.results.length){
 		        		paises.push("<div class='row'>" +
-										"<div class='col-sm-8 col-md-8'></div>" +
-										"<div class='col-sm-4 col-md-4'>" +
+		        						"<div class='" + (app.isXSMDevice()? "col-sm-6 col-md-6":"col-sm-8 col-md-8") + "'></div>" +
+										"<div class='" + (app.isXSMDevice()? "col-sm-6 col-md-6":"col-sm-4 col-md-4") + "'>" +
 										"<img src='/img/flags/" + response.results[response.results.length-1].id + ".svg" + "'>" +
 											"<div class='pais' id='" + response.results[response.results.length-1].id + "' >" + response.results[response.results.length-1].name + "</div>" +
 										"</div>" +

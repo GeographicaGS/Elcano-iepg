@@ -380,7 +380,7 @@
         }
     }
  
-    @media all and (min-height: 1024){
+    @media all and (min-height: 1024px){
          .co_wheel{
             width: 440px;
             height: 440px;

@@ -1249,10 +1249,11 @@ footer{
 		margin-left: 52px !important;
 		
 		@media (max-width: 1152px) {
-			width: 80px;
+			width: 78px;
 			white-space: nowrap;
-			word-spacing: 12px;
+			word-spacing: 0px;
             padding-left: 6px;
+            overflow-x: hidden;
 		}
 		
 	}

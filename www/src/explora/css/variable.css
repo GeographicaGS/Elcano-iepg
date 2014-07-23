@@ -356,16 +356,12 @@
     .co_wheel{
         overflow: hidden;
         margin:auto;
-    }
+        width: 340px;
+        height: 340px;
 
-    @media all and (max-height: 768px){
-        .co_wheel{
-            width: 340px;
-            height: 340px;
-            .wheel{
-                width: 300px;
-                height: 300px;
-            }
+        .wheel{
+            width: 300px;
+            height: 300px;
         }
     }
  

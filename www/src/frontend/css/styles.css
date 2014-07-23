@@ -450,6 +450,9 @@ header#fixed_menu {
                             & > a:after {
                                 content: url('/img/ELC_icon_acceder_form.svg');
                                 float: right;
+                                position: relative;
+                                width: 26px;
+                                height: 24px;
                             }
 
                             &.opened {
@@ -478,11 +481,19 @@ header#fixed_menu {
                                 content: url('/img/exploraBT_ico.svg');
                                 vertical-align: middle;
                                 margin-right: 8px;
+                                width: 18px;
+                                height: 19px;
+                                position: relative;
+                                float:left;
                             }
 
                             &:hover {
                                 & > a:before {
                                     content: url('/img/exploraBT_ico_hover.svg');
+                                    width: 18px;
+                                    height: 19px;
+                                    position: relative;
+                                    float:left;
                                 }
                             }
                         }
@@ -508,6 +519,8 @@ header#fixed_menu {
             opacity: .5;
             transition: opacity .3s ease-in;
             height: 24px;
+            width: 50px;
+            position: relative;
         }
 
         span {
@@ -617,9 +630,8 @@ ul#menu{
         margin-top: 0px;
 
         & > a{
-            line-height: 44px;
         	color: @white;
-        	line-height: 46px;
+        	line-height: 45px;
         }
 	}
 

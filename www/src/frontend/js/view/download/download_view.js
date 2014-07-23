@@ -2,7 +2,7 @@ app.view.Download = Backbone.View.extend({
     _template : _.template( $('#download_template').html() ),
     
     initialize: function() {
-        app.events.trigger("menu","home");
+        app.events.trigger("menu","download");
         
         this.render();
 

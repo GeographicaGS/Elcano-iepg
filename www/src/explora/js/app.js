@@ -112,7 +112,7 @@ app.ini = function(){
     this.lang = this.detectCurrentLanguage();
 
     // detect browser version
-    if (true || !this.isSupportedBrowser()){
+    if ( !this.isSupportedBrowser()){
         // Old IE explorer, not supported
         window.location = app.config["FRONT_URL"] + "/" + this.lang + "/html/browser_error.html";
         return;

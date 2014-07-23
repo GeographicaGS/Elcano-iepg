@@ -172,6 +172,11 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         this.stopListening();
     },
 
+    resizeMe: function(){
+        app.view.tools.Plugin.prototype.resizeMe.apply(this);
+        this._renderToolAsync();
+    },
+
     /* Render the tool */
     renderTool: function(){
         //TOREMOVE

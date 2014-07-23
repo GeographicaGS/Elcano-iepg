@@ -127,6 +127,10 @@ app.view.tools.context = function(id){
         };
     }
 
+    this.removeNullCountriesSelection = function(){
+        this.data.countries.selection = _.filter(this.data.countries.selection, function(c){ return c !== null && c!="null" });
+    }
+
     // ID of the context
     this.id = id;
     

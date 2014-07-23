@@ -4,7 +4,7 @@ app.config = {
     "BASE_PATH" : "",
     "PAGE_SIZE" : 16,
     "SEARCH_TIMER" : 300,
-    "YEARS": [
+    "SLIDER": [
         new Date("1990-01-01"),
         new Date("1995-01-01"),
         new Date("2000-01-01"),

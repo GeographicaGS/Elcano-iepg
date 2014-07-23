@@ -26,7 +26,7 @@ app.view.yearDownload = Backbone.View.extend({
         this.$el.html(this._template());
         
         var self = this;
-        $(app.config.SLIDER).each(function() {
+        $(app.config.YEARS).each(function() {
         	self.$(".yearList").append("<div class='celda'>" + this.getFullYear() + "</div>");
         });
         

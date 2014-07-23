@@ -222,6 +222,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
     },
 
+    resizeMe: function(){
+        app.view.tools.Plugin.prototype.resizeMe.apply(this);
+        this._renderSubTool("left");
+        this._renderSubTool("right");
+    },
+
     _renderProportionalFlags : function(){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,

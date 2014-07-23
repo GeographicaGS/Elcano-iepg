@@ -189,7 +189,10 @@ def newStuff():
     return(jsonify({"results": stuff}))
 
 
-@app.route('/home/countrylist/<string:lang>', methods=['GET'])
+############
+# DEPRECATED
+############
+# @app.route('/home/countrylist/<string:lang>', methods=['GET'])
 def countryList(lang):
     """Returns the list of IEPG countries alphabetically ordered:
 

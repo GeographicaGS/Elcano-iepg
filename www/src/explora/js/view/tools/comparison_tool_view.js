@@ -139,7 +139,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             
             ){
 
-            this._showError();
+            this._showError("generic");
         }
 
         else{
@@ -340,7 +340,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 2.1) If selection has more than two element, we cut off them.
         */
         ctxObj.removeNullCountriesSelection();
-        
+
         if (!ctx.countries.selection.length){
             // The selection is empty
            

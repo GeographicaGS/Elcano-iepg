@@ -166,7 +166,6 @@ app.ini = function(){
     }
 
     // detect browser version
-
     if (!this.isSupportedBrowser()){
         // Old IE explorer, not supported
         window.location = "/" + this.lang + "/html/browser_error.html";

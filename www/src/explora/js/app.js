@@ -127,7 +127,7 @@ app.ini = function(){
     
     if (app.config.CLEAR_CONTEXT_NOMATCHING_VERSION 
         && this.context.data.version != this.version){
-        this.context.reset();
+        this.clearData();
     }
 
     this.filters =  localStorage.getItem("filters");

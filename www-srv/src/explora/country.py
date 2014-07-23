@@ -135,7 +135,7 @@ def countrySheet(lang, family, countryCode):
 
             for k,v in conData.iteritems():
                 if family=="iepe" and year>=2005:
-                    population = common.helpers.getBlockMembers("XBEU", year)
+                    population = common.helpers.getBlockMembers("XBEU", 2013)
                     if f:
                         filteredPopulation = arrayops.arraySubstraction(population, f)
                     else:

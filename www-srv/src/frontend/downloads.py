@@ -31,11 +31,11 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     fileName = os.path.join(backend["tmpFolder"], 
                             hashlib.sha256(request.url.strip(request.url_root)).hexdigest()+".xlsx")
 
-    # Try to get file from cache
-    # if os.path.isfile(fileName):
-    #     return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-    #                      attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
-    #                      as_attachment=True))
+    Try to get file from cache
+    if os.path.isfile(fileName):
+        return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+                         attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
+                         as_attachment=True))
 
     translate = dc.isoToEnglish if language=="en" else dc.isoToSpanish
     years = sorted(years.split(","))
@@ -43,8 +43,6 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     countryList = countries.split(",")
     countries = sorted([{k: v} for (k,v) in translate.iteritems() if k in countryList], 
                        key=lambda t: t.values()[0])
-
-    print countries
 
     tabs = ["year", "country", "variable"]
     tabs.remove(columns)

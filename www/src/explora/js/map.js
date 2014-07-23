@@ -17,13 +17,14 @@ app.view.map = function(options){
 
     this.initialize = function(options){
 
-        var southWest = L.latLng(-180, -85),
-        northEast = L.latLng(180, 85),
+        var southWest = L.latLng(-85, -190),
+        northEast = L.latLng(85,190),
         bounds = L.latLngBounds(southWest, northEast);
 
         this._map = L.map(this.container,{
             "attributionControl" : false,
             "zoomControl" : false,
+            // It doesn't work in ranking tool
             "maxBounds" : bounds,
             "minZoom": 2
         }).setView( this.center, this.zoom);
@@ -179,6 +180,12 @@ app.view.map = function(options){
             _this.$tooltip.html(html);
             
             _this.$tooltip.show();
+
+            if (app.isTouchDevice()){
+                setTimeout(function(){
+                    _this.$tooltip.fadeOut(600);
+                },5000);
+            }
         }
 
         function resetHighlight(e) {
@@ -191,10 +198,11 @@ app.view.map = function(options){
         }
 
         function onEachFeature(feature, layer) {
+
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
-                click: zoomToFeature
+                click: !app.isTouchDevice() ? zoomToFeature : highlightFeature
             });
         }
 

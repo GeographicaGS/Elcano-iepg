@@ -44,10 +44,11 @@
                                     }
                                 }
                             %>
-                            <ul class="col-md-4 col-sm-6">
+                            <ul class="col-md-4 col-sm-6 flag_wrapper">
                                 <% _.each(collection.slice(start,end),function (d){%>
                                     <li>
-                                        <%= d.country_name %>
+                                        <img src="/img/flags/<%=d.id%>.svg" />
+                                        <span><%= d.name %></span>
                                     </li>
                                 <% }); %>
                             </ul>

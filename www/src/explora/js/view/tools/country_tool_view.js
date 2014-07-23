@@ -122,6 +122,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         
     },
 
+    resizeMe: function(){
+        app.view.tools.Plugin.prototype.resizeMe.apply(this);
+        this._renderToolAsync();
+    },
+
     _renderMapAsync: function(){
         this._forceFetchDataMap = false;
         var 
@@ -192,6 +197,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             latestCtxObj = this.getLatestContext(),
             latestCtx = latestCtxObj.data;
 
+        
+        ctxObj.removeNullCountriesSelection();
         /*
         * This tool only has a country selected. The options are:
         *   1) The selection is empty

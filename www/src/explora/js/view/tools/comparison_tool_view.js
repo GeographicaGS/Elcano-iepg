@@ -94,6 +94,11 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         });
     },
 
+    resizeMe: function(){
+        app.view.tools.Plugin.prototype.resizeMe.apply(this);
+        this._renderSubTool("iepg");
+        this._renderSubTool("iepe");
+    },
 
     /* Render the tool */
     renderTool: function(){
@@ -122,14 +127,19 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this.$chart_legend_left = this.$co_left.find(".chart_legend");
         this.$chart_legend_right = this.$co_right.find(".chart_legend");
 
-        if (year<= 2000 // No data avalaible for iepe before year 2000
-            || ctx.countries.list.length==0
-            || country.length > 2  // Only blocks
+        if (ctx.countries.list.length==0){
+            this._showError("emptybar");
+        }
+        else if(country == null){
+            this._showError("nocountry");
+        }
+        else if (year<= 2000 // No data avalaible for iepe before year 2000
+            || country && country.length > 2  // Only blocks
             || app.blocks.XBEU[year].indexOf(country) == -1 // Only UE countries
             
             ){
 
-            this._showError();
+            this._showError("generic");
         }
 
         else{
@@ -149,7 +159,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 
                 if (!this._models["iepg"].get(year).family.global.value
                     || !this._models["iepe"].get(year).family.global.value){
-                    this._showError();
+                    this._showError("generic");
                 }
                 else{
                     this._showChart();
@@ -158,14 +168,12 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                     this._renderMap();
                 }   
             }
-        }
-
-       
+        } 
     },
 
-    _showError:function(){
+    _showError:function(type_error){
         this.$(".body > div").hide();
-        this.$(".body > div.error").show();
+        this.$(".body > div.error."+type_error).show();
     },
 
     _showChart: function(){
@@ -322,6 +330,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             latestCtxObj = this.getLatestContext(),
             latestCtx = latestCtxObj.data;
 
+
         /*
         * This tool only could have two countries selected. The options are:
         *   1) The selection is empty
@@ -330,7 +339,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         *   2) The selection has elements. 
                 2.1) If selection has more than two element, we cut off them.
         */
-        
+        ctxObj.removeNullCountriesSelection();
+
         if (!ctx.countries.selection.length){
             // The selection is empty
            

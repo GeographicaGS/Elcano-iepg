@@ -5,7 +5,7 @@ app.collection.CountriesPlain = Backbone.Collection.extend({
 
     },
     url : function() {
-        return app.config.API_URL + "/home/countrylist/"+ app.lang ;
+        return app.config.API_URL + "/countryfilter/" + app.lang ;
     },
     parse: function(response){
         return response.results;

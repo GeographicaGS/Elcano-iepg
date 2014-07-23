@@ -222,6 +222,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
     },
 
+    resizeMe: function(){
+        app.view.tools.Plugin.prototype.resizeMe.apply(this);
+        this._renderSubTool("left");
+        this._renderSubTool("right");
+    },
+
     _renderProportionalFlags : function(){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
@@ -299,7 +305,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             }
         }
         else{
-            $country_name.html("<lang>¿País?</lang>").addClass("no_data");
+            $country_name.html("<lang>contribuciones no pais titulo</lang>").addClass("no_data");
             this._drawD3ChartNoData(pos);
         }
             

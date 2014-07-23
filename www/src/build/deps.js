@@ -93,7 +93,8 @@ deps.Frontend.JS = {
 			"frontend/js/lib/backbone-min.js",
 			"frontend/js/lib/d3.v3.min.js",	
 			"frontend/js/lib/jquery-ui/jquery-ui-1.10.4.custom.min.js",		
-			"frontend/js/lib/sprintf.min.js",	
+			"frontend/js/lib/sprintf.min.js",
+			"frontend/js/lib/fancybox/source/jquery.fancybox.pack.js",
 		],
 		desc: "Third party library"
 	}
@@ -162,7 +163,7 @@ deps.Frontend.JS = {
 deps.Frontend.CSS = {
 	ThirdParty:{
 		src : [
-			
+			"frontend/js/lib/fancybox/source/jquery.fancybox.css",
 		]
 	},
 	Core: {

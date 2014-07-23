@@ -54,7 +54,7 @@ class NewModel(PostgreSQLModel):
 
 
     def createNew(self, title_en, title_es, text_en, text_es, url_en, url_es, news_section, \
-                  labels_en, labels_es):
+                  labels_en, labels_es, time):
         """Create new."""
         id = self.insert("www.new",
                          {"title_en": title_en,
@@ -66,7 +66,8 @@ class NewModel(PostgreSQLModel):
                           "id_wwwuser": session["id_user"],
                           "new_time": datetime.datetime.utcnow().isoformat(),
                           "id_news_section": news_section,
-                          "published": False},
+                          "published": False,
+                          "publishing_date": time},
                          returnID="id_new")
 
         if labels_en:
@@ -80,7 +81,7 @@ class NewModel(PostgreSQLModel):
 
 
     def editNew(self, id_new, title_en, title_es, text_en, text_es, url_en, url_es, news_section, \
-                  labels_en, labels_es):
+                  labels_en, labels_es, time):
         """Edits new."""
         self.update("www.new",
                     {"title_en": title_en,
@@ -91,7 +92,8 @@ class NewModel(PostgreSQLModel):
                      "url_es": url_es,
                      "id_wwwuser": session["id_user"],
                      "new_time": datetime.datetime.utcnow().isoformat(),
-                     "id_news_section": news_section},
+                     "id_news_section": news_section,
+                     "publishing_date": time},
                     {"id_new": id_new})
 
         self.__detachLabels(id_new, "en")
@@ -141,7 +143,8 @@ class NewModel(PostgreSQLModel):
         with a as(
         select
         id_new,
-        published
+        published,
+        publishing_date
         from
         www.new
         where
@@ -181,6 +184,7 @@ class NewModel(PostgreSQLModel):
         select
         a.id_new as id_new,
         a.published as published,
+        a.publishing_date as publishing_date,
         d.label as label_en,
         e.label as label_es
         from
@@ -243,7 +247,8 @@ class NewModel(PostgreSQLModel):
         a.id_news_section,
         b.description_en as section_en,
         b.description_es as section_es,
-        published
+        published,
+        publishing_date
         from
         www.new a inner join
         www.news_section b on 

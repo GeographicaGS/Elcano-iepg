@@ -64,7 +64,8 @@ def newDocument():
                   {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
       "pdfs_en": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
                   {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
-                  {"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
+                  {"name": "pdf_en_3", "hash": "8383e83838283e838238"}],
+      "time": "20120213"
     }"""
     m = DocumentModel()
     j = request.json
@@ -119,7 +120,8 @@ def editDocument(id_document):
     {"name": "pdf_es_3", "hash": "8383e83838283e838238"}],
     "pdfs_en": [{"name": "pdf_en_1", "hash": "8383e83838283e838238"}, 
     {"name": "pdf_en_2", "hash": "8383e83838283e838238"}, 
-    {"name": "pdf_en_3", "hash": "8383e83838283e838238"}]
+    {"name": "pdf_en_3", "hash": "8383e83838283e838238"}],
+    "time": "20120211"
     }"""
     m = DocumentModel()
     oldDocPdfEn = map(lambda p: p["hash"], m.getDocumentPdf(id_document, "en"))
@@ -211,7 +213,8 @@ def getDocumentList():
             thisDoc["spanish"]=True
 
         thisDoc["title"] = doc["title"]
-        thisDoc["time"] = doc["time"]
+        thisDoc["time"] = str(doc["publishing_date"].isoformat())
+        thisDoc["edit_time"] = doc["time"].isoformat()
         thisDoc["published"] = doc["published"]
 
         thisDoc["authors"] = m.getDocumentAuthors(doc["id"])
@@ -293,7 +296,8 @@ def getDocument(id_document):
             "pdfs_en" : pdfs_en,
             "labels_es" : labels_es,
             "labels_en" : labels_en,
-            "authors" : authors
+            "authors" : authors,
+            "time": str(d["publishing_date"].isoformat())
         }
         return jsonify(json)
     else:

@@ -72,7 +72,7 @@ def getDocument(idDocument, lang):
         return make_response(jsonify({"error": "Document not found"}), 404)
 
     out["id"] = doc["id_document"]
-    out["time"] = doc["last_edit_time"]
+    out["time"] = str(doc["publishing_date"].isoformat())
     if lang=="en":
         out["description"] = helpers.coalesce([doc["description_en"], doc["description_es"]])
         out["theme"] = helpers.coalesce([doc["theme_en"], doc["theme_es"]])

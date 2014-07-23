@@ -242,7 +242,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             d3data = this._collectionToD3Data(),
             uitype = null;
 
-        if (!ctx.countries.selection.length){
+        if (!ctx.countries.list.length){
             uitype = "nocountry"
         }
         else if (!Object.keys(d3data.data).length){

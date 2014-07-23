@@ -123,7 +123,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             this.$chart = this.$(".chart");
 
-            var h = this.$(".body").height()- this.$(".chart_header").outerHeight(true);
+            var h = this.$(".body").height()- this.$(".chart_header").outerHeight(true) - 18;
             this.$(".co_chart").height(h);
 
             this.$(".co_chart").css("top",this.$(".chart_header").outerHeight(true) + "px");
@@ -163,6 +163,11 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family,"º");
         }
         
+    },
+
+    resizeMe: function(){
+        app.view.tools.Plugin.prototype.resizeMe.apply(this);
+        this._renderToolAsync();
     },
 
     /* Render the tool */
@@ -270,7 +275,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             width = this.$chart.width() - margin.left - margin.right,
             barHeight = 20,
             totalCountryHeight = barHeight * 2 + 10 /*padding*/,
-            height = (data.length+1) * totalCountryHeight - margin.top - margin.bottom,
+            height = (data.length+1) * totalCountryHeight - margin.top - margin.bottom - 10,
             yAxisWidth = 100,
             visibleHeight = this.$chart.height(),
             ctxObj = this.getGlobalContext(),
@@ -282,6 +287,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                 ctx.variables[0] == "global" ?  ctx.family : ctx.variables[0]
             ];
 
+    
 
         var x = d3.scale.linear()
             .range([0, width])
@@ -306,6 +312,10 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         var zoom = d3.behavior.zoom()
             .y(y)
             .on("zoom", zoomed);
+
+        if (height < this.$chart.height()){
+            height  = this.$chart.height() - margin.top - margin.bottom;
+        }
 
 
         var svg = d3.select(".chart").append("svg")

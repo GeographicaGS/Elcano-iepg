@@ -14,7 +14,7 @@ app.view.VariableSelector = Backbone.View.extend({
 
         $.fancybox(this.$el, opts);
 
-        $(window).on('resize', function(){
+        $(window).on('resize.VariableSelector', function(){
             self.render();
         });
 
@@ -35,7 +35,7 @@ app.view.VariableSelector = Backbone.View.extend({
         // Remove events on close
         this.stopListening();
     
-        $(window).off('resize');
+        $(window).off('resize.VariableSelector');
     },
 
 

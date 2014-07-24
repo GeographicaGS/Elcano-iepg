@@ -435,6 +435,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             .attr("class", "variable");
 
         var partition = d3.layout.partition()
+            .sort(null)
             .value(function(d) { return d.size; });
 
         var arc = d3.svg.arc()

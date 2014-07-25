@@ -47,10 +47,10 @@ app.view.yearDownload = Backbone.View.extend({
 
 
         if($(".celda.active").length == "1"){    
-            $(".numAniosSelect2").html(sprintf("<lang> %d año seleccionado</lang>",$(".celda.active").length));
+            $(".numAniosSelect2").html(sprintf("<lang> %d ano seleccionado</lang>",$(".celda.active").length));
         }
         else{
-            $(".numAniosSelect2").html(sprintf("<lang> %d años seleccionados</lang>",$(".celda.active").length));
+            $(".numAniosSelect2").html(sprintf("<lang> %d ano seleccionados</lang>",$(".celda.active").length));
         }
 
     	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){

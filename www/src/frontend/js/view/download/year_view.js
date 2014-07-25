@@ -50,7 +50,7 @@ app.view.yearDownload = Backbone.View.extend({
             $(".numAniosSelect2").html(sprintf("<lang> %d ano seleccionado</lang>",$(".celda.active").length));
         }
         else{
-            $(".numAniosSelect2").html(sprintf("<lang> %d ano seleccionados</lang>",$(".celda.active").length));
+            $(".numAniosSelect2").html(sprintf("<lang> %d anos seleccionados</lang>",$(".celda.active").length));
         }
 
     	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){

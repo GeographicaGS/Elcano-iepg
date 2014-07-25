@@ -2,11 +2,8 @@ app.view.Download = Backbone.View.extend({
     _template : _.template( $('#download_template').html() ),
     
     initialize: function() {
-        app.events.trigger("menu","download");
-        
+        app.events.trigger("menu","download");        
         this.render();
-
-        
     },
     
     events:{
@@ -14,13 +11,10 @@ app.view.Download = Backbone.View.extend({
      "click .siguiente" : "siguienteClick",
      "click .boxDonwload" : "download"
     },
-    
-
 
     onClose: function(){
         // Remove events on close
         this.stopListening();
-
     },
     
     render: function() {
@@ -138,16 +132,17 @@ app.view.Download = Backbone.View.extend({
                                     }
                                     years = years.slice(0,-1);
                                     
-                                    aux = $("#thematicBlock").find(".active[key]");
-                                    for(var i=0; i<$(aux).length; i++){
-                                        if($(aux[i]).attr("key") == "iepg" || $(aux[i]).attr("key") == "iepe"){
-                                            variables += "global@" + $(aux[i]).attr("key") + "," ;
-                                        }else{
-                                            variables += $(aux[i]).attr("key") + "@";
-                                            variables += ($(aux[i]).hasClass("tematica") ? "iepg":"iepe") + ",";
-                                        }
-                                    }
-                                    variables = variables.slice(0,-1);
+                                    // Too dificult
+                                    // aux = $("#thematicBlock").find(".active[key]");
+                                    // for(var i=0; i<$(aux).length; i++){
+                                    //     if($(aux[i]).attr("key") == "iepg" || $(aux[i]).attr("key") == "iepe"){
+                                    //         variables += "global@" + $(aux[i]).attr("key") + "," ;
+                                    //     }else{
+                                    //         variables += $(aux[i]).attr("key") + "@";
+                                    //         variables += ($(aux[i]).hasClass("tematica") ? "iepg":"iepe") + ",";
+                                    //     }
+                                    // }
+                                    variables = $(".tematica.active").map(function(){ return $(this).attr("key") + "@" + $(this).attr("family")  ; }).get().join();
                                     
                                     aux = $("#countryDownload").find(".active");
                                     for(var i=0; i<$(aux).length; i++){

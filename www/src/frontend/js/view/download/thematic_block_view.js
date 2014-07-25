@@ -36,10 +36,10 @@ app.view.thematicBlock = Backbone.View.extend({
         _.each(app.view.tools.utils.variablesTree().data.children,function(d){
             if (f=="iepe" && d.key=="military_global") return;
 
-            html += self.getHtmlThematic(d.name,d.key, "level2");
+            html += self.getHtmlThematic(d.name,d.key, "level2",f);
 
             _.each(d.children,function(c) {
-                html += self.getHtmlThematic(c.name, c.key, "level3");
+                html += self.getHtmlThematic(c.name, c.key, "level3",f);
             });
         });
 
@@ -139,11 +139,11 @@ app.view.thematicBlock = Backbone.View.extend({
     	
     },
     
-    getHtmlThematic: function(name,key, level) {
+    getHtmlThematic: function(name,key, level,family) {
     	var html = "<div class='row " + level + "'>" +
 					"<div class='col-sm-6 col-md-6'>"+
 						"<div class='iconVariable' data-variable='" + name + "'></div>"+
-						"<div class='tematica' key='" + key + "'>" + app.variableToString(name) + "</div>"+
+						"<div class='tematica' key='" + key + "' family='"+ family + "'>" + app.variableToString(name) + "</div>"+
 					"</div>";
         html += "</div>";
 

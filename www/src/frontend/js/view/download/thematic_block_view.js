@@ -109,9 +109,9 @@ app.view.thematicBlock = Backbone.View.extend({
         $(".numBloqsSelect").text(total);
 
         if(total == 1){
-            $(".numBloqsSelect2").html("<lang>" + total + " variable seleccionada</lang>");
+            $(".numBloqsSelect2").html(sprintf("<lang> %d variable seleccionada</lang>",total));
         }else{
-            $(".numBloqsSelect2").html(total + "<lang> variables seleccionadas</lang>");
+            $(".numBloqsSelect2").html(sprintf("<lang> %d variables seleccionadas</lang>",total));
         }
 
     	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){

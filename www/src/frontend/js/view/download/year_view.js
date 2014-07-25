@@ -2,18 +2,12 @@ app.view.yearDownload = Backbone.View.extend({
     _template : _.template( $('#year_download_template').html() ),
     
     initialize: function() {
-        
-//        this.render();
 
-        
     },
     
     events:{
     	"click .celda": "yearClick",
-    	
     },
-    
-
 
     onClose: function(){
         // Remove events on close
@@ -52,10 +46,11 @@ app.view.yearDownload = Backbone.View.extend({
     	$(".numAniosSelect").text($(".celda.active").length);
 
 
-        if($(".celda.active").length == "1"){
-            $(".numAniosSelect2").html("<lang>" + $(".celda.active").length + " año seleccionado</lang>");
-        }else{
-            $(".numAniosSelect2").html($(".celda.active").length + "<lang> años seleccionados</lang>");
+        if($(".celda.active").length == "1"){    
+            $(".numAniosSelect2").html(sprintf("<lang> %d año seleccionado</lang>",$(".celda.active").length));
+        }
+        else{
+            $(".numAniosSelect2").html(sprintf("<lang> %d años seleccionados</lang>",$(".celda.active").length));
         }
 
     	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
@@ -70,9 +65,6 @@ app.view.yearDownload = Backbone.View.extend({
     		$(".counter.numAniosSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
     	}
     	
-    },
-    
-    
-
+    }
 
 });

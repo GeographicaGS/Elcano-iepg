@@ -366,7 +366,7 @@ header#fixed_menu {
         text-align: center;
         border: none;
         span{
-            background: url("@{imgPath}/ELC_icon_explora_cab.svg") no-repeat left center;    
+            background: url("@{imgPath}ELC_icon_explora_cab.svg") no-repeat left center;    
             padding-left: 32px;
             .roboto(light);
             color:@white;

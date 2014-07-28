@@ -1342,7 +1342,6 @@ footer{
 		background-position: right center;
 		background-origin: content-box;
 		padding-right: 10px;
-/* 		padding-left: 10px; */
 	}
 	.active:HOVER{
 		background-image: url("../img/ELC_icon_deseleccionar.svg") !important;
@@ -1385,21 +1384,20 @@ footer{
 		.level2{
 			margin-left:30px;
 			.tematica {
-				margin-right: 30px;
+				/*margin-right: 30px;*/
 				min-width: 303px;
 			}
 			.tematica2 {
 				/*margin-right: -5px;*/
 				min-width: 324px;
-			}
-			
+			}	
 		}
 		
 		.level3{
 			margin-left:80px;
 			
 			.tematica {
-				margin-right: 55px;
+				/*margin-right: 55px;*/
 				min-width: 260px;
 			}
 			.tematica2 {
@@ -1413,15 +1411,15 @@ footer{
 			span{
 				font-weight:bold;
 			}
-			 
 		}
 		
 		.tematica{	
-				margin-left: -10px;
-				border-bottom: 1px solid @grey_light2;
-				cursor: pointer;
-				min-width: 337px;
-				margin-right: 10px;
+			margin-left: -10px;
+			border-bottom: 1px solid @grey_light2;
+			cursor: pointer;
+			min-width: 337px;
+			margin-right: 10px;
+
 		}
 		.tematica2{
 			margin-right: -8px;
@@ -1432,24 +1430,19 @@ footer{
 			img{
 				padding-left: 10px;
 			}
+
+            
+
 		}
 		
-		.tematica:HOVER{
+		.tematica:HOVER,.tematica2:HOVER{
 			background-image: url("../img/ELC_icon_seleccionar.svg");
 			background-repeat: no-repeat;
 			background-position: right center;
 			background-origin: content-box;
 			padding-right: 10px;
-/* 			padding-left: 10px; */
 		}
-		.tematica2:HOVER{
-			background-image: url("../img/ELC_icon_seleccionar.svg");
-			background-repeat: no-repeat;
-			background-position: right center;
-			background-origin: content-box;
-			padding-right: 10px;
-/* 			padding-left: 10px; */
-		}
+		
 		
 		img{
 			float: left;
@@ -1463,7 +1456,12 @@ footer{
             height: 40px;
             margin-top: 8px;
             margin-right: 10px;
+
+            &[family='iepe']{
+                margin-left: 10px;
+            }
         }
+
 		.iconVariable[data-variable='iepg']{
 		    background-image : url("@{imgPath}variables/ELC_variable_iepg_off.svg");
 		}

@@ -6,9 +6,8 @@ app.view.thematicBlock = Backbone.View.extend({
     },
     
     events:{
-    	"click .tematica": "tematicaClick",
-    	"click .tematica2": "tematicaClick",
-    	"click .todos": "todosClick",
+        "click .todos": "todosClick",
+    	"click .tematica[key],.tematica2[key]": "tematicaClick"
     },
 
     onClose: function(){
@@ -69,8 +68,13 @@ app.view.thematicBlock = Backbone.View.extend({
 			}
 		}
     	
+    	this._refreshCounters();
+    },
+
+    _refreshCounters: function(){
+
         var total = $(".tematica.active[key]").length + $(".tematica2.active[key]").length;
-    	$(".numBloqsSelect").text(total);
+        $(".numBloqsSelect").text(total);
 
         if(total == 1){
             $(".numBloqsSelect2").html(sprintf("<lang> %d variable seleccionada</lang>",total));
@@ -78,74 +82,50 @@ app.view.thematicBlock = Backbone.View.extend({
             $(".numBloqsSelect2").html(sprintf("<lang> %d variables seleccionadas</lang>",total));
         }
 
-    	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
-    		$(".boxDonwload").removeClass("activeDownload");
-    	}else{
-    		$(".boxDonwload").addClass("activeDownload");
-    	}
-    	
-    	if($(".counter.numBloqsSelect").text() == "0"){
-    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
-    	}else{
-    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
-    	}
-    	
+        if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
+            $(".boxDonwload").removeClass("activeDownload");
+        }else{
+            $(".boxDonwload").addClass("activeDownload");
+        }
+        
+        if($(".counter.numBloqsSelect").text() == "0"){
+            $(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
+        }else{
+            $(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
+        }
     },
     
     todosClick: function(e){
-    	if($(e.currentTarget).hasClass("active")){
-    		if($(e.currentTarget).hasClass("tematica")){
-    			$(".tematica").removeClass("active");
-                $(".tematica").siblings("div").removeClass("iconVariableActive");
-    		}
-            else{
-    			$(".tematica2").removeClass("active");
-                $(".tematica2").siblings("div").removeClass("iconVariableActive");
-    		}
-    	}
-        else{
-    		if($(e.currentTarget).hasClass("tematica")){
-    			$(".tematica").addClass("active");
-                $(".tematica").siblings("div").addClass("iconVariableActive");
-    		}
-            else{
-    			$(".tematica2").addClass("active");
-                $(".tematica2").siblings("div").addClass("iconVariableActive");
-    		}
-    	}
-    	var total = $(".tematica.active[key]").length + $(".tematica2.active[key]").length;
-        $(".numBloqsSelect").text(total);
+        var $el = $(e.target);
 
-        if(total == 1){
-            $(".numBloqsSelect2").html(sprintf("<lang> %d variable seleccionada</lang>",total));
-        }
-        else{
-            $(".numBloqsSelect2").html(sprintf("<lang> %d variables seleccionadas</lang>",total));
-        }
+        $el = $el.closest(".todos");
 
-    	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
-    		$(".boxDonwload").removeClass("activeDownload");
+        var f = $el.attr("family"),
+            themClass = f=="iepg" ? "tematica" : "tematica2";
+    	if($el.hasClass("active")){
+            $el.removeClass("active");
+            $("."+themClass + "[family='"+f+"']").removeClass("active");
+            $(".iconVariable[family='"+f+"']").removeClass("iconVariableActive");
     	}
         else{
-    		$(".boxDonwload").addClass("activeDownload");
+            $el.addClass("active");
+            $("."+themClass + "[family='"+f+"']").addClass("active");
+            $(".iconVariable[family='"+f+"']").addClass("iconVariableActive");
     	}
-    	
-    	if($(".counter.numBloqsSelect").text() == "0"){
-    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
-    	}
-        else{
-    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
-    	}
+
+    	this._refreshCounters();
     	
     },
     
     getHtmlThematic: function(name,key, level,family) {
-    	var html = "<div class='row " + level + "'>" +
-					"<div class='col-sm-6 col-md-6'>"+
-						"<div class='iconVariable' data-variable='" + name + "'></div>"+
-						"<div class='tematica' key='" + key + "' family='"+ family + "'>" + app.variableToString(name) + "</div>"+
-					"</div>";
-        html += "</div>";
+    	
+        var themClass = family=="iepg" ? "tematica" : "tematica2",
+            html = "<div class='" + level + "'>" +
+                    "<div>"+
+                        "<div class='iconVariable' data-variable='" + name + "' family='"+ family + "'></div>"+
+                        "<div class='" + themClass + "' key='" + key + "' family='"+ family + "'>" + app.variableToString(name) + "</div>"+
+                    "</div>" +
+                "</div>";
 
         return html;
     	

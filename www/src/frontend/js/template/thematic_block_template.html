@@ -11,12 +11,12 @@
 			
 	<div class="row">
 		<div class="col-sm-6 col-md-6">
-			<div class="tematica todos">
+			<div class="tematica todos" family="iepg">
 				<span>Seleccionar todos</span>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-6">
-			<div class="tematica2 todos" >
+			<div class="tematica2 todos" family="iepe">
 				<span >Seleccionar todos</span>
 			</div>
 		</div>
@@ -24,8 +24,8 @@
 
 	<div class="row">
 		<div class="col-sm-6 col-md-6">
-			<div class="iconVariable" data-variable="iepg"></div>
-			<div class="tematica" key="global"  family="iepg">
+			<div class="iconVariable" data-variable="iepg" family="iepg"></div>
+			<div class="tematica" key="global" family="iepg">
 				<%= app.variableToString("iepg") %>
 			</div>
 
@@ -34,8 +34,8 @@
 		</div>
 
        <div class="col-sm-6 col-md-6">
-			<div class="iconVariable" data-variable="iepe"></div>
-			<div class="tematica"  key="global"  family="iepe">
+			<div class="iconVariable" data-variable="iepe" family="iepe"></div>
+			<div class="tematica2"  key="global" family="iepe">
 				<%= app.variableToString("iepe") %>
 			</div>
 			<div id="cod_variables_iepe">

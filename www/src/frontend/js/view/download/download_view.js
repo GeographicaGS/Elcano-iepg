@@ -142,7 +142,7 @@ app.view.Download = Backbone.View.extend({
                                     //         variables += ($(aux[i]).hasClass("tematica") ? "iepg":"iepe") + ",";
                                     //     }
                                     // }
-                                    variables = $(".tematica.active").map(function(){ return $(this).attr("key") + "@" + $(this).attr("family")  ; }).get().join();
+                                    variables = $(".active[key][family]").map(function(){ return $(this).attr("key") + "@" + $(this).attr("family")  ; }).get().join();
                                     
                                     aux = $("#countryDownload").find(".active");
                                     for(var i=0; i<$(aux).length; i++){

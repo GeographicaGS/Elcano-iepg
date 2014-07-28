@@ -55,7 +55,6 @@ def getNewCatalogFrontend():
             newsDetails.pop("publishing_date")
             out.append(newsDetails)
 
-        # sortedOut = sorted(out, key=itemgetter("new_time"), cmp=locale.strcoll)
         sortedOut = sorted(out, key=itemgetter("new_time"), reverse=True)
 
         return(jsonify({"results": {"page": page, "listSize": len(out), \

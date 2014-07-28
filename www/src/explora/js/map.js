@@ -227,7 +227,16 @@ app.view.map = function(options){
         // loop through our density intervals and generate a label with a colored square for each interval
         var html = "<ul>";
         
-        for (var i=0;i<n_intervals;i++){
+        // for (var i=0;i<n_intervals;i++){
+        //     html +=
+        //         "<li> " +
+        //             "<span style='background: "+ getColor(grades[i] +1) + "'></span>" +
+        //             "<span> " +grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '' : '+') + "</span>" +
+        //         "</li>";
+        // }
+
+
+        for (var i=n_intervals-1;i>=0;i--){
             html +=
                 "<li> " +
                     "<span style='background: "+ getColor(grades[i] +1) + "'></span>" +

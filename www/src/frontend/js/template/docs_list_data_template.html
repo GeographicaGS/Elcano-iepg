@@ -19,7 +19,7 @@
  _.each(collection,function(d){ %>
     <div class="row mt12">
         <div class="col-md-2 stamp ">
-            <span class="date"><%= app.dateTimeFormat(d.time) %><br/> <lang>Por</lang></span>
+            <span class="date"><%= app.dateFormat(d.time) %><br/> <lang>Por</lang></span>
             <div class="authors">
                 <a 
                     href="/<lang>lang</lang>/<lang>_link docs</lang>/null/<%= d.authors[0].twitter_user ? d.authors[0].twitter_user : d.authors[0].name %>"

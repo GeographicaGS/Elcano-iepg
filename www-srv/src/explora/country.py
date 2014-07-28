@@ -214,9 +214,12 @@ def mapData(family, variable, year, mode):
     else:
         c = population
     
-    varData = [v for (k,v) in 
-               common.helpers.getData(datacache.dataSets[family].variables[variable], 
-                                      year=year, countryList=c).iteritems()]
+    try:
+        varData = [v for (k,v) in 
+                   common.helpers.getData(datacache.dataSets[family].variables[variable], 
+                                          year=year, countryList=c).iteritems()]
+    except:
+        varData = []
     return(jsonify({"results": varData}))
 
 

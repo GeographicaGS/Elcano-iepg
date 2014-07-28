@@ -437,7 +437,6 @@ class Variable(object):
                     return({str(code)+"@"+str(year): {"code": code, "type": self.defaultDataType,
                                                       "value": None, "year": year}})
             if year:
-                print year
                 try:
                     return({k: self.__processData(v) for (k,v) in self.data.iteritems() 
                             if str(year)==k.split("@")[1]})

@@ -782,12 +782,12 @@ ul#menu{
         div{
             cursor: default;
             float: right;
-            width: 170px;
+            width: 180px;
             height: 45px;
             background-color: @grey3;
             background-image: url("../img/ELC_icon_boton_descarga.png");
             background-repeat: no-repeat;
-            background-position: 137px 11px;
+            background-position: 145px 11px;
             color: white;
             padding-left: 15px;
             line-height: 45px;

@@ -722,6 +722,7 @@ ul#menu{
     .columnas{
         float: left;
         margin-right: 55px;
+        min-width: 100px;
     }
     
     .pestania{

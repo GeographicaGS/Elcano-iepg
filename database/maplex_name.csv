@@ -37,7 +37,6 @@ id_name|name|description
 499|Guinea|[Guinea] short name spanish 1.
 500|Guyana|[Guyana] short name spanish 1.
 501|Islas Caimán|[Cayman Islands] short name spanish 1.
-502|Méjico|[Mexico] short name spanish 1.
 503|Países Bajos|[Netherlands] short name spanish 1.
 504|Hungría|[Hungary] short name spanish 1.
 505|Sark|[Sark] short name spanish 1.
@@ -137,7 +136,6 @@ id_name|name|description
 599|Nepal|[Nepal] short name spanish 1.
 600|Maldivas|[Maldives] short name spanish 1.
 601|Martinica|[Martinique] short name spanish 1.
-602|Kazajstán|[Kazakhstan] short name spanish 1.
 603|Irak|[Iraq] short name spanish 1.
 604|Nicaragua|[Nicaragua] short name spanish 1.
 605|Níger|[Niger] short name spanish 1.
@@ -208,7 +206,6 @@ id_name|name|description
 670|Corea del Sur|[South Korea] short name spanish 1.
 671|Singapur|[Singapore] short name spanish 1.
 672|Kenia|[Kenya] short name spanish 1.
-673|Viet Nam|[Viet Nam] short name spanish 1.
 674|Serbia|[Serbia] short name spanish 1.
 675|Islas Svalbard y Jan Mayen|[Svalbard and Jan Mayen Islands] short name spanish 1.
 676|Tokelau|[Tokelau] short name spanish 1.
@@ -433,7 +430,6 @@ id_name|name|description
 191|ZA|[South Africa] ISO-3166-1 2 digits.
 192|KR|[South Korea] ISO-3166-1 2 digits.
 193|SG|[Singapore] ISO-3166-1 2 digits.
-194|VN|[Viet Nam] ISO-3166-1 2 digits.
 195|RS|[Serbia] ISO-3166-1 2 digits.
 196|TK|[Tokelau] ISO-3166-1 2 digits.
 197|TO|[Tonga] ISO-3166-1 2 digits.
@@ -671,7 +667,6 @@ id_name|name|description
 429|South Korea|[South Korea] short name english 1.
 430|Singapore|[Singapore] short name english 1.
 431|Kenya|[Kenya] short name english 1.
-432|Viet Nam|[Viet Nam] short name english 1.
 433|Serbia|[Serbia] short name english 1.
 434|Svalbard and Jan Mayen Islands|[Svalbard and Jan Mayen Islands] short name english 1.
 435|Tokelau|[Tokelau] short name english 1.
@@ -724,3 +719,674 @@ id_name|name|description
 724|Subsaharian Africa|Subsaharian Africa english.
 725|XBSA|Invented code by Geographica for Subsaharian Africa in the context of Elcano IEPG project.
 717|Asia y Pacífico|Asia & Pacific spanish.
+194|VN|[Vietnam] ISO-3166-1 2 digits.
+432|Vietnam|[Vietnam] short name english 1.
+673|Vietnam|[Vietnam] short name spanish 1.
+502|México|[Mexico] short name spanish 1.
+602|Kazajistán|[Kazakhstan] short name spanish 1.
+726|4|[Afghanistan] UN numeric code.
+727|8|[Albania] UN numeric code.
+728|12|[Algeria] UN numeric code.
+729|16|[American Samoa] UN numeric code.
+730|20|[Andorra] UN numeric code.
+731|24|[Angola] UN numeric code.
+732|28|[Antigua and Barbuda] UN numeric code.
+733|31|[Azerbaijan] UN numeric code.
+734|32|[Argentina] UN numeric code.
+735|36|[Australia] UN numeric code.
+736|40|[Austria] UN numeric code.
+737|44|[Bahamas] UN numeric code.
+738|48|[Bahrain] UN numeric code.
+739|50|[Bangladesh] UN numeric code.
+740|51|[Armenia] UN numeric code.
+741|52|[Barbados] UN numeric code.
+742|56|[Belgium] UN numeric code.
+743|60|[Bermuda] UN numeric code.
+744|64|[Bhutan] UN numeric code.
+745|68|[Bolivia] UN numeric code.
+746|70|[Bosnia and Herzegovina] UN numeric code.
+747|72|[Botswana] UN numeric code.
+748|76|[Brazil] UN numeric code.
+749|84|[Belize] UN numeric code.
+750|90|[Solomon Islands] UN numeric code.
+751|92|[British Virgin Islands] UN numeric code.
+752|96|[Brunei] UN numeric code.
+753|100|[Bulgaria] UN numeric code.
+754|104|[Myanmar] UN numeric code.
+755|108|[Burundi] UN numeric code.
+756|112|[Belarus] UN numeric code.
+757|116|[Cambodia] UN numeric code.
+758|120|[Cameroon] UN numeric code.
+759|124|[Canada] UN numeric code.
+760|132|[Cabo Verde] UN numeric code.
+761|136|[Cayman Islands] UN numeric code.
+762|140|[CAR] UN numeric code.
+763|144|[Sri Lanka] UN numeric code.
+764|148|[Chad] UN numeric code.
+765|152|[Chile] UN numeric code.
+766|156|[China] UN numeric code.
+767|170|[Colombia] UN numeric code.
+768|174|[Comoros] UN numeric code.
+769|175|[Mayotte] UN numeric code.
+770|178|[Congo] UN numeric code.
+771|180|[The Congo] UN numeric code.
+772|184|[Cook Islands] UN numeric code.
+773|188|[Costa Rica] UN numeric code.
+774|191|[Croatia] UN numeric code.
+775|192|[Cuba] UN numeric code.
+776|196|[Cyprus] UN numeric code.
+777|203|[Czech Republic] UN numeric code.
+778|204|[Benin] UN numeric code.
+779|208|[Denmark] UN numeric code.
+780|212|[Dominica] UN numeric code.
+781|214|[Dominican Republic] UN numeric code.
+782|218|[Ecuador] UN numeric code.
+783|222|[El Salvador] UN numeric code.
+784|226|[Equatorial Guinea] UN numeric code.
+785|231|[Ethiopia] UN numeric code.
+786|232|[Eritrea] UN numeric code.
+787|233|[Estonia] UN numeric code.
+788|242|[Fiji] UN numeric code.
+789|246|[Finland] UN numeric code.
+790|250|[France] UN numeric code.
+791|254|[French Guiana] UN numeric code.
+792|258|[French Polynesia] UN numeric code.
+793|262|[Djibouti] UN numeric code.
+794|266|[Gabon] UN numeric code.
+795|268|[Georgia] UN numeric code.
+796|270|[Gambia] UN numeric code.
+797|276|[Germany] UN numeric code.
+798|288|[Ghana] UN numeric code.
+799|292|[Gibraltar] UN numeric code.
+800|296|[Kiribati] UN numeric code.
+801|300|[Greece] UN numeric code.
+802|304|[Greenland] UN numeric code.
+803|308|[Grenada] UN numeric code.
+804|312|[Guadeloupe] UN numeric code.
+805|316|[Guam] UN numeric code.
+806|320|[Guatemala] UN numeric code.
+807|324|[Guinea] UN numeric code.
+808|328|[Guyana] UN numeric code.
+809|332|[Haiti] UN numeric code.
+810|340|[Honduras] UN numeric code.
+811|344|[Hong Kong] UN numeric code.
+812|348|[Hungary] UN numeric code.
+813|352|[Iceland] UN numeric code.
+814|356|[India] UN numeric code.
+815|360|[Indonesia] UN numeric code.
+816|364|[Iran] UN numeric code.
+817|368|[Iraq] UN numeric code.
+818|372|[Ireland] UN numeric code.
+819|376|[Israel] UN numeric code.
+820|380|[Italy] UN numeric code.
+821|384|[Côte d'Ivoire] UN numeric code.
+822|388|[Jamaica] UN numeric code.
+823|392|[Japan] UN numeric code.
+824|398|[Kazakhstan] UN numeric code.
+825|400|[Jordan] UN numeric code.
+826|404|[Kenya] UN numeric code.
+827|408|[North Korea] UN numeric code.
+828|410|[South Korea] UN numeric code.
+829|414|[Kuwait] UN numeric code.
+830|417|[Kyrgyzstan] UN numeric code.
+831|418|[Laos] UN numeric code.
+832|422|[Lebanon] UN numeric code.
+833|426|[Lesotho] UN numeric code.
+834|428|[Latvia] UN numeric code.
+835|430|[Liberia] UN numeric code.
+836|434|[Libya] UN numeric code.
+837|438|[Liechtenstein] UN numeric code.
+838|440|[Lithuania] UN numeric code.
+839|442|[Luxembourg] UN numeric code.
+840|450|[Madagascar] UN numeric code.
+841|454|[Malawi] UN numeric code.
+842|458|[Malaysia] UN numeric code.
+843|462|[Maldives] UN numeric code.
+844|466|[Mali] UN numeric code.
+845|470|[Malta] UN numeric code.
+846|474|[Martinique] UN numeric code.
+847|478|[Mauritania] UN numeric code.
+848|480|[Mauritius] UN numeric code.
+849|484|[Mexico] UN numeric code.
+850|492|[Monaco] UN numeric code.
+851|496|[Mongolia] UN numeric code.
+852|498|[Moldova] UN numeric code.
+853|499|[Montenegro] UN numeric code.
+854|500|[Montserrat] UN numeric code.
+855|504|[Morocco] UN numeric code.
+856|508|[Mozambique] UN numeric code.
+857|512|[Oman] UN numeric code.
+858|516|[Namibia] UN numeric code.
+859|520|[Nauru] UN numeric code.
+860|524|[Nepal] UN numeric code.
+861|528|[Netherlands] UN numeric code.
+862|533|[Aruba] UN numeric code.
+863|540|[New Caledonia] UN numeric code.
+864|548|[Vanuatu] UN numeric code.
+865|554|[New Zealand] UN numeric code.
+866|558|[Nicaragua] UN numeric code.
+867|562|[Niger] UN numeric code.
+868|566|[Nigeria] UN numeric code.
+869|570|[Niue] UN numeric code.
+870|574|[Norfolk Island] UN numeric code.
+871|578|[Norway] UN numeric code.
+872|580|[Northern Mariana Islands] UN numeric code.
+873|583|[Micronesia] UN numeric code.
+874|584|[Marshall Islands] UN numeric code.
+875|585|[Palau] UN numeric code.
+876|586|[Pakistan] UN numeric code.
+877|591|[Panama] UN numeric code.
+878|598|[Papua New Guinea] UN numeric code.
+879|600|[Paraguay] UN numeric code.
+880|604|[Peru] UN numeric code.
+881|608|[Philippines] UN numeric code.
+882|616|[Poland] UN numeric code.
+883|620|[Portugal] UN numeric code.
+884|624|[Guinea-Bissau] UN numeric code.
+885|626|[Timor-Leste] UN numeric code.
+886|630|[Puerto Rico] UN numeric code.
+887|634|[Qatar] UN numeric code.
+888|642|[Romania] UN numeric code.
+889|643|[Russia] UN numeric code.
+890|646|[Rwanda] UN numeric code.
+891|654|[Saint Helena] UN numeric code.
+892|659|[Saint Kitts and Nevis] UN numeric code.
+893|660|[Anguilla] UN numeric code.
+894|662|[Saint Lucia] UN numeric code.
+895|666|[Saint Pierre and Miquelon] UN numeric code.
+896|670|[Saint Vincent and the Grenadines] UN numeric code.
+897|674|[San Marino] UN numeric code.
+898|678|[Sao Tome and Principe] UN numeric code.
+899|682|[Saudi Arabia] UN numeric code.
+900|686|[Senegal] UN numeric code.
+901|688|[Serbia] UN numeric code.
+902|690|[Seychelles] UN numeric code.
+903|694|[Sierra Leone] UN numeric code.
+904|702|[Singapore] UN numeric code.
+905|703|[Slovakia] UN numeric code.
+906|704|[Vietnam] UN numeric code.
+907|705|[Slovenia] UN numeric code.
+908|706|[Somalia] UN numeric code.
+909|710|[South Africa] UN numeric code.
+910|716|[Zimbabwe] UN numeric code.
+911|724|[Spain] UN numeric code.
+912|729|[Sudan] UN numeric code.
+913|740|[Suriname] UN numeric code.
+914|748|[Swaziland] UN numeric code.
+915|752|[Sweden] UN numeric code.
+916|756|[Switzerland] UN numeric code.
+917|760|[Syrian] UN numeric code.
+918|762|[Tajikistan] UN numeric code.
+919|764|[Thailand] UN numeric code.
+920|768|[Togo] UN numeric code.
+921|772|[Tokelau] UN numeric code.
+922|776|[Tonga] UN numeric code.
+923|780|[Trinidad and Tobago] UN numeric code.
+924|784|[United Arab Emirates] UN numeric code.
+925|788|[Tunisia] UN numeric code.
+926|792|[Turkey] UN numeric code.
+927|795|[Turkmenistan] UN numeric code.
+928|796|[Turks and Caicos Islands] UN numeric code.
+929|798|[Tuvalu] UN numeric code.
+930|800|[Uganda] UN numeric code.
+931|804|[Ukraine] UN numeric code.
+932|807|[Macedonia] UN numeric code.
+933|818|[Egypt] UN numeric code.
+934|826|[United Kingdom] UN numeric code.
+935|831|[Guernsey] UN numeric code.
+936|832|[Jersey] UN numeric code.
+937|833|[Isle of Man] UN numeric code.
+938|834|[Tanzania] UN numeric code.
+939|840|[United States of America] UN numeric code.
+940|850|[U.S. Virgin Islands] UN numeric code.
+941|854|[Burkina Faso] UN numeric code.
+942|858|[Uruguay] UN numeric code.
+943|860|[Uzbekistan] UN numeric code.
+944|862|[Venezuela] UN numeric code.
+945|882|[Samoa] UN numeric code.
+946|887|[Yemen] UN numeric code.
+947|894|[Zambia] UN numeric code.
+948|ABW|[Aruba] UN ISO-3166-1 3 Digits code.
+949|AFG|[Afghanistan] UN ISO-3166-1 3 Digits code.
+950|AGO|[Angola] UN ISO-3166-1 3 Digits code.
+951|AIA|[Anguilla] UN ISO-3166-1 3 Digits code.
+952|ALB|[Albania] UN ISO-3166-1 3 Digits code.
+953|AND|[Andorra] UN ISO-3166-1 3 Digits code.
+954|ARE|[United Arab Emirates] UN ISO-3166-1 3 Digits code.
+955|ARG|[Argentina] UN ISO-3166-1 3 Digits code.
+956|ARM|[Armenia] UN ISO-3166-1 3 Digits code.
+957|ASM|[American Samoa] UN ISO-3166-1 3 Digits code.
+958|ATG|[Antigua and Barbuda] UN ISO-3166-1 3 Digits code.
+959|AUS|[Australia] UN ISO-3166-1 3 Digits code.
+960|AUT|[Austria] UN ISO-3166-1 3 Digits code.
+961|AZE|[Azerbaijan] UN ISO-3166-1 3 Digits code.
+962|BDI|[Burundi] UN ISO-3166-1 3 Digits code.
+963|BEL|[Belgium] UN ISO-3166-1 3 Digits code.
+964|BEN|[Benin] UN ISO-3166-1 3 Digits code.
+965|BFA|[Burkina Faso] UN ISO-3166-1 3 Digits code.
+966|BGD|[Bangladesh] UN ISO-3166-1 3 Digits code.
+967|BGR|[Bulgaria] UN ISO-3166-1 3 Digits code.
+968|BHR|[Bahrain] UN ISO-3166-1 3 Digits code.
+969|BHS|[Bahamas] UN ISO-3166-1 3 Digits code.
+970|BIH|[Bosnia and Herzegovina] UN ISO-3166-1 3 Digits code.
+971|BLR|[Belarus] UN ISO-3166-1 3 Digits code.
+972|BLZ|[Belize] UN ISO-3166-1 3 Digits code.
+973|BMU|[Bermuda] UN ISO-3166-1 3 Digits code.
+974|BOL|[Bolivia] UN ISO-3166-1 3 Digits code.
+975|BRA|[Brazil] UN ISO-3166-1 3 Digits code.
+976|BRB|[Barbados] UN ISO-3166-1 3 Digits code.
+977|BRN|[Brunei] UN ISO-3166-1 3 Digits code.
+978|BTN|[Bhutan] UN ISO-3166-1 3 Digits code.
+979|BWA|[Botswana] UN ISO-3166-1 3 Digits code.
+980|CAF|[CAR] UN ISO-3166-1 3 Digits code.
+981|CAN|[Canada] UN ISO-3166-1 3 Digits code.
+982|CHE|[Switzerland] UN ISO-3166-1 3 Digits code.
+983|CHL|[Chile] UN ISO-3166-1 3 Digits code.
+984|CHN|[China] UN ISO-3166-1 3 Digits code.
+985|CIV|[Côte d'Ivoire] UN ISO-3166-1 3 Digits code.
+986|CMR|[Cameroon] UN ISO-3166-1 3 Digits code.
+987|COD|[The Congo] UN ISO-3166-1 3 Digits code.
+988|COG|[Congo] UN ISO-3166-1 3 Digits code.
+989|COK|[Cook Islands] UN ISO-3166-1 3 Digits code.
+990|COL|[Colombia] UN ISO-3166-1 3 Digits code.
+991|COM|[Comoros] UN ISO-3166-1 3 Digits code.
+992|CPV|[Cabo Verde] UN ISO-3166-1 3 Digits code.
+993|CRI|[Costa Rica] UN ISO-3166-1 3 Digits code.
+994|CUB|[Cuba] UN ISO-3166-1 3 Digits code.
+995|CYM|[Cayman Islands] UN ISO-3166-1 3 Digits code.
+996|CYP|[Cyprus] UN ISO-3166-1 3 Digits code.
+997|CZE|[Czech Republic] UN ISO-3166-1 3 Digits code.
+998|DEU|[Germany] UN ISO-3166-1 3 Digits code.
+999|DJI|[Djibouti] UN ISO-3166-1 3 Digits code.
+1000|DMA|[Dominica] UN ISO-3166-1 3 Digits code.
+1001|DNK|[Denmark] UN ISO-3166-1 3 Digits code.
+1002|DOM|[Dominican Republic] UN ISO-3166-1 3 Digits code.
+1003|DZA|[Algeria] UN ISO-3166-1 3 Digits code.
+1004|ECU|[Ecuador] UN ISO-3166-1 3 Digits code.
+1005|EGY|[Egypt] UN ISO-3166-1 3 Digits code.
+1006|ERI|[Eritrea] UN ISO-3166-1 3 Digits code.
+1007|ESP|[Spain] UN ISO-3166-1 3 Digits code.
+1008|EST|[Estonia] UN ISO-3166-1 3 Digits code.
+1009|ETH|[Ethiopia] UN ISO-3166-1 3 Digits code.
+1010|FIN|[Finland] UN ISO-3166-1 3 Digits code.
+1011|FJI|[Fiji] UN ISO-3166-1 3 Digits code.
+1012|FRA|[France] UN ISO-3166-1 3 Digits code.
+1013|FSM|[Micronesia] UN ISO-3166-1 3 Digits code.
+1014|GAB|[Gabon] UN ISO-3166-1 3 Digits code.
+1015|GBR|[United Kingdom] UN ISO-3166-1 3 Digits code.
+1016|GEO|[Georgia] UN ISO-3166-1 3 Digits code.
+1017|GGY|[Guernsey] UN ISO-3166-1 3 Digits code.
+1018|GHA|[Ghana] UN ISO-3166-1 3 Digits code.
+1019|GIB|[Gibraltar] UN ISO-3166-1 3 Digits code.
+1020|GIN|[Guinea] UN ISO-3166-1 3 Digits code.
+1021|GLP|[Guadeloupe] UN ISO-3166-1 3 Digits code.
+1022|GMB|[Gambia] UN ISO-3166-1 3 Digits code.
+1023|GNB|[Guinea-Bissau] UN ISO-3166-1 3 Digits code.
+1024|GNQ|[Equatorial Guinea] UN ISO-3166-1 3 Digits code.
+1025|GRC|[Greece] UN ISO-3166-1 3 Digits code.
+1026|GRD|[Grenada] UN ISO-3166-1 3 Digits code.
+1027|GRL|[Greenland] UN ISO-3166-1 3 Digits code.
+1028|GTM|[Guatemala] UN ISO-3166-1 3 Digits code.
+1029|GUF|[French Guiana] UN ISO-3166-1 3 Digits code.
+1030|GUM|[Guam] UN ISO-3166-1 3 Digits code.
+1031|GUY|[Guyana] UN ISO-3166-1 3 Digits code.
+1032|HKG|[Hong Kong] UN ISO-3166-1 3 Digits code.
+1033|HND|[Honduras] UN ISO-3166-1 3 Digits code.
+1034|HRV|[Croatia] UN ISO-3166-1 3 Digits code.
+1035|HTI|[Haiti] UN ISO-3166-1 3 Digits code.
+1036|HUN|[Hungary] UN ISO-3166-1 3 Digits code.
+1037|IDN|[Indonesia] UN ISO-3166-1 3 Digits code.
+1038|IMN|[Isle of Man] UN ISO-3166-1 3 Digits code.
+1039|IND|[India] UN ISO-3166-1 3 Digits code.
+1040|IRL|[Ireland] UN ISO-3166-1 3 Digits code.
+1041|IRN|[Iran] UN ISO-3166-1 3 Digits code.
+1042|IRQ|[Iraq] UN ISO-3166-1 3 Digits code.
+1043|ISL|[Iceland] UN ISO-3166-1 3 Digits code.
+1044|ISR|[Israel] UN ISO-3166-1 3 Digits code.
+1045|ITA|[Italy] UN ISO-3166-1 3 Digits code.
+1046|JAM|[Jamaica] UN ISO-3166-1 3 Digits code.
+1047|JEY|[Jersey] UN ISO-3166-1 3 Digits code.
+1048|JOR|[Jordan] UN ISO-3166-1 3 Digits code.
+1049|JPN|[Japan] UN ISO-3166-1 3 Digits code.
+1050|KAZ|[Kazakhstan] UN ISO-3166-1 3 Digits code.
+1051|KEN|[Kenya] UN ISO-3166-1 3 Digits code.
+1052|KGZ|[Kyrgyzstan] UN ISO-3166-1 3 Digits code.
+1053|KHM|[Cambodia] UN ISO-3166-1 3 Digits code.
+1054|KIR|[Kiribati] UN ISO-3166-1 3 Digits code.
+1055|KNA|[Saint Kitts and Nevis] UN ISO-3166-1 3 Digits code.
+1056|KOR|[South Korea] UN ISO-3166-1 3 Digits code.
+1057|KWT|[Kuwait] UN ISO-3166-1 3 Digits code.
+1058|LAO|[Laos] UN ISO-3166-1 3 Digits code.
+1059|LBN|[Lebanon] UN ISO-3166-1 3 Digits code.
+1060|LBR|[Liberia] UN ISO-3166-1 3 Digits code.
+1061|LBY|[Libya] UN ISO-3166-1 3 Digits code.
+1062|LCA|[Saint Lucia] UN ISO-3166-1 3 Digits code.
+1063|LIE|[Liechtenstein] UN ISO-3166-1 3 Digits code.
+1064|LKA|[Sri Lanka] UN ISO-3166-1 3 Digits code.
+1065|LSO|[Lesotho] UN ISO-3166-1 3 Digits code.
+1066|LTU|[Lithuania] UN ISO-3166-1 3 Digits code.
+1067|LUX|[Luxembourg] UN ISO-3166-1 3 Digits code.
+1068|LVA|[Latvia] UN ISO-3166-1 3 Digits code.
+1069|MAR|[Morocco] UN ISO-3166-1 3 Digits code.
+1070|MCO|[Monaco] UN ISO-3166-1 3 Digits code.
+1071|MDA|[Moldova] UN ISO-3166-1 3 Digits code.
+1072|MDG|[Madagascar] UN ISO-3166-1 3 Digits code.
+1073|MDV|[Maldives] UN ISO-3166-1 3 Digits code.
+1074|MEX|[Mexico] UN ISO-3166-1 3 Digits code.
+1075|MHL|[Marshall Islands] UN ISO-3166-1 3 Digits code.
+1076|MKD|[Macedonia] UN ISO-3166-1 3 Digits code.
+1077|MLI|[Mali] UN ISO-3166-1 3 Digits code.
+1078|MLT|[Malta] UN ISO-3166-1 3 Digits code.
+1079|MMR|[Myanmar] UN ISO-3166-1 3 Digits code.
+1080|MNE|[Montenegro] UN ISO-3166-1 3 Digits code.
+1081|MNG|[Mongolia] UN ISO-3166-1 3 Digits code.
+1082|MNP|[Northern Mariana Islands] UN ISO-3166-1 3 Digits code.
+1083|MOZ|[Mozambique] UN ISO-3166-1 3 Digits code.
+1084|MRT|[Mauritania] UN ISO-3166-1 3 Digits code.
+1085|MSR|[Montserrat] UN ISO-3166-1 3 Digits code.
+1086|MTQ|[Martinique] UN ISO-3166-1 3 Digits code.
+1087|MUS|[Mauritius] UN ISO-3166-1 3 Digits code.
+1088|MWI|[Malawi] UN ISO-3166-1 3 Digits code.
+1089|MYS|[Malaysia] UN ISO-3166-1 3 Digits code.
+1090|MYT|[Mayotte] UN ISO-3166-1 3 Digits code.
+1091|NAM|[Namibia] UN ISO-3166-1 3 Digits code.
+1092|NCL|[New Caledonia] UN ISO-3166-1 3 Digits code.
+1093|NER|[Niger] UN ISO-3166-1 3 Digits code.
+1094|NFK|[Norfolk Island] UN ISO-3166-1 3 Digits code.
+1095|NGA|[Nigeria] UN ISO-3166-1 3 Digits code.
+1096|NIC|[Nicaragua] UN ISO-3166-1 3 Digits code.
+1097|NIU|[Niue] UN ISO-3166-1 3 Digits code.
+1098|NLD|[Netherlands] UN ISO-3166-1 3 Digits code.
+1099|NOR|[Norway] UN ISO-3166-1 3 Digits code.
+1100|NPL|[Nepal] UN ISO-3166-1 3 Digits code.
+1101|NRU|[Nauru] UN ISO-3166-1 3 Digits code.
+1102|NZL|[New Zealand] UN ISO-3166-1 3 Digits code.
+1103|OMN|[Oman] UN ISO-3166-1 3 Digits code.
+1104|PAK|[Pakistan] UN ISO-3166-1 3 Digits code.
+1105|PAN|[Panama] UN ISO-3166-1 3 Digits code.
+1106|PER|[Peru] UN ISO-3166-1 3 Digits code.
+1107|PHL|[Philippines] UN ISO-3166-1 3 Digits code.
+1108|PLW|[Palau] UN ISO-3166-1 3 Digits code.
+1109|PNG|[Papua New Guinea] UN ISO-3166-1 3 Digits code.
+1110|POL|[Poland] UN ISO-3166-1 3 Digits code.
+1111|PRI|[Puerto Rico] UN ISO-3166-1 3 Digits code.
+1112|PRK|[North Korea] UN ISO-3166-1 3 Digits code.
+1113|PRT|[Portugal] UN ISO-3166-1 3 Digits code.
+1114|PRY|[Paraguay] UN ISO-3166-1 3 Digits code.
+1115|PYF|[French Polynesia] UN ISO-3166-1 3 Digits code.
+1116|QAT|[Qatar] UN ISO-3166-1 3 Digits code.
+1117|ROU|[Romania] UN ISO-3166-1 3 Digits code.
+1118|RUS|[Russia] UN ISO-3166-1 3 Digits code.
+1119|RWA|[Rwanda] UN ISO-3166-1 3 Digits code.
+1120|SAU|[Saudi Arabia] UN ISO-3166-1 3 Digits code.
+1121|SDN|[Sudan] UN ISO-3166-1 3 Digits code.
+1122|SEN|[Senegal] UN ISO-3166-1 3 Digits code.
+1123|SGP|[Singapore] UN ISO-3166-1 3 Digits code.
+1124|SHN|[Saint Helena] UN ISO-3166-1 3 Digits code.
+1125|SLB|[Solomon Islands] UN ISO-3166-1 3 Digits code.
+1126|SLE|[Sierra Leone] UN ISO-3166-1 3 Digits code.
+1127|SLV|[El Salvador] UN ISO-3166-1 3 Digits code.
+1128|SMR|[San Marino] UN ISO-3166-1 3 Digits code.
+1129|SOM|[Somalia] UN ISO-3166-1 3 Digits code.
+1130|SPM|[Saint Pierre and Miquelon] UN ISO-3166-1 3 Digits code.
+1131|SRB|[Serbia] UN ISO-3166-1 3 Digits code.
+1132|STP|[Sao Tome and Principe] UN ISO-3166-1 3 Digits code.
+1133|SUR|[Suriname] UN ISO-3166-1 3 Digits code.
+1134|SVK|[Slovakia] UN ISO-3166-1 3 Digits code.
+1135|SVN|[Slovenia] UN ISO-3166-1 3 Digits code.
+1136|SWE|[Sweden] UN ISO-3166-1 3 Digits code.
+1137|SWZ|[Swaziland] UN ISO-3166-1 3 Digits code.
+1138|SYC|[Seychelles] UN ISO-3166-1 3 Digits code.
+1139|SYR|[Syrian] UN ISO-3166-1 3 Digits code.
+1140|TCA|[Turks and Caicos Islands] UN ISO-3166-1 3 Digits code.
+1141|TCD|[Chad] UN ISO-3166-1 3 Digits code.
+1142|TGO|[Togo] UN ISO-3166-1 3 Digits code.
+1143|THA|[Thailand] UN ISO-3166-1 3 Digits code.
+1144|TJK|[Tajikistan] UN ISO-3166-1 3 Digits code.
+1145|TKL|[Tokelau] UN ISO-3166-1 3 Digits code.
+1146|TKM|[Turkmenistan] UN ISO-3166-1 3 Digits code.
+1147|TLS|[Timor-Leste] UN ISO-3166-1 3 Digits code.
+1148|TON|[Tonga] UN ISO-3166-1 3 Digits code.
+1149|TTO|[Trinidad and Tobago] UN ISO-3166-1 3 Digits code.
+1150|TUN|[Tunisia] UN ISO-3166-1 3 Digits code.
+1151|TUR|[Turkey] UN ISO-3166-1 3 Digits code.
+1152|TUV|[Tuvalu] UN ISO-3166-1 3 Digits code.
+1153|TZA|[Tanzania] UN ISO-3166-1 3 Digits code.
+1154|UGA|[Uganda] UN ISO-3166-1 3 Digits code.
+1155|UKR|[Ukraine] UN ISO-3166-1 3 Digits code.
+1156|URY|[Uruguay] UN ISO-3166-1 3 Digits code.
+1157|USA|[United States of America] UN ISO-3166-1 3 Digits code.
+1158|UZB|[Uzbekistan] UN ISO-3166-1 3 Digits code.
+1159|VCT|[Saint Vincent and the Grenadines] UN ISO-3166-1 3 Digits code.
+1160|VEN|[Venezuela] UN ISO-3166-1 3 Digits code.
+1161|VGB|[British Virgin Islands] UN ISO-3166-1 3 Digits code.
+1162|VIR|[U.S. Virgin Islands] UN ISO-3166-1 3 Digits code.
+1163|VNM|[Vietnam] UN ISO-3166-1 3 Digits code.
+1164|VUT|[Vanuatu] UN ISO-3166-1 3 Digits code.
+1165|WSM|[Samoa] UN ISO-3166-1 3 Digits code.
+1166|YEM|[Yemen] UN ISO-3166-1 3 Digits code.
+1167|ZAF|[South Africa] UN ISO-3166-1 3 Digits code.
+1168|ZMB|[Zambia] UN ISO-3166-1 3 Digits code.
+1169|ZWE|[Zimbabwe] UN ISO-3166-1 3 Digits code.
+1170|Afghanistan|[Afghanistan] UN official english designation.
+1171|Albania|[Albania] UN official english designation.
+1172|Algeria|[Algeria] UN official english designation.
+1173|American Samoa|[American Samoa] UN official english designation.
+1174|Andorra|[Andorra] UN official english designation.
+1175|Angola|[Angola] UN official english designation.
+1176|Anguilla|[Anguilla] UN official english designation.
+1177|Antigua and Barbuda|[Antigua and Barbuda] UN official english designation.
+1178|Argentina|[Argentina] UN official english designation.
+1179|Armenia|[Armenia] UN official english designation.
+1180|Aruba|[Aruba] UN official english designation.
+1181|Australia|[Australia] UN official english designation.
+1182|Austria|[Austria] UN official english designation.
+1183|Azerbaijan|[Azerbaijan] UN official english designation.
+1184|Bahamas|[Bahamas] UN official english designation.
+1185|Bahrain|[Bahrain] UN official english designation.
+1186|Bangladesh|[Bangladesh] UN official english designation.
+1187|Barbados|[Barbados] UN official english designation.
+1188|Belarus|[Belarus] UN official english designation.
+1189|Belgium|[Belgium] UN official english designation.
+1190|Belize|[Belize] UN official english designation.
+1191|Benin|[Benin] UN official english designation.
+1192|Bermuda|[Bermuda] UN official english designation.
+1193|Bhutan|[Bhutan] UN official english designation.
+1194|Bolivia, Plurinational State of|[Bolivia] UN official english designation.
+1195|Bosnia and Herzegovina|[Bosnia and Herzegovina] UN official english designation.
+1196|Botswana|[Botswana] UN official english designation.
+1197|Brazil|[Brazil] UN official english designation.
+1198|Brunei Darussalam|[Brunei] UN official english designation.
+1199|Bulgaria|[Bulgaria] UN official english designation.
+1200|Burkina Faso|[Burkina Faso] UN official english designation.
+1201|Burundi|[Burundi] UN official english designation.
+1202|Cabo Verde|[Cabo Verde] UN official english designation.
+1203|Cambodia|[Cambodia] UN official english designation.
+1204|Cameroon|[Cameroon] UN official english designation.
+1205|Canada|[Canada] UN official english designation.
+1206|Cayman Islands|[Cayman Islands] UN official english designation.
+1207|Central African Republic|[CAR] UN official english designation.
+1208|Chad|[Chad] UN official english designation.
+1209|Chile|[Chile] UN official english designation.
+1210|China|[China] UN official english designation.
+1211|Colombia|[Colombia] UN official english designation.
+1212|Comoros|[Comoros] UN official english designation.
+1213|Congo|[Congo] UN official english designation.
+1214|Congo, the Democratic Republic of the|[The Congo] UN official english designation.
+1215|Cook Islands|[Cook Islands] UN official english designation.
+1216|Costa Rica|[Costa Rica] UN official english designation.
+1217|Côte d'Ivoire|[Côte d'Ivoire] UN official english designation.
+1218|Croatia|[Croatia] UN official english designation.
+1219|Cuba|[Cuba] UN official english designation.
+1220|Cyprus|[Cyprus] UN official english designation.
+1221|Czech Republic|[Czech Republic] UN official english designation.
+1222|Denmark|[Denmark] UN official english designation.
+1223|Djibouti|[Djibouti] UN official english designation.
+1224|Dominica|[Dominica] UN official english designation.
+1225|Dominican Republic|[Dominican Republic] UN official english designation.
+1226|Ecuador|[Ecuador] UN official english designation.
+1227|Egypt|[Egypt] UN official english designation.
+1228|El Salvador|[El Salvador] UN official english designation.
+1229|Equatorial Guinea|[Equatorial Guinea] UN official english designation.
+1230|Eritrea|[Eritrea] UN official english designation.
+1231|Estonia|[Estonia] UN official english designation.
+1232|Ethiopia|[Ethiopia] UN official english designation.
+1233|Fiji|[Fiji] UN official english designation.
+1234|Finland|[Finland] UN official english designation.
+1235|France|[France] UN official english designation.
+1236|French Guiana|[French Guiana] UN official english designation.
+1237|French Polynesia|[French Polynesia] UN official english designation.
+1238|Gabon|[Gabon] UN official english designation.
+1239|Gambia|[Gambia] UN official english designation.
+1240|Georgia|[Georgia] UN official english designation.
+1241|Germany|[Germany] UN official english designation.
+1242|Ghana|[Ghana] UN official english designation.
+1243|Gibraltar|[Gibraltar] UN official english designation.
+1244|Greece|[Greece] UN official english designation.
+1245|Greenland|[Greenland] UN official english designation.
+1246|Grenada|[Grenada] UN official english designation.
+1247|Guadeloupe|[Guadeloupe] UN official english designation.
+1248|Guam|[Guam] UN official english designation.
+1249|Guatemala|[Guatemala] UN official english designation.
+1250|Guernsey|[Guernsey] UN official english designation.
+1251|Guinea|[Guinea] UN official english designation.
+1252|Guinea-Bissau|[Guinea-Bissau] UN official english designation.
+1253|Guyana|[Guyana] UN official english designation.
+1254|Haiti|[Haiti] UN official english designation.
+1255|Honduras|[Honduras] UN official english designation.
+1256|Hong Kong|[Hong Kong] UN official english designation.
+1257|Hungary|[Hungary] UN official english designation.
+1258|Iceland|[Iceland] UN official english designation.
+1259|India|[India] UN official english designation.
+1260|Indonesia|[Indonesia] UN official english designation.
+1261|Iran, Islamic Republic of|[Iran] UN official english designation.
+1262|Iraq|[Iraq] UN official english designation.
+1263|Ireland|[Ireland] UN official english designation.
+1264|Isle of Man|[Isle of Man] UN official english designation.
+1265|Israel|[Israel] UN official english designation.
+1266|Italy|[Italy] UN official english designation.
+1267|Jamaica|[Jamaica] UN official english designation.
+1268|Japan|[Japan] UN official english designation.
+1269|Jersey|[Jersey] UN official english designation.
+1270|Jordan|[Jordan] UN official english designation.
+1271|Kazakhstan|[Kazakhstan] UN official english designation.
+1272|Kenya|[Kenya] UN official english designation.
+1273|Kiribati|[Kiribati] UN official english designation.
+1274|Korea, Democratic People's Republic of|[North Korea] UN official english designation.
+1275|Korea, Republic of|[South Korea] UN official english designation.
+1276|Kuwait|[Kuwait] UN official english designation.
+1277|Kyrgyzstan|[Kyrgyzstan] UN official english designation.
+1278|Lao People's Democratic Republic|[Laos] UN official english designation.
+1279|Latvia|[Latvia] UN official english designation.
+1280|Lebanon|[Lebanon] UN official english designation.
+1281|Lesotho|[Lesotho] UN official english designation.
+1282|Liberia|[Liberia] UN official english designation.
+1283|Libya|[Libya] UN official english designation.
+1284|Liechtenstein|[Liechtenstein] UN official english designation.
+1285|Lithuania|[Lithuania] UN official english designation.
+1286|Luxembourg|[Luxembourg] UN official english designation.
+1287|Macedonia, the former Yugoslav Republic of|[Macedonia] UN official english designation.
+1288|Madagascar|[Madagascar] UN official english designation.
+1289|Malawi|[Malawi] UN official english designation.
+1290|Malaysia|[Malaysia] UN official english designation.
+1291|Maldives|[Maldives] UN official english designation.
+1292|Mali|[Mali] UN official english designation.
+1293|Malta|[Malta] UN official english designation.
+1294|Marshall Islands|[Marshall Islands] UN official english designation.
+1295|Martinique|[Martinique] UN official english designation.
+1296|Mauritania|[Mauritania] UN official english designation.
+1297|Mauritius|[Mauritius] UN official english designation.
+1298|Mayotte|[Mayotte] UN official english designation.
+1299|Mexico|[Mexico] UN official english designation.
+1300|Micronesia, Federated States of|[Micronesia] UN official english designation.
+1301|Moldova, Republic of|[Moldova] UN official english designation.
+1302|Monaco|[Monaco] UN official english designation.
+1303|Mongolia|[Mongolia] UN official english designation.
+1304|Montenegro|[Montenegro] UN official english designation.
+1305|Montserrat|[Montserrat] UN official english designation.
+1306|Morocco|[Morocco] UN official english designation.
+1307|Mozambique|[Mozambique] UN official english designation.
+1308|Myanmar|[Myanmar] UN official english designation.
+1309|Namibia|[Namibia] UN official english designation.
+1310|Nauru|[Nauru] UN official english designation.
+1311|Nepal|[Nepal] UN official english designation.
+1312|Netherlands|[Netherlands] UN official english designation.
+1313|New Caledonia|[New Caledonia] UN official english designation.
+1314|New Zealand|[New Zealand] UN official english designation.
+1315|Nicaragua|[Nicaragua] UN official english designation.
+1316|Niger|[Niger] UN official english designation.
+1317|Nigeria|[Nigeria] UN official english designation.
+1318|Niue|[Niue] UN official english designation.
+1319|Norfolk Island|[Norfolk Island] UN official english designation.
+1320|Northern Mariana Islands|[Northern Mariana Islands] UN official english designation.
+1321|Norway|[Norway] UN official english designation.
+1322|Oman|[Oman] UN official english designation.
+1323|Pakistan|[Pakistan] UN official english designation.
+1324|Palau|[Palau] UN official english designation.
+1325|Panama|[Panama] UN official english designation.
+1326|Papua New Guinea|[Papua New Guinea] UN official english designation.
+1327|Paraguay|[Paraguay] UN official english designation.
+1328|Peru|[Peru] UN official english designation.
+1329|Philippines|[Philippines] UN official english designation.
+1330|Poland|[Poland] UN official english designation.
+1331|Portugal|[Portugal] UN official english designation.
+1332|Puerto Rico|[Puerto Rico] UN official english designation.
+1333|Qatar|[Qatar] UN official english designation.
+1334|Romania|[Romania] UN official english designation.
+1335|Russian Federation|[Russia] UN official english designation.
+1336|Rwanda|[Rwanda] UN official english designation.
+1337|Saint Helena, Ascension and Tristan da Cunha|[Saint Helena] UN official english designation.
+1338|Saint Kitts and Nevis|[Saint Kitts and Nevis] UN official english designation.
+1339|Saint Lucia|[Saint Lucia] UN official english designation.
+1340|Saint Pierre and Miquelon|[Saint Pierre and Miquelon] UN official english designation.
+1341|Saint Vincent and the Grenadines|[Saint Vincent and the Grenadines] UN official english designation.
+1342|Samoa|[Samoa] UN official english designation.
+1343|San Marino|[San Marino] UN official english designation.
+1344|Sao Tome and Principe|[Sao Tome and Principe] UN official english designation.
+1345|Saudi Arabia|[Saudi Arabia] UN official english designation.
+1346|Senegal|[Senegal] UN official english designation.
+1347|Serbia|[Serbia] UN official english designation.
+1348|Seychelles|[Seychelles] UN official english designation.
+1349|Sierra Leone|[Sierra Leone] UN official english designation.
+1350|Singapore|[Singapore] UN official english designation.
+1351|Slovakia|[Slovakia] UN official english designation.
+1352|Slovenia|[Slovenia] UN official english designation.
+1353|Solomon Islands|[Solomon Islands] UN official english designation.
+1354|Somalia|[Somalia] UN official english designation.
+1355|South Africa|[South Africa] UN official english designation.
+1356|Spain|[Spain] UN official english designation.
+1357|Sri Lanka|[Sri Lanka] UN official english designation.
+1358|Sudan|[Sudan] UN official english designation.
+1359|Suriname|[Suriname] UN official english designation.
+1360|Swaziland|[Swaziland] UN official english designation.
+1361|Sweden|[Sweden] UN official english designation.
+1362|Switzerland|[Switzerland] UN official english designation.
+1363|Syrian Arab Republic|[Syrian] UN official english designation.
+1364|Tajikistan|[Tajikistan] UN official english designation.
+1365|Tanzania, United Republic of|[Tanzania] UN official english designation.
+1366|Thailand|[Thailand] UN official english designation.
+1367|Timor-Leste|[Timor-Leste] UN official english designation.
+1368|Togo|[Togo] UN official english designation.
+1369|Tokelau|[Tokelau] UN official english designation.
+1370|Tonga|[Tonga] UN official english designation.
+1371|Trinidad and Tobago|[Trinidad and Tobago] UN official english designation.
+1372|Tunisia|[Tunisia] UN official english designation.
+1373|Turkey|[Turkey] UN official english designation.
+1374|Turkmenistan|[Turkmenistan] UN official english designation.
+1375|Turks and Caicos Islands|[Turks and Caicos Islands] UN official english designation.
+1376|Tuvalu|[Tuvalu] UN official english designation.
+1377|Uganda|[Uganda] UN official english designation.
+1378|Ukraine|[Ukraine] UN official english designation.
+1379|United Arab Emirates|[United Arab Emirates] UN official english designation.
+1380|United Kingdom|[United Kingdom] UN official english designation.
+1381|United States|[United States of America] UN official english designation.
+1382|Uruguay|[Uruguay] UN official english designation.
+1383|Uzbekistan|[Uzbekistan] UN official english designation.
+1384|Vanuatu|[Vanuatu] UN official english designation.
+1385|Venezuela, Bolivarian Republic of|[Venezuela] UN official english designation.
+1386|Viet Nam|[Vietnam] UN official english designation.
+1387|Virgin Islands, British|[British Virgin Islands] UN official english designation.
+1388|Virgin Islands, U.S.|[U.S. Virgin Islands] UN official english designation.
+1389|Yemen|[Yemen] UN official english designation.
+1390|Zambia|[Zambia] UN official english designation.
+1391|Zimbabwe|[Zimbabwe] UN official english designation.

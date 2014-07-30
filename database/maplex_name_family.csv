@@ -3,3 +3,6 @@ id_name_family|name|description
 1|ISO-3166-1 2 Digits|ISO-3166-1 2 Digits international code, used in Elcano.
 2|English short name 1|Short english name, 1.
 3|Spanish short name 1|Short spanish name, 1.
+5|United Nations code|United Nations code as detailed in http://unstats.un.org/unsd/methods/m49/m49alpha.htm.
+7|ISO-3166-1 3 Digits|ISO-3166-1 3 Digits international code.
+6|United Nations official english name|United Nations official english long name as detailed in http://unstats.un.org/unsd/methods/m49/m49alpha.htm.

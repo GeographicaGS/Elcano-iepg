@@ -1,0 +1,38 @@
+<div class="popup_content">
+    <div class="header">
+        <h6 class="global" selected><lang>Presencia Global</lang></h6>
+       <!--  <h6 class="eu"><lang>Presencia Europea</lang></h6> -->
+    </div>
+    <div class="level_1">
+        <ul>
+            <% for (var i=0;i<collection.length;i++) { %>
+                <li data-l1="<%=collection[i].code%>">
+                    <span class="fleft ml"><%=collection[i].name%></span>
+                    <span class="counter"><%= collection[i].countries.length %></span>
+                </li>
+            <% } %>     
+        </ul>
+    </div>
+
+    <% for (var i=0;i<collection.length;i++)  { %>
+        <div class="level_2" style="display:none" data-l1="<%=collection[i].code%>">
+            <div class="header_l2">
+                <div class="goback"><%=collection[i].name%></div>
+                <div class="counter"><%= collection[i].countries.length %></div>
+            </div>
+            <ul>
+                <% for (var j=0;j<collection[i].countries.length;j++) { 
+                        var sel = country && country.code==collection[i].countries[j].code ? "selected" : "";
+                    %>
+                    <li <%= sel%> data-l2="<%= collection[i].countries[j].code %>" data-name ="<%= collection[i].countries[j].name %>">
+                        <a href="#">
+                            <%= collection[i].countries[j].name %>
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    <% } %>
+</div>
+
+<div class="arrow"></div>

@@ -1,0 +1,34 @@
+<h1 class="page-header col-md-1"><lang>Noticias</lang></h1>
+<a href="/<lang>lang</lang>/news/add" type="button" class="btn btn-l"><lang>Nueva</lang></a>
+<button type="button" class="btn btn-l navbar-right searchBT" id="ctrl_search"></button>
+<div class="navbar-form pull-right" id="search_form" style="display:none"> 
+    <input type="text" class="searchForm col-md-10" placeholder="<lang>buscar noticia</lang>">
+    <button type="button" class="btn btn-l col-md-1" ><lang>Buscar</lang></button>
+</div>
+
+<hr class="featurette-divider">
+<div class="table-responsive">
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <!-- <th><span class="ESTag">ES</span> <span class="ENTag">EN</span></th> -->
+                <th>Título</th>
+                <th class="thRight">Fecha</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="list_data"></tbody>
+    </table>
+    <div class="Footertable">
+        <strong><span id="start_element"></span> – <span id="total_visible_elements"></span></strong>
+        de <span id="total_elements"></span> <lang>noticias</lang>
+    </div>
+    <div class="pull-left pl15 col-md-12 btn_botton" id="ctrl_more">
+         <div class="col-md-2 pl15">
+            <button type="button" class="btn btn-l btn-edit" id="more"><lang>Más documentos</lang></button>
+        </div>
+    </div>
+    
+</div>
+            

@@ -1,1 +1,67 @@
-about
+<div class="about ">
+    <div class="container">
+        <div class="row mth2 mbh2">
+
+            <h6 class="col-md-12 roboto size_16 grey_dark" >
+                <% if (section == "ppal") { %>
+                    <lang>_about subtitle ppal</lang>
+                <% } else if (section == "infr") { %>
+                    <lang>_about subtitle infr</lang>
+                <% } else if (section == "meth") { %>
+                    <lang>_about subtitle meth</lang>
+                <% } %>    
+            </h6>
+
+            <h3 class="col-md-12 roboto_light red size_24">
+                <% if (section == "ppal") { %>
+                    <lang>_about title ppal</lang>
+                <% } else if (section == "infr") { %>
+                    <lang>_about title infr</lang>
+                <% } else if (section == "meth") { %>
+                    <lang>_about title meth</lang>
+                <% } %>
+            </h3>
+
+
+        </div>
+    </div>
+    
+    <div class="sep"></div>
+
+    <div class="container ">
+        <div class="row mbh2">
+            <div class="col-md-10 frame_border" >
+                <% if (section == "ppal") { %>
+                    <div class="row mth2">
+                        <div class="col-md-10 col-md-offset-2">
+                            <p class="desc">
+                                <lang><lang>_about desc ppal</lang></lang>
+                            </p>
+                            <div class="sep mth2"></div>
+                        </div>
+                    </div>
+                <% } %>
+
+                <div class="row static_data_page">
+                    <div class="col-md-12">
+                        <% if (section == "ppal") { %>
+                            <lang>_about body ppal</lang>
+                        <% } else if (section == "infr") { %>
+                            <lang>_about body infr</lang>
+                        <% } else if (section == "meth") { %>
+                            <lang>_about body meth</lang>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="sep mth2 mbh2"></div>
+
+            </div>
+            <div class="col-md-2 pth1 last_iepg">
+               <%= _.template($("#last_iepg_template").html())() %>
+
+            </div>
+
+        </div> 
+    </div>
+</div>

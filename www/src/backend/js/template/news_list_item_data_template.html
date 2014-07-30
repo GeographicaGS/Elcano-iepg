@@ -1,0 +1,23 @@
+ <%
+ if (!collection.length){
+%>
+    <tr>
+        <td><lang>No hay resultados</lang></td>
+    </tr>
+<%
+ }
+ _.each(collection,function(d){ %>
+<tr>
+    <!-- <td><span class="ESTag <%= d.spanish ? "" : "inactivetag" %>">ES</span> <span class="ENTag <%= d.english ? "" : "inactivetag" %>">EN</span></td> -->
+    <td><a href="/<lang>lang</lang>/news/<%= d.id %>"><%= d.title %> </a></td>
+    
+    <td class="lastEdition greyTable thRight">
+        <%= app.dateFormat(d.time) %>
+    </td>
+    <td>
+        <span class="PublicList"> <% if (d.published ) { %><img src="/img/iconos/publicICO.png" alt="Publicado"><% } else { %> &nbsp; <% } %></span>
+    </td>
+</tr>
+<tr class="clear"></tr>
+
+<% }); %>

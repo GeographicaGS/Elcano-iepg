@@ -6,28 +6,35 @@
     </tr>
 <%
  }
- _.each(collection,function(d){ %>
+
+ _.each(collection,function(d){ 
+    
+%>
 <tr>
-    <td><span class="ESTag <%= d.spanish ? "" : "inactivetag" %>">ES</span> <span class="ENTag <%= d.english ? "" : "inactivetag" %>">EN</span></td>
+   <!--  <td><span class="ESTag <%= d.spanish ? "" : "inactivetag" %>">ES</span> <span class="ENTag <%= d.english ? "" : "inactivetag" %>">EN</span></td> -->
     <td><a href="/<lang>lang</lang>/docs/<%= d.id %>"><%= d.title %> </a></td>
     <td>
-        <a href="http://www.twitter.com/<%= d.authors[0].substring(1) %>" target="_blank">
-            <%
-                print(d.authors[0]);
-                if (d.authors.length > 1) {
-                %> 
-                    <span class="badge">+ <%= d.authors.length %></span></a>
-                <%
-                }
-            %>
-        </a>
+        <% if (d.authors.length) { %>
+            <span title="<%= d.authors[0].twitter_user ? d.authors[0].twitter_user : d.authors[0].name%>">
+                <%= d.authors[0].twitter_user ? app.truncate(d.authors[0].twitter_user,15) : app.truncate(d.authors[0].name,15) %>
+            </span>
+            <% if (d.authors.length > 1) { %> 
+                <span class="badge">+ <%= d.authors.length %></span></a>
+            <% } %>
+        <% } %>
     </td>
     <td class="lastEdition greyTable thRight">
-        <%= app.dateTimeFormat(d.time) %>
+        <%= app.dateFormat(d.time) %>
     </td>
     <td>
-        <span class="linkList"><% if (d.attachments) { %><img src="/img/iconos/documentIco.png" alt="enlazado"> <% } else { %> &nbsp; <% } %></span>
-        <span class="PublicList"> <% if (d.published || true ) { %><img src="/img/iconos/publicICO.png" alt="Publicado"><% } else { %> &nbsp; <% } %></span>
+        <span class="linkList">
+        <% if (d.attachments) { %>
+            <img src="/img/iconos/documentIco.png" alt="enlazado"> 
+        <% } else if (d.links) { %>
+             <img src="/img/iconos/linkIco.png" alt="enlazado"> 
+        <% } else { %> &nbsp; <% } %>
+        </span>
+        <span class="PublicList"> <% if (d.published ) { %><img src="/img/iconos/publicICO.png" alt="Publicado"><% } else { %> &nbsp; <% } %></span>
     </td>
 </tr>
 <tr class="clear"></tr>

@@ -4,17 +4,29 @@ app.router = Backbone.Router.extend({
     
     /* define the route and function maps for this router */
     routes: {
-        "" : "home",
+        "" : "highlightList",
         "user" : "user",
-        "news" : "news",
-        "home" : "home",
-        "logout" : "logout",
-        // default page of doc section
-        "docs": "listDocs",
         
+        "logout" : "logout",
+        
+        // Documents section
+        "docs": "listDocs",
         "docs/add" : "addDocument",
         "docs/edit/:id" : "editDocument",
         "docs/:id" : "viewDocument",
+
+        // Highlight section
+        "highlights" : "highlightList",
+        "highlights/add" : "addHighlight",
+        "highlights/edit/:id" : "editHighlight",
+        "highlights/:id" : "highlightDetail",
+
+        // news" : "news",
+        "news" : "newsList",
+        "news/add" : "addNews",
+        "news/edit/:id" : "editNews",
+        "news/:id" : "newsDetail",
+
         //"project/:id": "showProject",
         /* Sample usage: http://example.com/#about */
         "*other"    : "defaultRoute"
@@ -32,10 +44,6 @@ app.router = Backbone.Router.extend({
     
     news: function(){
         app.showView(new app.view.NewsView());
-    },
-    
-    home: function(){
-        app.showView(new app.view.HomeView());
     },
     
     logout : function(){
@@ -62,5 +70,52 @@ app.router = Backbone.Router.extend({
     
     defaultRoute: function(other){
         console.log('Invalid. You attempted to reach:' + other);
+    },
+
+    highlightList: function(){
+        app.showView(new app.view.highlights.ListView());
+    },
+
+    highlightDetail: function(id){
+        app.showView(new app.view.highlights.DetailView({
+            model : new app.model.Highlight({"id": id})
+        }));
+    },
+
+    addHighlight: function(){
+        app.showView(new app.view.highlights.FormView());
+    },
+    
+    editHighlight: function(id){
+        app.showView(new app.view.highlights.FormView({
+            "id":id
+        }));
+    },
+
+    /*
+           "news" : "newsList",
+        "news/add" : "addNews",
+        "news/edit/:id" : "editNews",
+        "news/:id" : "newsDetail",
+
+    */
+    newsList: function(){
+        app.showView(new app.view.news.ListView());
+    },
+
+    addNews: function(){
+        app.showView(new app.view.news.FormView());
+    },
+
+    editNews: function(id){
+        app.showView(new app.view.news.FormView({
+            "id" : id 
+        }));
+    },
+
+    newsDetail: function(id){
+        app.showView(new app.view.news.DetailView({
+            model : new app.model.New({"id": id})
+        }));
     }
 });

@@ -1,29 +1,60 @@
-<% _.each(collection,function(d){ %>
+<% if (!collection.length) {%>
+    <h4 class="roboto_light size_24 red mth2"><lang>La búsqueda no obtuvo ningún resultado.</lang></h4>
+
+    <p class="roboto_light grey size_18 mth2">
+        <lang>Te sugerimos que</lang>: <br/><br/>
+        <lang>1. Si ha completado el formulario de búsqueda de documentos, comprueba que las palabras 
+    están escritas correctamente.</lang><br/><br/>
+
+        <lang>2. Si tiene algún filtro aplicado, prueba eliminando alguna etiqueta o todas.</lang>
+        <br/>
+
+      
+    </p>
+
+    <button class="button go mth2" id="go_initial_list" ><lang>Volver a la lista inicial</lang></button>
+<% } %>
+<%
+
+ _.each(collection,function(d){ %>
     <div class="row mt12">
-        <div class="col-md-2 size_15 text_bold grey ">
-            <span class="size_13 grey_light "><%= app.dateTimeFormat(d.time) %><br/><lang>Por</lang></span>
+        <div class="col-md-2 stamp ">
+            <span class="date"><%= app.dateFormat(d.time) %><br/> <lang>Por</lang></span>
             <div class="authors">
-                <% 
-                i = 0;
-                _.each(d.wwwuser,function(a){
-                    i++;
-                    if (i>1){
-                        print(", ");
-                    }
-                %>
-                    <a href="#" ><%= a %></a>
-                <% });%>
+                <a 
+                    href="/<lang>lang</lang>/<lang>_link docs</lang>/null/<%= d.authors[0].twitter_user ? d.authors[0].twitter_user : d.authors[0].name %>"
+                    title="
+                    <% 
+                        if(d.authors.length > 1){
+                        i = 0;
+                        _.each(d.authors,function(a){
+                            i++;
+
+                            if (i>1){
+                                print(", ");
+                            }
+                            %><%= a.twitter_user ?a.twitter_user :a.name %><% });
+                        }
+                    %>"
+                > 
+                    <%= d.authors[0].twitter_user ? d.authors[0].twitter_user : d.authors[0].name %>
+                    <% if(d.authors.length > 1){ %> + <%= d.authors.length -1 %> <% } %>
+                </a> 
             </div>
         </div>
                 
-        <div class="col-md-10">
-            <p class="size_18 grey_dark roboto_light"><%= app.urlify(d.title,"target=_blank") %></p>
-            <p class="size_13 grey_dark"><%= app.urlify(d.theme,"target=_blank") %></p>
+        <div class="col-md-8">
+            <p class="size_18 grey_dark roboto_light title">
+                <a href="/<lang>lang</lang>/<lang>_link doc</lang>/<%=d.id %>" class="simple"><%= app.urlify(d.title,"target=_blank") %></a>
+            </p>
+            <p class="size_13 grey lh1">
+               <%= app.urlify(d.theme,"target=_blank") %>
+            </p>
             <div class="l1"></div>
             <p>
 
                 <% _.each(d.labels,function(l){ %>
-                    <a class="label" href="#"><%= l %></a/>
+                    <a class="label" href="#" data-id-filter="<%= l.id%>"><%= l.label %></a/>
                 <%  }); %>
             </p>
         </div>

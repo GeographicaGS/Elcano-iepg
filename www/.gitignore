@@ -2,6 +2,8 @@ cdn/backend/es/index.html
 cdn/backend/en/index.html
 cdn/frontend/es/index.html
 cdn/frontend/en/index.html
+cdn/explora/es/index.html
+cdn/explora/en/index.html
 cdn/backend/tmp
 cdn/media/
 main.min.js

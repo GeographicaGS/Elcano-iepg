@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,jsonify
 
 app = Flask(__name__)
 app.config.update(
@@ -10,7 +10,14 @@ app.config.update(
 import home
 import documentcatalog
 import document
+import new
+import country
+import locale
+import downloads
+
 
 @app.route('/', methods = ['GET'])                                            
 def alive():
     return jsonify( { "status" : "running"})
+
+locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")

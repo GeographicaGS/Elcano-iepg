@@ -1,4 +1,9 @@
-# Elcano IEPG
+=======
+elcano-iepg
+===========
+
+Web del Índice Elcano de presencia global del Real Instituo Elcano
+
 
 ## About
 
@@ -33,7 +38,10 @@ Una vez dentro del entorno virtual instalamos los paquetes necesarios con pip.
 ```
 $ pip install Flask
 $ pip install psycopg2
+#only to debug purpose
+$ pip install tweepy
 $ pip install ipdb
+$ pip install python-memcached
 ```
 
 
@@ -46,6 +54,11 @@ $ cp src/model/base/PostgreSQL/config_changes.py src/model/base/PostgreSQL/confi
 ```
 
 Ahora lo abrimos con cualquier editor de texto y lo modificamos con nuestros parámetros.
+
+Editamos el fichero de configuración global
+```
+cp src/common/config_changes.py  src/common/config.py
+```
 
 #### Backend
 
@@ -112,23 +125,38 @@ Instala node JS y ejecuta lo siguiente.
 
 ```
 sudo npm install -g jake
-sudo npm install -g uglifyjs
+sudo npm install -g uglify-js
 sudo npm install -g uglifycss
 sudo npm install -g jshint
 sudo npm install -g pg
 sudo npm install -g less
+# necesario para el builder-watcher 
+sudo npm install -g node-watch
 
 export NODE_PATH=/usr/local/lib/node_modules
 ```
 
+Ahora creamos los ficheros de configuración
+``` 
+# configuración del builder
+cp build/config.changes.js build/config.js
+# configuración del backend
+cp backend/js/config.changes.js backend/js/config.js
+# configuración del frontend
+cp frontend/js/config.changes.js frontend/js/config.js
+```
+
 Una vez hecho esto ejecuta sobre www/src:
 
-```jake```
+```
+jake
+```
 
 O si quieres hacer el build en modo debug
 
-```jake debug```
-
+```
+jake debug
+```
 
 ### Configuración de apache
 
@@ -149,7 +177,7 @@ ProxyPass /api http://127.0.0.1:5001
 También hay que añadirle algunos alias.
 
 ```
-Alias /media Alias /src /Users/alasarr/dev/elcano-iepg/cdn/media
+Alias /media /Users/alasarr/dev/elcano-iepg/www/cdn/media
 
 # Este solo es necesario si hacemos el build del JS en modo debug
 Alias /src /Users/alasarr/dev/elcano-iepg/www/src
@@ -215,15 +243,44 @@ Aquí las notas de la configuración de la API.
 
 Aquí las notas de la aplicación web.
 
+### Maquetación
+
+En el directorio www/src/frontend/design van las maquetaciones de los ficheros.
+
+La idea es que sobre este directorio se creen los htmls de cada sección, los programadores se encargan de coger estos ficheros y darle vida, una vez que lo hayan procesado, el fichero se mete en la carpeta processed.
+
+####Reglas de maquetación
+
+1) Los ficheros css se crean o se modifican sobre la carpeta www/src/frontend/css.
+2) El index.html es el fichero de plantilla, no se le añaden ni librerías ni nuevos estilos.
+3) Si se cambia algo en el base.css o reset.css hay que consultarlo con Alberto Asuero.
+4) El fichero styles.css tiene los estilos globales de la página.
+5) Los estilos propios de una sección van en un fichero aparte.
+6) Las imagenes están en el directorio www/cdn/frontend
+
+####Build
+Dentro de la carpeta build.js hay un fichero <b>build.js</b> que se encarga de hacer el build. Lo que hace este fichero es coger todos los css que estan en la variable deps.css, hacerle el procesado de less y dejarlo en el fichero main.css que es el que cargan las plantillas.
+
+El fichero <b>builder-watcher.js</b> detecta cuando editamos un fichero dentro de la carpeta www/src/frontend/css y ejecuta un build.
+
+#### Configuración de apache
+
+Para que todo funcione hay que poner el root de apache apuntando a www/src/frontend/design y configurar el Alias para las imágenes como se muestra a continuación.
+
+Al virtual host debemos de ponerle
+```
+Alias /img /Users/alasarr/dev/elcano-iepg/www/cdn/frontend/img
+```
+
 #### Configuración
 
 Aquí las notas de la configuración de la web.
 
+==================
+Datos de variables
+==================
+la aplicación se basa en almacenar variables precalculadas para 
 
-## Building
+La aplicación lee variables precalculadas desde tablas en la base de datos. Las tablas de variables en la base de datos tienen la siguiente estructura:
 
-
-
-
-
-
+  * code: 

@@ -1,0 +1,131 @@
+<div class="pull-left">
+    <h1 class="page-header col-md-1"><lang>Noticia</lang></h1>
+    <button type="button" class="btn btn-l activeES ESbt"  style="cursor: text"><lang>Español</lang></button> 
+    <button type="button" class="btn btn-l activeEN ENbt"  style="cursor: text"><lang>English</lang></button>
+</div>
+
+<div class="pull-right pr15">
+    <!-- <a href="#back" type="button" class="btn btn-l btnlink "><lang>Cancelar</lang></a> -->
+    <a href="/<lang>lang</lang>/news/edit/<%= model.id%>" class="btn btn-l btn-edit"><lang>Editar</lang></a>
+    <a href="#" type="button" class="btn btn-l btn-remove" id="delete"><lang>Eliminar</lang></a>
+    <span class="verticalDivider"></span>
+    <% if (!model.published) {%>
+        <a href="#" type="button" class="btn btn-l btn-public publish_ctrl"><lang>Publicar</lang></a>
+        <a href="#" type="button" class="btn btn-l btn-public unpublish_ctrl" style="display:none"><lang>Despublicar</lang></a>
+    <% } else { %>
+        <a href="#" type="button" class="btn btn-l btn-public publish_ctrl" style="display:none"><lang>Publicar</lang></a>
+        <a href="#" type="button" class="btn btn-l btn-public unpublish_ctrl" ><lang>Despublicar</lang></a>
+    <% } %>
+</div>
+    
+<hr class="featurette-divider">
+
+<div class="DestacadosForm">        
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Epígrafe</lang></label></div>
+        <div class="col-md-10">
+            <div class="esresult"><span class="clean pull-left">es</span><p><%= model.title_es %></p></div>
+            <hr class="featurette-divider">
+            <div class="enresult"><span class="clean pull-left">en</span><p><%= model.title_en %></p></div>
+        </div>
+    </div>
+     <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Sección</lang></label></div>
+        <div class="col-md-10">
+            <div class="esresult"><p><%= model.section_es %></p></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Etiquetas</lang></label></div>
+        <div class="col-md-10">
+            
+            <div class="tagsList tagsListResult esresult">
+                <span class="clean pull-left">es</span>
+                <% model.labels_es.each(function(label){ %>
+                    <button type="button" class="btn btn-xs tag-add-bt"><%= label.get("label") %></button>
+                <% }) %>
+            </div>
+            
+            <hr class="featurette-divider">
+            <div class="tagsList tagsListResult enresult">
+                <span class="clean pull-left">en</span>
+                <% model.labels_en.each(function(label){ %>
+                    <button type="button" class="btn btn-xs tag-add-bt"><%= label.get("label") %></button>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+            
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Cuerpo</lang></label></div>
+        <div class="col-md-10">
+            <div class="esresult"><span class="clean pull-left">es</span><p><%= model.text_es %></p></div>
+            <hr class="featurette-divider">
+            <div class="enresult"><span class="clean pull-left">en</span><p><%= model.text_en %></p></div>
+        </div>
+    </div>
+
+    <% if (model.url_es || model.url_en) { %>
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for="">Enlace</label></div>
+        
+        <div class="col-md-10">
+            <% if (model.url_es) { %>
+            <div class="esresult">
+                <span class="clean pull-left">es</span>
+                <div>
+                    <img  class="fleft" src="/img/iconos/linkIco.png" />
+                    <a href="<%= model.url_es %>" class="fleft ml5 simple_link link_tab"  
+                        target="_blank">
+                        <%= model.url_es %>
+                    </a>
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <% } %>
+            <% if (model.url_en) { %>
+            <div class="enresult">
+                <span class="clean pull-left">en</span>
+                <div>
+                    <img class="fleft" src="/img/iconos/linkIco.png" />
+                    <a  href="<%= model.url_en %>" class="fleft ml5 simple_link link_tab"  
+                        target="_blank" >
+                       <%= model.url_en %>
+                    </a>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <% }  %>
+
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Fecha</lang></label></div>
+        <div class="col-md-10">
+            <div class="esresult">
+                <p><%= app.dateFormat(model.time) %></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="pull-left pl15 col-md-12 btn_botton">
+         <div class="col-md-2 pl15">
+            
+        </div>
+        <div class="pull-right pr15">
+            <!-- <a href="#back" type="button" class="btn btn-l btnlink "><lang>Cancelar</lang></a> -->
+            <a href="/<lang>lang</lang>/news/edit/<%= model.id%>" class="btn btn-l btn-edit"><lang>Editar</lang></a>
+            <a href="#" type="button" class="btn btn-l btn-remove" id="delete"><lang>Eliminar</lang></a>
+            <span class="verticalDivider"></span>
+            <% if (!model.published) {%>
+                <a href="#" type="button" class="btn btn-l btn-public publish_ctrl"><lang>Publicar</lang></a>
+                <a href="#" type="button" class="btn btn-l btn-public unpublish_ctrl" style="display:none"><lang>Despublicar</lang></a>
+            <% } else { %>
+                <a href="#" type="button" class="btn btn-l btn-public publish_ctrl" style="display:none"><lang>Publicar</lang></a>
+                <a href="#" type="button" class="btn btn-l btn-public unpublish_ctrl" ><lang>Despublicar</lang></a>
+            <% } %>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,4 @@
 src/backend/config.py
 src/frontend/config.py
+src/explora/config.py
 src/model/base/PostgreSQL/config.py

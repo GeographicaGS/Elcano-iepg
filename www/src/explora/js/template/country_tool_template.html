@@ -1,0 +1,260 @@
+<%
+    
+    variable = model ? model.family.global : null;
+    gdp = model ? model.context.gdp : null;
+    population = model ? model.context.population : null;
+    country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
+    country_str = country ? app.countryToString(country) :  "<lang>Seleccione un país</lang>";
+    year = ctx.slider[0].date.getFullYear();
+%>
+
+<div id="country_tool" >
+    <div class="header" data-variable=<%=ctx.family%>>
+        <a class="close" href="#"></a>
+        <span id="tool_name"><lang>Ficha país</lang></span>
+        <span id="tool_year"><lang>Año</lang> <%= year %></span>
+
+        <%= _.template($("#ctrl_family_template").html())({ctx : ctx}) %>
+        
+    </div>
+
+    <% if (model && variable.value) { %>
+    <div class="body">
+
+        <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
+            <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+        </a>
+        <div class="container-fluid">
+            <div class="row mth1 mbh1">
+                    <div class="col-sm-12">
+                        <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText("global",ctx.family)%>">
+                            <%= app.variableToString("global",ctx.family) %>
+                            <span class="subcolor">
+                            &nbsp;-&nbsp;
+                            <%=  app.countryToString(country) %>
+                            </span>
+                        </h5>
+                        
+                    </div>
+            </div>
+            
+            <div class="row ">
+
+                <div class="col-sm-6 col-md-6">
+                    
+                    <div class="row mth1">
+                        <div class="col-sm-2 col-md-2">
+                            <span class="grey uppercase size_11"><lang>Valor</lang></span>
+                        </div>
+                        <div class="col-sm-5 col-md-5" title="<%=  app.countryToString(country) %>">
+                            <div class="co_flag" >
+                                <img src="/img/flags/<%= country %>.svg" class="flag" />
+                            </div>
+                           <!--  <span class="grey size_21 fleft mt7 ml roboto_light" title="<%=  app.countryToString(country) %>">
+                                <abbr title="<%= app.countryToString(country)%>"><%= app.countryCodeToStr(country) %></abbr>
+                            </span> -->
+                            <span class="grey size_21 fleft mt7 ml roboto_bold"><%= app.formatNumber(sprintf("%0.2f",variable.value)) %></span>
+                        </div>
+                        <div class="col-sm-5 col-md-5 co_ranking">
+                            
+                            <span class="size_13">
+                                <% 
+                                    if (country.length == 2) { 
+                                        print(sprintf("<lang> Ranking de país %dº</lang>", variable.globalranking));
+                                    } else if (country == "XBEU") {
+                                        print(sprintf("<lang> Ranking de país + UE %dº</lang>", variable.globalranking));
+                                    }
+                                    else{
+                                        print(sprintf("<lang> Ranking de bloque %dº</lang>", variable.globalranking));
+                                    }
+                                %>
+                            </span>
+
+                            <% if (app.getFilters().length 
+                                    && variable.relativeranking 
+                                    && variable.relativeranking!=variable.globalranking ){ %>
+                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", variable.relativeranking) %></span>
+                            <% }%>
+                            
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="sep"></div>
+                        </div>
+                    </div>
+
+                     <% if (gdp.value) { %>
+                    <div class="row ">
+                        <div class="col-sm-2 col-md-2">
+                            <span class="grey uppercase size_11"><lang>PIB</lang></span>
+                        </div>
+                        <div class="col-sm-5 col-md-5">
+                            <span class="grey size_16"><%= app.formatNumber(gdp.value) %></span>
+                            <span class="grey_light uppercase size_13">[<lang>Billones US dollar</lang>]</span>
+                        </div>
+                        <div class="col-sm-5 col-md-5 co_ranking">
+                            <span class="size_13">
+                                <% 
+                                    if (country.length == 2) { 
+                                        print(sprintf("<lang> Ranking de país %dº</lang>", gdp.globalranking));
+                                    } else if (country == "XBEU") {
+                                        print(sprintf("<lang> Ranking de país + UE %dº</lang>", gdp.globalranking));
+                                    }
+                                    else{
+                                        print(sprintf("<lang> Ranking de bloque %dº</lang>", gdp.globalranking));
+                                    }
+                                %>
+                            </span>
+
+                            <% if (app.getFilters().length 
+                                    && gdp.relativeranking 
+                                    && gdp.relativeranking!=gdp.globalranking ){ %>
+                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", gdp.relativeranking) %></span>
+                            <% }%>
+                           
+                        </div>
+                    </div>
+                  
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="sep level2"></div>
+                        </div>
+                    </div>
+
+                    <% } %>
+
+                    <% if (population.value) { %>
+                    <div class="row ">
+                        <div class="col-sm-2 col-md-2">
+                            <span class="grey uppercase size_11"><lang>Población</lang></span>
+                            
+                        </div>
+                        <div class="col-sm-5 col-md-5">
+                            <span class="grey size_16"><%= app.formatNumber(population.value) %></span>
+                            <span class="grey_light uppercase size_13">[<lang>Millones</lang>]</span>
+                        </div>
+                        <div class="col-sm-5 col-md-5 co_ranking">
+                              <span class="size_13">
+                            <% 
+                                    if (country.length == 2) { 
+                                        print(sprintf("<lang> Ranking de país %dº</lang>", population.globalranking));
+                                    } else if (country == "XBEU") {
+                                        print(sprintf("<lang> Ranking de país + UE %dº</lang>", population.globalranking));
+                                    }
+                                    else{
+                                        print(sprintf("<lang> Ranking de bloque %dº</lang>", population.globalranking));
+                                    }
+                                %>
+                            </span>
+
+                            <% if (app.getFilters().length 
+                                    && population.relativeranking 
+                                    && population.relativeranking!=population.globalranking ){ %>
+                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", population.relativeranking) %></span>
+                            <% }%>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="sep level2"></div>
+                        </div>
+                    </div>
+                    
+                    <% } %>
+                   
+
+                    <% if (model.comment && model.comment.comment) { %>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span class="grey uppercase size_11"><lang>Resumen</lang></span>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <p class="size_16"><%= model.comment.comment %></p>
+                        </div>
+                    </div>
+                    <% } %>
+
+
+                    <% if (country.length > 2) { %>
+                        <% if (!model.comment || !model.comment.comment) { %>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="grey uppercase size_11"><lang>Resumen</lang></span>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <div class="row">
+                            <p class="col-xs-12 mth1 mb">
+                                <%= sprintf("<lang>El bloque %s está compuesto por</lang>",app.countryToString(country)) %>:
+                            </p>
+                        </div>
+                        <div class="row">
+                            <ul class="flag_wrapper noclickable col-xs-6">
+                                <% 
+                                country_list = _.sortBy(app.blocks[country][year], function(c){ return  app.countryToString(c) });
+
+                                for (var i=0;i<country_list.length;i++) 
+                                {
+                                    c = country_list[i];
+                                %>
+                                    <li>
+                                        <img src="/img/flags/<%= c %>.svg" />
+                                        <span><%= app.countryToString(c)%></span>
+                                        <div class="clear"></div>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    <% } %>
+
+                    <div class="mth1"></div>
+
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                    <div class="chart"></div>
+                    <div class="country_name"><%= app.countryToString(country) + " " + year %></div>
+                    <div class="chart_legend"></div>
+                    <div class="tooltip"></div>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <%} else if (model && !variable.value){ %>
+        <div class="body">
+            <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
+                <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+            </a>
+            <div class="container-fluid">
+                <div class="row mth1">
+                    <div class="col-xs-12 ">
+                       <%= _.template($("#country_error_template").html())() %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="body">
+            <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
+                <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+            </a>
+            <div class="container-fluid">
+                <div class="row mth1">
+                    <h5 class="col-xs-12 red">
+                        <lang>Añada al menos un país a la <i>cabereca de análisis</i></lang>.
+                    </h5>
+                <div>
+            </div>
+        </div>
+    <% } %>
+
+
+</div>

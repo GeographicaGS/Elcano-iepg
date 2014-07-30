@@ -7,7 +7,7 @@
 
 </div>
 <div class="pull-right pr15">
-    <a href="#back" type="button" class="btn btn-l btnlink"><lang>Cancelar</lang></a>
+    <button type="button" class="btn btn-l btnlink cancel"><lang>Cancelar</lang></button>
     <a href="#" type="button" class="btn btn-l save_button"><lang>Guardar documento</lang></a>
 </div>
 
@@ -29,7 +29,7 @@
                 
                 <!--Spanish labels -->
                 <div id="labels_es" class="ctrl_labels">
-                    <button type="button" class="btn btn-xs anadir-bt"><lang>Añadir</lang></button>
+                    <button type="button" class="btn btn-xs anadir-bt"><lang>Añadir es</lang></button>
                     <div class="clabels"><!-- Labels --></div>
                     <div class="tagForm" style="display: none">
                         <div class="tagsList"><!--Completed by AJAX--></div>
@@ -48,7 +48,7 @@
                 <hr class="featurette-divider">
                     
                 <div id="labels_en" class="ctrl_labels">
-                    <button type="button" class="btn btn-xs anadir-bt" id="ctrl_show_add_en"><lang>Añadir</lang></button>
+                    <button type="button" class="btn btn-xs anadir-bt" id="ctrl_show_add_en"><lang>Añadir en</lang></button>
                     <div class="clabels"><!-- Labels --></div>
                     <div class="tagForm" style="display: none">
                         <div class="tagsList"><!--Completed by AJAX--></div>
@@ -86,7 +86,11 @@
         
         <div class="form-group">
             <div class=" col-md-2 LabelForm"><label for="">Autoría*</label></div>
-            <div class="col-md-10" id="authors"></div>
+            <div class="col-md-10" >
+                <p name="authors">El documento no tiene autores</p>
+                <div id="authors"></div>
+            </div>
+
         </div>
 
         <div class="form-group">
@@ -98,6 +102,12 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for="">Fecha</label></div>
+            <div class="col-md-5">
+                <input type="date" class="form-control Esimput " name="time" placeholder="dd/mm/aaaa" value="<%= model.time %>">
+            </div>
+        </div>
 
     </form>
     
@@ -131,10 +141,11 @@
         
     </div>
 
+
     <div class="pull-left pl15 col-md-11 btn_botton">
          <div class="col-md-11 pl15">
-            <button type="button" class="btn btn-l save_button" >Guardar documento</button>
-            <button type="button" class="btn btn-l btnlink">Cancelar</button>
+            <button type="button" class="btn btn-l save_button" ><lang>Guardar documento</lang></button>
+            <button type="button" class="btn btn-l btnlink cancel"><lang>Cancelar</lang></button>
         </div>
     </div>
 </div>

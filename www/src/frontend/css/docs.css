@@ -1,0 +1,38 @@
+.doc_detail{
+   /* .summary{
+        background: #f3f3f4 url("@{imgPath}ELC_icon_cerrar_resumen.png") no-repeat right bottom;
+        padding: @line_height @line_height 2*@line_height @line_height;
+    }*/
+    .author_desc{
+        padding: @line_height;
+        /*background: @grey_light2 url("@{imgPath}ELC_img_bg_discos.png") no-repeat right center;*/
+        background-color: #f3f3f4;
+        margin-top: 1px;
+        .avatar{
+            border-radius: 100px;
+            width: 73px;
+            height: 73px;
+            margin: 10px 0 0 20px;
+        }
+
+        .button.go{
+            float:right;
+        }
+    }
+    h2{
+        .roboto(light);
+        color: @red;
+        font-size: 32px;
+        margin-top: 10px;
+        line-height: 2*@line_height;
+    }
+    #co_detail{
+        border-right: 1px solid @grey_light2;
+    }
+
+    #latestDocs{
+        line-height: @line_height;
+        
+        padding-top: @line_height;
+    }
+}

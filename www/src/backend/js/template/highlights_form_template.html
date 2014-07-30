@@ -1,0 +1,78 @@
+<div class="pull-left">
+    <h1 class="page-header col-md-1"><lang>Portada</lang></h1>
+    <span class="clean pull-left"><lang>* Campos necesarios</lang></span>
+</div>
+<div class="pull-left" id="form_error" style="display:none">
+
+</div>
+<div class="pull-right pr15">
+    <button type="button" class="btn btn-l btnlink cancel"><lang>Cancelar</lang></button>
+    <a href="#" type="button" class="btn btn-l save_button"><lang>Guardar</lang></a>
+</div>
+
+
+<div class="DestacadosForm">
+    
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Epígrafe</lang> * 
+        <span class="clean pull-left">40 caracteres máx.</span></label></div>
+        <div class="col-md-10">
+            <input type="text" class="form-control Esimput " placeholder="(<lang>Español</lang>)" name="title_es" value="<%= model.title_es %>">
+            <hr class="featurette-divider">
+            <input type="text" class="form-control ENimput" placeholder="(<lang>English</lang>)" name="title_en" value="<%= model.title_en %>">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Título</lang><span class="clean pull-left">80 caracteres máx.</span></label></div>
+        <div class="col-md-10">
+            <input type="text" class="form-control Esimput " placeholder="(<lang>Español</lang>)" name="text_es" value="<%= model.text_es %>">
+            <hr class="featurette-divider">
+             <input type="text" class="form-control Enimput " placeholder="(<lang>English</lang>)" name="text_en" value="<%= model.text_en %>">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for="">Imagen * 
+            <span class="clean pull-left">
+                JPG 8MB max.<br/>
+                Ancho fijo de 1920px.<br/>
+                Alto mayor a 480px.<br/>
+            </span></label></div>
+        
+        <div class="col-md-5">
+            <form lang="es" id="co_image_es" class="uploadImage"></form>
+            <hr class="featurette-divider">
+            <form lang="en" id="co_image_en" class="uploadImage"></form>
+        </div>
+        <div class="col-md-5">
+            <input type="text" class="form-control Esimput " id="" placeholder="Créditos (Español)"  name="credit_img_es" value="<%= model.credit_img_es %>">
+            <hr class="featurette-divider">
+            <input type="text" class="form-control ENimput" id="" placeholder="Créditos (Inglés)" name="credit_img_en" value="<%= model.credit_img_en %>">
+        </div>
+    </div>
+   
+    <div class="form-group">
+        <div class=" col-md-2 LabelForm"><label for=""><lang>Enlace</lang> <span class="clean pull-left">http://</span></label></div>
+        <div class="col-md-10">
+             <input type="text" class="form-control Esimput " placeholder="(<lang>Español</lang>)" name="link_es" value="<%= model.link_es %>">
+            <hr class="featurette-divider">
+            <input type="text" class="form-control Enimput " placeholder="(<lang>English</lang>)" name="link_en" value="<%= model.link_en %>">
+        </div>
+    </div>
+
+    <!-- <div class="Footertable col-md-offset-2">
+        <% 
+            if (model.last_edit_time) { 
+                print(sprintf("<lang>Destacado editado por última vez el %s</lang>",app.dateTimeFormat(model.last_edit_time)));
+            } 
+        %>
+    </div>  -->
+
+    <div class="pull-left pl15 col-md-11 btn_botton">
+         <div class="col-md-11 pl15">
+            <button type="button" class="btn btn-l save_button" ><lang>Guardar</lang></button>
+            <button type="button" class="btn btn-l btnlink cancel"><lang>Cancelar</lang></button>
+        </div>
+    </div>
+</div>

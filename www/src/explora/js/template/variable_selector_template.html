@@ -1,0 +1,173 @@
+<div class="conteiner-fluid variable_selector popup" >
+        <div class="header">
+            <div class="row">
+                <h3 class="col-sm-6 col-md-6">
+                    <lang>Análisis de variables</lang>
+                </h3>
+
+                <div class="col-sm-6  col-md-6">
+                   
+                    <a href="#" id="save" class="button check"><lang>Hecho</lang></a>
+                    <a href="#" id="cancel" class="grey_light"><lang>Cancelar</lang></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="body">
+            <div class="col-md-4">
+                <h4><%= app.variableToString(ctx.variables[0],ctx.family) %></h4>
+
+                <p id="iepg_text" class="desc">
+                    <lang>Variable IEPG desc TEXTO</lang>
+                </p>
+                 <p id="iepe_text" class="desc">
+                    <lang>Variable IEPE desc TEXTO</lang>
+                </p>
+
+                <p id="economic_global_text" class="desc">
+                    <lang>Variable economic_presence desc TEXTO</lang>
+                </p>
+
+                 <p id="soft_global_text" class="desc">
+                    <lang>Variable soft_presence desc TEXTO</lang>
+                </p>
+
+                <p id="military_global_text" class="desc">
+                    <lang>Variable military_presence desc TEXTO</lang>
+                </p>
+
+                <!-- Military presence -->
+                <p id="troops_text" class="desc">
+                    <lang>Variable troops desc TEXTO</lang>
+                </p>
+                <p id="military_equipment_text" class="desc">
+                    <lang>Variable military_equipment desc TEXTO</lang>
+                </p>
+
+                <!-- Economic presence -->
+                <p id="energy_text" class="desc">
+                    <lang>Variable energy desc TEXTO</lang>
+                </p>
+                <p id="primary_goods_text" class="desc">
+                    <lang>Variable primary_goods desc TEXTO</lang>
+                </p>
+                <p id="manufactures_text" class="desc">
+                    <lang>Variable manufactures desc TEXTO</lang>
+                </p>
+                <p id="services_text" class="desc">
+                    <lang>Variable services desc TEXTO</lang>
+                </p>
+                <p id="investments_text" class="desc">
+                    <lang>Variable investments desc TEXTO</lang>
+                </p>
+
+                <!-- Soft presence -->
+                <p id="migrations_text" class="desc">
+                    <lang>Variable migrations desc TEXTO</lang>
+                </p>
+                <p id="tourism_text" class="desc">
+                    <lang>Variable tourism desc TEXTO</lang>
+                </p>
+                <p id="sports_text" class="desc">
+                    <lang>Variable sports desc TEXTO</lang>
+                </p>
+                <p id="culture_text" class="desc">
+                    <lang>Variable culture desc TEXTO</lang>
+                </p>
+                <p id="information_text" class="desc">
+                    <lang>Variable information desc TEXTO</lang>
+                </p>
+                <p id="technology_text" class="desc">
+                    <lang>Variable technology desc TEXTO</lang>
+                </p>
+                <p id="science_text" class="desc">
+                    <lang>Variable science desc TEXTO</lang>
+                </p>
+                <p id="education_text" class="desc">
+                    <lang>Variable education desc TEXTO</lang>
+                </p>
+                <p id="cooperation_text" class="desc">
+                    <lang>Variable cooperation desc TEXTO</lang>
+                </p>
+            </div>
+            <div class="col-md-8">
+
+                <!--Begin Wheel -->
+                <div class="co_wheel">
+                    <div class="wheel">
+                        <div class="l0">
+                            <div class="global" family=<%= ctx.family %>>
+                                <div class="img" variable="global"></div>
+                            </div>
+                        </div>
+                        <div class="l1">
+                            <div class="eco"><div class="img" variable="economic_global"></div></div>
+                            <div class="soft"><div class="img" variable="soft_global"></div></div>
+                            <div class="militar"><div class="img" variable="military_global"></div></div>
+                        </div>
+                        <div class="l2">
+                            <div class="troops">
+                                <div class="img" variable="troops"></div>
+                                <div class="sep"></div>
+                            </div>
+                            <div class="military_equipment">
+                                <div class="img" variable="military_equipment"></div>
+                                <div class="sep"></div>
+                            </div>
+
+                            <div class="energy">
+                                <div class="img" variable="energy"></div>
+                                <div class="sep"></div>
+                            </div>
+                            <div class="primary_goods">
+                                <div class="img" variable="primary_goods"></div>
+                            </div>
+                            <div class="manufactures">
+                                <div class="img" variable="manufactures"></div>                        
+                            </div>
+                            <div class="services">
+                                <div class="img" variable="services" ></div>
+                            </div>
+                            <div class="investments">
+                                <div class="img" variable="investments"></div>
+                            </div>
+
+                            <div class="migrations">
+                                <div class="img" variable="migrations"></div>
+                            </div>
+                            <div class="tourism">
+                                <div class="img" variable="tourism"></div>
+                            </div>
+                            <div class="sports">
+                                <div class="img" variable="sports"></div>
+                            </div>
+                            <div class="culture">
+                                <div class="img" variable="culture"></div>
+                            </div>
+                            <div class="information">
+                                <div class="img" variable="information"></div>
+                            </div>
+                            <div class="technology">
+                                <div class="img" variable="technology"></div>
+                            </div>
+                            <div class="science">
+                                <div class="img" variable="science"></div>
+                            </div>
+                            <div class="education">
+                                <div class="img" variable="education"></div>
+                            </div>
+                            <div class="cooperation">
+                                <div class="img" variable="cooperation"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End wheel -->
+            </div>
+       
+
+            
+
+        </div>
+    </div>
+</div>

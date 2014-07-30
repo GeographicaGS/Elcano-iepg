@@ -19,6 +19,8 @@ function getLangTags(s){
 }
 
 function replaceLangString(str,origin,target){
+    origin = origin.replace("(","\\(");
+    origin = origin.replace(")","\\)");
     var regex = new RegExp("<lang>"+ origin + "</lang>","g");
     return str.replace(regex,target);
 }
@@ -58,7 +60,6 @@ exports.translate = function(env,callback,debug){
         
         allKeys = templatesKeys.concat(jsKeys).concat(indexKeys);
 
-        console.log("DEBUG: " + debug);
         
     function getDBKeys(callback){        
         executeQuery("SELECT * from www.translation",function(err,result){
@@ -131,13 +132,7 @@ exports.translate = function(env,callback,debug){
                 // key missing
                 for (l in langs){
                     //dict[k][langs[l]] = "<span class='translation_error'>" + k + "</span>";
-                    console.log(debug);
-                    if (debug){
-                        dict[k][langs[l]] = k;
-                    }
-                    else{
-                        dict[k][langs[l]] = "<span class='translation_error'>" + k + "</span>";    
-                    }
+                    dict[k][langs[l]] = k;
                 }
             }
             else{
@@ -147,12 +142,8 @@ exports.translate = function(env,callback,debug){
                         dict[k][langs[l]] = dbKeys[k][langs[l]];
                     }
                     else{
-                        if (debug){
-                            dict[k][langs[l]] = k;
-                        }
-                        else{
-                            dict[k][langs[l]] = "<span class='translation_error'>" + k + "</span>";    
-                        }
+                        
+                        dict[k][langs[l]] = k;
                     }
                 }
             }

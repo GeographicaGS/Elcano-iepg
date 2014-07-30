@@ -11,20 +11,21 @@ app.view.docs.FormView = Backbone.View.extend({
         this.labels["es"] = new app.collection.Label(null,"es");
         this.labels["en"] = new app.collection.Label(null,"en");
 
-        for (i in this.labels){
-            this.labels[i].fetch({reset: true});
-            // Nested closure to render each labels
-            this._listenToLabel(i);
-        }
+     
        
         if (!options || !options.id){
-        
+            
             this.model = new app.model.Document({
                 "labels_es" : new Backbone.Collection(),
                 "labels_en" : new Backbone.Collection(),
                 "pdfs_es" : new Backbone.Collection(),
                 "pdfs_en" : new Backbone.Collection(),
-                "authors" : new Backbone.Collection({"twitter_user" : "Twitter"})
+                "authors" : new app.collection.Authors({
+                    "twitter_user" : null,
+                    "name" : null,
+                    "position_es" : null,
+                    "position_en" : null
+                })
             });
             this._initialize();
             
@@ -41,6 +42,9 @@ app.view.docs.FormView = Backbone.View.extend({
     },
     
     _initialize: function(){
+
+     
+
         this.listenTo(this.model.get("pdfs_es"),"add remove", function(){
             this.renderPDFs();
         });
@@ -70,6 +74,13 @@ app.view.docs.FormView = Backbone.View.extend({
         },*/);
 
         this.render();
+
+        for (i in this.labels){
+            this.labels[i].fetch({reset: true});
+            // Nested closure to render each labels
+            this._listenToLabel(i);
+        }
+
     },
     _listenToLabel: function(lang){
         this.listenTo(this.labels[lang],"reset change",function(){
@@ -96,7 +107,7 @@ app.view.docs.FormView = Backbone.View.extend({
         },
         "click #authors .btn-resena-remove" : "removeAuthor",
         "click #authors .btn-resena-more" : "addAuthor",
-        "blur .author_twitter" : "editAuthor",
+        "blur [twitter] input" : "editAuthor",
         "click .save_button": "save",
         "blur input[name],textarea[name]": "validate",
         "click #upload_pdf_es,#upload_pdf_en" : function(e){
@@ -106,7 +117,12 @@ app.view.docs.FormView = Backbone.View.extend({
             $file.trigger("click");
         },
         "change input[type='file']" : "uploadPDF",
-        "click .btnDeleteAjunto": "deletePDF"
+        "click .btnDeleteAjunto": "deletePDF",
+        "click  .cancel" : function(){
+            app.router.navigate("docs",{trigger: true});
+        },
+
+        "click .btn-resena-twitter-edit,.btn-resena-twitter" :  "toggleAuthorTwitterUI"
     },
 
     toggleAddLabelUI: function(e){
@@ -129,11 +145,11 @@ app.view.docs.FormView = Backbone.View.extend({
             label = $input.val().trim(),
             lang = $e.closest(".ctrl_labels").attr("id").substr(-2);
         
-        if (label) {
+        if (label && !this.labels[lang].where({"label": label}).length) {
             this.labels[lang].create({label: label});
-            $input.val("");
         }
-        
+
+        $input.val("");
         
     },
     
@@ -197,14 +213,20 @@ app.view.docs.FormView = Backbone.View.extend({
     },
     
     addAuthor: function(){
-        this.model.get("authors").add({twitter_user: "Twitter"});  
+        this.model.get("authors").add({
+            "twitter_user" : null,
+            "name" : null,
+            "position_es" : null,
+            "position_en" : null
+        });  
     },
     
     removeAuthor: function(e){
+
         var $e = $(e.target),
-            idx = $e.attr("idx_author");
+            idx = $e.closest("[idx_author]").attr("idx_author");
             
-        if (idx>0) {
+        if (idx!==null ) {
             this.model.get("authors").remove(this.model.get("authors").at(idx));
         }
     },
@@ -219,11 +241,11 @@ app.view.docs.FormView = Backbone.View.extend({
     
     editAuthor: function(e){
         var $e = $(e.target),
-            idx = $e.attr("idx_author"),
+            idx = $e.closest("[idx_author]").attr("idx_author"),
             m = this.model.get("authors").at(idx),
             val = $e.val().trim();
             
-        m.set("twitter_user",val);    
+        m.set($e.attr("name"),val);    
     },
     
     validate : function(e){
@@ -233,10 +255,11 @@ app.view.docs.FormView = Backbone.View.extend({
 
         var $e = $(e.target),
             name = $e.attr("name");
-        this.model.set(name,$.trim($e.val()));
-        this.model.isValid(true);
 
-
+        if (name!="authors"){
+            this.model.set(name,$.trim($e.val()));
+            this.model.isValid(true);    
+        }
     },
 
     save: function(){
@@ -248,18 +271,20 @@ app.view.docs.FormView = Backbone.View.extend({
             "theme_es" : app.input(this.$("textarea[name='theme_es']").val()),
             "description_en" : app.input(this.$("textarea[name='description_en']").val()),
             "description_es" : app.input(this.$("textarea[name='description_es']").val()),
-            "authors": _.filter(_.pluck(this.model.get("authors").toJSON(),"twitter_user"),function (e){
-                return e != "Twitter";
-            }),
             "link_en" : app.input(this.$("input[name='link_en']").val()),
-            "link_es" : app.input(this.$("input[name='link_es']").val())
+            "link_es" : app.input(this.$("input[name='link_es']").val()),
+            "time" : this.$("input[name='time']").val()
         }
 
         this.model.set(data);
          
         if (this.model.isValid(true)){
+
+            this.model.get("authors").removeEmpties();
+
             // Save on server
             this.model.save(null,{
+                saved: true,
                 success: function(model){
                     app.router.navigate("docs/" + model.get("id"),{trigger: true});
                 }
@@ -269,6 +294,7 @@ app.view.docs.FormView = Backbone.View.extend({
             app.scrollTop();
         }
     },
+    
     render: function() {
 
         this.$el.html(this._template({
@@ -304,10 +330,10 @@ app.view.docs.FormView = Backbone.View.extend({
             $unot =  this.$("#upload_notification_"+lang);
                     
         if (["application/pdf"].indexOf(type) == -1 ){
-            $unot.html("<lang>File not supported, please upload a PDF file</lang>");
+            $unot.html("<lang>Suba un fichero PDF</lang>.");
             setTimeout(function(){
                 $unot.html("");
-            },3000);
+            },8000);
 
             return;
         }
@@ -315,10 +341,10 @@ app.view.docs.FormView = Backbone.View.extend({
         //max allow 8 MB
         max_allow = 8;
         if (size/(1024*1024) > max_allow){
-            $unot.html("<lang>This file is bigger than the maximun allowed</lang>" + " ["+ max_allow +" MB]");
+            $unot.html("<lang>El fichero no puede ser mayor de </lang>" + " "+ max_allow +" MB.");
             setTimeout(function(){
                 $unot.html("");
-            },3000);
+            },8000);
 
             return;
         }
@@ -393,5 +419,29 @@ app.view.docs.FormView = Backbone.View.extend({
             pdfs = lang == "es" ? this.model.get("pdfs_es") : this.model.get("pdfs_en");
 
         pdfs.remove(pdfs.at(id_pdf));
+    },
+
+    toggleAuthorTwitterUI: function(e){
+        var $e = $(e.target),
+            $parent = $e.closest("[twitter]"),
+            idx = $parent.attr("idx_author");
+
+        if ($parent.attr("twitter") == "yes"){
+            $parent.attr("twitter","no");
+            $parent.find(".twitter input").val("");
+            this.model.get("authors").at(idx).set({
+                "twitter_user" : null
+            });
+        }
+        else{
+            $parent.attr("twitter","yes");
+
+            this.model.get("authors").at(idx).set({
+                "name" : null,
+                "position_en" : null,
+                "position_es" : null
+            });
+            $parent.find(".notwitter input").val("");
+        }
     }
 });

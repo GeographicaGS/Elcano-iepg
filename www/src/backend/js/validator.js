@@ -382,14 +382,19 @@ Backbone.Validation = (function(_){
 	          	.attr('data-error', error);
 	          	
 	        view.$("#form_error")
-	        	.html("<lang>Please, check fields in red.</lang>")
+	        	.html("<lang>Por favor, compruebe los campos en rojo</lang>")
 	        	.show();
 
-	        if (error.indexOf("required") == -1){
-	        	$el.after("<label class='error_form'>" + error + "</label>");	
+	        	console.log(error);
+	        if (error.indexOf("Obligatorio") == -1  && error.indexOf("required") == -1  ){
+	        	if ($el.siblings("label.error_form").length){
+	        		$el.siblings("label.error_form").html(error);
+	        	}
+	        	else{
+	        		$el.after("<label class='error_form'>" + error + "</label>");		
+	        	}
 	        }
 
-	        //app.scrollTop();
 	       
 
 	    }
@@ -419,22 +424,62 @@ Backbone.Validation = (function(_){
 
 	  // Error message for the build in validators.
 	  // {x} gets swapped out with arguments form the validator.
-	  var defaultMessages = Validation.messages = {
-	    required: '{0} is required',
+	  // var defaultMessages = Validation.messages = {
+	  //   required: '{0} is required',
+	  //   acceptance: '{0} must be accepted',
+	  //   min: '{0} must be greater than or equal to {1}',
+	  //   max: '{0} must be less than or equal to {1}',
+	  //   range: '{0} must be between {1} and {2}',
+	  //   length: '{0} must be {1} characters',
+	  //   minLength: '{0} must be at least {1} characters',
+	  //   maxLength: '{0} must be at most {1} characters',
+	  //   rangeLength: '{0} must be between {1} and {2} characters',
+	  //   oneOf: '{0} must be one of: {1}',
+	  //   equalTo: '{0} must be the same as {1}',
+	  //   digits: '{0} must only contain digits',
+	  //   number: '{0} must be a number',
+	  //   email: '{0} must be a valid email',
+	  //   url: '{0} must be a valid url',
+	  //   inlinePattern: '{0} is invalid',
+	  //   requiredGroup: '{0} is required at least in one element of the group',
+	  // };	
+
+	  //   var defaultMessages = Validation.messages = {
+	  //   required: '{0} es obligatorio',
+	  //   acceptance: '{0} must be accepted',
+	  //   min: '{0} tiene que ser mayor o igual a {1}',
+	  //   max: '{0} tiene que ser menor o igual a {1}',
+	  //   range: '{0} debe estar entre {1} y {2}',
+	  //   length: '{0} debe tener {1} caracteres',
+	  //   minLength: '{0} tiene que tener al menos {1} caracteres',
+	  //   maxLength: '{0} no puede tener mas de {1} caracteres',
+	  //   rangeLength: '{0} debe tener entre {1} y {2} caracteres',
+	  //   oneOf: '{0} must be one of: {1}',
+	  //   equalTo: '{0} must be the same as {1}',
+	  //   digits: '{0} tiene que ser un número entero',
+	  //   number: '{0} tiene que ser un número',
+	  //   email: '{0} tiene que ser un email',
+	  //   url: '{0} tiene que ser una url [debe empezar por http]',
+	  //   inlinePattern: '{0} is invalid',
+	  //   requiredGroup: '{0} is required at least in one element of the group',
+	  // };	
+
+	   var defaultMessages = Validation.messages = {
+	    required: 'Obligatorio',
 	    acceptance: '{0} must be accepted',
-	    min: '{0} must be greater than or equal to {1}',
-	    max: '{0} must be less than or equal to {1}',
-	    range: '{0} must be between {1} and {2}',
-	    length: '{0} must be {1} characters',
-	    minLength: '{0} must be at least {1} characters',
-	    maxLength: '{0} must be at most {1} characters',
-	    rangeLength: '{0} must be between {1} and {2} characters',
+	    min: '{0} tiene que ser mayor o igual a {1}',
+	    max: '{0} tiene que ser menor o igual a {1}',
+	    range: '{0} debe estar entre {1} y {2}',
+	    length: '{0} debe tener {1} caracteres',
+	    minLength: 'Tiene que tener al menos {1} caracteres',
+	    maxLength: 'No puede tener mas de {1} caracteres',
+	    rangeLength: '{0} debe tener entre {1} y {2} caracteres',
 	    oneOf: '{0} must be one of: {1}',
 	    equalTo: '{0} must be the same as {1}',
-	    digits: '{0} must only contain digits',
-	    number: '{0} must be a number',
-	    email: '{0} must be a valid email',
-	    url: '{0} must be a valid url',
+	    digits: 'No es un número entero',
+	    number: 'No es un número decimal',
+	    email: 'No es un email',
+	    url: 'URL inválida [debe empezar por http]',
 	    inlinePattern: '{0} is invalid',
 	    requiredGroup: '{0} is required at least in one element of the group',
 	  };	
@@ -590,7 +635,7 @@ Backbone.Validation = (function(_){
 	      // Validates that the value has to be a string with length equal to or less than
 	      // the max length value specified
 	      maxLength: function(value, attr, maxLength, model) {
-	        if (!_.isString(value) || value.length > maxLength) {
+	        if (value && (!_.isString(value) || value.length > maxLength)) {
 	          return this.format(defaultMessages.maxLength, this.formatLabel(attr, model), maxLength);
 	        }
 	      },

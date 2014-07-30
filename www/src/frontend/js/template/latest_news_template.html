@@ -1,32 +1,59 @@
 <% _.each(collection,function(d){ %>
     <div class="row mt12">
-        <div class="col-md-2 size_15 text_bold grey ">
-            <span class="size_13 grey_light "><%= app.dateTimeFormat(d.time) %><br/><lang>Por</lang></span>
-            <div class="authors">
-                <% 
-                i = 0;
-                _.each(d.wwwuser,function(a){
-                    i++;
-                    if (i>1){
-                        print(", ");
-                    }
-                %>
+        <div class="col-md-2 stamp">
 
-                    <a href="#" ><%= a %></a>
-                <% });%>
-            </div>
+            <span class="date"><%= app.dateTimeFormat(d.time) %><!-- &nbsp;&nbsp;<br/><lang>Por</lang></span> -->
+            <!-- <div class="authors ">
+                <% if (section != "Twitter") { %>
+                    <span class="user"><%= d.wwwuser %></span>
+                <% } else { %>
+                <a href="https://www.twitter.com/<%= d.wwwuser.substring(1)%>" target="_blank">
+                    <%=d.wwwuser%>
+                </a>
+                <% } %>
+            </div> -->
         </div>
                 
         <div class="col-md-10">
-            <p class="size_18 grey_dark roboto_light"><%= app.urlify(d.title,"target=_blank") %></p>
+            <p class="size_18 grey_dark roboto_light " <%=d.section%>>
+                <% 
+                    link = d.link;
+                    target = "_blank";
+                    switch (d.section)
+                    {
+                        case "Documentos":
+                        case "Documents":
+                            link = "/<lang>lang</lang>/<lang>_link doc</lang>/" + d.id_item;
+                            target = "";
+                            break;
+                    }       
+
+                    if (link){
+                    %>
+                        <a href="<%= link%>" class="min" target="<%= target%>">
+                            <%= app.urlify(d.title,"target=_blank") %>
+                        </a>
+                    <%
+                    } else { %>
+                        <%= app.urlify(d.title,"target=_blank") %>
+                    <% 
+                    } 
+                %>
+            </p>
             <div class="l1"></div>
             <p>
                 <% if (!section) { %>
                 <span class="fleft red uppercase mr5 size_13 roboto_cond_bold"><%= d.section %></span>
                 <% } %>
 
-                <% _.each(d.label,function(l){ %>
-                    <a class="label" href="#"><%= l %></a/>
+                <% _.each(d.labels,function(l){ 
+
+                    if (d.section == "Documentos" || d.section == "Documents" ) {
+                    %>
+                        <a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%= l.id %>"><%= l.label %></a/>
+                    <% } else { %>
+                        <a class="label" href="/<lang>lang</lang>/<lang>_link news</lang>/<%= l.id %>"><%= l.label %></a/>
+                    <% } %>   
                 <%  }); %>
             </p>
         </div>

@@ -1,27 +1,44 @@
 # coding=UTF8
 
 """
-
 Frontend home services.
-
-
 """
 from frontend import app
 from flask import jsonify,request
+from flask.json import dump
 from model.homemodel import HomeModel
 from model.iepgdatamodel import IepgDataModel
 from model.highlightmodel import HighlightModel
-import collections
-import config
+from model.labelmodel import LabelModel
+import helpers
+import common.helpers
+from common import config as config
+from common import const as cons
+from model.helpers import ElcanoError, ElcanoErrorBadNewsSection, ElcanoErrorBadLanguage
+import locale
+import common.datacache as datacache
+from collections import OrderedDict
+
+
+@app.route('/home/email', methods=['POST'])
+def postEmail():
+    """Inserts an email into the list. request.args: 
+      email: mandatory
+    """
+    m = HomeModel()
+    return(jsonify({"email": m.newEmail(request.args["email"])}))
 
 
 @app.route('/home/slider/<string:lang>', methods=['GET'])
-def getSlider(lang):
+def getSliderFrontend(lang):
     """Gets the slider's data."""
     m = HighlightModel()
-    out = m.getSlider(lang, config.cfgFrontend["mediaFolder"])
-
-    return(jsonify({"sliders": out}))
+    
+    try:
+        out = m.getSliderFrontend(lang)
+        return(jsonify({"results": out}))
+    except ElcanoErrorBadLanguage as e:
+        return(jsonify(e.dict()))
 
 
 @app.route('/home/countries', methods=['GET'])
@@ -33,39 +50,51 @@ def countries():
       year: required
 
     Returns a JSON:
-
-    {
-      "block":
-        {
-          "name": "América",
-          "ncountries": "2",
-          "countries": [
-            {"name": "USA"},
-            {"name": "Canadá"}
-          ]
-        },
-    }
-      
-    """
-    m = IepgDataModel()
-    a = m.countries(request.args["lang"], request.args["year"])
-    blocks=dict()
-    countries = dict()
-    final = dict()
     
-    for r in a:
-        if r["block_name"] not in blocks.keys():
-            blocks[r["block_name"]]=dict()
-            blocks[r["block_name"]]["countries"] = [r["country_name"]]
-        else:
-            blocks[r["block_name"]]["countries"].append(r["country_name"])
+    {
+    "results": [
+    {
+      "code": "XBSA", 
+      "countries": [
+        {
+          "code": "AO", 
+          "name": "Angola"
+        }, 
+        {
+          "code": "NG", 
+          "name": "Nigeria"
+        }, 
+        {
+          "code": "ZA", 
+          "name": "Sud\u00e1frica"
+        }
+      ], 
+      "name": "\u00c1frica sub-sahariana", 
+      "ncountries": 3
+    }, 
+    ]
+    }
+    """
+    lang = request.args["lang"]
+    year = request.args["year"]
+    if lang=="es":
+        trans = datacache.isoToSpanish
+    if lang=="en":
+        trans = datacache.isoToEnglish
 
-    for key, value in blocks.items():
-        value["ncountries"] = len(value["countries"])
+    blocks = []
+    for block in datacache.blocksNoEu:
+        dBlock = dict()
+        dBlock["code"] = block
+        dBlock["name"] = trans[block]
+        dBlock["countries"] = []
+        countries = common.helpers.getBlockMembers(block, year)
+        dBlock["countries"] = sorted([{"code": i, "name": trans[i]} for i in countries], 
+                                     key=lambda t: t["name"], cmp=locale.strcoll)
+        dBlock["ncountries"] = len(dBlock["countries"])
+        blocks.append(dBlock)
 
-    od = collections.OrderedDict(sorted(blocks.items()))
-
-    return(jsonify(od))
+    return(jsonify({"results": sorted(blocks, key=lambda t: t["name"], cmp=locale.strcoll)}))
 
 
 @app.route('/home/years', methods=['GET'])
@@ -89,11 +118,10 @@ def years():
 
 @app.route('/home/newstuff', methods=['GET'])
 def newStuff():
-    """Returns new stuff for the new stuff control. Accepts parameters:
+    """Returns new stuff for the new stuff control. Accepts request.args:
 
       lang=en/es: mandatory 
-
-      section=Blog/Media/Events/Documents/Twitter: optional. If absent, sends
+      section= 1=Blog/2=Media/3=Events/4=Documents/5=Twitter: optional. If absent, sends
       all sections mixed
 
     Returns a JSON in the form:
@@ -101,34 +129,81 @@ def newStuff():
     {
         "news":[{
     	    "id": "1",
-    	    "user": "Iliana Olivié",
+    	    "wwwuser": "Iliana Olivié",
     	    "time": "201401101027",
 	    "title": "¿El auge del resto? Apuntes sobre la presencia
 	    global de América Latina, Asia y el Magreb y Oriente Medio",
+            "link": "http://www.geographica.gs",
     	    "section": "Blog",
     	    "labels": [
-                {"label": "IEPG"},
-    	        {"label": "Economía"}]
+                {"id": "1", "label": "IEPG"},
+    	        {"id": "2", "label": "Economía"}]
         }]
-    }"""
-    m = HomeModel()
-    
-    if "section" in request.args :
-        if request.args["section"]!= "Twitter":
-            a = m.newStuff(request.args["lang"], request.args["section"])
-        else:
-            timeline = twitter_helper.getLatestTweets()
-            a = []
-            for tweet in timeline:
-                a.append({
-                  "id_section" : tweet.id,
-                  "time" : tweet.created_at,
-                  "title" : tweet.text,
-                  "section" : "Blog",
-                  "labels" :[],
-                  "wwwuser" : ["@rielcano"]
-                });
-    else:
-        a = m.newStuff(request.args["lang"])
+    }
 
-    return(jsonify({"results": a}))
+    TODO: revisar, devuelve unos id un poco raros
+    """
+    m = HomeModel()
+    l = LabelModel()
+    lang = request.args["lang"]
+    section = int(request.args["section"]) if "section" in request.args else None
+
+    try:
+        labels = l.getLabels(lang)
+        if section:
+            if section in [1,2,3]:
+                stuff = m.newStuffSections(lang, section)
+            elif section==4:
+                stuff = m.newStuffDocuments(lang)
+            elif section==5:
+                timeline = helpers.twitterGetLatestTweets()
+                stuff = []
+                for tweet in timeline:
+                    stuff.append({
+                        "id" : tweet.id,
+                        "time" : tweet.created_at,
+                        "title" : tweet.text,
+                        "section" : "Twitter",
+                        "labels" :[],
+                        "wwwuser" : "@rielcano"
+                    })
+            else:
+                e = ElcanoErrorBadNewsSection(section)
+                return(jsonify(e.dict()))
+        else:
+            stuff = m.newStuffAll(lang)
+    except ElcanoError as e:
+        return(jsonify(e.dict()))
+
+    for s in stuff:
+        lab = []
+        if s["labels"]!=[None]:
+            for l in s["labels"]:
+                for a in labels:
+                    if str(a["id"])==str(l):
+                        lab.append(a)
+
+        s["labels"] = lab
+        s["time"] = str(s["time"].isoformat())
+
+    return(jsonify({"results": stuff}))
+
+
+############
+# DEPRECATED
+############
+# @app.route('/home/countrylist/<string:lang>', methods=['GET'])
+def countryList(lang):
+    """Returns the list of IEPG countries alphabetically ordered:
+
+    /home/countrylist/en
+
+    returns:
+
+    {"results": [
+    {"country_name": "Algeria"}, 
+    {"country_name": "Angola"}, 
+    {"country_name": "Argentina"}, ... ]}
+    """
+    m = HomeModel()
+    return(jsonify({"results": m.countryList(lang)}))

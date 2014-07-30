@@ -1,0 +1,146 @@
+<div class="container  doc_detail">
+    
+    <div class="col-md-10 col-sm-12 " id="co_detail">
+        <div class="row pth1">
+            <div class="col-md-2 col-sm-12">
+                <h4 class="red size_16 mth1"><lang>Documento</lang></h4>
+                <div class="roboto_bold grey_light size_11 uppercase mth1">
+                    <lang>Etiquetas</lang>
+                </div>
+                <ul id="labels">
+                    <% _.each(model.labels,function(l){ %>
+                        <li class="mb"><a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%=l.id_label %>" title="<%= l.label %>"> <%= l.label %></a></li>
+                    <% }); %>
+                </ul>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-11">
+                        <p class="size_13 grey_light"><%= app.dateTimeFormat(model.time) %></p>
+                        <h2><%= model.title %> </h2>
+                        <div class="mth2">
+                            <span class="size_13 grey_light roboto_light"><lang>Por</lang></span>
+                            <div class="inlblock authors">
+                                <% 
+                                i = 0;
+                                _.each(model.authors,function(a){
+                                    if (a.error) return;
+                                    i++;
+
+                                    if (i>1){
+                                        print(", ");
+                                    }
+
+                                %>
+                                    <a href="/<lang>lang</lang>/<lang>_link docs</lang>/null/<%= a.twitter_user ? a.twitter_user : a.name %>" > 
+                                        <%= a.twitter_user ? a.twitter_user : a.name %>
+                                    </a> 
+                                <% });%>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="col-md-1">
+                        <!-- Social links -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="sep mth2"></div>
+
+                        <div class="mbh1 roboto_bold size_11 grey_light uppercase">
+                            <lang>TEMA</lang>
+                        </div>
+                        <p class="roboto_light size_14 grey">
+                            <%= model.theme %>
+                        </p>
+
+                        <div class="sep mth1"></div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mth2 mbh2">
+            <div class="col-md-12">
+                <p class="roboto size_16 grey">
+                    <%= model.description %>
+                </p>
+            </div>
+        </div>
+
+        <% _.each(model.pdf,function(p){ %>
+            <div class="row mb">
+                <div class="col-md-12">
+                    <a class="button download" href="/media/<%=p.hash %>.pdf" target="_blank">
+                        <strong>Descargar</strong>
+                        <%= p.name %>
+                    </a>
+                </div>
+            </div>
+        <% }); %>
+
+        <div class="sep mth2 mbh1"></div>
+
+        <% if (model.link){ %>
+            <div class="row ">
+                <div class="col-md-12">
+                    <a class="button white more_info" href="<%= model.link%>" target="_blank">
+                        <lang>Ampliar información</lang>...
+                    </a>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="l1"></div>
+
+        <% _.each(model.authors,function(a){ 
+            if (a.error) return;
+            %>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="author_desc">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img class="avatar" src="<%= a.twitter_user ? a.image : '/img/ELC_img_autor_nofoto.png'%>" />
+                            </div>
+                            
+                            <div class="col-md-7">
+                                <p class="roboto_bold size_16 grey_dark"><%= a.name %></p>
+                                <p class="roboto size_13 grey lh1">
+                                    <%= a.position %>
+                                </p>
+                                <% if ( a.twitter_user) { %>
+                                <p class="mth1 roboto size_13 grey">
+                                    <a href="http://www.twitter.com/<%= a.twitter_user.substring(1)%>"
+                                     target="_blank" class="fleft nostyle">
+                                        <%= a.twitter_user %>
+                                    </a>
+                                    <img class="fleft mt2 ml5" src="/img/ELC_icon_twitter_autor.png" />
+                                    <div class="clear"></div>
+                                </p>
+                                <% } %> 
+                            </div>
+
+                            <div class="col-md-2 col-md-offset-1">
+                                <a class="button go" 
+                                    href="/<lang>lang</lang>/<lang>_link docs</lang>/null/<%= a.twitter_user ? a.twitter_user : a.name %>" >
+                                    <lang>Más</lang>...
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } ); %>
+
+        <div class="l2"></div>
+    </div>
+
+    <div class="col-md-2 col-sm-12 " id="latestDocs">
+
+    </div>
+</div>

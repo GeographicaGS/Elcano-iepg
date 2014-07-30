@@ -1,36 +1,30 @@
 # coding=UTF8
 
 """
-
 Label model.
-
 """
 from base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
+from helpers import DataValidator
+from psycopg2 import IntegrityError
 
 
 class LabelModel(PostgreSQLModel):
     """Model for labels."""
-
-    def getLabels(self, lang="es"):
+    def getLabels(self, lang):
         """Returns labels in the given language."""
-        if lang=="es":
-            q = "select id_label_es as id, label from www.label_es;"
-        if lang=="en":
-            q = "select id_label_en as id, label from www.label_en;"
-
+        dv = DataValidator()
+        dv.checkLang(lang)
+        q = "select id_label_{} as id, label from www.label_{};".format(lang, lang)
         return self.query(q).result()
 
 
-    def insertLabel(self, label, lang="es"):
+    def insertLabel(self, label, lang):
         """Inserts a label."""
-        if lang=="es":
-            return self.insert("www.label_es", {"label": label}, "id_label_es")
-        if lang=="en":
-            return self.insert("www.label_en", {"label": label}, "id_label_en")
-
-
-    def getLabels(self, lang):
-        """Get the list of labels for lang for the document catalog in the frontend."""
-        sql = "select * from www.label_{} order by label;".format(lang)
-
-        return(self.query(sql).result())
+        dv = DataValidator()
+        dv.checkLang(lang)
+        sql = "select id_label_{} as id from www.label_{} where label=%s;".format(lang, lang)
+        id = self.query(sql, bindings=[label]).row()
+        if id:
+            return(id["id"])
+        else:
+            return(self.insert("www.label_{}".format(lang), {"label": label}, "id_label_{}".format(lang)))

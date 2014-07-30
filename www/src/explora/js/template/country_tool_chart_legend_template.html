@@ -1,0 +1,17 @@
+<table>
+	<tr>
+		<th><div class="variableIcon" data-variable="<%= data.name == "global" ? family : data.name %>"></div><span><%= app.variableToString(data.name,family) %></span></th>
+		<th><%= app.formatNumber(data.size) %></th>
+		<th><%= data.perc ? app.formatNumber(data.perc) + " %": "--" %> </th>
+	</tr>
+
+	<% 
+	childs = _.sortBy(data.children, function(d){ return d.ord });
+	_.each(childs, function(d){ %>
+		<tr>
+			<td><div class="variableIcon" data-variable="<%= d.name%>"></div><span><%= app.variableToString(d.name,family) %></span></td>
+			<td><%= app.formatNumber(d.size) %></td>
+			<td><%= d.perc ? app.formatNumber(d.perc) : "--"%> %</td>
+		</tr>
+	<% }); %>
+</table>

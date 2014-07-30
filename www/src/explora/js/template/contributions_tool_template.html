@@ -1,0 +1,49 @@
+<%
+    country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
+    year = ctx.slider[0].date.getFullYear();
+%>
+
+<div id="contributions_tool" >
+    <div class="header" data-variable=<%=ctx.family%>>
+        <a class="close" href="#"></a>
+        <span id="tool_name"><lang>Contribuciones de presencia</lang></span>
+        <span id="tool_year"><lang>Año</lang> <%= year %></span>
+
+        <%= _.template($("#ctrl_family_template").html())({ctx : ctx}) %>
+    </div>
+
+    <div class="body">
+        <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
+            <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+        </a>
+        <div class="container-fluid">
+            <div class="row mth1">
+                <div class="col-sm-6 col-md-6" id="co_chart_left">
+                   	<div class="chart"></div>
+                    <p class="name"></p>
+                    <div class="chart_legend"></div>
+                </div>
+
+                <div class="col-sm-6 col-md-6" id="co_chart_right">
+                   	<div class="chart"></div>
+                    <p class="name"></p>
+                    <div class="chart_legend"></div>
+                </div>
+
+                <div class="tooltip comp"></div>
+            </div>
+
+            <div class="sep mth3 mbh2"></div>
+            <div>
+                <div class="co_proportional_flags">
+                	<ul class="proportional_flags">
+
+                	</ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

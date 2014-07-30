@@ -1,0 +1,118 @@
+<div class="pull-left">
+    <h1 class="page-header col-md-1"><lang>Noticia</lang></h1>
+    <span class="clean pull-left"><lang>* Campos necesarios</lang></span>
+</div>
+<div class="pull-left" id="form_error" style="display:none">
+
+</div>
+<div class="pull-right pr15">
+    <button type="button" class="btn btn-l btnlink cancel"><lang>Cancelar</lang></button>
+    <a href="#" type="button" class="btn btn-l save_button"><lang>Guardar noticia</lang></a>
+</div>
+
+<hr class="featurette-divider">
+<div class="DestacadosForm">
+    <form role="form">
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for="">título *</label></div>
+            <div class="col-md-10">
+                <input type="text" class="form-control Esimput " name="title_es" placeholder="(<lang>Español</lang>)" value="<%= model.title_es %>">
+                <hr class="featurette-divider">
+                <input type="text" class="form-control ENimput" name="title_en" placeholder="(<lang>English</lang>)" value="<%= model.title_en %>">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for="">Sección</label></div>
+            <select class="col-md-5 ml15" name="news_section">
+                <%_.each(sections,function(s){
+                    console.log(s.id);
+                    console.log(model.news_section );
+                    var sel = s.id == model.id_news_section ? "selected" : "";
+                    %>
+                    <option value="<%= s.id%>" <%= sel%>><%= s.description %></option>
+                <% }); %>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for=""><lang>Etiquetas</lang></label></div>
+            <div class="col-md-10">
+                
+                <!--Spanish labels -->
+                <div id="labels_es" class="ctrl_labels">
+                    <button type="button" class="btn btn-xs anadir-bt"><lang>Añadir</lang></button>
+                    <div class="clabels"><!-- Labels --></div>
+                    <div class="tagForm" style="display: none">
+                        <div class="tagsList"><!--Completed by AJAX--></div>
+                        <div class=" LabelForm labelGreyForm">
+                            <label for="" class="greyLabel"><lang>Nueva etiqueta en español</lang></label>
+                        </div>
+                        <div class="input-group col-md-4">
+                            <input class="form-control add_label_text" type="text">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"><lang>Añadir</lang></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="featurette-divider">
+                    
+                <div id="labels_en" class="ctrl_labels">
+                    <button type="button" class="btn btn-xs anadir-bt" id="ctrl_show_add_en"><lang>Añadir</lang></button>
+                    <div class="clabels"><!-- Labels --></div>
+                    <div class="tagForm" style="display: none">
+                        <div class="tagsList"><!--Completed by AJAX--></div>
+                        <div class=" LabelForm labelGreyForm">
+                           <label for="" class="greyLabel"><lang>Nueva etiqueta en inglés</lang></label>
+                       </div>
+                       <div class="input-group col-md-4">
+                            <input class="form-control add_label_text" type="text">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"><lang>Añadir</lang></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for=""><lang>Cuerpo*</lang></label></div>
+            <div class="col-md-10">
+                <textarea class="form-control Esimput" placeholder="(<lang>Español</lang>)" name="text_es" rows="3"><%= model.text_es %></textarea>
+                <hr class="featurette-divider">
+                <textarea class="form-control ENimput" placeholder="(<lang>Inglés</lang>)" name="text_en" rows="3"><%= model.text_en %></textarea>
+            </div>
+        </div>
+       
+
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for="">Enlaces</label></div>
+            <div class="col-md-10">
+                <input type="text" class="form-control Esimput " name="url_es" placeholder="(<lang>Español</lang>)" value="<%= model.url_es %>">
+                <hr class="featurette-divider">
+                <input type="text" class="form-control ENimput" name="url_en" placeholder="(<lang>English</lang>)"  value="<%= model.url_en %>">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class=" col-md-2 LabelForm"><label for="">Fecha</label></div>
+            <div class="col-md-5">
+                <input type="date" class="form-control Esimput " name="time" placeholder="dd/mm/aaaa" value="<%= model.time %>">
+            </div>
+        </div>
+
+
+    </form>
+
+
+    <div class="pull-left pl15 col-md-11 btn_botton">
+         <div class="col-md-11 pl15">
+            <button type="button" class="btn btn-l save_button" ><lang>Guardar noticia</lang></button>
+            <button type="button" class="btn btn-l btnlink cancel"><lang>Cancelar</lang></button>
+        </div>
+    </div>
+</div>
+            

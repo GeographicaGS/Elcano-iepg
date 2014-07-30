@@ -6,10 +6,16 @@
 
 /* Color palette */
 @grey: #515155;
-@grey_light: #a2a2ac;
+@grey_light: #a2a2ac; 
 @grey_light2: #e7e7ea;
 @grey_dark: #28282b;
 @grey2: #5e5e62;
+@grey3: #dadade;
+@grey4: #d0d0d5;
+@grey5: #f1f1f3;
+@grey_menu: #3e3e41;
+@grey_menu_text: #d6d6d6;
+@grey_menu_sep: #515155;
 @red: #d60006;
 @yellow : #fdc300;
 @blue : #2b85d0;
@@ -17,14 +23,87 @@
 @orange : #ff9000;
 @white :#fff;
 
-
-html, body{ height:100%;}
+html, body{ height:100%; min-width: 768px;}
 body {
 	.roboto();
 	color:@grey;
 	font-size:16px;
 	line-height:24px;
+    min-width: 768px !important; 
 }
+
+a.nostyle{
+    color:inherit !important;
+    border-bottom: none !important;
+    text-decoration: none !important;
+}
+a.nostyle:hover{
+    border-bottom: none !important;
+    text-decoration: none !important;
+    color:inherit !important;
+}
+
+a{
+	color: @grey_dark;
+	border-bottom: 1px solid @yellow;
+}
+
+a:hover{
+    border-bottom: 1px solid @grey_light;
+}
+
+a.min{
+	color: @grey_dark;
+	border-bottom: none;
+}
+
+a.min:hover{
+ 	border-bottom: 1px solid @grey_light;
+}
+
+a.min_white{
+	color:@white;
+	border-bottom: none;
+}
+
+a.min_white:hover{
+	color:@grey_light;
+	border-bottom: none;	
+}
+
+a.simple{
+	color: @grey_dark;
+	border-bottom: none;
+}
+a.simple:hover{
+	border-bottom: 1px solid @grey_light;
+}
+
+a.label{
+    display: inline-block;
+    color:@grey_dark;
+    margin-right: 7px;
+    padding: 0 5px;
+    line-height: 20px;
+    height:20px;
+    max-width: 100%;
+    background-color: @yellow;
+    font-size: 13px;
+    cursor: pointer;
+    border-bottom: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+a.label:hover{
+    background-color: @red;
+    color:@white;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+
 
 p,span,div,table{
 	.roboto();
@@ -39,6 +118,7 @@ input[placeholder]{
 	.roboto();
 	color:@grey_light;
 }
+
 
 .grey{ color: @grey;}
 .red { color : @red;}
@@ -153,26 +233,88 @@ input[placeholder]{
 
 .roboto_light{.roboto(light);}
 .roboto_cond_bold{.roboto_cond(bold);}
+.roboto_bold{.roboto(bold);}
 
 .text_bold{ .roboto(bold);}
 
 .uppercase{ text-transform: uppercase;}
 
-a:hover{
-	color:@red;
-}
-a.bottom_yellow{
-    color:@grey_dark;
-    border-bottom: 1px solid @yellow;
-    
-}
-a:hover{
-    border-bottom: 1px solid @grey;
-}
 
+
+
+
+header{
+	a#top_logo:hover{
+		border-bottom: none;
+	}
+
+    .container{
+        position: relative;
+    }
+
+    #lang_marker{
+        text-transform: uppercase;
+    }
+
+    #menu_language{
+        position: absolute;
+        top: 40px;
+        right: 0;
+        z-index: 10;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px 2px rgba(60,60,60,0.5);
+
+
+        li{
+            padding: 0 10px 0 33px;
+
+            a{
+                display: block;
+                height: 44px;
+                line-height: 44px;
+                .roboto();
+                font-size: 13px;
+            }
+
+            &:nth-child(1){
+	        	a{
+	        		border-bottom: 1px solid @grey_light2 !important;
+	        	}
+     		}
+
+        }
+        
+        li[selected]{
+            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left 10px center;
+            background-size: 16px 16px;
+        }
+        
+        li[selected] a{
+            color: @red !important;
+        }
+
+
+    
+    }
+    h1{
+    	margin-top:53px;
+		text-align: right;
+		border-top: 1px dotted #ccc;
+		padding: 10px 0 0 112px;
+		a{
+			color:@red !important;
+			.roboto_cond(bold);
+            font-size: 20px;
+		}
+		a:hover{
+			border-bottom: 1px solid @grey_light !important;
+			color: @grey_dark !important;
+		}
+    }
+}
 
 header > div:first-child{
-	height: 120px;
+	height: 138px;
 }
 
 header > nav{
@@ -181,19 +323,236 @@ header > nav{
 	color:@grey_light;
 }
 
-header h1{
-	margin-top:30px;
-	text-align: right;
-	border-top: 1px dotted #ccc;
-	padding: 10px 0 0 112px;
+header#fixed_menu {
+	height: 55px;
+    width: 100%;
+    background-color: @grey_dark;
+    z-index: 5;
+    position: fixed;
+	top: -100px;
+    left: 0;
+    transition: top .3s ease-in-out;
+
+    .goTop {
+        position: fixed;
+        bottom: -54px;
+        right: 16px;
+        opacity: 0;
+        transition: opacity .3s ease, bottom .3s ease;
+    }
+
+	&.visible {
+		top: 0;
+
+        .goTop {
+            opacity: 1;
+            bottom: 10px;
+        }
+	}
+
+    #top_logo{
+        float:left;
+        margin-left: 20px;
+    }
+
+    a {
+    	text-decoration: none;
+    	border-bottom: none;
+    }
+
+    h1{
+        margin-top: 0;
+        padding-top: 16px;
+        text-align: center;
+        border: none;
+        span{
+            background: url("@{imgPath}/ELC_icon_explora_cab.svg") no-repeat left center;    
+            padding-left: 32px;
+            .roboto(light);
+            color:@white;
+            font-size: 21px
+        }
+    }   
+
+    h2{
+        float:right;
+        margin-right: 20px;
+        padding-top: 14px;
+        color: @red;
+        .roboto_cond(bold);
+    }
+
+    nav {
+        float: left;
+        margin-left: 20px;
+        font-size: 14px;
+
+        & > div, & > div > a {
+            display: block;
+            width: 54px;
+            height: 55px;
+            float: left;
+            background-color: @grey_menu;
+            cursor: pointer;
+
+            & > img {
+                padding: 15px;
+            }
+
+            #menu_btn {
+                background: url('/img/ELC_icon_menu_cab-simple.svg') 50% 50% no-repeat;
+                height: 54px;
+                width: 54px;
+            }
+
+            & > ul {
+                display: none;
+            }
+
+            &.opened {
+                background-color: @yellow;
+
+                #menu_btn {
+                    background: url('/img/ELC_icon_menu_cab-simple_hover.svg') 50% 50% no-repeat;
+                }
+
+                & > ul {
+                    display: block;
+                    min-width: 215px;
+                    background-color: @grey_dark;
+                    color: @grey_menu_text;
+                    .roboto_cond();
+
+                    li {
+                        position: relative;
+                        border-top: 1px solid @grey_menu_sep;
+                        color: @grey_menu_text;
+
+                        & > a {
+                            display: inline-block;
+                            width: 100%;
+                            height: 36px;
+                            padding: 7px 15px 13px 15px;
+                            color: inherit;
+                        }
+
+                        &:hover {
+                            background-color: @yellow;
+                            color: @grey_dark;
+                        }
+
+                        &.quees {
+                            
+                            & > ul {
+                                display: none;
+                            }
+
+                            & > a:after {
+                                content: url('/img/ELC_icon_acceder_form.svg');
+                                float: right;
+                                position: relative;
+                                width: 26px;
+                                height: 24px;
+                            }
+
+                            &.opened {
+                                background-color: @grey_menu;
+                                color: @grey_menu_text;
+
+                                & > ul {
+                                    position: absolute;
+                                    top: -1px;
+                                    left: 215px;
+                                    display: block;
+                                    min-width: 215px;
+                                    background-color: @grey_dark;
+                                    color: @grey_menu_text;
+
+                                    li {
+                                        border: solid @grey_menu_sep;
+                                        border-width: 1px 0 0 1px;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.explora {
+                            & > a:before{
+                                content: url('/img/exploraBT_ico.svg');
+                                vertical-align: middle;
+                                margin-right: 8px;
+                                width: 18px;
+                                height: 19px;
+                                position: relative;
+                                float:left;
+                            }
+
+                            &:hover {
+                                & > a:before {
+                                    content: url('/img/exploraBT_ico_hover.svg');
+                                    width: 18px;
+                                    height: 19px;
+                                    position: relative;
+                                    float:left;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #help_btn {
+        float: right;
+        height: 100%;
+        margin-right: 20px;
+        border-right: 1px solid #515055;
+        padding: 13px 20px;
+
+        & > * {
+            vertical-align: middle;
+        }
+
+        img {
+            display: inline-block;
+            opacity: .5;
+            transition: opacity .3s ease-in;
+            height: 24px;
+            width: 50px;
+            position: relative;
+        }
+
+        span {
+            display: inline-block;
+            opacity: 0;
+            color: @grey_light;
+            font-size: 12px;
+            margin-right: 6px;
+            transition: opacity .3s ease-in;
+        }
+
+
+        &:hover {
+
+            img {
+                opacity: 1;
+            }
+
+            span {
+                opacity: 1;
+            }
+        }
+    }
 }
 
-ul#top_menu li:first-child:before{
+
+/*ul#top_menu li:first-child:before{
 	content: url("@{imgPath}/icons/faq_ico.png");
 	position: relative;
 	top: 4px;
 	margin-right: 2px;
-}
+}*/
 
 ul#top_menu li:not(:last-child):after{
 	content : ".";
@@ -209,52 +568,116 @@ ul#menu{
 	height: 45px;
 	line-height: 45px;
 	cursor: pointer;
-	.roboto_cond();
-
+	
 	li{
-		padding: 0 10px;
+        position: relative;
+        float:left;
+        a{
+            padding: 0 10px;
+            height: 100%;
+            color: #d6d6d6;
+            border-bottom: none;
+            .roboto_cond();
+            float:left;
+
+        }
+
+        ul{
+            position: absolute;
+            top: 44px;
+            left: 0;
+            z-index:20;
+            li{
+                height: 2*@line_height;
+                line-height: 2*@line_height;
+                background-color: @grey_dark;
+                border-top: 1px solid @grey_light;
+                display: block;
+                width: 157px;
+
+                a{
+                    .roboto_cond();
+                    color: #d6d6d6;
+                    display: block;
+                    width: 100%;
+                }
+            }
+        }
 	}
 
-	li:hover,li a:hover{
+	li a:hover{
 		background-color: @yellow;
-		color:@grey_dark;
-	}
-	li:nth-child(3){
-		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat top left;
-		padding-left: 40px;
+		color:@grey_dark ;
+		border-bottom: none;
 	}
 
-	li:nth-child(3):hover{
-		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat top left @yellow;
-		padding-left: 40px;
+	> li:nth-child(3){
+		background: url("@{imgPath}/icons/exploraBT_ico.png") no-repeat left 3px;
+		padding-left: 35px;
+	}
+
+	> li:nth-child(3):hover{
+		background: url("@{imgPath}/icons/exploraBT_ico_hover.png") no-repeat left 3px @yellow;
+		padding-left: 35px;
+        a{
+            color:@grey_dark ;
+        }
+        
 	}
 
 	li[selected]{
-		border-bottom: 1px solid @white;
-		line-height: 43px;
+		.roboto_cond(bold);
+        margin-top: 0px;
+
+        & > a{
+        	color: @white;
+        	line-height: 45px;
+        }
 	}
+
 }
 
-button.button{
+.button{
 	display: inline-block;
 	height: 45px;
 	line-height: 45px;
 	background-color: @grey_light;
-	color: @white;
+	color: @white ;
 	font-size: 16px;
 	padding: 0px 13px;
-	.roboto(medium);
+	cursor: pointer;
+	border-bottom: none;
+	.roboto();
 
+	strong{
+		.roboto(bold);
+	}
 }
-button.button.go{
-	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light;
+
+.button.white{
+	background-color: @white;
+	color:@grey_light;
+	border:1px solid;
+}
+
+.button.go{
+	background: url("@{imgPath}/icons/btn-chevron-right.png") no-repeat right center @grey_light ;
 	padding-right: 33px;
 }
 
-button.button:hover{
-	
+.button.more_info{
+	background: url("@{imgPath}/ELC_icon_boton_enlace.png") no-repeat right 10px center @white ;
+	padding-right: 43px;
+}
+
+.button.download{
+	background: url("@{imgPath}/ELC_icon_boton_descarga.png") no-repeat right 10px center @grey_light ;
+	padding-right: 43px;
+}
+
+.button:hover{
+	color: @white;
     background-color:@grey_dark;
-        
 }
 
 .sep(@color){
@@ -269,21 +692,123 @@ button.button:hover{
 .sep_grey2{
 	.sep(@grey2);
 }
+
+.sep_grey_dark{
+    .sep(@grey_dark);
+}
+
+#downloadPoup{
+    width: 630px;
+    height: 415px;
+    position: absolute;
+    top: 70px;
+    margin-left: 10px;
+    position: absolute;
+    top: 20px;
+
+    h1{
+        font-weight: 300 !important;
+        font-size: 21px;
+        color:@red;
+        margin-bottom: 35px
+    }
+
+    h2{
+        font-weight: 300 !important;
+        font-size: 18px;
+        color: @grey;
+        margin-bottom: 35px
+    }
+    .columnas{
+        float: left;
+        margin-right: 55px;
+    }
+    
+    .pestania{
+        margin-top: 35px   
+    }
+
+    .selector{
+        p:first-child{
+            color:@grey;
+            margin-bottom: 35px;
+            cursor: inherit;
+        }
+
+        p{
+            font-size: 16px;
+            color:@grey_light;
+            cursor: pointer;
+        }
+
+        p.active{
+            color: @grey;
+            font-weight: bold;
+        }
+
+        p.semiActive{
+            color: @grey;
+        }
+        
+        .circle{
+            border: 4px solid @grey_light;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            float: left;
+            margin-top: 5px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .circle.active{
+            border: 4px solid @grey;
+        }
+    }
+
+    .botonera{
+        border-top: 1px solid @grey4;
+        margin-top: 35px;
+        line-height: 90px;
+        p{
+            font-size: 16px;
+            color:@grey_light;
+            float: left;
+            cursor: pointer;
+            margin-right: 15px;
+            float: right;
+        }
+        div{
+            cursor: default;
+            float: right;
+            width: 170px;
+            height: 45px;
+            background-color: @grey3;
+            background-image: url("../img/ELC_icon_boton_descarga.png");
+            background-repeat: no-repeat;
+            background-position: 137px 11px;
+            color: white;
+            padding-left: 15px;
+            line-height: 45px;
+            margin-top: 20px;
+        }
+        div.active{
+            background-color: @grey_light;
+            cursor: pointer;
+        }
+        div.active:HOVER{
+            background-color: @grey_dark;
+        }
+    }
+    
+}
+
+
 footer{
 	background: @grey;
 	color:@grey_light;
 	.roboto(light);
 	font-size: 13px;
-
-
-	a{
-		color:@white;
-	}
-
-	a:hover{
-		color:@grey_light;
-		text-decoration: underline;
-	}
 
 	p.desc{
 		font-size: 16px;
@@ -363,12 +888,17 @@ footer{
 		}
 
 	}
+    @media (max-width: @md_res){
+        .nav_menu{
+            display: none;
+        }
+    }
 }
 
 .search_header{
-	background-color: @red;
-	height: 95px;
+	min-height: 95px;
 	color: @white;
+	background: @red url("@{imgPath}ELC_img_bg_discos.png") no-repeat right center;
 
 	input {
 		height: 42px;
@@ -386,39 +916,769 @@ footer{
 	}
 
 	#ctrl_filter{
-		color: @yellow;
-		background-color: @grey_dark;
-		height: 20px;
+		color: @white;
+		height: 22px;
 		line-height: 15px;
 		display: inline-block;
 		margin-left: 10px;
-
+		background: @grey_dark url("@{imgPath}ELC_icon_filtrar_tags.png") no-repeat 5px center;
+		padding-left: 18px;
+		font-size:13px;
 	}
 	#ctrl_filter:hover{
-		
+		background: @grey_dark url("@{imgPath}ELC_icon_filtrar_tags_hover.png") no-repeat 5px center;	
+		color: @yellow;
 	}
+
+	#all_filters{
+		margin: 30px 0px @line_height 0;
+		line-height: 33px;
+
+		a.label:hover{
+			
+			background-color: #000 !important;
+		}
+
+	}
+
+	#sel_filters{
+		margin-left: 10px;
+		margin-top: -2px;
+		a.label{
+			background-color: @white;
+			color:@red;
+		}
+
+		a.label:hover{
+			text-decoration:line-through;
+		}
+	}
+
+	#n_resultados{
+    	float:right;
+    	font-size: 13px;
+    	color: @white;
+    	margin-right: 10px;
+    	.roboto();
+    	strong{
+    		.roboto(bold);
+    	}
+    }
 }
 
 .list_els{
-	p{
-        a{
-            color:@grey_dark;
-            border-bottom: 1px solid @yellow;
+	
+    .stamp{
+        line-height: @line_height;
+        font-size: 13px;
+        color: @grey_light;
+        .date{
+            .roboto();
         }
-        a:hover{
-            border-bottom: 1px solid @grey;
+
+        .user{
+            .roboto();
+            color:@grey_dark;   
         }
     }
 
-    .authors{
-        display: inline;
-        a{
-            color:@grey_dark;
-            border-bottom: 1px solid @yellow;
-            font-size: 13px;
+
+
+    @media (max-width: @md_res){
+
+        .title{
+            margin-top: 10px;
         }
-        a:hover{
-            border-bottom: 1px solid @grey;
+
+        .stamp{
+            br {
+                display: none;
+            }
+        }
+    }
+    
+}
+
+.authors{
+    display: inline;
+    a{
+        font-size: 13px;
+    }
+
+    span.name{
+    	color:@grey_dark;
+    	border-bottom: 1px solid @yellow;
+    }
+}
+
+.co_popup{
+    position: absolute;
+    right:0;
+    bottom: 27px;
+    z-index: 10;
+
+    .popup_content{
+        background: @white;
+        box-shadow: 0 5px 10px 0px #666;
+    }
+
+    .arrow{
+        width: 43px;
+        height: 35px;
+        overflow: hidden;
+        float: right;
+        margin-right: 19px;
+    }
+
+    .arrow:after{
+        content: "";
+        width: 24px;
+        height: 70px;
+        .rotate(-45deg);
+        float: right;
+        background-color: #fff;
+        margin-top: -30px;
+        box-shadow: 0 5px 10px 5px #666;
+   }
+
+}
+
+.loading{
+    margin-top: 3*@line_height;
+    margin-bottom: 3*@line_height;
+    background: url("../img/ELC_icon_loading_white.gif") no-repeat left top;
+    .roboto(light);
+    padding: 15px 0 0 62px;
+    font-size: 16px;
+    height: 60px;
+}
+
+.contact{
+    #map{
+        height: 345px;
+        width: 100%;
+    }
+    .last_iepg{
+        border-left: 1px solid @grey_light2;
+        min-height: 500px;
+
+
+        img{
+            border: 1px solid @grey_light2 ;
+        }
+    }
+
+    .block{
+        padding-right: 100px;
+    }
+}
+
+.frame_border{
+    border-right:1px solid @grey_light2;
+}
+
+.faq {
+    .index{
+        li{
+            font-size:  14px;
+            color: @grey_dark;
+            cursor: pointer;
+        }
+    }
+}
+
+.static_data_page{
+    h6,p{
+        .roboto(bold);
+        font-size: 16px;
+        color:@grey;
+        margin-top:2*@line_height;
+    }
+
+    p{
+        .roboto();
+    }
+}
+
+.about {
+    .desc{
+        font-size: 14px;
+    }
+    ul{
+        margin: 2*@line_height 10px 0 20px ;
+        li{
+            padding-left: 50px;
+            min-height: 60px;
+            margin-top: @line_height;
+        }
+    }
+    ul.areas{
+        li:nth-child(1){
+            background: url("@{imgPath}ELC_icono_presencia_economica.png") no-repeat left top;
+            strong{
+                color:@blue;
+            }
+        }
+        li:nth-child(2){
+            background: url("@{imgPath}ELC_icono_presencia_militar.png") no-repeat left top;
+            strong{
+                color:@green;
+            }
+        }
+        li:nth-child(3){
+            background: url("@{imgPath}ELC_icono_presencia_blanda.png") no-repeat left top;
+            strong{
+                color:@orange;
+            }
+        }
+    }
+
+    ul.util{
+        li{
+            background: url("@{imgPath}ELC_icon_select_form.png") no-repeat left top;
+        }
+    }
+}
+
+.last_iepg{
+    img{
+        border: 1px solid @grey_light2 ;
+    }
+    span{
+        line-height: @line_height;
+        display: block;
+        margin-bottom:5px;
+    }
+}
+
+.about.structure,.about.methodology{
+	img.coef{
+		max-width: 812px;
+		max-height: 805px;
+	}
+}
+
+.about.methodology{
+	table.data{
+		margin-top: 18px;
+		width: 100%;
+
+		th,td{
+			.roboto();
+			text-align: left;
+			color:@grey;
+			padding: 10px 15px;
+			width: 25%;
+
+			border:1px solid @grey_light2;
+
+			&:nth-child(2){
+				width: 50%;
+			}
+
+			&:first-child{
+				border-left: none;
+			}
+			&:last-child{
+				border-right: none;
+			}
+		}
+
+		td{
+			font-size: 16px;
+		}
+		th{
+			font-size: 11px;
+			text-transform: uppercase;
+			border-top: none;
+			border-bottom: 1px solid @grey_dark;
+		}
+		tr.section {
+			td{
+				.roboto(bold);	
+			}
+		}
+	}
+
+	.list_countries{
+		
+		padding: 20px 10px;
+		ul{
+			margin: 0;
+			padding: 0;
+			li{
+				margin: 0;
+				padding: 0;
+				min-height: 25px;
+				line-height: 30px;
+				border-bottom: 1px solid @grey_light2;
+				&:first-child{
+					border-top: 1px solid @grey_light2;
+				};
+			}
+		}
+	}
+}
+
+.co_nosupported_browser{
+	text-align: center;
+	background-color: #ececee;
+}
+
+
+.divDownlad{
+	margin-top:35px;
+	
+	.firstRow{
+		/*border-bottom: 1px solid @grey4;*/
+		padding-bottom: 20px;
+		/*padding-left: 16.4%;*/
+		@media (max-width: 930px) {
+			padding-left: 0;
+		}
+	}
+	
+	h1{
+		font-size: 24px;
+		color: @red;
+		font-weight: normal;
+		cursor: pointer;
+        font-weight: 300;
+	}
+	
+	.boxDonwload{
+		/*max-width: 255px;*/
+		height: 45px;
+		background-color: #dadade;
+		color: #fff;
+		font-size: 16px;
+		text-align: center;
+		padding-top: 10px;
+		padding-left: 15px;
+		padding-right: 15px;
+		margin-top: -13px;
+        cursor: default;
+		margin-left: 52px !important;
+		
+		@media (max-width: 1152px) {
+			width: 78px;
+			white-space: nowrap;
+			word-spacing: 0px;
+            padding-left: 6px;
+            overflow-x: hidden;
+		}
+		
+	}
+	
+	.activeDownload{
+		background-color: @grey_light;
+        cursor: pointer;
+	}
+	
+    .activeDownload:HOVER{
+        background-color: @grey_dark;
+    }
+
+	.menuDownload{
+		font-size: 16px;
+		color: @grey_dark;
+		cursor: pointer;
+		
+		div{
+			margin-left:60px;
+			float: left;
+		}
+		
+		img{
+			position: absolute;
+			top: -20px;
+		}
+		
+		.counter{
+			border-radius: 12px;
+            color: #fff;
+            /* height: 22px; */
+            padding: 2px 12px;
+            background-color: #a2a2ac;
+            margin: 12px 0px 0 0;
+            line-height: 23px;
+            margin-left: 10px;
+		}
+	}
+	.tituloDownload{
+	
+	div:nth-child(1){
+		line-height: 90px;
+		/*margin-left: 8.3%;*/
+		/*min-width: 687px;*/
+	}
+	
+	.secondColumn{
+		border-bottom: 1px solid @grey4;
+	}
+	
+	h1{
+		font-size: 21px;
+		color: @grey_light;
+	}
+	span{
+		font-weight: 300;
+	}
+	
+	.siguiente{
+		float: left;
+		margin-left: 10px;
+		border-bottom: 1px solid @yellow;
+		line-height: 25px;
+		margin-top: 32px;
+		cursor: pointer;
+	}
+}
+
+	.active{
+		background-color: @grey5;
+		background-image: url("../img/ELC_icon_seleccionado.svg");
+		background-repeat: no-repeat;
+		background-position: right center;
+		background-origin: content-box;
+		padding-right: 10px;
+/* 		padding-left: 10px; */
+	}
+	.active:HOVER{
+		background-image: url("../img/ELC_icon_deseleccionar.svg") !important;
+	}
+
+	#yearDiv{
+		.celda{
+			width: 140px;
+			padding-left: 10px;
+			/*padding-top: 10px;*/
+			/*padding-bottom: 10px;*/
+            line-height: 36px;
+			border-bottom: 1px solid @grey_light2;
+			cursor: pointer;
+		}
+		
+		.celda:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+			padding-left: 10px;
+		}
+		
+		.all{
+            font-weight: bold;
+			/*margin-left: 8.31% !important;*/
+		}
+	}
+	
+	#thematicBlock{
+		.row:last-child{
+			margin-bottom: 90px;
+		}
+		
+		.row{
+			line-height:55px;
+		}
+		.level2{
+			margin-left:30px;
+			.tematica {
+				margin-right: 30px;
+				min-width: 303px;
+			}
+			.tematica2 {
+				/*margin-right: -5px;*/
+				min-width: 324px;
+			}
+			
+		}
+		
+		.level3{
+			margin-left:80px;
+			
+			.tematica {
+				margin-right: 55px;
+				min-width: 260px;
+			}
+			.tematica2 {
+				/*margin-right: -1px;*/
+				min-width: 278px;
+			}
+		}
+		
+		.todos{
+			padding-left:10px;
+			span{
+				font-weight:bold;
+			}
+			 
+		}
+		
+		.tematica{	
+				margin-left: -10px;
+				border-bottom: 1px solid @grey_light2;
+				cursor: pointer;
+				min-width: 337px;
+				margin-right: 10px;
+		}
+		.tematica2{
+			margin-right: -8px;
+			border-bottom: 1px solid @grey_light2;
+			cursor: pointer;
+			min-width: 357px;
+			
+			img{
+				padding-left: 10px;
+			}
+		}
+		
+		.tematica:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+/* 			padding-left: 10px; */
+		}
+		.tematica2:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+/* 			padding-left: 10px; */
+		}
+		
+		img{
+			float: left;
+			padding-top: 8px;
+			padding-right: 10px;			
+		}
+		
+        .iconVariable{
+            float: left;
+            width: 40px;
+            height: 40px;
+            margin-top: 8px;
+            margin-right: 10px;
+        }
+		.iconVariable[data-variable='iepg']{
+		    background-image : url("@{imgPath}variables/ELC_variable_iepg_off.svg");
+		}
+		
+		.iconVariable[data-variable='iepe']{
+		    background-image : url("@{imgPath}variables/ELC_variable_iepe_off.svg");
+		}
+		
+		.iconVariable[data-variable='economic_presence']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_presencia_economica_off.svg");
+		}
+		
+		.iconVariable[data-variable='energy']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_energia_off.svg");
+		}
+		
+		.iconVariable[data-variable='primary_goods']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_bienesprimarios_off.svg");
+		}
+		
+		.iconVariable[data-variable='manufactures']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_manufacturas_off.svg");
+		}
+		
+		.iconVariable[data-variable='services']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_servicios_off.svg");
+		}
+		
+		.iconVariable[data-variable='investments']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_inversiones_off.svg");
+		}
+		
+		.iconVariable[data-variable='military_presence']{
+		    background-image : url("@{imgPath}variables/ELC_variable_m_presencia_militar_off.svg");
+		}
+		
+		.iconVariable[data-variable='troops']{
+		    background-image : url("@{imgPath}variables/ELC_variable_m_tropas_off.svg");
+		}
+		
+		.iconVariable[data-variable='military_equipment']{
+		    background-image : url("@{imgPath}variables/ELC_variable_m_equipamiento_off.svg");
+		}
+		
+		.iconVariable[data-variable='soft_presence']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_presencia_blanda_off.svg");
+		}
+		
+		.iconVariable[data-variable='migrations']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_migraciones_off.svg");
+		}
+		
+		.iconVariable[data-variable='tourism']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_turismo_off.svg");
+		}
+		
+		.iconVariable[data-variable='sports']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_deportes_off.svg");
+		}
+		
+		.iconVariable[data-variable='culture']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_cultura_off.svg");
+		}
+		
+		.iconVariable[data-variable='information']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_informacion_off.svg");
+		}
+		
+		.iconVariable[data-variable='technology']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_tecnologia_off.svg");
+		}
+		
+		.iconVariable[data-variable='science']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_ciencia_off.svg");
+		}
+		
+		.iconVariable[data-variable='education']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_educacion_off.svg");
+		}
+		
+		.iconVariable[data-variable='cooperation']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_cooperacion_off.svg");
+		}
+		
+		.iconVariableActive[data-variable='iepg']{
+		    background-image : url("@{imgPath}variables/ELC_variable_iepg.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='iepe']{
+		    background-image : url("@{imgPath}variables/ELC_variable_iepe.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='economic_presence']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_presencia_economica.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='energy']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_energia.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='primary_goods']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_bienesprimarios.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='manufactures']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_manufacturas.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='services']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_servicios.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='investments']{
+		    background-image : url("@{imgPath}variables/ELC_variable_e_inversiones.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='military_presence']{
+		    background-image : url("@{imgPath}variables/ELC_variable_m_presencia_militar.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='troops']{
+		    background-image : url("@{imgPath}variables/ELC_variable_m_tropas.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='military_equipment']{
+		    background-image : url("@{imgPath}variables/ELC_variable_m_equipamiento.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='soft_presence']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_presencia_blanda.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='migrations']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_migraciones.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='tourism']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_turismo.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='sports']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_deportes.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='culture']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_cultura.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='information']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_informacion.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='technology']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_tecnologia.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='science']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_ciencia.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='education']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_educacion.svg") !important;
+		}
+		
+		.iconVariableActive[data-variable='cooperation']{
+		    background-image : url("@{imgPath}variables/ELC_variable_b_cooperacion.svg") !important;
+		} 
+	}
+	
+	#countryDownload{
+		.pais{
+			line-height: 35px;
+			border-bottom: 1px solid @grey_light2;
+			padding-left: 10px;
+			cursor: pointer;
+		}
+		
+		.pais:HOVER{
+			background-image: url("../img/ELC_icon_seleccionar.svg");
+			background-repeat: no-repeat;
+			background-position: right center;
+			background-origin: content-box;
+			padding-right: 10px;
+			padding-left: 10px;
+		}
+
+		.todos{
+            span{
+                font-weight: bold;
+            }
+		}
+		img{
+			float: left;
+			width: 25px;
+			margin-top: 5px;
+			margin-left: 10px;
+			margin-right: 10px;
+
+            border-radius: 100%;
+            border: 1px solid @grey_light;
+		}
+	}
+}
+
+ul.flag_wrapper{
+    li{
+        img,span{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        img{
+            width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            border: 1px solid @grey_light2;
         }
     }
 }

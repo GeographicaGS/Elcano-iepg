@@ -1,0 +1,79 @@
+<%
+
+n_selected = app.baseView.tools.length;
+%>
+<div class="conteiner-fluid popup variable_selector" >
+        <div class="header">
+            <div class="row">
+                <h3 class="col-sm-6 col-md-6">
+                    <lang>Herramientas de análisis</lang>
+                </h3>
+
+                <div class="col-sm-6  col-md-6">
+                   
+                    <a href="#" id="save" class="button check"><lang>Hecho</lang></a>
+                    <a href="#" id="cancel" class="grey_light"><lang>Cancelar</lang></a>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="col-xs-12" id="n_selected"></div>
+            </div>
+        </div>
+
+        <div class="co_selectable_tools body">
+            <ul class="">
+                <li class="col-md-4 col-sm-6">
+                    <a href="#" tool="country" <%= app.baseView.getToolByType("country") ? "selected" : "" %>>
+                        <img src="/img/ELC_img_h_fichapais-2x.jpg" width="100%">
+                        <p>
+                            <strong>1. <lang>Ficha país</lang></strong>
+                            <lang>Ficha país descripción TEXTO</lang>
+                        </p> 
+                        <div class="ico"></div>
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6">
+                    <a href="#" tool="ranking" <%= app.baseView.getToolByType("ranking") ? "selected" : "" %>>
+                        <img src="/img/ELC_img_h_ranking-2x.jpg" width="100%">
+                        <p>
+                            <strong>2. <lang>Ranking</lang></strong>
+                            <lang>Ranking descripción TEXTO</lang>
+                        </p> 
+                        <div class="ico"></div>
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6">
+                    <a href="#" tool="contributions" <%= app.baseView.getToolByType("contributions") ? "selected" : "" %>>
+                         <img src="/img/ELC_img_h_contribuciones-2x.jpg" width="100%">
+                        <p>
+                            <strong>3. <lang>Contribuciones de presencia</lang></strong>
+                            <lang>Contribuciones de presencia descripción TEXTO</lang>
+                        </p> 
+                        <div class="ico"></div>
+                    </a>
+                </li>
+                <li class="col-md-4 col-sm-6">
+                    <a href="#" tool="quotes" <%= app.baseView.getToolByType("quotes") ? "selected" : "" %>>
+                        <img src="/img/ELC_img_h_cuotas-2x.jpg" width="100%">
+                        <p>
+                            <strong>4. <lang>Cuotas de presencia</lang></strong>
+                            <lang>Cuotas de presencia descripción TEXTO</lang>
+                        </p> 
+                        <div class="ico"></div>
+                    </a>
+                </li>
+
+                <li class="col-md-4 col-sm-6">
+                    <a href="#" tool="comparison" <%= app.baseView.getToolByType("comparison") ? "selected" : "" %>>
+                        <img src="/img/ELC_img_h_iepg-iepe-2x.jpg" width="100%">
+                        <p>
+                            <strong>5. <lang>Presencia global frente a presencia europea</lang></strong>
+                            <lang>Presencia global frente a presencia europea descripción TEXTO</lang>
+                        </p> 
+                        <div class="ico"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -75,7 +75,7 @@ def login():
     if not request.json  or not "email" in request.json or not "password" in request.json:        
         return jsonify({"Login": False})
     
-    if "id_user" in session :        
+    if utils.isLogged() :        
         return jsonify({"Login": True})
     
     else:

@@ -23,8 +23,15 @@ def auth(f):
 
 
 def isLogged():
+    
     if 'id_user' in session:
-        return True
+        from model.usermodel import UserModel
+        um = UserModel()
+        import pprint
+        if um.getUserLogin(idUser=session["id_user"]) == None:
+            return False
+        else:
+            return True
     else:        
         return False
     

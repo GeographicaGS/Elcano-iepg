@@ -59,7 +59,7 @@ app.view.map = function(options){
     };
 
     /* This method created a choropleth Map with the data supplied in the parameter */ 
-    this.drawChoropleth = function(data,time,variable,family,units){
+    this.drawChoropleth = function(data,time,variable,family,units,invertColors){
 
 
         if (!units) units = ""
@@ -125,17 +125,33 @@ app.view.map = function(options){
 
         function getColor(d){
 
-            if (d == max){
-                return _this._choroplethColors[ n_intervals-1];
-            }
-            else if (d==min){
-                return _this._choroplethColors[0];
+            if (invertColors){
+                if (d == max){
+                    return _this._choroplethColors[0];
+                }
+                else if (d==min){
+                    return _this._choroplethColors[n_intervals-1];
+                }
+                else{
+                    var index = parseInt(  ((d-min) *  n_intervals) /
+                                        rangeData );
+                    return _this._choroplethColors[n_intervals-1-index];
+                }    
             }
             else{
-                var index = parseInt(  ((d-min) *  n_intervals) /
-                                    rangeData );
-                return _this._choroplethColors[index];
+                if (d == max){
+                    return _this._choroplethColors[ n_intervals-1];
+                }
+                else if (d==min){
+                    return _this._choroplethColors[0];
+                }
+                else{
+                    var index = parseInt(  ((d-min) *  n_intervals) /
+                                        rangeData );
+                    return _this._choroplethColors[index];
+                }    
             }
+            
         }
 
         function style(feature) {
@@ -226,22 +242,27 @@ app.view.map = function(options){
 
         // loop through our density intervals and generate a label with a colored square for each interval
         var html = "<ul>";
+
+        if (invertColors){
         
-        // for (var i=0;i<n_intervals;i++){
-        //     html +=
-        //         "<li> " +
-        //             "<span style='background: "+ getColor(grades[i] +1) + "'></span>" +
-        //             "<span> " +grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '' : '+') + "</span>" +
-        //         "</li>";
-        // }
+            for (var i=0;i<n_intervals;i++){
+                html +=
+                    "<li> " +
+                        "<span style='background: "+ getColor(grades[i] +1) + "'></span>" +
+                        "<span> " +grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '' : '+') + "</span>" +
+                    "</li>";
+            }
+        }
+        else
+        {
 
-
-        for (var i=n_intervals-1;i>=0;i--){
-            html +=
-                "<li> " +
-                    "<span style='background: "+ getColor(grades[i] +1) + "'></span>" +
-                    "<span> " +grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '' : '+') + "</span>" +
-                "</li>";
+            for (var i=n_intervals-1;i>=0;i--){
+                html +=
+                    "<li> " +
+                        "<span style='background: "+ getColor(grades[i] +1) + "'></span>" +
+                        "<span> " +grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '' : '+') + "</span>" +
+                    "</li>";
+            }
         }
         html += "</ul>";
 

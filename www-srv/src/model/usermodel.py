@@ -14,7 +14,7 @@ class UserModel(PostgreSQLModel):
         sql = "SELECT id_wwwuser,email,name,surname,password,username,language \
                     FROM www.wwwuser WHERE admin AND status=1 AND "
         if idUser:
-            sql = sql + " id_user=%s"
+            sql = sql + " id_wwwuser=%s"
             binding = idUser
         elif email:
             sql = sql + " email=%s"

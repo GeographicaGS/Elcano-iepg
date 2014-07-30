@@ -125,9 +125,10 @@ app.view.countryDownload = Backbone.View.extend({
 	    	$(".numPaises").text($(".pais.active").length);
 
 			if($(".pais.active").length == 1){
-	            $(".numPaises2").html("<lang>" + $(".pais.active").length + " país seleccionado</lang>");
+                $(".numPaises2").html(sprintf("<lang> %d país seleccionado</lang>",$(".pais.active").length));
+                
 	        }else{
-	            $(".numPaises2").html($(".pais.active").length + "<lang> países seleccionados</lang>");
+	            $(".numPaises2").html(sprintf("<lang> %d países seleccionados</lang>",$(".pais.active").length));
 	        }
 
 	    	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
@@ -152,19 +153,23 @@ app.view.countryDownload = Backbone.View.extend({
     	}
     	$(".numPaises").text($(".pais.active[id]").length);
     	if($(".pais.active").length == 1){
-			$(".numPaises2").html("<lang>" + $(".pais.active").length + " país seleccionados</lang>");
-		}else{
+            $(".numPaises2").html(sprintf("<lang> %d país seleccionado</lang>",$(".pais.active").length));
+		}
+        else{
 			$(".numPaises2").html($(".pais.active").length + "<lang> países seleccionados</lang>");
+            $(".numPaises2").html(sprintf("<lang> %d países seleccionados</lang>",$(".pais.active").length));
 		}
     	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
     		$(".boxDonwload").removeClass("activeDownload");
-    	}else{
+    	}
+        else{
     		$(".boxDonwload").addClass("activeDownload");
     	}
     	
     	if($(".counter.numPaises").text() == "0"){
     		$(".counter.numPaises").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
-    	}else{
+    	}
+        else{
     		$(".counter.numPaises").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
     	}
     	

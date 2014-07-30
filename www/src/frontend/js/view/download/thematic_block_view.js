@@ -2,20 +2,13 @@ app.view.thematicBlock = Backbone.View.extend({
     _template : _.template( $('#thematic_block_template').html() ),
     
     initialize: function() {
-        
-//        this.render();
 
-        
     },
     
     events:{
-    	"click .tematica": "tematicaClick",
-    	"click .tematica2": "tematicaClick",
-    	"click .todos": "todosClick",
-    	
+        "click .todos": "todosClick",
+    	"click .tematica[key],.tematica2[key]": "tematicaClick"
     },
-    
-
 
     onClose: function(){
         // Remove events on close
@@ -28,17 +21,28 @@ app.view.thematicBlock = Backbone.View.extend({
         this.$el.html(this._template());
         
         var self = this;
-        
-        this.$el.find(".container").append(this.getHtmlThematic("iepg","iepe", "iepg","iepe", ""));
-        
-        $(app.view.tools.utils.variablesTree().data.children).each(function() {
-        	self.$el.find(".container").append(self.getHtmlThematic(this.name,this.name , this.key, this.key, "level2"));
-        	$(this.children).each(function() {
-        		self.$el.find(".container").append(self.getHtmlThematic(this.name,this.name, this.key, this.key, "level3"));
-        	});
-        });
-        
+
+        self.renderFamily("iepg");
+        self.renderFamily("iepe");
+
         return this;
+    },
+
+    renderFamily: function(f){
+        var html = "",
+            self = this;
+
+        _.each(app.view.tools.utils.variablesTree().data.children,function(d){
+            if (f=="iepe" && d.key=="military_global") return;
+
+            html += self.getHtmlThematic(d.name,d.key, "level2",f);
+
+            _.each(d.children,function(c) {
+                html += self.getHtmlThematic(c.name, c.key, "level3",f);
+            });
+        });
+
+        this.$("#cod_variables_"+f).html(html);
     },
     
     tematicaClick: function(e) {
@@ -64,81 +68,66 @@ app.view.thematicBlock = Backbone.View.extend({
 			}
 		}
     	
-        var total = $(".tematica.active[key]").length + $(".tematica2.active[key]").length;
-    	$(".numBloqsSelect").text(total);
-
-        if(total == 1){
-            $(".numBloqsSelect2").html("<lang>" + total + " variable seleccionada</lang>");
-        }else{
-            $(".numBloqsSelect2").html(total + "<lang> variables seleccionadas</lang>");
-        }
-
-    	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
-    		$(".boxDonwload").removeClass("activeDownload");
-    	}else{
-    		$(".boxDonwload").addClass("activeDownload");
-    	}
-    	
-    	if($(".counter.numBloqsSelect").text() == "0"){
-    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
-    	}else{
-    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
-    	}
-    	
+    	this._refreshCounters();
     },
-    
-    todosClick: function(e){
-    	if($(e.currentTarget).hasClass("active")){
-    		if($(e.currentTarget).hasClass("tematica")){
-    			$(".tematica").removeClass("active");
-                $(".tematica").siblings("div").removeClass("iconVariableActive");
-    		}else{
-    			$(".tematica2").removeClass("active");
-                $(".tematica2").siblings("div").removeClass("iconVariableActive");
-    		}
-    	}else{
-    		if($(e.currentTarget).hasClass("tematica")){
-    			$(".tematica").addClass("active");
-                $(".tematica").siblings("div").addClass("iconVariableActive");
-    		}else{
-    			$(".tematica2").addClass("active");
-                $(".tematica2").siblings("div").addClass("iconVariableActive");
-    		}
-    	}
-    	var total = $(".tematica.active[key]").length + $(".tematica2.active[key]").length;
+
+    _refreshCounters: function(){
+
+        var total = $(".tematica.active[key]").length + $(".tematica2.active[key]").length;
         $(".numBloqsSelect").text(total);
 
         if(total == 1){
-            $(".numBloqsSelect2").html("<lang>" + total + " variable seleccionada</lang>");
+            $(".numBloqsSelect2").html(sprintf("<lang> %d variable seleccionada</lang>",total));
         }else{
-            $(".numBloqsSelect2").html(total + "<lang> variables seleccionadas</lang>");
+            $(".numBloqsSelect2").html(sprintf("<lang> %d variables seleccionadas</lang>",total));
         }
 
-    	if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
-    		$(".boxDonwload").removeClass("activeDownload");
-    	}else{
-    		$(".boxDonwload").addClass("activeDownload");
+        if($(".counter.numAniosSelect").text() == "0" || $(".counter.numPaises").text() == "0" || $(".counter.numBloqsSelect").text() == "0"){
+            $(".boxDonwload").removeClass("activeDownload");
+        }else{
+            $(".boxDonwload").addClass("activeDownload");
+        }
+        
+        if($(".counter.numBloqsSelect").text() == "0"){
+            $(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
+        }else{
+            $(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
+        }
+    },
+    
+    todosClick: function(e){
+        var $el = $(e.target);
+
+        $el = $el.closest(".todos");
+
+        var f = $el.attr("family"),
+            themClass = f=="iepg" ? "tematica" : "tematica2";
+    	if($el.hasClass("active")){
+            $el.removeClass("active");
+            $("."+themClass + "[family='"+f+"']").removeClass("active");
+            $(".iconVariable[family='"+f+"']").removeClass("iconVariableActive");
     	}
-    	
-    	if($(".counter.numBloqsSelect").text() == "0"){
-    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
-    	}else{
-    		$(".counter.numBloqsSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
+        else{
+            $el.addClass("active");
+            $("."+themClass + "[family='"+f+"']").addClass("active");
+            $(".iconVariable[family='"+f+"']").addClass("iconVariableActive");
     	}
+
+    	this._refreshCounters();
     	
     },
     
-    getHtmlThematic: function(name1, name2, key1, key2, level) {
-    	return "<div class='row " + level + "'>" +
-					"<div class='col-sm-6 col-md-6'>"+
-						"<div class='iconVariable' data-variable='" + name1 + "'></div>"+
-						"<div class='tematica' key='" + key1 + "'>" + app.variableToString(name1) + "</div>"+
-					"</div>"+
-					"<div class='col-sm-6 col-md-6' style='padding-left: " + (level == "level2" ? '30' : (level == "level3" ? '50':'10')) + "px;'>"+
-						"<div class='iconVariable pl ml' data-variable='" + name2 + "'></div>"+
-						"<div class='tematica2' key='" + key2 + "'>" + app.variableToString(name2) + "</div>"+
-					"</div>"+
-				"</div>";
+    getHtmlThematic: function(name,key, level,family) {
+    	
+        var themClass = family=="iepg" ? "tematica" : "tematica2",
+            html = "<div class='" + level + "'>" +
+                    "<div>"+
+                        "<div class='iconVariable' data-variable='" + name + "' family='"+ family + "'></div>"+
+                        "<div class='" + themClass + "' key='" + key + "' family='"+ family + "'>" + app.variableToString(name) + "</div>"+
+                    "</div>" +
+                "</div>";
+
+        return html;
     	
     },
 

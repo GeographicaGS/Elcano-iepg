@@ -23,7 +23,6 @@ def quotes(family,variable,countries,lang):
     out = []    
     try:
         years = datacache.dataSets[family].variables[variable].getVariableYears()
-        print(years)
     except:
         return(jsonify({"results": out}))
 

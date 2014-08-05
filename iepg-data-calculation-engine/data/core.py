@@ -7,73 +7,94 @@
 import numpy as np
 from datetime import datetime
 
-x = np.empty((2,2), dtype=[('x', np.int32), ('y', np.int32)])
-y = np.empty((2,2))
-
-# , ('y', np.int32), ('t', np.int32)])
-
-# x[:,:,0] = np.random.rand(2,2)
 
 
-
-
-class TimeInterval(object):
+class Time(object):
     """Time interval for Equidna."""
     start = None
     end = None
 
-    def __init__(self, startStr, endStr):
+    def __init__(self, *timeInit):
         """Initializator."""
-        self.start = datetime.strptime(startStr, self.__getStrptime(startStr)) \
-                     if startStr else None
-        self.end = datetime.strptime(endStr, self.__getStrptime(endStr)) \
-                   if endStr else None
+        if isinstance(timeInit[0], str) and len(timeInit)==1:
+            if "|" in timeInit[0]:
+                self.start = self._getDatetime(timeInit[0].split("|")[0])
+                self.end = self._getDatetime(timeInit[0].split("|")[1])
+            else:
+                self.start = self._getDatetime(timeInit[0])
+                self.end = self._getDatetime(timeInit[0])
+        if len(timeInit)==2:
+            self.start = self._getDatetime(timeInit[0])
+            self.end = self._getDatetime(timeInit[1])
 
-        if self.start and self.end and self.start>=self.end:
-            self.start = None
+        if isinstance(timeInit[0], int) and len(timeInit)==3:
+            self.start = datetime(timeInit[0], timeInit[1], timeInit[2])
+            self.end = datetime(timeInit[0], timeInit[1], timeInit[2])
+
+        if isinstance(timeInit[0], int) and len(timeInit)==4 and timeInit[3] is None:
+            self.start = datetime(timeInit[0], timeInit[1], timeInit[2])
             self.end = None
 
-    def timeIn(self, time):
-        if isinstance(time, str):
-            time = datetime.strptime(time, self.__getStrptime(time))
+        if isinstance(timeInit[0], int) and len(timeInit)==5:
+            self.start = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
+            self.end = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
 
-        if self.start and self.end and self.start<=time and time<=self.end:
+        if isinstance(timeInit[0], int) and len(timeInit)==5:
+            self.start = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
+            self.end = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
+
+        if isinstance(timeInit[0], int) and len(timeInit)==6 and timeInit[5] is not None:
+            self.start = datetime(timeInit[0], timeInit[1], timeInit[2])
+            self.end = datetime(timeInit[3], timeInit[4], timeInit[5])
+
+        if isinstance(timeInit[0], int) and len(timeInit)==6 and timeInit[5] is None:
+            self.start = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
+            self.end = None
+
+        if isinstance(timeInit[0], int) and len(timeInit)==10:
+            self.start = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
+            self.end = datetime(timeInit[5], timeInit[6], timeInit[7], timeInit[8], timeInit[9])
+
+        if timeInit[0] is None and len(timeInit)==6:
+            self.start = None
+            self.end = datetime(timeInit[1], timeInit[2], timeInit[3], timeInit[4], timeInit[5])
+
+        if timeInit[0] is None and len(timeInit)==4:
+            self.start = None
+            self.end = datetime(timeInit[1], timeInit[2], timeInit[3])
+
+    def __div__(self, time):
+        """Operator overload. Returns True if time is into the interval,
+        extremes included. It gets either a datetime object or a
+        string in ISO.
+
+        """
+        if not isinstance(time, Time):
+            time = Time(time)
+
+        if self.start and self.end and self.start<=time.start and time.end<=self.end:
             return(True)
-        if self.start and self.end is None and self.start<=time:
+        if self.start and self.end is None and self.start<=time.start:
             return(True)
-        if self.start is None and self.end and time<=self.end:
+        if self.start is None and self.end and time.end<=self.end:
             return(True)
 
         return(False)
 
     def __str__(self):
         """To str."""
-        return("TimeInterval: "+str(self.start)+" | "+str(self.end))
+        return("Time: "+str(self.start)+" | "+str(self.end))
 
-    def __getStrptime(self, strptime):
+    def _getDatetime(self, strptime):
         """Get the strptime."""
+        if strptime=="" or strptime is None: return(None)
+
         if ":" in strptime:
             strp = "%Y-%m-%d %H:%M"
         else:
             strp = "%Y-%m-%d"
 
-        return(strp)
-
-        
-
-
-    
-
-
-
-e0 = TimeInterval("2013-01-01", "2014-01-01")
-e1 = TimeInterval("2015-01-01", "2014-01-01")
-e2 = TimeInterval("2013-01-01", None)
-e3 = TimeInterval(None, "2015-01-01")
-e4 = TimeInterval("2014-01-01", "2015-01-01")
-t = datetime(2013,6,1)
-print e0.timeIn(t), e1.timeIn(t), e2.timeIn(t), e3.timeIn(t), e4.timeIn(t)
-
+        return(datetime.strptime(strptime, strp))
 
 
 
@@ -86,42 +107,68 @@ class GeoVariableArray(object):
 
     def __init__(self, geoentity, time):
         """Initializator. Gets a list of geoentities and times to initialize the data array."""
+        if not isinstance(geoentity, list) or not isinstance(time, list):
+            raise EquidnaDataException("Both geoentity and time must be lists.")
         self.__geoentity = geoentity
         self.__time = time
         self.__variable = []
         self.data = np.empty((len(self.__geoentity), len(self.__time), 1))
 
-    def size(self):
+    def shape(self):
         """Returns dimensions."""
-        return(self.data.shapex)
+        return(self.data.shape)
 
     def __getitem__(self, key):
-        print key
-        print type(key)
-        print type(key[0])
-        print type(key[1])
-        print type(key[2])
-        if isinstance(key[0], str):
-            geo = [key[0]]
-        if isinstance(key[1], str):
-            time = [key[1]]
-        if isinstance(key[2], str):
-            var = [key[2]]
+        geo = self.__analyzeKey(key[0], self.__geoentity)
+        time = self.__analyzeKey(key[1], self.__time)
+        var = self.__analyzeKey(key[2], self.__variable)
+        return(self.data[geo,time,var])
 
-        print geo, time, var
-        
-        return(self.data[key])
+    def __analyzeKey(self, key, dimension):
+        """Analyses key for a given dimension."""
+        if isinstance(dimension[0], Time) and callable(key):
+            out = ()
+            for i in range(0, len(dimension)):
+                if key(dimension[i]):
+                    out+=(i,)
+            return(out)
+        if isinstance(key, str):
+            return(dimension.index(key))
+        if isinstance(key, tuple):
+            out = ()
+            for i in key:
+                out+=(self.__analyzeKey(i, dimension),)
+            return(out)
+        if isinstance(key, (int, slice)):
+            return(key)
 
-    def addGeoentities(self, geoentities):
-        """Adds the geoentities dimension."""
-        self.geoentities = geoentities
-        self.data.reshape((self.geoentitiesSize(), self.timeSize()))
+    def addGeoentity(self, geoentity):
+        """Adds the geoentities dimension. Geoentity can be a string or a list
+        of strings. WARNING! Values added to the matrix are random!
+        Initialize true values inmediatly!
 
-    def getData(self, geoentity=None, time=None):
-        geo = [self.__geoentity.index(x) for x in geoentity] if geoentity else None
-        t = time if time else 0
-        print geo
-        return(self.data[geo, t])
+        """
+        if isinstance(geoentity, str):
+            geoentity = [geoentity]
+        geoentity = list(set(geoentity))
+        self.geoentity.extend([x for x in geoentity if x not in self.geoentity])
+        s = self.shape()
+        self.data.resize((s[0]+len(geoentity),s[1],s[2]))
+
+    @property
+    def geoentity(self):
+        """Geoentities."""
+        return(self.__geoentity)
+
+    @property
+    def time(self):
+        """Time intervals."""
+        return(self.__time)
+
+    @property
+    def variable(self):
+        """Variables."""
+        return(self.__variable)
 
     def addVariable(self, array, name):
         self.__variable.append(name)
@@ -132,20 +179,14 @@ class GeoVariableArray(object):
             self.data = np.append(self.data, array, axis=2)
         self.data.resize((len(self.__geoentity), len(self.__time), len(self.__variable)))
 
+
+
+class EquidnaDataException(Exception):
+    """Exception for Equidna data."""
+    _message = ""
+
+    def __init__(self, message):
+        self._message = message
     
-
-
-
-
-
-x = GeoVariableArray(["ES","DE"],[datetime(2013,01,01), datetime(2014,1,1)]) # , datetime(2012,1,1)])
-y = np.array([1,1,1,1]).reshape(2,2)
-x.addVariable(y, "V0")
-x.addVariable(y+1, "V1")
-x.addVariable(y+2, "V2")
-
-# print x.data()
-# print
-# print x.data(geoentity=0, time=0)
-# print
-# print x.data(geoentity=[1:,1:], time=None)
+    def __str__(self):
+        return("EquidnaDataException: "+self._message)

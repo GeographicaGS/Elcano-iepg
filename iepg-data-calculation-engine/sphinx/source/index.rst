@@ -25,4 +25,12 @@ Indices and tables
 Module data
 ===========
 .. automodule:: data.core
-	 :members:
+   :members:
+
+
+
+Module excel_utils
+==================
+.. automodule:: data.excel_utils
+   :members:
+

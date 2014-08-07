@@ -5,17 +5,14 @@
 # --------------------------------
 
 import numpy as np, hashlib, arrayops
-
-
-
-reload(arrayops)
-
-
-
 from datetime import datetime
 
 VAR_TYPE_CONTINUOUS = 0
 VAR_TYPE_DISCRETE = 1
+
+COPY_ALL = 0
+COPY_GEOENTITIES = 1
+COPY_TIMES = 2
 
 
 
@@ -250,7 +247,12 @@ class GeoVariableArray(object):
     @property
     def shape(self):
         """Returns dimensions."""
-        return(self.__data.shape)
+        return self.__data.shape
+
+    @property
+    def size(self):
+        """Returns size."""
+        return self.__data.size
 
     def __getitem__(self, key):
         """TODO: implement slicing in the following ways:
@@ -259,6 +261,7 @@ class GeoVariableArray(object):
         geo = self.__analyzeKey(key[0], self.__geoentity)
         time = self.__analyzeKeyTime(key[1])
         var = self.__analyzeKey(key[2], self.__variable)
+
         return(self.__data[geo,time,var])
 
     def __setitem__(self, key, value):
@@ -307,26 +310,29 @@ class GeoVariableArray(object):
                     i+=1
 
     def __analyzeKeyTime(self, key):
-        """Analyses a time key."""
+        """Analyses a time key. TODO: this has a problem when asking for a
+        non-existent year, like in data["US","2323","V0"]. FIX!
+
+        """
         if callable(key):
             out = ()
             for i in range(0, len(self.__time)):
                 if key(self.__time[i]):
                     out+=(i,)
-            return(out)
+            return out
         if isinstance(key, (str, Time)):
             out = ()
             for i in range(0, len(self.__time)):
                 if self.__time[i]/key:
                     out+=(i,)
-            return(out)
+            return out
         if isinstance(key, tuple):
             out = ()
             for i in key:
                 out+=(self.__analyzeKeyTime(i),)
-            return(out)
+            return out
         if isinstance(key, (int, slice)):
-            return(key)
+            return key
         
     def __analyzeKey(self, key, dimension):
         """Analyses key for a given dimension."""
@@ -361,10 +367,11 @@ class GeoVariableArray(object):
         for i in range(0, len(geoentity)):
             s = self.shape
             if not data:
-                dataA = np.empty((1,s[1],1))
+                dataA = np.empty((1,s[1],s[2]))
                 dataA[:] = np.nan
             else:
                 dataA = data[i]
+
             self.__data = np.append(self.__data, np.array(dataA).reshape(1, s[1], s[2]), 
                                     axis=0)
             self.__geoentity.append(geoentity[i])
@@ -381,7 +388,7 @@ class GeoVariableArray(object):
         for i in range(0, len(time)):
             s = self.shape
             if not data:
-                dataA = np.empty((s[0],1,1))
+                dataA = np.empty((s[0],1,s[2]))
                 dataA[:] = np.nan
             else:
                 dataA = data[i]
@@ -391,60 +398,65 @@ class GeoVariableArray(object):
 
     def addVariable(self, name, darray):
         """Adds a new variable to the variables dimension. Variables can be a
-        string or a list of strings. darray is a unidimensional numpy ndarray.
+        string or a list of strings. darray is a unidimensional numpy
+        ndarray or a bidimensional one. There must be enough data to
+        fit the size of the array.
 
         TODO: check other addXXX methods and reharse this. CRAP!
 
         """
-        name = [name] if isinstance(name, str) else name
-        darray = [darray] if isinstance(darray, np.ndarray) else darray
+        name = [name] if not isinstance(name, list) else name
+        darray = [darray] if not isinstance(darray, list) else darray
         if len(name)!=len(darray):
             raise EquidnaDataException("Variable names and matrices number mismatch.")
 
         for i in range(0, len(name)):
             if name[i] in self.variable:
                 continue
-            darr = np.copy(darray[i])
+
+            if darray[i].size!=self.__data[:,:,0].size:
+                raise EquidnaDataException("Data and GeoVariableArray must have the same size.")
+
             s = self.shape
-            darr.resize(s[0], s[1], 1) 
             self.__variable.append(name[i])
             if len(self.__variable)==1:
-                self.__data = darr
+                self.__data = darray[i].reshape((s[0],s[1],1))
             else: 
-                self.__data = np.append(self.__data, darr, axis=2)
-                self.__data.resize((len(self.__geoentity), len(self.__time), len(self.__variable)))
+                self.__data = np.append(self.__data, darray[i].reshape((s[0],s[1],1)), axis=2)
+
+    def copyStructure(self, copy=COPY_ALL):
+        """Returns a GeoVariableArray with the same geoentities and times."""
+        geoentity = []
+        time = []
+
+        if copy==COPY_ALL or copy==COPY_GEOENTITIES:
+            geoentity = self.geoentity
+        if copy==COPY_ALL or copy==COPY_TIMES:
+            time = self.time
+
+        return GeoVariableArray(geoentity, time)
 
     def merge(self, geoVariableArray):
-        """Merges two GeoVariableArrays."""
+        """Merges two GeoVariableArrays. If a variable is present in the
+        second GeoVariableArray that is present in the first one it's
+        omitted.
 
-        HERE!!!
+        """
+        diffGeoentityAB = arrayops.arraySubstraction(self.geoentity, geoVariableArray.geoentity)
+        diffGeoentityBA = arrayops.arraySubstraction(geoVariableArray.geoentity, self.geoentity)
+        self.addGeoentity(diffGeoentityBA)
+        geoVariableArray.addGeoentity(diffGeoentityAB)
 
+        diffTimeAB = arrayops.arraySubstraction(self.time, geoVariableArray.time)
+        diffTimeBA = arrayops.arraySubstraction(geoVariableArray.time, self.time)
+        self.addTime(diffTimeBA)
+        geoVariableArray.addTime(diffTimeAB)
 
-        print self.geoentity
-        print geoVariableArray.geoentity
+        self.sort()
+        geoVariableArray.sort()
 
-        diffGeoentity = arrayops.arraySubstraction(geoVariableArray.geoentity, self.geoentity)
-
-        print diffGeoentity
-
-        self.addGeoentity(diffGeoentity)
-
-        print self.geoentity
-
-        # print geoVariableArray[diffGeoentity
-
-        print
-        print
-        print self.time
-        print geoVariableArray.time
-
-        diffTime = arrayops.arraySubstraction(geoVariableArray.time, self.time)
-
-        print diffTime
-
-        self.addTime(diffTime)
-
-        print self.time
+        diffVariable = arrayops.arraySubstraction(geoVariableArray.variable, self.variable)
+        self.addVariable(diffVariable, [geoVariableArray[:,:,x] for x in diffVariable])
 
     @property
     def data(self):

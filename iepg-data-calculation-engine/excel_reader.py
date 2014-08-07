@@ -9,27 +9,34 @@ reload(core)
 
 book = excel_utils.ExcelReader("Prototipo hoja de datos.xlsx")
 
-# environment = dict()
-# variables = dict()
-# years = []
-# geoentities = []
+environment = dict()
+variables = dict()
+years = []
+geoentities = []
 
-# # Read metadata
-# environmentEx,lastRowEnv = book.rowReader("Metadata", startRow=1, endMark="")
-# variablesEx,lastRowVar = book.rowReader("Metadata", startRow=lastRowEnv, startMark="Filiation")
-# variablesEx.pop(0)
+# Read metadata
+environmentEx,lastRowEnv = book.rowReader("Metadata", startCell=(1,0), endMark="")
+variablesEx,lastRowVar = book.rowReader("Metadata", startCell=(lastRowEnv+1,0), startMark="Filiation")
+environmentEx.pop(len(environmentEx)-1)
+variablesEx.pop(0)
 
-# for i in environmentEx:
-#     environment[i[0].value] = ast.literal_eval(i[1].value)
+for i in environmentEx:
+    environment[i[0].value] = ast.literal_eval(i[1].value)
 
-# # Read variables
-# for i in variablesEx:
-#     var = core.Variable(i[0].value, environment["LANGUAGE_CODES"], 
-#                         ast.literal_eval(i[1].value) if i[1].value!="" else None,
-#                         ast.literal_eval(i[2].value) if i[2].value!="" else None,
-#                         ast.literal_eval(i[3].value) if i[3].value!="" else None,
-#                         getattr(core, i[4].value), getattr(core, i[5].value), 
-#                         ast.literal_eval(i[6].value) if i[6].value!="" else None)
+data = core.GeoVariableArray([],[])
+
+# Read variables
+for i in variablesEx:
+    var = core.Variable(i[0].value, 
+                        getattr(core, i[4].value),
+                        getattr(np, i[5].value), 
+                        environment["LANGUAGE_CODES"], 
+                        ast.literal_eval(i[1].value) if i[1].value!="" else None,
+                        ast.literal_eval(i[2].value) if i[2].value!="" else None,
+                        ast.literal_eval(i[3].value) if i[3].value!="" else None,
+                        ast.literal_eval(i[6].value) if i[6].value!="" else None)
+
+    data.merge(book.readGeoVariableArray(".".join(var.filiation), dataType=var.dataType))
 
 #     data,last = book.rowReader(str(i[0].value), startRow=0, endRow=1)
 #     years.extend([int(x.value) for x in data[0][1:]])

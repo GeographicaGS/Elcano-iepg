@@ -9,16 +9,28 @@ reload(excel_utils)
 book = excel_utils.ExcelReader("test/test-excel_utils.xlsx")
 
 
+# Reading core.GeoVariableArray from a Geoentity/Time formated sheet
+aGeo = book.readGeoVariableArray("Test 0", dataType=np.uint64)
+bGeo = book.readGeoVariableArray("Test 1", dataType=np.uint64, geoentitiesOrientation=excel_utils.ORIENTATION_COLS)
+bGeo.addVariable("TEST", np.array([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]))
 
-a = book.readGeoVariableArray("Test 0", dataType=np.uint64)
-
-b = book.readGeoVariableArray("Test 1", dataType=np.uint64, geoentitiesOrientation=excel_utils.ORIENTATION_COLS)
-
-a.merge(b)
-
-
+aGeo.merge(bGeo)
 
 
+# book.rowReader
+print "Rows"
+print 0, book.rowReader("Test 2")
+print
+print 1, book.rowReader("Test 2", startCell=(1,1))
+print
+print 2, book.rowReader("Test 2", startCell=(1,1), dimensions=(2,2))
+print
+print 3, book.rowReader("Test 2", markColumn=4, startMark="Variable Type")
+print
+print 4, book.rowReader("Test 2", startMark="LANGUAGE_CODES", endMark="LANGUAGE_CODES")
+print 
+print 5, book.rowReader("Test 2", startMark="Environmental Variables", endMark="")
+print 
 
 
 
@@ -27,21 +39,23 @@ a.merge(b)
 
 
 
-# print "Rows"
-# print 0, book.rowReader("test")
-# print
-# print 1, book.rowReader("test", startRow=19)
-# print
-# print 2, book.rowReader("test", startMark="7")
-# print
-# print 3, book.rowReader("test", startMark="3", endMark="6")
-# print
-# print 4, book.rowReader("test", startMark="3", endMark="3")
-# print 
-# print 5, book.rowReader("test", endMark="8")
-# print
-# print 6, book.rowReader("test", startRow=8, startMark=1, endMark=6)
-# print
+
+
+
+# TEST ZONE
+
+# a = core.GeoVariableArray(["US", "ES"], ["2011","2010"])
+
+# a.addVariable("V0", np.array([1,2,3,4]))
+# a.addVariable("V1", np.array([5,6,7,8]))
+# a.addVariable(["V2","V3"], [np.array([9,10,11,12]),np.array([[13,14],[15,16]])])
+
+# a.addTime("2013")
+# a.addGeoentity("DE")
+
+# print a.shape
+
+
 
 # print "Columns"
 # a = book.columnReader("test")
@@ -59,3 +73,4 @@ a.merge(b)
 # print
 # print 6, book.columnReader("test", startColumn=8, startMark=1, endMark=6)
 # print
+

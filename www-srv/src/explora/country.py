@@ -151,11 +151,9 @@ def countrySheet(lang, family, countryCode):
                 }
 
                 if lang=="en":
-                    print a["value"], adjustBigUnits(a["value"], format=0)
                     val,d["unit"] = adjustBigUnits(a["value"]) if a["value"] else (None, None)
                     d["value"] = round(val, 2) if a["value"] else None
                 if lang=="es":
-                    print a["value"], adjustBigUnits(a["value"], format=1)
                     val,d["unit"] = adjustBigUnits(a["value"], format=1) if a["value"] else (None, None)
                     d["value"] = round(val, 2) if a["value"] else None
 

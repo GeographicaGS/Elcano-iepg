@@ -3,15 +3,36 @@
     <div class="col-md-10 col-sm-12 " id="co_detail">
         <div class="row pth1">
             <div class="col-md-2 col-sm-12">
-                <h4 class="red size_16 mth1"><lang>Documento</lang></h4>
-                <div class="roboto_bold grey_light size_11 uppercase mth1">
+                
+                <div class="labellabel">
                     <lang>Etiquetas</lang>
                 </div>
+                <% var MAX_LABELS = 6 %>
                 <ul id="labels">
-                    <% _.each(model.labels,function(l){ %>
-                        <li class="mb"><a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%=l.id_label %>" title="<%= l.label %>"> <%= l.label %></a></li>
-                    <% }); %>
+                    <% _.each(model.labels.slice(0,MAX_LABELS),function(l){ %>
+                        <li><a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%=l.id_label %>" title="<%= l.label %>"> <%= l.label %></a></li>
+                    <% }); 
+
+                    if (model.labels.length > MAX_LABELS) { 
+                    %>
+                        <li seemore>
+                            <a class="label" href="#" >
+                                <%= sprintf("<lang>Ver %d más</lang>",model.labels.length - MAX_LABELS)%>
+                            </a>
+                            <ul style="display:none" extralabels>
+                            <% _.each(model.labels.slice(MAX_LABELS),function(l){ %>
+                             <li ><a class="label" href="/<lang>lang</lang>/<lang>_link docs</lang>/<%=l.id_label %>" title="<%= l.label %>"> <%= l.label %></a></li>
+                            <% }); %>
+                            </ul>
+                        </li>
+                    <%
+                    }
+                    %>
+
                 </ul>
+
+
+
             </div>
             <div class="col-md-10">
                 <div class="row">

@@ -424,13 +424,26 @@
             line-height: @line_height*2 ;
             height: @line_height*2;
 
-            &:first-child{
+            &:nth-child(1){
+                border-top: none;
+                th{
+                    .roboto();
+                    font-size: 12px;    
+                    font-style: normal;
+
+                    span{
+                        .roboto(); 
+                    }
+                    
+                }
+                
+            }
+
+            &:nth-child(2){
                 border-top: 1px solid #e7e7ea;
 
-                 &:first-child{
-                    div{
-                        margin-left: 0;
-                    }
+                .variableIcon{
+                    margin-left: 0;
                 }
             }
         }
@@ -473,9 +486,20 @@
                 }
             }
         }
+        tr.table_legend{
+            ul{
+                margin-top: 8px;
+                li{
+                    line-height: 18px;
+                    text-transform: none;
+                    font-style: normal;
+                    text-align: right;
+                }
+            }
 
+            border-bottom: none;
+        }
     }
-
 }
 
 #map_label,#map_legend{
@@ -693,6 +717,12 @@
         
         .info.data{
             margin: 5px 10px !important;
+        }
+
+        #map_legend{
+            right: 0px;
+            bottom:0px;
+            border: 1px solid @grey_light2;
         }
     }
 
@@ -1046,8 +1076,8 @@
 
         .line_ref{
             fill: none;
-            stroke: #fbe5e6;
-            stroke-width: 1px;
+            stroke: @red;
+            stroke-width: 2px;
         }
 
         .co_line_label{

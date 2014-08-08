@@ -35,4 +35,26 @@
         
         padding-top: @line_height;
     }
+
+    ul#labels{
+        max-height: 200px;
+
+        ul[extralabels]{
+            
+            li{
+                z-index: 2;
+                position: relative;
+                background-color: #fff;
+            }
+
+        }
+
+    }
+    .labellabel{
+        .roboto(bold);
+        color: @grey_light;
+        font-size: 11px;
+        text-transform: uppercase;
+        margin-top:45px;
+    }
 }

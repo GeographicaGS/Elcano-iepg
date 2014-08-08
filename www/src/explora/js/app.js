@@ -512,17 +512,25 @@ app.formatNumber = function (n,decimals){
     }
 
     if (typeof n == "number"){
-        return parseFloat(sprintf("%."+ decimals + "f",n)).toLocaleString();
+        return parseFloat(sprintf("%."+ decimals + "f",n)).toLocaleString(app.lang, {
+            style: 'decimal', 
+            minimumFractionDigits: 2 
+        });
     }
     else{
         
         if (n.indexOf(".") != -1){
             n = sprintf("%."+ decimals + "f",n);
-            return parseFloat(n).toLocaleString();    
+            return parseFloat(n).toFixed(decimals).toLocaleString(app.lang, {
+                style: 'decimal', 
+                minimumFractionDigits: 2 
+            });   
         }
         else{
-
-            return parseInt(n).toLocaleString();
+            return parseInt(n).toLocaleString(app.lang, {
+                style: 'decimal', 
+                minimumFractionDigits: 2 
+            });
         }    
     }
 };

@@ -238,21 +238,21 @@ html, body{ height:100%; min-width: 1024px;}
 }   
 
 body {
-	.roboto();
-	color:@grey;
-	font-size:16px;
-	line-height:24px;
+    .roboto();
+    color:@grey;
+    font-size:16px;
+    line-height:24px;
     min-width: 1024px !important; 
     overflow: hidden;
 }
 a.simple{
-	border-bottom: none !important;
-	text-decoration: none !important;
+    border-bottom: none !important;
+    text-decoration: none !important;
 }
 
 a.simple:hover{
-	border-bottom: 1px solid @yellow !important;
-	text-decoration: none !important;
+    border-bottom: 1px solid @yellow !important;
+    text-decoration: none !important;
 }
 
 a.nostyle{
@@ -271,17 +271,17 @@ a.grey_light{
 }
 
 p,span,div,table{
-	.roboto();
+    .roboto();
 }
 
 input{
-	padding: 0 10px;
-	border: none;
-	
+    padding: 0 10px;
+    border: none;
+    
 }
 input[placeholder]{
-	.roboto();
-	color:@grey_light;
+    .roboto();
+    color:@grey_light;
 }
 
 
@@ -302,100 +302,100 @@ input[placeholder]{
 
 /*@style=thin,light,normal,medium,bold,ultra-bold*/ 
 .roboto(@style) when(@style=thin){
-	font-weight:100;
-	font-family: @roboto;
+    font-weight:100;
+    font-family: @roboto;
 }
 
 .roboto(@style) when(@style=thinitalic){
-	font-weight:100;
-	font-style: italic;
-	font-family: @roboto;
+    font-weight:100;
+    font-style: italic;
+    font-family: @roboto;
 }
 
 .roboto(@style) when(@style=light){
-	font-weight:300;
-	font-family: @roboto;
+    font-weight:300;
+    font-family: @roboto;
 }
 
 .roboto(@style) when(@style=lightitalic){
-	font-weight:300;
-	font-style: italic;
-	font-family: @roboto;
+    font-weight:300;
+    font-style: italic;
+    font-family: @roboto;
 }
 
 .roboto(){
-	font-weight:400;
-	font-family: @roboto;
+    font-weight:400;
+    font-family: @roboto;
 }
 
 .roboto(@style) when(@style=italic){
-	.roboto();
-	font-style: italic;
+    .roboto();
+    font-style: italic;
 }
 
 .roboto(@style) when(@style=medium){
-	font-weight:500;
-	font-family: @roboto;
+    font-weight:500;
+    font-family: @roboto;
 }
 
 .roboto(@style) when(@style=mediumitalic){
-	font-weight:500;
-	font-style: italic;
-	font-family: @roboto;
+    font-weight:500;
+    font-style: italic;
+    font-family: @roboto;
 }
 
 .roboto(@style) when(@style=bold){
-	font-weight:700;
-	font-family: @roboto;
+    font-weight:700;
+    font-family: @roboto;
 }
 
 .roboto(@style) when(@style=bolditalic){
-	font-weight:700;
-	font-style: italic;
-	font-family: @roboto;
+    font-weight:700;
+    font-style: italic;
+    font-family: @roboto;
 }
 
 .roboto(@style) when(@style=ultra-bold){
-	font-weight:900;
-	font-family: @roboto;
+    font-weight:900;
+    font-family: @roboto;
 }
 
 .roboto(@style) when(@style=ultra-bolditalic){
-	font-weight:900;
-	font-style: italic;
-	font-family: @roboto;
+    font-weight:900;
+    font-style: italic;
+    font-family: @roboto;
 }
 
 .roboto_cond(){
-	font-weight:400;
-	font-family: @roboto_cond;
+    font-weight:400;
+    font-family: @roboto_cond;
 }
 
 .roboto_cond(@style) when(@style=italic){
-	.roboto_cond();
-	font-style: italic;
+    .roboto_cond();
+    font-style: italic;
 }
 
 .roboto_cond(@style) when(@style=bold){
-	font-weight:700;
-	font-family: @roboto_cond;
+    font-weight:700;
+    font-family: @roboto_cond;
 }
 
 .roboto_cond(@style) when(@style=bolditalic){
-	font-weight:700;
-	font-style: italic;
-	font-family: @roboto_cond;
+    font-weight:700;
+    font-style: italic;
+    font-family: @roboto_cond;
 }
 
 .roboto_cond(@style) when(@style=light){
-	font-weight:300;
-	font-family: @roboto_cond;
+    font-weight:300;
+    font-family: @roboto_cond;
 }
 
 .roboto_cond(@style) when(@style=lightitalic){
-	font-weight:300;
-	font-style: italic;
-	font-family: @roboto_cond;
+    font-weight:300;
+    font-style: italic;
+    font-family: @roboto_cond;
 }
 
 .roboto_light{.roboto(light);}
@@ -1825,16 +1825,16 @@ div.tooltip.comp{
 
             p {
                 margin-bottom: 25px;
-                font-size: 14px;
+                font-size: 17px;
                 .roboto(regular);
 
                 &.big {
-                    font-size: 24px;
+                    font-size: 20px;
                 }
             }
 
             &.separator {
-                padding-bottom: 125px;
+                padding-bottom: 90px;
                 border-bottom: 1px solid @yellow;
                 margin-bottom: 40px;
             }

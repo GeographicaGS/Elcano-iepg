@@ -16,7 +16,7 @@ from model import iepgdatamodel, basemap
 from common.errorhandling import ElcanoApiRestError
 import common.helpers
 import common.const as const
-from helpers import processFilter
+from helpers import processFilter, adjustBigUnits
 import varengine.varengine as varengine
 import numpy as numpy
 from collections import OrderedDict
@@ -105,6 +105,7 @@ def countrySheet(lang, family, countryCode):
                     "code": a["code"],
                     "value": a["value"],
                     "variable": k,
+                    "unit": "INDEX",
                     "year": year,
                     "percentage": famPercentage[k].values()[0]["value"] if k not in ["global"] else None
                 }
@@ -150,15 +151,11 @@ def countrySheet(lang, family, countryCode):
                 }
 
                 if lang=="en":
-                    if k=="gdp":
-                        d["value"] = round(a["value"]/1000000000, 2) if a["value"] else None
-                    if k=="population":
-                        d["value"] = round(a["value"]/1000000, 2) if a["value"] else None
+                    val,d["unit"] = adjustBigUnits(a["value"]) if a["value"] else (None, None)
+                    d["value"] = round(val, 2) if a["value"] else None
                 if lang=="es":
-                    if k=="gdp":
-                        d["value"] = round(a["value"]/1000000000000, 2) if a["value"] else None
-                    if k=="population":
-                        d["value"] = round(a["value"]/1000000, 2) if a["value"] else None
+                    val,d["unit"] = adjustBigUnits(a["value"], format=1) if a["value"] else (None, None)
+                    d["value"] = round(val, 2) if a["value"] else None
 
                 # Check if countryCode is a block. If it is, substract its members from countries
                 if countryCode in datacache.blocks:

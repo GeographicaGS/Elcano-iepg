@@ -503,7 +503,7 @@ app.getLoadingHTML = function(){
 
 app.formatNumber = function (n,decimals){
 
-    if (!decimals){
+    if (decimals ===null || decimals === undefined){
         decimals = 2;
     }
 
@@ -514,7 +514,7 @@ app.formatNumber = function (n,decimals){
     if (typeof n == "number"){
         return parseFloat(sprintf("%."+ decimals + "f",n)).toLocaleString(app.lang, {
             style: 'decimal', 
-            minimumFractionDigits: 2 
+            minimumFractionDigits: decimals
         });
     }
     else{
@@ -523,13 +523,13 @@ app.formatNumber = function (n,decimals){
             n = sprintf("%."+ decimals + "f",n);
             return parseFloat(n).toFixed(decimals).toLocaleString(app.lang, {
                 style: 'decimal', 
-                minimumFractionDigits: 2 
+                minimumFractionDigits: decimals
             });   
         }
         else{
             return parseInt(n).toLocaleString(app.lang, {
                 style: 'decimal', 
-                minimumFractionDigits: 2 
+                minimumFractionDigits: decimals 
             });
         }    
     }

@@ -12,8 +12,9 @@ OUTPUT_RECORDS = 3
 ORIENTATION_ROWS = 0
 ORIENTATION_COLS = 1
 
+
 class ExcelReader(object):
-    """Reads Excel files."""
+    """This class reads Reads Excel XSLX files. The constructor gets the path to the XSLX file."""
     _book = None
     
     def __init__(self, filePath):
@@ -22,11 +23,11 @@ class ExcelReader(object):
 
     @property
     def sheets(self):
-        """Sheets in workbook."""
+        """Sheets in the XLSX book."""
         return(self._book.sheet_names())
 
     def cellReader(self, sheetName, row, col):
-        """Reads a single cell."""
+        """Reads a single cell, given the sheet name, row, and col."""
         sheet = self._book.sheet_by_name(sheetName)
         return(sheet.cell(row, col))
 
@@ -36,7 +37,7 @@ class ExcelReader(object):
 
         - *sheetName:* sheet name;
         - *startCell:* cell to start reading from. Defaults to (0,0);
-        - *dimensions:* dimensions to read from the start cell. Defaults to the whole sheet extend;
+        - *dimensions:* tuple (for example (2,2)), dimensions to read from the start cell. Defaults to the whole sheet extend;
         - *markColumn:* column to check for start and end marks;
         - *startMark:* start mark;
         - *endMark:* end mark.
@@ -109,7 +110,7 @@ class ExcelReader(object):
             print sheet
 
     def readGeoVariableArray(self, sheetName, startCell=(0,0), dimensions=None, 
-                             geoentitiesOrientation=ORIENTATION_ROWS, dataType=np.float_):
+                             geoentitiesOrientation=ORIENTATION_ROWS, dataType=np.float):
         """Returns a GeoVariableArray given the square of a sheet and taking
         the geoentities either from top of columns or first column,
         depending on the geoentities parameter. The other orientation
@@ -119,7 +120,7 @@ class ExcelReader(object):
         - **startCell:** start cell to read from. Defaults to (0,0);
         - **dimensions:** dimensions to read. Defaults to the full extent of the sheet;
         - **geoentitiesOrientation:** tells if geoentities are row or column oriented. By default, they are searched in rows;
-        - **dataType:** data type to convert to. It is a Numpy data type. Defaults to np.float_
+        - **dataType:** data type to convert to. It is a Numpy data type. Defaults to np.float.
         
 
         TODO: column-oriented sheets reading are inefficient. Check,

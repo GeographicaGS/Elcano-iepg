@@ -5,7 +5,8 @@
 # --------------------------------
 
 import numpy as np, hashlib, arrayops
-from datetime import datetime
+from datetime import datetime, timedelta
+import calendar
 
 VAR_TYPE_CONTINUOUS = 0
 VAR_TYPE_DISCRETE = 1
@@ -129,52 +130,20 @@ class Time(object):
 
     def __init__(self, *timeInit):
         """Initializator. TODO: initialize months with str syntax '2013-01'."""
-        if isinstance(timeInit[0], str) and len(timeInit)==1:
+        if len(timeInit)==1:
             if "|" in timeInit[0]:
                 self.start = self._getDatetime(timeInit[0].split("|")[0])
-                self.end = self._getDatetime(timeInit[0].split("|")[1])
+                self.end = self._getDatetime(timeInit[0].split("|")[1], lowerLimit=False, initialTime=self.start)
             else:
                 self.start = self._getDatetime(timeInit[0])
-                self.end = self._getDatetime(timeInit[0])
+                self.end = self._getDatetime(timeInit[0], lowerLimit=False, initialTime=self.start)
         if len(timeInit)==2:
             self.start = self._getDatetime(timeInit[0])
-            self.end = self._getDatetime(timeInit[1])
+            self.end = self._getDatetime(timeInit[1], lowerLimit=False, initialTime=self.start)
 
-        if isinstance(timeInit[0], int) and len(timeInit)==3:
-            self.start = datetime(timeInit[0], timeInit[1], timeInit[2])
-            self.end = datetime(timeInit[0], timeInit[1], timeInit[2])
-
-        if isinstance(timeInit[0], int) and len(timeInit)==4 and timeInit[3] is None:
-            self.start = datetime(timeInit[0], timeInit[1], timeInit[2])
-            self.end = None
-
-        if isinstance(timeInit[0], int) and len(timeInit)==5:
-            self.start = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
-            self.end = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
-
-        if isinstance(timeInit[0], int) and len(timeInit)==5:
-            self.start = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
-            self.end = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
-
-        if isinstance(timeInit[0], int) and len(timeInit)==6 and timeInit[5] is not None:
-            self.start = datetime(timeInit[0], timeInit[1], timeInit[2])
-            self.end = datetime(timeInit[3], timeInit[4], timeInit[5])
-
-        if isinstance(timeInit[0], int) and len(timeInit)==6 and timeInit[5] is None:
-            self.start = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
-            self.end = None
-
-        if isinstance(timeInit[0], int) and len(timeInit)==10:
-            self.start = datetime(timeInit[0], timeInit[1], timeInit[2], timeInit[3], timeInit[4])
-            self.end = datetime(timeInit[5], timeInit[6], timeInit[7], timeInit[8], timeInit[9])
-
-        if timeInit[0] is None and len(timeInit)==6:
+        if self.start and self.end and self.start>self.end:
             self.start = None
-            self.end = datetime(timeInit[1], timeInit[2], timeInit[3], timeInit[4], timeInit[5])
-
-        if timeInit[0] is None and len(timeInit)==4:
-            self.start = None
-            self.end = datetime(timeInit[1], timeInit[2], timeInit[3])
+            self.end = None
 
     def __div__(self, time):
         """Operator overload. Returns True if time is into the interval,
@@ -202,17 +171,83 @@ class Time(object):
         """To str."""
         return("Time: "+str(self.start)+" | "+str(self.end))
 
-    def _getDatetime(self, strptime):
+    def _getDatetime(self, strptime, lowerLimit=True, initialTime=None):
         """Get the strptime."""
         if strptime=="" or strptime is None: return(None)
-        if ":" in strptime:
-            strp = "%Y-%m-%d %H:%M"
-        else:
-            strp = "%Y-%m-%d"
-            if "-" not in strptime:
-                strptime = strptime.split(".")[0] if "." in strptime else strptime
-                strptime = strptime+"-07-01"
 
+
+        # TODO: arreglar esto para que funcione con decrecimientos de año, contemplar las dos fechas a la vez, no hacer una análisis por separado.
+        if any([x in strptime for x in ("Y","M","W","D","H","m","S")]) and initialTime:
+            for x in ("Y","M","W","D","H","m","S"):
+                parse = strptime.split(x)
+                if len(parse)>1:
+                    c = int(parse[0])
+                    strptime = parse[1]
+                    if x=="Y":
+                        initialTime += datetime(initialTime.year+c, initialTime.month, initialTime.day, \
+                                                initialTime.hour, initialTime.minute, initialTime.second) - \
+                            initialTime
+                    if x=="M":
+                        if initialTime.month==12:
+                            initialTime += datetime(initialTime.year+c, 1, initialTime.day, \
+                                                    initialTime.hour, initialTime.minute, initialTime.second) - \
+                                initialTime
+                        else:
+                            initialTime += datetime(initialTime.year, initialTime.month+c, initialTime.day, \
+                                                    initialTime.hour, initialTime.minute, initialTime.second) - \
+                                initialTime
+                    if x=="W":
+                        initialTime += timedelta(weeks=c)
+                    if x=="D":
+                        initialTime += timedelta(days=c)
+                    if x=="H":
+                        initialTime += timedelta(hours=c)
+                    if x=="m":
+                        initialTime += timedelta(minutes=c)
+                    if x=="S":
+                        initialTime += timedelta(seconds=c)
+
+            return initialTime
+
+
+
+        strp = "%Y-%m-%d %H:%M:%S"
+        dt = strptime.split(" ")
+
+        # Process date
+        ymd = dt[0].split("-")
+        if len(ymd)==2:
+            if lowerLimit:
+                ymd.append("01")
+            else:
+                days = calendar.monthrange(int(ymd[0]), int(ymd[1]))[1]
+                ymd.append(str(days))
+        if len(ymd)==1:
+            if lowerLimit:
+                ymd.extend(["01","01"])
+            else:
+                ymd.extend(["12","31"])
+
+        # Process time
+        if len(dt)==2:
+            hms = dt[1].split(":")
+            if len(hms)==2:
+                if lowerLimit:
+                    hms.append("00")
+                else:
+                    hms.append("59")
+            if len(hms)==1:
+                if lowerLimit:
+                    hms.extend(["00","00"])
+                else:
+                    hms.extend(["59","59"])
+        else:
+            if lowerLimit:
+                hms = ["00","00","00"]
+            else:
+                hms = ["23","59","59"]
+
+        strptime = str(int(float(ymd[0])))+"-"+ymd[1]+"-"+ymd[2]+" "+hms[0]+":"+hms[1]+":"+hms[2]
         return(datetime.strptime(strptime, strp))
 
     def __hash__(self):
@@ -222,8 +257,10 @@ class Time(object):
 
 
 class GeoVariableArray(object):
-    """Data array for Equidna. TODO: test if Numpy supports discrete
-    values.
+    """Data array for Equidna. Instantiate it with a list of geoentities and times.
+
+    TODO: test if Numpy supports discrete values. 
+    TODO: initialize time with a list of strings. 
 
     """
     __data = None
@@ -245,22 +282,58 @@ class GeoVariableArray(object):
         self.__data[:] = np.nan
 
     @property
+    def geoentity(self):
+        """Geoentity instances in the data matrix."""
+        return(self.__geoentity)
+
+    @property
+    def time(self):
+        """Times instances in the data matrix."""
+        return(self.__time)
+
+    @property
+    def variable(self):
+        """Variable instances in the data matrix."""
+        return(self.__variable)
+
+    @property
     def shape(self):
-        """Returns dimensions."""
+        """Returns dimensions of the data matrix. First item is Geoentity number, second Time, 
+        and third Variable."""
         return self.__data.shape
 
     @property
     def size(self):
-        """Returns size."""
+        """Returns size of data: Geoentity x Time x Variable."""
         return self.__data.size
 
-    def __getitem__(self, key):
-        """TODO: implement slicing in the following ways:
+    @property
+    def data(self):
+        """Data matrix. It's a Numpy ndarray object."""
+        return(self.__data)
 
-        """
-        geo = self.__analyzeKey(key[0], self.__geoentity)
-        time = self.__analyzeKeyTime(key[1])
-        var = self.__analyzeKey(key[2], self.__variable)
+    def __getitem__(self, key):
+        """Gets data."""
+
+        print "Start : ", key, type(key)
+
+        if isinstance(key, (slice, int)):
+            return(self.__data[key])
+
+        if len(key)>0:
+            geo = self.__analyzeKeyGeoentity(key[0])
+        else:
+            geo = None
+        if len(key)>1:
+            time = self.__analyzeKeyTime(key[1])
+        else:
+            time = None
+        if len(key)>2:
+            var = self.__analyzeKeyVariable(key[2])
+        else:
+            var = None
+
+        print "End : ", geo, time, var
 
         return(self.__data[geo,time,var])
 
@@ -314,6 +387,9 @@ class GeoVariableArray(object):
         non-existent year, like in data["US","2323","V0"]. FIX!
 
         """
+
+        print "KeyTime : ",key, type(key)
+
         if callable(key):
             out = ()
             for i in range(0, len(self.__time)):
@@ -334,21 +410,32 @@ class GeoVariableArray(object):
         if isinstance(key, (int, slice)):
             return key
         
-    def __analyzeKey(self, key, dimension):
+    def __analyzeKeyGeoentity(self, key):
         """Analyses key for a given dimension."""
-        if isinstance(key, str) and isinstance(dimension[0], Time):
-            out = ()
-            t = Time(key)
-            for i in range(0, len(dimension)):
-                if dimension[i]/key:
-                    out+=(i,)
-            return(out)
+
+        print "KeyGeoentity : ", key, type(key)
+
         if isinstance(key, str):
-            return(dimension.index(key))
+            return(self.geoentity.index(key))
         if isinstance(key, tuple):
             out = ()
             for i in key:
-                out+=(self.__analyzeKey(i, dimension),)
+                out+=(self.__analyzeKeyGeoentity(i),)
+            return(out)
+        if isinstance(key, (int, slice)):
+            return(key)
+
+    def __analyzeKeyVariable(self, key):
+        """Analyses key for a given dimension."""
+
+        print "KeyVariable : ", key, type(key)
+
+        if isinstance(key, str):
+            return(self.variable.index(key))
+        if isinstance(key, tuple):
+            out = ()
+            for i in key:
+                out+=(self.__analyzeKeyVariable(i),)
             return(out)
         if isinstance(key, (int, slice)):
             return(key)
@@ -365,16 +452,17 @@ class GeoVariableArray(object):
         data = [data] if data and not isinstance(data[0], list) else data
         
         for i in range(0, len(geoentity)):
-            s = self.shape
-            if not data:
-                dataA = np.empty((1,s[1],s[2]))
-                dataA[:] = np.nan
-            else:
-                dataA = data[i]
+            if geoentity[i] not in self.geoentity:
+                s = self.shape
+                if not data:
+                    dataA = np.empty((1,s[1],s[2]))
+                    dataA[:] = np.nan
+                else:
+                    dataA = data[i]
 
-            self.__data = np.append(self.__data, np.array(dataA).reshape(1, s[1], s[2]), 
-                                    axis=0)
-            self.__geoentity.append(geoentity[i])
+                self.__data = np.append(self.__data, np.array(dataA).reshape(1, s[1], s[2]), 
+                                        axis=0)
+                self.__geoentity.append(geoentity[i])
 
     def addTime(self, time, data=None):
         """Adds new times to the time dimension. time can be a Time or a list
@@ -457,26 +545,6 @@ class GeoVariableArray(object):
 
         diffVariable = arrayops.arraySubstraction(geoVariableArray.variable, self.variable)
         self.addVariable(diffVariable, [geoVariableArray[:,:,x] for x in diffVariable])
-
-    @property
-    def data(self):
-        """Data matrix. It's a Numpy ndarray object."""
-        return(self.__data)
-
-    @property
-    def geoentity(self):
-        """Geoentities in the data matrix."""
-        return(self.__geoentity)
-
-    @property
-    def time(self):
-        """Times in the data matrix."""
-        return(self.__time)
-
-    @property
-    def variable(self):
-        """Variables in the data matrix."""
-        return(self.__variable)
 
 
 

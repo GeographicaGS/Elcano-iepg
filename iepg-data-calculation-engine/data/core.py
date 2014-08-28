@@ -261,6 +261,7 @@ class GeoVariableArray(object):
 
     TODO: test if Numpy supports discrete values. 
     TODO: initialize time with a list of strings. 
+    TODO: accessing the object like "x" should return the data array
 
     """
     __data = None
@@ -268,21 +269,91 @@ class GeoVariableArray(object):
     __time = None
     __variable = None
 
-    def __init__(self, geoentity, time):
+    def __init__(self, geoentity=None, time=None, variable=None, data=None):
         """Initializator. Gets a list of geoentities and times to initialize
         the data array. TODO: initialize time with a list of strings.
 
         """
-        self.__geoentity = [geoentity] if not isinstance(geoentity, list) else geoentity
-        time = [time] if not isinstance(time, list) else time
-        self.__time = [Time(x) for x in time if not isinstance(x, Time)]
-        self.__time.extend([x for x in time if isinstance(x, Time)])
-        self.__variable = []
-        self.__data = np.empty((len(self.__geoentity), len(self.__time), 1))
-        self.__data[:] = np.nan
+        self.__geoentity = [geoentity] if geoentity and not isinstance(geoentity, list) else geoentity
+        if time:
+            time = [time] if not isinstance(time, list) else time
+            self.__time = [Time(x) for x in time if not isinstance(x, Time)] if time else None
+            self.__time.extend([x for x in time if isinstance(x, Time)])
+        self.__variable = [variable] if variable and not isinstance(variable, list) else variable
+        
+        self.__addDataToMatrix(data=data)
+
+    def __addDataToMatrix(self, data=None, dimension=None):
+        """Adds data if the matrix is fully configured with geoentities,
+        times, and variables. Set it to nan if there are no data,
+        otherwise, adds the passed data, if any, to the given
+        dimension (if any, otherwise sets the whole matrix).
+
+        """
+        # print "EW : ", data
+        # print "EW : ", dimension
+        # print "EW : ", self.__data is not None and dimension is not None
+
+        # Creates the array if not there and all is in place
+        arrayJustCreated = False
+        if self.__data is None:
+            if self.__variable and self.__geoentity and self.__time:
+                self.__data = np.empty((len(self.__geoentity), len(self.__time), len(self.__variable)))
+                arrayJustCreated = True
+
+        if self.__data is not None and data is not None and dimension is None:
+            # Initializes data to full array
+            self.__data = np.array(data).reshape((len(self.__geoentity), 
+                                                  len(self.__time), len(self.__variable)))
+        elif self.__data is not None and dimension is not None:
+            # Adds data to a dimension, either blank or real data
+            s = self.shape
+            if dimension==0 and not arrayJustCreated:
+                if data:
+                    dataA = data
+                else:
+                    dataA = np.empty((1,s[1],s[2]))
+                    dataA[:] = np.nan
+                self.__data = np.append(self.__data, np.array(dataA).reshape(1,s[1],s[2]), axis=dimension)
+            elif dimension==0:
+                if data:
+                    self.__data = np.array(data).reshape(s[0],s[1],s[2])
+                else:
+                    self.__data[:] = np.nan
+            if dimension==1 and not arrayJustCreated:
+                if data:
+                    dataA = data
+                else:
+                    dataA = np.empty((s[0],1,s[2]))
+                    dataA[:] = np.nan
+                self.__data = np.append(self.__data, np.array(dataA).reshape(s[0],1,s[2]), axis=dimension)
+            elif dimension==1:
+                if data:
+                    self.__data = np.array(data).reshape(s[0],s[1],s[2])
+                else:
+                    self.__data[:] = np.nan
+            if dimension==2 and not arrayJustCreated:
+                if data:
+                    dataA = data
+                else:
+                    dataA = np.empty((s[0],s[1],1))
+                    dataA[:] = np.nan
+                self.__data = np.append(self.__data, np.array(dataA).reshape(s[0],s[1],1), axis=dimension)
+            elif dimension==2:
+                if data:
+                    self.__data = np.array(data).reshape(s[0],s[1],s[2])
+                else:
+                    self.__data[:] = np.nan
+        elif self.__data is not None:
+            self.__data[:] = np.nan
+
+    def __call__(self):
+        """Returns the data array."""
+        return self.__data
 
     @property
     def geoentity(self):
+
         """Geoentity instances in the data matrix."""
         return(self.__geoentity)
 
@@ -300,7 +371,10 @@ class GeoVariableArray(object):
     def shape(self):
         """Returns dimensions of the data matrix. First item is Geoentity number, second Time, 
         and third Variable."""
-        return self.__data.shape
+        if self.__data is not None:
+            return self.__data.shape
+        else:
+            return None
 
     @property
     def size(self):
@@ -313,29 +387,127 @@ class GeoVariableArray(object):
         return(self.__data)
 
     def __getitem__(self, key):
-        """Gets data."""
+        """Gets data. NOTE: Always retrieve data with a [:,:,:] format. If not, it returns None."""
+        if not isinstance(key, tuple) or len(key)<3:
+            return None
 
-        print "Start : ", key, type(key)
+        # print "Start geo: ", key[0], type(key[0])
+        # print "Start time: ", key[1], type(key[1])
+        # print "Start var: ", key[2], type(key[2])
 
-        if isinstance(key, (slice, int)):
-            return(self.__data[key])
+        geo = self.__analyzeKeyGeoentity(key[0])
+        time = self.__analyzeKeyTime(key[1])
+        var = self.__analyzeKeyVariable(key[2])
 
-        if len(key)>0:
-            geo = self.__analyzeKeyGeoentity(key[0])
+        # Filter void tuples
+        if geo==() or time==() or var==(): return None
+
+        # Filter single element tuples like (2,) to int
+        geo = int(geo[0]) if isinstance(geo, tuple) and len(geo)==1 else geo
+        time = int(time[0]) if isinstance(time, tuple) and len(time)==1 else time
+        var = int(var[0]) if isinstance(var, tuple) and len(var)==1 else var
+
+
+        print "End geo: ", geo, type(geo)
+        print "End time: ", time, type(time)
+        print "End var: ", var, type(var)
+
+        if isinstance(geo, slice):
+            start = geo.start if geo.start else 0
+            stop = geo.stop if geo.stop else len(self.__geoentity)
+            step = geo.step if geo.step else 1
+            itemsGeo = [self.__geoentity[i] for i in range(start, stop, step)]
+        elif isinstance(geo, int):
+            itemsGeo = [self.__geoentity[geo]]
         else:
-            geo = None
-        if len(key)>1:
-            time = self.__analyzeKeyTime(key[1])
-        else:
-            time = None
-        if len(key)>2:
-            var = self.__analyzeKeyVariable(key[2])
-        else:
-            var = None
+            itemsGeo = [self.__geoentity[i] for i in geo]
 
-        print "End : ", geo, time, var
+        if isinstance(time, slice):
+            start = time.start if time.start else 0
+            stop = time.stop if time.stop else len(self.__time)
+            step = time.step if time.step else 1
+            itemsTime = [self.__time[i] for i in range(start, stop, step)]
+        elif isinstance(time, int):
+            itemsTime = [self.__time[time]]
+        else:
+            itemsTime = [self.__time[i] for i in time]
 
-        return(self.__data[geo,time,var])
+        if isinstance(var, slice):
+            start = var.start if var.start else 0
+            stop = var.stop if var.stop else len(self.__geoentity)
+            step = var.step if var.step else 1
+            itemsVar = [self.__variable[i] for i in range(start, stop, step)]
+        elif isinstance(var, int):
+            itemsVar = [self.__variable[var]]
+        else:
+            itemsVar = [self.__variable[i] for i in var]
+
+
+        print "Items geo: ", itemsGeo
+        print "Items time: ", itemsTime
+        print "Items var: ", itemsVar
+
+
+        # If any of the indices is a tuple, life becomes a little bit miserable
+        if any([str(type(x))=="<type 'tuple'>" for x in (geo,time,var)]):
+            ordered = True
+            sequence = [geo,time,var]
+            typ = ["geo","time","var"]
+            while ordered:
+                ordered = False
+                # print "Ordered : ", sequence, typ
+                i = 0
+                while i<2:
+                    if not isinstance(sequence[i], tuple) and isinstance(sequence[i+1], tuple):
+                        sequence[i], sequence[i+1] = sequence[i+1], sequence[i]
+                        typ[i], typ[i+1] = typ[i+1], typ[i]
+                        ordered = True
+                    else:
+                        i+=1
+
+            out = self.__data
+            dims = 3
+            for i in range(0,3):
+                # print "i : ", i
+                # print "Dims : ", dims
+                # print "out"
+                # print out
+                # print
+                if typ[i]=="geo":
+                    if dims==3:
+                        out = out[geo,:,:]
+                    if dims==2:
+                        out = out[geo,:]
+                    if dims==1:
+                        out = out[geo]
+                if typ[i]=="time":
+                    if dims==3:
+                        out = out[:,time,:]
+                    if dims==2:
+                        out = out[:,time]
+                    if dims==1:
+                        out = out[time]
+                if typ[i]=="var":
+                    if dims==3:
+                        out = out[:,:,var]
+                    if dims==2:
+                        out = out[:,var]
+                    if dims==1:
+                        out = out[var]
+                if not isinstance(sequence[i], tuple):
+                    # print "Not tuple? :", type(typ[i])
+                    dims-=1
+            return out
+        else:
+            return self.__data[geo,time,var]
+
+            
+
+        # # if isinstance(key, (slice, int)):
+        # #     return(self.__data[key])
+
+
+
 
     def __setitem__(self, key, value):
         """Set item."""
@@ -387,12 +559,12 @@ class GeoVariableArray(object):
         non-existent year, like in data["US","2323","V0"]. FIX!
 
         """
-
-        print "KeyTime : ",key, type(key)
+        # print "UUU : ",key, type(key)
 
         if callable(key):
             out = ()
             for i in range(0, len(self.__time)):
+                # print "ll : ", key(self.__time[i])
                 if key(self.__time[i]):
                     out+=(i,)
             return out
@@ -406,15 +578,12 @@ class GeoVariableArray(object):
             out = ()
             for i in key:
                 out+=(self.__analyzeKeyTime(i),)
-            return out
+            return tuple(x for y in out for x in y)
         if isinstance(key, (int, slice)):
             return key
         
     def __analyzeKeyGeoentity(self, key):
         """Analyses key for a given dimension."""
-
-        print "KeyGeoentity : ", key, type(key)
-
         if isinstance(key, str):
             return(self.geoentity.index(key))
         if isinstance(key, tuple):
@@ -427,9 +596,6 @@ class GeoVariableArray(object):
 
     def __analyzeKeyVariable(self, key):
         """Analyses key for a given dimension."""
-
-        print "KeyVariable : ", key, type(key)
-
         if isinstance(key, str):
             return(self.variable.index(key))
         if isinstance(key, tuple):
@@ -450,19 +616,17 @@ class GeoVariableArray(object):
         """
         geoentity = [geoentity] if not isinstance(geoentity, list) else geoentity
         data = [data] if data and not isinstance(data[0], list) else data
-        
-        for i in range(0, len(geoentity)):
-            if geoentity[i] not in self.geoentity:
-                s = self.shape
-                if not data:
-                    dataA = np.empty((1,s[1],s[2]))
-                    dataA[:] = np.nan
-                else:
-                    dataA = data[i]
 
-                self.__data = np.append(self.__data, np.array(dataA).reshape(1, s[1], s[2]), 
-                                        axis=0)
+        if self.__geoentity is None:
+            self.__geoentity = []
+
+        for i in range(0, len(geoentity)):
+            if geoentity[i] not in self.__geoentity:
                 self.__geoentity.append(geoentity[i])
+                if data is not None:
+                    self.__addDataToMatrix(data=data[i], dimension=0)
+                else:
+                    self.__addDataToMatrix(dimension=0)
 
     def addTime(self, time, data=None):
         """Adds new times to the time dimension. time can be a Time or a list
@@ -472,45 +636,56 @@ class GeoVariableArray(object):
         """
         time = [time] if not isinstance(time, list) else time
         data = [data] if data and not isinstance(data[0], list) else data
-        
-        for i in range(0, len(time)):
-            s = self.shape
-            if not data:
-                dataA = np.empty((s[0],1,s[2]))
-                dataA[:] = np.nan
-            else:
-                dataA = data[i]
-            self.__data = np.append(self.__data, np.array(dataA).reshape(s[0], 1, s[2]), 
-                                    axis=1)
-            self.__time.append(Time(time[i]) if not isinstance(time[i], Time) else time[i])
 
-    def addVariable(self, name, darray):
+        if self.__time is None:
+            self.__time = []
+
+        for i in range(0, len(time)):
+            if time[i] not in self.__time:
+                self.__time.append(Time(time[i]) if not isinstance(time[i], Time) else time[i])
+                if data is not None:
+                    self.__addDataToMatrix(data=data[i], dimension=1)
+                else:
+                    self.__addDataToMatrix(dimension=1)
+
+    def addVariable(self, variable, data=None):
         """Adds a new variable to the variables dimension. Variables can be a
         string or a list of strings. darray is a unidimensional numpy
         ndarray or a bidimensional one. There must be enough data to
         fit the size of the array.
 
+        TODO: Use Variable objects here.
         TODO: check other addXXX methods and reharse this. CRAP!
 
         """
-        name = [name] if not isinstance(name, list) else name
-        darray = [darray] if not isinstance(darray, list) else darray
-        if len(name)!=len(darray):
-            raise EquidnaDataException("Variable names and matrices number mismatch.")
+        variable = [variable] if not isinstance(variable, list) else variable
+        data = [data] if data and not isinstance(data[0], list) else data
 
-        for i in range(0, len(name)):
-            if name[i] in self.variable:
-                continue
+        if self.__variable is None:
+            self.__variable = []
 
-            if darray[i].size!=self.__data[:,:,0].size:
-                raise EquidnaDataException("Data and GeoVariableArray must have the same size.")
+        for i in range(0, len(variable)):
+            if variable[i] not in self.__variable:
+                self.__variable.append(variable[i])
+                if data is not None:
+                    self.__addDataToMatrix(data=data[i], dimension=2)
+                else:
+                    self.__addDataToMatrix(dimension=2)
+            
 
-            s = self.shape
-            self.__variable.append(name[i])
-            if len(self.__variable)==1:
-                self.__data = darray[i].reshape((s[0],s[1],1))
-            else: 
-                self.__data = np.append(self.__data, darray[i].reshape((s[0],s[1],1)), axis=2)
+        # for i in range(0, len(name)):
+        #     if name[i] in self.variable:
+        #         continue
+
+        #     if darray[i].size!=self.__data[:,:,0].size:
+        #         raise EquidnaDataException("Data and GeoVariableArray must have the same size.")
+
+        #     s = self.shape
+        #     self.__variable.append(name[i])
+        #     if len(self.__variable)==1:
+        #         self.__data = darray[i].reshape((s[0],s[1],1))
+        #     else: 
+        #         self.__data = np.append(self.__data, darray[i].reshape((s[0],s[1],1)), axis=2)
 
     def copyStructure(self, copy=COPY_ALL):
         """Returns a GeoVariableArray with the same geoentities and times."""

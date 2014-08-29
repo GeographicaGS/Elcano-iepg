@@ -16,10 +16,12 @@ ORIENTATION_COLS = 1
 class ExcelReader(object):
     """This class reads Reads Excel XSLX files. The constructor gets the path to the XSLX file."""
     _book = None
+    _decimalSeparator = None
     
-    def __init__(self, filePath):
+    def __init__(self, filePath, decimalSeparator="."):
         """Opens the file."""
         self._book = xlrd.open_workbook(filePath)
+        self._decimalSeparator = decimalSeparator
 
     @property
     def sheets(self):
@@ -152,44 +154,85 @@ class ExcelReader(object):
                 for b in rows[1:]:
                     data.append(b[a+1])
 
+
+
         data = np.array([self.__cast(x.value, x.ctype, dataType) for x in data])
-        geovar = core.GeoVariableArray(geoentities, time)
-        geovar.addVariable(sheetName, data)
+        geovar = core.GeoVariableArray(geoentity=geoentities, time=time, variable=sheetName, data=data)
+        # geovar.addVariable(sheetName, data)
+
+
+        print "Rows"
+        print rows
+        print
+        print "Data"
+        print data
+        print
+        print "Geoentities : ", geoentities
+        print
+        print "Time : ", time
+        print
+
         
-        return(geovar)
+        return geovar
             
     def __cast(self, value, typeA, typeB):
         """Casts a type to a type. Types can be either Excel cell types,
         Python base types or Numpy types.
 
         """
+
+        # print "A : ", typeA
+        # print
+        # print "B : ", typeB
+        # print
+        # print "VAL : ", value
+        # print
+
         if typeA==0:
-            if typeB==np.float64 or typeB==np.int32 or typeB==np.uint64:
-                return(np.nan)
+            if typeB==np.float64 or typeB==np.float32 or typeB==np.int32 or \
+               typeB==np.uint64 or typeB==np.int64:
+                return np.nan
             if typeB==str:
-                return("")
+                return ""
         if typeA==1:
             if typeB==str:
-                return(str(value))
+                return str(value)
+            if typeB==np.int32:
+                if isinstance(value, unicode) and value=="":
+                    return np.nan
+                else:
+                    return np.int32(value)
+            if typeB==np.float32:
+                return np.float32(self.__analyzeStringNumber(value))
         if typeA==2:
             if typeB==np.float64:
-                return(np.float64(value))
+                return np.float64(value)
             if typeB==np.int32:
-                return(np.int32(value))
+                return np.int32(value)
             if typeB==np.uint64:
-                return(np.uint64(value))
+                return np.uint64(value)
+            if typeB==np.int64:
+                return np.int64(value)
             if typeB==str:
-                return(str(value))
+                return str(value)
         if typeA==str:
             if typeB==np.int32:
-                return(np.int32(value))
+                return np.int32(value)
         if typeA==int:
             if typeB==np.float64:
-                return(np.float64(value))
+                return np.float64(value)
 
         raise EquidnaExcelException("Unhandled type conversion: value %s (%s) from %s to %s" \
                                     % (value, type(value), typeA, typeB))
 
+    def __analyzeStringNumber(self, value):
+        """Examines the string representation of a number and translate it to
+        representation suitable for casting. For example, 1.007,5 >
+        1007.5 or 1,000,001.2 > 1000001.2.
+
+        """
+        a = value.rsplit(self._decimalSeparator)
+        return a[0]+"."+a[1]
 
 
 class EquidnaExcelException(Exception):

@@ -17,8 +17,12 @@ a = c.GeoVariableArray(geoentity=["ES","EN","US"], time=["2011","2012","2013"], 
 print a.shape
 
 print a()
+print 
 
-
+print a[0,0,0]
+print
+print a[("US","ES"),("2013","2011"),("V2","V0")]
+print
 
 # # print '000 : x[:,:,:]'
 # # print x[:,:,:]

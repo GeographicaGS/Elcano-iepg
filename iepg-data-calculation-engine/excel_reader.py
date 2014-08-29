@@ -7,7 +7,7 @@ import data.excel_utils as excel_utils, data.core as core, ast, numpy as np
 reload(excel_utils)
 reload(core)
 
-book = excel_utils.ExcelReader("Prototipo hoja de datos.xlsx")
+book = excel_utils.ExcelReader("Prototipo hoja de datos.xlsx", decimalSeparator=",")
 
 environment = dict()
 variables = dict()
@@ -17,13 +17,21 @@ geoentities = []
 # Read metadata
 environmentEx,lastRowEnv = book.rowReader("Metadata", startCell=(1,0), endMark="")
 variablesEx,lastRowVar = book.rowReader("Metadata", startCell=(lastRowEnv+1,0), startMark="Filiation")
+
 environmentEx.pop(len(environmentEx)-1)
 variablesEx.pop(0)
 
+
+print environmentEx, lastRowEnv
+print
+print variablesEx, lastRowVar
+print
+
+# Read configuration variables
 for i in environmentEx:
     environment[i[0].value] = ast.literal_eval(i[1].value)
 
-data = core.GeoVariableArray([],[])
+data = core.GeoVariableArray()
 
 # Read variables
 for i in variablesEx:
@@ -36,7 +44,13 @@ for i in variablesEx:
                         ast.literal_eval(i[3].value) if i[3].value!="" else None,
                         ast.literal_eval(i[6].value) if i[6].value!="" else None)
 
-    data.merge(book.readGeoVariableArray(".".join(var.filiation), dataType=var.dataType))
+    print var
+    print
+
+    print "Reads:"
+    a = book.readGeoVariableArray(".".join(var.filiation), dataType=var.dataType)
+
+    data.merge(a)
 
 #     data,last = book.rowReader(str(i[0].value), startRow=0, endRow=1)
 #     years.extend([int(x.value) for x in data[0][1:]])

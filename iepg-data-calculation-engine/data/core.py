@@ -309,38 +309,47 @@ class GeoVariableArray(object):
             # Adds data to a dimension, either blank or real data
             s = self.shape
             if dimension==0 and not arrayJustCreated:
-                if data:
+                if data is not None:
                     dataA = data
                 else:
                     dataA = np.empty((1,s[1],s[2]))
                     dataA[:] = np.nan
                 self.__data = np.append(self.__data, np.array(dataA).reshape(1,s[1],s[2]), axis=dimension)
             elif dimension==0:
-                if data:
+                if data is not None:
                     self.__data = np.array(data).reshape(s[0],s[1],s[2])
                 else:
                     self.__data[:] = np.nan
             if dimension==1 and not arrayJustCreated:
-                if data:
+                if data is not None:
                     dataA = data
                 else:
                     dataA = np.empty((s[0],1,s[2]))
                     dataA[:] = np.nan
                 self.__data = np.append(self.__data, np.array(dataA).reshape(s[0],1,s[2]), axis=dimension)
             elif dimension==1:
-                if data:
+                if data is not None:
                     self.__data = np.array(data).reshape(s[0],s[1],s[2])
                 else:
                     self.__data[:] = np.nan
             if dimension==2 and not arrayJustCreated:
-                if data:
+                if data is not None:
                     dataA = data
                 else:
                     dataA = np.empty((s[0],s[1],1))
                     dataA[:] = np.nan
                 self.__data = np.append(self.__data, np.array(dataA).reshape(s[0],s[1],1), axis=dimension)
             elif dimension==2:
-                if data:
+                if data is not None:
+
+
+
+                    print "LLLLL : "
+                    print "Shape : ", s
+
+                    print data.shape
+                    print
+
                     self.__data = np.array(data).reshape(s[0],s[1],s[2])
                 else:
                     self.__data[:] = np.nan
@@ -436,16 +445,18 @@ class GeoVariableArray(object):
             start = var.start if var.start else 0
             stop = var.stop if var.stop else len(self.__geoentity)
             step = var.step if var.step else 1
-            itemsVar = [self.__variable[i] for i in range(start, stop, step)]
+            # itemsVar = [self.__variable[i] for i in range(start, stop, step)]
         elif isinstance(var, int):
-            itemsVar = [self.__variable[var]]
+            # itemsVar = [self.__variable[var]]
+            pass
         else:
-            itemsVar = [self.__variable[i] for i in var]
+            # itemsVar = [self.__variable[i] for i in var]
+            pass
 
 
-        print "Items geo: ", itemsGeo
-        print "Items time: ", itemsTime
-        print "Items var: ", itemsVar
+        # print "Items geo: ", itemsGeo
+        # print "Items time: ", itemsTime
+        # print "Items var: ", itemsVar
 
 
         # If any of the indices is a tuple, life becomes a little bit miserable
@@ -508,7 +519,6 @@ class GeoVariableArray(object):
 
 
 
-
     def __setitem__(self, key, value):
         """Set item."""
         geo = self.__analyzeKey(key[0], self.__geoentity)
@@ -516,6 +526,16 @@ class GeoVariableArray(object):
         var = self.__analyzeKey(key[2], self.__variable)
 
         self.__data[geo,time,var]=value
+
+    def getSubset(self, key):
+        """TODO: Returns a GeoVariableArray with the given subset. Take code
+        from __getitem__ to analyze the key, create a new private
+        method that retrieves both indexes and data. __getitem__ will
+        return only data and this will return a new GeoVariableArray
+        with indexes.
+
+        """
+        pass
 
     def sort(self):
         unsorted = True
@@ -654,12 +674,22 @@ class GeoVariableArray(object):
         ndarray or a bidimensional one. There must be enough data to
         fit the size of the array.
 
+        TODO: DATA MUST BE A NUMPY NDARRAY! Change in all add data functions.
+
         TODO: Use Variable objects here.
         TODO: check other addXXX methods and reharse this. CRAP!
+        TODO: Review merge function because of rewritten addVariable and company
 
         """
+        
+        # print "VAR : ", variable, type(variable)
+        # print
+        # print "DATA : ", data, type(data)
+        # print
+        # print "KKK : ", isinstance(data, np.ndarray)
+
         variable = [variable] if not isinstance(variable, list) else variable
-        data = [data] if data and not isinstance(data[0], list) else data
+        data = [data] if data is not None and isinstance(data, np.ndarray) else data
 
         if self.__variable is None:
             self.__variable = []
@@ -705,21 +735,45 @@ class GeoVariableArray(object):
         omitted.
 
         """
-        diffGeoentityAB = arrayops.arraySubstraction(self.geoentity, geoVariableArray.geoentity)
+        # diffGeoentityAB = arrayops.arraySubstraction(self.geoentity, geoVariableArray.geoentity)
         diffGeoentityBA = arrayops.arraySubstraction(geoVariableArray.geoentity, self.geoentity)
-        self.addGeoentity(diffGeoentityBA)
-        geoVariableArray.addGeoentity(diffGeoentityAB)
 
-        diffTimeAB = arrayops.arraySubstraction(self.time, geoVariableArray.time)
+        print "Shape A : ", self.shape
+        print "Shape B : ", geoVariableArray.shape
+
+        # print "AB : ", diffGeoentityAB
+        # print
+        # print "BA : ", diffGeoentityBA
+        # print
+
+
+        self.addGeoentity(diffGeoentityBA)
+        # geoVariableArray.addGeoentity(diffGeoentityAB)
+
+        # diffTimeAB = arrayops.arraySubstraction(self.time, geoVariableArray.time)
         diffTimeBA = arrayops.arraySubstraction(geoVariableArray.time, self.time)
-        self.addTime(diffTimeBA)
-        geoVariableArray.addTime(diffTimeAB)
+
+        # print "diffTimeAB : ", diffTimeAB
+        # print
+        # print "diffTimeBA : ", diffTimeBA
+        # print
+
+
+        if diffTimeBA is not None:
+            self.addTime(diffTimeBA)
+
+        # if diffTimeAB is not None:
+        #     geoVariableArray.addTime(diffTimeAB)
 
         self.sort()
         geoVariableArray.sort()
 
         diffVariable = arrayops.arraySubstraction(geoVariableArray.variable, self.variable)
-        self.addVariable(diffVariable, [geoVariableArray[:,:,x] for x in diffVariable])
+
+        # print "kkkk : "
+        # print [geoVariableArray[:,:,x] for x in diffVariable]
+
+        # self.addVariable(diffVariable, data=[geoVariableArray[:,:,x] for x in diffVariable])
 
 
 

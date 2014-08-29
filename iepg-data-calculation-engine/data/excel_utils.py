@@ -158,7 +158,6 @@ class ExcelReader(object):
 
         data = np.array([self.__cast(x.value, x.ctype, dataType) for x in data])
         geovar = core.GeoVariableArray(geoentity=geoentities, time=time, variable=sheetName, data=data)
-        # geovar.addVariable(sheetName, data)
 
 
         print "Rows"

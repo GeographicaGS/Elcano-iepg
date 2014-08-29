@@ -735,43 +735,53 @@ class GeoVariableArray(object):
         omitted.
 
         """
-        # diffGeoentityAB = arrayops.arraySubstraction(self.geoentity, geoVariableArray.geoentity)
+        diffGeoentityAB = arrayops.arraySubstraction(self.geoentity, geoVariableArray.geoentity)
         diffGeoentityBA = arrayops.arraySubstraction(geoVariableArray.geoentity, self.geoentity)
 
         print "Shape A : ", self.shape
         print "Shape B : ", geoVariableArray.shape
 
-        # print "AB : ", diffGeoentityAB
-        # print
-        # print "BA : ", diffGeoentityBA
-        # print
+        print "AB : ", diffGeoentityAB
+        print
+        print "BA : ", diffGeoentityBA
+        print
 
+        if diffGeoentityBA is not None:
+            self.addGeoentity(diffGeoentityBA)
+        if diffGeoentityAB is not None:
+            geoVariableArray.addGeoentity(diffGeoentityAB)
 
-        self.addGeoentity(diffGeoentityBA)
-        # geoVariableArray.addGeoentity(diffGeoentityAB)
-
-        # diffTimeAB = arrayops.arraySubstraction(self.time, geoVariableArray.time)
+        diffTimeAB = arrayops.arraySubstraction(self.time, geoVariableArray.time)
         diffTimeBA = arrayops.arraySubstraction(geoVariableArray.time, self.time)
 
-        # print "diffTimeAB : ", diffTimeAB
-        # print
-        # print "diffTimeBA : ", diffTimeBA
-        # print
+        print "diffTimeAB : ", diffTimeAB
+        print
+        print "diffTimeBA : ", diffTimeBA
+        print
 
 
         if diffTimeBA is not None:
             self.addTime(diffTimeBA)
 
-        # if diffTimeAB is not None:
-        #     geoVariableArray.addTime(diffTimeAB)
+        if diffTimeAB is not None:
+            geoVariableArray.addTime(diffTimeAB)
 
         self.sort()
         geoVariableArray.sort()
 
         diffVariable = arrayops.arraySubstraction(geoVariableArray.variable, self.variable)
 
-        # print "kkkk : "
-        # print [geoVariableArray[:,:,x] for x in diffVariable]
+        print "DiffVariable : "
+        print [geoVariableArray[:,:,x] for x in diffVariable]
+
+
+        print "Shape A F: ", self.shape
+        print "Shape B F: ", geoVariableArray.shape
+        print
+        print
+
+        print "kkkk : "
+        print [geoVariableArray[:,:,x] for x in diffVariable]
 
         # self.addVariable(diffVariable, data=[geoVariableArray[:,:,x] for x in diffVariable])
 

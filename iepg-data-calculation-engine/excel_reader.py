@@ -34,23 +34,29 @@ for i in environmentEx:
 data = core.GeoVariableArray()
 
 # Read variables
-for i in variablesEx:
-    var = core.Variable(i[0].value, 
-                        getattr(core, i[4].value),
-                        getattr(np, i[5].value), 
-                        environment["LANGUAGE_CODES"], 
-                        ast.literal_eval(i[1].value) if i[1].value!="" else None,
-                        ast.literal_eval(i[2].value) if i[2].value!="" else None,
-                        ast.literal_eval(i[3].value) if i[3].value!="" else None,
-                        ast.literal_eval(i[6].value) if i[6].value!="" else None)
+# for i in variablesEx:
+#     var = core.Variable(i[0].value, 
+#                         getattr(core, i[4].value),
+#                         getattr(np, i[5].value), 
+#                         environment["LANGUAGE_CODES"], 
+#                         ast.literal_eval(i[1].value) if i[1].value!="" else None,
+#                         ast.literal_eval(i[2].value) if i[2].value!="" else None,
+#                         ast.literal_eval(i[3].value) if i[3].value!="" else None,
+#                         ast.literal_eval(i[6].value) if i[6].value!="" else None)
 
-    print var
-    print
+# print var
+# print
 
-    print "Reads:"
-    a = book.readGeoVariableArray(".".join(var.filiation), dataType=var.dataType)
+a = book.readGeoVariableArray("IEPG.Economic.Energy", dataType=np.int32)
+b = book.readGeoVariableArray("IEPG.Economic.EnergyEst", dataType=np.int32)
 
-    data.merge(a)
+# data.merge(a)
+# data.merge(b)
+
+# print "Reads:"
+# a = book.readGeoVariableArray(".".join(var.filiation), dataType=var.dataType)
+
+# data.merge(a)
 
 #     data,last = book.rowReader(str(i[0].value), startRow=0, endRow=1)
 #     years.extend([int(x.value) for x in data[0][1:]])

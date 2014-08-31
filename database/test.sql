@@ -1,52 +1,15 @@
-select 
- code                  ,
- date_in               ,
- date_out              ,
- energy                +
- primary_goods         +
- manufactures          +
- services              +
- investments           +
- troops                +
- military_equipment    +
- migrations            +
- tourism               +
- sports                +
- culture               +
- information           +
- technology            +
- science               +
- education             +
- cooperation           ,
- economic_contribution +
- military_contribution +
- soft_contribution     
-from iepg_data_redux.iepg_relative_contribution
-where code='AE' and date_in='1990-01-01';
+select
+  a.name as aname,
+  b.name as bname
+from
+  maplex.vw__names a inner join
+  maplex.vw__names b on
+  a.id_geoentity=b.id_geoentity
+where
+  a.id_name_family=3 and 
+  b.id_name_family=5
+order by
+  aname
+;
 
-select 
- code                  ,
- date_in               ,
- date_out              ,
- energy                +
- primary_goods         +
- manufactures          +
- services              +
- investments           +
- troops                +
- military_equipment    +
- migrations            +
- tourism               +
- sports                +
- culture               +
- information           +
- technology            +
- science               +
- education             +
- cooperation           ,
- economic_presence +
- military_presence +
- soft_presence,
-  iepg     
-from iepg_data_redux.iepg_data
-where code='AE' and date_in='1990-01-01';
+

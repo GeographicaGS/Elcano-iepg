@@ -1,6 +1,6 @@
 # coding=UTF8
 
-import xlrd, datetime, core, numpy as np
+import xlrd, datetime, core, numpy as np, xlsxwriter
 reload(core)
 
 
@@ -109,10 +109,10 @@ class ExcelReader(object):
         identical sheets starting in a cell for a certain dimension."""
         for sheet in sheets:
             sheet = self._book.sheet_by_name(sheet)
-            print sheet
+            # print sheet
 
     def readGeoVariableArray(self, sheetName, startCell=(0,0), dimensions=None, 
-                             geoentitiesOrientation=ORIENTATION_ROWS, dataType=np.float):
+                             geoentitiesOrientation=ORIENTATION_ROWS, dataType=np.float32):
         """Returns a GeoVariableArray given the square of a sheet and taking
         the geoentities either from top of columns or first column,
         depending on the geoentities parameter. The other orientation
@@ -154,22 +154,20 @@ class ExcelReader(object):
                 for b in rows[1:]:
                     data.append(b[a+1])
 
-
-
         data = np.array([self.__cast(x.value, x.ctype, dataType) for x in data])
         geovar = core.GeoVariableArray(geoentity=geoentities, time=time, variable=sheetName, data=data)
 
 
-        print "Rows"
-        print rows
-        print
-        print "Data"
-        print data
-        print
-        print "Geoentities : ", geoentities
-        print
-        print "Time : ", time
-        print
+        # print "Rows"
+        # print rows
+        # print
+        # print "Data"
+        # print data
+        # print
+        # print "Geoentities : ", geoentities
+        # print
+        # print "Time : ", time
+        # print
 
         
         return geovar
@@ -204,6 +202,8 @@ class ExcelReader(object):
             if typeB==np.float32:
                 return np.float32(self.__analyzeStringNumber(value))
         if typeA==2:
+            if typeB==np.float32:
+                return np.float32(value)
             if typeB==np.float64:
                 return np.float64(value)
             if typeB==np.int32:
@@ -230,8 +230,27 @@ class ExcelReader(object):
         1007.5 or 1,000,001.2 > 1000001.2.
 
         """
+        if value=="":
+            return None
+
         a = value.rsplit(self._decimalSeparator)
         return a[0]+"."+a[1]
+
+
+class ExcelWriter(object):
+    """This class writes to an XSLX file."""
+    _workbook = None
+
+    def init(self, workbookPath):
+        """Creates the workbook to write to."""
+        self._workbook = xlsxwriter.Workbook(workbookPath)
+
+    def writeGeoVariableArray(self, geoVariableArray, variable=None):
+        """Writes a GeoVariableArray to an Excel."""
+        variable = geoVariableArray.variable if variable is None else variable
+
+        print variable
+            
 
 
 class EquidnaExcelException(Exception):

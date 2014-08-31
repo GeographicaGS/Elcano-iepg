@@ -344,11 +344,11 @@ class GeoVariableArray(object):
 
 
 
-                    print "LLLLL : "
-                    print "Shape : ", s
+                    # print "LLLLL : "
+                    # print "Shape : ", s
 
-                    print data.shape
-                    print
+                    # print data.shape
+                    # print
 
                     self.__data = np.array(data).reshape(s[0],s[1],s[2])
                 else:
@@ -417,9 +417,9 @@ class GeoVariableArray(object):
         var = int(var[0]) if isinstance(var, tuple) and len(var)==1 else var
 
 
-        print "End geo: ", geo, type(geo)
-        print "End time: ", time, type(time)
-        print "End var: ", var, type(var)
+        # print "End geo: ", geo, type(geo)
+        # print "End time: ", time, type(time)
+        # print "End var: ", var, type(var)
 
         if isinstance(geo, slice):
             start = geo.start if geo.start else 0
@@ -701,21 +701,6 @@ class GeoVariableArray(object):
                     self.__addDataToMatrix(data=data[i], dimension=2)
                 else:
                     self.__addDataToMatrix(dimension=2)
-            
-
-        # for i in range(0, len(name)):
-        #     if name[i] in self.variable:
-        #         continue
-
-        #     if darray[i].size!=self.__data[:,:,0].size:
-        #         raise EquidnaDataException("Data and GeoVariableArray must have the same size.")
-
-        #     s = self.shape
-        #     self.__variable.append(name[i])
-        #     if len(self.__variable)==1:
-        #         self.__data = darray[i].reshape((s[0],s[1],1))
-        #     else: 
-        #         self.__data = np.append(self.__data, darray[i].reshape((s[0],s[1],1)), axis=2)
 
     def copyStructure(self, copy=COPY_ALL):
         """Returns a GeoVariableArray with the same geoentities and times."""
@@ -738,13 +723,13 @@ class GeoVariableArray(object):
         diffGeoentityAB = arrayops.arraySubstraction(self.geoentity, geoVariableArray.geoentity)
         diffGeoentityBA = arrayops.arraySubstraction(geoVariableArray.geoentity, self.geoentity)
 
-        print "Shape A : ", self.shape
-        print "Shape B : ", geoVariableArray.shape
+        # print "Shape A : ", self.shape
+        # print "Shape B : ", geoVariableArray.shape
 
-        print "AB : ", diffGeoentityAB
-        print
-        print "BA : ", diffGeoentityBA
-        print
+        # print "AB : ", diffGeoentityAB
+        # print
+        # print "BA : ", diffGeoentityBA
+        # print
 
         if diffGeoentityBA is not None:
             self.addGeoentity(diffGeoentityBA)
@@ -754,11 +739,10 @@ class GeoVariableArray(object):
         diffTimeAB = arrayops.arraySubstraction(self.time, geoVariableArray.time)
         diffTimeBA = arrayops.arraySubstraction(geoVariableArray.time, self.time)
 
-        print "diffTimeAB : ", diffTimeAB
-        print
-        print "diffTimeBA : ", diffTimeBA
-        print
-
+        # print "diffTimeAB : ", diffTimeAB
+        # print
+        # print "diffTimeBA : ", diffTimeBA
+        # print
 
         if diffTimeBA is not None:
             self.addTime(diffTimeBA)
@@ -771,19 +755,19 @@ class GeoVariableArray(object):
 
         diffVariable = arrayops.arraySubstraction(geoVariableArray.variable, self.variable)
 
-        print "DiffVariable : "
-        print [geoVariableArray[:,:,x] for x in diffVariable]
+        # print "DiffVariable : "
+        # print [geoVariableArray[:,:,x] for x in diffVariable]
 
 
-        print "Shape A F: ", self.shape
-        print "Shape B F: ", geoVariableArray.shape
-        print
-        print
+        # print "Shape A F: ", self.shape
+        # print "Shape B F: ", geoVariableArray.shape
+        # print
+        # print
 
-        print "kkkk : "
-        print [geoVariableArray[:,:,x] for x in diffVariable]
+        # print "kkkk : "
+        # print [geoVariableArray[:,:,x] for x in diffVariable]
 
-        # self.addVariable(diffVariable, data=[geoVariableArray[:,:,x] for x in diffVariable])
+        self.addVariable(diffVariable, data=[geoVariableArray[:,:,x] for x in diffVariable])
 
 
 

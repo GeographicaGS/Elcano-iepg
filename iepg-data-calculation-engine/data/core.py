@@ -18,7 +18,8 @@ COPY_TIMES = 2
 
 
 class Geoentity(object):
-    """TODO: Geoentity class."""
+    """TODO: Geoentity class.
+    TODO: enable Maplex multi-name indexing and ordering."""
     pass
 
 
@@ -124,7 +125,10 @@ class Variable(object):
 
 
 class Time(object):
-    """Time interval for Equidna."""
+    """Time interval for Equidna.
+
+    TODO: create a function called 'strRepresentation' with rich configuration of the time interval string representation.
+    TODO: create a function to return the mid-point of the interval."""
     start = None
     end = None
 

@@ -241,16 +241,46 @@ class ExcelWriter(object):
     """This class writes to an XSLX file."""
     _workbook = None
 
-    def init(self, workbookPath):
+    def __init__(self, workbookPath):
         """Creates the workbook to write to."""
         self._workbook = xlsxwriter.Workbook(workbookPath)
 
-    def writeGeoVariableArray(self, geoVariableArray, variable=None):
-        """Writes a GeoVariableArray to an Excel."""
-        variable = geoVariableArray.variable if variable is None else variable
+    def writeGeoVariableArray(self, geoVariableArray, variable=None, sheetName=None, startCell=(0,0),
+                              geoentitiesOrientation=ORIENTATION_ROWS, timeFormat="Y-M-D"):
+        """Writes a GeoVariableArray to an Excel. Arguments:
 
-        print variable
+        * *variable:* a string or list of strings with the names of the variables to be written. If None, all variables are written;
+        * *sheetName:* a string or list of strings with the name of the sheets to be created. If None, the names of the variables are used;
+        * *startCell:* tuple of (row,column) representing the cell to start writing data to. (0,0) by default;
+        * *geoentitiesOrientation:* orientation of table to be written. Either excel_utils.ORIENTATION_ROWS or excel_utils.ORIENTATION_COLS. Default the former;
+        * *timeFormat:* format of time to be written to the spreadsheet. By default, 'Y-M-D'.
+
+        TODO: Absolutely tailored to IEPG needs. Make true."""
+        variable = geoVariableArray.variable if variable is None else variable
+        variable = [variable] if not isinstance(variable, list) else variable
+        sheetName = variable if sheetName is None else sheetName
+        sheetName = [sheetName] if not isinstance(sheetName, list) else sheetName
+
+        if len(variable)!=len(sheetName):
+            raise EquidnaExcelException("writeGeoVariableArray: dimension of 'variable' parameter should match that of 'sheetName'")
+
+        for i in range(0, len(variable)):
+            ws = self._workbook.add_worksheet(sheetName[i])
+            ws.write(startCell[0], startCell[1], "Code")
+
+            for a in range(0, len(geoVariableArray.geoentity)):
+                ws.write(startCell[0]+a+1, startCell[1], geoVariableArray.geoentity[a])
             
+            for a in range(0, len(geoVariableArray.time)):
+                ws.write(startCell[0], startCell[1]+1+a, str(geoVariableArray.time[a].start.year))
+
+            shape = geoVariableArray.shape
+
+            for row in range(0, shape[0]):
+                for col in range(0, shape[1]):
+                    value = geoVariableArray[row,col,variable[i]]
+                    ws.write(startCell[0]+1+row, startCell[1]+1+col, 
+                             None if np.isnan(value) else value)
 
 
 class EquidnaExcelException(Exception):

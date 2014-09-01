@@ -250,7 +250,8 @@ class ExcelWriter(object):
         self._workbook.close()
 
     def writeGeoVariableArray(self, geoVariableArray, variable=None, sheetName=None, startCell=(0,0),
-                              geoentitiesOrientation=ORIENTATION_ROWS, timeFormat="Y-M-D"):
+                              geoentitiesOrientation=ORIENTATION_ROWS, timeFormat="Y-M-D",
+                              countryHeader="Country"):
         """Writes a GeoVariableArray to an Excel. Arguments:
 
         * *variable:* a string or list of strings with the names of the variables to be written. If None, all variables are written;
@@ -258,6 +259,7 @@ class ExcelWriter(object):
         * *startCell:* tuple of (row,column) representing the cell to start writing data to. (0,0) by default;
         * *geoentitiesOrientation:* orientation of table to be written. Either excel_utils.ORIENTATION_ROWS or excel_utils.ORIENTATION_COLS. Default the former;
         * *timeFormat:* format of time to be written to the spreadsheet. By default, 'Y-M-D'.
+        * *countryHeader:* header for country name/code column/row. Defaults to 'Country'.
 
         TODO: Absolutely tailored to IEPG needs. Make true."""
         variable = geoVariableArray.variable if variable is None else variable
@@ -270,7 +272,7 @@ class ExcelWriter(object):
 
         for i in range(0, len(variable)):
             ws = self._workbook.add_worksheet(sheetName[i])
-            ws.write(startCell[0], startCell[1], "Code")
+            ws.write(startCell[0], startCell[1], countryHeader)
 
             for a in range(0, len(geoVariableArray.geoentity)):
                 ws.write(startCell[0]+a+1, startCell[1], geoVariableArray.geoentity[a])

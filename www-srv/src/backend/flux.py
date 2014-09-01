@@ -7,7 +7,7 @@ IEPG Calculation Engine service.
 """
 from backend import app
 from backend.utils import auth
-from flask import request, jsonify, session, send_file
+from flask import request, session, send_file
 from common.config import backend
 import hashlib
 import time
@@ -48,9 +48,10 @@ def iepgEngine():
 
     # Read configuration variables
     for i in environmentEx:
-        environment[i[0].value] = ast.literal_eval(i[1].value)
+        environment[i[0].value] = ast.literal_eval(str(i[1].value))
 
     data = core.GeoVariableArray()
+    refYear = str(environment["REFERENCE_YEAR"])
 
     # Read variables
     for i in variablesEx:
@@ -64,6 +65,8 @@ def iepgEngine():
                             ast.literal_eval(i[6].value) if i[6].value!="" else None)
 
         data.merge(book.readGeoVariableArray(".".join(var.filiation)))
+
+    shape = data.shape
 
     # Normal calculus
     normal = ["IEPG.Economic.Energy",
@@ -83,27 +86,31 @@ def iepgEngine():
 
     for i in normal:
         if i+"Est" in data.variable:
-            d = np.fmax(np.round(data[:,:,i]*1000.0/np.nanmax(data[:,"2010",i])), data[:,:,i+"Est"])
+            d = np.fmax(np.round(data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i])), 
+                        data[:,:,i+"Est"])
         else:
-            d = np.round(data[:,:,i]*1000.0/np.nanmax(data[:,"2010",i]))
+            d = np.round(data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i]))
 
         data.addVariable(i+"_IEPG", data=d)
 
     # Sports calculus
-    linearCoef = [0.48,0.56,0.58,0.82,1,1,1,1]
+    linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
+    medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
 
-    sports = ((75.0/np.repeat( \
-            np.nansum(data[:,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,8), 70, axis=0).reshape(70,8)* \
+    sports = ((medals_fifa[0]/np.repeat( \
+                               np.nansum(data[:,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
+                               shape[0], axis=0).reshape(shape[0],shape[1])* \
               10000*data[:,:,"IEPG.Soft.Support.Olimpics"])+ \
-              (25.0/np.repeat( \
-            np.nansum(data[:,:,"IEPG.Soft.Support.FIFAPoints"], axis=0).reshape(1,8), 70, axis=0).reshape(70,8)* \
+              (medals_fifa[1]/np.repeat( \
+                            np.nansum(data[:,:,"IEPG.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
+                                         shape[0], axis=0).reshape(shape[0],shape[1])* \
                    10000*data[:,:,"IEPG.Soft.Support.FIFAPoints"]))* \
-                   np.repeat(np.array(linearCoef).reshape(1,8), 70, axis=0)
+                   np.repeat(np.array(linearCoef).reshape(1,shape[1]), shape[0], axis=0)
 
     data.addVariable("IEPG.Soft.SportsCoef", data=sports)
     data.addVariable("IEPG.Soft.Sports_IEPG", data=
                      np.round(data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
-                              np.nanmax(data[:,"2010","IEPG.Soft.SportsCoef"])))
+                              np.nanmax(data[:,refYear,"IEPG.Soft.SportsCoef"])))
 
     # Military equipment
     militaryEquipment = ['IEPG.Military.Support.AircraftC',
@@ -119,14 +126,14 @@ def iepgEngine():
     militaryCoefsEquip = []
 
     for i in militaryEquipment:
-        militaryCoefs.append(np.nansum(data[:,"2010",militaryEquipment])/np.nansum(data[:,"2010",i]))
+        militaryCoefs.append(np.nansum(data[:,refYear,militaryEquipment])/np.nansum(data[:,refYear,i]))
 
     militaryTotal = np.nansum(np.array(militaryCoefs))
 
     for i in militaryCoefs:
         militaryCoefsEquip.append(i/militaryTotal)
 
-    ae = np.zeros((70,8))
+    ae = np.zeros((shape[0],shape[1]))
 
     for i in range(0, len(militaryCoefsEquip)):
         ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]])
@@ -135,31 +142,31 @@ def iepgEngine():
 
     data.addVariable("IEPG.Military.MilitaryEquipment_IEPG", data=
                      np.round(data[:,:,"MilitaryPoints"]*1000.0/ \
-                              np.nanmax(data[:,"2010","MilitaryPoints"])))
+                              np.nanmax(data[:,refYear,"MilitaryPoints"])))
 
     # Dimensions and Index
-    cEconomic = [18,13,20,23,26]
+    cEconomic = environment["ECONOMIC_COEFICIENTS"]
     vEconomic = ["Energy","PrimaryGoods","Manufactures","Services","Investments"]
-    cMilitary = [51,49]
+    cMilitary = environment["MILITARY_COEFICIENTS"]
     vMilitary = ["Troops", "MilitaryEquipment"]
-    cSoft = [9,9,7,15,13,13,12,12,10]
+    cSoft = environment["SOFT_COEFICIENTS"]
     vSoft = ["Migrations", "Tourism", "Sports", "Culture", "Information", "Technology", "Science",
              "Education", "DevelopmentC"]
-    cIndex = [38,16,46]
+    cIndex = environment["DIMENSION_COEFICIENTS"]
 
-    a = np.zeros((70,8))
+    a = np.zeros((shape[0],shape[1]))
     for i in range(0, len(cEconomic)):
         a+=data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"]*cEconomic[i]
     
     data.addVariable("IEPG.Global.Economic", data=a/100.0)
 
-    a = np.zeros((70,8))
+    a = np.zeros((shape[0],shape[1]))
     for i in range(0, len(cMilitary)):
         a+=data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"]*cMilitary[i]
     
     data.addVariable("IEPG.Global.Military", data=a/100.0)
 
-    a = np.zeros((70,8))
+    a = np.zeros((shape[0],shape[1]))
     for i in range(0, len(cSoft)):
         a+=data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"]*cSoft[i]
     
@@ -194,7 +201,7 @@ def iepgEngine():
 
     for i in variable:
         a = data[:,:,i]/ \
-            (np.repeat(np.nansum(data[:,:,i], axis=0).reshape(1,8), 70, axis=0))
+            (np.repeat(np.nansum(data[:,:,i], axis=0).reshape(1,shape[1]), shape[0], axis=0))
 
         data.addVariable(i+"_QUOTE", data=a)
 
@@ -361,3 +368,4 @@ def iepgEngine():
     return(send_file(outFileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
                      attachment_filename="Real_Instituto_Elcano-Calculo_IEPG.xlsx",
                      as_attachment=True))
+

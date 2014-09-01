@@ -1,0 +1,30 @@
+<div class="pull-left">
+    <h1 class="page-header col-md-1"><lang>Calculo índice</lang></h1>
+    
+</div>
+
+<div class="pull-right pr15">
+    <button type="button" class="btn btn-l btnlink cancel"><lang>Cancelar</lang></button>
+</div>
+
+<hr class="featurette-divider">
+<div class="DestacadosForm">
+    <form role="form" enctype="multipart/form-data" action="<%= app.config.API_URL%>/iepgengine" method="post">
+   
+        <p>Pulse "Calcular" para subir el fichero plantilla de datos y lanzar el proceso de cálculo. El proceso de cálculo se configura en la propia plantilla de datos. <br/><br/>
+        Se descargará automaticamente un Excel con los resultados pasados unos segundos.
+        </p>
+        
+        <input type="file" name="file"  style="margin-left:-10000px"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+
+    </form>  
+    <div class="pull-left pl15 col-md-11 btn_botton">
+         <div class="col-md-11 pl15">
+            <button type="button" class="btn btn-l calc_button" ><lang>Calcular</lang></button>
+            <button type="button" class="btn btn-l btnlink cancel"><lang>Cancelar</lang></button>
+        </div>
+    </div>
+
+    
+</div>
+            

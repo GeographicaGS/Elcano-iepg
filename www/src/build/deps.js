@@ -62,6 +62,9 @@ deps.Backend.JS = {
 			"backend/js/view/news/news_list_view.js",
 			"backend/js/view/news/news_detail_view.js",
 
+			// Calc views
+			"backend/js/view/calc/calc_form_view.js",
+
 			// router
 			"backend/js/router.js",
 			// app

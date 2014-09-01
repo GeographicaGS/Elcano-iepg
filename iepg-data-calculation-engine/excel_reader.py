@@ -215,8 +215,6 @@ for i in range(0, len(vSoft)):
 
 
 
-
-
 ew = excel_utils.ExcelWriter("/home/malkab/Desktop/test"+str(dt.datetime.now())+".xlsx")
 
 ew.writeGeoVariableArray(data, variable=['IEPG.Economic.Energy_IEPG',

@@ -240,10 +240,85 @@ class ExcelReader(object):
 class ExcelWriter(object):
     """This class writes to an XSLX file."""
     _workbook = None
+    _styles = None
 
     def __init__(self, workbookPath):
         """Creates the workbook to write to."""
         self._workbook = xlsxwriter.Workbook(workbookPath)
+        self._styles = dict()
+
+    def addStyle(self, styleName, styleDefinition):
+        """Adds a style to the workbook.
+
+        - *styleName:* style name;
+        - *styleDefinition:* dictionary containing a XlsxWriter style definition. Examples:
+
+        ```
+        {
+        "font_color": "blue",
+        "underline": 1,
+        "bg_color": "white"
+        }
+
+        {
+        "font_color": "white",
+        "size": 20,
+        "valign": "vcenter",
+        "pattern": 1,
+        "bg_color": "orange"
+        }
+
+        {
+        "bold": True
+        }
+
+        {
+        "bg_color": "#08608C",
+        "font_color": "white",
+        "valign": "vcenter",
+        "align": "center",
+        "size": 12
+        }
+
+        {
+        "bg_color": "#eeeeee",
+        "valign": "vcenter"
+        }
+
+        {
+        "bg_color": "#ffffff",
+        "valign": "vcenter"
+        }
+        ```
+        """
+        self._styles[styleName] = self._workbook.add_format(styleDefinition)
+
+    def setRowStyle(self, sheet, row, height, style=None):
+        """Sets row style.
+
+        - *sheet:* sheet object where the cell is;
+        - *row:* row;
+        - *height:* row height;
+        - *style:* style name (previously loaded with addStyle).
+        """
+        if style is None:
+            sheet.set_row(row, height)
+        else:
+            sheet.set_row(row, height, self._styles[style])
+
+    def setColumnStyle(self, sheet, firstCol, lastCol, width, style=None):
+        """Sets column style.
+
+        - *sheet:* sheet object where the cell is;
+        - *firstCol:* first column;
+        - *lastCol:* last column;
+        - *width:* column width;
+        - *style:* column style.
+        """
+        if style is None:
+            sheet.set_column(firstCol, lastCol, width)
+        else:
+            sheet.set_column(firstCol, lastCol, width, self._styles[style])
 
     def closeWorkbook(self):
         """Closes the workbook."""
@@ -261,11 +336,14 @@ class ExcelWriter(object):
         * *timeFormat:* format of time to be written to the spreadsheet. By default, 'Y-M-D'.
         * *countryHeader:* header for country name/code column/row. Defaults to 'Country'.
 
+        Returns the created worksheets object for further refinement, if necessary.
+
         TODO: Absolutely tailored to IEPG needs. Make true."""
         variable = geoVariableArray.variable if variable is None else variable
         variable = [variable] if not isinstance(variable, list) else variable
         sheetName = variable if sheetName is None else sheetName
         sheetName = [sheetName] if not isinstance(sheetName, list) else sheetName
+        sheets = dict()
 
         if len(variable)!=len(sheetName):
             raise EquidnaExcelException("writeGeoVariableArray: dimension of 'variable' parameter should match that of 'sheetName'")
@@ -287,6 +365,10 @@ class ExcelWriter(object):
                     value = geoVariableArray[row,col,variable[i]]
                     ws.write(startCell[0]+1+row, startCell[1]+1+col, 
                              None if np.isnan(value) else value)
+
+            sheets[sheetName[i]] = ws
+
+        return sheets
 
 
 class EquidnaExcelException(Exception):

@@ -15,6 +15,18 @@ app.view.Document = Backbone.View.extend({
         this.$el.html(app.loadingHTML());
     },
 
+    events:{
+        "mouseenter #labels li[seemore]": function(e){
+            var $el = $(e.target),
+                $panel = this.$("ul[extralabels]").show();
+
+        },
+        "mouseleave #labels li[seemore]": function(e){
+            var $el = $(e.target),
+                $panel = this.$("ul[extralabels]").hide();
+
+        }
+    },
     _initialize: function(){
         this.latestDocs = new app.collection.LatestNews();
         this.latestDocs.section = 4;

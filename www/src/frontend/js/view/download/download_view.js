@@ -132,16 +132,6 @@ app.view.Download = Backbone.View.extend({
                                     }
                                     years = years.slice(0,-1);
                                     
-                                    // Too dificult
-                                    // aux = $("#thematicBlock").find(".active[key]");
-                                    // for(var i=0; i<$(aux).length; i++){
-                                    //     if($(aux[i]).attr("key") == "iepg" || $(aux[i]).attr("key") == "iepe"){
-                                    //         variables += "global@" + $(aux[i]).attr("key") + "," ;
-                                    //     }else{
-                                    //         variables += $(aux[i]).attr("key") + "@";
-                                    //         variables += ($(aux[i]).hasClass("tematica") ? "iepg":"iepe") + ",";
-                                    //     }
-                                    // }
                                     variables = $(".active[key][family]").map(function(){ return $(this).attr("key") + "@" + $(this).attr("family")  ; }).get().join();
                                     
                                     aux = $("#countryDownload").find(".active");

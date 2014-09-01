@@ -33,11 +33,12 @@ app.view.thematicBlock = Backbone.View.extend({
             self = this;
 
         _.each(app.view.tools.utils.variablesTree().data.children,function(d){
-            if (f=="iepe" && d.key=="military_global") return;
+            if (f=="iepe" && d.key=="military_global" ) return;
 
             html += self.getHtmlThematic(d.name,d.key, "level2",f);
 
             _.each(d.children,function(c) {
+                if (f=="iepe" && c.key=="cooperation") return;
                 html += self.getHtmlThematic(c.name, c.key, "level3",f);
             });
         });

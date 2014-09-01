@@ -92,7 +92,15 @@
                         </div>
                         <div class="col-sm-5 col-md-5">
                             <span class="grey size_16"><%= app.formatNumber(gdp.value) %></span>
-                            <span class="grey_light uppercase size_13">[<lang>Billones US dollar</lang>]</span>
+                            <span class="grey_light uppercase size_13">
+                                <% if (gdp.unit == "Million" ) { %>
+                                    [<lang>Millones US dollar</lang>]
+                                <% } else if (gdp.unit == "ES Billion" || gdp.unit == "US Billion") { %>
+                                    [<lang>Billones US dollar</lang>]
+                                <% } else { %>
+                                    [<lang>US dollar</lang>]
+                                <% } %>
+                            </span>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
                             <span class="size_13">
@@ -132,8 +140,24 @@
                             
                         </div>
                         <div class="col-sm-5 col-md-5">
-                            <span class="grey size_16"><%= app.formatNumber(population.value) %></span>
-                            <span class="grey_light uppercase size_13">[<lang>Millones</lang>]</span>
+                            <span class="grey size_16">
+                                <% 
+                                if (population.unit) { 
+                                    print(app.formatNumber(population.value));
+                                }
+                                else{
+                                    print(app.formatNumber(population.value,0));
+                                } 
+                                %>
+                            </span>
+                            <span class="grey_light uppercase size_13">
+                                 <% if (population.unit == "Million" ) { %>
+                                    [<lang>Millones hab</lang>]
+                                <% } else if (population.unit == "ES Billion" || population.unit == "US Billion") { %>
+                                    [<lang>Billones hab</lang>]
+                                <% } else { %>
+                                    <lang>hab</lang>
+                                <% } %>
                         </div>
                         <div class="col-sm-5 col-md-5 co_ranking">
                               <span class="size_13">

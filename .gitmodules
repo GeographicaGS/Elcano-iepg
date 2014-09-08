@@ -1,0 +1,3 @@
+[submodule "www-srv/src/pythonhelpers"]
+	path = www-srv/src/pythonhelpers
+	url = git@github.com:GeographicaGS/pythonhelpers.git

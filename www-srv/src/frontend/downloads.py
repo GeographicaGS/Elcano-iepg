@@ -31,11 +31,11 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     fileName = os.path.join(backend["tmpFolder"], 
                             hashlib.sha256(request.url.strip(request.url_root)).hexdigest()+".xlsx")
 
-    # Try to get file from cache
-    # if os.path.isfile(fileName):
-    #     return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-    #                      attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
-    #                      as_attachment=True))
+    Try to get file from cache
+    if os.path.isfile(fileName):
+        return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+                         attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
+                         as_attachment=True))
 
     translate = dc.isoToEnglish if language=="en" else dc.isoToSpanish
     years = sorted(years.split(","))
@@ -140,6 +140,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                     worksheet.write(row,0,year,normalL)
                     worksheet.set_column(0,0,8)
                     col = 1
+                    blank = True
                     for country in countries:
                         worksheet.write(1,col, unicode(country.values()[0].decode("utf-8")), normalC)
                         worksheet.set_column(col,col,15)
@@ -151,7 +152,6 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                             worksheet.set_row(row,25,highlight)
                         else:
                             worksheet.set_row(row,25)
-                        col+=1
                     row+=1
             else:
                 for country in countries:
@@ -230,12 +230,12 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                             familyName = u"europea" if language=="es" else u"european"
                         colName = (varName+u" ("+familyName+u")")
                         variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
-                        worksheet.write(1,col,colName)
-                        worksheet.set_column(col,col,15)
+                        worksheet.write(1,col,colName,normalC)
+                        worksheet.set_column(col,col,20)
                         data = chelpers.getData(variable, year=year, code=country.keys()[0])
                         val = data.values()[0]["value"]
                         fval = round(float(val),2) if val!=None else None
-                        worksheet.write(row,col,fval)
+                        worksheet.write(row,col,fval,normalL)
                         if (row+2)%3==0:
                             worksheet.set_row(row,25,highlight)
                         else:
@@ -271,23 +271,24 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                         familyName = u"europea" if language=="es" else u"european"
                     colName = (varName+u" ("+familyName+u")")
                     variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
-                    worksheet.write(row,0,colName,bold_format)
+                    worksheet.write(row,0,colName,normalL)
+                    worksheet.set_column(0,0,30)
                     col = 1
                     for year in years:
-                        worksheet.write(1,col, year)
+                        worksheet.write(1,col, year, normalC)
                         data = chelpers.getData(variable, year=year, code=country.keys()[0])
                         val = data.values()[0]["value"]
                         fval = round(float(val),2) if val!=None else None
-                        worksheet.write(row,col,fval)
+                        worksheet.write(row,col,fval,normalL)
                         if (row+2)%3==0:
-                            worksheet.set_row(row,18,highlight)
+                            worksheet.set_row(row,30,highlight)
                         else:
-                            worksheet.set_row(row,18)
+                            worksheet.set_row(row,30)
                         col+=1
                     row+=1
             else:
                 for year in years:
-                    worksheet.write(row,0,year,bold_format)
+                    worksheet.write(row,0,year,normalL)
                     col = 1
                     for var in variables:
                         varSplitted = var.split("@")
@@ -298,11 +299,12 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                             familyName = u"europea" if language=="es" else u"european"
                         colName = (varName+u" ("+familyName+u")")
                         variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
-                        worksheet.write(1,col,colName)
+                        worksheet.write(1,col,colName,normalC)
+                        worksheet.set_column(col,col,25)
                         data = chelpers.getData(variable, year=year, code=country.keys()[0])
                         val = data.values()[0]["value"]
                         fval = round(float(val),2) if val!=None else None
-                        worksheet.write(row,col,fval)
+                        worksheet.write(row,col,fval,normalL)
                         if (row+2)%3==0:
                             worksheet.set_row(row,18,highlight)
                         else:
@@ -312,7 +314,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
             
             row+=2
             worksheet.write(row, 0, "Más información:".decode("utf-8") if language=="es" else 
-                            "More information:".decode("utf-8"))
+                            "More information:".decode("utf-8"), info)
             worksheet.write_url(row+1, 0, "http://www.globalpresence.realinstitutoelcano.org", url_format,
                                 "http://www.globalpresence.realinstitutoelcano.org")
 

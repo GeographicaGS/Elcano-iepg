@@ -187,23 +187,3 @@ def newStuff():
         s["time"] = str(s["time"].isoformat())
 
     return(jsonify({"results": stuff}))
-
-
-############
-# DEPRECATED
-############
-# @app.route('/home/countrylist/<string:lang>', methods=['GET'])
-def countryList(lang):
-    """Returns the list of IEPG countries alphabetically ordered:
-
-    /home/countrylist/en
-
-    returns:
-
-    {"results": [
-    {"country_name": "Algeria"}, 
-    {"country_name": "Angola"}, 
-    {"country_name": "Argentina"}, ... ]}
-    """
-    m = HomeModel()
-    return(jsonify({"results": m.countryList(lang)}))

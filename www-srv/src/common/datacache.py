@@ -7,22 +7,31 @@ Data cache.
 """
 
 import common.cachewrapper as cachewrapper
+from pythonhelpers.database.datacache import RedisDataCache
+import redis
 import const
+
+connclient = redis.StrictRedis(host="localhost", port=6379, db=0)
+mc = RedisDataCache(connclient, prefix="iepg_", timeout=None)
 
 dataSets = dict()
 for fam in const.variableNames.keys():
-    dataSets[fam] = cachewrapper.getM(fam)
+    # dataSets[fam] = cachewrapper.getM(fam)
+    dataSets[fam] = mc.get(fam)
+
     
-blocks = cachewrapper.getM("blocks")
-blocksNoEu = cachewrapper.getM("blocksNoEu")
-countriesAndEu = cachewrapper.getM("countriesAndEu")
-countries = cachewrapper.getM("countries")
-blocksAndCountries = cachewrapper.getM("blocksAndCountries")
-isoToSpanish = cachewrapper.getM("isoToSpanish")
-spanishToIso = cachewrapper.getM("spanishToIso")
-isoToEnglish = cachewrapper.getM("isoToEnglish")
-englishToIso = cachewrapper.getM("englishToIso")
-isoToGeoentity = cachewrapper.getM("isoToGeoentity")
-geoentityToIso = cachewrapper.getM("geoentityToIso")
+blocks = mc.get("blocks")
+blocksNoEu = mc.get("blocksNoEu")
+countriesAndEu = mc.get("countriesAndEu")
+countries = mc.get("countries")
+blocksAndCountries = mc.get("blocksAndCountries")
+isoToSpanish = mc.get("isoToSpanish")
+spanishToIso = mc.get("spanishToIso")
+isoToEnglish = mc.get("isoToEnglish")
+englishToIso = mc.get("englishToIso")
+isoToGeoentity = mc.get("isoToGeoentity")
+geoentityToIso = mc.get("geoentityToIso")
+ 
+
 
 print "Cache done."

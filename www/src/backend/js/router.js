@@ -27,6 +27,8 @@ app.router = Backbone.Router.extend({
         "news/edit/:id" : "editNews",
         "news/:id" : "newsDetail",
 
+        "calc" : "calc",
+
         //"project/:id": "showProject",
         /* Sample usage: http://example.com/#about */
         "*other"    : "defaultRoute"
@@ -117,5 +119,9 @@ app.router = Backbone.Router.extend({
         app.showView(new app.view.news.DetailView({
             model : new app.model.New({"id": id})
         }));
+    },
+
+    calc: function(){
+         app.showView(new app.view.calc.CalcFormView());
     }
 });

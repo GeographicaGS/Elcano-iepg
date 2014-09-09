@@ -12,7 +12,7 @@ from common.config import backend
 import hashlib
 import time
 import os
-import flux_lib.excel_utils as excel_utils, flux_lib.core as core
+import flux_lib.data.excel_utils as excel_utils, flux_lib.data.core as core
 import ast
 import numpy as np
 import datetime as dt

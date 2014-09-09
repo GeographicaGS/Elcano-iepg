@@ -9,7 +9,7 @@ from explora import app
 from flask import jsonify,request,make_response
 import common.helpers as chelpers
 import common.datacache as datacache
-import flux_lib.core as flux
+import flux_lib.data.core as flux
 from collections import OrderedDict
 import numpy as np
 

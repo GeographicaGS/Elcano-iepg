@@ -31,7 +31,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     fileName = os.path.join(backend["tmpFolder"], 
                             hashlib.sha256(request.url.strip(request.url_root)).hexdigest()+".xlsx")
 
-    Try to get file from cache
+    # Try to get file from cache
     if os.path.isfile(fileName):
         return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
                          attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",

@@ -50,35 +50,59 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     tabs = tabs[0]
 
     workbook = xlsxwriter.Workbook(fileName)
+
     url_format = workbook.add_format({
         "font_color": "blue",
         "underline": 1,
-        "bg_color": "white"
+        "bg_color": "white",
+        "size": 10
     })
+
     title_format = workbook.add_format({
         "font_color": "white",
         "size": 20,
         "valign": "vcenter",
         "pattern": 1,
-        "bg_color": "orange"
+        "bg_color": "#e03127",
     })
+
     bold_format = workbook.add_format({
         "bold": True
     })
+
     header_format = workbook.add_format({
-        "bg_color": "#08608C",
-        "font_color": "white",
+        "bg_color": "#fdc300",
         "valign": "vcenter",
         "align": "center",
         "size": 12
     })
+
     highlight = workbook.add_format({
         "bg_color": "#eeeeee",
         "valign": "vcenter"
     })
+
     no_highlight = workbook.add_format({
         "bg_color": "#ffffff",
         "valign": "vcenter"
+    })
+
+    normalC = workbook.add_format({
+        "text_wrap": "True",
+        "valign": "vcenter",
+        "align": "center",
+        "size": 10
+    })
+
+    normalL = workbook.add_format({
+        "text_wrap": "True",
+        "valign": "vcenter",
+        "size": 10
+    })
+
+    info = workbook.add_format({
+        "valign": "vcenter",
+        "size": 10
     })
 
     allVariables = dict()
@@ -113,40 +137,44 @@ def getDownloadData(language, years, variables, countries, rows, columns):
             row = 2
             if rows=="year":
                 for year in years:
-                    worksheet.write(row,0,year, bold_format)
+                    worksheet.write(row,0,year,normalL)
+                    worksheet.set_column(0,0,8)
                     col = 1
+                    blank = True
                     for country in countries:
-                        worksheet.write(1,col, unicode(country.values()[0].decode("utf-8")))
+                        worksheet.write(1,col, unicode(country.values()[0].decode("utf-8")), normalC)
+                        worksheet.set_column(col,col,15)
                         data = chelpers.getData(variable, year=year, code=country.keys()[0])
                         val = data.values()[0]["value"]
                         fval = round(float(val),2) if val!=None else None
-                        worksheet.write(row,col,fval)
+                        worksheet.write(row,col,fval, normalL)
                         if (row+2)%3==0:
-                            worksheet.set_row(row,18,highlight)
+                            worksheet.set_row(row,25,highlight)
                         else:
-                            worksheet.set_row(row,18)
-                        col+=1
+                            worksheet.set_row(row,25)
                     row+=1
             else:
                 for country in countries:
-                    worksheet.write(row,0,unicode(country.values()[0].decode("utf-8")),bold_format)
+                    worksheet.write(row,0,unicode(country.values()[0].decode("utf-8")), normalL)
+                    worksheet.set_column(0,0,15)
                     col = 1
                     for year in years:
-                        worksheet.write(1,col,year)
+                        worksheet.write(1,col,year, normalC)
+                        worksheet.set_column(col,col,8)
                         data = chelpers.getData(variable, year=year, code=country.keys()[0])
                         val = data.values()[0]["value"]
                         fval = round(float(val),2) if val!=None else None
-                        worksheet.write(row,col,fval)
+                        worksheet.write(row,col,fval, normalL)
                         if (row+2)%3==0:
-                            worksheet.set_row(row,18,highlight)
+                            worksheet.set_row(row,25,highlight)
                         else:
-                            worksheet.set_row(row,18)
+                            worksheet.set_row(row,25)
                         col+=1
                     row+=1
             
             row+=2
             worksheet.write(row, 0, "Más información:".decode("utf-8") if language=="es" else 
-                            "More information:".decode("utf-8"), bold_format)
+                            "More information:".decode("utf-8"), info)
             worksheet.write_url(row+1, 0, "http://www.globalpresence.realinstitutoelcano.org", url_format,
                                 "http://www.globalpresence.realinstitutoelcano.org")
 
@@ -172,24 +200,26 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                         familyName = u"europea" if language=="es" else u"european"
                     colName = (varName+u" ("+familyName+u")")
                     variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
-                    worksheet.write(row,0,colName,bold_format)
+                    worksheet.write(row,0,colName,normalL)
+                    worksheet.set_column(0,0,30)
                     col = 1
-
                     for country in countries:
-                        worksheet.write(1,col, unicode(country.values()[0].decode("utf-8")))
+                        worksheet.write(1,col, unicode(country.values()[0].decode("utf-8")), normalC)
+                        worksheet.set_column(col,col,15)
                         data = chelpers.getData(variable, year=year, code=country.keys()[0])
                         val = data.values()[0]["value"]
                         fval = round(float(val),2) if val!=None else None
-                        worksheet.write(row,col,fval)
+                        worksheet.write(row,col,fval, normalL)
                         if (row+2)%3==0:
-                            worksheet.set_row(row,18,highlight)
+                            worksheet.set_row(row,25,highlight)
                         else:
-                            worksheet.set_row(row,18)
+                            worksheet.set_row(row,25)
                         col+=1
                     row+=1
             else:
                 for country in countries:
-                    worksheet.write(row,0,unicode(country.values()[0].decode("utf-8")),bold_format)
+                    worksheet.write(row,0,unicode(country.values()[0].decode("utf-8")),normalL)
+                    worksheet.set_column(0,0,15)
                     col = 1
                     for var in variables:
                         varSplitted = var.split("@")
@@ -200,21 +230,22 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                             familyName = u"europea" if language=="es" else u"european"
                         colName = (varName+u" ("+familyName+u")")
                         variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
-                        worksheet.write(1,col,colName)
+                        worksheet.write(1,col,colName,normalC)
+                        worksheet.set_column(col,col,20)
                         data = chelpers.getData(variable, year=year, code=country.keys()[0])
                         val = data.values()[0]["value"]
                         fval = round(float(val),2) if val!=None else None
-                        worksheet.write(row,col,fval)
+                        worksheet.write(row,col,fval,normalL)
                         if (row+2)%3==0:
-                            worksheet.set_row(row,18,highlight)
+                            worksheet.set_row(row,25,highlight)
                         else:
-                            worksheet.set_row(row,18)
+                            worksheet.set_row(row,25)
                         col+=1
                     row+=1
             
             row+=2
             worksheet.write(row, 0, "Más información:".decode("utf-8") if language=="es" else 
-                            "More information:".decode("utf-8"), bold_format)
+                            "More information:".decode("utf-8"), info)
             worksheet.write_url(row+1, 0, "http://www.globalpresence.realinstitutoelcano.org", url_format,
                                 "http://www.globalpresence.realinstitutoelcano.org")
 
@@ -240,23 +271,24 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                         familyName = u"europea" if language=="es" else u"european"
                     colName = (varName+u" ("+familyName+u")")
                     variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
-                    worksheet.write(row,0,colName,bold_format)
+                    worksheet.write(row,0,colName,normalL)
+                    worksheet.set_column(0,0,30)
                     col = 1
                     for year in years:
-                        worksheet.write(1,col, year)
+                        worksheet.write(1,col, year, normalC)
                         data = chelpers.getData(variable, year=year, code=country.keys()[0])
                         val = data.values()[0]["value"]
                         fval = round(float(val),2) if val!=None else None
-                        worksheet.write(row,col,fval)
+                        worksheet.write(row,col,fval,normalL)
                         if (row+2)%3==0:
-                            worksheet.set_row(row,18,highlight)
+                            worksheet.set_row(row,30,highlight)
                         else:
-                            worksheet.set_row(row,18)
+                            worksheet.set_row(row,30)
                         col+=1
                     row+=1
             else:
                 for year in years:
-                    worksheet.write(row,0,year,bold_format)
+                    worksheet.write(row,0,year,normalL)
                     col = 1
                     for var in variables:
                         varSplitted = var.split("@")
@@ -267,11 +299,12 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                             familyName = u"europea" if language=="es" else u"european"
                         colName = (varName+u" ("+familyName+u")")
                         variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
-                        worksheet.write(1,col,colName)
+                        worksheet.write(1,col,colName,normalC)
+                        worksheet.set_column(col,col,25)
                         data = chelpers.getData(variable, year=year, code=country.keys()[0])
                         val = data.values()[0]["value"]
                         fval = round(float(val),2) if val!=None else None
-                        worksheet.write(row,col,fval)
+                        worksheet.write(row,col,fval,normalL)
                         if (row+2)%3==0:
                             worksheet.set_row(row,18,highlight)
                         else:
@@ -281,7 +314,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
             
             row+=2
             worksheet.write(row, 0, "Más información:".decode("utf-8") if language=="es" else 
-                            "More information:".decode("utf-8"), bold_format)
+                            "More information:".decode("utf-8"), info)
             worksheet.write_url(row+1, 0, "http://www.globalpresence.realinstitutoelcano.org", url_format,
                                 "http://www.globalpresence.realinstitutoelcano.org")
 

@@ -37,17 +37,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             this.contextToURL();
 
-
-        //     this._d3Zoom = {};
-        // this._d3Zoom.zoomed = zoomed; 
-        // this._d3Zoom.zoom = zoom;
-        // this._d3Zoom.canvas = canvas;
-
-
-    
-            // // Render again the tool with the new context
-            // this._forceFetchDataTool = true;
-            // this.render(); // implicit save the context
         });
 
         this.stopListening(app.events,"slider:singlepointclick");
@@ -190,7 +179,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             this.$chart.html(this._templateNodataUE({}));
             this.$("#scroll_up,#scroll_down,#ranking_chart_tooltip").remove();
             
-            
         }
         else{
 
@@ -201,11 +189,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             else{
                 this._renderToolAsync();
             }
-        }
-        
+        }  
     },
-
-
 
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
@@ -271,12 +256,12 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                     data[0].currentValue > data[0].referenceValue 
                     ?  data[0].currentValue 
                     : data[0].referenceValue,
-            margin = {top: 60, right: 20, bottom: 30, left: 140},
+            margin = {top: 60, right: 0, bottom: 30, left: 160},
             width = this.$chart.width() - margin.left - margin.right,
             barHeight = 20,
             totalCountryHeight = barHeight * 2 + 10 /*padding*/,
             height = (data.length+1) * totalCountryHeight - margin.top - margin.bottom - 10,
-            yAxisWidth = 100,
+            yAxisWidth = 160,
             visibleHeight = this.$chart.height(),
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
@@ -286,8 +271,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             colorVariable = app.view.tools.utils.variablesColors[
                 ctx.variables[0] == "global" ?  ctx.family : ctx.variables[0]
             ];
-
-    
 
         var x = d3.scale.linear()
             .range([0, width])
@@ -447,14 +430,18 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                 return  "/img/flags/ranking/" + d.code + ".svg"
             });
 
-         co_label.append("text")
+        co_label.append("foreignObject")
+            .attr("width", 100)
+            .attr("height", 40)
             .attr("x",40)
-            .attr("y", 17)
-            .text(function(d){ return app.countryCodeToStr(d.code) });
+          .append("xhtml:body")
+            .html(function(d){
+                return "<span class='labelcountry' title='" + app.countryToString(d.code) + "'>" + app.countryToString(d.code) + "</span>"
+            });
 
         co_label.append("text")
             .attr("class","number")
-            .attr("x",yAxisWidth - 30)
+            .attr("x",yAxisWidth - 20)
             .attr("y", 17)
             .attr("width",40)
             .text(function(d){ return d.currentRanking });

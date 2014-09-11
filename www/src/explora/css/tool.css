@@ -700,12 +700,27 @@
         }
 
         .co_label{
-            text{
+            /*text{
                 font-size: 13px;
                 .roboto_cond();
                 color: @grey;
                 text-anchor: start;
+            }*/
+            .number, .labelcountry{
+                font-size: 13px;
+                .roboto_cond();
+                color: @grey;
             }
+            .labelcountry{
+                width: 90px;
+                display: inline-block;
+                overflow: hidden;
+                height: 25px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+           
         }
     }
 
@@ -730,7 +745,8 @@
         position: absolute;
         height: 30px;
         width: 30px;
-        right: -20px;
+        right:0;
+        z-index:1;
     }
 
     #scroll_down{
@@ -739,7 +755,8 @@
     }
 
     #scroll_up{
-        top: 56px;
+        top: 60px;
+       
         background: url("@{imgPath}ELC_icon_scroll_up.svg") no-repeat left center;
     }
 

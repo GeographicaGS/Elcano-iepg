@@ -8,13 +8,19 @@ Data cache.
 
 import varengine.varengine as varengine
 import common.const as const
-import memcache
+import redis
+import pythonhelpers.database.datacache as datacache
 import maplex.maplex as maplex
 import copy
 import common.arrayops as arrayops
 import common.config as config
+import sys
 
-mc = memcache.Client([config.MemcachedConfig["host"]+":"+config.MemcachedConfig["port"]], debug=0)
+connclient = redis.StrictRedis(host="localhost", port=6379, db=0)
+mc = datacache.RedisDataCache(connclient, prefix="iepg_", timeout=None)
+
+if mc.get("IEPG data loaded")==1:
+    sys.exit()
 
 def createCache():
     dataSets = dict()
@@ -106,7 +112,6 @@ def createCache():
     return(dataSets)
 
     
-
 dataSets = createCache()
 
 blocks = [maplex.getGeoentityNames(i["id_geoentity_block"], 1)[0]["names"][0] for i in maplex.getBlocks()]
@@ -144,4 +149,5 @@ mc.set("englishToIso", englishToIso, 0)
 mc.set("isoToGeoentity", isoToGeoentity, 0)
 mc.set("geoentityToIso", geoentityToIso, 0)
 
+mc.set("IEPG data loaded", 1)
 print "Cache done."

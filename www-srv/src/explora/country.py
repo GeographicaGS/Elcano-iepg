@@ -232,17 +232,18 @@ def mapGeoJson():
     for d in data:
         f = dict()
         f["type"] = "Feature"
-        f["geometry"] = json.loads(d["geojson"])
+        f["geometry"] = json.loads(d["geojson"]) if d["geojson"] is not None else None
         fp = dict()
         fp["code"] = d["iso_3166_1_2_code"]
         fp["name_en"] = d["name_en"]
         fp["name_es"] = d["name_es"]
+        fp["name_en_s"] = d["name_en_s"],
+        fp["name_es_s"] = d["name_es_s"],
         f["properties"] = fp
         features.append(f)
 
     out["features"] = features
-
-    return(jsonify(out))
+    return jsonify(out)
 
 
 @app.route('/globalindex/<string:family>/<string:variable>/<string:countries>/<string:lang>', methods=['GET'])

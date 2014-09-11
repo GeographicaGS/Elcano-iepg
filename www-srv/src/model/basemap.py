@@ -17,14 +17,14 @@ class GeometryData(PostgreSQLModel):
         Returns a dictionary."""
         a = """
         select
-        a.iso_3166_1_2_code as iso_3166_1_2_code,
-        coalesce(b.short_name_en1, a.name) as name_en,
-        coalesce(b.short_name_es1, a.name) as name_es,
-        st_asgeojson(a.geom) as geojson
+        iso_3166_1_2_code as iso_3166_1_2_code,
+        english_long as name_en,
+        spanish_long as name_es,
+        english_short as name_en_s,
+        spanish_short as name_es_s,
+        geojson
         from
-        iepg_data.country_geom a left join
-        iepg_data.master_country b on
-        a.iso_3166_1_2_code=b.iso_3166_1_2_code
+        maplex.vw__iepg_country_data
         order by iso_3166_1_2_code;
         """
 

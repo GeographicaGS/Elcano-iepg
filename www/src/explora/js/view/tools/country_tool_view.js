@@ -376,12 +376,16 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                 div.html(obj._htmlToolTip(d.name))  
                     .style("left", (d3.event.pageX) + "px")     
                     .style("top", (d3.event.pageY - 28) + "px");    
+
+                    $("path[data-variable='" + d.name+"']").attr("enhanced","true"); 
                 })                  
             .on("mouseout", function(d) {       
                 div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
-            });
+                $("path[data-variable='" + d.name+"']").removeAttr("enhanced");
+            })
+            .attr("data-variable",function(d){return d.name });
         
 
             function click(d) {

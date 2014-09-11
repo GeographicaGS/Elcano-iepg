@@ -13,6 +13,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
     _models : { "left" : null, "right" : null },
 
+    _cVariable : "global",
+
     type: "contributions",
 
     initialize: function() {
@@ -320,7 +322,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         // Fetch the collection from the server
         this._mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
-            "variable" : "global",
+            "variable" : this._cVariable,
             "date" : ctx.slider[0].date.getFullYear()
         });
         
@@ -338,7 +340,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             year =  ctx.slider[0].date.getFullYear(),
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,"global",family);
+        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,this._cVariable,family,"%",true,"<lang>Contribuciones</lang> ");
     },
 
 
@@ -597,6 +599,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                     obj._moveChartSection(pos,d,true);
                 }
 
+                obj._refreshMapVariable(d.name);
+
           }
 
         this._d3[pos] = {};
@@ -699,6 +703,15 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             family : this.getGlobalContext().data.family
         }));
     },
+
+    _refreshMapVariable: function(name){
+        this._cVariable = name;
+        // get data from server
+        this._mapCollection._variable = name;
+        // trigger a call to renderMapAsync
+        this._mapCollection.fetch({"reset":true});
+    },
+
 
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.

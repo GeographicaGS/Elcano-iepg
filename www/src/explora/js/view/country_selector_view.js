@@ -29,10 +29,6 @@ app.view.CountrySelector = Backbone.View.extend({
             }
         }
 
-        /*var self = this;
-        $(window).on('resize', function(){
-            self.render();
-        });*/
         $(window).bind("resize.c_sel", _.bind(this.render, this));
     },
 
@@ -41,7 +37,7 @@ app.view.CountrySelector = Backbone.View.extend({
         "click #cancel": "cancel",
         "click li[code]" : "clickCountry",
         "click .ctrl_cb li a": "clickPanelCtrl",
-        "click .deselect_btn": "deselectAll"
+        "click #ctrl_countries_plain,#ctrl_blocks_plain ": "clickCountryBlockCheckbox"
     },
 
     onClose: function(){
@@ -63,7 +59,7 @@ app.view.CountrySelector = Backbone.View.extend({
         this.$n_selected = this.$("#n_selected");
 
         this.refreshCounterElements();
-        this.showHideDeselectBtn();
+        //this.showHideDeselectBtn();
 
         return this;
     },
@@ -89,7 +85,6 @@ app.view.CountrySelector = Backbone.View.extend({
             nb = this._selectedBlocksStack.length;
 
         var html = "";
-
       
         if (nc==1){
             html ="<lang>1 país </lang>";
@@ -107,6 +102,10 @@ app.view.CountrySelector = Backbone.View.extend({
             html += sprintf("<lang> %d bloques</lang>",nb);   
         }
 
+        this.$("#ctrl_countries_plain").prop("checked",$("#countries_plain li").not("[selected]").length == 0);
+
+        this.$("#ctrl_blocks_plain").prop("checked",$("#blocks_plain li").not("[selected]").length == 0);
+
         html += " <lang>selecccionados</lang>";       
         this.$n_selected.html(html);
 
@@ -120,15 +119,24 @@ app.view.CountrySelector = Backbone.View.extend({
     },
 
     _addToTopStack: function(stack,c){
-        stack.push(c);
+        if (stack.indexOf(c)==-1){
+            stack.push(c);    
+        }
+        
     },
 
 
     clickCountry: function(e){
         e.preventDefault();
 
-        var $e = $(e.target).closest("li"),
-            sel = $e.attr("selected"),
+        this.updateCountryOrBlockInStack($(e.target).closest("li"));
+        
+        this.refreshCounterElements();
+        //this.showHideDeselectBtn();
+    },
+
+    updateCountryOrBlockInStack: function($e){
+        var sel = $e.attr("selected"),
             code = $e.attr("code");
 
         if (sel !== undefined && sel!="undefined"){
@@ -140,9 +148,7 @@ app.view.CountrySelector = Backbone.View.extend({
             else{
                 this._removeFromStack(this._selectedBlocksStack,code);
             }
-            
-
-        } 
+        }
         else{
             $e.attr("selected",true);
             if (code.length == 2 || code =="XBEU"){
@@ -152,9 +158,6 @@ app.view.CountrySelector = Backbone.View.extend({
                 this._addToTopStack(this._selectedBlocksStack,code);
             }
         }
-        
-        this.refreshCounterElements();
-        this.showHideDeselectBtn();
     },
 
     clickPanelCtrl: function(e){
@@ -172,23 +175,28 @@ app.view.CountrySelector = Backbone.View.extend({
         $e.closest("li").attr("selected",true);
     },
 
-    showHideDeselectBtn: function(){
-        if(this._selectedBlocksStack.length > 0 || this._selectedCountriesStack.length > 0){
-            this.$('.deselect_btn').addClass('active');
-        }else{
-            this.$('.deselect_btn').removeClass('active');
-        }
-    },
+    // showHideDeselectBtn: function(){
+    //     if(this._selectedBlocksStack.length > 0 || this._selectedCountriesStack.length > 0){
+    //         this.$('.deselect_btn').addClass('active');
+    //     }else{
+    //         this.$('.deselect_btn').removeClass('active');
+    //     }
+    // },
 
-    deselectAll: function(e){
-        e.preventDefault();
+    clickCountryBlockCheckbox: function(e){
+        var $e = $(e.target),obj = this;
 
-        this._selectedCountriesStack = [];
-        this._selectedBlocksStack = [];
-
-        this.$('.sel_container li[selected]').removeAttr('selected');
+        this.$("#" + $e.attr("id").substring(5) + " li").each(function(){
+            if (!$e.is(':checked')){
+                $(this).attr("selected",true);
+            }
+            else{
+                $(this).removeAttr("selected");
+            }
+            obj.updateCountryOrBlockInStack($(this));
+        });
 
         this.refreshCounterElements();
-        this.showHideDeselectBtn();
+        //this.showHideDeselectBtn();
     }
 });

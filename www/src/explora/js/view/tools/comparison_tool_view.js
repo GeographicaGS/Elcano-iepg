@@ -13,6 +13,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
     _models : { "iepg" : null, "iepe" : null },
 
+    _cVariable: "global",
+
     type: "comparison",
 
     initialize: function() {
@@ -283,7 +285,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         // Fetch the collection from the server
         this._mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
-            "variable" : "global",
+            "variable" : this._cVariable,
             "date" : ctx.slider[0].date.getFullYear()
         });
         
@@ -301,7 +303,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             year =  ctx.slider[0].date.getFullYear(),
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,"global",family);
+        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,this._cVariable,family);
     },
 
     _renderMap: function(){
@@ -414,7 +416,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             height = $chart.height(),
             radius = Math.min(width, height) / 2;
 
-        $co.find(".subheader .index .value").html(sprintf("%.2f",variables["global"].value));
+        $co.find(".subheader .index .value").html(app.formatNumber(variables["global"].value));
         $co.find(".ranking").html(sprintf("<lang>Ranking %dº </lang>", variables["global"].globalranking));
 
         $chart.html("");
@@ -499,7 +501,9 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                     d.name == "soft_global" || d.name =="military_global")
                 {
                     obj._moveChartSection(family,d,true);
+                    
                 }
+                obj._refreshMapVariable(family,d.name);
 
           }
 
@@ -508,7 +512,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this._d3[family].tree = tree;
         this._d3[family].arcTween = arcTween;
 
-        this._renderChartLegend(family,"global");
+        this._renderChartLegend(family,this._cVariable);
     },
 
     _moveChartSection: function(family,d,callBrother){
@@ -584,7 +588,6 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
     },
 
-
     _renderChartLegend: function(family,name){
 
         $legend = family == "iepg" ? this.$chart_legend_left : this.$chart_legend_right;
@@ -596,6 +599,15 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             data: this._d3[family].tree.findElementInTree(name),
             family: family
         }));
+    },
+
+    _refreshMapVariable: function(family,name){
+        this._cVariable = name;
+        // get data from server
+        this._mapCollection._variable = name;
+        this._mapCollection._family = family;
+        // trigger a call to renderMapAsync
+        this._mapCollection.fetch({"reset":true});
     },
 
     contextToURL: function(){

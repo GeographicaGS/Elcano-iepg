@@ -434,6 +434,8 @@
                     span{
                         .roboto(); 
                     }
+                    line-height:15px;
+                    padding-bottom: 10px;
                     
                 }
                 
@@ -485,8 +487,9 @@
                     .roboto(bold);
                 }
             }
+
         }
-        tr.table_legend{
+   /*     tr.table_legend{
             ul{
                 margin-top: 8px;
                 li{
@@ -498,7 +501,7 @@
             }
 
             border-bottom: none;
-        }
+        }*/
     }
 }
 

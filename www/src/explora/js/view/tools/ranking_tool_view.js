@@ -147,9 +147,9 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                 });
             }
 
-            this._dataMap.drawChoropleth(mapArray,year,variable,family,"º",true);
+            this._dataMap.drawChoropleth(mapArray,year,variable,family,"º",true,null,true);
 
-            this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family,"º",true);
+            this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family,"º",true,"Ranking ",true);
         }
         
     },

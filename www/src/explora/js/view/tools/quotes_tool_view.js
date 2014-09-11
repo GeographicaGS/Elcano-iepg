@@ -281,7 +281,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             variable = ctx.variables[0],
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,variable,family,"%");
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,variable,family,"%",false,"<lang>Cuotas</lang> ");
     },
 
     _collectionToD3Data: function(){

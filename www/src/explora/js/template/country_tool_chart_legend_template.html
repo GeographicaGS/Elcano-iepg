@@ -1,8 +1,8 @@
 <table>
 	<tr>
 		<th><span><lang>Variable</lang></th>
-		<th title="<lang>Valor índice</lang>"><lang>VI code</lang><sup>1</sup></th>
-		<th title="<lang>Contribuciones de presencia</lang>"><lang>CP code</lang><sup>2</sup></th>
+		<th title="<lang>Valor índice</lang>" width="40px"><lang>Valor índice</lang></th>
+		<th title="<lang>Contribuciones de presencia</lang>" width="40px"><lang>Contribuciones de presencia</lang></th>
 	</tr>
 	<tr>
 		<th><div class="variableIcon" data-variable="<%= data.name == "global" ? family : data.name %>"></div><span><%= app.variableToString(data.name,family) %></span></th>
@@ -19,14 +19,14 @@
 			<td title="<lang>Contribuciones de presencia</lang>"><%= d.perc ? app.formatNumber(d.perc) : "--"%> %</td>
 		</tr>
 	<% }); %>
-	<tr class="table_legend">
+<!-- 	<tr class="table_legend">
 		<td colspan="3">
 			<ul>
 				<li>1. <lang>Valor índice</lang>. 2. <lang>Contribuciones de presencia</lang></li>
 			</ul>
 
 		</td>
-	</tr>
+	</tr> -->
 	
 </table>
 

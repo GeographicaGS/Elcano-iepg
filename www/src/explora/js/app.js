@@ -211,6 +211,11 @@ app.ini = function(){
          app.map.zoomOut();
     });
 
+    $("#alias_ctrl_tool").click(function(e){
+        e.preventDefault();
+        $("#ctrl_tool").trigger("click");
+    });
+
     Backbone.history.start({pushState: true,root: this.basePath });
 };
 

@@ -59,7 +59,7 @@ app.view.map = function(options){
     };
 
     /* This method created a choropleth Map with the data supplied in the parameter */ 
-    this.drawChoropleth = function(data,time,variable,family,units,invertColors){
+    this.drawChoropleth = function(data,time,variable,family,units,invertColors,labelPrefix,noformattooltip){
 
 
         if (!units) units = ""
@@ -67,6 +67,8 @@ app.view.map = function(options){
         var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
         // Just for security
         if (!data || !data.length) return;
+
+        if (!labelPrefix) labelPrefix="";
 
 
         this._choroplethColors = app.view.tools.utils.getChoroplethColors(family,variable)
@@ -181,6 +183,8 @@ app.view.map = function(options){
             _this.$tooltip.css("left",e.containerPoint.x).css("top",e.containerPoint.y);
 
             var v = layer.feature.properties;
+
+            var fnumber = noformattooltip ? v.value : app.formatNumber(v.value);
             
             var html = "<div>" 
                     +   "<span>" +app.countryToString(v.code) + "</span>"
@@ -189,7 +193,7 @@ app.view.map = function(options){
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(v.variable,v.family) + "</span>"
-                    +   "<span>" + app.formatNumber(v.value) + units + "</span>"
+                    +   "<span>" + fnumber + units + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
 
@@ -268,7 +272,7 @@ app.view.map = function(options){
 
         this.$maplegend.html(html);
 
-        this.$maplabel.find(".variable").html(app.variableToString(variable,family));
+        this.$maplabel.find(".variable").html(labelPrefix + app.variableToString(variable,family));
         this.$maplabel.find(".time").html(time);
 
         this.$maplabel.show();

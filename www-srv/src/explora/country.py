@@ -44,7 +44,7 @@ def blocksData():
     out = dict()
     for b in datacache.blocks:
         year = dict()
-        for y in datacache.dataSets["iepg"].variables["energy"].getVariableYears:
+        for y in datacache.dataSets["iepg"].variables["energy"].getVariableYears():
             m = common.helpers.getBlockMembers(b, year=y)
             year[y] = m
         year["name_es"] = isoSpanish[b]
@@ -224,7 +224,7 @@ def mapData(family, variable, year, mode):
 def mapGeoJson():
     """Returns the map GeoJSON."""
     m = basemap.GeometryData()
-    data = m.geometryData
+    data = m.geometryData()
     out = dict()
     out["type"] = "FeatureCollection"
     

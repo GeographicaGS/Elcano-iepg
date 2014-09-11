@@ -1,3 +1,6 @@
-[submodule "www-srv/src/pythonhelpers"]
+[submodule "pythonhelpers2"]
 	path = www-srv/src/pythonhelpers
-	url = git@github.com:GeographicaGS/pythonhelpers.git
+	url = https://github.com/GeographicaGS/pythonhelpers.git
+[submodule "flux2"]
+	path = www-srv/src/flux_lib
+	url = https://github.com/GeographicaGS/Flux.git

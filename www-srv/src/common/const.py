@@ -29,6 +29,16 @@ dimensions = {
                     "science", "education", "cooperation"]
 }
 
+excelExportNoteES = u"""
+Esta hoja de cálculo contiene datos descargados desde el portal del Índice Elcano de Presencia Global del Real Instituto Elcano.
+
+Tenga en cuenta que, dependiendo del formato de la hoja de cálculo solicitada en el momento de la petición, la configuración de las tablas puede dar lugar a celdas vacías por ausencia de datos."""
+
+excelExportNoteEN = u"""
+This spreadsheet contains data downloaded from the Elcano Global Presence Index site by the Elcano Royal Institute.
+
+Please note that depending on the spreadsheet format submitted to the site, certain cells will be empty due to absence of data."""
+
 variableNames = {
     "iepg": {
         "energy": {

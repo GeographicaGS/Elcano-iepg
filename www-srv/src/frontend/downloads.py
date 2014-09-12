@@ -32,10 +32,10 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                             hashlib.sha256(request.url.strip(request.url_root)).hexdigest()+".xlsx")
 
     # Try to get file from cache
-    if os.path.isfile(fileName):
-        return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-                         attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
-                         as_attachment=True))
+    # if os.path.isfile(fileName):
+    #     return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+    #                      attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
+    #                      as_attachment=True))
 
     translate = dc.isoToEnglish if language=="en" else dc.isoToSpanish
     years = sorted(years.split(","))
@@ -105,12 +105,33 @@ def getDownloadData(language, years, variables, countries, rows, columns):
         "size": 10
     })
 
+    note = workbook.add_format({
+        "text_wrap": "True",
+        "valign": "top",
+        "align": "left",
+        "size": 11
+    })
+
     allVariables = dict()
     for var in variables:
         varName, varFamily = var.split("@")
         allVariables[varFamily+"@"+varName] = dc.dataSets[varFamily].variables[varName]
         allVariables = OrderedDict(sorted(allVariables.items(), key=lambda t: 
                                           const.variableNames[t[0].split("@")[0]][t[0].split("@")[1]]["order"]))
+
+    metaDataSheetName = u"Nota" if language=="es" else u"Note"
+    metaDataNote = const.excelExportNoteES if language=="es" else const.excelExportNoteEN
+    worksheet = workbook.add_worksheet(metaDataSheetName)
+    worksheet.insert_image(0,0, "cdn/Real_instituto_elcano_logotipo.jpg", {"x_scale": 0.95, "y_scale": 1})
+
+    worksheet.write("A7", metaDataNote, note)
+    worksheet.set_row(6,100,note)
+    worksheet.set_column(0,0,100,note)
+
+    worksheet.write(8, 0, "Más información:".decode("utf-8") if language=="es" else 
+                    "More information:".decode("utf-8"), info)
+    worksheet.write_url(9, 0, "http://www.globalpresence.realinstitutoelcano.org", url_format,
+                        "http://www.globalpresence.realinstitutoelcano.org")
 
     if tabs=="variable":
         varTagNum = 1
@@ -320,6 +341,8 @@ def getDownloadData(language, years, variables, countries, rows, columns):
 
     workbook.close()
 
+    attachName = "Real_Instituto_Elcano-Solicitud_datos_Presencia_Global.xlsx" if language=="es" else \
+                 "Elcano_Royal_Institute-Global_Presence_Requested_Data.xlsx"
+
     return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-                     attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
-                     as_attachment=True))
+                     attachment_filename=attachName, as_attachment=True))

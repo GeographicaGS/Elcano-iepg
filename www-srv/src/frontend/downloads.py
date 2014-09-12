@@ -122,7 +122,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     metaDataSheetName = u"Nota" if language=="es" else u"Note"
     metaDataNote = const.excelExportNoteES if language=="es" else const.excelExportNoteEN
     worksheet = workbook.add_worksheet(metaDataSheetName)
-    worksheet.insert_image(0,0, basepath+ \
+    worksheet.insert_image(0,0, basePath+ \
                            "www-srv/src/cdn/Real_instituto_elcano_logotipo.jpg", {"x_scale": 0.95, "y_scale": 1})
 
     worksheet.write("A7", metaDataNote, note)

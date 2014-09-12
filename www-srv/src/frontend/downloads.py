@@ -10,7 +10,7 @@ from flask import jsonify, request, send_file
 from frontend import app
 import common.helpers as chelpers
 import common.datacache as dc
-from common.config import backend
+from common.config import backend, basePath
 import xlsxwriter
 import common.const as const
 from collections import OrderedDict
@@ -32,10 +32,10 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                             hashlib.sha256(request.url.strip(request.url_root)).hexdigest()+".xlsx")
 
     # Try to get file from cache
-    # if os.path.isfile(fileName):
-    #     return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-    #                      attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
-    #                      as_attachment=True))
+    if os.path.isfile(fileName):
+        return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+                         attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
+                         as_attachment=True))
 
     translate = dc.isoToEnglish if language=="en" else dc.isoToSpanish
     years = sorted(years.split(","))
@@ -122,7 +122,8 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     metaDataSheetName = u"Nota" if language=="es" else u"Note"
     metaDataNote = const.excelExportNoteES if language=="es" else const.excelExportNoteEN
     worksheet = workbook.add_worksheet(metaDataSheetName)
-    worksheet.insert_image(0,0, "cdn/Real_instituto_elcano_logotipo.jpg", {"x_scale": 0.95, "y_scale": 1})
+    worksheet.insert_image(0,0, basepath+ \
+                           "www-srv/src/cdn/Real_instituto_elcano_logotipo.jpg", {"x_scale": 0.95, "y_scale": 1})
 
     worksheet.write("A7", metaDataNote, note)
     worksheet.set_row(6,100,note)

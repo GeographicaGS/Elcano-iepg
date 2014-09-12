@@ -320,7 +320,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             ctx = ctxObj.data;
 
         // Fetch the collection from the server
-        this._mapCollection = new app.collection.CountryToolMap([],{
+        this._mapCollection = new app.collection.ContributionsToolMap([],{
             "family" :  ctx.family,
             "variable" : this._cVariable,
             "date" : ctx.slider[0].date.getFullYear()
@@ -338,9 +338,19 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
             year =  ctx.slider[0].date.getFullYear(),
-            family = ctx.family;
+            family = ctx.family,
+            mapData = this._mapCollection.toJSON();
 
-        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,this._cVariable,family,"%",true,"<lang>Contribuciones</lang> ");
+        console.log(this._mapCollection.toJSON());
+
+        if (!mapData.length){
+            app.map.removeChoropleth();
+        }
+        else{
+            this.mapLayer = app.map.drawChoropleth(mapData,year,this._cVariable,family,"%",true,"<lang>Contribuciones</lang> ");    
+        }
+
+        
     },
 
 

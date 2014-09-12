@@ -221,6 +221,7 @@ deps.Explora.JS = {
 			"explora/js/collection/filter_collection.js",
 			"explora/js/collection/country_tool_map_collection.js",
 			"explora/js/collection/quotes_tool_map_collection.js",
+			"explora/js/collection/contributions_tool_map_collection.js",
 			"explora/js/collection/ranking_tool_collection.js",
 			"explora/js/collection/global_index_collection.js",
 			"explora/js/collection/quotes_collection.js",

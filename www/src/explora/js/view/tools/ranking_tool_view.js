@@ -436,7 +436,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("x",40)
           .append("xhtml:body")
             .html(function(d){
-                return "<span class='labelcountry' title='" + app.countryToString(d.code) + "'>" + app.countryToString(d.code) + "</span>"
+                return "<span class='labelcountry' title='" + app.countryToString(d.code) + "'>" + app.countryToShortString(d.code) + "</span>"
             });
 
         co_label.append("text")

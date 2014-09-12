@@ -368,6 +368,40 @@ app.countryToString = function(id_country){
     return "No country name found";
 }
 
+app.countryToShortString = function(id_country){
+
+    if(!id_country){
+        return "";
+    }
+    
+    // Temporal, we must add singapur to countries's geojson
+    if (id_country == "SG"){
+        if (app.lang == "es"){
+            return "Singapur";  
+        }
+        else{
+            return "Singapore";
+        }
+    }
+
+    if (id_country.length == 2){
+
+
+        for (var i=0;i<countriesGeoJSON.features.length;i++){
+
+            if (countriesGeoJSON.features[i].properties.code == id_country){
+                return countriesGeoJSON.features[i].properties["name_"+app.lang+"_s"];
+            }
+        }
+    }
+    else{
+        // It's a block
+        return app.blocks[id_country]["name_" + app.lang];
+    }
+    
+    return "No country name found";
+}
+
 app.isSMDevice = function(){
     return ($(window).width()<992);
 }

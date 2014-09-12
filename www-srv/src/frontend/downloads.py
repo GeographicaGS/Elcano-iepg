@@ -174,6 +174,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                             worksheet.set_row(row,25,highlight)
                         else:
                             worksheet.set_row(row,25)
+                        col+=1
                     row+=1
             else:
                 for country in countries:

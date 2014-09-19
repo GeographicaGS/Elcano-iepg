@@ -341,13 +341,11 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             family = ctx.family,
             mapData = this._mapCollection.toJSON();
 
-        console.log(this._mapCollection.toJSON());
-
         if (!mapData.length){
             app.map.removeChoropleth();
         }
         else{
-            this.mapLayer = app.map.drawChoropleth(mapData,year,this._cVariable,family,"%",true,"<lang>Contribuciones</lang> ");    
+            this.mapLayer = app.map.drawChoropleth(mapData,year,this._cVariable,family,"%",false,"<lang>Contribuciones</lang> ");
         }
 
         

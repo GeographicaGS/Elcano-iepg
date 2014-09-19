@@ -64,6 +64,11 @@ def iepgEngine():
                             ast.literal_eval(i[3].value) if i[3].value!="" else None,
                             ast.literal_eval(i[6].value) if i[6].value!="" else None)
 
+        print i
+
+        # import ipdb
+        # ipdb.set_trace()
+
         data.merge(book.readGeoVariableArray(".".join(var.filiation)))
 
     shape = data.shape
@@ -86,10 +91,10 @@ def iepgEngine():
 
     for i in normal:
         if i+"Est" in data.variable:
-            d = np.fmax(np.round(data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i])), 
+            d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i]), 
                         data[:,:,i+"Est"])
         else:
-            d = np.round(data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i]))
+            d = data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i])
 
         data.addVariable(i+"_IEPG", data=d)
 
@@ -100,17 +105,17 @@ def iepgEngine():
     sports = ((medals_fifa[0]/np.repeat( \
                                np.nansum(data[:,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
                                shape[0], axis=0).reshape(shape[0],shape[1])* \
-              10000*data[:,:,"IEPG.Soft.Support.Olimpics"])+ \
+               10000*data[:,:,"IEPG.Soft.Support.Olimpics"].reshape(shape[0],shape[1]))+ \
               (medals_fifa[1]/np.repeat( \
                             np.nansum(data[:,:,"IEPG.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
                                          shape[0], axis=0).reshape(shape[0],shape[1])* \
-                   10000*data[:,:,"IEPG.Soft.Support.FIFAPoints"]))* \
+                   10000*data[:,:,"IEPG.Soft.Support.FIFAPoints"].reshape(shape[0],shape[1])))* \
                    np.repeat(np.array(linearCoef).reshape(1,shape[1]), shape[0], axis=0)
 
     data.addVariable("IEPG.Soft.SportsCoef", data=sports)
     data.addVariable("IEPG.Soft.Sports_IEPG", data=
-                     np.round(data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
-                              np.nanmax(data[:,refYear,"IEPG.Soft.SportsCoef"])))
+                     data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
+                     np.nanmax(data[:,refYear,"IEPG.Soft.SportsCoef"]))
 
     # Military equipment
     militaryEquipment = ['IEPG.Military.Support.AircraftC',
@@ -136,13 +141,13 @@ def iepgEngine():
     ae = np.zeros((shape[0],shape[1]))
 
     for i in range(0, len(militaryCoefsEquip)):
-        ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]])
+        ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]].reshape(shape[0],shape[1]))
 
     data.addVariable("MilitaryPoints", data=ae)    
 
     data.addVariable("IEPG.Military.MilitaryEquipment_IEPG", data=
-                     np.round(data[:,:,"MilitaryPoints"]*1000.0/ \
-                              np.nanmax(data[:,refYear,"MilitaryPoints"])))
+                     data[:,:,"MilitaryPoints"]*1000.0/ \
+                     np.nanmax(data[:,refYear,"MilitaryPoints"]))
 
     # Dimensions and Index
     cEconomic = environment["ECONOMIC_COEFICIENTS"]
@@ -156,19 +161,19 @@ def iepgEngine():
 
     a = np.zeros((shape[0],shape[1]))
     for i in range(0, len(cEconomic)):
-        a+=data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"]*cEconomic[i]
+        a+=data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"].reshape(shape[0],shape[1])*cEconomic[i]
     
     data.addVariable("IEPG.Global.Economic", data=a/100.0)
 
     a = np.zeros((shape[0],shape[1]))
     for i in range(0, len(cMilitary)):
-        a+=data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"]*cMilitary[i]
+        a+=data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"].reshape(shape[0],shape[1])*cMilitary[i]
     
     data.addVariable("IEPG.Global.Military", data=a/100.0)
 
     a = np.zeros((shape[0],shape[1]))
     for i in range(0, len(cSoft)):
-        a+=data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"]*cSoft[i]
+        a+=data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"].reshape(shape[0],shape[1])*cSoft[i]
     
     data.addVariable("IEPG.Global.Soft", data=a/100.0)
 
@@ -200,7 +205,7 @@ def iepgEngine():
         'IEPG.Global.IEPG']
 
     for i in variable:
-        a = data[:,:,i]/ \
+        a = data[:,:,i].reshape(shape[0],shape[1])/ \
             (np.repeat(np.nansum(data[:,:,i], axis=0).reshape(1,shape[1]), shape[0], axis=0))
 
         data.addVariable(i+"_QUOTE", data=a)

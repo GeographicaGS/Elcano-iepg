@@ -347,7 +347,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             app.map.removeChoropleth();
         }
         else{
-            this.mapLayer = app.map.drawChoropleth(mapData,year,this._cVariable,family,"%",true,"<lang>Contribuciones</lang> ");    
+            this.mapLayer = app.map.drawChoropleth(mapData,year,this._cVariable,family,"%",true,"<lang>Contribuciones</lang> ",true);
         }
 
         

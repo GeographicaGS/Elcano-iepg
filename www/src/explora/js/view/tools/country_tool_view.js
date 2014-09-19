@@ -446,7 +446,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     selectVariable: function (name){
 
         this._refreshMapVariable(name);
-        this._renderChartLegend();
+        this._renderChartLegend(name);
 
     }
     

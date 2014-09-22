@@ -12,77 +12,7 @@ import common.datacache as datacache
 import flux_lib.data.core as flux
 from collections import OrderedDict
 import numpy as np
-
-@app.route('/quotesT/<string:family>/<string:variable>/<string:countries>/<string:lang>', methods=['GET'])
-def quotesT(family,variable,countries,lang):
-    """Quotes service. Call example:
-
-    /quotes/iepg/global_global/US,DK,ES,NZ/es
-    """
-    family = family+"_quota"
-    variable = variable+"_global" if variable=="global" else variable
-    countriesArray = countries.split(",")
-
-    out = []
-    minData = None
-    maxData = None
-
-    try:
-        years = datacache.dataSets[family].variables[variable].getVariableYears()
-    except:
-        return jsonify({"results": out})
-
-    gva = flux.GeoVariableArray(geoentity=sorted(countriesArray), time=sorted([str(y) for y in years]))
-    gvaInitData = []
-
-    for i in range(len(years)):
-        year = years[i]
-        varData = chelpers.getData(datacache.dataSets[family].variables[variable], 
-                                   year=year, countryList=countriesArray)
-
-        # Find min and max data
-        data = OrderedDict(sorted(varData.items(), 
-                                  key=lambda t: t[1]["code"]))
-        data = [v["value"] for k,v in data.iteritems()]
-
-        gvaInitData.extend(data)
-
-
-        # countryData = []
-        # for data in varData.values():
-        #     dataValue = {
-        #         "country": data["code"],
-        #         "value": data["value"]
-        #     }
-        #     countryData.append(dataValue)
-        # yearData = {
-        #     "year": year,
-        #     "values": countryData
-        # }
-        # out.append(yearData)
-
-    gvaInitData = [x if x is not None else np.nan for x in gvaInitData]
-    a = np.swapaxes(np.array(gvaInitData).reshape((len(years), len(countriesArray))), 0, 1)
-    gva.addVariable("Data", data=a)
-    gva.addVariable("minYearValue")
-    gva.addVariable("maxYearValue")
-    
-    for year in gva.time:
-        print year
-        print gva[:,year,"Data"]
-
-        print np.nanmin(gva[:,year,"Data"])
-        print np.nanmax(gva[:,year,"Data"])
-
-
-        gva[:,year,"minYearValue"] = np.array([4,4,4,4,4,4,4,4,4,4])
-        print gva[:,year,"minYearValue"]
-        print
-
-    return jsonify({"results": out})
-
-
-
+from common.config import quotesClustersSeeds
 
 @app.route('/quotes/<string:family>/<string:variable>/<string:countries>/<string:lang>', methods=['GET'])
 def quotes(family,variable,countries,lang):
@@ -94,27 +24,81 @@ def quotes(family,variable,countries,lang):
     variable = variable+"_global" if variable=="global" else variable
     countriesArray = countries.split(",")
 
-    out = []    
     try:
         years = datacache.dataSets[family].variables[variable].getVariableYears()
     except:
-        return(jsonify({"results": out}))
+        return jsonify({"results": out})
 
-    for year in years:
+    # Sorted lists of years and geoentities
+    geoentities = sorted(countriesArray)
+    times = sorted([str(y) for y in years])
+
+    # Create a GeoVariableArray
+    gva = flux.GeoVariableArray(geoentity=geoentities, time=times)
+    gvaInitData = []
+
+    # Prepare data for gva
+    for i in range(len(years)):
+        year = years[i]
         varData = chelpers.getData(datacache.dataSets[family].variables[variable], 
                                    year=year, countryList=countriesArray)
-        countryData = []
-        for data in varData.values():
-            dataValue = {
-                "country": data["code"],
-                "value": data["value"]
-            }
-            countryData.append(dataValue)
-        yearData = {
-            "year": year,
-            "values": countryData
-        }
-        out.append(yearData)
+        data = OrderedDict(sorted(varData.items(), 
+                                  key=lambda t: t[1]["code"]))
+        data = [v["value"] for k,v in data.iteritems()]
+        gvaInitData.extend(data)
 
-    out = sorted(out, key=lambda t: t["year"])
+    gvaInitData = [x if x is not None else np.nan for x in gvaInitData]
+    a = np.swapaxes(np.array(gvaInitData).reshape((len(times), len(geoentities))), 0, 1)
+    gva.addVariable("Data", data=a)
+
+    clusters = gva.cluster("Data", quotesClustersSeeds)
+    
+    # Creating nodes dictionary
+    points = []
+    for y in range(len(clusters[0])):
+        for c in range(len(clusters[0][y])):
+            point = dict()
+            point["codes"] = [geoentities[x] for x in clusters[0][y][c]]
+            point["year"] = times[y]
+            point["value"] = clusters[1][y][c]
+            points.append(point)
+
+    # Creating segments
+    segments = []
+    segmentCodes = []
+    for c in geoentities:
+        pointSequence = []
+        for y in times:
+            for p in range(len(points)):
+                if c in points[p]["codes"] and points[p]["year"]==y:
+                    pointSequence.append(p)
+
+        for s in range(len(pointSequence)-1):
+            segments.append([pointSequence[s], pointSequence[s+1]])
+            segmentCodes.append([c])
+
+    # Erase repeated segments
+    i = 0
+    while i<len(segments):
+        t = i+1
+        while t<len(segments):
+            if segments[i]==segments[t]:
+                segments.pop(t)
+                code = segmentCodes.pop(t)
+                segmentCodes[i].append(code[0])
+            else:
+                t+=1
+        i+=1
+
+    # Composing output
+    out = dict()
+    out["points"] = points
+    out["segments"] = []
+
+    for i in range(len(segments)):
+        seg = dict()
+        seg["points"] = segments[i]
+        seg["codes"] = segmentCodes[i]
+        out["segments"].append(seg)
+
     return jsonify({"results": out})

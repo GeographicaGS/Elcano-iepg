@@ -37,3 +37,6 @@ PostgreSqlConfig = {
     "db": "###",
     "port": ###
 }
+
+# Seeds for clustering quotes. Min 3
+quotesClustersSeeds = 6

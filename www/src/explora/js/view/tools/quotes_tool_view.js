@@ -398,6 +398,20 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
                 .style("opacity", 0);   
         }
 
+        // draw lines
+        var line = svg.selectAll("line.cluster")
+            .data(data.segments);
+
+        line.enter().append("line")
+            .attr("x1", function(d) { return x(data.points[d.points[0]].year) })
+            .attr("y1", function(d) { return y(data.points[d.points[0]].value) })
+            .attr("x2", function(d) { return x(data.points[d.points[1]].year) })
+            .attr("y2", function(d) { return y(data.points[d.points[1]].value) })
+            .attr("selected", function(d) {
+                return _.intersection(app.context.data.countries.selection,d.codes).length > 0;
+            })
+            .attr("class","cluster");
+
         // Draw splines
         var circle = svg.selectAll("circle")
             .data(data.points);
@@ -413,27 +427,11 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
                 .on("mouseenter", mouseentertooltip)                   
                 .on("mouseleave", mouseleavetooltip);
 
-        // draw lines
-        var line = svg.selectAll("line.cluster")
-            .data(data.segments);
-
-        line.enter().append("line")
-            .attr("x1", function(d) { return x(data.points[d.points[0]].year) })
-            .attr("y1", function(d) { return y(data.points[d.points[0]].value) })
-            .attr("x2", function(d) { return x(data.points[d.points[1]].year) })
-            .attr("y2", function(d) { return y(data.points[d.points[1]].value) })
-            .attr("selected", function(d) {
-                return _.intersection(app.context.data.countries.selection,d.codes).length > 0;
-            })
-            .attr("class","cluster");
-
         var textMax = svg.selectAll("g.labels_end")
             .data(data.points)
             .enter()
             .append("g")
                 .filter(function(d){
-                    console.log(d.year +"-" +resp.max_year );
-                    console.log(parseInt(d.year) == parseInt(resp.max_year));
                     return parseInt(d.year) == parseInt(resp.max_year); 
                 })
                 .attr("transform", function(d){

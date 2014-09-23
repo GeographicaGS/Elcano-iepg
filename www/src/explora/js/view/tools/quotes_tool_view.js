@@ -285,39 +285,12 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
     },
 
     _collectionToD3Data: function(){
-        var col = this.toolCollection.toJSON(),
+        var col = this.toolCollection.toJSON()[0],
             resp = {
-                "data" : {} ,
-                "min_year" : Number.MAX_VALUE,
-                "max_year" : Number.MIN_VALUE
+                "data" : col,
+                "min_year" : d3.min(col.points, function(d) { return parseInt(d.year); }),
+                "max_year" : d3.max(col.points, function(d) { return parseInt(d.year); })
             };
-
-        _.each(col,function(c){
-            var year = c.year;
-
-            _.each(c.values,function(v){
-                if (v.value){
-                    if (!resp.data.hasOwnProperty(v.country)){
-                        resp.data[v.country] = [];    
-                    }
-
-                    if (year < resp.min_year){
-                        resp.min_year = year;
-                    }
-
-                    if (year > resp.max_year){
-                        resp.max_year = year;
-                    }
-
-                    resp.data[v.country].push({
-                        "year" : year,
-                        "value" : v.value,
-                        "country" : v.country
-
-                    });    
-                }
-            });
-        });
 
         return resp;
 
@@ -328,7 +301,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
 
-        var margin = {top: 40, right: 50, bottom: 50, left: 70},
+        var margin = {top: 40, right: 70, bottom: 50, left: 70},
             width = this.$chart.width() - margin.left - margin.right,
             height = this.$chart.height() - margin.top - margin.bottom,
             data = resp.data;
@@ -369,13 +342,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
        
         // Get the max 
-        var max = Number.MIN_VALUE;
-        _.each(data,function(c){
-            var tmp_max = d3.max(c, function(d) { return d.value; });
-            if (tmp_max>max)
-                max = tmp_max;
-        });
-    
+        var max = d3.max(data.points, function(d) { return d.value; });
         y.domain([0,max]);
 
         // Draw axis
@@ -409,78 +376,87 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             .attr("class", "tooltip")               
             .style("opacity", 0);
 
-        for (country in data){
-            var c = data[country];
+        // Div for Tooltip
+        var div = d3.select("#quotes_tool .chart").append("div")   
+            .attr("class", "tooltip")               
+            .style("opacity", 0);
 
-            var el = svg.append("path")
-              .datum(c)
-              .attr("class", "line")
-              .attr("d", line);
+        function mouseentertooltip(d){
+            div.html(_this._htmlToolTip(d)) 
+                .style("left", (d3.event.pageX -$(div.node()).width()/1.3) + "px")
+                .style("top", (d3.event.pageY -$(div.node()).height()) + "px");      
+           
+            div.transition()        
+                .duration(0)      
+                .style("opacity", 1);      
 
-            // Add line labels
-            var textMinMargin = { "left" : 23 , "top" : 4} ,
-                textMaxMargin = { "left" : 7 , "top" : 4} ,
-                textMinPos = {
-                    left: x(c[0].year) - textMinMargin.left,
-                    top: y(c[0].value) + textMinMargin.top
-                },
-                textMaxPos = {
-                    left: x(c[c.length-1].year) + textMaxMargin.left,
-                    top: y(c[c.length-1].value) + textMaxMargin.top 
-                };
-
-            var textMin = svg.append("g")
-              .attr("transform", "translate("+ textMinPos.left +"," + textMinPos.top + ")")
-              .attr("class","co_line_label")
-              .append("text")
-                .text(app.countryCodeToStr(country));
-
-            var textMax = svg.append("g")
-              .attr("transform", "translate("+ textMaxPos.left +"," + textMaxPos.top + ")")
-              .attr("class","co_line_label")
-              .append("text")
-                .text(app.countryCodeToStr(country));
-
-            // Draw splines
-            var circle = svg.selectAll("circle")
-                .data(c, function(d) { return d.value; });
-
-              circle.enter().append("circle")
-                    .attr("r", 1e-6)
-                    .attr("selected", function(d) { 
-                        return ctx.countries.selection.indexOf(country)!=-1; 
-                    })
-                    .on("mousedown", function(d) { console.log(d)})
-                .transition()
-                    .duration(750)
-                    .ease("elastic")
-                    .attr("r", 3.5);
-
-            circle.attr("cx", function(d) { return x(d.year); })
-                .attr("cy", function(d) { return y(d.value); });
-
-            // Configure tooltip
-            circle.on("mouseover", function(d) {     
-               div.transition()        
-                    .duration(200)      
-                    .style("opacity", 1);      
-                div.html(_this._htmlToolTip(d,d3.event.pageX))  
-                    .style("left", (d3.event.pageX) + "px")     
-                    .style("top", (d3.event.pageY - 28) + "px");    
-                })                   
-            .on("mouseout", function(d) {       
-                div.transition()        
-                    .duration(500)      
-                    .style("opacity", 0); 
-            });
-
-            if (ctx.countries.selection.indexOf(country)!=-1){
-                el.attr("selected",true);
-                textMin.attr("selected",true);
-                textMax.attr("selected",true);
-            }
-            
         }
+
+        function mouseleavetooltip(d){
+            div.transition()        
+                .duration(0)      
+                .style("opacity", 0);   
+        }
+
+        // Draw splines
+        var circle = svg.selectAll("circle")
+            .data(data.points);
+
+        circle.enter().append("circle")
+                .attr("r", 4.5)
+                .attr("selected", function(d) { 
+                    return _.intersection(app.context.data.countries.selection,d.codes).length > 0;
+                })
+                .attr("cx", function(d) { return x(d.year); })
+                .attr("cy", function(d) { return y(d.value); })
+                // Configure tooltip
+                .on("mouseenter", mouseentertooltip)                   
+                .on("mouseleave", mouseleavetooltip);
+
+        // draw lines
+        var line = svg.selectAll("line.cluster")
+            .data(data.segments);
+
+        line.enter().append("line")
+            .attr("x1", function(d) { return x(data.points[d.points[0]].year) })
+            .attr("y1", function(d) { return y(data.points[d.points[0]].value) })
+            .attr("x2", function(d) { return x(data.points[d.points[1]].year) })
+            .attr("y2", function(d) { return y(data.points[d.points[1]].value) })
+            .attr("selected", function(d) {
+                return _.intersection(app.context.data.countries.selection,d.codes).length > 0;
+            })
+            .attr("class","cluster");
+
+        var textMax = svg.selectAll("g.labels_end")
+            .data(data.points)
+            .enter()
+            .append("g")
+                .filter(function(d){
+                    console.log(d.year +"-" +resp.max_year );
+                    console.log(parseInt(d.year) == parseInt(resp.max_year));
+                    return parseInt(d.year) == parseInt(resp.max_year); 
+                })
+                .attr("transform", function(d){
+                    var xv = x(d.year) + 10;
+                    var yv = y(d.value) + 4;
+                    return "translate("+ xv +"," + yv + ")";
+                })
+                .attr("class","co_line_label")
+                .append("text")
+                    .text(function(d){
+                        if (d.codes.length> 1){
+                            return "<lang>Datos agrupados</lang>";
+                        }
+                        else{
+                            return app.countryToShortString(d.codes[0]);    
+                        }
+                    })
+                    // Configure tooltip
+                    .on("mouseenter", mouseentertooltip)                   
+                    .on("mouseleave", mouseleavetooltip);
+
+        return;
+
     },
 
     _htmlToolTip: function(el){
@@ -488,10 +464,9 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         var ctx = this.getGlobalContext().data,
             variable = ctx.variables[0],
             family = ctx.family;
-
-        // Let's find wich axis tick is the closest one
+      
         var html = "<div>" 
-                    +   "<span>" + app.countryToString(el.country) + "</span>"
+                    +   "<span class='tlcountries'>" + _.map(el.codes,function(d) {  return app.countryToShortString(d); } ).join(", ")+ "</span>"
                     +   "<span>" + el.year + "</span>"
                     +   "<div class='clear'></div>"
                     + "</div>"
@@ -499,8 +474,8 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
                     +   "<span>" + app.variableToString(variable,family) + "</span>"
                     +   "<span>" + app.formatNumber(el.value) + " %</span>"
                     +   "<div class='clear'></div>"
-                    +"</div>"
-
+                    +"</div>";
+        
         return html;
     }
 

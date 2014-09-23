@@ -52,6 +52,9 @@ def quotes(family,variable,countries,lang):
     gva.addVariable("Data", data=a)
 
     clusters = gva.cluster("Data", quotesClustersSeeds)
+
+    import pprint
+    #pprint.pprint(clusters)
     
     # Creating nodes dictionary
     points = []

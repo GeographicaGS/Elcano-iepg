@@ -1040,7 +1040,7 @@
 
 #quotes_tool{
     .co_chart{
-        padding: 0 60px 50px 0;
+        padding: 0 30px 50px 0;
     }
 
     h5{
@@ -1065,14 +1065,15 @@
             display: none;
         }
 
-        .line {
+        line.cluster {
             fill: none;
             stroke: @grey_light;
             stroke-width: 2px;
            
-            &[selected]{
+            &[selected=true]{
                 stroke: @red;
             }
+            cursor: pointer;
         }
         
         .tick{
@@ -1106,6 +1107,7 @@
                 &[selected]{
                     fill: @red;
                 }
+                cursor:pointer;
             }
         }
 
@@ -1115,6 +1117,15 @@
             &[selected='true']{
                 fill: @red;
             }
+        }
+
+        .tooltip{
+            pointer-events: none;
+            max-width: 300px;
+            .tlcountries{
+                max-width: 220px;
+            }
+            z-index: 10;
         }
     }
 

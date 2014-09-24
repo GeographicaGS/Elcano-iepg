@@ -64,11 +64,6 @@ def iepgEngine():
                             ast.literal_eval(i[3].value) if i[3].value!="" else None,
                             ast.literal_eval(i[6].value) if i[6].value!="" else None)
 
-        print i
-
-        # import ipdb
-        # ipdb.set_trace()
-
         data.merge(book.readGeoVariableArray(".".join(var.filiation)))
 
     shape = data.shape

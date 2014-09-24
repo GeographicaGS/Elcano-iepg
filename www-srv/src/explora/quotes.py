@@ -50,7 +50,6 @@ def quotes(family,variable,countries,lang):
     gvaInitData = [x if x is not None else np.nan for x in gvaInitData]
     a = np.swapaxes(np.array(gvaInitData).reshape((len(times), len(geoentities))), 0, 1)
     gva.addVariable("Data", data=a)
-
     clusters = gva.cluster("Data", quotesClustersSeeds)
     
     # Creating nodes dictionary

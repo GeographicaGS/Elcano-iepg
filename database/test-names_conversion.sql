@@ -8,5 +8,5 @@ from
   a.id_geoentity=b.id_geoentity
 where 
   a.id_name_family=2 and
-  b.id_name_family=1
+  b.id_name_family=5
 order by a.name;

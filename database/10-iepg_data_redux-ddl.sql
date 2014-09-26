@@ -251,25 +251,25 @@ primary key(code, date_in);
 
 -- Import iepg_data_redux
 
-\copy iepg_data_redux.iepe_data from 'redux_iepe_data.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.iepe_data from 'redux_iepe_data.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data_redux.iepe_individual_contribution from 'redux_iepe_individual_contribution.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.iepe_individual_contribution from 'redux_iepe_individual_contribution.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data_redux.iepe_quota from 'redux_iepe_quota.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.iepe_quota from 'redux_iepe_quota.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data_redux.iepe_relative_contribution from 'redux_iepe_relative_contribution.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.iepe_relative_contribution from 'redux_iepe_relative_contribution.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data_redux.iepg_data from 'redux_iepg_data.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.iepg_data from 'redux_iepg_data.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data_redux.iepg_individual_contribution from 'redux_iepg_individual_contribution.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.iepg_individual_contribution from 'redux_iepg_individual_contribution.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data_redux.iepg_quota from 'redux_iepg_quota.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.iepg_quota from 'redux_iepg_quota.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data_redux.iepg_relative_contribution from 'redux_iepg_relative_contribution.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.iepg_relative_contribution from 'redux_iepg_relative_contribution.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data_redux.pob_pib from 'redux_pob_pib.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.pob_pib from 'redux_pob_pib.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data_redux.iepg_comment from 'redux_iepg_comment.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data_redux.iepg_comment from 'redux_iepg_comment.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
 
 commit;

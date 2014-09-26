@@ -20,6 +20,7 @@ Backbone.View.prototype.close = function(){
 }
 
 $(function(){
+
     $("body").on("click","a",function(e){
         
         var attr = $(this).attr("jslink"),
@@ -38,35 +39,41 @@ $(function(){
         }
     });
     
-    $(document).ajaxError(function(event, jqxhr, settings, exception) {
-        if (jqxhr.status == 404) { app.router.navigate("notfound",{trigger: true});} 
-        else { app.router.navigate("error",{trigger: true});}
-    });
-
+   
   
     if (app.config.DETECT_COUNTRY_LOCATION){
-        $.getJSON('http://freegeoip.net/json/', function(location) {
-          // example where I update content on the page.
-          // jQuery('#city').html(location.city);
-          // jQuery('#region-code').html(location.region_code);
-          // jQuery('#region-name').html(location.region_name);
-          // jQuery('#areacode').html(location.areacode);
-          // jQuery('#ip').html(location.ip);
-          // jQuery('#zipcode').html(location.zipcode);
-          // jQuery('#longitude').html(location.longitude);
-          // jQuery('#latitude').html(location.latitude);
-          // jQuery('#country-name').html(location.country_name);
-          // jQuery('#country-code').html(location.country_code);
-            app.country = location.country_code;
-            app.ini();
+        $.ajax({
+            url: "http://freegeoip.net/json/",
+
+            error: function(){
+                app.country = "ES";
+                app.ini();  
+                app.setAjaxSetup();
+            },
+            success: function(location){
+                //do something
+                app.country = location.country_code;
+                app.ini();
+                app.setAjaxSetup();
+            },
+            timeout: 800 // sets timeout to 3 seconds
         });
     }
     else{
         app.country = "ES";
         app.ini();  
+        app.setAjaxSetup();
     }
  
 });
+
+app.setAjaxSetup = function(){
+    $(document).ajaxError(function(event, jqxhr, settings, exception) {
+        if (jqxhr.status == 404) { app.router.navigate("notfound",{trigger: true});} 
+        else { app.router.navigate("error",{trigger: true});}
+    });
+
+}
 
 app.delay = (function(){
   var timer = 0;
@@ -510,6 +517,7 @@ app.clearData = function(){
 }
 
 app.reset = function(){
+    $("#start_loading").show();
     this.clearData();
     window.location  = "/es";
 }
@@ -542,12 +550,12 @@ app.getLoadingHTML = function(){
 
 app.formatNumber = function (n,decimals){
 
-    if (decimals ===null || decimals === undefined){
-        decimals = 2;
+    if (n===null){
+        return "--";
     }
 
-    if (n===null){
-        return "";
+    if (decimals ===null || decimals === undefined){
+        decimals = 2;
     }
 
     if (typeof n == "number"){

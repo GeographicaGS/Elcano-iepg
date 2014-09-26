@@ -992,6 +992,11 @@ main{
             }
         }
 
+        .ctrl_selc{
+            border-bottom: 1px solid @grey_light;
+            cursor: pointer;
+        }
+
     }
 
     &.help{
@@ -1990,4 +1995,13 @@ div.tooltip.comp{
         height:25px;
         margin: 5px 0 0 6px;
     }
+}
+
+#start_loading{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 4;
 }

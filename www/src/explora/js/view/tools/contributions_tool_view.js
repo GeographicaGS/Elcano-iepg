@@ -13,8 +13,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
     _models : { "left" : null, "right" : null },
 
-    _cVariable : "global",
-
     type: "contributions",
 
     initialize: function() {
@@ -322,7 +320,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         // Fetch the collection from the server
         this._mapCollection = new app.collection.ContributionsToolMap([],{
             "family" :  ctx.family,
-            "variable" : this._cVariable,
+            "variable" : ctx.variables[0],
             "date" : ctx.slider[0].date.getFullYear()
         });
         
@@ -339,13 +337,14 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             ctx = ctxObj.data;
             year =  ctx.slider[0].date.getFullYear(),
             family = ctx.family,
+            variable = ctx.variables[0],
             mapData = this._mapCollection.toJSON();
 
         if (!mapData.length){
             app.map.removeChoropleth();
         }
         else{
-            this.mapLayer = app.map.drawChoropleth(mapData,year,this._cVariable,family,"%",false,"<lang>Contribuciones</lang> ");
+            this.mapLayer = app.map.drawChoropleth(mapData,year,variable,family,"%",false,"<lang>Contribuciones</lang> ");
         }
 
         
@@ -460,6 +459,15 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             }
         }
 
+        if (!ctx.variables){
+            if (latestCtx.variables){
+                ctx.variables = latestCtx.variables;
+            }
+            else{
+                ctx.variables = ["global"];
+            }
+        }
+
         // Save context
         ctxObj.saveContext();
 
@@ -527,7 +535,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         var color = d3.scale.category20c();
 
-        var svg = d3.select(" #co_chart_" + pos +" .chart").append("svg")
+        var svg = d3.select("#co_chart_" + pos +" .chart").append("svg")
             .attr("width", width)
             .attr("height", height)
           .append("g")
@@ -595,35 +603,57 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             .attr("data-variable",function(d){return d.name });
         
 
-            function click(d) {
-                if (d.name == "global" || d.name == "economic_global" ||
-                    d.name == "soft_global" || d.name =="military_global")
-                {
-                    // path.transition()
-                    //     .duration(750)
-                    //     .attrTween("d", arcTween(d));
+        function click(d) {
+            if (d.name == "global" || d.name == "economic_global" ||
+                d.name == "soft_global" || d.name =="military_global")
+            {
+                obj._moveChartSection(pos,d,true);
+            }
+            ctx.variables = [d.name];
+            obj.contextToURL();
 
-                    // obj._renderChartLegend(pos,root,d.name);
-                    obj._moveChartSection(pos,d,true);
-                }
+            obj._mapCollection._variable = d.name;
+            obj._mapCollection.fetch({"reset":true});
 
-                obj._refreshMapVariable(d.name);
-
-          }
+        }
 
         this._d3[pos] = {};
         this._d3[pos].path = path;
         this._d3[pos].tree = tree;
         this._d3[pos].arcTween = arcTween;
 
-        this._renderChartLegend(pos,"global");
+        var data_variable;
+        if (ctx.variables[0] == "global"){
+            this._renderChartLegend(pos,ctx.variables[0]);
+        }
+        else{
+            if (ctx.variables[0] == "economic_global" ||
+                ctx.variables[0] == "soft_global" || ctx.variables[0] =="military_global"){
+                data_variable = ctx.variables[0];
+            }
+            else{
+                data_variable = tree.findParentInTreeByName(ctx.variables[0]);
+            }
+
+            d3.select("#co_chart_" + pos +" .chart path[data-variable='" + data_variable  + "']").each(function(d, i) {
+                obj._moveChartSection(pos,d,false,0)
+            }); 
+
+        }
+        
+        
+        
     },
 
-    _moveChartSection: function(pos,d,callBrother){
+    _moveChartSection: function(pos,d,callBrother,speed){
+        if (speed == undefined || speed=="undefined"){
+            speed = 750;
+        }
 
         this._d3[pos].path.transition()
-                        .duration(750)
-                        .attrTween("d", this._d3[pos].arcTween(d));
+                         .duration(speed)
+                         .attrTween("d", this._d3[pos].arcTween(d));
+
         this._renderChartLegend(pos,d.name);
 
         if (!callBrother){
@@ -712,15 +742,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         }));
     },
 
-    _refreshMapVariable: function(name){
-        this._cVariable = name;
-        // get data from server
-        this._mapCollection._variable = name;
-        // trigger a call to renderMapAsync
-        this._mapCollection.fetch({"reset":true});
-    },
-
-
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
         var ctxObj = this.getGlobalContext(),
@@ -729,6 +750,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         app.router.navigate("contributions/" 
             + ctx.family + "/"  // Family
+            + ctx.variables[0] + "/" 
             + ctx.slider[0].date.getFullYear() + "/" // Year
             + ctx.countries.list.join(",") + "/" // Countries list
             + ctx.countries.selection.join(",")   // Countries selected
@@ -741,6 +763,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
            
         // Overwrite the family
         ctx.family = url.family;
+
+        ctx.variables = [url.variable];
 
         // set the slider
         ctx.countries.slider = [{

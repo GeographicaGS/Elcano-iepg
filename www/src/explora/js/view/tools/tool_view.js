@@ -200,16 +200,31 @@ app.view.tools.Plugin = Backbone.View.extend({
         Draw the tool
     */ 
     render: function(){  
-        this.adaptGlobalContext();
-        this.contextToURL();
+
         this.$el.show().html(app.getLoadingHTML());
+
+        this.adaptGlobalContext();
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+        this.tree = new app.view.tools.utils.variablesTree(null,ctx.family);
+
+        if (ctx.family=="iepe" && (ctx.variables[0]=="military_global" 
+            || "military_global" == this.tree.findParentInTreeByName(ctx.variables[0]))){
+            // not possible got to global
+            ctx.variables[0]="global";
+            this.contextToURL();
+        }
+
+        this.contextToURL();
+        
 
         this.slider.render();
         this.countries.render();
 
         this.renderTool();
 
-       
+        $("#start_loading").hide();
 
         return this;
     },

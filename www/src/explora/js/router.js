@@ -8,11 +8,11 @@ app.router = Backbone.Router.extend({
         "notfound" : "notfound",
         "error" : "error",
         "tool/:type" : "bringToolToFront",
-        "country/:family/:countries/:country_sel/:year(/:filters)" : "country",
+        "country/:family/:variable/:countries/:country_sel/:year(/:filters)" : "country",
         "ranking/:family/:variable/:year/:year_ref/:countries/:country_sel/:block_analize(/:filters)" : "ranking",
-        "contributions/:family/:year/:countries/:countries_sel(/:filters)" : "contributions",
+        "contributions/:family/:variable/:year/:countries/:countries_sel(/:filters)" : "contributions",
         "quotes/:family/:variable/:countries/:countries_sel/:year_ref(/:filters)" : "quotes",
-        "comparison/:year/:countries/:country_sel(/:filters)" : "comparison",
+        "comparison/:variable/:year/:countries/:country_sel(/:filters)" : "comparison",
         
         "home/*url": "external",
 
@@ -47,9 +47,10 @@ app.router = Backbone.Router.extend({
         app.clearData();
     },
 
-    country: function(family,countries,country_sel,year,filters){
+    country: function(family,variable,countries,country_sel,year,filters){
         app.baseView.loadCountryTool({
             "family" : family,
+            "variable" : variable,
             "countries" : countries,
             "country_sel": country_sel,
             "year" : year,
@@ -70,9 +71,10 @@ app.router = Backbone.Router.extend({
         });
     },
 
-    contributions : function(family,year,countries,countries_sel,filters){
+    contributions : function(family,variable,year,countries,countries_sel,filters){
         app.baseView.loadContributionsTool({
             "family" : family,
+            "variable" : variable,
             "year" : year,
             "countries": countries,
             "countries_sel" : countries_sel,
@@ -91,8 +93,9 @@ app.router = Backbone.Router.extend({
         });
     },
 
-    comparison : function(year,countries,country_sel,filters){
+    comparison : function(variable,year,countries,country_sel,filters){
         app.baseView.loadComparisonTool({
+            "variable" : variable,
             "year" : year,
             "countries" : countries,
             "country_sel" : country_sel,

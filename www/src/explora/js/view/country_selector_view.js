@@ -37,7 +37,8 @@ app.view.CountrySelector = Backbone.View.extend({
         "click #cancel": "cancel",
         "click li[code]" : "clickCountry",
         "click .ctrl_cb li a": "clickPanelCtrl",
-        "click #ctrl_countries_plain,#ctrl_blocks_plain ": "clickCountryBlockCheckbox"
+       // "click #ctrl_countries_plain,#ctrl_blocks_plain ": "clickCountryBlockCheckbox",
+        "click .ctrl_selc" : "clickCountryBlockSel"
     },
 
     onClose: function(){
@@ -102,9 +103,28 @@ app.view.CountrySelector = Backbone.View.extend({
             html += sprintf("<lang> %d bloques</lang>",nb);   
         }
 
-        this.$("#ctrl_countries_plain").prop("checked",$("#countries_plain li").not("[selected]").length == 0);
+        if ($("#countries_plain li[selected]").length > 0){
+            $(".ctrl_selc[data-type='country'][data-action='none']").show();
+            $(".ctrl_selc[data-type='country'][data-action='all']").hide();
+        }
+        else{
+            $(".ctrl_selc[data-type='country'][data-action='none']").hide();
+            $(".ctrl_selc[data-type='country'][data-action='all']").show();
+        }
 
-        this.$("#ctrl_blocks_plain").prop("checked",$("#blocks_plain li").not("[selected]").length == 0);
+
+        if ($("#blocks_plain li[selected]").length > 0){
+            $(".ctrl_selc[data-type='block'][data-action='none']").show();
+            $(".ctrl_selc[data-type='block'][data-action='all']").hide();
+        }
+        else{
+            $(".ctrl_selc[data-type='block'][data-action='none']").hide();
+            $(".ctrl_selc[data-type='block'][data-action='all']").show();
+        }
+
+        
+
+        //this.$("#ctrl_blocks_plain").prop("checked",$("#blocks_plain li").not("[selected]").length == 0);
 
         html += " <lang>selecccionados</lang>";       
         this.$n_selected.html(html);
@@ -129,7 +149,17 @@ app.view.CountrySelector = Backbone.View.extend({
     clickCountry: function(e){
         e.preventDefault();
 
-        this.updateCountryOrBlockInStack($(e.target).closest("li"));
+        var $e = $(e.target).closest("li"),
+            sel = $e.attr("selected");
+
+        if (sel !== undefined && sel!="undefined"){
+            $e.removeAttr("selected");
+        }
+        else{
+            $e.attr("selected",true);
+        }
+
+        this.updateCountryOrBlockInStack($e);
         
         this.refreshCounterElements();
         //this.showHideDeselectBtn();
@@ -139,9 +169,9 @@ app.view.CountrySelector = Backbone.View.extend({
         var sel = $e.attr("selected"),
             code = $e.attr("code");
 
-        if (sel !== undefined && sel!="undefined"){
-            // Unselect element
-            $e.removeAttr("selected");
+        if (sel == undefined || sel=="undefined"){
+            // // Unselect element
+            // $e.removeAttr("selected");
             if (code.length == 2 || code =="XBEU"){
                 this._removeFromStack(this._selectedCountriesStack,code);    
             }
@@ -150,7 +180,7 @@ app.view.CountrySelector = Backbone.View.extend({
             }
         }
         else{
-            $e.attr("selected",true);
+            //$e.attr("selected",true);
             if (code.length == 2 || code =="XBEU"){
                 this._addToTopStack(this._selectedCountriesStack,code);    
             }
@@ -175,19 +205,13 @@ app.view.CountrySelector = Backbone.View.extend({
         $e.closest("li").attr("selected",true);
     },
 
-    // showHideDeselectBtn: function(){
-    //     if(this._selectedBlocksStack.length > 0 || this._selectedCountriesStack.length > 0){
-    //         this.$('.deselect_btn').addClass('active');
-    //     }else{
-    //         this.$('.deselect_btn').removeClass('active');
-    //     }
-    // },
+    clickCountryBlockSel: function(e){
+        var $e = $(e.target),obj = this,
+            selector = $e.attr("data-type") == "country" ? "#countries_plain li" : "#blocks_plain li",
+            selected = $e.attr("data-action") == "all" ? true : false;
 
-    clickCountryBlockCheckbox: function(e){
-        var $e = $(e.target),obj = this;
-
-        this.$("#" + $e.attr("id").substring(5) + " li").each(function(){
-            if (!$e.is(':checked')){
+        this.$(selector).each(function(){
+            if (selected){
                 $(this).attr("selected",true);
             }
             else{
@@ -197,6 +221,5 @@ app.view.CountrySelector = Backbone.View.extend({
         });
 
         this.refreshCounterElements();
-        //this.showHideDeselectBtn();
     }
 });

@@ -19,8 +19,8 @@ import sys
 connclient = redis.StrictRedis(host="localhost", port=6379, db=0)
 mc = datacache.RedisDataCache(connclient, prefix="iepg_", timeout=None)
 
-if mc.get("IEPG data loaded")==1:
-    sys.exit()
+# if mc.get("IEPG data loaded")==1:
+#     sys.exit()
 
 def createCache():
     dataSets = dict()

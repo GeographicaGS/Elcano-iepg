@@ -31,11 +31,11 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     fileName = os.path.join(backend["tmpFolder"], 
                             hashlib.sha256(request.url.strip(request.url_root)).hexdigest()+".xlsx")
 
-    # Try to get file from cache
-    if os.path.isfile(fileName):
-        return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-                         attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
-                         as_attachment=True))
+    # # Try to get file from cache
+    # if os.path.isfile(fileName):
+    #     return(send_file(fileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+    #                      attachment_filename="Real_Instituto_Elcano-Solicitud_datos_IEPG.xlsx",
+    #                      as_attachment=True))
 
     translate = dc.isoToEnglish if language=="en" else dc.isoToSpanish
     years = sorted(years.split(","))
@@ -63,7 +63,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
         "size": 20,
         "valign": "vcenter",
         "pattern": 1,
-        "bg_color": "#e03127",
+        "bg_color": "#A6192E",
     })
 
     bold_format = workbook.add_format({
@@ -71,7 +71,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
     })
 
     header_format = workbook.add_format({
-        "bg_color": "#fdc300",
+        "bg_color": "#FFCD33",
         "valign": "vcenter",
         "align": "center",
         "size": 12
@@ -79,12 +79,14 @@ def getDownloadData(language, years, variables, countries, rows, columns):
 
     highlight = workbook.add_format({
         "bg_color": "#eeeeee",
-        "valign": "vcenter"
+        "valign": "vcenter",
+        "num_format": "0.00"
     })
 
     no_highlight = workbook.add_format({
         "bg_color": "#ffffff",
-        "valign": "vcenter"
+        "valign": "vcenter",
+        "num_format": "0.00"
     })
 
     normalC = workbook.add_format({
@@ -140,14 +142,16 @@ def getDownloadData(language, years, variables, countries, rows, columns):
             varSplitted = var.split("@")
             varName = unicode(const.variableNames[varSplitted[1]][varSplitted[0]]["name_"+language])
             if varSplitted[1]=="iepg":
-                familyName = u"global" if language=="es" else u"global"
+                familyName = u"(Índice de Presencia Global)" if language=="es" else \
+                             u"(Global Presence Index)"
             else:
-                familyName = u"europea" if language=="es" else u"european"
-            tabName = (varName+u" ("+familyName+u")")
+                familyName = u"(Índice de Presencia Europea)" if language=="es" else \
+                             u"(European Presence Index)"
+            tabName = varName+" "+familyName
             tabTag = u"Datos "+str(varTagNum) if language=="es" else u"Data "+str(varTagNum)
 
-            title = u"Data from Elcano Global Presence Index (Data for "+tabName+")" if language=="en" \
-                    else u"Datos del Índice de Presencia Global Elcano (Datos para "+tabName+")"
+            title = tabName if language=="en" \
+                    else tabName
             variable = allVariables[varSplitted[1]+"@"+varSplitted[0]]
 
             worksheet = workbook.add_worksheet(tabTag)
@@ -173,7 +177,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                         if (row+2)%3==0:
                             worksheet.set_row(row,25,highlight)
                         else:
-                            worksheet.set_row(row,25)
+                            worksheet.set_row(row,25,no_highlight)
                         col+=1
                     row+=1
             else:
@@ -191,7 +195,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                         if (row+2)%3==0:
                             worksheet.set_row(row,25,highlight)
                         else:
-                            worksheet.set_row(row,25)
+                            worksheet.set_row(row,25,no_highlight)
                         col+=1
                     row+=1
             
@@ -236,7 +240,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                         if (row+2)%3==0:
                             worksheet.set_row(row,25,highlight)
                         else:
-                            worksheet.set_row(row,25)
+                            worksheet.set_row(row,25,no_highlight)
                         col+=1
                     row+=1
             else:
@@ -262,7 +266,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                         if (row+2)%3==0:
                             worksheet.set_row(row,25,highlight)
                         else:
-                            worksheet.set_row(row,25)
+                            worksheet.set_row(row,25,no_highlight)
                         col+=1
                     row+=1
             
@@ -306,7 +310,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                         if (row+2)%3==0:
                             worksheet.set_row(row,30,highlight)
                         else:
-                            worksheet.set_row(row,30)
+                            worksheet.set_row(row,30,no_highlight)
                         col+=1
                     row+=1
             else:
@@ -331,7 +335,7 @@ def getDownloadData(language, years, variables, countries, rows, columns):
                         if (row+2)%3==0:
                             worksheet.set_row(row,18,highlight)
                         else:
-                            worksheet.set_row(row,18)
+                            worksheet.set_row(row,18,no_highlight)
                         col+=1
                     row+=1
             

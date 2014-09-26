@@ -64,11 +64,6 @@ def iepgEngine():
                             ast.literal_eval(i[3].value) if i[3].value!="" else None,
                             ast.literal_eval(i[6].value) if i[6].value!="" else None)
 
-        print i
-
-        # import ipdb
-        # ipdb.set_trace()
-
         data.merge(book.readGeoVariableArray(".".join(var.filiation)))
 
     shape = data.shape
@@ -98,6 +93,9 @@ def iepgEngine():
 
         data.addVariable(i+"_IEPG", data=d)
 
+    import ipdb
+    ipdb.set_trace()
+
     # Sports calculus
     linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
     medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
@@ -117,6 +115,9 @@ def iepgEngine():
                      data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
                      np.nanmax(data[:,refYear,"IEPG.Soft.SportsCoef"]))
 
+    import ipdb
+    ipdb.set_trace()
+
     # Military equipment
     militaryEquipment = ['IEPG.Military.Support.AircraftC',
                          'IEPG.Military.Support.Amphibius',
@@ -131,7 +132,7 @@ def iepgEngine():
     militaryCoefsEquip = []
 
     for i in militaryEquipment:
-        militaryCoefs.append(np.nansum(data[:,refYear,militaryEquipment])/np.nansum(data[:,refYear,i]))
+        militaryCoefs.append(np.nansum(data[:,refYear,tuple(militaryEquipment)])/np.nansum(data[:,refYear,i]))
 
     militaryTotal = np.nansum(np.array(militaryCoefs))
 
@@ -388,4 +389,10 @@ def iepgEngine():
     return(send_file(outFileName, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
                      attachment_filename="Real_Instituto_Elcano-Calculo_IEPG.xlsx",
                      as_attachment=True))
+
+
+
+
+
+
 

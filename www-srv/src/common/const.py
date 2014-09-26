@@ -160,7 +160,7 @@ variableNames = {
             "column": u"iepg",
             "coeficient": 1,
             "name_en": u"Elcano Global Presence Index",
-            "name_es": u"Índice de Presencia Global Elcano"}
+            "name_es": u"Índice Elcano de Presencia Global"}
     },
     "iepe": {
         "energy": {

@@ -137,7 +137,6 @@ def iepgEngine():
         militaryCoefsEquip.append(i/militaryTotal)
 
     ae = np.zeros((shape[0],shape[1]))
-    ae[:] = np.nan
 
     for i in range(0, len(militaryCoefsEquip)):
         ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]].reshape(shape[0],shape[1]))
@@ -159,21 +158,18 @@ def iepgEngine():
     cIndex = environment["DIMENSION_COEFICIENTS"]
 
     a = np.zeros((shape[0],shape[1]))
-    a[:] = np.nan
     for i in range(0, len(cEconomic)):
         a+=data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"].reshape(shape[0],shape[1])*cEconomic[i]
     
     data.addVariable("IEPG.Global.Economic", data=a/100.0)
 
     a = np.zeros((shape[0],shape[1]))
-    a[:] = np.nan
     for i in range(0, len(cMilitary)):
         a+=data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"].reshape(shape[0],shape[1])*cMilitary[i]
     
     data.addVariable("IEPG.Global.Military", data=a/100.0)
 
     a = np.zeros((shape[0],shape[1]))
-    a[:] = np.nan
     for i in range(0, len(cSoft)):
         a+=data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"].reshape(shape[0],shape[1])*cSoft[i]
     

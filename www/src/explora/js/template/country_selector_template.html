@@ -14,12 +14,12 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="co_all_countries">
-                        <input type="checkbox" id="ctrl_countries_plain" value=""/>
-                        <span><lang>Seleccionar todos los países</lang>.</span>
+                        <span  class="ctrl_selc" data-type="country" data-action="all"style="display:none" ><lang>Seleccionar todos los países</lang></span>
+                        <span  class="ctrl_selc" data-type="country" data-action="none" style="display:none"><lang>Deseleccionar todos los países</lang></span>
                     </div>
                     <div class="co_all_countries">
-                        <input type="checkbox" id="ctrl_blocks_plain"  value="" />
-                        <span><lang>Seleccionar todos los bloques</lang>.</span>
+                        <span data-type="block" data-action="all" class="ctrl_selc"  style="display:none"><lang>Seleccionar todos los bloques</lang></span>
+                        <span data-type="block" data-action="none"  class="ctrl_selc"  style="display:none"><lang>Deseleccionar todos los bloques</lang></span>
                     </div>
                 </div>
                 <div class="col-xs-6" id="n_selected">

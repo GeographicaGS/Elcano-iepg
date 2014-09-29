@@ -13,8 +13,6 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
     _models : { "iepg" : null, "iepe" : null },
 
-    _cVariable: "global",
-
     type: "comparison",
 
     initialize: function() {
@@ -285,7 +283,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         // Fetch the collection from the server
         this._mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
-            "variable" : this._cVariable,
+            "variable" : ctx.variables[0],
             "date" : ctx.slider[0].date.getFullYear()
         });
         
@@ -300,10 +298,11 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         var 
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
+            variable = ctx.variables[0],
             year =  ctx.slider[0].date.getFullYear(),
             family = ctx.family;
 
-        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,this._cVariable,family);
+        this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,variable,family);
     },
 
     _renderMap: function(){
@@ -394,6 +393,16 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 ctx.family = "iepg";
             }
         }
+
+        if (!ctx.variables){
+            if (latestCtx.variables){
+                ctx.variables = latestCtx.variables;
+            }
+            else{
+                ctx.variables = ["global"];
+            }
+        }
+
 
         // Save context
         ctxObj.saveContext();
@@ -497,11 +506,13 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         
 
             function click(d) {
+                ctx.variables = [d.name];
+                obj.contextToURL();
+
                 if (d.name == "global" || d.name == "economic_global" ||
                     d.name == "soft_global" || d.name =="military_global")
                 {
                     obj._moveChartSection(family,d,true);
-                    
                 }
                 obj._refreshMapVariable(family,d.name);
 
@@ -512,13 +523,34 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this._d3[family].tree = tree;
         this._d3[family].arcTween = arcTween;
 
-        this._renderChartLegend(family,this._cVariable);
+        var data_variable;
+        if (ctx.variables[0] == "global"){
+            this._renderChartLegend(family,ctx.variables[0]);
+        }
+        else{
+            if (ctx.variables[0] == "economic_global" ||
+                ctx.variables[0] == "soft_global" || ctx.variables[0] =="military_global"){
+                data_variable = ctx.variables[0];
+            }
+            else{
+                data_variable = tree.findParentInTreeByName(ctx.variables[0]);
+            }
+
+            d3.select("#co_chart_" + pos + " .chart path[data-variable='" + data_variable  + "']").each(function(d, i) {
+                obj._moveChartSection(family,d,false,0)
+            }); 
+
+        }
     },
 
-    _moveChartSection: function(family,d,callBrother){
+    _moveChartSection: function(family,d,callBrother,speed){
+
+        if (speed == undefined || speed =="undefined"){
+            speed = 720;
+        }
 
         this._d3[family].path.transition()
-                        .duration(750)
+                        .duration(speed)
                         .attrTween("d", this._d3[family].arcTween(d));
         this._renderChartLegend(family,d.name);
 
@@ -601,10 +633,9 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         }));
     },
 
-    _refreshMapVariable: function(family,name){
-        this._cVariable = name;
+    _refreshMapVariable: function(family){
         // get data from server
-        this._mapCollection._variable = name;
+        this._mapCollection._variable = this.getGlobalContext().data.variables[0];
         this._mapCollection._family = family;
         // trigger a call to renderMapAsync
         this._mapCollection.fetch({"reset":true});
@@ -617,6 +648,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             filters = app.getFilters().join(",");
 
         app.router.navigate("comparison/" 
+            + ctx.variables[0] + "/"
             + ctx.slider[0].date.getFullYear() + "/" // Year
             + ctx.countries.list.join(",") + "/" // Countries list
             + ctx.countries.selection[0]   // Countries selected
@@ -635,6 +667,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
         ctx.countries.list = url.countries.split(",");
         ctx.countries.selection = [url.country_sel];
+
+        ctx.variables = [url.variable];
 
         // Do we have filters?
         if (url.filters){

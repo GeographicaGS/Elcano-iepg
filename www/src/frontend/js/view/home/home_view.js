@@ -160,7 +160,7 @@ app.view.Home = Backbone.View.extend({
         e.preventDefault();
         
         if (this._currentCountry){
-            window.location = app.config.EXPLORA_URL + "/" + app.lang + "/country/iepg/" +
+            window.location = app.config.EXPLORA_URL + "/" + app.lang + "/country/iepg/global/" +
                     this._currentCountry.code + "/" + this._currentCountry.code + "/" + $("#year").html();
         }
         else{

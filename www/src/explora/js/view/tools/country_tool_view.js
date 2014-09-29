@@ -3,7 +3,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     _templateHelp : _.template( $('#country_tool_help_template').html() ),
     _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     type: "country",
-    _cVariable : "global",
 
     initialize: function(options) {
 		this.slider = new app.view.tools.common.SliderSinglePoint();
@@ -89,7 +88,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         // Fetch the collection from the server
         this.mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
-            "variable" : this._cVariable,
+            "variable" : ctx.variables[0],
             "date" : ctx.slider[0].date.getFullYear(),
             "mode" : !ctx.countries.selection.length ? 0 :
                     ctx.countries.selection[0].length == 2 ? 0 :
@@ -118,8 +117,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this.$chart = this.$(".chart");
 
         this._drawD3Chart(year);
-
-        this._renderChartLegend("global");
         
     },
 
@@ -134,9 +131,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
             year =  ctx.slider[0].date.getFullYear(),
-            family = ctx.family;
+            family = ctx.family,
+            variable = ctx.variables[0];
 
-        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,this._cVariable,family);
+        this.mapLayer = app.map.drawChoropleth(this.mapCollection.toJSON(),year,variable,family);
 
     },
 
@@ -257,6 +255,15 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             }
         }
 
+        if (!ctx.variables){
+            if (latestCtx.variables){
+                ctx.variables = latestCtx.variables;
+            }
+            else{
+                ctx.variables = ["global"];
+            }
+        }
+
         // Save context
         ctxObj.saveContext();
 
@@ -275,7 +282,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             variable = ctx.variables[0],
             year = ctx.slider[0].date.getFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
-            url = "country/" + family + "/" + countries + "/" + country + "/" + year + filters;
+            url = "country/" + family + "/" + variable + "/" + countries + "/" + country + "/" + year + filters;
 
         if (!family || !countries || !country || !variable || !year ){
             app.router.navigate("/", {trigger: false});
@@ -291,6 +298,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             ctx = ctxObj.data;
             
         ctx.family = url.family;
+        ctx.variables = [url.variable];
         ctx.countries.list = url.countries.split(",");
         ctx.countries.selection = [url.country_sel];
         ctx.countries.slider = [{
@@ -357,12 +365,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
           };
         }
 
-        var div = d3.select("#country_tool .tooltip");
-
-        var obj = this;
-
-        this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).family,family);
+        var div = d3.select("#country_tool .tooltip"),
+            obj = this;
         
+        this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).family,family);
+
         var path = svg.selectAll("path")
               .data(partition.nodes(this.tree.get()))
             .enter().append("path")
@@ -388,20 +395,53 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             .attr("data-variable",function(d){return d.name });
         
 
-            function click(d) {
-                if (d.name == "global" || d.name == "economic_global" ||
-                    d.name == "soft_global" || d.name =="military_global")
-                {
-                    path.transition()
-                        .duration(750)
-                        .attrTween("d", arcTween(d));
-                    
-                    obj.selectVariable(d.name);
-                }
-                else{
-                    obj._refreshMapVariable(d.name);
-                }
-          }
+        function click(d) {
+
+            ctx.variables = [d.name];
+            obj.contextToURL();
+
+            if (d.name == "global" || d.name == "economic_global" ||
+                d.name == "soft_global" || d.name =="military_global"){
+                obj._moveChartSection(d,750);
+            }
+
+            obj.mapCollection._variable = d.name;
+            obj.mapCollection.fetch({"reset":true});
+
+        }
+
+        this._d3 = {};
+        this._d3.path = path;
+        this._d3.arcTween = arcTween;
+
+        if (ctx.variables[0] == "global"){
+            this._renderChartLegend(ctx.variables[0]);
+        }
+        else {
+
+            var data_variable;
+            if (ctx.variables[0] == "economic_global" ||
+                    ctx.variables[0] == "soft_global" || ctx.variables[0] =="military_global"){
+                
+                data_variable = ctx.variables[0];
+            }
+            else{
+                data_variable = this.tree.findParentInTreeByName(ctx.variables[0]);
+            }
+
+            d3.select("path[data-variable='" + data_variable  + "']").each(function(d, i) {
+                obj._moveChartSection(d,0);
+            }); 
+        }      
+    },
+
+    _moveChartSection: function(d,speed){
+
+        this._d3.path.transition()
+                         .duration(speed)
+                         .attrTween("d", this._d3.arcTween(d));
+
+        this._renderChartLegend(d.name);
     },
 
     _htmlToolTip: function(tvariable){
@@ -435,19 +475,18 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         }));
     },
 
-    _refreshMapVariable: function(name){
-         this._cVariable = name;
-        // get data from server
-        this.mapCollection._variable = name;
-        // trigger a call to renderMapAsync
-        this.mapCollection.fetch({"reset":true});
-    },
+    // _refreshMapVariable: function(name){
+    //     // get data from server
+    //     this.mapCollection._variable = name;
+    //     // trigger a call to renderMapAsync
+    //     this.mapCollection.fetch({"reset":true});
+    // },
 
-    selectVariable: function (name){
+    // selectVariable: function (name){
 
-        this._refreshMapVariable(name);
-        this._renderChartLegend(name);
+    //     this._refreshMapVariable(name);
+    //     this._renderChartLegend(name);
 
-    }
+    // }
     
 });

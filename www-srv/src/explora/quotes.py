@@ -51,6 +51,9 @@ def quotes(family,variable,countries,lang):
     a = np.swapaxes(np.array(gvaInitData).reshape((len(times), len(geoentities))), 0, 1)
     gva.addVariable("Data", data=a)
     clusters = gva.cluster("Data", quotesClustersSeeds)
+
+    import pprint
+    #pprint.pprint(clusters)
     
     # Creating nodes dictionary
     points = []

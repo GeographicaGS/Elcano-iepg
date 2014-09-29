@@ -7,7 +7,9 @@
 	<tr>
 		<th><div class="variableIcon" data-variable="<%= data.name == "global" ? family : data.name %>"></div><span><%= app.variableToString(data.name,family) %></span></th>
 		<th title="<lang>Valor índice</lang>"><%= app.formatNumber(data.size) %></th>
-		<th title="<lang>Contribuciones de presencia</lang>"><%= data.perc ? app.formatNumber(data.perc) + " %": "--" %></th>
+		<th title="<lang>Contribuciones de presencia</lang>">
+			<%= app.formatNumber(data.perc) %> %
+		</th>
 	</tr>
 
 	<% 
@@ -16,7 +18,7 @@
 		<tr>
 			<td><div class="variableIcon" data-variable="<%= d.name%>"></div><span><%= app.variableToString(d.name,family) %></span></td>
 			<td title="<lang>Valor índice</lang>"><%= app.formatNumber(d.size) %></td>
-			<td title="<lang>Contribuciones de presencia</lang>"><%= d.perc ? app.formatNumber(d.perc) : "--"%> %</td>
+			<td title="<lang>Contribuciones de presencia</lang>"><%= app.formatNumber(d.perc) %> %</td>
 		</tr>
 	<% }); %>
 <!-- 	<tr class="table_legend">

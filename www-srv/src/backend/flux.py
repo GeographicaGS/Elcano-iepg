@@ -50,21 +50,24 @@ def iepgEngine():
     for i in environmentEx:
         environment[i[0].value] = ast.literal_eval(str(i[1].value))
 
-    data = core.GeoVariableArray()
+    variables = []
     refYear = str(environment["REFERENCE_YEAR"])
 
     # Read variables
     for i in variablesEx:
-        var = core.Variable(i[0].value, 
-                            getattr(core, i[4].value),
-                            getattr(np, i[5].value), 
-                            environment["LANGUAGE_CODES"], 
-                            ast.literal_eval(i[1].value) if i[1].value!="" else None,
-                            ast.literal_eval(i[2].value) if i[2].value!="" else None,
-                            ast.literal_eval(i[3].value) if i[3].value!="" else None,
-                            ast.literal_eval(i[6].value) if i[6].value!="" else None)
+        variables.append(core.Variable(i[0].value, 
+                                       getattr(core, i[4].value),
+                                       getattr(np, i[5].value), 
+                                       environment["LANGUAGE_CODES"], 
+                                       ast.literal_eval(i[1].value) if i[1].value!="" else None,
+                                       ast.literal_eval(i[2].value) if i[2].value!="" else None,
+                                       ast.literal_eval(i[3].value) if i[3].value!="" else None,
+                                       ast.literal_eval(i[6].value) if i[6].value!="" else None))
 
-        data.merge(book.readGeoVariableArray(".".join(var.filiation)))
+    # Prepare variables for IEPG calculus
+    data = core.GeoVariableArray()
+    [data.merge(book.readGeoVariableArray(".".join(x.filiation))) for x
+     in variables if x.filiation[0]=="IEPG"]
 
     shape = data.shape
 
@@ -93,9 +96,6 @@ def iepgEngine():
 
         data.addVariable(i+"_IEPG", data=d)
 
-    import ipdb
-    ipdb.set_trace()
-
     # Sports calculus
     linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
     medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
@@ -114,9 +114,6 @@ def iepgEngine():
     data.addVariable("IEPG.Soft.Sports_IEPG", data=
                      data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
                      np.nanmax(data[:,refYear,"IEPG.Soft.SportsCoef"]))
-
-    import ipdb
-    ipdb.set_trace()
 
     # Military equipment
     militaryEquipment = ['IEPG.Military.Support.AircraftC',
@@ -140,6 +137,7 @@ def iepgEngine():
         militaryCoefsEquip.append(i/militaryTotal)
 
     ae = np.zeros((shape[0],shape[1]))
+    ae[:] = np.nan
 
     for i in range(0, len(militaryCoefsEquip)):
         ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]].reshape(shape[0],shape[1]))
@@ -161,18 +159,21 @@ def iepgEngine():
     cIndex = environment["DIMENSION_COEFICIENTS"]
 
     a = np.zeros((shape[0],shape[1]))
+    a[:] = np.nan
     for i in range(0, len(cEconomic)):
         a+=data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"].reshape(shape[0],shape[1])*cEconomic[i]
     
     data.addVariable("IEPG.Global.Economic", data=a/100.0)
 
     a = np.zeros((shape[0],shape[1]))
+    a[:] = np.nan
     for i in range(0, len(cMilitary)):
         a+=data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"].reshape(shape[0],shape[1])*cMilitary[i]
     
     data.addVariable("IEPG.Global.Military", data=a/100.0)
 
     a = np.zeros((shape[0],shape[1]))
+    a[:] = np.nan
     for i in range(0, len(cSoft)):
         a+=data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"].reshape(shape[0],shape[1])*cSoft[i]
     
@@ -332,42 +333,42 @@ def iepgEngine():
                                                  'Military IEPG',
                                                  'Soft IEPG',
                                                  'IEPG',
-                                                 'Energy QUOTE',
-                                                 'Primary Goods QUOTE',
-                                                 'Manufactures QUOTE',
-                                                 'Services QUOTE',
-                                                 'Investments QUOTE',
-                                                 'Troops QUOTE',
-                                                 'Military Equipment QUOTE',
-                                                 'Migrations QUOTE',
-                                                 'Tourism QUOTE',
-                                                 'Sports QUOTE',
-                                                 'Culture QUOTE',
-                                                 'Information QUOTE',
-                                                 'Technology QUOTE',
-                                                 'Science QUOTE',
-                                                 'Education QUOTE',
-                                                 'Development Coop. QUOTE',
-                                                 'Economic QUOTE',
-                                                 'Military QUOTE',
-                                                 'Soft QUOTE',
-                                                 'IEPG QUOTE',
-                                                 'Energy CONTRIBUTION',
-                                                 'Primary Goods CONTRIBUTION',
-                                                 'Manufactures CONTRIBUTION',
-                                                 'Services CONTRIBUTION',
-                                                 'Investments CONTRIBUTION',
-                                                 'Troops CONTRIBUTION',
-                                                 'Military Equipment CONTRIBUTION',
-                                                 'Migrations CONTRIBUTION',
-                                                 'Tourism CONTRIBUTION',
-                                                 'Sports CONTRIBUTION',
-                                                 'Culture CONTRIBUTION',
-                                                 'Information CONTRIBUTION',
-                                                 'Technology CONTRIBUTION',
-                                                 'Science CONTRIBUTION',
-                                                 'Education CONTRIBUTION',
-                                                 'Development Coop. CONTRIBUTION'])
+                                                 'Energy IEPG QUOTE',
+                                                 'Primary Goods IEPG QUOTE',
+                                                 'Manufactures IEPG QUOTE',
+                                                 'Services IEPG QUOTE',
+                                                 'Investments IEPG QUOTE',
+                                                 'Troops IEPG QUOTE',
+                                                 'Military Equipment IEPG QUOTE',
+                                                 'Migrations IEPG QUOTE',
+                                                 'Tourism IEPG QUOTE',
+                                                 'Sports IEPG QUOTE',
+                                                 'Culture IEPG QUOTE',
+                                                 'Information IEPG QUOTE',
+                                                 'Technology IEPG QUOTE',
+                                                 'Science IEPG QUOTE',
+                                                 'Education IEPG QUOTE',
+                                                 'Development Coop. IEPG QUOTE',
+                                                 'Economic IEPG QUOTE',
+                                                 'Military IEPG QUOTE',
+                                                 'Soft IEPG QUOTE',
+                                                 'IEPG IEPG QUOTE',
+                                                 'Energy IEPG CONTRIBUTION',
+                                                 'Primary Goods IEPG CONTRIBUTION',
+                                                 'Manufactures IEPG CONTRIBUTION',
+                                                 'Services IEPG CONTRIBUTION',
+                                                 'Investments IEPG CONTRIBUTION',
+                                                 'Troops IEPG CONTRIBUTION',
+                                                 'Military E. IEPG CONTRIBUTION',
+                                                 'Migrations IEPG CONTRIBUTION',
+                                                 'Tourism IEPG CONTRIBUTION',
+                                                 'Sports IEPG CONTRIBUTION',
+                                                 'Culture IEPG CONTRIBUTION',
+                                                 'Information IEPG CONTRIBUTION',
+                                                 'Technology IEPG CONTRIBUTION',
+                                                 'Science IEPG CONTRIBUTION',
+                                                 'Education IEPG CONTRIBUTION',
+                                                 'Devel. C. IEPG CONTRIBUTION'])
 
     ew.addStyle("header", {
         "bg_color": "#08608C",
@@ -378,11 +379,317 @@ def iepgEngine():
     })
 
     for name,sheet in sheets.iteritems():
-        print name, sheet
         ew.setColumnStyle(sheet, 0, 0, 25)
         ew.setRowStyle(sheet, 0, 20, style="header")
 
+
+
+    # Prepare variables for IEPE calculus
+    data = core.GeoVariableArray()
+    [data.merge(book.readGeoVariableArray(".".join(x.filiation))) for x
+     in variables if x.filiation[0]=="IEPE"]
+
+    shape = data.shape
+
+    # Previous aggregation
+    # Primary goods
+    primaryG = np.nansum(data.select(None,None,["IEPE.Economic.FLA","IEPE.Economic.BVT","IEPE.Economic.CMI", \
+                                                "IEPE.Economic.AVO","IEPE.Economic.NFM","IEPE.Economic.PSP", \
+                                                "IEPE.Economic.NMG"]), axis=2)
+    data.addVariable("IEPE.Economic.PrimaryGoods", data=primaryG)
+
+    # Manufactures
+    man = np.nansum(data.select(None,None,["IEPE.Economic.CHM", "IEPE.Economic.ManufacturedGoods", \
+                                           "IEPE.Economic.Machinery", "IEPE.Economic.MMA"]), axis=2) - \
+          np.nansum(data.select(None,None,["IEPE.Economic.NFM","IEPE.Economic.PSP"]), axis=2)
+    data.addVariable("IEPE.Economic.Manufactures", data=man)
+
+    # Normal calculus
+    normal = ["IEPE.Economic.Energy",
+              "IEPE.Economic.PrimaryGoods",
+              "IEPE.Economic.Manufactures",
+              "IEPE.Economic.Services",
+              "IEPE.Economic.Investments",
+              "IEPE.Soft.Migrations",
+              "IEPE.Soft.Tourism",
+              "IEPE.Soft.Culture",
+              "IEPE.Soft.Information",
+              "IEPE.Soft.Technology",
+              "IEPE.Soft.Science",
+              "IEPE.Soft.Education"]
+
+
+    for i in normal:
+        d = data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i])
+        data.addVariable(i+"_IEPE", data=d)
+
+    # Dummy zero military equipment, troops, and development cooperation
+    zeroes = np.zeros((shape[0],shape[1]))
+    data.addVariable("IEPE.Military.Troops_IEPE", data=zeroes)
+    data.addVariable("IEPE.Military.MilitaryEquipment_IEPE", data=zeroes)
+    data.addVariable("IEPE.Soft.DevelopmentC_IEPE", data=zeroes)
+
+    # Sports calculus
+    linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
+    medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
+
+    sports = ((medals_fifa[0]/np.repeat( \
+                               np.nansum(data[:,:,"IEPE.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
+                               shape[0], axis=0).reshape(shape[0],shape[1])* \
+               10000*data[:,:,"IEPE.Soft.Support.Olimpics"].reshape(shape[0],shape[1]))+ \
+              (medals_fifa[1]/np.repeat( \
+                            np.nansum(data[:,:,"IEPE.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
+                                         shape[0], axis=0).reshape(shape[0],shape[1])* \
+                   10000*data[:,:,"IEPE.Soft.Support.FIFAPoints"].reshape(shape[0],shape[1])))* \
+                   np.repeat(np.array(linearCoef[3:]).reshape(1,shape[1]), shape[0], axis=0)
+
+    data.addVariable("IEPE.Soft.SportsCoef", data=sports)
+    data.addVariable("IEPE.Soft.Sports_IEPE", data=
+                     data[:,:,"IEPE.Soft.SportsCoef"]*1000.0/ \
+                     np.nanmax(data[:,refYear,"IEPE.Soft.SportsCoef"]))
+
+    # Dimensions and Index
+    cEconomic = environment["ECONOMIC_COEFICIENTS"]
+    vEconomic = ["Energy","PrimaryGoods","Manufactures","Services","Investments"]
+    cMilitary = environment["MILITARY_COEFICIENTS"]
+    vMilitary = ["Troops", "MilitaryEquipment"]
+    cSoft = environment["SOFT_COEFICIENTS"]
+    vSoft = ["Migrations", "Tourism", "Sports", "Culture", "Information", "Technology", "Science",
+             "Education","DevelopmentC"]
+    cIndex = environment["DIMENSION_COEFICIENTS"]
+
+    a = np.zeros((shape[0],shape[1]))
+    a[:] = np.nan
+    for i in range(0, len(cEconomic)):
+        a+=data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"].reshape(shape[0],shape[1])*cEconomic[i]
+    
+    data.addVariable("IEPE.Global.Economic", data=a/100.0)
+
+    a = np.zeros((shape[0],shape[1]))
+    a[:] = np.nan
+    for i in range(0, len(cMilitary)):
+        a+=data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"].reshape(shape[0],shape[1])*cMilitary[i]
+    
+    data.addVariable("IEPE.Global.Military", data=a/100.0)
+
+    a = np.zeros((shape[0],shape[1]))
+    a[:] = np.nan
+    for i in range(0, len(cSoft)):
+        a+=data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"].reshape(shape[0],shape[1])*cSoft[i]
+    
+    data.addVariable("IEPE.Global.Soft", data=a/100.0)
+
+    data.addVariable("IEPE.Global.IEPE", data=(data[:,:,"IEPE.Global.Economic"]*cIndex[0]+
+                                               data[:,:,"IEPE.Global.Military"]*cIndex[1]+
+                                               data[:,:,"IEPE.Global.Soft"]*cIndex[2])/100.0)
+
+    # Quota
+    variable = [
+        'IEPE.Economic.Energy_IEPE',
+        'IEPE.Economic.PrimaryGoods_IEPE',
+        'IEPE.Economic.Manufactures_IEPE',
+        'IEPE.Economic.Services_IEPE',
+        'IEPE.Economic.Investments_IEPE',
+        'IEPE.Military.Troops_IEPE',
+        'IEPE.Military.MilitaryEquipment_IEPE',
+        'IEPE.Soft.Migrations_IEPE',
+        'IEPE.Soft.Tourism_IEPE',
+        'IEPE.Soft.Culture_IEPE',
+        'IEPE.Soft.Information_IEPE',
+        'IEPE.Soft.Technology_IEPE',
+        'IEPE.Soft.Science_IEPE',
+        'IEPE.Soft.Education_IEPE',
+        'IEPE.Soft.DevelopmentC_IEPE',
+        'IEPE.Soft.Sports_IEPE',
+        'IEPE.Global.Economic',
+        'IEPE.Global.Military',
+        'IEPE.Global.Soft',
+        'IEPE.Global.IEPE']
+
+    for i in variable:
+        a = data[:,:,i].reshape(shape[0],shape[1])/ \
+            (np.repeat(np.nansum(data[:,:,i], axis=0).reshape(1,shape[1]), shape[0], axis=0))
+
+        data.addVariable(i+"_QUOTE", data=a)
+
+    # Contributions
+    cPresenceEconomic = []
+    cPresenceMilitary = []
+    cPresenceSoft = []
+
+    for i in range(0, len(cEconomic)):
+        cPresenceEconomic.append(cEconomic[i]*cIndex[0]/10000.0)
+
+    for i in range(0, len(cMilitary)):
+        cPresenceMilitary.append(cMilitary[i]*cIndex[1]/10000.0)
+
+    for i in range(0, len(cSoft)):
+        cPresenceSoft.append(cSoft[i]*cIndex[2]/10000.0)
+
+    pcdEconomic = 0
+    pcdMilitary = 0
+    pcdSoft = 0
+    for i in range(0, len(vEconomic)):
+        pcdEconomic+=np.nansum(data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"])*cPresenceEconomic[i]
+
+    for i in range(0, len(vMilitary)):
+        pcdMilitary+=np.nansum(data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"])*cPresenceMilitary[i]
+
+    for i in range(0, len(vSoft)):
+        pcdSoft+=np.nansum(data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"])*cPresenceSoft[i]
+
+    tci = pcdEconomic+pcdMilitary+pcdSoft
+
+    for i in range(0, len(vEconomic)):
+        a = data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"]*cEconomic[i]/tci
+        data.addVariable("IEPE.Economic."+vEconomic[i]+"_CON", data=a)
+
+    for i in range(0, len(vMilitary)):
+        a = data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"]*cMilitary[i]/tci
+        data.addVariable("IEPE.Military."+vMilitary[i]+"_CON", data=a)
+
+    for i in range(0, len(vSoft)):
+        a = data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"]*cSoft[i]/tci
+        data.addVariable("IEPE.Soft."+vSoft[i]+"_CON", data=a)
         
+    sheets = ew.writeGeoVariableArray(data, variable=['IEPE.Economic.Energy_IEPE',
+                                                      'IEPE.Economic.PrimaryGoods_IEPE',
+                                                      'IEPE.Economic.Manufactures_IEPE',
+                                                      'IEPE.Economic.Services_IEPE',
+                                                      'IEPE.Economic.Investments_IEPE',
+                                                      'IEPE.Military.Troops_IEPE',
+                                                      'IEPE.Military.MilitaryEquipment_IEPE',
+                                                      'IEPE.Soft.Migrations_IEPE',
+                                                      'IEPE.Soft.Tourism_IEPE',
+                                                      'IEPE.Soft.Sports_IEPE',
+                                                      'IEPE.Soft.Culture_IEPE',
+                                                      'IEPE.Soft.Information_IEPE',
+                                                      'IEPE.Soft.Technology_IEPE',
+                                                      'IEPE.Soft.Science_IEPE',
+                                                      'IEPE.Soft.Education_IEPE',
+                                                      'IEPE.Soft.DevelopmentC_IEPE',
+                                                      'IEPE.Global.Economic',
+                                                      'IEPE.Global.Military',
+                                                      'IEPE.Global.Soft',
+                                                      'IEPE.Global.IEPE',
+                                                      'IEPE.Economic.Energy_IEPE_QUOTE',
+                                                      'IEPE.Economic.PrimaryGoods_IEPE_QUOTE',
+                                                      'IEPE.Economic.Manufactures_IEPE_QUOTE',
+                                                      'IEPE.Economic.Services_IEPE_QUOTE',
+                                                      'IEPE.Economic.Investments_IEPE_QUOTE',
+                                                      'IEPE.Military.Troops_IEPE_QUOTE',
+                                                      'IEPE.Military.MilitaryEquipment_IEPE_QUOTE',
+                                                      'IEPE.Soft.Migrations_IEPE_QUOTE',
+                                                      'IEPE.Soft.Tourism_IEPE_QUOTE',
+                                                      'IEPE.Soft.Sports_IEPE_QUOTE',
+                                                      'IEPE.Soft.Culture_IEPE_QUOTE',
+                                                      'IEPE.Soft.Information_IEPE_QUOTE',
+                                                      'IEPE.Soft.Technology_IEPE_QUOTE',
+                                                      'IEPE.Soft.Science_IEPE_QUOTE',
+                                                      'IEPE.Soft.Education_IEPE_QUOTE',
+                                                      'IEPE.Soft.DevelopmentC_IEPE_QUOTE',
+                                                      'IEPE.Global.Economic_QUOTE',
+                                                      'IEPE.Global.Military_QUOTE',
+                                                      'IEPE.Global.Soft_QUOTE',
+                                                      'IEPE.Global.IEPE_QUOTE',
+                                                      'IEPE.Economic.Energy_CON',
+                                                      'IEPE.Economic.PrimaryGoods_CON',
+                                                      'IEPE.Economic.Manufactures_CON',
+                                                      'IEPE.Economic.Services_CON',
+                                                      'IEPE.Economic.Investments_CON',
+                                                      'IEPE.Military.Troops_CON',
+                                                      'IEPE.Military.MilitaryEquipment_CON',
+                                                      'IEPE.Soft.Migrations_CON',
+                                                      'IEPE.Soft.Tourism_CON',
+                                                      'IEPE.Soft.Sports_CON',
+                                                      'IEPE.Soft.Culture_CON',
+                                                      'IEPE.Soft.Information_CON',
+                                                      'IEPE.Soft.Technology_CON',
+                                                      'IEPE.Soft.Science_CON',
+                                                      'IEPE.Soft.Education_CON',
+                                                      'IEPE.Soft.DevelopmentC_CON'],
+                                      sheetName=['Energy IEPE',
+                                                 'Primary Goods IEPE',
+                                                 'Manufactures IEPE',
+                                                 'Services IEPE',
+                                                 'Investments IEPE',
+                                                 'Troops IEPE',
+                                                 'Military Equipment IEPE',
+                                                 'Migrations IEPE',
+                                                 'Tourism IEPE',
+                                                 'Sports IEPE',
+                                                 'Culture IEPE',
+                                                 'Information IEPE',
+                                                 'Technology IEPE',
+                                                 'Science IEPE',
+                                                 'Education IEPE',
+                                                 'Development Coop. IEPE',
+                                                 'Economic IEPE',
+                                                 'Military IEPE',
+                                                 'Soft IEPE',
+                                                 'IEPE',
+                                                 'Energy IEPE QUOTE',
+                                                 'Primary Goods IEPE QUOTE',
+                                                 'Manufactures IEPE QUOTE',
+                                                 'Services IEPE QUOTE',
+                                                 'Investments IEPE QUOTE',
+                                                 'Troops IEPE QUOTE',
+                                                 'Military Equip. IEPE QUOTE',
+                                                 'Migrations IEPE QUOTE',
+                                                 'Tourism IEPE QUOTE',
+                                                 'Sports IEPE QUOTE',
+                                                 'Culture IEPE QUOTE',
+                                                 'Information IEPE QUOTE',
+                                                 'Technology IEPE QUOTE',
+                                                 'Science IEPE QUOTE',
+                                                 'Education IEPE QUOTE',
+                                                 'Development Coop. IEPE QUOTE',
+                                                 'Economic IEPE QUOTE',
+                                                 'Military IEPE QUOTE',
+                                                 'Soft IEPE QUOTE',
+                                                 'IEPE IEPE QUOTE',
+                                                 'Energy IEPE CONTRIBUTION',
+                                                 'Primary Goods IEPE CONTRIBUTION',
+                                                 'Manufactures IEPE CONTRIBUTION',
+                                                 'Services IEPE CONTRIBUTION',
+                                                 'Investments IEPE CONTRIBUTION',
+                                                 'Troops IEPE CONTRIBUTION',
+                                                 'Military E. IEPE CONTRIBUTION',
+                                                 'Migrations IEPE CONTRIBUTION',
+                                                 'Tourism IEPE CONTRIBUTION',
+                                                 'Sports IEPE CONTRIBUTION',
+                                                 'Culture IEPE CONTRIBUTION',
+                                                 'Information IEPE CONTRIBUTION',
+                                                 'Technology IEPE CONTRIBUTION',
+                                                 'Science IEPE CONTRIBUTION',
+                                                 'Education IEPE CONTRIBUTION',
+                                                 'Devel. C. IEPE CONTRIBUTION'])
+
+    ew.addStyle("header", {
+        "bg_color": "#08608C",
+        "font_color": "white",
+        "valign": "vcenter",
+        "align": "center",
+        "size": 12
+    })
+
+    for name,sheet in sheets.iteritems():
+        ew.setColumnStyle(sheet, 0, 0, 25)
+        ew.setRowStyle(sheet, 0, 20, style="header")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     ew.closeWorkbook()
 

@@ -64,10 +64,136 @@ def iepgEngine():
                                        ast.literal_eval(i[3].value) if i[3].value!="" else None,
                                        ast.literal_eval(i[6].value) if i[6].value!="" else None))
 
-    # Prepare variables for IEPG calculus
+    # Prepare variables for IEPG calculus, excluding EU
     data = core.GeoVariableArray()
     [data.merge(book.readGeoVariableArray(".".join(x.filiation))) for x
      in variables if x.filiation[0]=="IEPG"]
+
+    # Prepare and add data for EU
+    data.addGeoentity(u"Unión Europea")
+    dolarEx = np.array(environment["EURO_DOLAR_ER"])
+
+    # Initial load of EU data
+    vectorVar = ["IEPG_EU.Economic.Energy",
+                 "IEPG_EU.Economic.FLA",
+                 "IEPG_EU.Economic.BVT",
+                 "IEPG_EU.Economic.CMI",
+                 "IEPG_EU.Economic.AVO",
+                 "IEPG_EU.Economic.CHM",
+                 "IEPG_EU.Economic.Manufactures",
+                 "IEPG_EU.Economic.Machinery",
+                 "IEPG_EU.Economic.MMA",
+                 "IEPG_EU.Economic.NFM",
+                 "IEPG_EU.Economic.PSP",
+                 "IEPG_EU.Economic.NMG",
+                 "IEPG_EU.Economic.Services",
+                 "IEPG_EU.Economic.Investments",
+                 "IEPG_EU.Soft.Culture",
+                 "IEPG_EU.Soft.Information"]
+    tableVar = ["IEPG_EU.Military.Troops",
+                "IEPG_EU.Soft.InmigrationTotal",
+                "IEPG_EU.Soft.InmigrationIntra",
+                "IEPG_EU.Soft.Tourism",
+                "IEPG_EU.Soft.TechnologyTotal",
+                "IEPG_EU.Soft.TechnologyIntra",
+                "IEPG_EU.Soft.EducationTotal",
+                "IEPG_EU.Soft.EducationIntra"]
+                 
+    euVector = core.GeoVariableArray()
+    euTable = core.GeoVariableArray()
+    [euVector.merge(book.readGeoVariableArray(x)) for x in vectorVar]
+    [euTable.merge(book.readGeoVariableArray(x)) for x in tableVar]
+
+    # Energy, Services, Investments, and Culture
+    da = euVector.select(0,
+                         None,
+                         ["IEPG_EU.Economic.Energy",
+                          "IEPG_EU.Economic.Services",
+                          "IEPG_EU.Economic.Investments",
+                          "IEPG_EU.Soft.Culture"]
+                     )*np.repeat(dolarEx,4,axis=0).reshape(5,4)/1000
+
+    data[70,3:,"IEPG.Economic.Energy"]=da[0,:,0]
+    data[70,3:,"IEPG.Economic.Services"]=da[0,:,1]
+    data[70,3:,"IEPG.Economic.Investments"]=da[0,:,2]
+    data[70,3:,"IEPG.Soft.Culture"]=da[0,:,3]
+
+    # Primary goods
+    primaryG = np.nansum(euVector.select(
+        None,
+        None,
+        ["IEPG_EU.Economic.FLA",
+         "IEPG_EU.Economic.BVT",
+         "IEPG_EU.Economic.CMI",
+         "IEPG_EU.Economic.AVO",
+         "IEPG_EU.Economic.NFM",
+         "IEPG_EU.Economic.PSP",
+         "IEPG_EU.Economic.NMG"]), axis=2)*dolarEx/1000
+
+    data[70,3:,"IEPG.Economic.PrimaryGoods"]=primaryG
+
+    # Manufactures
+    man = np.nansum(euVector.select(None,None,
+                                    ["IEPG_EU.Economic.CHM", 
+                                     "IEPG_EU.Economic.Manufactures", 
+                                     "IEPG_EU.Economic.Machinery",
+                                     "IEPG_EU.Economic.MMA"]), axis=2) - \
+        np.nansum(euVector.select(
+            None,
+            None,
+            ["IEPG_EU.Economic.NFM",
+             "IEPG_EU.Economic.PSP"]), axis=2)
+
+    data[70,3:,"IEPG.Economic.Manufactures"]=man
+
+    # Troops & military equipment, sports FIFA and Olympics, Science, and Cooperation
+    data[70,3:,"IEPG.Military.Troops"] = np.nansum(euTable[:,:,"IEPG_EU.Military.Troops"], axis=0).flatten()
+
+    europeanIndices = [0,6,8,10,14,17,18,21,22,23,25,27,28,29,30,35,38,42,43,44,46,51,54,55,57,58,59,63]
+    bulgariaIndex = 3
+    croatiaIndex = 5
+    romaniaIndex = 26
+    variablesFromGlobal = ["IEPG.Military.Support.AircraftC",
+                           "IEPG.Military.Support.Amphibius",
+                           "IEPG.Military.Support.Frigates",
+                           "IEPG.Military.Support.Destroyer",
+                           "IEPG.Military.Support.Cruisers",
+                           "IEPG.Military.Support.Submarine",
+                           "IEPG.Military.Support.Aeroplane",
+                           "IEPG.Military.Support.Airtanker",
+                           "IEPG.Soft.Support.FIFAPoints",
+                           "IEPG.Soft.Support.Olimpics",
+                           "IEPG.Soft.Science",
+                           "IEPG.Soft.DevelopmentC"]
+
+    for x in variablesFromGlobal:
+        da = data.select(europeanIndices,["2005","2010","2011","2012","2013"],x)
+        da[(3,26),0,0] = np.nan
+        da[5,(0,1,2,3),0] = np.nan
+        da = np.nansum(da, axis=0).flatten()
+        data[70,3:,x] = da
+
+    # Inmigration
+    data[70,3:,"IEPG.Soft.Migrations"] = np.nansum(
+        (euTable[:,:,"IEPG_EU.Soft.InmigrationTotal"] - \
+         euTable[:,:,"IEPG_EU.Soft.InmigrationIntra"]), axis=0).flatten()
+
+    # Tourism
+    data[70,3:,"IEPG.Soft.Tourism"] = np.nansum(
+        euTable[:,:,"IEPG_EU.Soft.Tourism"], axis=0).flatten()
+
+    # Information
+    data[70,3:,"IEPG.Soft.Information"] = euVector[0,:,"IEPG_EU.Soft.Information"]
+
+    # Technology
+    data[70,3:,"IEPG.Soft.Technology"] = np.nansum(
+        (euTable[:,:,"IEPG_EU.Soft.TechnologyTotal"] - \
+         euTable[:,:,"IEPG_EU.Soft.TechnologyIntra"]), axis=0).flatten()
+
+    # Education
+    data[70,3:,"IEPG.Soft.Education"] = np.nansum(
+        (euTable[:,:,"IEPG_EU.Soft.EducationTotal"] - \
+         euTable[:,:,"IEPG_EU.Soft.EducationIntra"]), axis=0).flatten()
 
     shape = data.shape
 
@@ -252,6 +378,7 @@ def iepgEngine():
                                hashlib.md5(str(time.time())+session["email"]+"outputIEPGEngine").hexdigest()+ \
                                ".xlsx")
 
+    data.sort()
     ew = excel_utils.ExcelWriter(outFileName)
     sheets = ew.writeGeoVariableArray(data, variable=['IEPG.Economic.Energy_IEPG',
                                                       'IEPG.Economic.PrimaryGoods_IEPG',
@@ -383,19 +510,20 @@ def iepgEngine():
     # Prepare variables for IEPE calculus
     data = core.GeoVariableArray()
     [data.merge(book.readGeoVariableArray(".".join(x.filiation))) for x
-     in variables if x.filiation[0]=="IEPE"]
+    in variables if x.filiation[0]=="IEPE"]
 
     shape = data.shape
 
     # Previous aggregation
     # Primary goods
+
     primaryG = np.nansum(data.select(None,None,["IEPE.Economic.FLA","IEPE.Economic.BVT","IEPE.Economic.CMI", \
                                                 "IEPE.Economic.AVO","IEPE.Economic.NFM","IEPE.Economic.PSP", \
                                                 "IEPE.Economic.NMG"]), axis=2)
     data.addVariable("IEPE.Economic.PrimaryGoods", data=primaryG)
 
     # Manufactures
-    man = np.nansum(data.select(None,None,["IEPE.Economic.CHM", "IEPE.Economic.ManufacturedGoods", \
+    man = np.nansum(data.select(None,None,["IEPE.Economic.CHM", "IEPE.Economic.Manufactures", \
                                            "IEPE.Economic.Machinery", "IEPE.Economic.MMA"]), axis=2) - \
           np.nansum(data.select(None,None,["IEPE.Economic.NFM","IEPE.Economic.PSP"]), axis=2)
     data.addVariable("IEPE.Economic.Manufactures", data=man)
@@ -547,7 +675,7 @@ def iepgEngine():
     for i in range(0, len(vSoft)):
         a = data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"]*cSoft[i]/tci
         data.addVariable("IEPE.Soft."+vSoft[i]+"_CON", data=a)
-        
+
     sheets = ew.writeGeoVariableArray(data, variable=['IEPE.Economic.Energy_IEPE',
                                                       'IEPE.Economic.PrimaryGoods_IEPE',
                                                       'IEPE.Economic.Manufactures_IEPE',
@@ -672,20 +800,6 @@ def iepgEngine():
     for name,sheet in sheets.iteritems():
         ew.setColumnStyle(sheet, 0, 0, 25)
         ew.setRowStyle(sheet, 0, 20, style="header")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     ew.closeWorkbook()
 

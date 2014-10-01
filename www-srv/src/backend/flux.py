@@ -514,12 +514,6 @@ def iepgEngine():
 
     shape = data.shape
 
-
-    import ipdb
-    ipdb.set_trace()
-
-
-
     # Previous aggregation
     # Primary goods
     primaryG = np.nansum(data.select(None,None,["IEPE.Economic.FLA","IEPE.Economic.BVT","IEPE.Economic.CMI", \

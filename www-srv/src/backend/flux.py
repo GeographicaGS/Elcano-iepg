@@ -514,9 +514,14 @@ def iepgEngine():
 
     shape = data.shape
 
+
+    import ipdb
+    ipdb.set_trace()
+
+
+
     # Previous aggregation
     # Primary goods
-
     primaryG = np.nansum(data.select(None,None,["IEPE.Economic.FLA","IEPE.Economic.BVT","IEPE.Economic.CMI", \
                                                 "IEPE.Economic.AVO","IEPE.Economic.NFM","IEPE.Economic.PSP", \
                                                 "IEPE.Economic.NMG"]), axis=2)
@@ -583,21 +588,18 @@ def iepgEngine():
     cIndex = environment["DIMENSION_COEFICIENTS"]
 
     a = np.zeros((shape[0],shape[1]))
-    a[:] = np.nan
     for i in range(0, len(cEconomic)):
         a+=data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"].reshape(shape[0],shape[1])*cEconomic[i]
     
     data.addVariable("IEPE.Global.Economic", data=a/100.0)
 
     a = np.zeros((shape[0],shape[1]))
-    a[:] = np.nan
     for i in range(0, len(cMilitary)):
         a+=data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"].reshape(shape[0],shape[1])*cMilitary[i]
     
     data.addVariable("IEPE.Global.Military", data=a/100.0)
 
     a = np.zeros((shape[0],shape[1]))
-    a[:] = np.nan
     for i in range(0, len(cSoft)):
         a+=data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"].reshape(shape[0],shape[1])*cSoft[i]
     

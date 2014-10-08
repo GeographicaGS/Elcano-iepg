@@ -13,6 +13,7 @@ app.router = Backbone.Router.extend({
         "contributions/:family/:variable/:year/:countries/:countries_sel(/:filters)" : "contributions",
         "quotes/:family/:variable/:countries/:countries_sel/:year_ref(/:filters)" : "quotes",
         "comparison/:variable/:year/:countries/:country_sel(/:filters)" : "comparison",
+        "toolSelector" : "toolSelector",
         
         "home/*url": "external",
 
@@ -93,12 +94,12 @@ app.router = Backbone.Router.extend({
         });
     },
 
-    comparison : function(variable,year,countries,country_sel,filters){
+    comparison : function(variable,year,countries,countries_sel,filters){
         app.baseView.loadComparisonTool({
             "variable" : variable,
             "year" : year,
             "countries" : countries,
-            "country_sel" : country_sel,
+            "countries_sel" : countries_sel,
             "filters": filters
         });
     },
@@ -112,5 +113,9 @@ app.router = Backbone.Router.extend({
         var url;
         url = Backbone.history.root + Backbone.history.getFragment()
         ga('send', 'pageview', url);
+    },
+
+    toolSelector: function(){
+        $("#add_tool a").trigger("click")
     }
 });

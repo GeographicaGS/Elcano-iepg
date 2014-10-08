@@ -644,15 +644,15 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
         var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data,
-            filters = app.getFilters().join(",");
+            ctx = ctxObj.data,            
+            countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
+            countries_sel = ctx.countries.selection.length>0 ? ctx.countries.selection.join(",") : "null",
+            variable = ctx.variables[0],
+            year = ctx.slider[0].date.getFullYear(),
+            filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
+            url = "comparison/" + variable + "/" + year + "/" + countries + "/" + countries_sel + filters;
 
-        app.router.navigate("comparison/" 
-            + ctx.variables[0] + "/"
-            + ctx.slider[0].date.getFullYear() + "/" // Year
-            + ctx.countries.list.join(",") + "/" // Countries list
-            + ctx.countries.selection[0]   // Countries selected
-            + (filters ? "/" + filters : "") ,{trigger: false});
+        app.router.navigate(url ,{trigger: false});
     },
 
     URLToContext: function(url){
@@ -665,8 +665,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             "date" : new Date(url.year)
         }];
 
-        ctx.countries.list = url.countries.split(",");
-        ctx.countries.selection = [url.country_sel];
+        ctx.countries.list = url.countries != "null" ? url.countries.split(",") : [];
+        ctx.countries.selection = url.countries_sel!= "null" ? url.countries_sel.split(",") : [];
 
         ctx.variables = [url.variable];
 

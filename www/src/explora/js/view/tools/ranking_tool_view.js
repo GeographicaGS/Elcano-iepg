@@ -194,19 +194,19 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
-        var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data,
-            filters = app.getFilters().join(",");
 
-        app.router.navigate("ranking/" 
-            + ctx.family + "/"  // Family
-            + ctx.variables[0] + "/"  // Variable
-            + ctx.slider[0].date.getFullYear() + "/" // Year
-            + ctx.slider[1].date.getFullYear() + "/" // Reference year 
-            + ctx.countries.list.join(",") + "/" // Countries list
-            + ctx.countries.selection[0]  + "/" // Country selected
-            + ctx.block_analize 
-            + (filters ? "/" + filters : "") ,{trigger: false});
+         var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data,  
+            family = ctx.family,          
+            countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
+            country_sel = ctx.countries.selection.length>0 ? ctx.countries.selection[0] : "null",
+            variable = ctx.variables[0],
+            year = ctx.slider[0].date.getFullYear(),
+            year_ref = ctx.slider[1].date.getFullYear(),
+            filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
+            url = "ranking/" + family + "/" + variable + "/" + year + "/" + year_ref + "/" + countries + "/" + country_sel + "/" + ctx.block_analize + filters;
+
+        app.router.navigate(url,{trigger: false});
     },
 
     URLToContext: function(url){
@@ -228,8 +228,9 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             "date" : new Date(url.year_ref)
         }];
 
-        ctx.countries.list = url.countries.split(",");
-        ctx.countries.selection = [url.country_sel];
+  
+        ctx.countries.list = url.countries != "null" ? url.countries.split(",") : [];
+        ctx.countries.selection = url.country_sel!= "null" ? [url.country_sel]: [];
 
         ctx.block_analize = url.block_analize ? url.block_analize : 0;
 

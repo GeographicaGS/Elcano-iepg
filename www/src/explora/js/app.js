@@ -223,6 +223,11 @@ app.ini = function(){
         $("#ctrl_tool").trigger("click");
     });
 
+    $("#reset").click(function(e){
+        e.preventDefault();
+        app.reset2();
+    });
+
     Backbone.history.start({pushState: true,root: this.basePath });
 };
 
@@ -520,6 +525,23 @@ app.reset = function(){
     $("#start_loading").show();
     this.clearData();
     window.location  = "/es";
+}
+
+app.reset2 = function(){
+    //$("#start_loading").show();
+    
+    app.baseView.closeAllTools();
+    
+    this.context.data.countries.list = [];
+    this.context.data.countries.selection = [];
+    this.context.saveContext();
+
+    this.filters = [];
+
+    $("#add_tool a").trigger("click");
+
+    //window.location  = "/es";
+    $("#ctrl_filter").removeClass("enable");
 }
 
 app.countryCodeToStr = function(country){

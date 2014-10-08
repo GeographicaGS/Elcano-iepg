@@ -64,7 +64,6 @@ app.view.Base = Backbone.View.extend({
 
         this.$panelTools.html(html);
 
-       
         // refresh the tools panel
         return this;
     },
@@ -83,6 +82,17 @@ app.view.Base = Backbone.View.extend({
 
     getTools: function(){
         return this.tools;
+    },
+
+    closeAllTools: function(){
+        for (var i=0;i<this.tools.length;i++){
+            this.tools[i].close();
+        }
+        this.currentTool = null;
+        this.tools = [];
+        this.saveToolStatus();
+        this.render();
+
     },
 
     getToolByType: function(type){

@@ -743,18 +743,18 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     },
 
     contextToURL: function(){
-        // This method transforms the current context of the tool in a valid URL.
+        // This method transforms the current context of the tool in a valid URL
         var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data,
-            filters = app.getFilters().join(",");
+            ctx = ctxObj.data,  
+            family = ctx.family,          
+            countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
+            countries_sel = ctx.countries.selection.length>0 ? ctx.countries.selection.join(",") : "null",
+            variable = ctx.variables[0],
+            year = ctx.slider[0].date.getFullYear(),
+            filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
+            url = "contributions/" + family + "/" + variable + "/" + year + "/" + countries + "/" + countries_sel + filters;
 
-        app.router.navigate("contributions/" 
-            + ctx.family + "/"  // Family
-            + ctx.variables[0] + "/" 
-            + ctx.slider[0].date.getFullYear() + "/" // Year
-            + ctx.countries.list.join(",") + "/" // Countries list
-            + ctx.countries.selection.join(",")   // Countries selected
-            + (filters ? "/" + filters : "") ,{trigger: false});
+        app.router.navigate(url,{trigger: false});
     },
 
     URLToContext: function(url){
@@ -772,8 +772,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             "date" : new Date(url.year)
         }];
 
-        ctx.countries.list = url.countries.split(",");
-        ctx.countries.selection = url.countries_sel.split(",")
+        ctx.countries.list = url.countries != "null" ? url.countries.split(",") : [];
+        ctx.countries.selection = url.countries_sel!= "null" ? url.countries_sel.split(",") : [];
 
         if (ctx.countries.selection[0]==""){
             ctx.countries.selection[0] = null;

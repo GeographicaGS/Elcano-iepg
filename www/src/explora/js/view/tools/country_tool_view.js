@@ -274,22 +274,19 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
         //country/:id_country/:id_variable/:year
+    
         var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data,
-            family = ctx.family,
-            countries = ctx.countries.list.join(","),
-            country = ctx.countries.selection[0],
+            ctx = ctxObj.data,  
+            family = ctx.family,          
+            countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
+            country_sel = ctx.countries.selection.length>0 ? ctx.countries.selection[0] : "null",
             variable = ctx.variables[0],
             year = ctx.slider[0].date.getFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
-            url = "country/" + family + "/" + variable + "/" + countries + "/" + country + "/" + year + filters;
+            url = "country/" + family + "/" + variable + "/" + countries + "/" + country_sel + "/" + year + filters;
 
-        if (!family || !countries || !country || !variable || !year ){
-            app.router.navigate("/", {trigger: false});
-        }
-        else{
-            app.router.navigate(url, {trigger: false});
-        }
+        app.router.navigate(url, {trigger: false});
+        
     },
 
     URLToContext: function(url){
@@ -299,8 +296,10 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             
         ctx.family = url.family;
         ctx.variables = [url.variable];
-        ctx.countries.list = url.countries.split(",");
-        ctx.countries.selection = [url.country_sel];
+        
+        ctx.countries.list = url.countries != "null" ? url.countries.split(",") : [];
+        ctx.countries.selection = url.country_sel!= "null" ? [url.country_sel] : [];
+
         ctx.countries.slider = [{
             "type": "Point",
             "date" : new Date(url.year)

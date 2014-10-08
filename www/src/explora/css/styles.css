@@ -471,6 +471,20 @@ header{
             color:@white;
             font-size: 21px
         }
+
+        a{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        #reset{
+            background-color: @grey;
+            color:@white;
+            height: 25px;
+            padding:0 7px;
+            .roboto();
+            font-size: 14px;
+            margin-left: 10px;
+        }
     }   
 
     h2{

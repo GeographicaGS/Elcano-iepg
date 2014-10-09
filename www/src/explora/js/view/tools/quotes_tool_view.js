@@ -250,7 +250,9 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         if (!ctx.countries.list.length){
             uitype = "nocountry"
         }
-        else if (!Object.keys(d3data.data).length){
+        else if (!Object.keys(d3data.data).length
+
+            || !d3data.max_year){
             //
             uitype = "nodata";
         }

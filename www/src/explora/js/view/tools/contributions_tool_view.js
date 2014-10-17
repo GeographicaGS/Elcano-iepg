@@ -63,7 +63,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                         redraw = true;
                     }
                 }
-            
+
 
             if (true || redraw){
                 // Let's force a re-render because we need to adapt the context.

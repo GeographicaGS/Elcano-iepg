@@ -104,7 +104,6 @@ $(function() {
 
     }
     
- 
 
     // Fixed menu events
     $(window).scroll(function(){
@@ -115,7 +114,7 @@ $(function() {
         }
     });
 
-     if (!isTouchDevice){
+    if (!isTouchDevice){
 
         $("header#fixed_menu nav > div").mouseenter(function(){
             $(this).addClass('opened');

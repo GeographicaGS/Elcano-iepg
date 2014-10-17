@@ -29,11 +29,21 @@ app.view.Base = Backbone.View.extend({
         if (localTools){
             localTools = JSON.parse(localTools);
             listTools = localTools.tools;
-            for (var i=0;i<listTools.length;i++){
-                var tool = this.getInstanceViewByType(listTools[i]);
-                //var bringToFront = listTools[i] == localTools.selected ? true : false;
+            if (listTools.length > 0 )
+            {
+                for (var i=0;i<listTools.length;i++){
+                    var tool = this.getInstanceViewByType(listTools[i]);
+                    //var bringToFront = listTools[i] == localTools.selected ? true : false;
+                    this.addTool(tool,false);
+                }    
+            }
+            else{
+                // if no information in local store load the country tool
+                tool = new app.view.tools.CountryPlugin();
                 this.addTool(tool,false);
             }
+
+            
         }
         else{
             // if no information in local store load the country tool
@@ -63,6 +73,8 @@ app.view.Base = Backbone.View.extend({
         }
 
         this.$panelTools.html(html);
+
+
 
         // refresh the tools panel
         return this;

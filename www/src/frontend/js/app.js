@@ -59,7 +59,7 @@ $(function() {
 
     var isTouchDevice = 'ontouchstart' in document.documentElement;
 
-    if (false && !isTouchDevice){
+    if (!isTouchDevice){
 
         $("body").on("mouseenter","#menu li[data-has-submenu]",function(e){
             $(this).find(" > a").css("color","#28282b").css("background-color","#fdc300");

@@ -57,22 +57,54 @@ $(function() {
         }
     });
 
+    var isTouchDevice = 'ontouchstart' in document.documentElement;
 
-    // $("body").on("mouseenter","#menu li[data-has-submenu]",function(e){
-    //     $(this).find(" > a").css("color","#28282b").css("background-color","#fdc300");
-    //     $(this).find("ul").fadeIn(300);
-    // });
-   
-    // $("body").on("mouseleave","#menu li[data-has-submenu]",function(e){
-    //     $(this).find(" > a").css("color","").css("background-color","");
-    //     $(this).find("ul").fadeOut(300);
-    // });
+    if (false && !isTouchDevice){
 
-    $("body").on("click","#menu li[data-has-submenu],#menu li[data-submenu]",function(e){
-        var $el = $(this).closest("[data-has-submenu]");
-        $el.find(" > a").css("color","").css("background-color","");
-        $el.find("ul").fadeOut(300);
-    });
+        $("body").on("mouseenter","#menu li[data-has-submenu]",function(e){
+            $(this).find(" > a").css("color","#28282b").css("background-color","#fdc300");
+            $(this).find("ul").fadeIn(300);
+        });
+       
+        $("body").on("mouseleave","#menu li[data-has-submenu]",function(e){
+            $(this).find(" > a").css("color","").css("background-color","");
+            $(this).find("ul").fadeOut(300);
+        });
+
+        $("body").on("click","#menu li[data-has-submenu],#menu li[data-submenu]",function(e){
+            var $el = $(this).closest("[data-has-submenu]");
+            $el.find(" > a").css("color","").css("background-color","");
+            $el.find("ul").fadeOut(300);
+        });
+    }
+    else{
+
+        var menuvisible = false;
+
+        function showhideMenu(e){
+            if (!menuvisible){
+                $(this).find(" > a").css("color","#28282b").css("background-color","#fdc300");
+                $(this).find("ul").fadeIn(300);
+                menuvisible = true;
+            }
+            else{
+                $(this).find(" > a").css("color","").css("background-color","");
+                $(this).find("ul").fadeOut(300);
+                menuvisible = false;
+            }
+        }
+
+        $("body").on("click","#menu li[data-has-submenu]",showhideMenu);
+
+        $("body").on("click","#menu li[data-submenu]",function(e){
+            var $el = $(this).closest("[data-has-submenu]");
+            $el.find(" > a").css("color","").css("background-color","");
+            $el.trigger("click");
+        });
+
+    }
+    
+ 
 
     // Fixed menu events
     $(window).scroll(function(){

@@ -569,9 +569,9 @@ ul#menu{
 	line-height: 45px;
 	cursor: pointer;
 
-    li[data-has-submenu]:hover ul{
+    /*li[data-has-submenu]:hover ul{
         display:block !important;
-    }
+    }*/
 	
 	li{
         position: relative;

@@ -5,7 +5,7 @@
 		<th title="<lang>Contribuciones de presencia</lang>" width="40px"><lang>Contribuciones de presencia</lang></th>
 	</tr>
 	<tr>
-		<th><div class="variableIcon" data-variable="<%= data.name == "global" ? family : data.name %>"></div><span><%= app.variableToString(data.name,family) %></span></th>
+		<th><div class="variableIcon" data-variable="<%= data.name == "global" ? family : data.name %>"></div><span><%= app.variableToString(data.name,family,true) %></span></th>
 		<th title="<lang>Valor índice</lang>"><%= app.formatNumber(data.size) %></th>
 		<th title="<lang>Contribuciones de presencia</lang>">
 			<%= app.formatNumber(data.perc) %> %

@@ -65,7 +65,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 }
             
 
-            if (redraw){
+            if (true || redraw){
                 // Let's force a re-render because we need to adapt the context.
                 this._forceFetchDataTool = true;
                 this.render(); // Implicit call to contextToURL

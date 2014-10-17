@@ -51,24 +51,30 @@ app.router = Backbone.Router.extend({
     },
     
     home: function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global</lang>");
         app.showView(new app.view.Home());
     },
 
     about : function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Acerca de</lang>");
         app.showView(new app.view.About({
             "section" : "ppal"
         }));
     },
 
     aboutInfr : function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Estructura</lang>");
         app.showView(new app.view.Structure());
     },
 
     aboutMeth : function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Metodología</lang>");
         app.showView(new app.view.Methodology());
     },
 
     docs: function(filter,author){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Documentos</lang>");
+
         if (filter=="null" || !filter){
             filter = null;
         }
@@ -84,26 +90,32 @@ app.router = Backbone.Router.extend({
     },
 
     doc: function(id){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Documentos</lang>");
         app.showView(new app.view.Document({"id": id}));
     },
 
     defaultRoute: function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - No encontrado</lang>");
         app.showView(new app.view.NotFound());
     },
 
     notfound: function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - No encontrado</lang>");
         app.showView(new app.view.NotFound());
     },
 
     error: function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Error interno</lang>");
         app.showView(new app.view.Error());
     },
 
     contact: function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Contacto</lang>");
         app.showView(new app.view.Contact());
     },
 
     news: function(filter,author){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Noticias</lang>");
         if (filter=="null" || !filter){
             filter = null;
         }
@@ -115,6 +127,7 @@ app.router = Backbone.Router.extend({
     },
 
     faq: function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Preguntas frecuentes</lang>");
         app.showView(new app.view.FAQ());
     },
 
@@ -124,14 +137,17 @@ app.router = Backbone.Router.extend({
     },
 
     privacity: function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Política de privacidad</lang>");
         app.showView(new app.view.Privacity());
     },
 
     legal: function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Aviso legal</lang>");
         app.showView(new app.view.Legal());
     },
     
     download: function(){
+        $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Datos</lang>");
     	app.showView(new app.view.Download());
     },
 

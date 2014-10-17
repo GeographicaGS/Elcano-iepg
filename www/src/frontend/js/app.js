@@ -104,8 +104,6 @@ $(function() {
 
     }
     
- 
-
     // Fixed menu events
     $(window).scroll(function(){
         if(window.pageYOffset > 190){
@@ -119,36 +117,36 @@ $(function() {
         $(this).parent().toggleClass('opened');
     });
 
-    $("header#fixed_menu nav > div").mouseenter(function(){
-        $(this).addClass('opened');
-    }).mouseleave(function(){
-        $(this).removeClass('opened');
-    });
+    if (!isTouchDevice){
 
-    $("header#fixed_menu nav > div a").click(function(e){
-        e.preventDefault();
+        $("header#fixed_menu nav > div").mouseenter(function(){
+            $(this).addClass('opened');
+        }).mouseleave(function(){
+            $(this).removeClass('opened');
+        });
+    }
+    else{
+        $("#menu_btn").click(function(e){
+            e.preventDefault();
+            $('header#fixed_menu nav > div').eq(0).toggleClass('opened');
+        });
+    }
 
-        $("header#fixed_menu nav > div").eq(0).removeClass('opened');
-    });
+    // $("header#fixed_menu nav > div a").click(function(e){
+    //     e.preventDefault();
+    //     return;
+    //     alert("dos");
+    //     $("header#fixed_menu nav > div").eq(0).removeClass('opened');
+    // });
 
-    $("header#fixed_menu nav > div .quees").click(function(e){
-        e.preventDefault();
+    // $("header#fixed_menu nav > div .quees").click(function(e){
+    //     e.preventDefault();
+    //     return;
+    //     alert("here");
+    //     $("header#fixed_menu nav > div").eq(0).toggleClass('opened');
+    //     $(this).toggleClass('opened');
+    // });
 
-        $("header#fixed_menu nav > div").eq(0).toggleClass('opened');
-        $(this).toggleClass('opened'); 
-    });
-
-    $("header#fixed_menu nav > div .quees").mouseenter(function(){
-        $(this).addClass('opened');
-    }).mouseleave(function(){
-        $(this).removeClass('opened');
-    });
-
-    $("header#fixed_menu nav > div .quees a").click(function(e){
-        e.preventDefault();
-
-        $("header#fixed_menu nav > div").eq(0).removeClass('opened');
-    });
 
     $("header#fixed_menu .goTop").click(function(e){
         e.preventDefault();

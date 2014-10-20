@@ -769,6 +769,26 @@ app.isSupportedBrowser = function(){
     return true;
 };
 
+app.ordchr = function(d){
+    if (app.lang == "es"){
+        return "º";
+    }
+    else{
+        if (d==1){
+            return "st";
+        }
+        else if (d==2){
+            return "nd"
+        }
+        else if (d==3){
+            return "rd"
+        }
+        else{
+            return "th";
+        }
+    }
+}
+
 app.getBrowser = function(){
     var ua= navigator.userAgent, tem, 
     M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([\d\.]+)/i) || [];

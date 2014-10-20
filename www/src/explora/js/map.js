@@ -57,7 +57,7 @@ app.view.map = function(options){
     this.getMap = function(){
         return this._map;
     };
-
+    
     /* This method created a choropleth Map with the data supplied in the parameter */ 
     this.drawChoropleth = function(data,time,variable,family,units,invertColors,labelPrefix,noformattooltip){
 
@@ -193,7 +193,7 @@ app.view.map = function(options){
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(v.variable,v.family) + "</span>"
-                    +   "<span>" + fnumber + units + "</span>"
+                    +   "<span>" + fnumber + (units=="º" ? app.ordchr(fnumber) : "" )  + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
 

@@ -518,7 +518,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             family = ctx.family;
 
             html = "<div>" 
-                    +   "<span>" + d.pos + "º " +app.countryToString(d.code) + "</span>"
+                    +   "<span>" + d.pos + app.ordchr(d.pos) + " " +app.countryToString(d.code) + "</span>"
                     +   "<span>" + d.year + "</span>"
                     +   "<div class='clear'></div>"
                     + "</div>"

@@ -453,7 +453,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             ranking = variable.globalranking ? variable.globalranking : variable.relativeranking;
 
             html = "<div>" 
-                    +   "<span>" + ranking + "º " +app.countryToString(variable.code) + "</span>"
+                    +   "<span>" + ranking + app.ordchr(ranking) + " "  +app.countryToString(variable.code) + "</span>"
                     +   "<span>" + year + "</span>"
                     +   "<div class='clear'></div>"
                     + "</div>"

@@ -10,6 +10,7 @@ from flask import jsonify,request,make_response
 import common.helpers as chelpers
 import common.datacache as datacache
 import flux_lib.data.core as flux
+reload(flux)
 from collections import OrderedDict
 import numpy as np
 from common.config import quotesClustersSeeds
@@ -23,11 +24,11 @@ def quotes(family,variable,countries,lang):
     family = family+"_quota"
     variable = variable+"_global" if variable=="global" else variable
     countriesArray = countries.split(",")
-
+        
     try:
         years = datacache.dataSets[family].variables[variable].getVariableYears()
     except:
-        return jsonify({"results": out})
+        return jsonify({"results": {"points": [], "segments": []}})
 
     # Sorted lists of years and geoentities
     geoentities = sorted(countriesArray)
@@ -51,9 +52,6 @@ def quotes(family,variable,countries,lang):
     a = np.swapaxes(np.array(gvaInitData).reshape((len(times), len(geoentities))), 0, 1)
     gva.addVariable("Data", data=a)
     clusters = gva.cluster("Data", quotesClustersSeeds)
-
-    import pprint
-    #pprint.pprint(clusters)
     
     # Creating nodes dictionary
     points = []

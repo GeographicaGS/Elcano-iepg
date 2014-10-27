@@ -15,7 +15,7 @@ import os
 import flux_lib.data.excel_utils as excel_utils, flux_lib.data.core as core
 import ast
 import numpy as np
-import datetime as dt
+# import datetime as dt
 
 @app.route("/iepgengine", methods=["POST"])
 @auth
@@ -134,8 +134,8 @@ def iepgEngine():
 
     # Manufactures
     man = np.nansum(euVector.select(None,None,
-                                    ["IEPG_EU.Economic.CHM", 
-                                     "IEPG_EU.Economic.Manufactures", 
+                                    ["IEPG_EU.Economic.CHM",
+                                     "IEPG_EU.Economic.Manufactures",
                                      "IEPG_EU.Economic.Machinery",
                                      "IEPG_EU.Economic.MMA"]), axis=2) - \
         np.nansum(euVector.select(
@@ -146,7 +146,8 @@ def iepgEngine():
 
     data[70,3:,"IEPG.Economic.Manufactures"]=man
 
-    # Troops & military equipment, sports FIFA and Olympics, Science, and Cooperation
+    # Troops & military equipment, sports FIFA and Olympics, Science,
+    # and Cooperation
     data[70,3:,"IEPG.Military.Troops"] = np.nansum(euTable[:,:,"IEPG_EU.Military.Troops"], axis=0).flatten()
 
     europeanIndices = [0,6,8,10,14,17,18,21,22,23,25,27,28,29,30,35,38,42,43,44,46,51,54,55,57,58,59,63]
@@ -215,10 +216,10 @@ def iepgEngine():
 
     for i in normal:
         if i+"Est" in data.variable:
-            d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i]), 
+            d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:70,refYear,i]), 
                         data[:,:,i+"Est"])
         else:
-            d = data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i])
+            d = data[:,:,i]*1000.0/np.nanmax(data[:70,refYear,i])
 
         data.addVariable(i+"_IEPG", data=d)
 
@@ -239,7 +240,7 @@ def iepgEngine():
     data.addVariable("IEPG.Soft.SportsCoef", data=sports)
     data.addVariable("IEPG.Soft.Sports_IEPG", data=
                      data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
-                     np.nanmax(data[:,refYear,"IEPG.Soft.SportsCoef"]))
+                     np.nanmax(data[:70,refYear,"IEPG.Soft.SportsCoef"]))
 
     # Military equipment
     militaryEquipment = ['IEPG.Military.Support.AircraftC',
@@ -255,18 +256,21 @@ def iepgEngine():
     militaryCoefsEquip = []
 
     for i in militaryEquipment:
-        militaryCoefs.append(np.nansum(data[:,refYear,tuple(militaryEquipment)])/np.nansum(data[:,refYear,i]))
+        militaryCoefs.append(np.nansum(data[:70,refYear,tuple(militaryEquipment)])/ \
+                             np.nansum(data[:70,refYear,i]))
 
     militaryTotal = np.nansum(np.array(militaryCoefs))
 
     for i in militaryCoefs:
         militaryCoefsEquip.append(i/militaryTotal)
 
-    ae = np.zeros((shape[0],shape[1]))
+    ae = np.zeros((shape[0]-1,shape[1]))
 
     for i in range(0, len(militaryCoefsEquip)):
-        ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]].reshape(shape[0],shape[1]))
+        ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:70,:,militaryEquipment[i]].reshape(shape[0]-1,shape[1]))
 
+    # Add a 0 row for EU
+    ae = np.vstack((ae, np.zeros((1,shape[1]))))
     data.addVariable("MilitaryPoints", data=ae)    
 
     data.addVariable("IEPG.Military.MilitaryEquipment_IEPG", data=
@@ -671,7 +675,7 @@ def iepgEngine():
     for i in range(0, len(vSoft)):
         a = data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"]*cSoft[i]/tci
         data.addVariable("IEPE.Soft."+vSoft[i]+"_CON", data=a)
-
+        
     sheets = ew.writeGeoVariableArray(data, variable=['IEPE.Economic.Energy_IEPE',
                                                       'IEPE.Economic.PrimaryGoods_IEPE',
                                                       'IEPE.Economic.Manufactures_IEPE',

@@ -348,6 +348,10 @@ header#fixed_menu {
             opacity: 1;
             bottom: 10px;
         }
+
+        nav{
+            display: block;
+        }
 	}
 
     #top_logo{
@@ -386,6 +390,7 @@ header#fixed_menu {
         float: left;
         margin-left: 20px;
         font-size: 14px;
+        display: none;
 
         & > div, & > div > a {
             display: block;
@@ -568,6 +573,10 @@ ul#menu{
 	height: 45px;
 	line-height: 45px;
 	cursor: pointer;
+
+    /*li[data-has-submenu]:hover ul{
+        display:block !important;
+    }*/
 	
 	li{
         position: relative;

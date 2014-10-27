@@ -194,7 +194,8 @@ deps.Explora.JS = {
 			"explora/js/lib/fancybox/source/jquery.fancybox.pack.js",
 			// "explora/js/lib/sprintf.min.js",
 			"explora/js/lib/leaflet-0.7.2.js",
-			"explora/js/lib/countries.geojson",
+			"explora/js/lib/jquery.ui.touch-punch.min.js",
+			"explora/js/lib/countries.geojson"
 			
 		],
 		desc: "Third party library"

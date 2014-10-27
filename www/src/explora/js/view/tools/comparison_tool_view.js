@@ -426,7 +426,9 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             radius = Math.min(width, height) / 2;
 
         $co.find(".subheader .index .value").html(app.formatNumber(variables["global"].value));
-        $co.find(".ranking").html(sprintf("<lang>Ranking %dº </lang>", variables["global"].globalranking));
+        $co.find(".ranking").html(sprintf("<lang>Ranking %d</lang>%s", 
+                variables["global"].globalranking,
+                app.ordchr(variables["global"].globalranking)));
 
         $chart.html("");
 
@@ -591,7 +593,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             btext = family == "iepe" ? "<lang>Presencia Global</lang>" : "<lang>Presencia Europea</lang>";
 
         return "<div>"
-                +      "<span>" + ranking + "º  " + text + "</span>"
+                +      "<span>" + ranking + app.ordchr(ranking) +" " + text + "</span>"
                 +       "<span>" + variable.year + "</span>"
                 +      "<div class='clear'></div>"
                 +   "</div>"
@@ -611,7 +613,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 +       "<div class='clear'></div>"
                 +   "</div>"
                 +   "<div class='compare'>"
-                +       "<span class='white ml'>" + (branking ? branking + "º" : "" ) + " " + btext +"</span>"
+                +       "<span class='white ml'>" + (branking ? branking + app.ordchr(branking) : "" ) + " " + btext +"</span>"
                 +       "<span class='year mr'>" + bvariable.year + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>";

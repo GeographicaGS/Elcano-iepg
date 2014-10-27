@@ -282,18 +282,33 @@ app.scrollToEl = function($el,offset){
     }, 500);    
 };
 
-app.variableToString = function(variable,family){
+app.variableToString = function(variable,family,minimizeVersion){
     switch(variable){
         case "global":
-            if (family == "iepg"){
-                return "<lang>Índice Elcano de Presencia Global</lang>";
-            }
-            else if (family == "iepe"){
-                return "<lang>Índice Elcano de Presencia Europea</lang>";
+
+            if (minimizeVersion){
+                if (family == "iepg"){
+                    return "<lang>Presencia Global</lang>";
+                }
+                else if (family == "iepe"){
+                    return "<lang>Presencia Europea</lang>";
+                }
+                else{
+                    return "No definida"
+                }
             }
             else{
-                return "No definida"
+                if (family == "iepg"){
+                    return "<lang>Índice Elcano de Presencia Global</lang>";
+                }
+                else if (family == "iepe"){
+                    return "<lang>Índice Elcano de Presencia Europea</lang>";
+                }
+                else{
+                    return "No definida"
+                }
             }
+            
       
         case "economic_global":
             return "<lang>Presencia económica</lang>";
@@ -753,6 +768,26 @@ app.isSupportedBrowser = function(){
 
     return true;
 };
+
+app.ordchr = function(d){
+    if (app.lang == "es"){
+        return "º";
+    }
+    else{
+        if (d==1){
+            return "st";
+        }
+        else if (d==2){
+            return "nd"
+        }
+        else if (d==3){
+            return "rd"
+        }
+        else{
+            return "th";
+        }
+    }
+}
 
 app.getBrowser = function(){
     var ua= navigator.userAgent, tem, 

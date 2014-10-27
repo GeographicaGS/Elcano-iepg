@@ -60,12 +60,18 @@
                             <span class="size_13">
                                 <% 
                                     if (country.length == 2) { 
-                                        print(sprintf("<lang> Ranking de país %dº</lang>", variable.globalranking));
+                                        print(sprintf("<lang> Ranking de país %d</lang>%s", 
+                                            variable.globalranking,
+                                            app.ordchr(variable.globalranking)));
                                     } else if (country == "XBEU") {
-                                        print(sprintf("<lang> Ranking de país + UE %dº</lang>", variable.globalranking));
+                                        print(sprintf("<lang> Ranking de país + UE %d</lang>%s", 
+                                            variable.globalranking,
+                                            app.ordchr(variable.globalranking)));
                                     }
                                     else{
-                                        print(sprintf("<lang> Ranking de bloque %dº</lang>", variable.globalranking));
+                                        print(sprintf("<lang> Ranking de bloque %d</lang>%s", 
+                                            variable.globalranking,
+                                            app.ordchr(variable.globalranking)));
                                     }
                                 %>
                             </span>
@@ -73,7 +79,8 @@
                             <% if (app.getFilters().length 
                                     && variable.relativeranking 
                                     && variable.relativeranking!=variable.globalranking ){ %>
-                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", variable.relativeranking) %></span>
+                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %d</lang>%s", variable.relativeranking,app.ordchr(variable.relativeranking)
+                                        ) %></span>
                             <% }%>
                             
                         </div>
@@ -106,12 +113,17 @@
                             <span class="size_13">
                                 <% 
                                     if (country.length == 2) { 
-                                        print(sprintf("<lang> Ranking de país %dº</lang>", gdp.globalranking));
+                                        print(sprintf("<lang> Ranking de país %d</lang>%s", 
+                                            gdp.globalranking, app.ordchr(gdp.globalranking)));
                                     } else if (country == "XBEU") {
-                                        print(sprintf("<lang> Ranking de país + UE %dº</lang>", gdp.globalranking));
+                                        print(sprintf("<lang> Ranking de país + UE %d</lang>%s",
+                                         gdp.globalranking,
+                                         app.ordchr(gdp.globalranking)));
                                     }
                                     else{
-                                        print(sprintf("<lang> Ranking de bloque %dº</lang>", gdp.globalranking));
+                                        print(sprintf("<lang> Ranking de bloque %d</lang>%s", 
+                                            gdp.globalranking,
+                                            app.ordchr(gdp.globalranking)));
                                     }
                                 %>
                             </span>
@@ -119,7 +131,7 @@
                             <% if (app.getFilters().length 
                                     && gdp.relativeranking 
                                     && gdp.relativeranking!=gdp.globalranking ){ %>
-                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", gdp.relativeranking) %></span>
+                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %d</lang>%s", gdp.relativeranking,app.ordchr(gdp.relativeranking)) %></span>
                             <% }%>
                            
                         </div>
@@ -163,12 +175,12 @@
                               <span class="size_13">
                             <% 
                                     if (country.length == 2) { 
-                                        print(sprintf("<lang> Ranking de país %dº</lang>", population.globalranking));
+                                        print(sprintf("<lang> Ranking de país %d</lang>%s", population.globalranking,app.ordchr(population.globalranking)));
                                     } else if (country == "XBEU") {
-                                        print(sprintf("<lang> Ranking de país + UE %dº</lang>", population.globalranking));
+                                        print(sprintf("<lang> Ranking de país + UE %d</lang>%s", population.globalranking,app.ordchr(population.globalranking)));
                                     }
                                     else{
-                                        print(sprintf("<lang> Ranking de bloque %dº</lang>", population.globalranking));
+                                        print(sprintf("<lang> Ranking de bloque %d</lang>%s", population.globalranking,app.ordchr(population.globalranking)));
                                     }
                                 %>
                             </span>
@@ -176,7 +188,7 @@
                             <% if (app.getFilters().length 
                                     && population.relativeranking 
                                     && population.relativeranking!=population.globalranking ){ %>
-                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %dº</lang>", population.relativeranking) %></span>
+                                    <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %d</lang>%s", population.relativeranking,app.ordchr(population.relativeranking)) %></span>
                             <% }%>
                         </div>
                     </div>

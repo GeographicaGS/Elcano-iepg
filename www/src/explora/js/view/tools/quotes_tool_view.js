@@ -251,13 +251,12 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             uitype = "nocountry"
         }
         else if (!Object.keys(d3data.data).length
-
             || !d3data.max_year){
             //
             uitype = "nodata";
         }
         else{
-            uitype = "data"
+            uitype = "data";
         }
 
         this.$el.html(this._template({

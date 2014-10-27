@@ -75,6 +75,7 @@ app.view.CountrySelector = Backbone.View.extend({
         
         var ctx =  app.context;
         ctx.data.countries.list = _.union(this._selectedCountriesStack,this._selectedBlocksStack);
+
         ctx.removeInvalidSelected();
 
         app.events.trigger("closepopup",this);

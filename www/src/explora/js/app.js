@@ -549,6 +549,12 @@ app.reset2 = function(){
 
     this.context.data.countries.list = [];
     this.context.data.countries.selection = [];
+    this.context.data.family = "iepg";
+    this.context.data.variables = ["global"];
+    this.context.data.slider = [{
+        "type" : "Point",
+        "date" : app.config.SLIDER[app.config.SLIDER.length -1]
+    }];
     this.context.saveContext();
 
     this.filters = [];

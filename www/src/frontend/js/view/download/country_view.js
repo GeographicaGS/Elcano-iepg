@@ -27,7 +27,7 @@ app.view.countryDownload = Backbone.View.extend({
         var self = this;
         
         $.ajax({
-				url : "/api/countryfilter/" + app.lang,
+				url : "/api/countryfilter/" + app.lang + "?eu",
 				dataType: "json",
 		        success: function(response) {
 		        	var offset = 3;

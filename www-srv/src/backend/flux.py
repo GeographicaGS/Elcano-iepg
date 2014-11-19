@@ -15,7 +15,7 @@ import os
 import flux_lib.data.excel_utils as excel_utils, flux_lib.data.core as core
 import ast
 import numpy as np
-# import datetime as dt
+
 
 @app.route("/iepgengine", methods=["POST"])
 @auth
@@ -144,6 +144,8 @@ def iepgEngine():
             ["IEPG_EU.Economic.NFM",
              "IEPG_EU.Economic.PSP"]), axis=2)
 
+    man = man*np.array(dolarEx)/1000
+
     data[70,3:,"IEPG.Economic.Manufactures"]=man
 
     # Troops & military equipment, sports FIFA and Olympics, Science,
@@ -174,6 +176,10 @@ def iepgEngine():
         da = np.nansum(da, axis=0).flatten()
         data[70,3:,x] = da
 
+    import ipdb
+    ipdb.set_trace()
+        
+        
     # Inmigration
     data[70,3:,"IEPG.Soft.Migrations"] = np.nansum(
         (euTable[:,:,"IEPG_EU.Soft.InmigrationTotal"] - \
@@ -264,18 +270,15 @@ def iepgEngine():
     for i in militaryCoefs:
         militaryCoefsEquip.append(i/militaryTotal)
 
-    ae = np.zeros((shape[0]-1,shape[1]))
+    ae = np.zeros((shape[0],shape[1]))
 
     for i in range(0, len(militaryCoefsEquip)):
-        ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:70,:,militaryEquipment[i]].reshape(shape[0]-1,shape[1]))
-
-    # Add a 0 row for EU
-    ae = np.vstack((ae, np.zeros((1,shape[1]))))
-    data.addVariable("MilitaryPoints", data=ae)    
+        ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]].reshape(shape[0],shape[1]))
+        data.addVariable("MilitaryPoints", data=ae)    
 
     data.addVariable("IEPG.Military.MilitaryEquipment_IEPG", data=
-                     data[:,:,"MilitaryPoints"]*1000.0/ \
-                     np.nanmax(data[:,refYear,"MilitaryPoints"]))
+                        data[:,:,"MilitaryPoints"]*1000.0/ \
+                        np.nanmax(data[:,refYear,"MilitaryPoints"]))
 
     # Dimensions and Index
     cEconomic = environment["ECONOMIC_COEFICIENTS"]
@@ -526,7 +529,7 @@ def iepgEngine():
     data.addVariable("IEPE.Economic.PrimaryGoods", data=primaryG)
 
     # Manufactures
-    man = np.nansum(data.select(None,None,["IEPE.Economic.CHM", "IEPE.Economic.Manufactures", \
+    man = np.nansum(data.select(None,None,["IEPE.Economic.CHM", "IEPE.Economic.ManufacturesPre", \
                                            "IEPE.Economic.Machinery", "IEPE.Economic.MMA"]), axis=2) - \
           np.nansum(data.select(None,None,["IEPE.Economic.NFM","IEPE.Economic.PSP"]), axis=2)
     data.addVariable("IEPE.Economic.Manufactures", data=man)

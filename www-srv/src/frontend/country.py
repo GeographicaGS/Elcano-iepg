@@ -17,7 +17,12 @@ from collections import OrderedDict
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
 def countryFilter(lang):
+    if "eu" in request.args:
+        l = dc.countriesAndEu
+    else:
+        l = dc.countries
+    
     isoTable = dc.isoToEnglish if lang=="en" else dc.isoToSpanish
-    countries = sorted([{"id": x, "name": k}  for (x,k) in isoTable.iteritems() if x in dc.countries],
+    countries = sorted([{"id": x, "name": k}  for (x,k) in isoTable.iteritems() if x in l],
                        key=lambda t: t["name"])
     return(jsonify({"results": countries}))

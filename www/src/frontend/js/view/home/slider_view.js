@@ -1,4 +1,4 @@
-app.view.Slider = Backbone.View.extend({
+    app.view.Slider = Backbone.View.extend({
     _template : _.template( $('#slider_template').html() ),
     // transition time
     _msSlide : 600000,
@@ -42,7 +42,7 @@ app.view.Slider = Backbone.View.extend({
         var imgs = "";
         var lis = ""
         this.collection.each(function(model, index) {
-            imgs += "<img src='/media/" + model.get("image_file") + "' data-img-idx="+ index +" style='opacity:0' />";
+            imgs += "<div class='imgback' style='background-image:url(\"/media/" + model.get("image_file") + "\")' data-img-idx="+ index +" style='opacity:0' />";
             lis += "<li data-idx='"+ index + "'></li>";
         });
 
@@ -79,8 +79,9 @@ app.view.Slider = Backbone.View.extend({
             clearTimeout(this._timer);
         }
 
-        var $img = this.$co_imgs.find("img[data-img-idx="+this._idx+"]"),
-            loaded = $img.length >0 ? $img[0].complete : true;
+        var $img = this.$co_imgs.find(".imgback[data-img-idx="+this._idx+"]"),
+            //loaded = $img.length >0 ? $img[0].complete : true;
+            loaded = true;
 
 
         this.$ctrl_images.children().removeAttr("selected");
@@ -99,7 +100,7 @@ app.view.Slider = Backbone.View.extend({
 
     _drawSlide: function($img){
 
-        var oldImage = this.$co_img.find("img"),
+        var oldImage = this.$co_img.find(".imgback"),
             newImage = $img.clone();
         
         this.$co_img.append(newImage);

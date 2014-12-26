@@ -1,4 +1,4 @@
-# coding=UTF8
+n# coding=UTF8
 
 """
 
@@ -176,10 +176,6 @@ def iepgEngine():
         da = np.nansum(da, axis=0).flatten()
         data[70,3:,x] = da
 
-    import ipdb
-    ipdb.set_trace()
-        
-        
     # Inmigration
     data[70,3:,"IEPG.Soft.Migrations"] = np.nansum(
         (euTable[:,:,"IEPG_EU.Soft.InmigrationTotal"] - \

@@ -1,6 +1,6 @@
-=======
-elcano-iepg
-===========
+=============
+Elcano - IEPG
+=============
 
 Web del Índice Elcano de presencia global del Real Instituo Elcano
 
@@ -11,67 +11,91 @@ Este proyecto esta compuesto por dos apliaciones webs, una para el backend y otr
 
 La aplicación JS se encuentra en el directorio www y los servicios en www-srv.
 
-## Install
+## Instalación del entorno de desarrollo para servicios
 
-### Instalamos virtualvenv.
+### Dependencias
 
-En Mac OSX : 
+Estas son las aplicaciones de las que depende Elcano - IEPG:
+
+  - Redis 2.8.19;
+  - PostgreSQL 9.1.2;
+  - PostGIS 1.5.8 (sobre la PostgreSQL anterior).
+
+Actualmente, dado que los nuevos proyectos en Geographica han comenzado a
+utilizar versiones más modernas de PostgreSQL y de PostGIS, estos dos elementos
+los utilizamos dockerizados (ver
+https://github.com/GeographicaGS/Docker-PostgreSQL-9.1.2-PostGIS-1.5.8).
+
+### Submodules
+
+Please note that this project uses GIT submodules. To check which ones are used:
+
+    git submodule
+
+To initialize them, enter the root of the repo and:
+
+    git submodule init
+	git submodule update
+
+### Configuración y restauración de la base de datos
+
+Primero, configurar los scripts de base de datos, renombrando el fichero
+__00-config.sql.config__ a __00-config.sql__ y rellenando los datos de acceso a
+la PostgreSQL. Para restaurar la copia funcional de la base de datos, entrar en
+el directorio __database__ y ejecutar el script __01-create_env-dev.sql__:
+
+    psql -h localhost -p 5454 -U postgres postgres -c "\i 01-create_env-dev.sql"
+    &> out
+
+para borrar toda la base de datos de desarrollo, utilizar el script
+__05-database-drop.sql__:
+
+    psql -h localhost -p 5454 -U postgres postgres -c "\i 05-database-drop.sql"
+    &> out
+
+### Entorno de desarrollo de servicios
+
+Primero hemos de instalar el Virtualenv de Python:
+
+- en Mac OSX : 
 
 ```$ sudo pip install virtualenv```
 
-En Ubuntu:
+- en Ubuntu:
 
 ```$ sudo apt-get install python-virtualenv```
 
-Sobre el directorio www-srv ejecutamos
+Creamos un entorno virtual en el directorio __www-src__:
 
 ```$ virtualenv venv```
  
-A continuación nos ponemos en el entorno virtual.
+A continuación nos ponemos en el entorno virtual:
 
 ```. venv/bin/activate ```
 
-### Librerías de python
+### Librerías de Python
 
-Una vez dentro del entorno virtual instalamos los paquetes necesarios con pip.
+Una vez dentro del entorno virtual instalamos los paquetes necesarios con PIP:
 
 ```
-$ pip install Flask
-$ pip install psycopg2
+pip install Flask
+pip install psycopg2
+pip install tweepy
+pip install python-memcached
+pip install redis
+pip install numpy
+pip install xlsxwriter
+pip install xlrd
 #only to debug purpose
-$ pip install tweepy
 $ pip install ipdb
-$ pip install python-memcached
 ```
-
 
 ### Arranque de las APIs
-
-Lo primero es crear el fichero de configuración de la base de datos a partir de la plantilla.
-
-```
-$ cp src/model/base/PostgreSQL/config_changes.py src/model/base/PostgreSQL/config.py
-```
-
-Ahora lo abrimos con cualquier editor de texto y lo modificamos con nuestros parámetros.
 
 Editamos el fichero de configuración global
 ```
 cp src/common/config_changes.py  src/common/config.py
 ```
-
-#### Backend
-
-Tenemos que crear los ficheros de configuración, estos no están en el trunk.
-
-```
-# copiamos el fichero de configuración de la base datos
-$ cp src/backend/config_changes.py src/backend/config.py
-```
-
-Abre el fichero config.py y modificalo con los parámetros adecuados.
-
-Una vez hecho esto ya podemos arrancar el backend ejecutando:
 
 ```
 $ python src/run_backend.py
@@ -92,6 +116,11 @@ mkdir /Users/alasarr/dev/elcano-iepg/www/cdn/media
 chmod 755 /Users/alasarr/dev/elcano-iepg/www/cdn/backend/tmp
 chmod 755 /Users/alasarr/dev/elcano-iepg/www/cdn/media
 ```
+
+### Twitter y Explora
+
+Por último, para que funcionen ambos servicios, se deben rellenar los datos en
+__common/config.py__ de los datos de las claves de Twitter y de Explora.
 
 #### Frontend
 
@@ -277,6 +306,41 @@ Alias /img /Users/alasarr/dev/elcano-iepg/www/cdn/frontend/img
 Aquí las notas de la configuración de la web.
 
 
+# Checklist de entorno de desarrollo
+
+## Arranque
+
+Hay que seguir los siguientes pasos: 
+
+- arrancar PostgreSQL 9.1.2 / PostGIS 1.5.3 (posiblemente dockerizada):
+
+    pg_ctl-9.1.2-1.5.3 -D . start
+
+- arrancar Redis:
+
+    redis-server redis-2.8.14.conf &
+
+- activar el entorno virtual en __www-src__:
+
+    . venv/bin/activate
+
+- activar servicios Flask:
+
+    src/run_backend.py (port 5000)
+	src/run_explora.py (port 5002)
+	src/run_frontend.py (port 5001)
+
+## Parada
+
+Pasos: 
+
+- parar PostgreSQL (posiblemente dockerizada):
+
+    pg_ctl-9.1.2-1.5.3 -D . stop
+
+- parar Redis:
+
+    redis-cli shutdown save
 
 # Carga de datos en Redis
 

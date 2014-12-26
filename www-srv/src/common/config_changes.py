@@ -11,12 +11,12 @@ backend = {
     "mediaFolder": basePath + "www/cdn/medina"
 }
 
-MemcachedConfig = {
-    "enabled": False,
-    "host": "###",
-    "port": "###",
-    "expiration": 30
-}
+# MemcachedConfig = {
+#     "enabled": False,
+#     "host": "###",
+#     "port": "###",
+#     "expiration": 30
+# }
 
 explora = {
     "SECRET_KEY": "###"

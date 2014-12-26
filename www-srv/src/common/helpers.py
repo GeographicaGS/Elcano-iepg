@@ -7,7 +7,7 @@ Common helpers.
 """
 import common.datacache as datacache
 import tweepy
-from config import MemcachedConfig
+from common.config import MemcachedConfig
 from flask import jsonify
 import varengine.varengine as varengine
 import maplex.maplex as maplex

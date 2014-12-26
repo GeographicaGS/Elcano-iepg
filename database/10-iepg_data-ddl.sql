@@ -510,58 +510,58 @@ order by id_master_country;
 copy iepg_data.master_country
 from :'copy_master_country'
 with delimiter ';'
-csv header quote '"';
+csv header quote '"' null '#@#@';
 
 copy iepg_data.country_relation
 from :'copy_country_relation'
 with delimiter ';'
-csv header quote '"';
+csv header quote '"' null '#@#@';
 
 copy iepg_data.iepg_final_data
 from :'copy_iepg_final_data'
 with delimiter ';'
-csv header quote '"';
+csv header quote '"' null '#@#@';
 
 copy iepg_data.pob_pib
 from :'copy_pob_pib'
 with delimiter ';'
-csv header quote '"';
+csv header quote '"' null '#@#@';
 
 copy iepg_data.iepg_comment
 from :'copy_iepg_comment'
 with delimiter '|'
-csv header quote '"';
+csv header quote '"' null '#@#@';
 
 copy iepg_data.country_geom
 from :'copy_country_geom'
 with delimiter '|'
-csv header quote '"';
+csv header quote '"' null '#@#@';
 
 copy iepg_data.iepe_final_data
 from :'copy_iepe_final_data'
 with delimiter '|'
-csv header quote '"';
+csv header quote '"' null '#@#@';
 
 copy iepg_data.iepe_quotas
 from :'copy_iepe_quotas'
 with delimiter '|'
-csv header quote '"';
+csv header quote '"' null '#@#@';
 
-\copy iepg_data.iepe_individual_contributions from 'iepe_individual_contributions.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data.iepe_individual_contributions from 'iepe_individual_contributions.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data.iepe_relative_contributions from 'iepe_relative_contributions.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data.iepe_relative_contributions from 'iepe_relative_contributions.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data.iepg_quotas from 'iepg_quotas.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data.iepg_quotas from 'iepg_quotas.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data.iepg_individual_contributions from 'iepg_individual_contributions.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data.iepg_individual_contributions from 'iepg_individual_contributions.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data.iepg_relative_contributions from 'iepg_relative_contributions.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data.iepg_relative_contributions from 'iepg_relative_contributions.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data.iepg_final_data_eu from 'iepg_final_data_eu.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data.iepg_final_data_eu from 'iepg_final_data_eu.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data.iepg_individual_contributions_eu from 'iepg_individual_contributions_eu.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data.iepg_individual_contributions_eu from 'iepg_individual_contributions_eu.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy iepg_data.iepg_relative_contributions_eu from 'iepg_relative_contributions_eu.csv' with delimiter '|' csv header quote '"'
+\copy iepg_data.iepg_relative_contributions_eu from 'iepg_relative_contributions_eu.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
 
 analyze;

@@ -321,23 +321,23 @@ order by a.geoentity_desc;
 
 -- Restore data
 
-\copy maplex.geoentity from 'maplex_geoentity.csv' with delimiter '|' csv header quote '"'
+\copy maplex.geoentity from 'maplex_geoentity.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy maplex.name_family from 'maplex_name_family.csv' with delimiter '|' csv header quote '"'
+\copy maplex.name_family from 'maplex_name_family.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy maplex.name from 'maplex_name.csv' with delimiter '|' csv header quote '"'
+\copy maplex.name from 'maplex_name.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy maplex.geometry_family from 'maplex_geometry_family.csv' with delimiter '|' csv header quote '"'
+\copy maplex.geometry_family from 'maplex_geometry_family.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy maplex.block from 'maplex_block.csv' with delimiter '|' csv header quote '"'
+\copy maplex.block from 'maplex_block.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy maplex.geometry from 'maplex_geometry.csv' with delimiter '|' csv header quote '"'
+\copy maplex.geometry from 'maplex_geometry.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy maplex.geoentity_geometry from 'maplex_geoentity_geometry.csv' with delimiter '|' csv header quote '"'
+\copy maplex.geoentity_geometry from 'maplex_geoentity_geometry.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy maplex.geoentity_name from 'maplex_geoentity_name.csv' with delimiter '|' csv header quote '"'
+\copy maplex.geoentity_name from 'maplex_geoentity_name.csv' with delimiter '|' csv header quote '"' null '#@#@'
 
-\copy maplex.iepg_short_names from 'csv/maplex-country_short_iepg.csv' with delimiter ',' csv header
+\copy maplex.iepg_short_names from 'csv/maplex-country_short_iepg.csv' with delimiter ',' csv header null '#@#@'
 
 commit;
 

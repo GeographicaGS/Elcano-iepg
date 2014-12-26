@@ -26,16 +26,19 @@ utilizar versiones más modernas de PostgreSQL y de PostGIS, estos dos elementos
 los utilizamos dockerizados (ver
 https://github.com/GeographicaGS/Docker-PostgreSQL-9.1.2-PostGIS-1.5.8).
 
-### Submodules
+### Submódulos
 
-Please note that this project uses GIT submodules. To check which ones are used:
+Este proyecto usa un par de submodulos. Para ver dónde están:
 
     git submodule
 
-To initialize them, enter the root of the repo and:
+Para inicializarlos:
 
     git submodule init
 	git submodule update
+
+El submódulo __www-srv/src/flux_lib__ utiliza la branch __elcano-changes__,
+release (tag) __v0.2-Elcano__, así que hacer un pull de esta tag.
 
 ### Configuración y restauración de la base de datos
 

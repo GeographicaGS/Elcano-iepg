@@ -5,9 +5,11 @@ Elcano - IEPG
 Web del Índice Elcano de presencia global del Real Instituo Elcano
 
 
-## About
+## Bases
 
-Este proyecto esta compuesto por dos apliaciones webs, una para el backend y otra para el frontend. Las dos aplicaciones tiene el mismo stack tecnológico, BackboneJS en el cliente y Flask en el servidor.
+Este proyecto esta compuesto por dos apliaciones webs, una para el backend y
+otra para el frontend. Las dos aplicaciones tiene el mismo stack tecnológico,
+BackboneJS en el cliente y Flask en el servidor.
 
 La aplicación JS se encuentra en el directorio www y los servicios en www-srv.
 
@@ -96,6 +98,7 @@ $ pip install ipdb
 ### Arranque de las APIs
 
 Editamos el fichero de configuración global
+
 ```
 cp src/common/config_changes.py  src/common/config.py
 ```

@@ -1,4 +1,4 @@
-n# coding=UTF8
+# coding=UTF8
 
 """
 
@@ -98,26 +98,37 @@ def iepgEngine():
                 "IEPG_EU.Soft.TechnologyIntra",
                 "IEPG_EU.Soft.EducationTotal",
                 "IEPG_EU.Soft.EducationIntra"]
-                 
+                         
     euVector = core.GeoVariableArray()
     euTable = core.GeoVariableArray()
     [euVector.merge(book.readGeoVariableArray(x)) for x in vectorVar]
     [euTable.merge(book.readGeoVariableArray(x)) for x in tableVar]
 
-    # Energy, Services, Investments, and Culture
+    # Energy, Services, and Culture
     da = euVector.select(0,
                          None,
                          ["IEPG_EU.Economic.Energy",
                           "IEPG_EU.Economic.Services",
-                          "IEPG_EU.Economic.Investments",
                           "IEPG_EU.Soft.Culture"]
-                     )*np.repeat(dolarEx,4,axis=0).reshape(5,4)/1000
-
+                     )*np.repeat(dolarEx,3,axis=0).reshape(5,3)/1000
+    
     data[70,3:,"IEPG.Economic.Energy"]=da[0,:,0]
     data[70,3:,"IEPG.Economic.Services"]=da[0,:,1]
-    data[70,3:,"IEPG.Economic.Investments"]=da[0,:,2]
-    data[70,3:,"IEPG.Soft.Culture"]=da[0,:,3]
+    data[70,3:,"IEPG.Soft.Culture"]=da[0,:,2]
 
+    # Investments
+
+    import ipdb
+    ipdb.set_trace()
+    
+    da = euVector.select(0,
+                         None,
+                         [
+                          "IEPG_EU.Economic.Investments"]
+                     )*np.repeat(dolarEx,1,axis=0).reshape(5,1)*100000000000
+    
+    data[70,3:,"IEPG.Economic.Investments"]=da[0,:,0]
+    
     # Primary goods
     primaryG = np.nansum(euVector.select(
         None,

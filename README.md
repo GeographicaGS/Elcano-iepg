@@ -317,21 +317,21 @@ Hay que seguir los siguientes pasos:
 
 - arrancar PostgreSQL 9.1.2 / PostGIS 1.5.3 (posiblemente dockerizada):
 
-    pg_ctl-9.1.2-1.5.3 -D . start
+        pg_ctl-9.1.2-1.5.3 -D . start
 
 - arrancar Redis:
 
-    redis-server redis-2.8.14.conf &
+        redis-server redis-2.8.14.conf &
 
 - activar el entorno virtual en __www-src__:
 
-    . venv/bin/activate
+        . venv/bin/activate
 
 - activar servicios Flask:
 
-    src/run_backend.py (port 5000)
-	src/run_explora.py (port 5002)
-	src/run_frontend.py (port 5001)
+        src/run_backend.py (port 5000)
+	    src/run_explora.py (port 5002)
+        src/run_frontend.py (port 5001)
 
 ## Parada
 
@@ -339,11 +339,11 @@ Pasos:
 
 - parar PostgreSQL (posiblemente dockerizada):
 
-    pg_ctl-9.1.2-1.5.3 -D . stop
+        pg_ctl-9.1.2-1.5.3 -D . stop
 
 - parar Redis:
 
-    redis-cli shutdown save
+        redis-cli shutdown save
 
 # Carga de datos en Redis
 

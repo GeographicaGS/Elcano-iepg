@@ -83,16 +83,13 @@ A continuación nos ponemos en el entorno virtual:
 Una vez dentro del entorno virtual instalamos los paquetes necesarios con PIP:
 
 ```
-pip install Flask
-pip install psycopg2
-pip install tweepy
-pip install python-memcached
-pip install redis
-pip install numpy
-pip install xlsxwriter
-pip install xlrd
-#only to debug purpose
-$ pip install ipdb
+pip install Flask psycopg2 tweepy python-memcached redis numpy xlsxwriter xlrd
+```
+
+Y sólo para desarrollo: 
+
+```
+pip install ipython ipdb
 ```
 
 ### Arranque de las APIs

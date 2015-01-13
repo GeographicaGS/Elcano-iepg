@@ -240,6 +240,9 @@ def iepgEngine():
     linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
     medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
 
+    import ipdb
+    ipdb.set_trace()
+    
     sports = ((medals_fifa[0]/np.repeat( \
                                np.nansum(data[:,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
                                shape[0], axis=0).reshape(shape[0],shape[1])* \

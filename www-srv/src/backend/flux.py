@@ -104,28 +104,29 @@ def iepgEngine():
     [euVector.merge(book.readGeoVariableArray(x)) for x in vectorVar]
     [euTable.merge(book.readGeoVariableArray(x)) for x in tableVar]
 
-    # Energy, Services, and Culture
+    # Energy
     da = euVector.select(0,
                          None,
-                         ["IEPG_EU.Economic.Energy",
-                          "IEPG_EU.Economic.Services",
-                          "IEPG_EU.Soft.Culture"]
-                     )*np.repeat(dolarEx,3,axis=0).reshape(5,3)/1000
+                         "IEPG_EU.Economic.Energy",
+                     )*np.repeat(dolarEx,1,axis=0).reshape(5,1)/1000
     
     data[70,3:,"IEPG.Economic.Energy"]=da[0,:,0]
-    data[70,3:,"IEPG.Economic.Services"]=da[0,:,1]
-    data[70,3:,"IEPG.Soft.Culture"]=da[0,:,2]
-
-    # Investments
-
-    import ipdb
-    ipdb.set_trace()
     
+    # Culture
+    da = euVector.select(0, None, "IEPG_EU.Soft.Culture")*np.repeat(dolarEx, 1, axis=0).reshape(5,1)*1000000
+    data[70,3:,"IEPG.Soft.Culture"]=da[0,:,0]
+    
+    # Services, in dollars (by the moment, if switched again to euros,
+    # put it in the previous section again with Energy and Culture
+    da = euVector.select(0, None, "IEPG_EU.Economic.Services")
+    data[70,3:,"IEPG.Economic.Services"]=da[0,:,0]
+        
+    # Investments
     da = euVector.select(0,
                          None,
                          [
                           "IEPG_EU.Economic.Investments"]
-                     )*np.repeat(dolarEx,1,axis=0).reshape(5,1)*100000000000
+                     )*np.repeat(dolarEx,1,axis=0).reshape(5,1)
     
     data[70,3:,"IEPG.Economic.Investments"]=da[0,:,0]
     
@@ -194,7 +195,7 @@ def iepgEngine():
 
     # Tourism
     data[70,3:,"IEPG.Soft.Tourism"] = np.nansum(
-        euTable[:,:,"IEPG_EU.Soft.Tourism"], axis=0).flatten()
+        euTable[:,:,"IEPG_EU.Soft.Tourism"], axis=0).flatten()/1000
 
     # Information
     data[70,3:,"IEPG.Soft.Information"] = euVector[0,:,"IEPG_EU.Soft.Information"]
@@ -240,15 +241,12 @@ def iepgEngine():
     linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
     medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
 
-    import ipdb
-    ipdb.set_trace()
-    
     sports = ((medals_fifa[0]/np.repeat( \
-                               np.nansum(data[:,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
+                               np.nansum(data[:70,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
                                shape[0], axis=0).reshape(shape[0],shape[1])* \
                10000*data[:,:,"IEPG.Soft.Support.Olimpics"].reshape(shape[0],shape[1]))+ \
               (medals_fifa[1]/np.repeat( \
-                            np.nansum(data[:,:,"IEPG.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
+                            np.nansum(data[:70,:,"IEPG.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
                                          shape[0], axis=0).reshape(shape[0],shape[1])* \
                    10000*data[:,:,"IEPG.Soft.Support.FIFAPoints"].reshape(shape[0],shape[1])))* \
                    np.repeat(np.array(linearCoef).reshape(1,shape[1]), shape[0], axis=0)
@@ -278,14 +276,14 @@ def iepgEngine():
     militaryTotal = np.nansum(np.array(militaryCoefs))
 
     for i in militaryCoefs:
-        militaryCoefsEquip.append(i/militaryTotal)
-
+        militaryCoefsEquip.append(i/militaryTotal*1000)
+        
     ae = np.zeros((shape[0],shape[1]))
 
     for i in range(0, len(militaryCoefsEquip)):
         ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]].reshape(shape[0],shape[1]))
-        data.addVariable("MilitaryPoints", data=ae)    
 
+    data.addVariable("MilitaryPoints", data=ae)    
     data.addVariable("IEPG.Military.MilitaryEquipment_IEPG", data=
                         data[:,:,"MilitaryPoints"]*1000.0/ \
                         np.nanmax(data[:,refYear,"MilitaryPoints"]))

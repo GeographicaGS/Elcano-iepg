@@ -507,10 +507,7 @@ order by id_master_country;
 
 \c :dbname :superuser :host :port
 
-copy iepg_data.master_country
-from :'copy_master_country'
-with delimiter ';'
-csv header quote '"' null '#@#@';
+\copy iepg_data.master_country from 'master_country.csv' with delimiter ';' csv header quote '"' null '#@#@'
 
 copy iepg_data.country_relation
 from :'copy_country_relation'

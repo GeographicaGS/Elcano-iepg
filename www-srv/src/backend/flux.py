@@ -113,12 +113,12 @@ def iepgEngine():
     data[70,3:,"IEPG.Economic.Energy"]=da[0,:,0]
     
     # Culture
-    da = euVector.select(0, None, "IEPG_EU.Soft.Culture")*np.repeat(dolarEx, 1, axis=0).reshape(5,1)*1000000
+    da = euVector.select(0, None, ["IEPG_EU.Soft.Culture","IEPG_EU.Economic.Services"])* \
+        np.repeat(dolarEx, 1, axis=0).reshape(5,1)*1000000
     data[70,3:,"IEPG.Soft.Culture"]=da[0,:,0]
     
-    # Services, in dollars (by the moment, if switched again to euros,
-    # put it in the previous section again with Energy and Culture
-    da = euVector.select(0, None, "IEPG_EU.Economic.Services")
+    # Services
+    da = euVector.select(0, None, "IEPG_EU.Economic.Services")*np.repeat(dolarEx, 1, axis=0).reshape(5,1)/1000
     data[70,3:,"IEPG.Economic.Services"]=da[0,:,0]
         
     # Investments

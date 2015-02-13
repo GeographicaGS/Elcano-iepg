@@ -6,17 +6,20 @@ Configuration
 
 basePath = "/Users/alasarr/dev/elcano-iepg/"
 
+# Create this folders if they don't exists
 backend = {
     "tmpFolder": basePath + "www/cdn/backend/tmp",
-    "mediaFolder": basePath + "www/cdn/medina"
+    "mediaFolder": basePath + "www/cdn/media"
 }
 
-# MemcachedConfig = {
-#     "enabled": False,
-#     "host": "###",
-#     "port": "###",
-#     "expiration": 30
-# }
+# This is no longer needed, but it is referenced in the code
+# TODO: to be deprecated
+MemcachedConfig = {
+    "enabled": False,
+    "host": "###",
+    "port": "###",
+    "expiration": 30
+}
 
 explora = {
     "SECRET_KEY": "###"

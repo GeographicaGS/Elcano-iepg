@@ -44,10 +44,11 @@ release (tag) __v0.2-Elcano__, así que hacer un pull de esta tag.
 
 ### Configuración y restauración de la base de datos
 
-Primero, configurar los scripts de base de datos, renombrando el fichero
-__00-config.sql.config__ a __00-config.sql__ y rellenando los datos de acceso a
-la PostgreSQL. Para restaurar la copia funcional de la base de datos, entrar en
-el directorio __database__ y ejecutar el script __01-create_env-dev.sql__:
+Primero, configurar los scripts de base de datos, en el directorio __database__,
+renombrando el fichero __00-config.sql.config__ a __00-config.sql__ y rellenando
+los datos de acceso a la PostgreSQL. Para restaurar la copia funcional de la
+base de datos, entrar en el directorio __database__ y ejecutar el script
+__01-create_env-dev.sql__:
 
     psql -h localhost -p 5454 -U postgres postgres -c "\i 01-create_env-dev.sql"
     &> out
@@ -57,6 +58,12 @@ __05-database-drop.sql__:
 
     psql -h localhost -p 5454 -U postgres postgres -c "\i 05-database-drop.sql"
     &> out
+
+# Carga de datos en Redis
+
+La aplicación funciona cargando datos desde la PostgreSQL en una Redis. Para
+refrescar los datos Redis desde la PostgreSQL, utilizar el script
+_www-srv/src/datacache.py_.
 
 ### Entorno de desarrollo de servicios
 
@@ -70,7 +77,7 @@ Primero hemos de instalar el Virtualenv de Python:
 
 ```$ sudo apt-get install python-virtualenv```
 
-Creamos un entorno virtual en el directorio __www-src__:
+Creamos un entorno virtual en el directorio __www-srv/src__:
 
 ```$ virtualenv venv```
  
@@ -319,7 +326,7 @@ Hay que seguir los siguientes pasos:
 
         pg_ctl-9.1.2-1.5.3 -D . start
 
-- arrancar Redis:
+- arrancar Redis 2.8.19 (posiblemente dockerizada):
 
         redis-server redis-2.8.14.conf &
 
@@ -344,7 +351,3 @@ Pasos:
 - parar Redis:
 
         redis-cli shutdown save
-
-# Carga de datos en Redis
-
-La aplicación funciona cargando datos desde la PostgreSQL en una Redis. Para refrescar los datos Redis desde la PostgreSQL, utilizar el script _www-srv/src/datacache.py_.

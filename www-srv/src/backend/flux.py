@@ -65,6 +65,8 @@ def iepgEngine():
                                        ast.literal_eval(i[6].value) if i[6].value!="" else None))
 
     # Prepare variables for IEPG calculus, excluding EU
+    # All data for IEPG countries are loaded in data, but
+    # not any EU IEPG-specific data
     data = core.GeoVariableArray()
     [data.merge(book.readGeoVariableArray(".".join(x.filiation))) for x
      in variables if x.filiation[0]=="IEPG"]
@@ -104,24 +106,24 @@ def iepgEngine():
     [euVector.merge(book.readGeoVariableArray(x)) for x in vectorVar]
     [euTable.merge(book.readGeoVariableArray(x)) for x in tableVar]
 
-    # Energy
+    # EU IEPG Energy, loads EU data into "data" for IEPG calculation
     da = euVector.select(0,
                          None,
                          "IEPG_EU.Economic.Energy",
                      )*np.repeat(dolarEx,1,axis=0).reshape(5,1)/1000
     
     data[70,3:,"IEPG.Economic.Energy"]=da[0,:,0]
-    
-    # Culture
+
+    # EU IEPG Culture, loads EU data into "data" for IEPG calculation
     da = euVector.select(0, None, ["IEPG_EU.Soft.Culture","IEPG_EU.Economic.Services"])* \
         np.repeat(dolarEx, 1, axis=0).reshape(5,1)*1000000
     data[70,3:,"IEPG.Soft.Culture"]=da[0,:,0]
     
-    # Services
-    da = euVector.select(0, None, "IEPG_EU.Economic.Services")*np.repeat(dolarEx, 1, axis=0).reshape(5,1)/1000
+    # EU IEPG Services, loads EU data into "data" for IEPG calculation
+    da = euVector.select(0, None, "IEPG_EU.Economic.Services")
     data[70,3:,"IEPG.Economic.Services"]=da[0,:,0]
-        
-    # Investments
+
+    # EU IEPG Investments, loads EU data into "data" for IEPG calculation
     da = euVector.select(0,
                          None,
                          [
@@ -129,8 +131,8 @@ def iepgEngine():
                      )*np.repeat(dolarEx,1,axis=0).reshape(5,1)
     
     data[70,3:,"IEPG.Economic.Investments"]=da[0,:,0]
-    
-    # Primary goods
+
+    # EU IEPG Primary Goods, loads EU data into "data" for IEPG calculation
     primaryG = np.nansum(euVector.select(
         None,
         None,
@@ -144,7 +146,7 @@ def iepgEngine():
 
     data[70,3:,"IEPG.Economic.PrimaryGoods"]=primaryG
 
-    # Manufactures
+    # EU IEPG Manufactures, loads EU data into "data" for IEPG calculation
     man = np.nansum(euVector.select(None,None,
                                     ["IEPG_EU.Economic.CHM",
                                      "IEPG_EU.Economic.Manufactures",
@@ -160,8 +162,7 @@ def iepgEngine():
 
     data[70,3:,"IEPG.Economic.Manufactures"]=man
 
-    # Troops & military equipment, sports FIFA and Olympics, Science,
-    # and Cooperation
+    # IEPG EU Troops & military equipment, Science, and Cooperation
     data[70,3:,"IEPG.Military.Troops"] = np.nansum(euTable[:,:,"IEPG_EU.Military.Troops"], axis=0).flatten()
 
     europeanIndices = [0,6,8,10,14,17,18,21,22,23,25,27,28,29,30,35,38,42,43,44,46,51,54,55,57,58,59,63]
@@ -176,8 +177,6 @@ def iepgEngine():
                            "IEPG.Military.Support.Submarine",
                            "IEPG.Military.Support.Aeroplane",
                            "IEPG.Military.Support.Airtanker",
-                           "IEPG.Soft.Support.FIFAPoints",
-                           "IEPG.Soft.Support.Olimpics",
                            "IEPG.Soft.Science",
                            "IEPG.Soft.DevelopmentC"]
 
@@ -238,6 +237,7 @@ def iepgEngine():
         data.addVariable(i+"_IEPG", data=d)
 
     # Sports calculus
+    # This is the calculus for the sports coefficient
     linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
     medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
 
@@ -252,6 +252,15 @@ def iepgEngine():
                    np.repeat(np.array(linearCoef).reshape(1,shape[1]), shape[0], axis=0)
 
     data.addVariable("IEPG.Soft.SportsCoef", data=sports)
+
+    # This is the sum of coeficients for european countries to calculate the EU IEPG
+    euIepgSportsCoef = data.select(europeanIndices, ["2005","2010","2011","2012","2013"], "IEPG.Soft.SportsCoef")
+    euIepgSportsCoef[(3,26),0,0] = np.nan
+    euIepgSportsCoef[5,(0,1,2,3),0] = np.nan
+    euIepgSportsCoef = (np.nansum(euIepgSportsCoef, axis=0)*.7).flatten()
+    data[70,3:,"IEPG.Soft.SportsCoef"] = euIepgSportsCoef
+
+    # Final IEPG sports calculus
     data.addVariable("IEPG.Soft.Sports_IEPG", data=
                      data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
                      np.nanmax(data[:70,refYear,"IEPG.Soft.SportsCoef"]))
@@ -522,11 +531,16 @@ def iepgEngine():
 
 
 
+    # IEPE Calculus starts here
+
+    # Keep IEPG data for sports coefficients
+    iepgData = data
+    
     # Prepare variables for IEPE calculus
     data = core.GeoVariableArray()
     [data.merge(book.readGeoVariableArray(".".join(x.filiation))) for x
     in variables if x.filiation[0]=="IEPE"]
-
+    
     shape = data.shape
 
     # Previous aggregation
@@ -567,25 +581,34 @@ def iepgEngine():
     data.addVariable("IEPE.Military.MilitaryEquipment_IEPE", data=zeroes)
     data.addVariable("IEPE.Soft.DevelopmentC_IEPE", data=zeroes)
 
-    # Sports calculus
-    linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
-    medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
+    # IEPE Sports calculus
 
-    sports = ((medals_fifa[0]/np.repeat( \
-                               np.nansum(data[:,:,"IEPE.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
-                               shape[0], axis=0).reshape(shape[0],shape[1])* \
-               10000*data[:,:,"IEPE.Soft.Support.Olimpics"].reshape(shape[0],shape[1]))+ \
-              (medals_fifa[1]/np.repeat( \
-                            np.nansum(data[:,:,"IEPE.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
-                                         shape[0], axis=0).reshape(shape[0],shape[1])* \
-                   10000*data[:,:,"IEPE.Soft.Support.FIFAPoints"].reshape(shape[0],shape[1])))* \
-                   np.repeat(np.array(linearCoef[3:]).reshape(1,shape[1]), shape[0], axis=0)
+    import ipdb
+    ipdb.set_trace()
+    
+    # linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
+    # medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
 
-    data.addVariable("IEPE.Soft.SportsCoef", data=sports)
-    data.addVariable("IEPE.Soft.Sports_IEPE", data=
-                     data[:,:,"IEPE.Soft.SportsCoef"]*1000.0/ \
-                     np.nanmax(data[:,refYear,"IEPE.Soft.SportsCoef"]))
+    # sports = ((medals_fifa[0]/np.repeat( \
+    #                            np.nansum(data[:,:,"IEPE.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
+    #                            shape[0], axis=0).reshape(shape[0],shape[1])* \
+    #            10000*data[:,:,"IEPE.Soft.Support.Olimpics"].reshape(shape[0],shape[1]))+ \
+    #           (medals_fifa[1]/np.repeat( \
+    #                         np.nansum(data[:,:,"IEPE.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
+    #                                      shape[0], axis=0).reshape(shape[0],shape[1])* \
+    #                10000*data[:,:,"IEPE.Soft.Support.FIFAPoints"].reshape(shape[0],shape[1])))* \
+    #                np.repeat(np.array(linearCoef[3:]).reshape(1,shape[1]), shape[0], axis=0)
 
+    # data.addVariable("IEPE.Soft.SportsCoef", data=sports)
+    # data.addVariable("IEPE.Soft.Sports_IEPE", data=
+    #                  data[:,:,"IEPE.Soft.SportsCoef"]*1000.0/ \
+    #                  np.nanmax(data[:,refYear,"IEPE.Soft.SportsCoef"]))
+
+    data.addVariable("IEPE.Soft.Sports_IEPE", data= \
+                    iepgData.select(europeanIndices, ["2005","2010","2011","2012","2013"], \
+                    "IEPG.Soft.SportsCoef")*1000.0/np.nanmax(iepgData.select(europeanIndices, \
+                    refYear, "IEPG.Soft.SportsCoef")))
+    
     # Dimensions and Index
     cEconomic = environment["ECONOMIC_COEFICIENTS"]
     vEconomic = ["Energy","PrimaryGoods","Manufactures","Services","Investments"]

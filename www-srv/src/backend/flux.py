@@ -11,6 +11,7 @@ from flask import request, session, send_file
 from common.config import backend
 import hashlib
 import time
+import common.arrayops as arrayops
 import os
 import flux_lib.data.excel_utils as excel_utils, flux_lib.data.core as core
 import ast
@@ -48,7 +49,7 @@ def iepgEngine():
 
     # Read configuration variables
     for i in environmentEx:
-        environment[i[0].value] = ast.literal_eval(str(i[1].value))
+        environment[i[0].value] = ast.literal_eval(unicode(i[1].value))
 
     variables = []
     refYear = str(environment["REFERENCE_YEAR"])
@@ -64,6 +65,19 @@ def iepgEngine():
                                        ast.literal_eval(i[3].value) if i[3].value!="" else None,
                                        ast.literal_eval(i[6].value) if i[6].value!="" else None))
 
+    # Process EUROPEAN_UNION environment variable to find missing countries in each year
+    totalCountriesEu = []
+    [totalCountriesEu.extend(i) for i in environment["EUROPEAN_UNION"].values()]
+    totalCountriesEu = list(set(totalCountriesEu))
+
+    missingEuCountries = {}
+    for k,v in environment["EUROPEAN_UNION"].iteritems():
+        missingEuCountries[k] = arrayops.arraySubstraction(totalCountriesEu, v)
+
+    # Also total years of EU data are encoded from the number of keys of EUROPEAN_UNION
+    euDataYears = len(environment["EUROPEAN_UNION"].keys())
+    euDataYearsStr = [str(i) for i in missingEuCountries.keys()]
+                
     # Prepare variables for IEPG calculus, excluding EU
     # All data for IEPG countries are loaded in data, but
     # not any EU IEPG-specific data
@@ -71,8 +85,28 @@ def iepgEngine():
     [data.merge(book.readGeoVariableArray(".".join(x.filiation))) for x
      in variables if x.filiation[0]=="IEPG"]
 
+    # Get indexes of european countries for not to rely on GeoVariableArray indexing, and also european years
+    totalCountriesEuIdx = []
+    [totalCountriesEuIdx.append(data.geoentity.index(i)) for i in totalCountriesEu]
+
+    euDataYearsIdx = []
+    for i in euDataYearsStr:
+        for t in data.time:
+            if str(t.start.year)==i:
+                euDataYearsIdx.append(data.time.index(t))
+
+    missingEuCountriesIdx = {}
+    t = 0
+    for k,v in missingEuCountries.iteritems():
+        missing = []
+        [missing.append(data.geoentity.index(i)) for i in v]
+        missingEuCountriesIdx[euDataYearsIdx[t]] = missing
+        t+=1
+        
     # Prepare and add data for EU
     data.addGeoentity(u"Unión Europea")
+    # Get the index of the EU for slicing
+    euIndex = data.geoentity.index(u"Unión Europea")
     dolarEx = np.array(environment["EURO_DOLAR_ER"])
 
     # Initial load of EU data
@@ -109,28 +143,27 @@ def iepgEngine():
     # EU IEPG Energy, loads EU data into "data" for IEPG calculation
     da = euVector.select(0,
                          None,
-                         "IEPG_EU.Economic.Energy",
-                     )*np.repeat(dolarEx,1,axis=0).reshape(5,1)/1000
-    
-    data[70,3:,"IEPG.Economic.Energy"]=da[0,:,0]
+                         "IEPG_EU.Economic.Energy"
+                     )*np.repeat(dolarEx,1,axis=0).reshape(euDataYears,1)/1000
+    data[u"Unión Europea",3:,"IEPG.Economic.Energy"]=da[0,:,0]
 
     # EU IEPG Culture, loads EU data into "data" for IEPG calculation
     da = euVector.select(0, None, ["IEPG_EU.Soft.Culture","IEPG_EU.Economic.Services"])* \
-        np.repeat(dolarEx, 1, axis=0).reshape(5,1)*1000000
-    data[70,3:,"IEPG.Soft.Culture"]=da[0,:,0]
+        np.repeat(dolarEx, 1, axis=0).reshape(euDataYears,1)*1000000
+    data[u"Unión Europea",3:,"IEPG.Soft.Culture"]=da[0,:,0]
     
     # EU IEPG Services, loads EU data into "data" for IEPG calculation
     da = euVector.select(0, None, "IEPG_EU.Economic.Services")
-    data[70,3:,"IEPG.Economic.Services"]=da[0,:,0]
+    data[u"Unión Europea",3:,"IEPG.Economic.Services"]=da[0,:,0]
 
     # EU IEPG Investments, loads EU data into "data" for IEPG calculation
     da = euVector.select(0,
                          None,
                          [
                           "IEPG_EU.Economic.Investments"]
-                     )*np.repeat(dolarEx,1,axis=0).reshape(5,1)
+                     )*np.repeat(dolarEx,1,axis=0).reshape(euDataYears,1)
     
-    data[70,3:,"IEPG.Economic.Investments"]=da[0,:,0]
+    data[u"Unión Europea",3:,"IEPG.Economic.Investments"]=da[0,:,0]
 
     # EU IEPG Primary Goods, loads EU data into "data" for IEPG calculation
     primaryG = np.nansum(euVector.select(
@@ -144,7 +177,7 @@ def iepgEngine():
          "IEPG_EU.Economic.PSP",
          "IEPG_EU.Economic.NMG"]), axis=2)*dolarEx/1000
 
-    data[70,3:,"IEPG.Economic.PrimaryGoods"]=primaryG
+    data[u"Unión Europea",3:,"IEPG.Economic.PrimaryGoods"]=primaryG
 
     # EU IEPG Manufactures, loads EU data into "data" for IEPG calculation
     man = np.nansum(euVector.select(None,None,
@@ -160,15 +193,15 @@ def iepgEngine():
 
     man = man*np.array(dolarEx)/1000
 
-    data[70,3:,"IEPG.Economic.Manufactures"]=man
+    data[u"Unión Europea",3:,"IEPG.Economic.Manufactures"]=man
 
     # IEPG EU Troops & military equipment, Science, and Cooperation
-    data[70,3:,"IEPG.Military.Troops"] = np.nansum(euTable[:,:,"IEPG_EU.Military.Troops"], axis=0).flatten()
+    data[u"Unión Europea",3:,"IEPG.Military.Troops"] = np.nansum(euTable[:,:,"IEPG_EU.Military.Troops"], axis=0).flatten()
 
-    europeanIndices = [0,6,8,10,14,17,18,21,22,23,25,27,28,29,30,35,38,42,43,44,46,51,54,55,57,58,59,63]
-    bulgariaIndex = 3
-    croatiaIndex = 5
-    romaniaIndex = 26
+    # europeanIndices = [0,6,8,10,14,17,18,21,22,23,25,27,28,29,30,35,38,42,43,44,46,51,54,55,57,58,59,63]
+    # bulgariaIndex = 3
+    # croatiaIndex = 5
+    # romaniaIndex = 26
     variablesFromGlobal = ["IEPG.Military.Support.AircraftC",
                            "IEPG.Military.Support.Amphibius",
                            "IEPG.Military.Support.Frigates",
@@ -181,31 +214,30 @@ def iepgEngine():
                            "IEPG.Soft.DevelopmentC"]
 
     for x in variablesFromGlobal:
-        da = data.select(europeanIndices,["2005","2010","2011","2012","2013"],x)
-        da[(3,26),0,0] = np.nan
-        da[5,(0,1,2,3),0] = np.nan
-        da = np.nansum(da, axis=0).flatten()
-        data[70,3:,x] = da
+        da = data.getSubset(totalCountriesEu,euDataYearsStr,x)
+        da = clearMissingEuCountries(da, missingEuCountries)
+        da = np.nansum(da.data, axis=0).flatten()
+        data[u"Unión Europea",3:,x] = da
 
     # Inmigration
-    data[70,3:,"IEPG.Soft.Migrations"] = np.nansum(
+    data[u"Unión Europea",3:,"IEPG.Soft.Migrations"] = np.nansum(
         (euTable[:,:,"IEPG_EU.Soft.InmigrationTotal"] - \
          euTable[:,:,"IEPG_EU.Soft.InmigrationIntra"]), axis=0).flatten()
 
     # Tourism
-    data[70,3:,"IEPG.Soft.Tourism"] = np.nansum(
+    data[u"Unión Europea",3:,"IEPG.Soft.Tourism"] = np.nansum(
         euTable[:,:,"IEPG_EU.Soft.Tourism"], axis=0).flatten()/1000
 
     # Information
-    data[70,3:,"IEPG.Soft.Information"] = euVector[0,:,"IEPG_EU.Soft.Information"]
+    data[u"Unión Europea",3:,"IEPG.Soft.Information"] = euVector[0,:,"IEPG_EU.Soft.Information"]
 
     # Technology
-    data[70,3:,"IEPG.Soft.Technology"] = np.nansum(
+    data[u"Unión Europea",3:,"IEPG.Soft.Technology"] = np.nansum(
         (euTable[:,:,"IEPG_EU.Soft.TechnologyTotal"] - \
          euTable[:,:,"IEPG_EU.Soft.TechnologyIntra"]), axis=0).flatten()
 
     # Education
-    data[70,3:,"IEPG.Soft.Education"] = np.nansum(
+    data[u"Unión Europea",3:,"IEPG.Soft.Education"] = np.nansum(
         (euTable[:,:,"IEPG_EU.Soft.EducationTotal"] - \
          euTable[:,:,"IEPG_EU.Soft.EducationIntra"]), axis=0).flatten()
 
@@ -229,7 +261,7 @@ def iepgEngine():
 
     for i in normal:
         if i+"Est" in data.variable:
-            d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:70,refYear,i]), 
+            d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:euIndex,refYear,i]), 
                         data[:,:,i+"Est"])
         else:
             d = data[:,:,i]*1000.0/np.nanmax(data[:70,refYear,i])
@@ -242,11 +274,11 @@ def iepgEngine():
     medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
 
     sports = ((medals_fifa[0]/np.repeat( \
-                               np.nansum(data[:70,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
+                               np.nansum(data[:euIndex,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
                                shape[0], axis=0).reshape(shape[0],shape[1])* \
                10000*data[:,:,"IEPG.Soft.Support.Olimpics"].reshape(shape[0],shape[1]))+ \
               (medals_fifa[1]/np.repeat( \
-                            np.nansum(data[:70,:,"IEPG.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
+                            np.nansum(data[:euIndex,:,"IEPG.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
                                          shape[0], axis=0).reshape(shape[0],shape[1])* \
                    10000*data[:,:,"IEPG.Soft.Support.FIFAPoints"].reshape(shape[0],shape[1])))* \
                    np.repeat(np.array(linearCoef).reshape(1,shape[1]), shape[0], axis=0)
@@ -254,16 +286,15 @@ def iepgEngine():
     data.addVariable("IEPG.Soft.SportsCoef", data=sports)
 
     # This is the sum of coeficients for european countries to calculate the EU IEPG
-    euIepgSportsCoef = data.select(europeanIndices, ["2005","2010","2011","2012","2013"], "IEPG.Soft.SportsCoef")
-    euIepgSportsCoef[(3,26),0,0] = np.nan
-    euIepgSportsCoef[5,(0,1,2,3),0] = np.nan
-    euIepgSportsCoef = (np.nansum(euIepgSportsCoef, axis=0)*.7).flatten()
-    data[70,3:,"IEPG.Soft.SportsCoef"] = euIepgSportsCoef
+    euIepgSportsCoef = data.getSubset(totalCountriesEu, euDataYearsStr, "IEPG.Soft.SportsCoef")
+    euIepgSportsCoef = clearMissingEuCountries(euIepgSportsCoef, missingEuCountries)
+    euIepgSportsCoef = (np.nansum(euIepgSportsCoef.data, axis=0)*.7).flatten()
+    data[u"Unión Europea",3:,"IEPG.Soft.SportsCoef"] = euIepgSportsCoef
 
     # Final IEPG sports calculus
     data.addVariable("IEPG.Soft.Sports_IEPG", data=
                      data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
-                     np.nanmax(data[:70,refYear,"IEPG.Soft.SportsCoef"]))
+                     np.nanmax(data[:euIndex,refYear,"IEPG.Soft.SportsCoef"]))
 
     # Military equipment
     militaryEquipment = ['IEPG.Military.Support.AircraftC',
@@ -279,8 +310,8 @@ def iepgEngine():
     militaryCoefsEquip = []
 
     for i in militaryEquipment:
-        militaryCoefs.append(np.nansum(data[:70,refYear,tuple(militaryEquipment)])/ \
-                             np.nansum(data[:70,refYear,i]))
+        militaryCoefs.append(np.nansum(data[:euIndex,refYear,tuple(militaryEquipment)])/ \
+                             np.nansum(data[:euIndex,refYear,i]))
 
     militaryTotal = np.nansum(np.array(militaryCoefs))
 
@@ -582,32 +613,10 @@ def iepgEngine():
     data.addVariable("IEPE.Soft.DevelopmentC_IEPE", data=zeroes)
 
     # IEPE Sports calculus
-
-    import ipdb
-    ipdb.set_trace()
-    
-    # linearCoef = environment["SPORTS_LINEAR_COEFICIENT"]
-    # medals_fifa = environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
-
-    # sports = ((medals_fifa[0]/np.repeat( \
-    #                            np.nansum(data[:,:,"IEPE.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
-    #                            shape[0], axis=0).reshape(shape[0],shape[1])* \
-    #            10000*data[:,:,"IEPE.Soft.Support.Olimpics"].reshape(shape[0],shape[1]))+ \
-    #           (medals_fifa[1]/np.repeat( \
-    #                         np.nansum(data[:,:,"IEPE.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
-    #                                      shape[0], axis=0).reshape(shape[0],shape[1])* \
-    #                10000*data[:,:,"IEPE.Soft.Support.FIFAPoints"].reshape(shape[0],shape[1])))* \
-    #                np.repeat(np.array(linearCoef[3:]).reshape(1,shape[1]), shape[0], axis=0)
-
-    # data.addVariable("IEPE.Soft.SportsCoef", data=sports)
-    # data.addVariable("IEPE.Soft.Sports_IEPE", data=
-    #                  data[:,:,"IEPE.Soft.SportsCoef"]*1000.0/ \
-    #                  np.nanmax(data[:,refYear,"IEPE.Soft.SportsCoef"]))
-
-    data.addVariable("IEPE.Soft.Sports_IEPE", data= \
-                    iepgData.select(europeanIndices, ["2005","2010","2011","2012","2013"], \
-                    "IEPG.Soft.SportsCoef")*1000.0/np.nanmax(iepgData.select(europeanIndices, \
-                    refYear, "IEPG.Soft.SportsCoef")))
+    euIepgSportsCoef = iepgData.getSubset(totalCountriesEu, euDataYearsStr, "IEPG.Soft.SportsCoef")
+    euIepgSportsCoef = clearMissingEuCountries(euIepgSportsCoef, missingEuCountries)
+    euIepgSportsCoef = euIepgSportsCoef.data*1000.0/np.nanmax(iepgData.select(totalCountriesEu, refYear, "IEPG.Soft.SportsCoef"))
+    data.addVariable("IEPE.Soft.Sports_IEPE", data= euIepgSportsCoef)
     
     # Dimensions and Index
     cEconomic = environment["ECONOMIC_COEFICIENTS"]
@@ -842,8 +851,10 @@ def iepgEngine():
                      as_attachment=True))
 
 
+# Clears data for non present countries in EU for certain years 
+def clearMissingEuCountries(array, missingEuCountries):
+    for k,v in missingEuCountries.iteritems():
+        for i in v:
+            array[i, str(k), 0] = np.nan
 
-
-
-
-
+    return array

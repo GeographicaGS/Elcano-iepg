@@ -215,6 +215,7 @@ def iepgEngine():
 
     for x in variablesFromGlobal:
         da = data.getSubset(totalCountriesEu,euDataYearsStr,x)
+        da.sort()
         da = clearMissingEuCountries(da, missingEuCountries)
         da = np.nansum(da.data, axis=0).flatten()
         data[u"Unión Europea",3:,x] = da
@@ -287,6 +288,7 @@ def iepgEngine():
 
     # This is the sum of coeficients for european countries to calculate the EU IEPG
     euIepgSportsCoef = data.getSubset(totalCountriesEu, euDataYearsStr, "IEPG.Soft.SportsCoef")
+    euIepgSportsCoef.sort()
     euIepgSportsCoef = clearMissingEuCountries(euIepgSportsCoef, missingEuCountries)
     euIepgSportsCoef = (np.nansum(euIepgSportsCoef.data, axis=0)*.7).flatten()
     data[u"Unión Europea",3:,"IEPG.Soft.SportsCoef"] = euIepgSportsCoef
@@ -580,12 +582,14 @@ def iepgEngine():
                                                 "IEPE.Economic.AVO","IEPE.Economic.NFM","IEPE.Economic.PSP", \
                                                 "IEPE.Economic.NMG"]), axis=2)
     data.addVariable("IEPE.Economic.PrimaryGoods", data=primaryG)
-
+    data = clearMissingEuCountries(data, missingEuCountries, variable="IEPE.Economic.PrimaryGoods")
+    
     # Manufactures
     man = np.nansum(data.select(None,None,["IEPE.Economic.CHM", "IEPE.Economic.ManufacturesPre", \
                                            "IEPE.Economic.Machinery", "IEPE.Economic.MMA"]), axis=2) - \
           np.nansum(data.select(None,None,["IEPE.Economic.NFM","IEPE.Economic.PSP"]), axis=2)
     data.addVariable("IEPE.Economic.Manufactures", data=man)
+    data = clearMissingEuCountries(data, missingEuCountries, variable="IEPE.Economic.Manufactures")
 
     # Normal calculus
     normal = ["IEPE.Economic.Energy",
@@ -605,6 +609,7 @@ def iepgEngine():
     for i in normal:
         d = data[:,:,i]*1000.0/np.nanmax(data[:,refYear,i])
         data.addVariable(i+"_IEPE", data=d)
+        data = clearMissingEuCountries(data, missingEuCountries, variable=i+"_IEPE")
 
     # Dummy zero military equipment, troops, and development cooperation
     zeroes = np.zeros((shape[0],shape[1]))
@@ -614,9 +619,11 @@ def iepgEngine():
 
     # IEPE Sports calculus
     euIepgSportsCoef = iepgData.getSubset(totalCountriesEu, euDataYearsStr, "IEPG.Soft.SportsCoef")
+    euIepgSportsCoef.sort()
     euIepgSportsCoef = clearMissingEuCountries(euIepgSportsCoef, missingEuCountries)
-    euIepgSportsCoef = euIepgSportsCoef.data*1000.0/np.nanmax(iepgData.select(totalCountriesEu, refYear, "IEPG.Soft.SportsCoef"))
-    data.addVariable("IEPE.Soft.Sports_IEPE", data= euIepgSportsCoef)
+    euIepgSportsCoef = euIepgSportsCoef.data*1000.0/np.nanmax(euIepgSportsCoef.select(None, refYear, 0))
+    data.addVariable("IEPE.Soft.Sports_IEPE", data=euIepgSportsCoef)
+    data = clearMissingEuCountries(data, missingEuCountries, variable="IEPE.Soft.Sports_IEPE")
     
     # Dimensions and Index
     cEconomic = environment["ECONOMIC_COEFICIENTS"]
@@ -633,6 +640,7 @@ def iepgEngine():
         a+=data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"].reshape(shape[0],shape[1])*cEconomic[i]
     
     data.addVariable("IEPE.Global.Economic", data=a/100.0)
+    data = clearMissingEuCountries(data, missingEuCountries, variable="IEPE.Global.Economic")
 
     a = np.zeros((shape[0],shape[1]))
     for i in range(0, len(cMilitary)):
@@ -645,10 +653,12 @@ def iepgEngine():
         a+=data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"].reshape(shape[0],shape[1])*cSoft[i]
     
     data.addVariable("IEPE.Global.Soft", data=a/100.0)
+    data = clearMissingEuCountries(data, missingEuCountries, variable="IEPE.Global.Soft")
 
     data.addVariable("IEPE.Global.IEPE", data=(data[:,:,"IEPE.Global.Economic"]*cIndex[0]+
                                                data[:,:,"IEPE.Global.Military"]*cIndex[1]+
                                                data[:,:,"IEPE.Global.Soft"]*cIndex[2])/100.0)
+    data = clearMissingEuCountries(data, missingEuCountries, variable="IEPE.Global.IEPE")
 
     # Quota
     variable = [
@@ -852,9 +862,9 @@ def iepgEngine():
 
 
 # Clears data for non present countries in EU for certain years 
-def clearMissingEuCountries(array, missingEuCountries):
+def clearMissingEuCountries(array, missingEuCountries, variable=0):
     for k,v in missingEuCountries.iteritems():
         for i in v:
-            array[i, str(k), 0] = np.nan
+            array[i, str(k), variable] = np.nan
 
     return array

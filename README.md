@@ -59,11 +59,15 @@ __05-database-drop.sql__:
     psql -h localhost -p 5454 -U postgres postgres -c "\i 05-database-drop.sql"
     &> out
 
-# Carga de datos en Redis
+# Carga de nuevos datos en la aplicación
 
 La aplicación funciona cargando datos desde la PostgreSQL en una Redis. Para
 refrescar los datos Redis desde la PostgreSQL, utilizar el script
 _www-srv/src/datacache.py_.
+
+En la Redis se cargan los datos en formato Pickle de Python. Hacer una búsqueda
+en __www-srv__ de la marca de comentario __@@@__ para encontrar todas aquellas
+variables que hay que cambiar para añadir un nuevo año a la aplicación.
 
 ### Entorno de desarrollo de servicios
 

@@ -37,6 +37,7 @@ def createCache():
         "iepg_relative_contribution": "iepg_relative_contribution"
     }
 
+    # @@@ To be edited to add new years to the application
     years = {
         "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
         "iepe": [2005, 2010, 2011, 2012, 2013],

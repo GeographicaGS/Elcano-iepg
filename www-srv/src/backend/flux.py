@@ -31,9 +31,13 @@ def iepgEngine():
     else:
         return jsonify({"Error": "Bad file."})
 
+    # import pudb
+    # pudb.set_trace()
+   
     # Start the calculus
     book = excel_utils.ExcelReader(os.path.join(backend["tmpFolder"], filename+".xlsx"), 
                                    decimalSeparator=",")
+
 
     environment = dict()
     variables = dict()
@@ -44,7 +48,7 @@ def iepgEngine():
     environmentEx,lastRowEnv = book.rowReader("Metadata", startCell=(1,0), endMark="")
     variablesEx,lastRowVar = book.rowReader("Metadata", startCell=(lastRowEnv+1,0), startMark="Filiation")
 
-    environmentEx.pop(len(environmentEx)-1)
+    environmentEx.pop(len(environmentEx)-1) 
     variablesEx.pop(0)
 
     # Read configuration variables
@@ -64,6 +68,8 @@ def iepgEngine():
                                        ast.literal_eval(i[2].value) if i[2].value!="" else None,
                                        ast.literal_eval(i[3].value) if i[3].value!="" else None,
                                        ast.literal_eval(i[6].value) if i[6].value!="" else None))
+
+
 
     # Process EUROPEAN_UNION environment variable to find missing countries in each year
     totalCountriesEu = []
@@ -102,6 +108,7 @@ def iepgEngine():
         [missing.append(data.geoentity.index(i)) for i in v]
         missingEuCountriesIdx[euDataYearsIdx[t]] = missing
         t+=1
+
         
     # Prepare and add data for EU
     data.addGeoentity(u"Unión Europea")
@@ -145,6 +152,11 @@ def iepgEngine():
                          None,
                          "IEPG_EU.Economic.Energy"
                      )*np.repeat(dolarEx,1,axis=0).reshape(euDataYears,1)/1000
+
+    #print da
+    #print da.shape
+    #print da[0,:,0]
+
     data[u"Unión Europea",3:,"IEPG.Economic.Energy"]=da[0,:,0]
 
     # EU IEPG Culture, loads EU data into "data" for IEPG calculation
@@ -166,6 +178,7 @@ def iepgEngine():
     data[u"Unión Europea",3:,"IEPG.Economic.Investments"]=da[0,:,0]
 
     # EU IEPG Primary Goods, loads EU data into "data" for IEPG calculation
+
     primaryG = np.nansum(euVector.select(
         None,
         None,
@@ -194,6 +207,7 @@ def iepgEngine():
     man = man*np.array(dolarEx)/1000
 
     data[u"Unión Europea",3:,"IEPG.Economic.Manufactures"]=man
+
 
     # IEPG EU Troops & military equipment, Science, and Cooperation
     data[u"Unión Europea",3:,"IEPG.Military.Troops"] = np.nansum(euTable[:,:,"IEPG_EU.Military.Troops"], axis=0).flatten()
@@ -242,6 +256,7 @@ def iepgEngine():
         (euTable[:,:,"IEPG_EU.Soft.EducationTotal"] - \
          euTable[:,:,"IEPG_EU.Soft.EducationIntra"]), axis=0).flatten()
 
+
     shape = data.shape
 
     # Normal calculus
@@ -265,7 +280,7 @@ def iepgEngine():
             d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:euIndex,refYear,i]), 
                         data[:,:,i+"Est"])
         else:
-            d = data[:,:,i]*1000.0/np.nanmax(data[:70,refYear,i])
+            d = data[:,:,i]*1000.0/np.nanmax(data[:euIndex,refYear,i])
 
         data.addVariable(i+"_IEPG", data=d)
 
@@ -290,13 +305,29 @@ def iepgEngine():
     euIepgSportsCoef = data.getSubset(totalCountriesEu, euDataYearsStr, "IEPG.Soft.SportsCoef")
     euIepgSportsCoef.sort()
     euIepgSportsCoef = clearMissingEuCountries(euIepgSportsCoef, missingEuCountries)
+    #print np.nansum(euIepgSportsCoef.data, axis=0)*0.7
     euIepgSportsCoef = (np.nansum(euIepgSportsCoef.data, axis=0)*.7).flatten()
     data[u"Unión Europea",3:,"IEPG.Soft.SportsCoef"] = euIepgSportsCoef
 
+    #print data.select(data.geoentity.index(u"Estados Unidos de América"),"2010","IEPG.Soft.SportsCoef")
+    #print np.nanmax(data[:euIndex,refYear,"IEPG.Soft.SportsCoef"])
+    
     # Final IEPG sports calculus
     data.addVariable("IEPG.Soft.Sports_IEPG", data=
                      data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
                      np.nanmax(data[:euIndex,refYear,"IEPG.Soft.SportsCoef"]))
+
+    # print np.nanmax(data[:euIndex,refYear,"IEPG.Soft.SportsCoef"])
+
+    # euIepgSportsCoef.sort()
+    # euIepgSportsCoef = clearMissingEuCountries(euIepgSportsCoef, missingEuCountries)
+    # test = np.nansum(euIepgSportsCoef.data,axis=0)
+    
+    # euIepgSportsCoef = (np.nansum(euIepgSportsCoef.data, axis=0)*.7).flatten()
+    # euIepgSportsCoef = euIepgSportsCoef * 1000.0 /  np.nanmax(data[:euIndex,refYear,"IEPG.Soft.Sports_IEPG"])
+    
+    # data[u"Unión Europea",3:,"IEPG.Soft.Sports_IEPG"] = euIepgSportsCoef
+
 
     # Military equipment
     militaryEquipment = ['IEPG.Military.Support.AircraftC',
@@ -385,51 +416,135 @@ def iepgEngine():
         'IEPG.Global.Soft',
         'IEPG.Global.IEPG']
 
+    
     for i in variable:
+        
         a = data[:,:,i].reshape(shape[0],shape[1])/ \
-            (np.repeat(np.nansum(data[:,:,i], axis=0).reshape(1,shape[1]), shape[0], axis=0))
+            (np.repeat(np.nansum(data[:euIndex,:,i], axis=0).reshape(1,shape[1]), shape[0], axis=0))
+
+        # Copy array 
+        euData = data[:,:,i].reshape(shape[0],shape[1]).copy()
+        
+        # set UE countries data to NAN. Improve that with a better numpy solution.
+        timeIdx = 3
+        for year in environment["EUROPEAN_UNION"]:
+            geoentityIdx = [data.geoentity.index(x) for x in environment["EUROPEAN_UNION"][year]]
+            euData[geoentityIdx,timeIdx] = np.nan
+            timeIdx += 1
+        
+        b = euData / \
+            (np.repeat(np.nansum(euData[:euIndex], axis=0).reshape(1,shape[1]), shape[0], axis=0))
+
+        a[euIndex,3:] = b[euIndex,3:]
 
         data.addVariable(i+"_QUOTE", data=a)
 
+
     # Contributions
-    cPresenceEconomic = []
-    cPresenceMilitary = []
-    cPresenceSoft = []
 
-    for i in range(0, len(cEconomic)):
-        cPresenceEconomic.append(cEconomic[i]*cIndex[0]/10000.0)
 
-    for i in range(0, len(cMilitary)):
-        cPresenceMilitary.append(cMilitary[i]*cIndex[1]/10000.0)
+    if not "CONTRIBUTIONS_METHOD" in environment or \
+        environment["CONTRIBUTIONS_METHOD"]!="GLOBAL_COEFICIENTS":
 
-    for i in range(0, len(cSoft)):
-        cPresenceSoft.append(cSoft[i]*cIndex[2]/10000.0)
+        cPresenceEconomic = []
+        cPresenceMilitary = []
+        cPresenceSoft = []
 
-    pcdEconomic = 0
-    pcdMilitary = 0
-    pcdSoft = 0
-    for i in range(0, len(vEconomic)):
-        pcdEconomic+=np.nansum(data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"])*cPresenceEconomic[i]
+        for i in range(0, len(cEconomic)):
+            cPresenceEconomic.append(cEconomic[i]*cIndex[0]/10000.0)
 
-    for i in range(0, len(vMilitary)):
-        pcdMilitary+=np.nansum(data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"])*cPresenceMilitary[i]
+        for i in range(0, len(cMilitary)):
+            cPresenceMilitary.append(cMilitary[i]*cIndex[1]/10000.0)
 
-    for i in range(0, len(vSoft)):
-        pcdSoft+=np.nansum(data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"])*cPresenceSoft[i]
+        for i in range(0, len(cSoft)):
+            cPresenceSoft.append(cSoft[i]*cIndex[2]/10000.0)
 
-    tci = pcdEconomic+pcdMilitary+pcdSoft
 
-    for i in range(0, len(vEconomic)):
-        a = data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"]*cEconomic[i]/tci
-        data.addVariable("IEPG.Economic."+vEconomic[i]+"_CON", data=a)
+        pcdEconomic = 0
+        pcdMilitary = 0
+        pcdSoft = 0
+        for i in range(0, len(vEconomic)):
+            pcdEconomic+=np.nansum(data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"])*cPresenceEconomic[i]
 
-    for i in range(0, len(vMilitary)):
-        a = data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"]*cMilitary[i]/tci
-        data.addVariable("IEPG.Military."+vMilitary[i]+"_CON", data=a)
+        for i in range(0, len(vMilitary)):
+            pcdMilitary+=np.nansum(data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"])*cPresenceMilitary[i]
 
-    for i in range(0, len(vSoft)):
-        a = data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"]*cSoft[i]/tci
-        data.addVariable("IEPG.Soft."+vSoft[i]+"_CON", data=a)
+        for i in range(0, len(vSoft)):
+            pcdSoft+=np.nansum(data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"])*cPresenceSoft[i]
+
+        tci = pcdEconomic+pcdMilitary+pcdSoft
+
+        for i in range(0, len(vEconomic)):
+            a = data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"]*cEconomic[i]/tci
+            data.addVariable("IEPG.Economic."+vEconomic[i]+"_CON", data=a)
+
+        for i in range(0, len(vMilitary)):
+            a = data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"]*cMilitary[i]/tci
+            data.addVariable("IEPG.Military."+vMilitary[i]+"_CON", data=a)
+
+        for i in range(0, len(vSoft)):
+            a = data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"]*cSoft[i]/tci
+            data.addVariable("IEPG.Soft."+vSoft[i]+"_CON", data=a)
+
+        eco_con = np.zeros((shape[0],shape[1],1))
+        mil_con = np.zeros((shape[0],shape[1],1))
+        soft_con = np.zeros((shape[0],shape[1],1))
+
+        data.addVariable("IEPG.Global.Economic_CON", data=eco_con)
+        data.addVariable("IEPG.Global.Military_CON", data=mil_con)
+        data.addVariable("IEPG.Global.Soft_CON", data=soft_con)
+    
+    else:
+
+        economicGlobalCoeficients = environment["ECONOMIC_GLOBAL_COEFICIENTS"]
+        militaryGlobalCoeficients = environment["MILITARY_GLOBAL_COEFICIENTS"]
+        softGlobalCoeficients = environment["SOFT_GLOBAL_COEFICIENTS"]
+
+        total_contributions = np.zeros((shape[0],shape[1]))
+
+        for i in range(0, len(vEconomic)):
+            total_contributions += data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"].reshape(shape[0],shape[1])*economicGlobalCoeficients[i]
+            
+        for i in range(0, len(vMilitary)):
+            total_contributions += data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"].reshape(shape[0],shape[1])*militaryGlobalCoeficients[i]
+
+        for i in range(0, len(vSoft)):
+            total_contributions += data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"].reshape(shape[0],shape[1])*softGlobalCoeficients[i]
+   
+        total_contributions = total_contributions.reshape(shape[0],shape[1],1)
+
+        # calculate variables contributions
+
+        for i in range(0, len(vEconomic)):
+            a = data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"]*economicGlobalCoeficients[i]/total_contributions
+            data.addVariable("IEPG.Economic."+vEconomic[i]+"_CON", data=a)
+
+        for i in range(0, len(vMilitary)):
+            a = data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"]*militaryGlobalCoeficients[i]/total_contributions
+            data.addVariable("IEPG.Military."+vMilitary[i]+"_CON", data=a)
+
+        for i in range(0, len(vSoft)):
+            a = data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"]*softGlobalCoeficients[i]/total_contributions
+            data.addVariable("IEPG.Soft."+vSoft[i]+"_CON", data=a)
+
+        # calculate dimension contributions
+        eco_con = np.zeros((shape[0],shape[1],1))
+        for i in range(0, len(vEconomic)):
+            eco_con += data[:,:,"IEPG.Economic."+vEconomic[i]+"_CON"]
+
+        mil_con = np.zeros((shape[0],shape[1],1))
+        for i in range(0, len(vMilitary)):  
+            mil_con += data[:,:,"IEPG.Military."+vMilitary[i]+"_CON"]
+            
+        soft_con = np.zeros((shape[0],shape[1],1))
+        for i in range(0, len(vSoft)):  
+            soft_con += data[:,:,"IEPG.Soft."+vSoft[i]+"_CON"]
+
+        data.addVariable("IEPG.Global.Economic_CON", data=eco_con)
+        data.addVariable("IEPG.Global.Military_CON", data=mil_con)
+        data.addVariable("IEPG.Global.Soft_CON", data=soft_con)
+
+        #print "yeah"
         
     outFileName = os.path.join(backend["tmpFolder"],
                                hashlib.md5(str(time.time())+session["email"]+"outputIEPGEngine").hexdigest()+ \
@@ -492,7 +607,10 @@ def iepgEngine():
                                                       'IEPG.Soft.Technology_CON',
                                                       'IEPG.Soft.Science_CON',
                                                       'IEPG.Soft.Education_CON',
-                                                      'IEPG.Soft.DevelopmentC_CON'],
+                                                      'IEPG.Soft.DevelopmentC_CON',
+                                                      'IEPG.Global.Economic_CON',
+                                                      'IEPG.Global.Military_CON',
+                                                      'IEPG.Global.Soft_CON'],
                                       sheetName=['Energy IEPG',
                                                  'Primary Goods IEPG',
                                                  'Manufactures IEPG',
@@ -548,7 +666,10 @@ def iepgEngine():
                                                  'Technology IEPG CONTRIBUTION',
                                                  'Science IEPG CONTRIBUTION',
                                                  'Education IEPG CONTRIBUTION',
-                                                 'Devel. C. IEPG CONTRIBUTION'])
+                                                 'Devel. C. IEPG CONTRIBUTION',
+                                                 'Economic IEPG CONTRIBUTION',
+                                                 'Military IEPG CONTRIBUTION',
+                                                 'Soft IEPG CONTRIBUTION',])
 
     ew.addStyle("header", {
         "bg_color": "#08608C",

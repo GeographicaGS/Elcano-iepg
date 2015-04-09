@@ -295,3 +295,12 @@ class IepgDataModel(PostgreSQLModel):
         """
 
         return(self.query(sql).row()["iepg_codes"])
+
+    def getCountryIso2ByName(self,countryName,lang):
+        
+        sql = "SELECT iso_3166_1_2_code as code from iepg_data_redux.master_country \
+                WHERE short_name_{}1=%s".format(lang)
+
+        row = self.query(sql,[countryName.encode('UTF-8')]).row()
+
+        return row["code"] if row else None

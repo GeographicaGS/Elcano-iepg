@@ -29,25 +29,25 @@ def createCache():
         "iepg": "iepg_data",
         "iepe": "iepe_data",
         "context": "pob_pib",
-        "iepe_individual_contribution": "iepe_individual_contribution",
+        #"iepe_individual_contribution": "iepe_individual_contribution",
         "iepe_quota": "iepe_quota",
         "iepe_relative_contribution": "iepe_relative_contribution",
-        "iepg_individual_contribution": "iepg_individual_contribution",
+        #"iepg_individual_contribution": "iepg_individual_contribution",
         "iepg_quota": "iepg_quota",
         "iepg_relative_contribution": "iepg_relative_contribution"
     }
 
-    # @@@ To be edited to add new years to the application
+    # @@@YEARS To be edited to add new years to the application
     years = {
-        "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
-        "iepe": [2005, 2010, 2011, 2012, 2013],
-        "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
-        "iepe_individual_contribution": [2005, 2010, 2011, 2012, 2013],
+        "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014],
+        "iepe": [2005, 2010, 2011, 2012, 2013,2014],
+        "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014],
+        #"iepe_individual_contribution": [2005, 2010, 2011, 2012, 2013],
         "iepe_quota": [2005, 2010, 2011, 2012, 2013],
-        "iepe_relative_contribution": [2005, 2010, 2011, 2012, 2013],
-        "iepg_individual_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
-        "iepg_quota": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
-        "iepg_relative_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013]
+        "iepe_relative_contribution": [2005, 2010, 2011, 2012, 2013,2014],
+        #"iepg_individual_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
+        "iepg_quota": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014],
+        "iepg_relative_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014]
     }
 
     blockFunctions = {
@@ -109,6 +109,7 @@ def createCache():
                 ds.variables[c].addValue(b, y, "float", data)
     
     for dsKey in dataSets:
+        print dsKey
         mc.set(dsKey, dataSets[dsKey], 0)
     return(dataSets)
 

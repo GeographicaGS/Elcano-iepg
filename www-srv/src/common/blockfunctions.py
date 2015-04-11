@@ -14,6 +14,8 @@ def blockFunctionLumpSum(data, context=None):
     sum of the values. Returns an integer which is the lump sum."""
     s = 0
     values = False
+    # print data["code"]
+    # print maplex.getBlockMembers(data["code"], year=data["year"], idNameFamily=1)
     for i in maplex.getBlockMembers(data["code"], year=data["year"], idNameFamily=1):
         v = context.getData(code=i["id_geoentity_child"], year=data["year"]).values()[0]["value"]
         if v is not None:

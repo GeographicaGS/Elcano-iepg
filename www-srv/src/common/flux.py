@@ -5,6 +5,7 @@ import ast
 import numpy as np
 from model.fluxmodel import FluxModel
 from model.iepgdatamodel import IepgDataModel
+from maplex.maplexmodel import MaplexModel
 
 class Flux(object):
 
@@ -1007,26 +1008,49 @@ class Flux(object):
         data = geovariablearray.select(country,time,variable)[0,0,0]
         return data if not np.isnan(data) else None
 
-    def __getCountryCodeByCountryName(self,countryName,iepgDataModel=None):
-        if not iepgDataModel:
-            iepgDataModel = IepgDataModel()
+    def __aaa(self):
 
-        if countryName==u"Kazajistán":
-            countrycode = iepgDataModel.getCountryIso2ByName(u"Kazajstán","es")
-        elif countryName==u"Unión Europea":
-            countrycode = "XBEU"
+
+        geoentity = mm.getIdGeoentityByName(countryname,2)
+        if not geoentity:
+            raise Exception('Not found geoentity for ' + countryname)
+
+        geoentity_id = geoentity[0]["id_geoentity"]
+        
+        geoentity_names = mm.getGeoentityNames(geoentity_id,1)
+        if not geoentity_names:
+            raise Exception('Not found geoentity code name for ' + countryname)            
+
+        geoentity_code = geoentity_names[0]["names"][0]
+
+    def __getCountryCodeByCountryName(self,countryName,maplexModel=None):
+        if not maplexModel:
+            maplexModel = MaplexModel()
+
+        # if countryName==u"Kazajistán":
+        #     return self.__getCountryCodeByCountryName(u"Kazajstán",maplexModel)
+        # el
+        if countryName==u"Unión Europea":
+            return "XBEU"
         else:
-            countrycode = iepgDataModel.getCountryIso2ByName(countryName,"es")
+            geoentity = maplexModel.getIdGeoentityByName(countryName,3)
+            if not geoentity:
+                raise Exception('Not found geoentity for ' + countryName)
 
-        if not countrycode:
-            raise Exception("Not found countrycode for country: " + countryName)
+            geoentity_id = geoentity[0]["id_geoentity"]
+            
+            geoentity_names = maplexModel.getGeoentityNames(geoentity_id,1)
+            if not geoentity_names:
+                raise Exception('Not found geoentity code name for ' + countryName)            
 
-        return countrycode
+            return geoentity_names[0]["names"][0]
+        
 
     def __writeToDatabase(self):
 
         fm = FluxModel()
-        im = IepgDataModel()
+        #im = IepgDataModel()
+        mm = MaplexModel()
 
         fm.prepareSchemaIEPGDataRedux()
 
@@ -1035,8 +1059,8 @@ class Flux(object):
         datadb = []
         for countryname in self.__IEPGData.geoentity:
 
-            countrycode = self.__getCountryCodeByCountryName(countryname,im)
-
+            countrycode = self.__getCountryCodeByCountryName(countryname,mm)
+            
             for idx in range(0, len(self.__IEPGData.time)):
                 year = str(self.__IEPGData.time[idx].start.year)
                 el = {
@@ -1077,7 +1101,7 @@ class Flux(object):
         datadb = []
         for countryname in self.__IEPEData.geoentity:
             
-            countrycode = self.__getCountryCodeByCountryName(countryname,im)
+            countrycode = self.__getCountryCodeByCountryName(countryname,mm)
 
             for idx in range(0, len(self.__IEPEData.time)):
                 year = str(self.__IEPEData.time[idx].start.year)
@@ -1117,7 +1141,7 @@ class Flux(object):
         datadb = []
         for countryname in self.__IEPGData.geoentity:
             
-            countrycode = self.__getCountryCodeByCountryName(countryname,im)
+            countrycode = self.__getCountryCodeByCountryName(countryname,mm)
 
             for idx in range(0, len(self.__IEPGData.time)):
                 year = str(self.__IEPGData.time[idx].start.year)
@@ -1141,10 +1165,7 @@ class Flux(object):
         datadb = []
         for countryname in self.__IEPEData.geoentity:
             
-            countrycode = im.getCountryIso2ByName(countryname,"es")
-            
-            if not countrycode:
-                print repr(countryname)
+            countrycode = self.__getCountryCodeByCountryName(countryname,mm)
 
             for idx in range(0, len(self.__IEPEData.time)):
                 year = str(self.__IEPEData.time[idx].start.year)
@@ -1166,7 +1187,7 @@ class Flux(object):
         print "Adding IEPG contributions"
         datadb = []
         for countryname in self.__IEPGData.geoentity:
-            countrycode = self.__getCountryCodeByCountryName(countryname,im)
+            countrycode = self.__getCountryCodeByCountryName(countryname,mm)
 
             for idx in range(0, len(self.__IEPGData.time)):
                 year = str(self.__IEPGData.time[idx].start.year)
@@ -1206,7 +1227,7 @@ class Flux(object):
         datadb = []
         for countryname in self.__IEPEData.geoentity:
 
-            countrycode = self.__getCountryCodeByCountryName(countryname,im)
+            countrycode = self.__getCountryCodeByCountryName(countryname,mm)
 
             for idx in range(0, len(self.__IEPEData.time)):
                 year = str(self.__IEPEData.time[idx].start.year)

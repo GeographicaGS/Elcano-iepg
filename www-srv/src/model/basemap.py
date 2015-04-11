@@ -16,16 +16,19 @@ class GeometryData(PostgreSQLModel):
         """Returns the GeoJSON country data coupled with some context data.
         Returns a dictionary."""
         a = """
-        select
-        iso_3166_1_2_code as iso_3166_1_2_code,
-        english_long as name_en,
-        spanish_long as name_es,
-        english_short as name_en_s,
-        spanish_short as name_es_s,
-        geojson
-        from
-        maplex.vw__iepg_country_data
-        order by iso_3166_1_2_code;
+        SELECT st_asgeojson(geom.geom) as geojson,n.name as code,
+            mc.full_name_es as name_es,mc.full_name_en as name_en,
+            mc.short_name_es1 as name_en_s,
+            mc.short_name_en1 as name_es_s
+            FROM maplex.geoentity g
+            INNER JOIN maplex.geoentity_geometry gg ON gg.id_geoentity=g.id_geoentity
+            INNER JOIN maplex.geometry geom ON gg.id_geometry=geom.id_geometry
+            INNER JOIN maplex.geoentity_name gn ON gn.id_geoentity = g.id_geoentity
+            INNER JOIN maplex.name n ON n.id_name = gn.id_name
+            INNER JOIN iepg_data_redux.master_country mc ON mc.iso_3166_1_2_code=n.name
+
+            WHERE gn.id_name_family=1
+ 
         """
 
-        return(self.query(a).result())
+        return self.query(a).result()

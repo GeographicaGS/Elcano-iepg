@@ -11,7 +11,7 @@ from common.helpers import baseMapData
 import json
 from model import iepgdatamodel
 from common.errorhandling import ElcanoApiRestError
-from common.const import variables, years, blocks
+from common.const import variables, years
 import common.datacache as dc
 from collections import OrderedDict
 

@@ -59,7 +59,7 @@ Insert the new PIB and the new population for the new countries. For more info c
 
 - Update the blocks.json with the content of the service /api/blocks
 - Update countries.geojson with the content of the service /api/mapgeojson
-- Add new year to src/explora/config.gs
+- Add new year to src/explora/config.js and src/frontend/config.js
 
 
 

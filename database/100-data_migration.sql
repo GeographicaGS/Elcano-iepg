@@ -1,7 +1,7 @@
 ALTER SCHEMA engine RENAME TO engine_deprecated;
 ALTER SCHEMA iepg_data RENAME TO iepg_data_deprecated;
 ALTER SCHEMA store RENAME TO store_deprecated;
-ALTER SCHEMA varengine RENAME TO store_deprecated;
+ALTER SCHEMA varengine RENAME TO varengine_deprecated;
 
 ALTER TABLE iepg_data_redux.iepg_individual_contribution RENAME TO iepg_individual_contribution_deprecated;
 ALTER TABLE iepg_data_redux.iepe_individual_contribution RENAME TO iepe_individual_contribution_deprecated;

@@ -38,6 +38,10 @@ class Flux(object):
         self.__calculateIEPG()
         self.__calculateIEPE()
         self.__writeToDatabase()
+
+    def calculusFromXLSXToWholeApplication(self,infilename):
+        self.calculusFromXLSXToDatabase(infilename)
+        self.updateRedisCache()
     
     def __createBookFromXLSX(self,filename):
         # Start the calculus
@@ -448,6 +452,8 @@ class Flux(object):
 
             a[euIndex,3:] = b[euIndex,3:]
 
+            a *= 100
+
             data.addVariable(i+"_QUOTE", data=a)
 
 
@@ -485,26 +491,28 @@ class Flux(object):
 
             for i in range(0, len(vEconomic)):
                 a = data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"]*cEconomic[i]/tci
+                a *= 100
                 data.addVariable("IEPG.Economic."+vEconomic[i]+"_CON", data=a)
 
             for i in range(0, len(vMilitary)):
                 a = data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"]*cMilitary[i]/tci
+                a *= 100
                 data.addVariable("IEPG.Military."+vMilitary[i]+"_CON", data=a)
 
             for i in range(0, len(vSoft)):
                 a = data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"]*cSoft[i]/tci
+                a *= 100
                 data.addVariable("IEPG.Soft."+vSoft[i]+"_CON", data=a)
 
-            eco_con = np.zeros((shape[0],shape[1],1))
-            mil_con = np.zeros((shape[0],shape[1],1))
-            soft_con = np.zeros((shape[0],shape[1],1))
+            eco_con = np.zeros((shape[0],shape[1],1)) * 100
+            mil_con = np.zeros((shape[0],shape[1],1)) * 100
+            soft_con = np.zeros((shape[0],shape[1],1)) * 100
 
             data.addVariable("IEPG.Global.Economic_CON", data=eco_con)
             data.addVariable("IEPG.Global.Military_CON", data=mil_con)
             data.addVariable("IEPG.Global.Soft_CON", data=soft_con)
         
         else:
-
             economicGlobalCoeficients = self.__environment["ECONOMIC_GLOBAL_COEFICIENTS"]
             militaryGlobalCoeficients = self.__environment["MILITARY_GLOBAL_COEFICIENTS"]
             softGlobalCoeficients = self.__environment["SOFT_GLOBAL_COEFICIENTS"]
@@ -526,14 +534,17 @@ class Flux(object):
 
             for i in range(0, len(vEconomic)):
                 a = data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"]*economicGlobalCoeficients[i]/total_contributions
+                a *= 100
                 data.addVariable("IEPG.Economic."+vEconomic[i]+"_CON", data=a)
 
             for i in range(0, len(vMilitary)):
                 a = data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"]*militaryGlobalCoeficients[i]/total_contributions
+                a *= 100
                 data.addVariable("IEPG.Military."+vMilitary[i]+"_CON", data=a)
 
             for i in range(0, len(vSoft)):
                 a = data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"]*softGlobalCoeficients[i]/total_contributions
+                a *= 100
                 data.addVariable("IEPG.Soft."+vSoft[i]+"_CON", data=a)
 
             # calculate dimension contributions
@@ -685,47 +696,109 @@ class Flux(object):
             a = data[:,:,i].reshape(shape[0],shape[1])/ \
                 (np.repeat(np.nansum(data[:,:,i], axis=0).reshape(1,shape[1]), shape[0], axis=0))
 
+            a *= 100
+
             data.addVariable(i+"_QUOTE", data=a)
 
-        # Contributions
-        cPresenceEconomic = []
-        cPresenceMilitary = []
-        cPresenceSoft = []
+         # Contributions
 
-        for i in range(0, len(cEconomic)):
-            cPresenceEconomic.append(cEconomic[i]*cIndex[0]/10000.0)
+        if not "CONTRIBUTIONS_METHOD" in self.__environment or \
+            self.__environment["CONTRIBUTIONS_METHOD"]!="GLOBAL_COEFICIENTS":
+       
+            cPresenceEconomic = []
+            cPresenceMilitary = []
+            cPresenceSoft = []
 
-        for i in range(0, len(cMilitary)):
-            cPresenceMilitary.append(cMilitary[i]*cIndex[1]/10000.0)
+            for i in range(0, len(cEconomic)):
+                cPresenceEconomic.append(cEconomic[i]*cIndex[0]/10000.0)
 
-        for i in range(0, len(cSoft)):
-            cPresenceSoft.append(cSoft[i]*cIndex[2]/10000.0)
+            for i in range(0, len(cMilitary)):
+                cPresenceMilitary.append(cMilitary[i]*cIndex[1]/10000.0)
 
-        pcdEconomic = 0
-        pcdMilitary = 0
-        pcdSoft = 0
-        for i in range(0, len(vEconomic)):
-            pcdEconomic+=np.nansum(data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"])*cPresenceEconomic[i]
+            for i in range(0, len(cSoft)):
+                cPresenceSoft.append(cSoft[i]*cIndex[2]/10000.0)
 
-        for i in range(0, len(vMilitary)):
-            pcdMilitary+=np.nansum(data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"])*cPresenceMilitary[i]
+            pcdEconomic = 0
+            pcdMilitary = 0
+            pcdSoft = 0
+            for i in range(0, len(vEconomic)):
+                pcdEconomic+=np.nansum(data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"])*cPresenceEconomic[i]
 
-        for i in range(0, len(vSoft)):
-            pcdSoft+=np.nansum(data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"])*cPresenceSoft[i]
+            for i in range(0, len(vMilitary)):
+                pcdMilitary+=np.nansum(data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"])*cPresenceMilitary[i]
 
-        tci = pcdEconomic+pcdMilitary+pcdSoft
+            for i in range(0, len(vSoft)):
+                pcdSoft+=np.nansum(data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"])*cPresenceSoft[i]
 
-        for i in range(0, len(vEconomic)):
-            a = data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"]*cEconomic[i]/tci
-            data.addVariable("IEPE.Economic."+vEconomic[i]+"_CON", data=a)
+            tci = pcdEconomic+pcdMilitary+pcdSoft
 
-        for i in range(0, len(vMilitary)):
-            a = data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"]*cMilitary[i]/tci
-            data.addVariable("IEPE.Military."+vMilitary[i]+"_CON", data=a)
+            for i in range(0, len(vEconomic)):
+                a = data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"]*cEconomic[i]/tci
+                a *= 100
+                data.addVariable("IEPE.Economic."+vEconomic[i]+"_CON", data=a)
 
-        for i in range(0, len(vSoft)):
-            a = data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"]*cSoft[i]/tci
-            data.addVariable("IEPE.Soft."+vSoft[i]+"_CON", data=a)
+            for i in range(0, len(vMilitary)):
+                a = data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"]*cMilitary[i]/tci
+                a *= 100
+                data.addVariable("IEPE.Military."+vMilitary[i]+"_CON", data=a)
+
+            for i in range(0, len(vSoft)):
+                a = data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"]*cSoft[i]/tci
+                a *= 100
+                data.addVariable("IEPE.Soft."+vSoft[i]+"_CON", data=a)
+
+        else:
+            economicGlobalCoeficients = self.__environment["ECONOMIC_GLOBAL_COEFICIENTS"]
+            militaryGlobalCoeficients = self.__environment["MILITARY_GLOBAL_COEFICIENTS"]
+            softGlobalCoeficients = self.__environment["SOFT_GLOBAL_COEFICIENTS"]
+
+            total_contributions = np.zeros((shape[0],shape[1]))
+
+            for i in range(0, len(vEconomic)):
+                total_contributions += data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"].reshape(shape[0],shape[1])*economicGlobalCoeficients[i]
+                
+            for i in range(0, len(vMilitary)):
+                total_contributions += data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"].reshape(shape[0],shape[1])*militaryGlobalCoeficients[i]
+
+            for i in range(0, len(vSoft)):
+                total_contributions += data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"].reshape(shape[0],shape[1])*softGlobalCoeficients[i]
+       
+            total_contributions = total_contributions.reshape(shape[0],shape[1],1)
+
+            # calculate variables contributions
+            for i in range(0, len(vEconomic)):
+                a = data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"]*economicGlobalCoeficients[i]/total_contributions
+                a *= 100
+                data.addVariable("IEPE.Economic."+vEconomic[i]+"_CON", data=a)
+
+            for i in range(0, len(vMilitary)):
+                a = data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"]*militaryGlobalCoeficients[i]/total_contributions
+                a *= 100
+                data.addVariable("IEPE.Military."+vMilitary[i]+"_CON", data=a)
+
+            for i in range(0, len(vSoft)):
+                a = data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"]*softGlobalCoeficients[i]/total_contributions
+                a *= 100
+                data.addVariable("IEPE.Soft."+vSoft[i]+"_CON", data=a)
+
+            # calculate dimension contributions
+            eco_con = np.zeros((shape[0],shape[1],1))
+            for i in range(0, len(vEconomic)):
+                eco_con += data[:,:,"IEPE.Economic."+vEconomic[i]+"_CON"]
+
+            mil_con = np.zeros((shape[0],shape[1],1))
+            for i in range(0, len(vMilitary)):  
+                mil_con += data[:,:,"IEPE.Military."+vMilitary[i]+"_CON"]
+                
+            soft_con = np.zeros((shape[0],shape[1],1))
+            for i in range(0, len(vSoft)):  
+                soft_con += data[:,:,"IEPE.Soft."+vSoft[i]+"_CON"]
+
+            data.addVariable("IEPE.Global.Economic_CON", data=eco_con)
+            data.addVariable("IEPE.Global.Military_CON", data=mil_con)
+            data.addVariable("IEPE.Global.Soft_CON", data=soft_con)
+
+        data.sort()
 
         self.__IEPEData = data
 
@@ -883,7 +956,7 @@ class Flux(object):
                                                      'Devel. C. IEPG CONTRIBUTION',
                                                      'Economic IEPG CONTRIBUTION',
                                                      'Military IEPG CONTRIBUTION',
-                                                     'Soft IEPG CONTRIBUTION',])
+                                                     'Soft IEPG CONTRIBUTION'])
 
        
         self.__applyStylesXLSXSheets(ew,sheets)
@@ -949,7 +1022,10 @@ class Flux(object):
                                                       'IEPE.Soft.Technology_CON',
                                                       'IEPE.Soft.Science_CON',
                                                       'IEPE.Soft.Education_CON',
-                                                      'IEPE.Soft.DevelopmentC_CON'],
+                                                      'IEPE.Soft.DevelopmentC_CON',
+                                                      'IEPE.Global.Economic_CON',
+                                                        'IEPE.Global.Military_CON',
+                                                        'IEPE.Global.Soft_CON'],
                                       sheetName=['Energy IEPE',
                                                  'Primary Goods IEPE',
                                                  'Manufactures IEPE',
@@ -1005,7 +1081,10 @@ class Flux(object):
                                                  'Technology IEPE CONTRIBUTION',
                                                  'Science IEPE CONTRIBUTION',
                                                  'Education IEPE CONTRIBUTION',
-                                                 'Devel. C. IEPE CONTRIBUTION'])
+                                                 'Devel. C. IEPE CONTRIBUTION',
+                                                 'Economic IEPE CONTRIBUTION',
+                                                    'Military IEPE CONTRIBUTION',
+                                                    'Soft IEPE CONTRIBUTION'])
         
         self.__applyStylesXLSXSheets(ew,sheets)
         return sheets
@@ -1258,12 +1337,12 @@ class Flux(object):
                     "science" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Science_CON"),
                     "education" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Education_CON"),
                     "cooperation" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.DevelopmentC_CON"),
-                    # "economic_contribution" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Global.Economic_CON"),
-                    # "military_contribution" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Global.Military_CON"),
-                    # "soft_contribution" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Global.Soft_CON")
-                    "economic_contribution" : None,
-                    "military_contribution" : None,
-                    "soft_contribution" : None
+                    "economic_contribution" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Global.Economic_CON"),
+                    "military_contribution" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Global.Military_CON"),
+                    "soft_contribution" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Global.Soft_CON")
+                    # "economic_contribution" : None,
+                    # "military_contribution" : None,
+                    # "soft_contribution" : None
                 }
 
                 datadb.append(el)

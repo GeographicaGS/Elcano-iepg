@@ -1,8 +1,9 @@
 from common.flux import Flux
+inputfilename = "../../database/flux/year2014.xlsx"
 
 flux = Flux()
-inputfilename = "../../database/flux/year2014.xlsx"
-#outputfilename = "/Users/alasarr/Desktop/calculus.xlsx"
 
-flux.calculusFromXLSXToDatabase(inputfilename)
-flux.updateRedisCache()
+flux.calculusFromXLSXToWholeApplication(inputfilename)
+
+#outputfilename = "/Users/alasarr/Desktop/calculus.xlsx"
+#flux.calculusFromXLSXToXLSX(inputfilename,outputfilename)

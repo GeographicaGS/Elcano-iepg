@@ -12,8 +12,8 @@ class FluxModel(PostgreSQLModel):
     
     def prepareSchemaIEPGDataRedux(self):
         # Copy current schema. Just for security
-        # sql = "SELECT clone_schema('iepg_data_redux','iepg_data_redux_'||to_char(now(),'YYYYMMDD_HHMMSS'))";
-        # self.queryCommit(sql)
+        sql = "SELECT clone_schema('iepg_data_redux','iepg_data_redux_'||to_char(now(),'YYYYMMDD_HHMMSS'))";
+        self.queryCommit(sql)
 
         # IEPG
         sql = "DELETE FROM iepg_data_redux.iepg_data"

@@ -243,7 +243,6 @@ def mapGeoJson():
         fp["name_en_s"] = d["name_en_s"]
         fp["name_es_s"] = d["name_es_s"]
         f["properties"] = fp
-        #print f
         features.append(f)
 
     out["features"] = features

@@ -17,9 +17,11 @@ class GeometryData(PostgreSQLModel):
         Returns a dictionary."""
         a = """
         SELECT st_asgeojson(geom.geom) as geojson,n.name as code,
-            mc.full_name_es as name_es,mc.full_name_en as name_en,
-            mc.short_name_es1 as name_en_s,
-            mc.short_name_en1 as name_es_s
+            mc.full_name_es as name_es,
+            mc.short_name_es_order as name_es_s,
+            mc.short_name_en_order as name_en_s,
+            mc.short_name_es1 as name_es,
+            mc.short_name_en1 as name_en
             FROM maplex.geoentity g
             INNER JOIN maplex.geoentity_geometry gg ON gg.id_geoentity=g.id_geoentity
             INNER JOIN maplex.geometry geom ON gg.id_geometry=geom.id_geometry

@@ -798,6 +798,26 @@ class Flux(object):
             data.addVariable("IEPE.Global.Military_CON", data=mil_con)
             data.addVariable("IEPE.Global.Soft_CON", data=soft_con)
 
+        # Set to nan 
+        variables_tonan = [
+            'IEPE.Military.Troops_IEPE',
+            'IEPE.Military.MilitaryEquipment_IEPE',
+            'IEPE.Soft.DevelopmentC_IEPE',
+            'IEPE.Global.Military',
+
+            'IEPE.Military.Troops_IEPE_QUOTE',
+            'IEPE.Military.MilitaryEquipment_IEPE_QUOTE',
+            'IEPE.Soft.DevelopmentC_IEPE_QUOTE',
+            'IEPE.Global.Military_QUOTE',
+
+            'IEPE.Military.Troops_CON',
+            'IEPE.Military.MilitaryEquipment_CON',
+            'IEPE.Soft.DevelopmentC_CON',
+            'IEPE.Global.Military_CON']
+
+        for variable in variables_tonan:
+            data[:,:,variable] *= np.nan
+
         data.sort()
 
         self.__IEPEData = data

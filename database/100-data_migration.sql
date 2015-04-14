@@ -506,5 +506,9 @@ INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,pib) VALUES ('SY','20
 INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,pib) VALUES ('SY','2013-01-01','2013-12-31',40410000000.000000);
 INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,pib) VALUES ('SY','2014-01-01','2014-12-31',40410000000.000000);
 
-
+-- Update countries short name
+update iepg_data_redux.master_country set short_name_es_order='Reino Unido',short_name_en_order='United Kingdom'  WHERE iso_3166_1_2_code='GB';
+update iepg_data_redux.master_country set short_name_es_order='EE. UU.'  WHERE iso_3166_1_2_code='US';
+update iepg_data_redux.master_country set short_name_es_order='Rep. Checa'  WHERE iso_3166_1_2_code='CZ';
+update iepg_data_redux.master_country set short_name_es_order='EAU',short_name_en_order='UAE' WHERE iso_3166_1_2_code='AE';
 

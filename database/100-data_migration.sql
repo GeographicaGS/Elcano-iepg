@@ -540,4 +540,25 @@ UPDATE www.translation
         es='No exactamente. La presencia de distintos países puede sumarse, mostrando tendencias regionales de presencia global. Además, a medida que nuevas ediciones van incorporando un número creciente de países, para algunas regiones (como América Latina o Asia), el número de éstos incluidos en el índice es suficientemente grande como para considerar que su valor agregado es un buen reflejo de la proyección combinada del conjunto de la región. <br/>No obstante, también es importante señalar que, en estos casos, el valor total del índice está recogiendo la presencia relativa de unos países en otros del mismo grupo o región (siguiendo el ejemplo anterior, el valor de la presencia agregada de América Latina estaría incluyendo la presencia relativa de Argentina en Brasil). Siendo así, la presencia global total no debería ser considerada como la proyección de una región fuera de sus fronteras'
    WHERE key='_faq text 13';
 
+update iepg_data_redux.master_country 
+    set short_name_es_order='Vietnam',
+        short_name_en_order='Vietnam',
+        short_name_en1='Vietnam',
+        full_name_en='Vietnam',
+        full_name_en_order='Vietnam',
+  WHERE iso_3166_1_2_code='VN';
 
+update iepg_data_redux.master_country 
+    set 
+        short_name_en1='Syria'        
+  WHERE iso_3166_1_2_code='SY';
+
+update maplex.name
+    set name='Syria'
+    where name='Syrian';
+
+UPDATE www.translation
+    set en='The <a class=\"nostyle\" href=\"%s\"><strong>Elcano Global Presence Index</strong></a> is an annual measurement of the projection in the world of 80 countries based on three dimensions:',
+        es='El <a class=\"nostyle\" href=\"%s\"><strong>Índice Elcano de Presencia Global</strong></a> calcula anualmente la proyección de 80 países fuera de sus fronteras en función de tres dimensiones:'
+    WHERE
+    key='_home IEPG explora desc';

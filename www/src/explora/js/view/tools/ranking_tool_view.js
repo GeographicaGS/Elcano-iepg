@@ -64,7 +64,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             this._forceFetchDataTool = true;
             this.render(); // implicit save the context
         });
-
     },
 
     /* Fetch data for the current country*/
@@ -109,6 +108,17 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                 "zoom" : 1,
                 "tooltip" : this.$("#ranking_map_tooltip")
             }).initialize();
+
+            var family = this.getGlobalContext().data.family;
+            if (family){
+                if (family == 'iepg'){
+                    this._dataMap.moveToWorld();
+                }
+                else if (family == 'iepe'){
+                    //###48.224673, 12.304688
+                    this._dataMap.moveToEurope();
+                }
+            }
 
             this.$chart = this.$(".chart");
 
@@ -285,7 +295,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .scale(x)
             .orient("top")
             .tickSize(-height)
-            .tickFormat(function(d) { return app.formatNumber(d); });
+            .tickFormat(function(d) { return app.formatNumber(d,0); });
 
         var yAxis = d3.svg.axis()
             .scale(y)

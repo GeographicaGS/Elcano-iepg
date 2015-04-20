@@ -512,3 +512,32 @@ update iepg_data_redux.master_country set short_name_es_order='EE. UU.'  WHERE i
 update iepg_data_redux.master_country set short_name_es_order='Rep. Checa'  WHERE iso_3166_1_2_code='CZ';
 update iepg_data_redux.master_country set short_name_es_order='EAU',short_name_en_order='UAE' WHERE iso_3166_1_2_code='AE';
 
+
+-- Languages changes
+
+UPDATE www.translation 
+    SET en='Elcano Global Presence Index studies the global presence of a selection of 80 countries: the first 75 world economies according to World Bank data (nations with the highest GDP in current US dollars) as well as countries that are smaller in their economic size but are members of the Organisation for Economic Cooperation and Development (OECD) and/or the European Union',
+        es='El Índice Elcano de presencia global cubre una selección de 80 países. Éstos son las primeras 75 economías mundiales según datos del Banco Mundial (países con mayor PIB en dólares corrientes), además de los países con menor tamaño económico miembros de la Organización para la Cooperación y el Desarrollo Económico (OCDE) y/o de la Unión Europea' 
+WHERE key='_methodology p1';
+
+UPDATE www.translation
+    SET en='We should note that by making calculations at time intervals that go back to 1990, the intention of the project is to show the ‘two-bloc world’, even if in decline. Thus, Russia’s 1990 values refer to those of the Soviet Union, those of Germany to the German Federal Republic. Moreover, East European countries that became independent after 1990 have no value assigned in that year. This is the case for Azerbaijan, Belarus, Estonia, Latvia, Lithuania, Kazakhstan, and Ukraine as part of the Soviet Union, Slovakia as part of Czechoslovakia, and Croatia and Slovenia as part of Yugoslavia',
+        es='En relación a la selección de países, hay que tener en cuenta que al calcularse calas temporales que se remontan a 1990, la intención del proyecto es la de mostrar el ‘mundo de los dos bloques’ –aunque sea en su ocaso–. De este modo, los valores de 1990 de Rusia se refieren, evidentemente, a los de la Unión Soviética, los de Alemania a la República Federal Alemana. Además, los países de Europa del Este que alcanzaron su independencia tras 1990 no tienen valor asignado para ese año. Es el caso de Azerbaiyán, Bielorrusia, Estonia, Letonia, Lituania, Kazajistán y Ucrania como parte de la Unión Soviética, de Eslovaquia como parte de Checoslovaquia y de Croacia y Eslovenia como parte de Yugoslavia'
+    WHERE key='_methodology países p';
+
+UPDATE www.translation
+    SET en='In such cases we have also referred to experts’ opinions, or hot deck. In this 2014 edition, 1,393 cases have been estimated. Thus the proportion of missing and estimated cases represents only 4.9% of a database of more than 28,000 observations',
+        es='En este punto, también se ha recurrido al criterio del experto (o hot deck). En la edición 2014, 1.393 datos han sido estimados. Así, nos encontramos con una proporción de casos perdidos y estimados de tan sólo el 4,9% para la base total de más de 28.000 observaciones'
+   WHERE key='_faq text 9';
+
+UPDATE www.translation
+    SET en='The Elcano Global Presence Index is calculated for 80 countries: the first 75 world economies, the member countries of the Organisation for Economic Co-operation and Development (OECD), and the member states of the European Union',
+        es='El Índice Elcano de Presencia Global se calcula para 80 países: las primeras 75 economías mundiales, los países miembros de la OCDE y los de la Unión Europea'
+   WHERE key='_faq text 12';
+
+UPDATE www.translation
+    SET en='Not exactly. Presence of different countries can be combined, showing regional trends of global presence. Moreover, as new editions include an increasing number of countries, for some regions (i.e. Latin America or East Asia) the number of countries selected for the Index is high enough to consider the aggregated index value as a fair reflection of the external projection of the whole region. <br/> However, it is important to note that, in these cases, the total index value is recording the relative presence of some countries in others of the same group or region (i.e. the global presence index value of Latin America includes the relative presence of Argentina in Brazil). Thus, the adding together of global presences should not be considered a metric of a given region’s external projection outside its bou',
+        es='No exactamente. La presencia de distintos países puede sumarse, mostrando tendencias regionales de presencia global. Además, a medida que nuevas ediciones van incorporando un número creciente de países, para algunas regiones (como América Latina o Asia), el número de éstos incluidos en el índice es suficientemente grande como para considerar que su valor agregado es un buen reflejo de la proyección combinada del conjunto de la región. <br/>No obstante, también es importante señalar que, en estos casos, el valor total del índice está recogiendo la presencia relativa de unos países en otros del mismo grupo o región (siguiendo el ejemplo anterior, el valor de la presencia agregada de América Latina estaría incluyendo la presencia relativa de Argentina en Brasil). Siendo así, la presencia global total no debería ser considerada como la proyección de una región fuera de sus fronteras'
+   WHERE key='_faq text 13';
+
+

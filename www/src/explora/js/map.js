@@ -15,6 +15,8 @@ app.view.map = function(options){
     this.$maplabel = options.maplabel ? options.maplabel : $("#map_label");
     this.$maplegend = options.maplegend ? options.maplegend : $("#map_legend");
 
+
+
     this.initialize = function(options){
 
         var southWest = L.latLng(-85, -190),
@@ -33,6 +35,22 @@ app.view.map = function(options){
     
         return this;
     };
+
+    this.moveToWorld = function(){
+        var southWest = L.latLng(-85, -190),
+        northEast = L.latLng(85,190),
+        bounds = L.latLngBounds(southWest, northEast);
+        this._map.fitBounds(bounds);
+
+    },
+
+    this.moveToEurope = function(){
+        var southWest = L.latLng(34.885931, -17.929688),
+        northEast = L.latLng(71.635993, 38.671875),
+        bounds = L.latLngBounds(southWest, northEast);
+
+        this._map.fitBounds(bounds);
+    },
 
     this.loadBaseMap = function(){
         this._baseLayer = L.geoJson(countriesGeoJSON, {

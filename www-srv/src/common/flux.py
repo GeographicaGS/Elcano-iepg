@@ -1114,20 +1114,6 @@ class Flux(object):
         data = geovariablearray.select(country,time,variable)[0,0,0]
         return data if not np.isnan(data) else None
 
-    def __aaa(self):
-
-
-        geoentity = mm.getIdGeoentityByName(countryname,2)
-        if not geoentity:
-            raise Exception('Not found geoentity for ' + countryname)
-
-        geoentity_id = geoentity[0]["id_geoentity"]
-        
-        geoentity_names = mm.getGeoentityNames(geoentity_id,1)
-        if not geoentity_names:
-            raise Exception('Not found geoentity code name for ' + countryname)            
-
-        geoentity_code = geoentity_names[0]["names"][0]
 
     def __getCountryCodeByCountryName(self,countryName,maplexModel=None):
         if not maplexModel:
@@ -1184,8 +1170,8 @@ class Flux(object):
                     "tourism" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Tourism_IEPG"),
                     "sports" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Sports_IEPG"),
                     "culture" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Culture_IEPG"),
-                    "information" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Technology_IEPG"),
-                    "technology" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Information_IEPG"),
+                    "information" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Information_IEPG"),
+                    "technology" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Technology_IEPG"),
                     "science" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Science_IEPG"),
                     "education" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Education_IEPG"),
                     "cooperation" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.DevelopmentC_IEPG"),
@@ -1226,8 +1212,8 @@ class Flux(object):
                     "tourism" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Tourism_IEPE"),
                     "sports" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Sports_IEPE"),
                     "culture" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Culture_IEPE"),
-                    "information" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Technology_IEPE"),
-                    "technology" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Information_IEPE"),
+                    "information" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Information_IEPE"),
+                    "technology" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Technology_IEPE"),
                     "science" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Science_IEPE"),
                     "education" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Education_IEPE"),
                     "cooperation" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.DevelopmentC_IEPE"),
@@ -1312,8 +1298,8 @@ class Flux(object):
                     "tourism" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Tourism_CON"),
                     "sports" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Sports_CON"),
                     "culture" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Culture_CON"),
-                    "information" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Technology_CON"),
-                    "technology" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Information_CON"),
+                    "information" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Information_CON"),
+                    "technology" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Technology_CON"),
                     "science" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Science_CON"),
                     "education" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.Education_CON"),
                     "cooperation" : self.__selectData(self.__IEPGData,countryname,year,"IEPG.Soft.DevelopmentC_CON"),
@@ -1352,8 +1338,8 @@ class Flux(object):
                     "tourism" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Tourism_CON"),
                     "sports" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Sports_CON"),
                     "culture" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Culture_CON"),
-                    "information" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Technology_CON"),
-                    "technology" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Information_CON"),
+                    "information" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Information_CON"),
+                    "technology" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Technology_CON"),
                     "science" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Science_CON"),
                     "education" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.Education_CON"),
                     "cooperation" : self.__selectData(self.__IEPEData,countryname,year,"IEPE.Soft.DevelopmentC_CON"),

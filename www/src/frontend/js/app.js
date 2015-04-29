@@ -32,8 +32,10 @@ $(function() {
     });
 
     $("body").on("click","a",function(e){
-        var href = $(this).attr("href");
-        if ($(this).attr("target")=="_blank" || href=="/es" || href=="/en"){
+        var href = $(this).attr("href"),
+            normallink = $(this).attr('normallink');
+        if ($(this).attr("target")=="_blank" || href=="/es" || href=="/en" 
+            || (typeof normallink !== typeof undefined && normallink !== false)){
             return;
         }
 

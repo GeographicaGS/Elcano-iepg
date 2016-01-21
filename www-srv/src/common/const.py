@@ -21,7 +21,7 @@ frontend = {
 lang = ["en", "es"]
 
 # @@@YEARS Edit to add new years
-years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014]
+years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015]
 
 dimensions = {
     "economic_global": ["energy", "primary_goods", "manufactures", "services", "investments"],

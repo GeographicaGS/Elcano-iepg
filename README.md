@@ -93,8 +93,13 @@ A continuación nos ponemos en el entorno virtual:
 
 Una vez dentro del entorno virtual instalamos los paquetes necesarios con PIP:
 
+Instalamos pycu
 ```
-pip install Flask psycopg2 tweepy python-memcached redis numpy xlsxwriter xlrd
+sudo apt-get install libicu-dev
+```
+
+```
+pip install -r requirements.txt
 ```
 
 Y sólo para desarrollo: 

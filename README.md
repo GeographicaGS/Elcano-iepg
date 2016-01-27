@@ -29,7 +29,6 @@ docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < <dumpfile.s
 
 Prepare clients
 
-
 cp www/src/explora/js/config.changes.js www/src/explora/js/config.js
 cp www/src/frontend/js/config.changes.js www/src/frontend/js/config.js
 cp www/src/backend/js/config.changes.js www/src/backend/js/config.js

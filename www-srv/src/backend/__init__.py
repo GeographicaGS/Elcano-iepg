@@ -2,6 +2,7 @@ from flask import Flask,jsonify
 from common.config import SECRET_KEY
 
 app = Flask(__name__)
+app.debug = True
 app.config["MAX_CONTENT_LENGTH"] = 32*1024*1024
 app.config["SECRET_KEY"] = SECRET_KEY
 

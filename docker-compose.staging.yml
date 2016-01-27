@@ -76,9 +76,6 @@ nginx:
     - api_backend:api_backend
     - api_frontend:api_frontend
 
-  ports:
-    - "80:80"
-
 
 
 

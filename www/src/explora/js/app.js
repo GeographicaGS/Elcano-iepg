@@ -68,10 +68,10 @@ $(function(){
 });
 
 app.setAjaxSetup = function(){
-    $(document).ajaxError(function(event, jqxhr, settings, exception) {
-        if (jqxhr.status == 404) { app.router.navigate("notfound",{trigger: true});} 
-        else { app.router.navigate("error",{trigger: true});}
-    });
+    // $(document).ajaxError(function(event, jqxhr, settings, exception) {
+    //     if (jqxhr.status == 404) { app.router.navigate("notfound",{trigger: true});} 
+    //     else { app.router.navigate("error",{trigger: true});}
+    // });
 
 }
 

@@ -7,12 +7,11 @@ Common helpers.
 """
 import common.datacache as datacache
 import tweepy
-from common.config import MemcachedConfig
+#from common.config import MemcachedConfig
 from flask import jsonify
 import varengine.varengine as varengine
 import maplex.maplex as maplex
-if MemcachedConfig["enabled"] == True:
-    import memcache
+
 import collections
 import numpy
 import const

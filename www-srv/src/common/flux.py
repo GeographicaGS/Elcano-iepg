@@ -184,9 +184,9 @@ class Flux(object):
         data[u"European Union",3:,"IEPG.Soft.Culture"]=da[0,:,0]
         
         # EU IEPG Services, loads EU data into "data" for IEPG calculation
-        da = euVector.select(0, None, "IEPG_EU.Economic.Services")
+        da = euVector.select(0, None, "IEPG_EU.Economic.Services") * np.repeat(dolarEx,1,axis=0).reshape(self.__euDataYears,1)
         data[u"European Union",3:,"IEPG.Economic.Services"]=da[0,:,0]
-
+        
         # EU IEPG Investments, loads EU data into "data" for IEPG calculation
         da = euVector.select(0,
                              None,
@@ -297,6 +297,11 @@ class Flux(object):
                   "IEPG.Soft.DevelopmentC"]
 
         for i in normal:
+            #print i 
+            #print data[u"European Union",3:,i]
+            # print data[u"United States of America",self.__refYear,i]
+            # print "max: ", np.nanmax(data[:euIndex,self.__refYear,i])
+
             if i+"Est" in data.variable:
                 d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:euIndex,self.__refYear,i]), 
                             data[:,:,i+"Est"])
@@ -305,10 +310,24 @@ class Flux(object):
 
             data.addVariable(i+"_IEPG", data=d)
 
+        #print data[u"European Union",3:,"IEPG.Economic.Services_IEPG"]
 
-        # Information calculus TODO
-        d = data[:,:,i]*1000.0/np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.Information.Internet"])
-        data.addVariable("IEPG.Soft.Information_IEPG", data=d)
+        # Information calculus
+        refYearIndex = data.getTimeIndex(self.__refYear)[0]
+        infointernet = data[:,:,"IEPG.Soft.Information.Internet"]*1000.0/np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.Information.Internet"])
+        infonews = data[:,:,"IEPG.Soft.Information.News"]*1000.0/np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.Information.News"])
+        info = infointernet*0.5 + infonews*0.5
+        info = info * 1000 / np.nanmax(info[:euIndex,refYearIndex,:])
+
+        # countryIdx = data.geoentity.index(u"Germany")
+        # print "Germany", countryIdx
+        # print "InternetCrud: ",  data[countryIdx,-1,"IEPG.Soft.Information.Internet"]   
+        # print "NewsCrud: ", data[countryIdx,-1,"IEPG.Soft.Information.News"]
+        # print "Internet: ", infointernet[countryIdx,-1,0]
+        # print "News: ", infonews[countryIdx,-1,0]
+        # print "Total: ", info[countryIdx,-1,0]
+        
+        data.addVariable("IEPG.Soft.Information_IEPG", data=info)
 
         # Sports calculus
         # This is the calculus for the sports coefficient
@@ -375,18 +394,19 @@ class Flux(object):
         militaryTotal = np.nansum(np.array(militaryCoefs))
 
         for i in militaryCoefs:
-            militaryCoefsEquip.append(i/militaryTotal*1000)
-            
+            militaryCoefsEquip.append(i*1000/militaryTotal)
+
         ae = np.zeros((shape[0],shape[1]))
 
         for i in range(0, len(militaryCoefsEquip)):
             ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]].reshape(shape[0],shape[1]))
 
-        data.addVariable("MilitaryPoints", data=ae)    
+        data.addVariable("MilitaryPoints", data=ae)
         data.addVariable("IEPG.Military.MilitaryEquipment_IEPG", data=
                             data[:,:,"MilitaryPoints"]*1000.0/ \
-                            np.nanmax(data[:,self.__refYear,"MilitaryPoints"]))
+                            np.nanmax(data[:euIndex,self.__refYear,"MilitaryPoints"]))
 
+        
         # Dimensions and Index
         cEconomic = self.__environment["ECONOMIC_COEFICIENTS"]
         vEconomic = ["Energy","PrimaryGoods","Manufactures","Services","Investments"]
@@ -398,9 +418,12 @@ class Flux(object):
         cIndex = self.__environment["DIMENSION_COEFICIENTS"]
 
         a = np.zeros((shape[0],shape[1]))
+
         for i in range(0, len(cEconomic)):
+            #print vEconomic[i]
+            #print data[u"Germany",:,"IEPG.Economic."+vEconomic[i]+"_IEPG"]
             a+=data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"].reshape(shape[0],shape[1])*cEconomic[i]
-        
+
         data.addVariable("IEPG.Global.Economic", data=a/100.0)
 
         a = np.zeros((shape[0],shape[1]))
@@ -411,7 +434,11 @@ class Flux(object):
 
         a = np.zeros((shape[0],shape[1]))
         for i in range(0, len(cSoft)):
+            #print "IEPG.Soft."+vSoft[i]+"_IEPG"
+            #print "DATA: ", data[u"United Arab Emirates",:,"IEPG.Soft."+vSoft[i]+"_IEPG"]
             a+=data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"].reshape(shape[0],shape[1])*cSoft[i]
+
+        
         
         data.addVariable("IEPG.Global.Soft", data=a/100.0)
 
@@ -631,9 +658,14 @@ class Flux(object):
             data.addVariable(i+"_IEPE", data=d)
             data = self.__clearMissingEuCountries(data, self.__missingEuCountries, variable=i+"_IEPE")
 
-        # Information calculus TODO
-        d = data[:,:,i]*1000.0/np.nanmax(data[:,self.__refYear,"IEPE.Soft.Information.Internet"])
-        data.addVariable("IEPE.Soft.Information_IEPE", data=d)
+        # Information calculus 
+        refYearIndex = data.getTimeIndex(self.__refYear)[0]
+
+        infointernet = data[:,:,"IEPE.Soft.Information.Internet"]*1000.0/np.nanmax(data[:,self.__refYear,"IEPE.Soft.Information.Internet"])
+        infonews = data[:,:,"IEPE.Soft.Information.News"]*1000.0/np.nanmax(data[:,self.__refYear,"IEPE.Soft.Information.News"])
+        info = infointernet*0.5 + infonews*0.5
+        info = info * 1000 / np.nanmax(info[:,refYearIndex,:])
+        data.addVariable("IEPE.Soft.Information_IEPE", data=info)
 
 
         # Dummy zero military equipment, troops, and development cooperation
@@ -851,6 +883,7 @@ class Flux(object):
 
 
     def __writeToXLSX(self,outfilename):
+        
         ew = excel_utils.ExcelWriter(outfilename)
         ew.addStyle("header", {
             "bg_color": "#08608C",
@@ -1377,7 +1410,7 @@ class Flux(object):
     def updateRedisCache(self):
     
         print "Updating redis cache"
-        connclient = redis.StrictRedis(host="localhost", port=6379, db=0)
+        connclient = redis.StrictRedis(host=config.RedisConfig["host"], port=config.RedisConfig["port"], db=0)
         mc = datacache.RedisDataCache(connclient, prefix="iepg_", timeout=None)
 
         dataSets = dict()

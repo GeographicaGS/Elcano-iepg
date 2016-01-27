@@ -13,7 +13,28 @@ BackboneJS en el cliente y Flask en el servidor.
 
 La aplicación JS se encuentra en el directorio www y los servicios en www-srv.
 
-## Instalación del entorno de desarrollo para servicios
+## Install
+
+docker create --name elcano_iepg_pgdata -v /data debian /bin/true
+docker create --name elcano_iepg_redisdata -v /data debian /bin/true
+docker create --name elcano_iepg_mediadata -v /media debian /bin/true
+
+source config.env
+
+docker-compose up -d pgsql
+
+docker exec elcanoiepg_pgsql_1 psql -U postgres -c  "CREATE USER $POSTGRES_USER with password '$POSTGRES_PASSWORD'"
+docker exec elcanoiepg_pgsql_1 psql -U postgres -c  "CREATE DATABASE $POSTGRES_DB with owner $POSTGRES_USER"
+docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < <dumpfile.sql>
+
+Create image for API.
+
+docker build -t geographica/elcano_iepg_api www-srv
+
+echo $(docker-machine ip default) 'dev.elcano-iepg.geographica.gs dev.explora.elcano-iepg.geographica.gs dev.backend.elcano-iepg.geographica.gs'
+
+docker exec elcanoiepg_api_backend_1 python updatecache.py 
+
 
 ### Dependencias
 

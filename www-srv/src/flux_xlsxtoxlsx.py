@@ -1,9 +1,9 @@
 from common.flux import Flux
-inputfilename = "../../database/flux/year2016.xlsx"
+inputfilename = "data_calculus/year2015.xlsx"
 
 flux = Flux()
 
 #flux.calculusFromXLSXToWholeApplication(inputfilename)
 
-outputfilename = "/Users/alasarr/Desktop/calculus.xlsx"
+outputfilename = "data_calculus/calculus2015.xlsx"
 flux.calculusFromXLSXToXLSX(inputfilename,outputfilename)

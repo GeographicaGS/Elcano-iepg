@@ -12,7 +12,9 @@ app.config = {
         new Date("2010-01-01"),
         new Date("2011-01-01"),
         new Date("2012-01-01"),
-        new Date("2013-01-01")
+        new Date("2013-01-01"),
+        new Date("2014-01-01"),
+        new Date("2015-01-01")
     ],
     "DETECT_COUNTRY_LOCATION" : false,
     "CLEAR_CONTEXT_NOMATCHING_VERSION" : false

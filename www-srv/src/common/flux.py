@@ -268,6 +268,9 @@ class Flux(object):
         data[u"European Union",3:,"IEPG.Soft.Information.News"] = euVector[0,:,"IEPG_EU.Soft.Information.News"]
         data[u"European Union",3:,"IEPG.Soft.Information.Internet"] = euVector[0,:,"IEPG_EU.Soft.Information.Intern"]
 
+        #print "News: ", data[u"European Union",3:,"IEPG.Soft.Information.News"]
+        #print "Internet: ", data[u"European Union",3:,"IEPG.Soft.Information.Internet"]
+
         # Technology
         data[u"European Union",3:,"IEPG.Soft.Technology"] = np.nansum(
             (euTable[:,:,"IEPG_EU.Soft.TechnologyTotal"] - \
@@ -314,10 +317,17 @@ class Flux(object):
 
         # Information calculus
         refYearIndex = data.getTimeIndex(self.__refYear)[0]
+
+        #print "Max News: ",np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.Information.News"])
         infointernet = data[:,:,"IEPG.Soft.Information.Internet"]*1000.0/np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.Information.Internet"])
         infonews = data[:,:,"IEPG.Soft.Information.News"]*1000.0/np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.Information.News"])
+        #print "Internet 0-1000:", infointernet[euIndex,:,0]
+        #print "News 0-1000:", infonews[euIndex,:,0]
         info = infointernet*0.5 + infonews*0.5
+        #print info[euIndex,:,0]
         info = info * 1000 / np.nanmax(info[:euIndex,refYearIndex,:])
+
+        #print info[euIndex,:,0]
 
         # countryIdx = data.geoentity.index(u"Germany")
         # print "Germany", countryIdx
@@ -353,16 +363,14 @@ class Flux(object):
         #print np.nansum(euIepgSportsCoef.data, axis=0)*0.7
         euIepgSportsCoef = (np.nansum(euIepgSportsCoef.data, axis=0)*.7).flatten()
         data[u"European Union",3:,"IEPG.Soft.SportsCoef"] = euIepgSportsCoef
-
+        
         #print data.select(data.geoentity.index(u"Estados Unidos de América"),"2010","IEPG.Soft.SportsCoef")
         #print np.nanmax(data[:euIndex,refYear,"IEPG.Soft.SportsCoef"])
         
         # Final IEPG sports calculus
         data.addVariable("IEPG.Soft.Sports_IEPG", data=
                          data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
-                         np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.SportsCoef"]))
-
-        # print np.nanmax(data[:euIndex,refYear,"IEPG.Soft.SportsCoef"])
+                         np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.SportsCoef"]))     
 
         # euIepgSportsCoef.sort()
         # euIepgSportsCoef = self.__clearMissingEuCountries(euIepgSportsCoef, missingEuCountries)
@@ -1168,13 +1176,26 @@ class Flux(object):
         if not maplexModel:
             maplexModel = MaplexModel()
 
+        if countryName==u"Iran (Islamic Republic of)":
+            countryName=u"Iran"
+        elif countryName==u"Korea":
+            countryName=u"South Korea"
+        elif countryName==u"Russian Federation":
+            countryName=u"Russia"
+        elif countryName==u"United Republic of Tanzania":
+            countryName=u"Tanzania"
+        elif countryName==u"Venezuela (Bolivarian Republic of)":
+            countryName=u"Venezuela"
+        elif countryName==u"Viet Nam":
+            countryName=u"Vietnam"
+
         # if countryName==u"Kazajistán":
         #     return self.__getCountryCodeByCountryName(u"Kazajstán",maplexModel)
         # el
         if countryName==u"European Union":
             return "XBEU"
         else:
-            geoentity = maplexModel.getIdGeoentityByName(countryName,3)
+            geoentity = maplexModel.getIdGeoentityByName(countryName,2)
             if not geoentity:
                 raise Exception('Not found geoentity for ' + countryName)
 
@@ -1429,8 +1450,8 @@ class Flux(object):
 
         # @@@YEARS To be edited to add new years to the application
         years = {
-            "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2105],
-            "iepe": [2005, 2010, 2011, 2012, 2013,2014,2105],
+            "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015],
+            "iepe": [2005, 2010, 2011, 2012, 2013,2014,2015 ],
             "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015],
             #"iepe_individual_contribution": [2005, 2010, 2011, 2012, 2013],
             "iepe_quota": [2005, 2010, 2011, 2012, 2013],

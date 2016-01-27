@@ -35,6 +35,14 @@ echo $(docker-machine ip default) 'dev.elcano-iepg.geographica.gs dev.explora.el
 
 docker exec elcanoiepg_api_backend_1 python updatecache.py 
 
+Update application from XLSX
+
+docker exec elcanoiepg_api_backend_1 python flux_updatewholeapp.py 
+
+RUN calculus engine XLSX to XLSX
+
+docker exec elcanoiepg_api_backend_1 python flux_xlsxtoxlsx.py 
+
 
 ### Dependencias
 

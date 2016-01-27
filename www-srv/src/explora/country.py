@@ -51,7 +51,7 @@ def blocksData():
         year["name_en"] = isoEnglish[b]
         out[b] = year
 
-    locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")
+    #locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")
     out["es"] = [k[0] for k in sorted(isoSpanish.items(), key=lambda t: t[1], cmp=locale.strcoll)]
     out["en"] = [k[0] for k in sorted(isoEnglish.items(), key=lambda t: t[1], cmp=locale.strcoll)]
 

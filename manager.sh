@@ -13,7 +13,9 @@ function buildapps(){
 }
 
 function build(){
+
   buildapps;
+  #docker rm -f tmp_build_db
   docker-compose -f docker-compose.$1.yml build
   docker build -t geographica/elcano_iepg_api www-srv
 }
@@ -43,8 +45,10 @@ case $1 in
     ;;
 
   refresh)
+    
     prerequisites;
-    docker-compose -f docker-compose.$2.yml up pgsql
+    docker-compose -f docker-compose.$2.yml up -d pgsql
+    sleep 5
     build $2;
     docker-compose -f docker-compose.$2.yml stop
     docker-compose -f docker-compose.$2.yml rm -f

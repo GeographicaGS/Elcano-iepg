@@ -9,6 +9,3 @@ cdn/media/
 main.min.js
 main.min.css
 src/build/tmp
-src/build/config.js
-src/backend/js/config.js
-src/frontend/js/config.js

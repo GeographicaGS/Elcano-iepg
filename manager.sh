@@ -1,20 +1,15 @@
 #!/bin/bash
 
 function buildapps(){
-  cd www/src;
-  r=`jake`
-
-  if [ $? -eq 0 ]; then
-    echo "OK"
-  else
-    echo "FAIL"
-  fi
-  cd ../..;
+  docker-compose -f docker-compose.$1.yml up -d pgsql
+  sleep 1
+  docker run --rm -it --link elcanoiepg_pgsql_1:${POSTGRES_HOST} -v $(pwd)/www:/app -e "POSTGRES_HOST=${POSTGRES_HOST}" -e "POSTGRES_DB=${POSTGRES_DB}"  -e "POSTGRES_USER=${POSTGRES_USER}" -e "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" geographica/elcano_iepg_webbuilder
+  
 }
 
 function build(){
 
-  buildapps;
+  buildapps $1;
   #docker rm -f tmp_build_db
   docker-compose -f docker-compose.$1.yml build
   docker build -t geographica/elcano_iepg_api www-srv
@@ -25,6 +20,7 @@ function prerequisites(){
   # Fetching submodules
   git submodule init
   git submodule update
+  docker build -t geographica/elcano_iepg_webbuilder www
 
   # Install scripts to upload to amazon s3. If this line fails and you don't want to upload it to Amazon S3/CloudFront just comment it.
   #gem install s3_website
@@ -47,8 +43,6 @@ case $1 in
   refresh)
     
     prerequisites;
-    docker-compose -f docker-compose.$2.yml up -d pgsql
-    sleep 5
     build $2;
     docker-compose -f docker-compose.$2.yml stop
     docker-compose -f docker-compose.$2.yml rm -f
@@ -69,8 +63,9 @@ case $1 in
     ;;
   stop)
     docker-compose -f docker-compose.$2.yml stop
+    shift
     ;;
-    *)
+  *)
       echo "Bad parameters"
       exit
     ;;

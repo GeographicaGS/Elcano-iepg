@@ -21,17 +21,26 @@ docker create --name elcano_iepg_mediadata -v /media debian /bin/true
 
 source config.env
 
-docker-compose up -d pgsql
+docker-compose -f docker-compose.dev.yml up -d pgsql
 
 docker exec elcanoiepg_pgsql_1 psql -U postgres -c  "CREATE USER $POSTGRES_USER with password '$POSTGRES_PASSWORD'"
 docker exec elcanoiepg_pgsql_1 psql -U postgres -c  "CREATE DATABASE $POSTGRES_DB with owner $POSTGRES_USER"
 docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < <dumpfile.sql>
+
+Prepare clients
+
+
+cp www/src/explora/js/config.changes.js www/src/explora/js/config.js
+cp www/src/frontend/js/config.changes.js www/src/frontend/js/config.js
+cp www/src/backend/js/config.changes.js www/src/backend/js/config.js
 
 Create image for API.
 
 docker build -t geographica/elcano_iepg_api www-srv
 
 echo $(docker-machine ip default) 'dev.elcano-iepg.geographica.gs dev.explora.elcano-iepg.geographica.gs dev.backend.elcano-iepg.geographica.gs'
+
+Update cache
 
 docker exec elcanoiepg_api_backend_1 python updatecache.py 
 

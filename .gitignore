@@ -7,6 +7,8 @@ venv
 *.pyc
 *.sublime-*
 00-config.sql
-config.js
+www/src/backend/js/config.js
+www/src/frontend/js/config.js
+www/src/explora/js/config.js
 *.log
 config.env

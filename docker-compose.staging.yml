@@ -5,8 +5,6 @@ pgsql:
     - elcano_iepg_pgdata
   environment:
     - POSTGRES_PASSWD=${POSTGRES_PASSWORD}
-  ports:
-    - "55432:5432"
 
 redis:
   restart: always
@@ -75,6 +73,8 @@ nginx:
     - api_explora:api_explora
     - api_backend:api_backend
     - api_frontend:api_frontend
+
+
 
 
 

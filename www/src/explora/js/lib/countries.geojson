@@ -41055,8 +41055,8 @@ var countriesGeoJSON = {
         "code": "UY", 
         "name_en": "Uruguay", 
         "name_en_s": "Uruguay", 
-        "name_es": "Uriguay", 
-        "name_es_s": "Uriguay"
+        "name_es": "Uruguay", 
+        "name_es_s": "Uruguay"
       }, 
       "type": "Feature"
     }, 

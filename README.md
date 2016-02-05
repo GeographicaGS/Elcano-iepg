@@ -98,18 +98,21 @@ At production and staging we use manager.sh to start, stop and refresh the serve
 ###Refresh
 It recreates the container, it's mandatory if you're uploading a new version.
 ```
-./manager.sh refresh
+./manager.sh refresh <environment>
+
+# Staging example
+./manager.sh refresh staging
 ```
 
 ###Restart
 It restart the containers.
 ```
-./manager.sh restart
+./manager.sh restart <environment>
 ```
 
 ###Buildapps
 It compile the frontend apps.
 ```
-./manager.sh buildapps
+./manager.sh buildapps <environment>
 ```
 

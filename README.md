@@ -13,7 +13,7 @@ To deploy and develop it uses [Docker](https://www.docker.com).
 
 # How to prepare the environment
 
-Install [Docker](https://docs.docker.com/engine/installation) - 1.8+ and [docker-compose](https://docs.docker.com/compose/install/) 1.5.2+.
+Install [Docker](https://docs.docker.com/engine/installation) 1.8+ and [docker-compose](https://docs.docker.com/compose/install/) 1.5.2+.
 
 Create the data containers. Please, make your self a favor and don't use local volumes.
 ```

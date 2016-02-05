@@ -91,6 +91,10 @@ RUN calculus engine XLSX to XLSX. From www-srv/src/data_calculus/year2015.xlsx, 
 ```
 docker exec elcanoiepg_api_backend_1 python flux_xlsxtoxlsx.py 
 ```
+Update REDIS from PostgreSQL
+```
+docker exec elcanoiepg_api_backend_1 python updatecache.py 
+```
 
 # Manager.sh
 At production and staging we use manager.sh to start, stop and refresh the servers.

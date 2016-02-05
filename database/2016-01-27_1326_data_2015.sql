@@ -90,6 +90,7 @@ INNER JOIN maplex.name n ON gn.id_name=n.id_name
 
 
 update maplex.name set name='Uruguay' where name='Uriguay';
+Update short_name_es_order='Uruguay',short_name_es1='Uruguay' from iepg_data_redux.master_country where short_name_es_order='Uriguay';
 
 -- Move Kazakhstan to Europe
 update maplex.block set id_geoentity_block=(select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn

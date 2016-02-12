@@ -48,6 +48,7 @@ case $1 in
     docker-compose -f docker-compose.$2.yml rm -f
     docker-compose -f docker-compose.$2.yml up -d
 
+    nginx refresh
     shift
     ;;
 

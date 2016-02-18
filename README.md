@@ -100,6 +100,34 @@ Update REDIS from PostgreSQL
 docker exec elcanoiepg_api_backend_1 python updatecache.py 
 ```
 
+UPDATE population and GDP
+```
+docker exec elcanoiepg_api_backend_1 bash -c "cd scripts && python pop_gdp.py" > gdp2015.sql
+docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d elcano_iepg < gdp2015.sql
+docker exec elcanoiepg_api_backend_1 python updatecache.py 
+```
+
+# Get latest database
+SSH to production server and execute
+
+```
+sudo su
+source config.env
+docker exec elcanoiepg_pgsql_1 pg_dump $POSTGRES_DB -U postgres > $POSTGRES_DB.sql
+```
+
+At the client:
+```
+source config.env
+scp <user>@<server>:/<path>$POSTGRES_DB.sql .
+docker-compose -f docker-compose.dev.yml up -d pgsql
+docker exec elcanoiepg_pgsql_1 psql -U postgres -c  "DROP DATABASE $POSTGRES_DB"
+docker exec elcanoiepg_pgsql_1 psql -U postgres -c  "CREATE DATABASE $POSTGRES_DB with owner $POSTGRES_USER"
+docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < $POSTGRES_DB.sql
+
+```
+
+
 # Manager.sh
 At production and staging we use manager.sh to start, stop and refresh the servers.
 

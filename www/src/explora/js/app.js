@@ -599,7 +599,7 @@ app.formatNumber = function (n,decimals){
     }
 
     if (decimals ===null || decimals === undefined){
-        decimals = 2;
+        decimals = 1;
     }
 
     if (typeof n == "number"){

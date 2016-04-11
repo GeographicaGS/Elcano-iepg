@@ -1783,7 +1783,7 @@ div.tooltip.comp{
 .nodata{
     h6,p,h4,li{
         .roboto(light);
-        line-height: 2*line_height;
+        line-height: 2*@line_height;
 
     }
     h4{

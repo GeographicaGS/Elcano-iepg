@@ -81,7 +81,6 @@ www_builder:
     - pgsql:pgsql
 
   volumes:
-    - ./www/src:/usr/src/app
     - ./www/cdn:/usr/src/cdn
 
   environment:

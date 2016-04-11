@@ -12,3 +12,4 @@ www/src/frontend/js/config.js
 www/src/explora/js/config.js
 *.log
 config.env
+node_modules

@@ -242,6 +242,8 @@ deps.Explora.JS = {
 
 			// Tools views
 			"explora/js/view/tools/country_tool_view.js",
+			"explora/js/view/tools/sunburst_data_view.js",
+			"explora/js/view/tools/sunburst_comparison_data_view.js",
 			"explora/js/view/tools/ranking_tool_view.js",
 			"explora/js/view/tools/contributions_tool_view.js",
 			"explora/js/view/tools/quotes_tool_view.js",

@@ -79,42 +79,85 @@
             <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
                 <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
             </a>
-            <div class="container-fluid">
-                <div class="row mth1 mbh2">
-                    <div class="col-md-3" id="co_chart_left">
-                        <div class="co_ranking">
-                            <span class="ranking"></span>
-                        </div>
-                        <div class="chart"></div>
-                        <div class="country_name">
-                            <div class="co_flag2">
-                                <img src="/img/variables/ELC_variable_iepg.svg" />
-                            </div>
-                            <span class="name"></span>
-                        </div>
-
-                        
-                    </div>
-                    <div class="col-md-6" id="data_legend"> 
-
-                    </div>
-                    <div class="col-md-3" id="co_chart_right" >
-                        <div class="co_ranking">
-                            <span class="ranking"></span>
-                        </div>
-                        <div class="chart"></div>
-                        <div class="country_name">
-                            <div class="co_flag2">
-                                <img src="/img/variables/ELC_variable_iepe.svg" />
-                            </div>
-                            <span class="name"></span>
-                        </div>
+            <div id="piepg" data-family=iepg>
+                <div class="subheader">
+                    <div class="name">
+                        <lang>Índice Elcano de presencia global</lang>
                     </div>
 
-                    <div class="tooltip comp"></div>
+                    <div class="index">
+                        <div class="co_flag">
+                             <img src="/img/flags/<%= country %>.svg"/>
+                        </div>
+                        <span class="value"></span>
+                    </div>
+
+                    <div class="co_ranking">
+                        <span class="ranking"></span>
+                    </div>
+
+                    <div class="clear"></div>
+
+                </div>
+           
+                <div id="co_chart_left">
+                    <div class="ico">
+                        <img src="/img/variables/ELC_variable_iepg.svg" />
+                    </div>
+                    <div class="chart"></div>
+                    <p class="name"><%= app.countryToString(country) %></p>
+                    <p class="subname"><lang>Presencia Global</lang></p>
+                    <div class="chart_legend"></div>
+                </div>
+                
+                <div class="clear"></div>
+
+            </div>
+            
+            <div id="pcenter">
+              <div class="co_vs">
+                  <div class="vs">
+                      VS
+                  </div>
+              </div>
+            </div>
+            
+            <div id="piepe" data-family=iepe>
+                <div class="subheader">
+                  <div class="co_ranking">
+                    <span class="ranking"></span>
+                       
+                    </div>
+
+                    <div class="name">
+                        <lang>Índice Elcano de presencia europea</lang>
+                    </div>
+
+                    <div class="index">
+                      <span class="value"></span>
+                        <div class="co_flag">
+                             <img src="/img/flags/<%= country %>.svg"/>
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+
+                </div>
+
+                <div id="co_chart_right">
+                    <div class="ico">
+                        <img src="/img/variables/ELC_variable_iepe.svg" />
+                    </div>
+                    <div class="chart"></div>
+                    <p class="name"><%= app.countryToString(country) %></p>
+                    <p class="subname"><lang>Presencia Europea</lang></p>
+                    <div class="chart_legend"></div>
                 </div>
             </div>
 
+            <div class="tooltip comp"></div>
+
+            <div class="clear"></div>
         </div>
     </div>
 

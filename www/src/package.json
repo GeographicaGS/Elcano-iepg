@@ -1,0 +1,24 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Jakefile.js",
+  "scripts": {
+    "start": "jake",
+    "debug": "jake debug",
+    "builder-watcher": "nodemon -e js,html,css,less -L -w backend -w explora -w frontend --exec jake debug",
+    "builder-watcher-frontend": "nodemon -e js,html,css,less -L -w frontend --exec jake build-frontend-alone-debug",
+    "builder-watcher-backend": "nodemon -e js,html,css,less -L -w backend --exec jake build-backend-alone-debug",
+    "builder-watcher-explora": "nodemon -e js,html,css,less -L -w explora --exec jake build-explora-alone-debug",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jshint": "^2.9.1",
+    "less": "^1.6.0",
+    "pg": "^4.5.2",
+    "uglify-js": "^2.6.2",
+    "uglifycss": "0.0.20"
+  }
+}

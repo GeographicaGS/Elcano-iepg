@@ -203,6 +203,16 @@ app.view.map = function(options){
             var v = layer.feature.properties;
 
             var fnumber = noformattooltip ? v.value : app.formatNumber(v.value);
+
+            var unitsStr;
+
+            if (units=="º")
+                unitsStr = app.ordchr(fnumber);
+            else if (units == "%")
+                unitsStr = units;
+            else
+                unitsStr = "";
+
             
             var html = "<div>" 
                     +   "<span>" +app.countryToString(v.code) + "</span>"
@@ -211,7 +221,7 @@ app.view.map = function(options){
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(v.variable,v.family) + "</span>"
-                    +   "<span>" + fnumber + (units=="º" ? app.ordchr(fnumber) : "" )  + "</span>"
+                    +   "<span>" + fnumber + unitsStr  + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
 

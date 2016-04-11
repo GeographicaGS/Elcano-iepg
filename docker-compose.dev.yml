@@ -106,4 +106,26 @@ nginx:
     - ./www/cdn:/cdn
     - ./www/src:/src
 
+www_builder:
+  build: www
+  links:
+    - pgsql:pgsql
+
+  volumes:
+    - ./www/src:/usr/src/app
+    - ./www/cdn:/usr/src/cdn
+
+  environment:
+    - POSTGRES_HOST=${POSTGRES_HOST}
+    - POSTGRES_DB=${POSTGRES_DB}
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  
+  #command: npm run-script builder-watcher
+  #command: npm run-script builder-watcher-frontend
+  # command: npm run-script builder-watcher-backend
+  #command: npm run-script builder-watcher-explora
+  #command: npm run-script debug
+
+
 

@@ -166,9 +166,9 @@ app.ini = function(){
     });
 
     // Check and show help
-    if (!(localStorage['dontShowHelp'] === 'true')) {
-        app.showHelp();
-    }
+    // if (!(localStorage['dontShowHelp'] === 'true')) {
+    //     app.showHelp();
+    // }
     $("#help_btn").click(function(e){
         e.preventDefault();
         app.showHelp();
@@ -806,3 +806,11 @@ app.getBrowser = function(){
     if((tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
     return M;
 };
+
+app.shortString = function (text, maxLength) {
+    var ret = text;
+    if (ret.length > maxLength) {
+    ret = ret.substr(0,maxLength-3) + "…";
+    }
+    return ret;
+}

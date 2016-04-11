@@ -63,17 +63,6 @@ Insert the new PIB and the new population for the new countries. For more info c
 - Add new year to src/explora/config.js and src/frontend/config.js
 
 
-# Notes for YEAR 2015
-- Make a database backup.
-- Merge branch dev-data_2015.
-- Add new popgdp. Run pop_gdp.py and execute at DB.
-- Update everything flux_updatewholeapp.py 
-- Update www/src/*/js/config.js + jake
-- Restart uwsgi + Apache.
-
-
-
-
 
     
 

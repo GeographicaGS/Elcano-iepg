@@ -178,6 +178,7 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.slider.bringToFront();
         this.countries.bringToFront();
         this.render();
+        this.onBringToFront();
 
         return this;
     },
@@ -192,8 +193,18 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.countries.bringToBack();
         this.stopListening();
         this.clearMap();
+        this.onBringToBack();
 
         return this;
+    },
+
+
+    onBringToFront: function(){
+
+    },
+
+    onBringToBack: function(){
+        
     },
 
     /* 

@@ -10,7 +10,7 @@ To check the code for errors and build Leaflet from source, run "jake".
 To run the tests, run "jake test".
 
 */
-
+	
 var build = require("./build/build.js");
 var translate = require("./build/translate.js");
 var resource = require("./build/resource.js");

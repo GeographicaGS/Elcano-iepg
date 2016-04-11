@@ -127,7 +127,6 @@ docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < $POSTGRES_D
 
 ```
 
-
 # Manager.sh
 At production and staging we use manager.sh to start, stop and refresh the servers.
 

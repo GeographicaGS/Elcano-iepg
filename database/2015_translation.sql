@@ -14,6 +14,8 @@ SET search_path = www, pg_catalog;
 -- Data for Name: translation; Type: TABLE DATA; Schema: www; Owner: elcano_iepg_admin
 --
 
+DELETE FROM translation;
+
 COPY translation (key, en, es) FROM stdin;
 Variables, Indicadores y fuentes del Índice Elcano de Presencia Europea	Variables, indicators and sources of the Elcano European Presence Index	Variables, Indicadores y fuentes del Índice Elcano de Presencia Europea
 Variables, indicadores y fuentes del Índice Elcano de Presencia Global	Variables, indicators and sources of the Elcano Global Presence Index	Variables, indicadores y fuentes del Índice Elcano de Presencia Global

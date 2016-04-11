@@ -62,7 +62,7 @@ api_explora:
 
   command: uwsgi -s 0.0.0.0:5000 --enable-threads -w explora:app
 
-# TODO: REMOVE thids container, we should use AMAZON Cloudfront + Lincoln NGINX
+# TODO: REMOVE this container, we should use AMAZON Cloudfront + Lincoln NGINX
 nginx:
   restart: always
   build: .
@@ -74,5 +74,20 @@ nginx:
     - api_backend:api_backend
     - api_frontend:api_frontend
 
+
+www_builder:
+  build: www
+  links:
+    - pgsql:pgsql
+
+  volumes:
+    - ./www/src:/usr/src/app
+    - ./www/cdn:/usr/src/cdn
+
+  environment:
+    - POSTGRES_HOST=${POSTGRES_HOST}
+    - POSTGRES_DB=${POSTGRES_DB}
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
 

@@ -4,6 +4,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     _templateHelp : _.template( $('#ranking_tool_help_template').html() ),
     type: "ranking",
     _dataMap : null,
+    _refYear : true,
 
     initialize: function() {
         this.slider = new app.view.tools.common.SliderSinglePointReference();
@@ -14,7 +15,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         return _.extend({},
             app.view.tools.Plugin.prototype._events.apply(this),
             {
-               "click a[block-analyze]": "changeBlockAnalysis"
+               "click a[block-analyze]": "changeBlockAnalysis",
+               "click .toggler": "_toggleRef"
            }
         );
     },
@@ -49,7 +51,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
-            this.for
+            
             this.render(); // implicit save the context
         });
 
@@ -64,6 +66,19 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             this._forceFetchDataTool = true;
             this.render(); // implicit save the context
         });
+    },
+
+    _toggleRef: function(e){
+        var $e = $(e.target)
+        this._refYear = !$e.hasClass('enable');
+        if (this._refYear){
+            this.$('.chart').removeClass('noref');
+            $e.addClass('enable');
+        }
+        else{
+            this.$('.chart').addClass('noref');
+            $e.removeClass('enable');
+        }
     },
 
     /* Fetch data for the current country*/
@@ -311,7 +326,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             height  = this.$chart.height() - margin.top - margin.bottom;
         }
 
-
         var svg = d3.select(".chart").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -351,10 +365,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         var subset = canvas.selectAll(".bar").data(data);
 
         var div = d3.select("#ranking_chart_tooltip") ;
-        // var div = d3.select("body").append("div")   
-        // .attr("class", "tooltip")               
-        // .style("opacity", 0);
-
+      
         var obj = this;
 
         canvas.append("rect")
@@ -363,36 +374,35 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("id","selection_mark")
             .attr("style","fill:#a2a2ac;opacity:0.2")
             .attr("x", 0)
-            .attr("y", 0)
+            .attr("y", 0);
+
+        function barmousehover(d) {   
+            div.transition()        
+                .duration(200)      
+                .style("opacity", 1);      
+            
+            div.html(obj._htmlChartToolTip(_.extend(d,{"year": year,"yearRef": yearRef})))  
+            .style("left", (d3.event.pageX) + "px")     
+            .style("top", (d3.event.pageY - 28) + "px");    
+        }
+
+        function barmouseout(d) {   
+            div.transition()        
+                    .duration(500)      
+                    .style("opacity", 0);    
+        }
 
         // Variable bars
         canvas.selectAll(".bar").data(data).enter().append("rect")
-          .attr("class", "bar")
-          .attr("x", yAxisWidth)
-          .attr("width", function(d) { return x(d.currentValue); })
-          .attr("style","fill:"+colorVariable)
-          .attr("y", function(d) { return y(data.indexOf(d) + 1); })
-          .attr("country",function(d){ return d.code;})
-          .attr("height", barHeight)
-          .on("mouseover", function(d) {     
-                div.transition()        
-                    .duration(200)      
-                    .style("opacity", 1);      
-                div.html(obj._htmlChartToolTip({
-                    "pos" : d.currentRanking,
-                    "code" : d.code,
-                    "value" : d.currentValue,
-                    "year" : year,
-                    
-                }))  
-                    .style("left", (d3.event.pageX) + "px")     
-                    .style("top", (d3.event.pageY - 28) + "px");    
-                })                  
-            .on("mouseout", function(d) {       
-                div.transition()        
-                    .duration(500)      
-                    .style("opacity", 0);   
-            });
+            .attr("class", "bar")
+            .attr("x", yAxisWidth)
+            .attr("width", function(d) { return x(d.currentValue); })
+            .attr("style","fill:"+colorVariable)
+            .attr("y", function(d) { return y(data.indexOf(d) + 1); })
+            .attr("country",function(d){ return d.code;})
+            .attr("height", barHeight)
+            .on("mouseover", barmousehover)                  
+            .on("mouseout", barmouseout);
 
         // References bars
         subset.enter().append("rect")
@@ -401,25 +411,9 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("width", function(d) { return x(d.referenceValue); })
             .attr("y", function(d) { return y(data.indexOf(d) + 1) + barHeight + 1; })
             .attr("height", barHeight)
-            .on("mouseover", function(d) {   
+            .on("mouseover", barmousehover)                  
+            .on("mouseout", barmouseout);
 
-                div.transition()        
-                    .duration(200)      
-                    .style("opacity", 1);      
-                div.html(obj._htmlChartToolTip({
-                    "pos" : d.referenceRanking,
-                    "code" : d.code,
-                    "value" : d.referenceValue,
-                    "year" : yearRef,
-                }))  
-                    .style("left", (d3.event.pageX) + "px")     
-                    .style("top", (d3.event.pageY - 28) + "px");    
-            })                  
-            .on("mouseout", function(d) {       
-                div.transition()        
-                    .duration(500)      
-                    .style("opacity", 0);   
-            });
 
         // Y axis
         var co_label = subset.enter().append("g")
@@ -523,20 +517,35 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     },
 
     _htmlChartToolTip: function(d){
+        console.log(d);
         var ctx = this.getGlobalContext().data,
             variable = ctx.variables[0],
             family = ctx.family;
 
-            html = "<div>" 
-                    +   "<span>" + d.pos + app.ordchr(d.pos) + " " +app.countryToString(d.code) + "</span>"
-                    +   "<span>" + d.year + "</span>"
-                    +   "<div class='clear'></div>"
-                    + "</div>"
-                    + "<div>" 
-                    +   "<span>" + app.variableToString(variable,family) + "</span>"
-                    +   "<span>" + app.formatNumber(d.value) + "</span>"
-                    +   "<div class='clear'></div>"
-                    +"</div>";
+            html = "<div class='block'>" 
+                        + "<div class='line1'>" 
+                        +   "<span class='title1'>" + d.currentRanking + app.ordchr(d.currentRanking) + " " +app.countryToString(d.code) + "</span>"
+                        +   "<span class='value1'>" + d.year + "</span>"
+                        + "</div>"
+                        + "<div class='line2'>" 
+                        +   "<span class='title2 uppercase'>" + app.variableToString(variable,family) + "</span>"
+                        +   "<span class='value2'>" + app.formatNumber(d.currentValue) + "</span>"
+                        +"</div>"
+                    + "</div>";
+
+        if (this._refYear){
+
+            html += "<div class='block ref'>" 
+                        + "<div class='line1'>" 
+                        +   "<span class='title1'>" + d.referenceRanking + app.ordchr(d.referenceRanking) + " " +app.countryToString(d.code) + "</span>"
+                        +   "<span class='value1'>" + d.yearRef + "</span>"
+                        + "</div>"
+                        + "<div class='line2'>" 
+                        +   "<span class='title2 uppercase'>" + app.variableToString(variable,family) + "</span>"
+                        +   "<span class='value2'>" + app.formatNumber(d.referenceValue) + "</span>"
+                        +"</div>"
+                    + "</div>";
+        }
 
         return html;
 
@@ -644,19 +653,19 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     },
 
 
-    scrollChartDown: function(e){
-        e.preventDefault();
-        console.log("Scroll down");
-        var _this = this;
-        _this.zoom.y(100);
-              _this.zoomed();
+    // scrollChartDown: function(e){
+    //     e.preventDefault();
+    //     console.log("Scroll down");
+    //     var _this = this;
+    //     _this.zoom.y(100);
+    //           _this.zoomed();
         
-    },
+    // },
 
-    scrollChartUp: function(e){
-        e.preventDefault();
-        console.log("Scroll up");
-    },
+    // scrollChartUp: function(e){
+    //     e.preventDefault();
+    //     console.log("Scroll up");
+    // },
 
     changeBlockAnalysis: function(e){
         var $e= $(e.target).closest("a");

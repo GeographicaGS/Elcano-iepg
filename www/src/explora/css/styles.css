@@ -1619,7 +1619,8 @@ body > li.ui-draggable {
 div.tooltip {   
     position: fixed;                                        
     padding: 10px;             
-    font: 12px sans-serif;        
+    font-size: 12px;        
+    .roboto();
     background: @grey_dark;   
     border: 0px;         
     pointer-events: none;     
@@ -1638,14 +1639,13 @@ div.tooltip {
 
         span:nth-child(2){
             float:right;
-
         }
     }
 
     div:nth-child(1){
+
         span{
             color: @white;
-            
         }
       
         span:nth-child(2){
@@ -1662,7 +1662,6 @@ div.tooltip {
         padding-top: 4px;
 
         span{
-            
             color: #d1d1d6;
         }
 
@@ -1671,9 +1670,82 @@ div.tooltip {
             text-transform: uppercase;
         }
     }
-
-    
 }
+
+div.tooltipnew {   
+    position: fixed;                                        
+    
+    
+    border: 0px;         
+    pointer-events: none;     
+    z-index: 4;
+    .block{
+        background-color: @grey_dark;
+        padding: 10px;
+
+        color: #fff;
+
+        span{
+            .roboto();
+            font-size: 13px;
+        }
+
+        .line1,.line2{
+            height: 27px;
+        }
+        .line2{
+            &:before{
+                content: '';
+                display: block;
+                height: 1px;
+                background-color: #4a4a4d;
+                margin-bottom: 4px;
+            }            
+        }
+
+
+        .title1,.title2{
+            float:left;
+            margin-right: 20px;
+        }
+        .value1,.value2{
+            float: right;
+        }
+
+        .value1{
+            .roboto(bold);
+            background-color: @red;
+            padding: 0px 5px;
+            line-height: 20px;
+        }
+
+        .title2{
+            color: #d1d1d6;
+            font-size: 11px;
+
+        }
+
+        &.ref{
+            background-color: #515155;
+
+            .value1{
+                background-color: transparent;
+                border: 1px solid #a2a2ac;
+            }
+            .line2{
+                &:before{
+                    background-color: #6a6a6e;
+                    margin-top: 2px;
+                }
+            }
+        }
+
+       
+    }
+
+
+}
+
 
 div.tooltip.comp{
     .co_progress{
@@ -1987,7 +2059,7 @@ div.tooltip.comp{
 #ctrl_map_zoom{
     position: absolute;
     right: 20px;
-    top: 9px;
+    top: 77px;
     z-index: 2;
     /* Control zoom are show when map goes full screen */
     display: none;

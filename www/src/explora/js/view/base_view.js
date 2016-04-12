@@ -191,8 +191,8 @@ app.view.Base = Backbone.View.extend({
 
                 this.$tool.find("#tool_data").fadeOut(300);
                 this.$tool.fadeOut(300);
-                this.$country_panel.fadeOut(300);
-                this.$ctrl_filter.fadeOut(300);
+                //this.$country_panel.fadeOut(300);
+                //this.$ctrl_filter.fadeOut(300);
  
             }
             else{
@@ -200,8 +200,8 @@ app.view.Base = Backbone.View.extend({
                 ml = this.$tool.width() * -1;
                 this.$tool.find("#tool_data").width( $(window).width() -  this.originLeft - 20).height();
                 this.$tool.animate({"left": ml});
-                this.$country_panel.animate({"right": (this.$country_panel.width() + this.originCountryPanel)*-1 });
-                this.$ctrl_filter.animate({"right": (this.$ctrl_filter.width() + this.originCtrlFilter)*-1 });
+                //this.$country_panel.animate({"right": (this.$country_panel.width() + this.originCountryPanel)*-1 });
+                //this.$ctrl_filter.animate({"right": (this.$ctrl_filter.width() + this.originCtrlFilter)*-1 });
             }
 
             this.$control_panel.fadeOut(300);
@@ -216,8 +216,8 @@ app.view.Base = Backbone.View.extend({
             if (app.isTouchDevice()){
                 this.$tool.find("#tool_data").fadeIn(300);
                 this.$tool.fadeIn(300);
-                this.$country_panel.fadeIn(300);
-                this.$ctrl_filter.fadeIn(300);
+                //this.$country_panel.fadeIn(300);
+                //this.$ctrl_filter.fadeIn(300);
  
             }
             else{
@@ -227,8 +227,8 @@ app.view.Base = Backbone.View.extend({
                     $(this).find("#tool_data").css('width', 'auto');
                 });
 
-                this.$country_panel.animate({"right":this.originCountryPanel});
-                this.$ctrl_filter.animate({"right":this.originCtrlFilter});
+                //this.$country_panel.animate({"right":this.originCountryPanel});
+                //this.$ctrl_filter.animate({"right":this.originCtrlFilter});
                 
             }
 

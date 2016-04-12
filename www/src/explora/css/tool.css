@@ -923,46 +923,118 @@
             top: @line_height;
             z-index:2;
 
-            ul.analyze{
-                margin-top:18px;
-                li{
-                    height: 20px;
-                    a{
-                        .roboto();
-                        font-size: 13px;
-                        color: @grey_light;
-                        display: inline-block;
-                        vertical-align: middle;
+            .ctrl_tool{
+                height: 44px;
+                background-color: #ececee;
+                padding: 10px;
+                margin-top: 18px;
+                span{
+                    font-size: 13px;
+                }
+                .co_ranking_type{
+                    .label{
+                        float:left;
                     }
+                    ul.analyze{
+                        float:left;
+                        margin-left: 10px;
+                        li{
+                            float:left;
+                            background-color:#a2a2ac;
+                            font-size: 13px;
+                            color: #fff;
+                            padding: 0px 10px;
+                            border-right: 1px solid #fff;
 
-                    a::before{
-                        content: "";
-                        display: inline-block;
-                        vertical-align: middle;
-                        background-color: @white;
-                        border: 4px solid @grey_light;
-                        border-radius: 100%;
-                        width:15px;
-                        height: 15px;
+                            &[selected]{
+                                background-color: #28282b;
+                            }
+
+                            &:first-child{
+                                border-radius: 15px 0px 0 15px;
+                            }
+                            &:last-child{
+                                border-radius: 0 15px 15px 0;
+                                border-right: none;
+                            }
+                        }
                     }
+                }
 
-                    &[selected]{
-                        a{
-                            color:@grey_dark;
+                .ctrl_ref{
+                    float:right;   
+                    span{
+                        float: left;
+                    }
+                    .toggler{
+                        width: 32px;
+                        height: 16px;
+                        background-color: #fff;
+                        margin: 3px 0 0 7px;
+                        border-radius: 16px;
+                        padding: 2px;
+                        cursor: pointer;
+                        
+                        &:after{
+                            content: '';
+                            float: left;
+                            background-color: #d0d0d5;
+                            width: 12px;
+                            height: 12px;
+                            border-radius: 12px;
                         }
 
-                        a::before{
-                             background-color: @yellow;
-                             border-color: #000;
-                             
+                        &.enable{
+                            background-color: @grey;
+                            &:after{
+                                float:right;
+                                background-color: #fff;
+                            }
                         }
                     }
                 }
             }
+
+            // ul.analyze{
+            //     margin-top:18px;
+            //     li{
+            //         height: 20px;
+            //         a{
+            //             .roboto();
+            //             font-size: 13px;
+            //             color: @grey_light;
+            //             display: inline-block;
+            //             vertical-align: middle;
+            //         }
+
+            //         a::before{
+            //             content: "";
+            //             display: inline-block;
+            //             vertical-align: middle;
+            //             background-color: @white;
+            //             border: 4px solid @grey_light;
+            //             border-radius: 100%;
+            //             width:15px;
+            //             height: 15px;
+            //         }
+
+            //         &[selected]{
+            //             a{
+            //                 color:@grey_dark;
+            //             }
+
+            //             a::before{
+            //                  background-color: @yellow;
+            //                  border-color: #000;
+                             
+            //             }
+            //         }
+            //     }
+            // }
         }
 
         .co_chart{
-            top: 90px;
+            top: 110px;
             bottom: 28px;
             z-index: 1;
         }
@@ -1035,8 +1107,16 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
+        }
 
-           
+        foreignobject body{
+            min-width: 0 !important;
+        }
+
+        &.noref{
+            .bar.ref{
+                display: none;
+            }
         }
     }
 

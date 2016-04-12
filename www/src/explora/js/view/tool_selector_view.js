@@ -154,6 +154,20 @@ app.view.ToolSelector = Backbone.View.extend({
         }
 
         this.refreshCounterElements();
+    },
+
+    _loadCountry: function(countrycode){
+        var ctx = app.context;
+
+        ctx.data.countries.indexOf
+        if (ctx.data.countries.list.indexOf(countrycode) == -1){
+            ctx.data.countries.list.push(countrycode);
+        }
+
+        ctx.data.countries.selection = [countrycode];
+
+        app.events.trigger("contextchange:countries");
+        console.log('yeah!');
     }
 
 

@@ -17,8 +17,6 @@ app.view.map = function(options){
     this.$maplabel = options.maplabel ? options.maplabel : $("#map_label");
     this.$maplegend = options.maplegend ? options.maplegend : $("#map_legend");
 
-
-
     this.initialize = function(options){
 
         var southWest = L.latLng(-85, -190),
@@ -247,12 +245,19 @@ app.view.map = function(options){
             this._map.fitBounds(e.target.getBounds());
         }
 
+        function goToCountrySheet(e) {
+            app.events.trigger('tool:country:load',e.target.feature.properties.code);
+            console.log(e.target.feature.properties.code);
+        }
+
         function onEachFeature(feature, layer) {
 
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
-                click: !app.isTouchDevice() ? zoomToFeature : highlightFeature
+                click: !app.isTouchDevice() ? goToCountrySheet : highlightFeature,
+                dblclick: goToCountrySheet
+
             });
         }
 

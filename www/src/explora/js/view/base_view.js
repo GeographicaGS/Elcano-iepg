@@ -51,11 +51,12 @@ app.view.Base = Backbone.View.extend({
             this.addTool(tool,false);
         }
 
+        this.listenTo(app.events,'tool:country:load',this._loadCountry);
+
     },
 
     events: {
         "click #ctrl_tool" : "toggleTools",
-        //"click #control_panel a" : "goToVisible",
         "click .header .close": "removeCurrentTool",
         "click #add_tool a": "showAddToolView",
         "click #ctrl_filter" : "showAddFilterSelectorView"
@@ -447,6 +448,30 @@ app.view.Base = Backbone.View.extend({
         }
 
         this._filterSelectorView = new app.view.FilterSelector(); 
+    },
+
+    _loadCountry: function(countrycode){
+        var ctx = app.context;
+
+        ctx.data.countries.indexOf
+        if (ctx.data.countries.list.indexOf(countrycode) == -1){
+            ctx.data.countries.list.push(countrycode);
+        }
+
+        ctx.data.countries.selection = [countrycode];
+
+        app.events.trigger("contextchange:countries");
+
+        app.router.navigate('/tool/country',{trigger: true});
+        
+        var $ctrl = this.$('#ctrl_tool');
+
+        if (!$ctrl.hasClass('close')){
+            $ctrl.trigger('click');
+        }
+
+
+        console.log('yeah!');
     }
     
 });

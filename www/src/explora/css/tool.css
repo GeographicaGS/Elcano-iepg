@@ -734,6 +734,9 @@
                         span.iepgvsiepe{
                             .roboto(ultra-bold);
                             font-size: 11px;
+                            @media (max-width: 1025px){
+                                font-size: 10px;
+                            }
                         }
 
                         &.left,&.right{

@@ -262,15 +262,16 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             // Links to DOM Elements
             $co_chart = pos == "left" ? this.$co_left : this.$co_right,
            
-            $country_name = $co_chart.find(".name"),
-            $img = $co_chart.find("img");
+            $country_name = $co_chart.find(".country_name"),
+            $co_img = $co_chart.find(".co_flag2");
             
 
             
         if (country){
             // Set the country name
-            $country_name.html(app.countryToString(country) + " " + year).removeClass("no_data");
-            $img.attr('src','/img/flags/'+country+'.svg').show;
+            $country_name.find('.name').html(app.countryToString(country) + " " + year).removeClass("no_data");
+            $co_img.find('img').attr('src','/img/flags/'+country+'.svg');
+            $co_img.show();
 
             if (forceFetch){
                 // Fetch the data of this tool
@@ -320,6 +321,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         else{
             $country_name.html("<lang>contribuciones no pais titulo</lang>").addClass("no_data");
             this._drawD3ChartNoData(pos);
+            $co_img.hide();
         }
             
 
@@ -752,14 +754,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         }
 
-    },
-
-    _renderChartLegend: function(pos,name){
-        $legend = pos == "left" ? this.$chart_legend_left : this.$chart_legend_right;
-        $legend.html(this._templateChartLegend({
-            data: this._d3[pos].tree.findElementInTree(name),
-            family : this.getGlobalContext().data.family
-        }));
     },
 
     contextToURL: function(){

@@ -19,7 +19,8 @@
     </div>
 
     <% if (model && variable.value) { %>
-     <div class="topbanner">
+     <div class="topbanner col-md-7 col-lg-6">
+
         <div class='fleft'>
             <h5 style="color:<%=app.view.tools.utils.getVariablesColorsForText("global",ctx.family)%>">
             <%= app.variableToString("global",ctx.family) %>
@@ -51,11 +52,11 @@
             <% if (app.getFilters().length 
                     && variable.relativeranking 
                     && variable.relativeranking!=variable.globalranking ){ %>
-                    [
+                    
                     <span class="relativeranking">
-                        <%= sprintf("<lang> Ranking con filtro %d</lang>%s", variable.relativeranking,app.ordchr(variable.relativeranking)) %>
+                        <%= sprintf("<lang> Con filtro %d</lang>%s", variable.relativeranking,app.ordchr(variable.relativeranking)) %>
                     </span>
-                    ]
+                    
             <% }%>
             
         </div>
@@ -69,7 +70,7 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-6 col-md-6">
+                <div class="col-md-7 col-lg-6">
                     <div class="row mbh2 firstrowleft">
                         <div class="col-md-12">
                             <div class="chart_legend"></div>
@@ -80,12 +81,12 @@
                     <% if((model.comment && model.comment.comment) || country.length > 2) { %>
 
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-md-12">
                             <span class="grey uppercase size_11"><lang>Análisis</lang></span>
                         </div>
 
                         
-                        <div class='col-xs-12 co_comment_wrapper'>
+                        <div class='col-md-12 co_comment_wrapper'>
                             <a class='readmore' href='#'><lang>Seguir leyendo</lang></a>
                             <div class="comment_wrapper short">
                                 <% if (model.comment && model.comment.comment) { %>
@@ -122,11 +123,11 @@
 
                     <% if (false && model.comment && model.comment.comment) { %>
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-md-12">
                             <span class="grey uppercase size_11"><lang>Análisis</lang></span>
                         </div>
 
-                        <div class="col-xs-12 comment_wrapper">
+                        <div class="col-md-12 comment_wrapper">
                             <div class="co_text size_16"><%= model.comment.comment %></div>
                             <a href='#'>
                                 <lang>seguir leyendo</lang>
@@ -138,19 +139,19 @@
                     <% if (false && country.length > 2) { %>
                         <% if (!model.comment || !model.comment.comment) { %>
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-md-12">
                                 <span class="grey uppercase size_11"><lang>Análisis</lang></span>
                             </div>
                         </div>
                         <% } %>
 
                         <div class="row">
-                            <p class="col-xs-12 mth1 mb">
+                            <p class="col-md-12 mth1 mb">
                                 <%= sprintf("<lang>El bloque %s está compuesto por</lang>",app.countryToString(country)) %>:
                             </p>
                         </div>
                         <div class="row">
-                            <ul class="flag_wrapper noclickable col-xs-6">
+                            <ul class="flag_wrapper noclickable col-md-8 col-lg-6">
                                 <% 
                                 country_list = _.sortBy(app.blocks[country][year], function(c){ return  app.countryToString(c) });
 
@@ -191,7 +192,7 @@
                                         <% } %>
                                     </span>
                                 </div>
-                                <div class='col-md-5 co_ranking'>
+                                <div class='col-md-5 co_ranking noicon'>
                                     <span class="size_13">
                                     <% 
                                         if (country.length == 2) { 
@@ -213,7 +214,11 @@
                                     <% if (app.getFilters().length 
                                         && gdp.relativeranking 
                                         && gdp.relativeranking!=gdp.globalranking ){ %>
-                                        <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %d</lang>%s", gdp.relativeranking,app.ordchr(gdp.relativeranking)) %></span>
+                                        
+                                        <span class="relativeranking" 
+                                            title="<%= sprintf("<lang> Ranking con filtro %d</lang>%s", gdp.relativeranking,app.ordchr(gdp.relativeranking)) %>"> 
+                                            [<%= gdp.relativeranking + ' ' + app.ordchr(gdp.relativeranking) %>]
+                                        </span>
                                     <% }%>
                                 </div>
                             </li>
@@ -244,7 +249,7 @@
                                         <% } %>
                                     </span>
                                 </div>
-                                <div class='col-md-5 co_ranking'>
+                                <div class='col-md-5 co_ranking noicon'>
                                     <span class="size_13">
                                         <% 
                                             if (country.length == 2) { 
@@ -261,7 +266,7 @@
                                     <% if (app.getFilters().length 
                                         && population.relativeranking 
                                         && population.relativeranking!=population.globalranking ){ %>
-                                        <span class="size_13 roboto_italic"> / <%= sprintf("<lang> Ranking con filtro %d</lang>%s", population.relativeranking,app.ordchr(population.relativeranking)) %></span>
+                                        <span class="relativeranking"> [<%= population.relativeranking + ' ' + app.ordchr(population.relativeranking) %>]</span>
                                     <% }%>
 
                                 </div>
@@ -272,7 +277,7 @@
                     <div class="mth1"></div>
                 </div>
 
-                <div class="col-sm-6 col-md-6">
+                <div class="col-md-5 col-lg-6">
                     <div class="chart"></div>
                     <div class="country_name border">
                         <div class="co_flag2">

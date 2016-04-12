@@ -1,4 +1,4 @@
-<ul class='table'>
+<ul class='table <%= iepgvsiepe ? 'iepgvsiepe' : '' %>'>
   <li class='superth'>
     <ul>
       <li class='left' >
@@ -24,9 +24,9 @@
       <% if (iepgvsiepe) {%>
       <li class='left' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
       <% } %>
-      <li class='left' title="<lang>Contribución de presencia</lang>"><lang>Contribución de presencia</lang></li>
+      <li class='left central' title="<lang>Contribución de presencia</lang>"><lang>Contribución de presencia</lang></li>
       <li class='vartitle' title="<lang>Variable</lang>"><lang>Variable</lang></li>
-      <li class='right' title="<lang>Contribución de presencia</lang>"><lang>Contribución de presencia</lang></li>
+      <li class='right central' title="<lang>Contribución de presencia</lang>"><lang>Contribución de presencia</lang></li>
       <% if (iepgvsiepe) {%>
       <li class='right' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
       <% } %>

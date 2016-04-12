@@ -405,7 +405,8 @@
 .co_ranking{
     color: #28282b;
     font-size: 13px;
-    &:before{
+
+    &:not(.noicon):before{
         content: '';
         background: url("@{imgPath}ELC_icon_h_ranking.svg");
         height: 14px;
@@ -446,10 +447,8 @@
         left: 0;
         z-index: 2;
         background-color: #fff;
-        padding: 16px 20px;
-        width: 50%;
+        padding: 16px 20px 0 20px;
         
-       
         h6{
             .roboto(ultra-bold);
             font-size: 18px;
@@ -457,6 +456,14 @@
 
         .co_ranking{
             float: right;
+            span{
+                display: inline-block;
+                text-align: right;
+            }
+            span.relativeranking{
+                display: block;
+                line-height: 14px;
+            }
         }
     }
 
@@ -481,7 +488,7 @@
     }
 
     .firstrowleft{
-        margin-top: 50px;
+        margin-top: 70px;
     }
 
     .basic_data{
@@ -507,6 +514,10 @@
         }
     }
   
+    .chart{
+        margin-top: 40px;
+    }
+
 
 }
 
@@ -636,13 +647,13 @@
                         float: left;
                     }
 
-                    &:nth-child(3){
+                    &:nth-child(3),&:nth-child(2){
                         width: 115px;                        
                     }
 
-                    &:nth-child(2){
-                        width: 215px;
-                    }
+                    // &:nth-child(2){
+                    //     width: 115px;
+                    // }
 
                     .variableIcon{
                         float: left;
@@ -791,6 +802,14 @@
                         }
                     }
                 }
+            }
+        }
+        &.iepgvsiepe{
+            li.left,li.right{
+                width: 60px;
+            }
+            .central{
+                min-width: 90px !important;
             }
         }
     }
@@ -1195,150 +1214,10 @@
         margin-top: 45px;
     }
 
-    // #piepg,#piepe,#pcenter{
-    //     display: table-cell;
-    //     width: 45%;
-    //     vertical-align: top;
-    // }
-
-    // #pcenter{
-    //     width: 10%;
-    //     vertical-align: top;
-    //     text-align: center;
-
-    //     .co_vs{
-    //         margin-top: 90px;
-    //         .vs{
-           
-    //             border-radius: 100%;
-    //             width:30px;
-    //             height:30px;
-    //             .roboto();
-    //             font-size: 11px;
-    //             border: 1px solid @grey_light2;
-    //             margin: auto;
-    //             line-height: 30px;
-    //         }
-    //     }
-       
-    // }
-
-    // .subheader {
-        
-    //     border-bottom: 1px solid #d0d0d5;
-    //     padding-bottom: 5px;
-
-    //     .name{
-    //         font-size: 11px;
-    //         text-transform: uppercase;   
-    //         width: 80px;
-    //         color:@grey;
-    //         line-height: 14px;
-    //         .roboto();
-
-    //     }
-
-    //     .index{
-    //         margin-top: 22px;
-
-    //         .co_flag,.value{
-    //            float:left;
-    //         }
-    //         .co_flag{
-    //             height: 25px;
-    //             width: 25px;
-    //         }
-
-    //         .value{
-    //             font-size: 21px;
-    //             margin-top: 1px;
-    //             .roboto();
-    //         }
-    //     }
-
-    //     .co_ranking{
-
-    //         position: relative;
-    //         margin-top: 23px;
-    //         img,span{
-    //             float:left;
-    //         }
-    //         img{
-    //             margin-top: 4px;
-    //         }
-    //         span{
-    //             font-size: 13px;
-    //         }
-
-    //     }
-
-       
-    // }
-
-    // .ico{
-    //     position: absolute;
-    //     top:0;
-    // }
-
-    // #piepg{
-    //     .subheader{
-    //         margin-left: 20px;
-    //         .name{
-    //             text-align: left;
-    //             float: left; 
-    //         }
-
-    //         .index{
-    //             float:left;
-    //             margin-left: 100px;
-
-    //             .value{
-    //                 margin-left: 6px;
-    //             }
-    //         }
-
-    //         .co_ranking{
-    //             float:right;
-    //             img{
-    //                 margin-right: 6px;
-    //             }
-
-    //         }
-    //     }
-    //     .ico{
-    //         right:0;
-    //     }
-    // }
-
-    // #piepe{
-    //     .subheader{
-    //         margin-right: 20px;
-            
-    //         .name{
-    //             text-align: right;
-    //             float: right; 
-    //         }
-
-    //         .co_ranking{
-    //             float:left;
-    //             img{
-    //                 margin-left: 6px;
-    //             }
-    //         }
-
-    //         .index{
-    //             float:right;
-    //             margin-right: 100px;
-    //             .value{
-    //                 margin-right: 6px;
-    //             }
-    //         }
-    //     }
-    //     .ico{
-    //         left:0;
-    //     }
-    // }
-
+    #data_legend{
+        padding-left: 0;
+        padding-right: 0;
+    }
     .container-comp .helpIcon{
         top: 55px !important;
     }

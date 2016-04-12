@@ -834,7 +834,7 @@
             height: 18px;
             span{
                 float:left;
-                font-size: 11px;
+                font-size: 13px;
                 color: @grey;
                 line-height: 12px;
 
@@ -957,6 +957,14 @@
                                 border-radius: 0 15px 15px 0;
                                 border-right: none;
                             }
+                        }
+                    }
+
+                    &.disabled{
+                        opacity: 0.2;
+                        pointer-events: none;
+                        ul.analyze li[selected]{
+                            background-color: #a2a2ac;
                         }
                     }
                 }
@@ -1134,6 +1142,10 @@
             right: 0px;
             bottom:0px;
             border: 1px solid @grey_light2;
+
+            span{
+                font-size: 11px;
+            }
         }
     }
 

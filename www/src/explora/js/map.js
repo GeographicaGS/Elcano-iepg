@@ -2,7 +2,9 @@ app.view.map = function(options){
     this.baseLayer = null;
 
     //this._choroplethColors = ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C"];
-    this._choroplethColors = ["#ffd88b","#f9be84","#fa976a","#ee6756","#de3338"];
+    //this._choroplethColors = ["#ffd88b","#f9be84","#fa976a","#ee6756","#de3338"];
+    this._choroplethColors = ["#fef0d9","#fdcc8a","#fc8d59","#e34a33","#b30000"];
+   
 
     this.CHOROPLETH_INTERVALS = 5;
 

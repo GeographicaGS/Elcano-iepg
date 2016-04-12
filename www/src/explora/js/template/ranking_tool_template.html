@@ -28,9 +28,9 @@
                                 </h5>
                                
                                 <div class="ctrl_tool">
-                                    <div class='co_ranking_type'>
+                                    <div class='co_ranking_type <%= ctx.family =="iepg" ? 'enable' : 'disabled'%>'>
                                         <span class='label'><lang>Ranking de</lang></span>
-                                        <ul class="analyze <%= ctx.family =="iepg" ? 'enable' : 'disabled'%>" >
+                                        <ul class="analyze " >
                                             <% for (var i=0;i<3;i++) { %>
                                             <li <%= ctx.block_analize == i ? "selected" : "" %> >
                                                 <a href="#" block-analyze="<%= i %>">

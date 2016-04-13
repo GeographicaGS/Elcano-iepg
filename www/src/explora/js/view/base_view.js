@@ -483,11 +483,11 @@ app.view.Base = Backbone.View.extend({
 
         app.router.navigate('/tool/country',{trigger: true});
 
-        var $ctrl = this.$('#ctrl_tool');
+        // var $ctrl = this.$('#ctrl_tool');
 
-        if (!$ctrl.hasClass('close')){
-            $ctrl.trigger('click');
-        }
+        // if (!$ctrl.hasClass('close')){
+        //     $ctrl.trigger('click');
+        // }
     }
     
 });

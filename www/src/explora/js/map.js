@@ -64,6 +64,31 @@ app.view.map = function(options){
             }
         });
         this._baseLayer.addTo(this._map);  
+
+        this._saharamoroccoLine = L.geoJson({
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                   -13.11952,27.65578
+                    ],
+                    [
+                    -8.67006,27.66630
+                    ]
+                ]
+            }
+        },
+        {
+            
+            weight: 1.5,
+            opacity: 1,
+            color: '#a2a2ac',
+            dashArray: '3,6'
+        });
+
+        this._saharamoroccoLine.addTo(this._map);
+    
     };
 
     /* Resize the map */ 
@@ -175,8 +200,10 @@ app.view.map = function(options){
         }
 
         function style(feature) {
+            
             return {
                 fillColor: getColor(feature.properties.value),
+                //dashArray: '10,10',
                 weight: 1,
                 opacity: 1,
                 color: 'white',
@@ -234,6 +261,7 @@ app.view.map = function(options){
                     _this.$tooltip.fadeOut(600);
                 },5000);
             }
+            _this._saharamoroccoLine.bringToFront();
         }
 
         function resetHighlight(e) {
@@ -267,6 +295,8 @@ app.view.map = function(options){
         });
 
         l.addTo(this._map);
+
+        this._saharamoroccoLine.bringToFront();
 
         // Let's add a legend for the map. 
 

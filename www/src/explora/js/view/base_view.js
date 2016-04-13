@@ -52,6 +52,7 @@ app.view.Base = Backbone.View.extend({
         }
 
         this.listenTo(app.events,'tool:country:load',this._loadCountry);
+        this.listenTo(app.events,'tool:bringToFront',this._selectToolInMenu);
 
     },
 
@@ -280,12 +281,16 @@ app.view.Base = Backbone.View.extend({
         }
 
     },
+
+    _selectToolInMenu: function(type){
+        this.$panelTools.find('li').removeAttr('selected');
+        this.$panelTools.find('li[tool='+type+']').attr('selected',true);
+    },
     
     bringToolToFrontByType: function(type){
 
-        this.$panelTools.find('li').removeAttr('selected');
-        this.$panelTools.find('li[tool='+type+']').attr('selected',true);
-        
+        //this._selectToolInMenu(type);
+
         var tool = this._searchToolByType(type);
         if (!tool){
             // The user has requested a tool but it's not loaded. Let's load it.
@@ -316,7 +321,6 @@ app.view.Base = Backbone.View.extend({
         if (localTools){
             localTools = JSON.parse(localTools);
             
-           
             var tool = this.getToolByType(localTools.selected);
             if (!tool){
                 tool = this.getToolByType(localTools.tools[0]);
@@ -325,9 +329,7 @@ app.view.Base = Backbone.View.extend({
             this.bringToolToFront(tool);        
             
         }
-        else{
-            // Not expected
-        }
+        
     },
 
     loadCountryTool: function(url){

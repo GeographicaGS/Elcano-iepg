@@ -1,15 +1,15 @@
 <ul class='table <%= iepgvsiepe ? 'iepgvsiepe' : '' %>'>
   <li class='superth'>
     <ul>
-      <li class='left' >
+      <li class='left ws1' >
         <div class="variableIcon" data-variable="iepg"></div>
         <%= app.formatNumber(data.root_left.size)%>
         <% if (iepgvsiepe) {%>
           <span class='iepgvsiepe'><lang>Presencia global</lang></span>
         <% } %> 
       </li>
-      <li class='vartitle' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
-      <li class='right'>
+      <li class='vartitle grow' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
+      <li class='right ws1'>
         <div class="variableIcon" data-variable="<%= iepgvsiepe ? "iepe" : "iepg" %>">
         </div>
         <% if (iepgvsiepe) {%>
@@ -22,13 +22,13 @@
   <li class='th'>
     <ul>
       <% if (iepgvsiepe) {%>
-      <li class='left' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
+      <li class='left ws1' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
       <% } %>
-      <li class='left central' title="<lang>Contribución de presencia</lang>"><lang>Contribución de presencia</lang></li>
-      <li class='vartitle' title="<lang>Variable</lang>"><lang>Variable</lang></li>
-      <li class='right central' title="<lang>Contribución de presencia</lang>"><lang>Contribución de presencia</lang></li>
+      <li class='left central ws1' title="<lang>Contribución de presencia</lang>"><lang>Contribución de presencia</lang></li>
+      <li class='vartitle grow' title="<lang>Variable</lang>"><lang>Variable</lang></li>
+      <li class='right central ws1' title="<lang>Contribución de presencia</lang>"><lang>Contribución de presencia</lang></li>
       <% if (iepgvsiepe) {%>
-      <li class='right' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
+      <li class='right ws1' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
       <% } %>
       </ul>
   </li>
@@ -40,22 +40,22 @@
   <li class='th2' data-variable="<%= data.left.name == "global" ? family : data.left.name %>"  <%= gotop %>>
     <ul>
       <% if (iepgvsiepe) {%>
-      <li class='left' title="<lang>Valor índice</lang>"> 
+      <li class='left ws1' title="<lang>Valor índice</lang>"> 
         <%= app.formatNumber(data.left.size) %>
       </li>
       <% } %>
-      <li class='left italic' title="<lang>Contribuciones de presencia</lang>">
+      <li class='left ws1 italic' title="<lang>Contribuciones de presencia</lang>">
         <%= data.left.perc ? app.formatNumber(data.left.perc) + ' %' : '--' %>
       </li>
-      <li class='vartitle' >
+      <li class='vartitle grow' >
         <%= iepgvsiepe && data.left.name=='global' ? '<lang>Presencia global / europea</lang>'
             : app.variableToString(data.left.name,family,true) %>
       </li>
-      <li class='right italic' title="<lang>Contribuciones de presencia</lang>">
+      <li class='right italic ws1' title="<lang>Contribuciones de presencia</lang>">
         <%= data.right && data.right.perc ? app.formatNumber(data.right.perc) + ' %' : '--' %>
       </li>
       <% if (iepgvsiepe) {%>
-      <li class='right' title="<lang>Valor índice</lang>">
+      <li class='right ws1' title="<lang>Valor índice</lang>">
         <%=  data.right ? app.formatNumber(data.right.size) : '--' %>
       </li>
       <% } %>
@@ -73,18 +73,18 @@
           (d.depth==1 ? d.name : '') %>">
       <ul>
         <% if (iepgvsiepe) {%>
-        <li class='left' title="<lang>Valor índice</lang>">
+        <li class='left ws1' title="<lang>Valor índice</lang>">
           <%= app.formatNumber(d.size) %>
         </li>
         <% } %>
-        <li class='left italic'><%= app.formatNumber(d.perc) %> %</li>
-        <li class='vartitle' style="color: <%=color%>">
+        <li class='left italic ws1'><%= app.formatNumber(d.perc) %> %</li>
+        <li class='vartitle grow' style="color: <%=color%>">
           <%= app.variableToString(d.name,family) %>
         </li>
-        <li class='right italic'>
+        <li class='right italic ws1'>
           <%= childs_right && childs_right[i].perc ? app.formatNumber(childs_right[i].perc) + ' %' : '--' %></li>
          <% if (iepgvsiepe) {%>
-        <li class='right' title="<lang>Valor índice</lang>">
+        <li class='right ws1' title="<lang>Valor índice</lang>">
           <%= childs_right ? app.formatNumber(childs_right[i].size) : '--' %>
         </li>
         <% } %>

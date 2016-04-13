@@ -177,10 +177,10 @@
 
                             <% if (gdp.value) { %>
                             <li class=''>
-                                <div class='col-md-2'>
+                                <div class='ws1'>
                                     <span class="grey uppercase size_11"><lang>PIB</lang></span>
                                 </div>
-                                <div class='col-md-5'>
+                                <div class='grow left'>
                                     <span class="grey size_16"><%= app.formatNumber(gdp.value) %></span>
                                     <span class="grey_light uppercase size_13">
                                         <% if (gdp.unit == "Million" ) { %>
@@ -192,7 +192,7 @@
                                         <% } %>
                                     </span>
                                 </div>
-                                <div class='col-md-5 co_ranking noicon'>
+                                <div class='grow right co_ranking noicon'>
                                     <span class="size_13">
                                     <% 
                                         if (country.length == 2) { 
@@ -217,7 +217,7 @@
                                         
                                         <span class="relativeranking" 
                                             title="<%= sprintf("<lang> Ranking con filtro %d</lang>%s", gdp.relativeranking,app.ordchr(gdp.relativeranking)) %>"> 
-                                            [<%= gdp.relativeranking + ' ' + app.ordchr(gdp.relativeranking) %>]
+                                            [<%= gdp.relativeranking + app.ordchr(gdp.relativeranking) %>]
                                         </span>
                                     <% }%>
                                 </div>
@@ -225,10 +225,10 @@
                             <% } %>
                             <% if (population.value) { %>
                             <li class=''>
-                                <div class='col-md-2'>
+                                <div class='ws1'>
                                     <span class="grey uppercase size_11"><lang>Población</lang></span>
                                 </div>
-                                <div class='col-md-5'>
+                                <div class='grow left'>
                                     <span class="grey size_16">
                                     <% 
                                     if (population.unit) { 
@@ -249,7 +249,7 @@
                                         <% } %>
                                     </span>
                                 </div>
-                                <div class='col-md-5 co_ranking noicon'>
+                                <div class='grow right co_ranking noicon'>
                                     <span class="size_13">
                                         <% 
                                             if (country.length == 2) { 
@@ -266,7 +266,7 @@
                                     <% if (app.getFilters().length 
                                         && population.relativeranking 
                                         && population.relativeranking!=population.globalranking ){ %>
-                                        <span class="relativeranking"> [<%= population.relativeranking + ' ' + app.ordchr(population.relativeranking) %>]</span>
+                                        <span class="relativeranking"> [<%= population.relativeranking + app.ordchr(population.relativeranking) %>]</span>
                                     <% }%>
 
                                 </div>
@@ -296,7 +296,7 @@
     <%} else if (model && !variable.value){ %>
         <div class="body">
             <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
-                <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+                <img src="/img/ELC_icon_info2_popover.svg" width="16px" height="16px" />
             </a>
             <div class="container-fluid">
                 <div class="row mth1">

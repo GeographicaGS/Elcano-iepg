@@ -180,6 +180,8 @@ app.view.tools.Plugin = Backbone.View.extend({
         this.render();
         this.onBringToFront();
 
+        app.events.trigger('tool:bringToFront',this.type);
+
         return this;
     },
 

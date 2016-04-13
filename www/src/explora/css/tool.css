@@ -493,14 +493,35 @@
 
     .basic_data{
         ul{
+            
             li{
                 background-color: #f5f5f6;
                 height: 36px;
                 border-bottom: 1px solid #e7e8ea;
                 padding-top: 7px;
-                
+                display: flex;
+                .grow{
+                    flex-grow: 1;
+                }
+
+                .left{
+                    text-align: left;    
+                }
+
+                .right{
+                    text-align: right;
+                }
+
+                .ws1{
+                    width: 85px;
+                }
+
+                div:last-child{
+                    padding-right: 15px;
+                }
+
                 div:first-child{
-                    padding-left: 8px;
+                    padding-left: 15px;
                 }
 
                 &.th{
@@ -529,7 +550,6 @@
         }    
     }   
 }
-
 
 .common_sunburst(){
 
@@ -621,6 +641,39 @@
                     cursor: pointer;
                 }
             }
+
+            ul {
+                display: flex;
+                li{
+                    &.grow{
+                        flex-grow: 1;
+                        text-align: left;
+                    }
+
+                    &.ws1{
+                        flex-grow: 0;
+                        width: 100px;
+                    }
+
+                    &.ws3{
+                        flex-grow: 0;
+                        width: 170px;
+                    }
+                    
+                    &.left{
+                        text-align: left;    
+                        padding-left: 10px;
+                    }
+
+                    &.right{
+                        text-align: right;
+                        padding-right: 10px;
+                    }
+                }
+
+            }
+
+
         }
     }
 }
@@ -632,29 +685,12 @@
     ul.table{
         
         &>li{
-            
 
             ul{
                 li{
-                    float: right;
-                    text-align: right;
-                    color: @grey;
-
-                    padding-right: 15px;
                     
-                    &:nth-child(1){
-                        text-align: right;
-                        float: left;
-                    }
-
-                    &:nth-child(3),&:nth-child(2){
-                        width: 115px;                        
-                    }
-
-                    // &:nth-child(2){
-                    //     width: 115px;
-                    // }
-
+                    color: @grey;
+                    
                     .variableIcon{
                         float: left;
                         background-size: 24px 24px;
@@ -694,27 +730,13 @@
         &>li{
 
             ul{
-                display: flex;
                 li{
                     color: @grey;
-                    text-transform: uppercase;
-
+                    
                     &.vartitle{
-                        flex-grow: 1;
                         text-align: center;
                     }
                     
-                    &.left{
-                        width: 100px;
-                        text-align: left;    
-                        padding-left: 10px;
-                    }
-
-                    &.right{
-                        width: 100px;
-                        text-align: right;
-                        padding-right: 10px;
-                    }
                 }
             }
 
@@ -1193,7 +1215,12 @@
         }    
     }
 
-    
+    #data_legend{
+        @media (max-width: 1025px){
+            padding-left: 0;
+            padding-right: 0;        
+        }
+    }
 
     .drag_circle{
         fill: #e8e8ea;
@@ -1309,10 +1336,6 @@
         margin-top: 45px;
     }
 
-    #data_legend{
-        padding-left: 0;
-        padding-right: 0;
-    }
     .container-comp .helpIcon{
         top: 55px !important;
     }

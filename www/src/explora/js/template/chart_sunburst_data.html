@@ -1,9 +1,11 @@
 <ul class='table'>
   <li class='th' >
     <ul>
-      <li><lang>Variable</lang></li>
-      <li title="<lang>Contribuciones de presencia</lang>" ><lang>Contribuciones de presencia</lang></li>
-      <li title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
+      <li class='grow left'><lang>Variable</lang></li>
+      
+      <li  class='ws1 right' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
+
+      <li class='ws3 right' title="<lang>Contribución de presencia</lang>" ><lang>Contribución de presencia</lang></li>
     </ul>
   </li>
 
@@ -13,15 +15,15 @@
 
   <li class='th2' data-variable="<%= data.name == "global" ? family : data.name %>"  <%= gotop %>>
     <ul>
-      <li class='vartitle'>
+      <li class='vartitle grow left '>
         <div class="variableIcon" data-variable="<%= data.name == "global" ? family : data.name %>"></div>
         <%= app.variableToString(data.name,family,true) %>
       </li>
       
-      <li class="italic" title="<lang>Contribuciones de presencia</lang>">
+      <li class='ws1 right size_18' title="<lang>Valor índice</lang>"><%= app.formatNumber(data.size) %></li>
+      <li class="ws3 right italic size_18" title="<lang>Contribuciones de presencia</lang>">
         <%= data.perc ? app.formatNumber(data.perc) + ' %' : '--' %> 
       </li>
-      <li title="<lang>Valor índice</lang>"><%= app.formatNumber(data.size) %></li>
     </ul>
   </li>
   
@@ -32,13 +34,14 @@
      %>
     <li class='childs' data-section="<%= d.depth==1 ? d.name : ''%>">
       <ul>
-        <li style="color: <%=color%>">
+        <li class="grow left " style="color: <%=color%>">
           <div class="variableIcon" data-variable="<%= d.name%>"></div><%= app.variableToString(d.name,family) %>
         </li>
-        <li class='italic' title="<lang>Contribuciones de presencia</lang>">
+        
+        <li class="ws1 right" title="<lang>Valor índice</lang>"><%= app.formatNumber(d.size) %></li>
+        <li class='italic ws3 right' title="<lang>Contribuciones de presencia</lang>">
           <%= d.perc ? app.formatNumber(d.perc) +' %' : '--' %> 
         </li>
-        <li title="<lang>Valor índice</lang>"><%= app.formatNumber(d.size) %></li>
       </ul>
     </li>
   <% }); %>

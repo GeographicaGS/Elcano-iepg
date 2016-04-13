@@ -115,7 +115,7 @@
         right: 0;
         
         .close{
-            background: url("@{imgPath}ELC_icon_descartar_herramienta.svg") no-repeat left top;
+            background: url("@{imgPath}ELC_icon_plegar_herramienta.svg") no-repeat left top;
             width: 30px;
             height: 25px;
             margin: 13px 20px 0 0;

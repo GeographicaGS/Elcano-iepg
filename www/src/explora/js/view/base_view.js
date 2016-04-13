@@ -64,16 +64,19 @@ app.view.Base = Backbone.View.extend({
 
     render: function() {
         // TOREMOVE
-        console.log("Render app.view.Base");
-        var html = "";
-        for (var i=0;i<this.tools.length;i++){
-            var sel = this.currentTool == this.tools[i] ? "selected" : "";
-            html += "<li " + sel + " tool='" + this.tools[i].type+ "' title='"+app.toolTypeToString(this.tools[i].type) +"'>" + 
-                        "<a href='" + app.getJSURL("tool/" + this.tools[i].type) + "' jslink ></a>" + 
-                    "</li>";
-        }
+        //console.log("Render app.view.Base");
 
-        this.$panelTools.html(html);
+        // Deprecated 2016-04-13:  All loaded by default. No tool selector.
+
+        //var html = "";
+        // for (var i=0;i<this.tools.length;i++){
+        //     var sel = this.currentTool == this.tools[i] ? "selected" : "";
+        //     html += "<li " + sel + " tool='" + this.tools[i].type+ "' title='"+app.toolTypeToString(this.tools[i].type) +"'>" + 
+        //                 "<a href='" + app.getJSURL("tool/" + this.tools[i].type) + "' jslink ></a>" + 
+        //             "</li>";
+        // }
+
+        //this.$panelTools.html(html);
 
 
 
@@ -279,6 +282,10 @@ app.view.Base = Backbone.View.extend({
     },
     
     bringToolToFrontByType: function(type){
+
+        this.$panelTools.find('li').removeAttr('selected');
+        this.$panelTools.find('li[tool='+type+']').attr('selected',true);
+        
         var tool = this._searchToolByType(type);
         if (!tool){
             // The user has requested a tool but it's not loaded. Let's load it.
@@ -343,7 +350,7 @@ app.view.Base = Backbone.View.extend({
     },
 
     loadRankingTool: function(url){
-         var tool = this._searchToolByType("ranking");
+        var tool = this._searchToolByType("ranking");
 
         if (!tool){
             // tool not already loaded
@@ -463,15 +470,12 @@ app.view.Base = Backbone.View.extend({
         app.events.trigger("contextchange:countries");
 
         app.router.navigate('/tool/country',{trigger: true});
-        
+
         var $ctrl = this.$('#ctrl_tool');
 
         if (!$ctrl.hasClass('close')){
             $ctrl.trigger('click');
         }
-
-
-        console.log('yeah!');
     }
     
 });

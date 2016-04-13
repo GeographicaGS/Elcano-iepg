@@ -517,7 +517,6 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     },
 
     _htmlChartToolTip: function(d){
-        console.log(d);
         var ctx = this.getGlobalContext().data,
             variable = ctx.variables[0],
             family = ctx.family;

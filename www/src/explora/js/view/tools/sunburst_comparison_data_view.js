@@ -50,14 +50,11 @@ app.view.tools.SunburstComparisonDataView = Backbone.View.extend({
     gofront: function(){
       this.delegateEvents(); 
       this._setListeners();
-      console.log('front comp');
-      
     },
 
     goback: function(){
       this.undelegateEvents();
       this.stopListening();
-      console.log('back comp');
     }
     
 });

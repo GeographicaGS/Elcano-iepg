@@ -47,14 +47,11 @@ app.view.tools.SunburstDataView = Backbone.View.extend({
     gofront: function(){
       this.delegateEvents(); 
       this._setListeners();
-      console.log('front data');
-      
     },
 
     goback: function(){
       this.undelegateEvents();
       this.stopListening();
-      console.log('back data');
     }
     
 });

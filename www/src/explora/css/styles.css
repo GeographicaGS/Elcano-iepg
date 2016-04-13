@@ -776,122 +776,110 @@ main{
         position: relative;
 
         #add_tool{
+            margin: 8px;
             a{
-                background: @grey_light url("@{imgPath}ELC_icon_abrir_herramientas.svg") no-repeat center center;
-                width:54px;
-                height: 54px; 
-                &:hover{
-                    background-color: @grey_dark;
-                    .transition(0.7s);
-                } 
+                background: url("@{imgPath}ELC_icon_info_popover.svg");
+                width: 17px;
+                height: 17px;
+                background-size: 17px 17px;
+                // &:hover{
+                //     background-color: @grey_dark;
+                //     .transition(0.7s);
+                //     border-radius: 17px;
+                // } 
             }
-            span{
-                 display: block;
-                 color:@grey;
-                 font-size: 11px;
-                 .roboto_cond();
-                 text-align: center;
-                 overflow: hidden;
-                 text-overflow: ellipsis;
-            }
+            // a{
+            //     background: @grey_light url("@{imgPath}ELC_icon_abrir_herramientas.svg") no-repeat center center;
+            //     width:54px;
+            //     height: 54px; 
+            //     &:hover{
+            //         background-color: @grey_dark;
+            //         .transition(0.7s);
+            //     } 
+            // }
+            // span{
+            //      display: block;
+            //      color:@grey;
+            //      font-size: 11px;
+            //      .roboto_cond();
+            //      text-align: center;
+            //      overflow: hidden;
+            //      text-overflow: ellipsis;
+            // }
         }
 
-        ul{
-            li{
-                a{ 
-                    height: 34px;
-                    text-align: center;
-                    background: @grey_light url("@{imgPath}ELC_icon_h_ranking.svg") no-repeat center center;
-                    border-right:1px solid transparent;
-                    border-top:1px solid transparent;
-                    border-bottom:1px solid transparent;
+        .co_list{
+            background-color: @grey_light;
 
-                    height: 34px;
-                    margin-bottom: 2px;
+            .titlecontrol{
+                text-transform: uppercase;
+                display: block;
+                color:#fff;
+                margin: 0 5px;
+                font-size: 11px;
+                .roboto_cond();
+                text-align: left;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
-                    &:hover{
+            ul{
+                li{
+                    a{ 
+                        height: 34px;
+                        text-align: center;
+                        background: url("@{imgPath}ELC_icon_h_ranking.svg") no-repeat center center;
+                        
+                        &:hover{
+                            border: 1px solid transparent;
+                            border-radius: 3px;
+                            background-color: @grey_dark;
+                            .transition(0.7s);
+                        } 
+                    }
+
+                    margin: 4px 5px 0 5px;
+                    border-bottom: 1px solid #b9b9c1;
+                    padding-bottom: 5px;
+
+                    &[tool='country']{
+                        a{
+                            background-image: url("@{imgPath}ELC_icon_h_fichapais_off.svg");
+                        }
+                    }
+                    &[tool='ranking']{
+                        a{
+                            background-image: url("@{imgPath}ELC_icon_h_ranking_off.svg");
+                        }
+                    }
+                    &[tool='contributions']{
+                        a{
+                            background-image: url("@{imgPath}ELC_icon_h_contribuciones_off.svg");
+                        }
+                    }
+                    &[tool='quotes']{
+                        a{
+                            background-image: url("@{imgPath}ELC_icon_h_cuotas_off.svg");
+                        }
+                    }
+                    &[tool='comparison']{
+                        a{
+                            background-image: url("@{imgPath}ELC_icon_h_iepg-iepe_off.svg");
+                        }
+                    }
+
+                }
+                li[selected] {
+                    a {
                         background-color: @grey_dark;
-                        .transition(0.7s);
-                    } 
-                }
-
-                &[tool='country']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_fichapais_off.svg");
-                    }
-                }
-                &[tool='ranking']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_ranking_off.svg");
-                    }
-                }
-                &[tool='contributions']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_contribuciones_off.svg");
-                    }
-                }
-                &[tool='quotes']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_cuotas_off.svg");
-                    }
-                }
-                &[tool='comparison']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_iepg-iepe_off.svg");
-                    }
-                }
-
-            }
-            li[selected] {
-                a {
-                    background-color: @white;
-                    border-right:1px solid @grey_light;
-                    border-top:1px solid @grey_light;
-                    border-bottom:1px solid @grey_light;
-
-                    &:hover{
-                        background-color: transparent;
-                    } 
-                }
-                &[tool='country']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_fichapais.svg") ;
-                    }
-                }
-                &[tool='ranking']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_ranking.svg");
-                    }
-                }
-                &[tool='contributions']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_contribuciones.svg");
-                    }
-                }
-                &[tool='quotes']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_cuotas.svg");
-                    }
-                }
-                &[tool='comparison']{
-                    a{
-                        background-image: url("@{imgPath}ELC_icon_h_iepg-iepe.svg");
+                        border: 1px solid transparent;
+                        border-radius: 3px;
                     }
                 }
             }
-
-            /*li[tool='ranking']{
-                a::after{
-                    content:"";
-                    width: 20px;
-                    height: 20px;
-
-                }
-            }*/
-
-
-
         }
+
+        
     }
 
     
@@ -1027,6 +1015,12 @@ main{
         }
         p{
             margin-bottom: @line_height;
+        }
+    }
+
+    &.variable_selector{
+        #cancel{
+            color: #fff;
         }
     }
 }

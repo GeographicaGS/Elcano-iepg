@@ -24,80 +24,66 @@ app.view.Structure = Backbone.View.extend({
         return {
             //'<var>' : [upper left x,u left y,lower right x, lower right y]
             'energy' : {
-                'limit': [430,120,480,170],
-                'text': '<lang>Variable energy desc TEXTO</lang>'
+                'limit': [430,120,480,170]
             },
             'primary_goods' : {
-                'limit': [526,155,576,211],
-                'text': '<lang>Variable primary_goods desc TEXTO</lang>'
+                'limit': [526,155,576,211]
             },
             'manufactures' : {
-                'limit': [596,232,645,282],
-                'text': '<lang>Variable manufactures desc TEXTO</lang>'
+                'limit': [596,232,645,282]
             },
             'services' : {
-                'limit': [634,326,686,376],
-                'text': '<lang>Variable services desc TEXTO</lang>'
+                'limit': [634,326,686,376]
             },
             'investments' : {
-                'limit': [638,427,685,477],
-                'text': '<lang>Variable investments desc TEXTO</lang>'
+                'limit': [638,427,685,477]
             },
             'economic_presence' : {
-                'limit': [485,304,540,351],
-                'text': '<lang>Variable economic_presence desc TEXTO</lang>'
+                'limit': [485,304,540,351]
             },
             'troops' : {
-                'limit': [597,520,644,571],
-                'text': '<lang>Variable troops desc TEXTO</lang>'
+                'limit': [597,520,644,571]
             },
             'military_equipment' : {
-                'limit': [523,594,575,641],
-                'text': '<lang>Variable military_equipment desc TEXTO</lang>'
+                'limit': [523,594,575,641]
             },
             'military_presence' : {
-                'limit': [475,468,522,518],
-                'text': '<lang>Variable military_presence desc TEXTO</lang>'
+                'limit': [475,468,522,518]
             },
             'migrations' : {
-                'limit': [433,633,475,680],
-                'text': '<lang>Variable migrations desc TEXTO</lang>'
+                'limit': [433,633,475,680]
             },
             'tourism' : {
-                'limit': [328,635,377,680],
-                'text': '<lang>Variable tourism desc TEXTO</lang>'
+                'limit': [328,635,377,680]
             },
             'sports' : {
-                'limit': [237,591,280,647],
-                'text': '<lang>Variable sports desc TEXTO</lang>'
+                'limit': [237,591,280,647]
             },
             'culture' : {
-                'limit': [165,520,216,569],
-                'text': '<lang>Variable culture desc TEXTO</lang>'
+                'limit': [165,520,216,569]
             },
             'information' : {
-                'limit': [124,426,173,480],
-                'text': '<lang>Variable information desc TEXTO</lang>'
+                'limit': [124,426,173,480]
             },
             'technology' : {
-                'limit': [126,325,172,376],
-                'text': '<lang>Variable technology desc TEXTO</lang>'
+                'limit': [126,325,172,376]
+               
             },
             'science' : {
                 'limit': [163,233,215,281],
-                'text': '<lang>Variable science desc TEXTO</lang>'
+                
             },
             'education' : {
-                'limit': [235,160,285,210],
-                'text': '<lang>Variable education desc TEXTO</lang>'
+                'limit': [235,160,285,210]
+                
             },
             'cooperation' : {
-                'limit': [332,121,378,170],
-                'text': '<lang>Variable cooperation desc TEXTO</lang>'
+                'limit': [332,121,378,170]
+                
             },
             'soft_presence' : {
-                'limit': [250,400,301,454],
-                'text': '<lang>Variable soft_presence desc TEXTO</lang>'
+                'limit': [250,400,301,454]
+                
             }
         };
         
@@ -124,8 +110,7 @@ app.view.Structure = Backbone.View.extend({
             if (x>=el[0] && x<=el[2] && y>=el[1] && y<=el[3]){
                 return this.model.set({
                     'currentover': i,
-                    'pos' : {'x' : el[2], 'y': el[3]},
-                    'text' : variables[i].text
+                    'pos' : {'x' : el[2], 'y': el[3]}
                 });
             }
         }
@@ -141,7 +126,7 @@ app.view.Structure = Backbone.View.extend({
         if (c){
             this.$coef.css('cursor','pointer');
             this.$tooltip.css('left',pos.x).css('top',pos.y);
-            this.$tooltip.find('p').html(this.model.get('text'));
+            this.$tooltip.find('p').html(this.$('#'+c+'_text').html());
             this.$tooltip.find('.variable').html(app.variableToString(c));
             this.$tooltip.attr('data-variable',c);
             this.$tooltip.show();

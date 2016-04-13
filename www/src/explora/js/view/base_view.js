@@ -23,33 +23,45 @@ app.view.Base = Backbone.View.extend({
 
         this.$ctrl_map_zoom = this.$("#ctrl_map_zoom");
 
-        // Load default tools
-        var localTools =  localStorage.getItem("tools");
+        if (false){
+            // DEPRECaTE 2016-04-13
+            // Load default tools
+            var localTools =  localStorage.getItem("tools");
 
-        if (localTools){
-            localTools = JSON.parse(localTools);
-            listTools = localTools.tools;
-            if (listTools.length > 0 )
-            {
-                for (var i=0;i<listTools.length;i++){
-                    var tool = this.getInstanceViewByType(listTools[i]);
-                    //var bringToFront = listTools[i] == localTools.selected ? true : false;
+            if (localTools){
+                localTools = JSON.parse(localTools);
+                listTools = localTools.tools;
+                if (listTools.length > 0 )
+                {
+                    for (var i=0;i<listTools.length;i++){
+                        var tool = this.getInstanceViewByType(listTools[i]);
+                        //var bringToFront = listTools[i] == localTools.selected ? true : false;
+                        this.addTool(tool,false);
+                    }    
+                }
+                else{
+                    // if no information in local store load the country tool
+                    tool = new app.view.tools.CountryPlugin();
                     this.addTool(tool,false);
-                }    
+                }
+
+                
             }
             else{
                 // if no information in local store load the country tool
                 tool = new app.view.tools.CountryPlugin();
                 this.addTool(tool,false);
-            }
-
-            
+            }    
         }
         else{
-            // if no information in local store load the country tool
-            tool = new app.view.tools.CountryPlugin();
-            this.addTool(tool,false);
+            var tools = ["country","ranking","contributions","quotes","comparison"];
+
+            for (var i=0;i<tools.length;i++){
+                var tool = this.getInstanceViewByType(tools[i]);
+                this.addTool(tool,false);
+            }
         }
+        
 
         this.listenTo(app.events,'tool:country:load',this._loadCountry);
         this.listenTo(app.events,'tool:bringToFront',this._selectToolInMenu);

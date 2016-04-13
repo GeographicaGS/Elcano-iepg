@@ -112,7 +112,7 @@ app.view.Structure = Backbone.View.extend({
     },
 
     _hoverImage: function(e){
-        console.log(e.offsetX +',' + e.offsetY);
+        //console.log(e.offsetX +',' + e.offsetY);
 
         var x = e.offsetX,
             y = e.offsetY,

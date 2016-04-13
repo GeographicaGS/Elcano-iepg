@@ -6,8 +6,8 @@
 var 
 	min = collection.length ? collection[0].years[year].value : 0,
 	max = collection.length ? collection[collection.length-1].years[year].value : 0,
-	maxSize = 120,
-	minSize = 30,
+	maxSize = 130,
+	minSize = 80,
 	size = d3.scale.linear()
     	.domain([min, max])
     	.range([minSize, maxSize]);

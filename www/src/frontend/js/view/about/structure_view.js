@@ -96,7 +96,7 @@ app.view.Structure = Backbone.View.extend({
                 'text': '<lang>Variable cooperation desc TEXTO</lang>'
             },
             'soft_presence' : {
-                'limit': [253,397,301,409],
+                'limit': [250,400,301,454],
                 'text': '<lang>Variable soft_presence desc TEXTO</lang>'
             }
         };
@@ -112,6 +112,8 @@ app.view.Structure = Backbone.View.extend({
     },
 
     _hoverImage: function(e){
+        console.log(e.offsetX +',' + e.offsetY);
+
         var x = e.offsetX,
             y = e.offsetY,
             variables  = this._vars(),

@@ -1019,7 +1019,7 @@ main{
     }
 
     &.variable_selector{
-        #cancel{
+        #cancel.button{
             color: #fff;
         }
     }

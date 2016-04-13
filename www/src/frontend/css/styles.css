@@ -23,6 +23,39 @@
 @orange : #ff9000;
 @white :#fff;
 
+.colorVariable(@name) when (@name = iepg) {
+    @colorVariable : #fdc300;
+}
+.colorVariable(@name) when (@name = iepe) {
+    @colorVariable : #003399;
+}
+
+.colorVariable(@name) when (@name = economic_presence) {
+    @colorVariable : #2b85d0;
+}
+
+.colorVariable(@name) when (@name = energy) , (@name = primary_goods) , (@name = manufactures), (@name = services), (@name = investments){
+    .colorVariable(economic_presence);
+}
+
+.colorVariable(@name) when (@name = military_presence) {
+    @colorVariable : #669900;
+}
+
+.colorVariable(@name) when (@name = troops) , (@name = military_equipment) {
+    .colorVariable(military_presence);
+}
+
+.colorVariable(@name) when (@name = soft_presence) {
+    @colorVariable : #ff9000;
+}
+
+.colorVariable(@name) when (@name = migrations) , (@name = tourism), (@name = sports),
+    (@name = culture), (@name=information), (@name = technology), (@name = science),
+    (@name = education), (@name = cooperation){
+    .colorVariable(soft_presence);
+}
+
 html, body{ height:100%; min-width: 768px;}
 body {
 	.roboto();
@@ -1161,12 +1194,91 @@ footer{
     }
 }
 
-.about.structure,.about.methodology{
-	img.coef{
-		max-width: 812px;
-		max-height: 805px;
-	}
+.about.structure{
+	.coef{
+        position: relative;
+        img{
+            max-width: 812px;
+            max-height: 805px;    
+        }
+        .tooltip{
+            position: absolute;
+            display: none;
+            width: 280px;
+            box-shadow: 8px 8px 33px 0px rgba(40,40,43,0.44);
+            .top{
+                padding: 10px;
+                color: #fff;
+                .title{
+                    .roboto(bold);
+                    font-size: 13px;
+                    text-transform: uppercase;
+                }
+                .variable{
+                    .roboto(light);
+                    font-size: 24px;
+                }
+            }
+            p{
+                color: #515155;
+                font-size: 14px;
+                padding: 10px;
+                background-color: #eeeeee;
+                margin-top: 0;
+            }
+
+            &[data-variable=economic_presence],
+            &[data-variable=energy],
+            &[data-variable=primary_goods],
+            &[data-variable=manufactures],
+            &[data-variable=services],
+            &[data-variable=investments]
+            {
+                .top{
+                    .colorVariable(economic_presence);
+                    background-color: @colorVariable;
+                }
+            }
+
+            &[data-variable=military_presence],
+            &[data-variable=troops],
+            &[data-variable=military_equipment]
+            {
+                .top{
+                    .colorVariable(military_presence);
+                    background-color: @colorVariable;
+                }
+            }
+
+            &[data-variable=migrations],
+            &[data-variable=tourism],
+            &[data-variable=sports],
+            &[data-variable=culture],
+            &[data-variable=information],
+            &[data-variable=technology],
+            &[data-variable=science],
+            &[data-variable=education],
+            &[data-variable=cooperation],
+            &[data-variable=soft_presence],
+            {
+                .top{
+                    .colorVariable(soft_presence);
+                    background-color: @colorVariable;
+                }
+            }
+
+            &[data-variable=iepg],
+            {
+                .top{
+                    .colorVariable(iepg);
+                    background-color: @colorVariable;
+                }
+            }
+
+        }
+    }
 }
+		
 
 .about.methodology{
 	table.data{

@@ -560,10 +560,14 @@ app.reset2 = function(){
     this.filters = [];
 
     this.map.removeChoropleth();
-    $("#add_tool a").trigger("click");
+    //$("#add_tool a").trigger("click");
+    //app.events.trigger('tool:country:load');
+    app.router.navigate('/tool/country',{trigger: true});
+
+
 
     //window.location  = "/es";
-    $("#ctrl_filter").removeClass("enable");
+    //$("#ctrl_filter").removeClass("enable");
 }
 
 app.countryCodeToStr = function(country){

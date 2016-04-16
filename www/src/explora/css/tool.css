@@ -400,6 +400,10 @@
         .roboto(light);
         color: #515155;
     }
+
+    .name{
+        margin-left: 5px;
+    }
 }
 
 .co_ranking{

@@ -545,7 +545,7 @@ app.reset = function(){
 app.reset2 = function(){
     //$("#start_loading").show();
     
-    app.baseView.closeAllTools();
+    //app.baseView.closeAllTools();
 
     this.context.data.countries.list = [];
     this.context.data.countries.selection = [];

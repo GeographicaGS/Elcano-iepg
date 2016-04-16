@@ -35,6 +35,7 @@ app.view.tools.SunburstComparisonDataView = Backbone.View.extend({
     },
 
     render: function(pos,name,time){
+      console.log('Sunburst comparison');
       this.$el.html(this._template({
           data: {
             'root_left' : this.model.get('tree_left').findElementInTree('global'),

@@ -262,16 +262,17 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             // Links to DOM Elements
             $co_chart = pos == "left" ? this.$co_left : this.$co_right,
            
-            $country_name = $co_chart.find(".country_name"),
-            $co_img = $co_chart.find(".co_flag2");
-            
-
+            $country_name = $co_chart.find(".country_name");
             
         if (country){
             // Set the country name
-            $country_name.find('.name').html(app.countryToString(country) + " " + year).removeClass("no_data");
-            $co_img.find('img').attr('src','/img/flags/'+country+'.svg');
-            $co_img.show();
+            var html = "<div class='co_flag2'>"+
+                        "<img src='/img/flags/" + country + ".svg' />" +
+                        "</div>" +
+                        "<span class='name'>" + app.countryToString(country) + " " + year + "</span>";
+            
+
+            $country_name.html(html).removeClass('no_data');
 
             if (forceFetch){
                 // Fetch the data of this tool
@@ -321,7 +322,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         else{
             $country_name.html("<lang>contribuciones no pais titulo</lang>").addClass("no_data");
             this._drawD3ChartNoData(pos);
-            $co_img.hide();
         }
             
 

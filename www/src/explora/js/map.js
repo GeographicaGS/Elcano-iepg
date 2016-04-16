@@ -283,7 +283,8 @@ app.view.map = function(options){
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
-                click: !app.isTouchDevice() ? goToCountrySheet : highlightFeature,
+                //click: !app.isTouchDevice() ? goToCountrySheet : highlightFeature,
+                click: goToCountrySheet,
                 dblclick: goToCountrySheet
 
             });

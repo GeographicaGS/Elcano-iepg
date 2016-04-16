@@ -29,7 +29,7 @@ app.view.map = function(options){
             // It doesn't work in ranking tool
             "maxBounds" : bounds,
             "minZoom": 2,
-            "doubleClickZoom": !this.isTouchDevice()
+            "doubleClickZoom": !app.isTouchDevice()
         }).setView( this.center, this.zoom);
 
         this.loadBaseMap();

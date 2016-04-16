@@ -38,7 +38,8 @@ app.view.tools.SunburstDataView = Backbone.View.extend({
     },
 
     render: function(name){
-      console.log('Sunburst basic');
+      //console.log('Sunburst basic');
+      this.delegateEvents(); 
       this.$el.html(this._template({
           data: this.model.get('tree').findElementInTree(name),
           family : this.model.get('family')

@@ -236,52 +236,6 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this._drawD3Chart(family);
         
     },
-    // _renderSubTool:function(family){
-    //     var ctxObj = this.getGlobalContext(),
-    //         ctx = ctxObj.data,
-    //         country = ctx.countries.selection[0],
-    //         forceFetch = family == "iepg" ? this._forceFetchDataSubToolLeft : this._forceFetchDataSubToolRight,
-    //         // Links to DOM Elements
-    //        	$co_chart = family == "iepg" ? this.$co_left : this.$co_right;
-           	
-    //     // Set country name
-    //     $co_chart.find(".name").html(app.countryToString(country));
-
-
-    //     if (forceFetch){
-    //         this._nfetches = 0;
-    //         // Fetch the data of this tool
-    //         this._models[family] = new app.model.tools.country({
-    //             "id" : country,
-    //             "family" : family
-    //         });
-
-    //         var _this = this;
-    //         this._models[family].fetch({
-    //             success: function(){
-    //                 _this
-    //                if (family == "iepg"){
-    //                     _this._forceFetchDataSubToolLeft = false;
-    //                }
-    //                else{
-    //                     _this._forceFetchDataSubToolRight = false;
-    //                }
-
-    //                if (!_this._models[family].get(year).family.global.value){
-    //                     _this.$el.find(".body").html(_this._templateError());
-    //                }
-    //                else{
-    //                     _this._drawD3Chart(family); 
-    //                }
-                   
-    //             }
-    //         });
-    //     }
-    //     else{
-    //         //We already have the data, let's draw directly
-    //         this._drawD3Chart(family);
-    //     }
-    // },
 
     _fetchDataMap: function(){
 
@@ -569,7 +523,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         ctx.variables = [name];
         this.contextToURL();
 
-        //this._refreshMapVariable('iepg');
+        this._refreshMapVariable('iepg');
         
     },
 
@@ -690,6 +644,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
     // },
 
     _refreshMapVariable: function(family){
+        if (!this._mapCollection)
+            return;
         // get data from server
         this._mapCollection._variable = this.getGlobalContext().data.variables[0];
         this._mapCollection._family = family;

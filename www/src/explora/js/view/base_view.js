@@ -491,9 +491,10 @@ app.view.Base = Backbone.View.extend({
 
         ctx.data.countries.selection = [countrycode];
 
-        app.events.trigger("contextchange:countries");
-
+        
         app.router.navigate('/tool/country',{trigger: true});
+
+        // app.events.trigger("contextchange:countries");
 
         // var $ctrl = this.$('#ctrl_tool');
 

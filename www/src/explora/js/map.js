@@ -28,7 +28,8 @@ app.view.map = function(options){
             "zoomControl" : false,
             // It doesn't work in ranking tool
             "maxBounds" : bounds,
-            "minZoom": 2
+            "minZoom": 2,
+            "doubleClickZoom": !this.isTouchDevice()
         }).setView( this.center, this.zoom);
 
         this.loadBaseMap();
@@ -258,7 +259,7 @@ app.view.map = function(options){
 
             if (app.isTouchDevice()){
                 setTimeout(function(){
-                    _this.$tooltip.fadeOut(600);
+                    resetHighlight(e);
                 },5000);
             }
             _this._saharamoroccoLine.bringToFront();
@@ -275,7 +276,6 @@ app.view.map = function(options){
 
         function goToCountrySheet(e) {
             app.events.trigger('tool:country:load',e.target.feature.properties.code);
-            console.log(e.target.feature.properties.code);
         }
 
         function onEachFeature(feature, layer) {
@@ -285,7 +285,7 @@ app.view.map = function(options){
                 mouseout: resetHighlight,
                 //click: !app.isTouchDevice() ? goToCountrySheet : highlightFeature,
                 click: goToCountrySheet,
-                //dblclick: goToCountrySheet
+                dblclick: goToCountrySheet
 
             });
         }

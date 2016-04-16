@@ -285,7 +285,7 @@ app.view.map = function(options){
                 mouseout: resetHighlight,
                 //click: !app.isTouchDevice() ? goToCountrySheet : highlightFeature,
                 click: goToCountrySheet,
-                dblclick: goToCountrySheet
+                //dblclick: goToCountrySheet
 
             });
         }

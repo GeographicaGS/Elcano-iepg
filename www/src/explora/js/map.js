@@ -105,7 +105,7 @@ app.view.map = function(options){
     /* This method created a choropleth Map with the data supplied in the parameter */ 
     this.drawChoropleth = function(data,time,variable,family,units,invertColors,labelPrefix,noformattooltip){
 
-
+         this._ctouchCountry = null;
         if (!units) units = ""
 
         var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
@@ -278,14 +278,24 @@ app.view.map = function(options){
             app.events.trigger('tool:country:load',e.target.feature.properties.code);
         }
 
+        function onClick(e){
+            if (!app.isTouchDevice() || this._ctouchCountry == e.target.feature.properties.code){
+                goToCountrySheet(e);
+            }
+            else{
+                this._ctouchCountry = e.target.feature.properties.code;
+                highlightFeature(e);
+            }
+        }
+
         function onEachFeature(feature, layer) {
 
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
                 //click: !app.isTouchDevice() ? goToCountrySheet : highlightFeature,
-                click: goToCountrySheet,
-                dblclick: goToCountrySheet
+                click: onClick,
+                dblclick: onClick
 
             });
         }

@@ -18,7 +18,7 @@ for (var i=collection.length-1;i>=0;i--){
 
 	flagArea = size(v);
 
-	var diameter = Math.sqrt(flagArea/Math.PI)*2;
+	var diameter = Math.round(Math.sqrt(flagArea/Math.PI)*2);
 	%>
 	<li title="<%= app.countryToString(d.country)%>">
 		<div class="co_flag" style="width: <%=diameter%>px;height: <%=diameter%>px;background: url('/img/flags/<%= d.country %>.svg');background-size: cover;" >

@@ -71,17 +71,21 @@ cp www/src/frontend/js/config.changes.js www/src/frontend/js/config.js
 cp www/src/backend/js/config.changes.js www/src/backend/js/config.js
 ```
 
-Create the image of the web builder
+# Dev environment
+
+## Install npm packages for local folder
 ```
-docker build -t geographica/elcano_iepg_webbuilder www
+ docker run --rm -it -v $(pwd)/www/src:/usr/src/app  elcanoiepg_www_builder  npm install
 ```
 
-# Dev environment
+
 To start the application, once you've installed everything. Just type.
 ```
 source config.env
 docker-compose -f docker-compose.dev up
 ```
+
+
 
 # Scripts
 

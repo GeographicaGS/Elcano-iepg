@@ -124,7 +124,7 @@ www_builder:
   #command: npm run-script builder-watcher
   #command: npm run-script builder-watcher-frontend
   # command: npm run-script builder-watcher-backend
-  command: npm run-script builder-watcher-explora
+  #command: npm run-script builder-watcher-explora
   #command: npm run-script debug
 
 

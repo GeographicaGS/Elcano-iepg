@@ -8,5 +8,5 @@ BEGIN;
 \i database/update_countries_20160427/04_southsudan_update.sql
 \i database/update_countries_20160427/05_northern_cyprus_new.sql
 \i database/update_countries_20160427/06_taiwan_new.sql
-\i database/update_countries_20160427/07_westernsahara_new.sql
+\i database/update_countries_20160427/07_westernsahara_update.sql
 COMMIT;

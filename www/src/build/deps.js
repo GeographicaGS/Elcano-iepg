@@ -193,7 +193,7 @@ deps.Explora.JS = {
 			"explora/js/lib/d3.v3.min.js",
 			"explora/js/lib/fancybox/source/jquery.fancybox.pack.js",
 			// "explora/js/lib/sprintf.min.js",
-			"explora/js/lib/leaflet-0.7.2.js",
+			"explora/js/lib/leaflet-0.7.7.js",
 			"explora/js/lib/jquery.ui.touch-punch.min.js",
 			"explora/js/lib/countries.geojson"
 			
@@ -242,6 +242,8 @@ deps.Explora.JS = {
 
 			// Tools views
 			"explora/js/view/tools/country_tool_view.js",
+			"explora/js/view/tools/sunburst_data_view.js",
+			"explora/js/view/tools/sunburst_comparison_data_view.js",
 			"explora/js/view/tools/ranking_tool_view.js",
 			"explora/js/view/tools/contributions_tool_view.js",
 			"explora/js/view/tools/quotes_tool_view.js",
@@ -278,12 +280,11 @@ deps.Explora.CSS = {
 	ThirdParty:{
 		src : [
 			"explora/js/lib/fancybox/source/jquery.fancybox.css",
-
+			"explora/js/lib/leaflet-0.7.7.css"
 		]
 	},
 	Core: {
 		src: [
-			"explora/js/lib/leaflet-0.7.2.css",
 			"explora/css/reset.css",
 			"explora/css/base.css",
 			"explora/css/styles.css",

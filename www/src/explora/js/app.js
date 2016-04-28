@@ -166,9 +166,9 @@ app.ini = function(){
     });
 
     // Check and show help
-    if (!(localStorage['dontShowHelp'] === 'true')) {
-        app.showHelp();
-    }
+    // if (!(localStorage['dontShowHelp'] === 'true')) {
+    //     app.showHelp();
+    // }
     $("#help_btn").click(function(e){
         e.preventDefault();
         app.showHelp();
@@ -545,7 +545,7 @@ app.reset = function(){
 app.reset2 = function(){
     //$("#start_loading").show();
     
-    app.baseView.closeAllTools();
+    //app.baseView.closeAllTools();
 
     this.context.data.countries.list = [];
     this.context.data.countries.selection = [];
@@ -560,10 +560,14 @@ app.reset2 = function(){
     this.filters = [];
 
     this.map.removeChoropleth();
-    $("#add_tool a").trigger("click");
+    //$("#add_tool a").trigger("click");
+    //app.events.trigger('tool:country:load');
+    app.router.navigate('/tool/country',{trigger: true});
+
+
 
     //window.location  = "/es";
-    $("#ctrl_filter").removeClass("enable");
+    //$("#ctrl_filter").removeClass("enable");
 }
 
 app.countryCodeToStr = function(country){
@@ -599,7 +603,7 @@ app.formatNumber = function (n,decimals){
     }
 
     if (decimals ===null || decimals === undefined){
-        decimals = 2;
+        decimals = 1;
     }
 
     if (typeof n == "number"){
@@ -806,3 +810,11 @@ app.getBrowser = function(){
     if((tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
     return M;
 };
+
+app.shortString = function (text, maxLength) {
+    var ret = text;
+    if (ret.length > maxLength) {
+    ret = ret.substr(0,maxLength-3) + "…";
+    }
+    return ret;
+}

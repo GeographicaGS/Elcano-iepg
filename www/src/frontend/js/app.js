@@ -361,8 +361,8 @@ app.getBrowser = function(){
 };
 
 app.latestReport = function(){
-    if (app.lang=="es") return "/es/data/Presencia_Global_2015.pdf";
-    else return "/en/data/Global_Presence_2015.pdf";
+    if (app.lang=="es") return "/es/data/Presencia_Global_2016.pdf";
+    else return "/en/data/Global_Presence_2016.pdf";
 }
 
 app.variableToString = function(variable){

@@ -23,56 +23,73 @@ app.view.Base = Backbone.View.extend({
 
         this.$ctrl_map_zoom = this.$("#ctrl_map_zoom");
 
-        // Load default tools
-        var localTools =  localStorage.getItem("tools");
+        if (false){
+            // DEPRECaTE 2016-04-13
+            // Load default tools
+            var localTools =  localStorage.getItem("tools");
 
-        if (localTools){
-            localTools = JSON.parse(localTools);
-            listTools = localTools.tools;
-            if (listTools.length > 0 )
-            {
-                for (var i=0;i<listTools.length;i++){
-                    var tool = this.getInstanceViewByType(listTools[i]);
-                    //var bringToFront = listTools[i] == localTools.selected ? true : false;
+            if (localTools){
+                localTools = JSON.parse(localTools);
+                listTools = localTools.tools;
+                if (listTools.length > 0 )
+                {
+                    for (var i=0;i<listTools.length;i++){
+                        var tool = this.getInstanceViewByType(listTools[i]);
+                        //var bringToFront = listTools[i] == localTools.selected ? true : false;
+                        this.addTool(tool,false);
+                    }    
+                }
+                else{
+                    // if no information in local store load the country tool
+                    tool = new app.view.tools.CountryPlugin();
                     this.addTool(tool,false);
-                }    
+                }
+
+                
             }
             else{
                 // if no information in local store load the country tool
                 tool = new app.view.tools.CountryPlugin();
                 this.addTool(tool,false);
-            }
-
-            
+            }    
         }
         else{
-            // if no information in local store load the country tool
-            tool = new app.view.tools.CountryPlugin();
-            this.addTool(tool,false);
+            var tools = ["country","ranking","contributions","quotes","comparison"];
+
+            for (var i=0;i<tools.length;i++){
+                var tool = this.getInstanceViewByType(tools[i]);
+                this.addTool(tool,false);
+            }
         }
+        
+
+        this.listenTo(app.events,'tool:country:load',this._loadCountry);
+        this.listenTo(app.events,'tool:bringToFront',this._selectToolInMenu);
 
     },
 
     events: {
         "click #ctrl_tool" : "toggleTools",
-        //"click #control_panel a" : "goToVisible",
-        "click .header .close": "removeCurrentTool",
+        "click .header .close": "toggleTools",
         "click #add_tool a": "showAddToolView",
         "click #ctrl_filter" : "showAddFilterSelectorView"
     },
 
     render: function() {
         // TOREMOVE
-        console.log("Render app.view.Base");
-        var html = "";
-        for (var i=0;i<this.tools.length;i++){
-            var sel = this.currentTool == this.tools[i] ? "selected" : "";
-            html += "<li " + sel + " tool='" + this.tools[i].type+ "' title='"+app.toolTypeToString(this.tools[i].type) +"'>" + 
-                        "<a href='" + app.getJSURL("tool/" + this.tools[i].type) + "' jslink ></a>" + 
-                    "</li>";
-        }
+        //console.log("Render app.view.Base");
 
-        this.$panelTools.html(html);
+        // Deprecated 2016-04-13:  All loaded by default. No tool selector.
+
+        //var html = "";
+        // for (var i=0;i<this.tools.length;i++){
+        //     var sel = this.currentTool == this.tools[i] ? "selected" : "";
+        //     html += "<li " + sel + " tool='" + this.tools[i].type+ "' title='"+app.toolTypeToString(this.tools[i].type) +"'>" + 
+        //                 "<a href='" + app.getJSURL("tool/" + this.tools[i].type) + "' jslink ></a>" + 
+        //             "</li>";
+        // }
+
+        //this.$panelTools.html(html);
 
 
 
@@ -177,63 +194,72 @@ app.view.Base = Backbone.View.extend({
         this.saveToolStatus();
     },
 
+    _closeToolPanel: function(){
+
+        // hide tool panel
+        this.$('#ctrl_tool').removeClass("open");
+
+        if (app.isTouchDevice()){
+            ml = this.$tool.width() * -1;
+
+            this.$tool.find("#tool_data").fadeOut(300);
+            this.$tool.fadeOut(300);
+            //this.$country_panel.fadeOut(300);
+            //this.$ctrl_filter.fadeOut(300);
+
+        }
+        else{
+
+            ml = this.$tool.width() * -1;
+            //this.$tool.find("#tool_data").width( $(window).width() -  this.originLeft - 20 ).height();
+            this.$tool.find("#tool_data").width( $(window).width() -  this.originLeft - 20 ).height();
+            this.$tool.animate({"left": ml});
+            //this.$country_panel.animate({"right": (this.$country_panel.width() + this.originCountryPanel)*-1 });
+            //this.$ctrl_filter.animate({"right": (this.$ctrl_filter.width() + this.originCtrlFilter)*-1 });
+        }
+
+        //this.$control_panel.fadeOut(300);
+        this.$ctrl_map_zoom.fadeIn(300);
+    },
+
+    _openToolPanel: function(){
+        this.$('#ctrl_tool').addClass("open");
+
+        if (app.isTouchDevice()){
+            this.$tool.find("#tool_data").fadeIn(300);
+            this.$tool.fadeIn(300);
+            //this.$country_panel.fadeIn(300);
+            //this.$ctrl_filter.fadeIn(300);
+
+        }
+        else{
+           
+            var self = this;
+            this.$tool.animate({"left": this.originLeft},function(){
+                $(this).find("#tool_data").css('width', 'auto');
+            });
+
+            //this.$country_panel.animate({"right":this.originCountryPanel});
+            //this.$ctrl_filter.animate({"right":this.originCtrlFilter});
+            
+        }
+
+        //this.$control_panel.fadeIn(300);
+        this.$ctrl_map_zoom.fadeOut(300);
+    },
+
     toggleTools: function(e){
 
-        var $e = $(e.target),
+        var $e = this.$('#ctrl_tool'),
             ml;
 
         if ($e.hasClass("open")){
-            // hide tool panel
-            $e.removeClass("open");
-
-            if (app.isTouchDevice()){
-                ml = this.$tool.width() * -1;
-
-                this.$tool.find("#tool_data").fadeOut(300);
-                this.$tool.fadeOut(300);
-                this.$country_panel.fadeOut(300);
-                this.$ctrl_filter.fadeOut(300);
- 
-            }
-            else{
-
-                ml = this.$tool.width() * -1;
-                this.$tool.find("#tool_data").width( $(window).width() -  this.originLeft - 20).height();
-                this.$tool.animate({"left": ml});
-                this.$country_panel.animate({"right": (this.$country_panel.width() + this.originCountryPanel)*-1 });
-                this.$ctrl_filter.animate({"right": (this.$ctrl_filter.width() + this.originCtrlFilter)*-1 });
-            }
-
-            this.$control_panel.fadeOut(300);
-            this.$ctrl_map_zoom.fadeIn(300);
+            this._closeToolPanel();
            
         }
 
         else{
-            $e.addClass("open");
-
-
-            if (app.isTouchDevice()){
-                this.$tool.find("#tool_data").fadeIn(300);
-                this.$tool.fadeIn(300);
-                this.$country_panel.fadeIn(300);
-                this.$ctrl_filter.fadeIn(300);
- 
-            }
-            else{
-               
-                var self = this;
-                this.$tool.animate({"left": this.originLeft},function(){
-                    $(this).find("#tool_data").css('width', 'auto');
-                });
-
-                this.$country_panel.animate({"right":this.originCountryPanel});
-                this.$ctrl_filter.animate({"right":this.originCtrlFilter});
-                
-            }
-
-            this.$control_panel.fadeIn(300);
-            this.$ctrl_map_zoom.fadeOut(300);
+            this._openToolPanel();
 
         }
 
@@ -276,8 +302,17 @@ app.view.Base = Backbone.View.extend({
         }
 
     },
+
+    _selectToolInMenu: function(type){
+        this.$panelTools.find('li').removeAttr('selected');
+        this.$panelTools.find('li[tool='+type+']').attr('selected',true);
+        this._openToolPanel();
+    },
     
     bringToolToFrontByType: function(type){
+
+        //this._selectToolInMenu(type);
+
         var tool = this._searchToolByType(type);
         if (!tool){
             // The user has requested a tool but it's not loaded. Let's load it.
@@ -308,7 +343,6 @@ app.view.Base = Backbone.View.extend({
         if (localTools){
             localTools = JSON.parse(localTools);
             
-           
             var tool = this.getToolByType(localTools.selected);
             if (!tool){
                 tool = this.getToolByType(localTools.tools[0]);
@@ -317,9 +351,7 @@ app.view.Base = Backbone.View.extend({
             this.bringToolToFront(tool);        
             
         }
-        else{
-            // Not expected
-        }
+        
     },
 
     loadCountryTool: function(url){
@@ -342,7 +374,7 @@ app.view.Base = Backbone.View.extend({
     },
 
     loadRankingTool: function(url){
-         var tool = this._searchToolByType("ranking");
+        var tool = this._searchToolByType("ranking");
 
         if (!tool){
             // tool not already loaded
@@ -447,6 +479,28 @@ app.view.Base = Backbone.View.extend({
         }
 
         this._filterSelectorView = new app.view.FilterSelector(); 
+    },
+
+    _loadCountry: function(countrycode){
+        var ctx = app.context;
+
+        ctx.data.countries.indexOf
+        if (ctx.data.countries.list.indexOf(countrycode) == -1){
+            ctx.data.countries.list.push(countrycode);
+        }
+
+        ctx.data.countries.selection = [countrycode];
+
+        
+        app.router.navigate('/tool/country',{trigger: true});
+
+        // app.events.trigger("contextchange:countries");
+
+        // var $ctrl = this.$('#ctrl_tool');
+
+        // if (!$ctrl.hasClass('close')){
+        //     $ctrl.trigger('click');
+        // }
     }
     
 });

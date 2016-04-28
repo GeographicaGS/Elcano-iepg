@@ -6,12 +6,12 @@ Data cache.
 
 """
 
-import common.cachewrapper as cachewrapper
 from pythonhelpers.database.datacache import RedisDataCache
 import redis
 import const
+from common.config import RedisConfig
 
-connclient = redis.StrictRedis(host="localhost", port=6379, db=0)
+connclient = redis.StrictRedis(host=RedisConfig["host"], port=RedisConfig["port"], db=0)
 mc = RedisDataCache(connclient, prefix="iepg_", timeout=None)
 
 dataSets = dict()

@@ -1,0 +1,95 @@
+pgsql:
+  restart: always
+  image: geographica/postgis:postgresql-9.1.2-postgis-1.5.8-patched 
+  volumes_from:
+    - elcano_iepg_pgdata
+  environment:
+    - POSTGRES_PASSWD=${POSTGRES_PASSWORD}
+
+redis:
+  restart: always
+  image: redis:2.8
+  volumes_from:
+    - elcano_iepg_redisdata
+  command: redis-server --appendonly yes
+
+api_backend:
+  restart: always
+  image: geographica/elcano_iepg_api:latest
+  links:
+    - pgsql:pgsql
+    - redis:redis
+  volumes_from:
+    - elcano_iepg_mediadata
+  environment:
+    - POSTGRES_DB=${POSTGRES_DB}
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    - API_SECRET_KEY=${API_SECRET_KEY}
+
+  command: uwsgi -s 0.0.0.0:5000 --enable-threads -w backend:app
+
+api_frontend:
+  restart: always
+  image: geographica/elcano_iepg_api:latest
+  links:
+    - pgsql:pgsql
+    - redis:redis
+  environment:
+    - POSTGRES_DB=${POSTGRES_DB}
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    - TWITTER_API_KEY=${TWITTER_API_KEY}
+    - TWITTER_API_SECRET=${TWITTER_API_SECRET}
+    - TWITTER_TOKEN=${TWITTER_TOKEN}
+    - TWITTER_TOKEN_SECRET=${TWITTER_TOKEN_SECRET}
+    - API_SECRET_KEY=${API_SECRET_KEY}
+
+  command: uwsgi -s 0.0.0.0:5000 --enable-threads -w frontend:app
+
+api_explora:
+  restart: always
+  image: geographica/elcano_iepg_api:latest
+  links:
+    - pgsql:pgsql
+    - redis:redis
+
+  environment:
+    - POSTGRES_DB=${POSTGRES_DB}
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    - API_SECRET_KEY=${API_SECRET_KEY}
+
+  command: uwsgi -s 0.0.0.0:5000 --enable-threads -w explora:app
+
+# TODO: REMOVE this container, we should use AMAZON Cloudfront + Lincoln NGINX
+nginx:
+  restart: always
+  build: .
+  dockerfile: nginx/staging/Dockerfile
+  volumes_from:
+    - elcano_iepg_mediadata
+  links:
+    - api_explora:api_explora
+    - api_backend:api_backend
+    - api_frontend:api_frontend
+
+
+www_builder:
+  build: www
+  links:
+    - pgsql:pgsql
+
+  volumes:
+    - ./www/cdn:/usr/src/cdn
+
+  environment:
+    - POSTGRES_HOST=${POSTGRES_HOST}
+    - POSTGRES_DB=${POSTGRES_DB}
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+
+
+
+

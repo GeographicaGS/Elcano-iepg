@@ -39,7 +39,7 @@ app.view.ToolSelector = Backbone.View.extend({
     events : {
         "click #save": "save",
         "click #cancel": "cancel",
-        "click a[tool]" : "clickTool"
+        "click a[tool]" : "goTool"
     },
 
     onClose: function(){
@@ -136,24 +136,48 @@ app.view.ToolSelector = Backbone.View.extend({
         this._toolsSelectedStack.push(tool);
     },
 
-    clickTool: function(e){
+    // clickTool: function(e){
+    //     e.preventDefault();
+    //     var $e = $(e.target).closest("a"),
+    //         sel = $e.attr("selected"),
+    //         tool = $e.attr("tool");
+
+    //     if (sel !== undefined && sel!="undefined"){
+    //         // Unselect element
+    //         $e.removeAttr("selected");
+    //         this._removeToolFromStack(tool);
+    //     } 
+    //     else{
+    //         $e.attr("selected",true);
+    //         this._addToolToTopStack(tool);
+
+    //     }
+
+    //     this.refreshCounterElements();
+    // },
+
+    goTool: function(e){
         e.preventDefault();
         var $e = $(e.target).closest("a"),
-            sel = $e.attr("selected"),
             tool = $e.attr("tool");
 
-        if (sel !== undefined && sel!="undefined"){
-            // Unselect element
-            $e.removeAttr("selected");
-            this._removeToolFromStack(tool);
-        } 
-        else{
-            $e.attr("selected",true);
-            this._addToolToTopStack(tool);
+        app.router.navigate('tool/' + tool,{trigger: true});
 
+        this.cancel();
+    },
+
+    _loadCountry: function(countrycode){
+        var ctx = app.context;
+
+        ctx.data.countries.indexOf
+        if (ctx.data.countries.list.indexOf(countrycode) == -1){
+            ctx.data.countries.list.push(countrycode);
         }
 
-        this.refreshCounterElements();
+        ctx.data.countries.selection = [countrycode];
+
+        app.events.trigger("contextchange:countries");
+        console.log('yeah!');
     }
 
 

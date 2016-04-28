@@ -1,7 +1,7 @@
 app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#contributions_tool_template').html() ),
     _templateProportionalFlags : _.template( $('#contributions_tool_proportional_flags_template').html() ),
-    _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
+   // _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     _templateError : _.template($("#country_error_template").html()),
     _templateHelp : _.template( $('#contributions_tool_help_template').html() ),
     // Force fetch data of the left tool. Get the data for the first country
@@ -22,6 +22,11 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             "draggable" : true
         });
         this._collectionGlobalIndex = new app.collection.GlobalIndex();
+
+        this._sunburstCDModel = new Backbone.Model();
+        this._sunburstCDView = new app.view.tools.SunburstComparisonDataView({
+            'model': this._sunburstCDModel
+        });
         
     },
 
@@ -129,6 +134,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         });
 
         this.listenTo(this._collectionGlobalIndex,"reset",this._renderProportionalFlags);
+        this.listenTo(app.events,'sunburst:moveto',this._moveChartSectionByName);
     },
 
 
@@ -183,6 +189,9 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             this._renderProportionalFlags();
         }
         
+
+        this.$('#data_legend').html(this._sunburstCDView.el);
+
         this._renderSubTool("left");
         this._renderSubTool("right");
 
@@ -253,11 +262,17 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             // Links to DOM Elements
             $co_chart = pos == "left" ? this.$co_left : this.$co_right,
            
-            $country_name = $co_chart.find(".name");
+            $country_name = $co_chart.find(".country_name");
             
         if (country){
             // Set the country name
-            $country_name.html(app.countryToString(country) + " " + year).removeClass("no_data");
+            var html = "<div class='co_flag2'>"+
+                        "<img src='/img/flags/" + country + ".svg' />" +
+                        "</div>" +
+                        "<span class='name'>" + app.countryToString(country) + " " + year + "</span>";
+            
+
+            $country_name.html(html).removeClass('no_data');
 
             if (forceFetch){
                 // Fetch the data of this tool
@@ -344,12 +359,13 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             app.map.removeChoropleth();
         }
         else{
-            this.mapLayer = app.map.drawChoropleth(mapData,year,variable,family,"%",false,"<lang>Contribuciones</lang> ");
+            var unit = variable=="global" ? "" : "%";
+            var title = variable=="global" ? null : "<lang>Contribuciones</lang>";
+            this.mapLayer = app.map.drawChoropleth(mapData,year,variable,family,unit,false,title);
         }
 
         
     },
-
 
     renderMap: function(){
         // draw the map
@@ -365,6 +381,8 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     onClose: function(){
         // Remove events on close
         this.stopListening();
+
+        if (this._sunburstCDView) this._sunburstCDView.close();
     },
 
     /* 
@@ -479,7 +497,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
-            $chart_legend = pos == "left" ? this.$chart_legend_left : this.$chart_legend_right,
             width = $chart.width(),
             height = $chart.height(),
             radius = Math.min(width, height) / 2;
@@ -504,12 +521,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         this._d3[pos] = null;
 
-        if (!error){
-            $chart_legend.html("");
-        }
-        else{
-            $chart_legend.html(this._templateError());
-        }
+        // if (!error){
+        //     $chart_legend.html("");
+        // }
+        // else{
+        //     $chart_legend.html(this._templateError());
+        // }
 
     },
 
@@ -607,13 +624,12 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             if (d.name == "global" || d.name == "economic_global" ||
                 d.name == "soft_global" || d.name =="military_global")
             {
-                obj._moveChartSection(pos,d,true);
+                //obj._moveChartSection(pos,d,true);
+                app.events.trigger('sunburst:moveto',['left','right'],d.name,750);
             }
-            ctx.variables = [d.name];
-            obj.contextToURL();
-
-            obj._mapCollection._variable = d.name;
-            obj._mapCollection.fetch({"reset":true});
+            else{
+                obj._changeVariable(d.name);    
+            }
 
         }
 
@@ -622,9 +638,16 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this._d3[pos].tree = tree;
         this._d3[pos].arcTween = arcTween;
 
+        var optsmodel = {};
+        optsmodel["tree_"+pos] = tree;
+        optsmodel["family"] = this.getGlobalContext().data.family;
+
+        this._sunburstCDModel.set(optsmodel);
+
         var data_variable;
         if (ctx.variables[0] == "global"){
-            this._renderChartLegend(pos,ctx.variables[0]);
+            //this._renderChartLegend(pos,ctx.variables[0]);
+            app.events.trigger('sunburst:moveto',[pos],ctx.variables[0]);
         }
         else{
             if (ctx.variables[0] == "economic_global" ||
@@ -635,47 +658,48 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
                 data_variable = tree.findParentInTreeByName(ctx.variables[0]);
             }
 
-            d3.select("#co_chart_" + pos +" .chart path[data-variable='" + data_variable  + "']").each(function(d, i) {
-                obj._moveChartSection(pos,d,false,0)
-            }); 
-
-        }
-        
-        
+            app.events.trigger('sunburst:moveto',[pos],data_variable);
+        }        
         
     },
 
-    _moveChartSection: function(pos,d,callBrother,speed){
+    _changeVariable: function(name){
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+        ctx.variables = [name];
+        this.contextToURL();
+
+        this._mapCollection._variable = name;
+        this._mapCollection.fetch({"reset":true});    
+        
+    },
+
+    _moveChartSectionByName: function(pos,varname,speed){
+
+        this._changeVariable(varname);
+        var _this = this;
+
+        for (var i =0;i<pos.length;i++){ 
+            this._moveChartSection(pos[i],varname,speed ? speed : 0); 
+        }
+        
+    },
+
+     _moveChartSection: function(pos,variable,speed){
         if (speed == undefined || speed=="undefined"){
             speed = 750;
         }
-
-        this._d3[pos].path.transition()
+        
+        var _this = this;
+        d3.select("#co_chart_" + pos +" .chart path[data-variable='" + variable  + "']").each(function(d, i) {
+            _this._d3[pos].path.transition()
                          .duration(speed)
-                         .attrTween("d", this._d3[pos].arcTween(d));
-
-        this._renderChartLegend(pos,d.name);
-
-        if (!callBrother){
-            return;
-        }
-
-        // Let's find d in the other tree.
-        var  // brother pos
-            bpos = pos == "left" ? "right" : "left";
-
-        if (!this._d3[bpos]){
-            // no brother chart
-            return;
-        }
-
-        var    // brother tree
-            btree = this._d3[bpos].tree,
-            // brother data element
-            bd = btree.findElementInTree(d.name);
-    
-         this._moveChartSection(bpos,bd,false);
-
+                         .attrTween("d", _this._d3[pos].arcTween(d));    
+        });
+        
+        
     },
 
     _htmlToolTip: function(variable,bvariable){
@@ -734,14 +758,6 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _renderChartLegend: function(pos,name){
-        $legend = pos == "left" ? this.$chart_legend_left : this.$chart_legend_right;
-        $legend.html(this._templateChartLegend({
-            data: this._d3[pos].tree.findElementInTree(name),
-            family : this.getGlobalContext().data.family
-        }));
-    },
-
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL
         var ctxObj = this.getGlobalContext(),
@@ -795,5 +811,14 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this.copyGlobalContextToLatestContext();
     },
 
+    onBringToFront: function(){
+        if (this._sunburstCDView)
+            this._sunburstCDView.gofront();
+    },
+
+    onBringToBack: function(){
+        if (this._sunburstCDView)
+            this._sunburstCDView.goback();   
+    }
 
 });

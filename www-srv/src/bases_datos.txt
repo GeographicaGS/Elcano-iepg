@@ -1,0 +1,7 @@
+- Engine - Deprecated.
+- iepg_data - Deprecated.
+- iepg_data_redux - Datos del índice. El motor debería rellenar este esquema a partir de los datos del motor de cálculo.
+- maplex: motor de nombre de países. Para manejar los grupos
+- store: Deprecated
+- varengine: Deprecated
+- flux: motor de variables.

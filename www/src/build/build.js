@@ -111,6 +111,12 @@ exports.buildCSS = function (env,callback, version, buildName){
 		newCssCompressed;
 
 	parser.parse(newSrc, function (e, tree) {
+		if (e){
+			console.error(e);
+			throw "Error building CSS";
+			return;
+		}
+		
 		if (!tree){
 			// no less CSS less use UglifyCSS
 			newCssCompressed = UglifyCSS.processString(newSrc, {

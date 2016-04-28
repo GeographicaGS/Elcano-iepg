@@ -2,7 +2,9 @@ app.view.map = function(options){
     this.baseLayer = null;
 
     //this._choroplethColors = ["#800026","#BD0026","#E31A1C","#FC4E2A","#FD8D3C"];
-    this._choroplethColors = ["#ffd88b","#f9be84","#fa976a","#ee6756","#de3338"];
+    //this._choroplethColors = ["#ffd88b","#f9be84","#fa976a","#ee6756","#de3338"];
+    this._choroplethColors = ["#fef0d9","#fdcc8a","#fc8d59","#e34a33","#b30000"];
+   
 
     this.CHOROPLETH_INTERVALS = 5;
 
@@ -15,8 +17,6 @@ app.view.map = function(options){
     this.$maplabel = options.maplabel ? options.maplabel : $("#map_label");
     this.$maplegend = options.maplegend ? options.maplegend : $("#map_legend");
 
-
-
     this.initialize = function(options){
 
         var southWest = L.latLng(-85, -190),
@@ -28,7 +28,8 @@ app.view.map = function(options){
             "zoomControl" : false,
             // It doesn't work in ranking tool
             "maxBounds" : bounds,
-            "minZoom": 2
+            "minZoom": 2,
+            "doubleClickZoom": !app.isTouchDevice()
         }).setView( this.center, this.zoom);
 
         this.loadBaseMap();
@@ -64,6 +65,31 @@ app.view.map = function(options){
             }
         });
         this._baseLayer.addTo(this._map);  
+
+        this._saharamoroccoLine = L.geoJson({
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                   -13.11952,27.65578
+                    ],
+                    [
+                    -8.67006,27.66630
+                    ]
+                ]
+            }
+        },
+        {
+            
+            weight: 1.5,
+            opacity: 1,
+            color: '#a2a2ac',
+            dashArray: '3,6'
+        });
+
+        this._saharamoroccoLine.addTo(this._map);
+    
     };
 
     /* Resize the map */ 
@@ -79,7 +105,7 @@ app.view.map = function(options){
     /* This method created a choropleth Map with the data supplied in the parameter */ 
     this.drawChoropleth = function(data,time,variable,family,units,invertColors,labelPrefix,noformattooltip){
 
-
+         this._ctouchCountry = null;
         if (!units) units = ""
 
         var n_intervals = data.length < this.CHOROPLETH_INTERVALS ? data.length :  this.CHOROPLETH_INTERVALS ;
@@ -175,8 +201,10 @@ app.view.map = function(options){
         }
 
         function style(feature) {
+            
             return {
                 fillColor: getColor(feature.properties.value),
+                //dashArray: '10,10',
                 weight: 1,
                 opacity: 1,
                 color: 'white',
@@ -203,6 +231,16 @@ app.view.map = function(options){
             var v = layer.feature.properties;
 
             var fnumber = noformattooltip ? v.value : app.formatNumber(v.value);
+
+            var unitsStr;
+
+            if (units=="º")
+                unitsStr = app.ordchr(fnumber);
+            else if (units == "%")
+                unitsStr = units;
+            else
+                unitsStr = "";
+
             
             var html = "<div>" 
                     +   "<span>" +app.countryToString(v.code) + "</span>"
@@ -211,7 +249,7 @@ app.view.map = function(options){
                     + "</div>"
                     + "<div>" 
                     +   "<span>" + app.variableToString(v.variable,v.family) + "</span>"
-                    +   "<span>" + fnumber + (units=="º" ? app.ordchr(fnumber) : "" )  + "</span>"
+                    +   "<span>" + fnumber + unitsStr  + "</span>"
                     +   "<div class='clear'></div>"
                     +"</div>";
 
@@ -221,9 +259,10 @@ app.view.map = function(options){
 
             if (app.isTouchDevice()){
                 setTimeout(function(){
-                    _this.$tooltip.fadeOut(600);
+                    resetHighlight(e);
                 },5000);
             }
+            _this._saharamoroccoLine.bringToFront();
         }
 
         function resetHighlight(e) {
@@ -235,12 +274,29 @@ app.view.map = function(options){
             this._map.fitBounds(e.target.getBounds());
         }
 
+        function goToCountrySheet(e) {
+            app.events.trigger('tool:country:load',e.target.feature.properties.code);
+        }
+
+        function onClick(e){
+            if (!app.isTouchDevice() || this._ctouchCountry == e.target.feature.properties.code){
+                goToCountrySheet(e);
+            }
+            else{
+                this._ctouchCountry = e.target.feature.properties.code;
+                highlightFeature(e);
+            }
+        }
+
         function onEachFeature(feature, layer) {
 
             layer.on({
                 mouseover: highlightFeature,
                 mouseout: resetHighlight,
-                click: !app.isTouchDevice() ? zoomToFeature : highlightFeature
+                //click: !app.isTouchDevice() ? goToCountrySheet : highlightFeature,
+                click: onClick,
+                dblclick: onClick
+
             });
         }
 
@@ -250,6 +306,8 @@ app.view.map = function(options){
         });
 
         l.addTo(this._map);
+
+        this._saharamoroccoLine.bringToFront();
 
         // Let's add a legend for the map. 
 

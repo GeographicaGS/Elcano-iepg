@@ -98,10 +98,12 @@ class Flux(object):
         if not self.__book:
             raise Exception('Book need to be created')
                     
+
         # Prepare variables for IEPG calculus, excluding EU
         # All data for IEPG countries are loaded in data, but
         # not any EU IEPG-specific data
         data = core.GeoVariableArray()
+
         [data.merge(self.__book.readGeoVariableArray(".".join(x.filiation))) for x
          in self.__variables if x.filiation[0]=="IEPG"]
 
@@ -126,9 +128,10 @@ class Flux(object):
 
             
         # Prepare and add data for EU
-        data.addGeoentity(u"Unión Europea")
+        data.addGeoentity(u"European Union")
         # Get the index of the EU for slicing
-        euIndex = data.geoentity.index(u"Unión Europea")
+        euIndex = data.geoentity.index(u"European Union")
+
         dolarEx = np.array(self.__environment["EURO_DOLAR_ER"])
 
         # Initial load of EU data
@@ -147,7 +150,8 @@ class Flux(object):
                      "IEPG_EU.Economic.Services",
                      "IEPG_EU.Economic.Investments",
                      "IEPG_EU.Soft.Culture",
-                     "IEPG_EU.Soft.Information"]
+                     "IEPG_EU.Soft.Information.News",
+                     "IEPG_EU.Soft.Information.Intern"]
         tableVar = ["IEPG_EU.Military.Troops",
                     "IEPG_EU.Soft.InmigrationTotal",
                     "IEPG_EU.Soft.InmigrationIntra",
@@ -172,17 +176,17 @@ class Flux(object):
         #print da.shape
         #print da[0,:,0]
 
-        data[u"Unión Europea",3:,"IEPG.Economic.Energy"]=da[0,:,0]
+        data[u"European Union",3:,"IEPG.Economic.Energy"]=da[0,:,0]
 
         # EU IEPG Culture, loads EU data into "data" for IEPG calculation
         da = euVector.select(0, None, ["IEPG_EU.Soft.Culture","IEPG_EU.Economic.Services"])* \
             np.repeat(dolarEx, 1, axis=0).reshape(self.__euDataYears,1)*1000000
-        data[u"Unión Europea",3:,"IEPG.Soft.Culture"]=da[0,:,0]
+        data[u"European Union",3:,"IEPG.Soft.Culture"]=da[0,:,0]
         
         # EU IEPG Services, loads EU data into "data" for IEPG calculation
-        da = euVector.select(0, None, "IEPG_EU.Economic.Services")
-        data[u"Unión Europea",3:,"IEPG.Economic.Services"]=da[0,:,0]
-
+        da = euVector.select(0, None, "IEPG_EU.Economic.Services") * np.repeat(dolarEx,1,axis=0).reshape(self.__euDataYears,1)
+        data[u"European Union",3:,"IEPG.Economic.Services"]=da[0,:,0]
+        
         # EU IEPG Investments, loads EU data into "data" for IEPG calculation
         da = euVector.select(0,
                              None,
@@ -190,7 +194,7 @@ class Flux(object):
                               "IEPG_EU.Economic.Investments"]
                          )*np.repeat(dolarEx,1,axis=0).reshape(self.__euDataYears,1)
         
-        data[u"Unión Europea",3:,"IEPG.Economic.Investments"]=da[0,:,0]
+        data[u"European Union",3:,"IEPG.Economic.Investments"]=da[0,:,0]
 
         # EU IEPG Primary Goods, loads EU data into "data" for IEPG calculation
 
@@ -205,7 +209,7 @@ class Flux(object):
              "IEPG_EU.Economic.PSP",
              "IEPG_EU.Economic.NMG"]), axis=2)*dolarEx/1000
 
-        data[u"Unión Europea",3:,"IEPG.Economic.PrimaryGoods"]=primaryG
+        data[u"European Union",3:,"IEPG.Economic.PrimaryGoods"]=primaryG
 
         # EU IEPG Manufactures, loads EU data into "data" for IEPG calculation
         man = np.nansum(euVector.select(None,None,
@@ -221,11 +225,11 @@ class Flux(object):
 
         man = man*np.array(dolarEx)/1000
 
-        data[u"Unión Europea",3:,"IEPG.Economic.Manufactures"]=man
+        data[u"European Union",3:,"IEPG.Economic.Manufactures"]=man
 
 
         # IEPG EU Troops & military equipment, Science, and Cooperation
-        data[u"Unión Europea",3:,"IEPG.Military.Troops"] = np.nansum(euTable[:,:,"IEPG_EU.Military.Troops"], axis=0).flatten()
+        data[u"European Union",3:,"IEPG.Military.Troops"] = np.nansum(euTable[:,:,"IEPG_EU.Military.Troops"], axis=0).flatten()
 
         # europeanIndices = [0,6,8,10,14,17,18,21,22,23,25,27,28,29,30,35,38,42,43,44,46,51,54,55,57,58,59,63]
         # bulgariaIndex = 3
@@ -242,32 +246,38 @@ class Flux(object):
                                "IEPG.Soft.Science",
                                "IEPG.Soft.DevelopmentC"]
 
+
         for x in variablesFromGlobal:
+            
             da = data.getSubset(self.__totalCountriesEu,self.__euDataYearsStr,x)
             da.sort()
             da = self.__clearMissingEuCountries(da, self.__missingEuCountries)
             da = np.nansum(da.data, axis=0).flatten()
-            data[u"Unión Europea",3:,x] = da
+            data[u"European Union",3:,x] = da
 
         # Inmigration
-        data[u"Unión Europea",3:,"IEPG.Soft.Migrations"] = np.nansum(
+        data[u"European Union",3:,"IEPG.Soft.Migrations"] = np.nansum(
             (euTable[:,:,"IEPG_EU.Soft.InmigrationTotal"] - \
              euTable[:,:,"IEPG_EU.Soft.InmigrationIntra"]), axis=0).flatten()
 
         # Tourism
-        data[u"Unión Europea",3:,"IEPG.Soft.Tourism"] = np.nansum(
+        data[u"European Union",3:,"IEPG.Soft.Tourism"] = np.nansum(
             euTable[:,:,"IEPG_EU.Soft.Tourism"], axis=0).flatten()/1000
 
         # Information
-        data[u"Unión Europea",3:,"IEPG.Soft.Information"] = euVector[0,:,"IEPG_EU.Soft.Information"]
+        data[u"European Union",3:,"IEPG.Soft.Information.News"] = euVector[0,:,"IEPG_EU.Soft.Information.News"]
+        data[u"European Union",3:,"IEPG.Soft.Information.Internet"] = euVector[0,:,"IEPG_EU.Soft.Information.Intern"]
+
+        #print "News: ", data[u"European Union",3:,"IEPG.Soft.Information.News"]
+        #print "Internet: ", data[u"European Union",3:,"IEPG.Soft.Information.Internet"]
 
         # Technology
-        data[u"Unión Europea",3:,"IEPG.Soft.Technology"] = np.nansum(
+        data[u"European Union",3:,"IEPG.Soft.Technology"] = np.nansum(
             (euTable[:,:,"IEPG_EU.Soft.TechnologyTotal"] - \
              euTable[:,:,"IEPG_EU.Soft.TechnologyIntra"]), axis=0).flatten()
 
         # Education
-        data[u"Unión Europea",3:,"IEPG.Soft.Education"] = np.nansum(
+        data[u"European Union",3:,"IEPG.Soft.Education"] = np.nansum(
             (euTable[:,:,"IEPG_EU.Soft.EducationTotal"] - \
              euTable[:,:,"IEPG_EU.Soft.EducationIntra"]), axis=0).flatten()
 
@@ -284,13 +294,17 @@ class Flux(object):
                   "IEPG.Soft.Migrations",
                   "IEPG.Soft.Tourism",
                   "IEPG.Soft.Culture",
-                  "IEPG.Soft.Information",
                   "IEPG.Soft.Technology",
                   "IEPG.Soft.Science",
                   "IEPG.Soft.Education",
                   "IEPG.Soft.DevelopmentC"]
 
         for i in normal:
+            #print i 
+            #print data[u"European Union",3:,i]
+            # print data[u"United States of America",self.__refYear,i]
+            # print "max: ", np.nanmax(data[:euIndex,self.__refYear,i])
+
             if i+"Est" in data.variable:
                 d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:euIndex,self.__refYear,i]), 
                             data[:,:,i+"Est"])
@@ -298,6 +312,32 @@ class Flux(object):
                 d = data[:,:,i]*1000.0/np.nanmax(data[:euIndex,self.__refYear,i])
 
             data.addVariable(i+"_IEPG", data=d)
+
+        #print data[u"European Union",3:,"IEPG.Economic.Services_IEPG"]
+
+        # Information calculus
+        refYearIndex = data.getTimeIndex(self.__refYear)[0]
+
+        #print "Max News: ",np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.Information.News"])
+        infointernet = data[:,:,"IEPG.Soft.Information.Internet"]*1000.0/np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.Information.Internet"])
+        infonews = data[:,:,"IEPG.Soft.Information.News"]*1000.0/np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.Information.News"])
+        #print "Internet 0-1000:", infointernet[euIndex,:,0]
+        #print "News 0-1000:", infonews[euIndex,:,0]
+        info = infointernet*0.5 + infonews*0.5
+        #print info[euIndex,:,0]
+        info = info * 1000 / np.nanmax(info[:euIndex,refYearIndex,:])
+
+        #print info[euIndex,:,0]
+
+        # countryIdx = data.geoentity.index(u"Germany")
+        # print "Germany", countryIdx
+        # print "InternetCrud: ",  data[countryIdx,-1,"IEPG.Soft.Information.Internet"]   
+        # print "NewsCrud: ", data[countryIdx,-1,"IEPG.Soft.Information.News"]
+        # print "Internet: ", infointernet[countryIdx,-1,0]
+        # print "News: ", infonews[countryIdx,-1,0]
+        # print "Total: ", info[countryIdx,-1,0]
+        
+        data.addVariable("IEPG.Soft.Information_IEPG", data=info)
 
         # Sports calculus
         # This is the calculus for the sports coefficient
@@ -322,17 +362,15 @@ class Flux(object):
         euIepgSportsCoef = self.__clearMissingEuCountries(euIepgSportsCoef, self.__missingEuCountries)
         #print np.nansum(euIepgSportsCoef.data, axis=0)*0.7
         euIepgSportsCoef = (np.nansum(euIepgSportsCoef.data, axis=0)*.7).flatten()
-        data[u"Unión Europea",3:,"IEPG.Soft.SportsCoef"] = euIepgSportsCoef
-
+        data[u"European Union",3:,"IEPG.Soft.SportsCoef"] = euIepgSportsCoef
+        
         #print data.select(data.geoentity.index(u"Estados Unidos de América"),"2010","IEPG.Soft.SportsCoef")
         #print np.nanmax(data[:euIndex,refYear,"IEPG.Soft.SportsCoef"])
         
         # Final IEPG sports calculus
         data.addVariable("IEPG.Soft.Sports_IEPG", data=
                          data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
-                         np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.SportsCoef"]))
-
-        # print np.nanmax(data[:euIndex,refYear,"IEPG.Soft.SportsCoef"])
+                         np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.SportsCoef"]))     
 
         # euIepgSportsCoef.sort()
         # euIepgSportsCoef = self.__clearMissingEuCountries(euIepgSportsCoef, missingEuCountries)
@@ -341,7 +379,7 @@ class Flux(object):
         # euIepgSportsCoef = (np.nansum(euIepgSportsCoef.data, axis=0)*.7).flatten()
         # euIepgSportsCoef = euIepgSportsCoef * 1000.0 /  np.nanmax(data[:euIndex,refYear,"IEPG.Soft.Sports_IEPG"])
         
-        # data[u"Unión Europea",3:,"IEPG.Soft.Sports_IEPG"] = euIepgSportsCoef
+        # data[u"European Union",3:,"IEPG.Soft.Sports_IEPG"] = euIepgSportsCoef
 
 
         # Military equipment
@@ -364,18 +402,19 @@ class Flux(object):
         militaryTotal = np.nansum(np.array(militaryCoefs))
 
         for i in militaryCoefs:
-            militaryCoefsEquip.append(i/militaryTotal*1000)
-            
+            militaryCoefsEquip.append(i*1000/militaryTotal)
+
         ae = np.zeros((shape[0],shape[1]))
 
         for i in range(0, len(militaryCoefsEquip)):
             ae+=militaryCoefsEquip[i]*np.nan_to_num(data[:,:,militaryEquipment[i]].reshape(shape[0],shape[1]))
 
-        data.addVariable("MilitaryPoints", data=ae)    
+        data.addVariable("MilitaryPoints", data=ae)
         data.addVariable("IEPG.Military.MilitaryEquipment_IEPG", data=
                             data[:,:,"MilitaryPoints"]*1000.0/ \
-                            np.nanmax(data[:,self.__refYear,"MilitaryPoints"]))
+                            np.nanmax(data[:euIndex,self.__refYear,"MilitaryPoints"]))
 
+        
         # Dimensions and Index
         cEconomic = self.__environment["ECONOMIC_COEFICIENTS"]
         vEconomic = ["Energy","PrimaryGoods","Manufactures","Services","Investments"]
@@ -387,9 +426,12 @@ class Flux(object):
         cIndex = self.__environment["DIMENSION_COEFICIENTS"]
 
         a = np.zeros((shape[0],shape[1]))
+
         for i in range(0, len(cEconomic)):
+            #print vEconomic[i]
+            #print data[u"Germany",:,"IEPG.Economic."+vEconomic[i]+"_IEPG"]
             a+=data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"].reshape(shape[0],shape[1])*cEconomic[i]
-        
+
         data.addVariable("IEPG.Global.Economic", data=a/100.0)
 
         a = np.zeros((shape[0],shape[1]))
@@ -400,7 +442,11 @@ class Flux(object):
 
         a = np.zeros((shape[0],shape[1]))
         for i in range(0, len(cSoft)):
+            #print "IEPG.Soft."+vSoft[i]+"_IEPG"
+            #print "DATA: ", data[u"United Arab Emirates",:,"IEPG.Soft."+vSoft[i]+"_IEPG"]
             a+=data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"].reshape(shape[0],shape[1])*cSoft[i]
+
+        
         
         data.addVariable("IEPG.Global.Soft", data=a/100.0)
 
@@ -609,7 +655,7 @@ class Flux(object):
                   "IEPE.Soft.Migrations",
                   "IEPE.Soft.Tourism",
                   "IEPE.Soft.Culture",
-                  "IEPE.Soft.Information",
+                  #"IEPE.Soft.Information",
                   "IEPE.Soft.Technology",
                   "IEPE.Soft.Science",
                   "IEPE.Soft.Education"]
@@ -619,6 +665,16 @@ class Flux(object):
             d = data[:,:,i]*1000.0/np.nanmax(data[:,self.__refYear,i])
             data.addVariable(i+"_IEPE", data=d)
             data = self.__clearMissingEuCountries(data, self.__missingEuCountries, variable=i+"_IEPE")
+
+        # Information calculus 
+        refYearIndex = data.getTimeIndex(self.__refYear)[0]
+
+        infointernet = data[:,:,"IEPE.Soft.Information.Internet"]*1000.0/np.nanmax(data[:,self.__refYear,"IEPE.Soft.Information.Internet"])
+        infonews = data[:,:,"IEPE.Soft.Information.News"]*1000.0/np.nanmax(data[:,self.__refYear,"IEPE.Soft.Information.News"])
+        info = infointernet*0.5 + infonews*0.5
+        info = info * 1000 / np.nanmax(info[:,refYearIndex,:])
+        data.addVariable("IEPE.Soft.Information_IEPE", data=info)
+
 
         # Dummy zero military equipment, troops, and development cooperation
         zeroes = np.zeros((shape[0],shape[1]))
@@ -835,6 +891,7 @@ class Flux(object):
 
 
     def __writeToXLSX(self,outfilename):
+        
         ew = excel_utils.ExcelWriter(outfilename)
         ew.addStyle("header", {
             "bg_color": "#08608C",
@@ -1119,13 +1176,26 @@ class Flux(object):
         if not maplexModel:
             maplexModel = MaplexModel()
 
+        if countryName==u"Iran (Islamic Republic of)":
+            countryName=u"Iran"
+        elif countryName==u"Korea":
+            countryName=u"South Korea"
+        elif countryName==u"Russian Federation":
+            countryName=u"Russia"
+        elif countryName==u"United Republic of Tanzania":
+            countryName=u"Tanzania"
+        elif countryName==u"Venezuela (Bolivarian Republic of)":
+            countryName=u"Venezuela"
+        elif countryName==u"Viet Nam":
+            countryName=u"Vietnam"
+
         # if countryName==u"Kazajistán":
         #     return self.__getCountryCodeByCountryName(u"Kazajstán",maplexModel)
         # el
-        if countryName==u"Unión Europea":
+        if countryName==u"European Union":
             return "XBEU"
         else:
-            geoentity = maplexModel.getIdGeoentityByName(countryName,3)
+            geoentity = maplexModel.getIdGeoentityByName(countryName,2)
             if not geoentity:
                 raise Exception('Not found geoentity for ' + countryName)
 
@@ -1361,7 +1431,7 @@ class Flux(object):
     def updateRedisCache(self):
     
         print "Updating redis cache"
-        connclient = redis.StrictRedis(host="localhost", port=6379, db=0)
+        connclient = redis.StrictRedis(host=config.RedisConfig["host"], port=config.RedisConfig["port"], db=0)
         mc = datacache.RedisDataCache(connclient, prefix="iepg_", timeout=None)
 
         dataSets = dict()
@@ -1380,15 +1450,15 @@ class Flux(object):
 
         # @@@YEARS To be edited to add new years to the application
         years = {
-            "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014],
-            "iepe": [2005, 2010, 2011, 2012, 2013,2014],
-            "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014],
+            "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015],
+            "iepe": [2005, 2010, 2011, 2012, 2013,2014,2015 ],
+            "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015],
             #"iepe_individual_contribution": [2005, 2010, 2011, 2012, 2013],
             "iepe_quota": [2005, 2010, 2011, 2012, 2013],
-            "iepe_relative_contribution": [2005, 2010, 2011, 2012, 2013,2014],
+            "iepe_relative_contribution": [2005, 2010, 2011, 2012, 2013,2014,2015],
             #"iepg_individual_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
-            "iepg_quota": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014],
-            "iepg_relative_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014]
+            "iepg_quota": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015],
+            "iepg_relative_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015]
         }
 
         blockFunctions = {

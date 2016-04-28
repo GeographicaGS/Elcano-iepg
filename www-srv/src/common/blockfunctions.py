@@ -48,4 +48,7 @@ def blockFunctionRelativeContributions(data, context=None):
         globalTotal = globalTotal+globalData if globalData else globalTotal
 
     coeficient = dataSetContext["const"][family][var.id]["coeficient"]
+
+    if globalTotal==0:
+        return 0
     return(varTotal*coeficient/globalTotal*100)

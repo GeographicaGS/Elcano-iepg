@@ -27,37 +27,43 @@
                                     <%= app.variableToString(ctx.variables[0],ctx.family) %>
                                 </h5>
                                
-                               <% if (ctx.family =="iepg") { %>
-                                <ul class="analyze">
-                                    <% for (var i=0;i<3;i++) { %>
-                                    <li <%= ctx.block_analize == i ? "selected" : "" %> >
-                                        <a href="#" block-analyze="<%= i %>">
-                                            <% 
-                                                if (ctx.block_analize == i ){
-                                                    print("<strong><lang>Ranking de</lang> </strong>");
-                                                }
-                                                if (i==0){ 
-                                                    print("<lang>Países</lang>");
-                                                }
-                                                else if(i==1){
-                                                    print("<lang>Países más UE</lang>");   
-                                                }
-                                                else{
-                                                    print("<lang>Bloques</lang>");   
-                                                }
-                                            %>
-                                        </a>
-                                    </li>
-                                    <% } %>
-                                </ul>
-                                <% } %>
+                                <div class="ctrl_tool">
+                                    <div class='co_ranking_type <%= ctx.family =="iepg" ? 'enable' : 'disabled'%>'>
+                                        <span class='label'>Ranking</span>
+                                        <ul class="analyze " >
+                                            <% for (var i=0;i<3;i++) { %>
+                                            <li <%= ctx.block_analize == i ? "selected" : "" %> >
+                                                <a href="#" block-analyze="<%= i %>">
+                                                    <% 
+                                                       
+                                                        if (i==0){ 
+                                                            print("<lang>Países</lang>");
+                                                        }
+                                                        else if(i==1){
+                                                            print("<lang>Países más UE</lang>");   
+                                                        }
+                                                        else{
+                                                            print("<lang>Bloques</lang>");   
+                                                        }
+                                                    %>
+                                                </a>
+                                            </li>
+                                            <% } %>
+                                        </ul>
+
+                                    </div>
+                                    <div class='ctrl_ref'>
+                                        <span class='label'><lang>Ver referencia</lang></span>
+                                        <span class='toggler enable'></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="co_chart">
                                 <a id="scroll_down" href="#"></a>
                                 <a id="scroll_up" href="#"></a>
                                 <div class="co_xaxis"></div>
                                 <div class="chart"></div>
-                                 <div id="ranking_chart_tooltip" class="tooltip" style="position:fixed"> </div>
+                                 <div id="ranking_chart_tooltip" class="tooltipnew" style="position:fixed"> </div>
 
                             </div>
                         </div>
@@ -74,7 +80,7 @@
         <% } else { %>
 
             <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>" >
-                <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
+                <img src="/img/ELC_icon_info2_popover.svg" width="16px" height="16px" />
             </a>
             <div class="container-fluid">
                 
@@ -85,7 +91,7 @@
                     <h6><lang>Esto puede ser debido a:</lang><h6>
                     <ol>
                         <li><lang>Se ha seleccionado una variable para la que no hay datos para el año seleccionado</lang>.</li>
-                        <li><lang>Si no es debido a ninguno de los puntos anteriores consulte la ayuda de la herramienta, pulsando la &apos;i&apos; de información de la esquina superior derecha</lang>.</li>
+                        <li><lang>Si no es debido a ninguno de los puntos anteriores consulte la ayuda de la herramienta, pulsando la &apos;?&apos; de información de la esquina superior derecha</lang>.</li>
                     </ol>
                 </div>
                

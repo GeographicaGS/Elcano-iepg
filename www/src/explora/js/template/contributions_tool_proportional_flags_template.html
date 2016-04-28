@@ -6,20 +6,23 @@
 var 
 	min = collection.length ? collection[0].years[year].value : 0,
 	max = collection.length ? collection[collection.length-1].years[year].value : 0,
-	maxSize = 120,
-	minSize = 30,
+	maxArea = Math.pow(100,2),
+	minArea = Math.pow(8,2),
 	size = d3.scale.linear()
-    	.domain([min, max])
-    	.range([minSize, maxSize]);
+    	.domain([0, max])
+    	.range([minArea, maxArea]);
 
 for (var i=collection.length-1;i>=0;i--){
 	d = collection[i]; 
 	v = d["years"][year].value;
-	flagSize = size(v);
+
+	flagArea = size(v);
+
+	var diameter = Math.round(Math.sqrt(flagArea/Math.PI)*2);
 	%>
 	<li title="<%= app.countryToString(d.country)%>">
-		<div class="co_flag" style="width: <%=flagSize%>px;height: <%=flagSize%>px" >
-			<img src="/img/flags/<%= d.country %>.svg" />
+		<div class="co_flag" style="width: <%=diameter%>px;height: <%=diameter%>px;background: url('/img/flags/<%= d.country %>.svg');background-size: cover;" >
+			<!-- <img src="/img/flags/<%= d.country %>.svg" /> -->
 		</div>
 		<p><strong><%= app.countryCodeToStr(d.country) %></strong> <%= app.formatNumber(v) %></p>
 

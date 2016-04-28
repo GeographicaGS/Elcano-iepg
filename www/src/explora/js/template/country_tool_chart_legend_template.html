@@ -1,35 +1,35 @@
 <table>
-	<tr>
-		<th><span><lang>Variable</lang></th>
-		<th title="<lang>Valor índice</lang>" width="40px"><lang>Valor índice</lang></th>
-		<th title="<lang>Contribuciones de presencia</lang>" width="40px"><lang>Contribuciones de presencia</lang></th>
-	</tr>
-	<tr>
-		<th><div class="variableIcon" data-variable="<%= data.name == "global" ? family : data.name %>"></div><span><%= app.variableToString(data.name,family,true) %></span></th>
-		<th title="<lang>Valor índice</lang>"><%= app.formatNumber(data.size) %></th>
-		<th title="<lang>Contribuciones de presencia</lang>">
-			<%= app.formatNumber(data.perc) %> %
-		</th>
-	</tr>
+  <tr>
+    <th><span><lang>Variable</lang></th>
+    <th title="<lang>Valor índice</lang>" width="40px"><lang>Valor índice</lang></th>
+    <th title="<lang>Contribuciones de presencia</lang>" width="40px"><lang>Contribuciones de presencia</lang></th>
+  </tr>
+  <tr>
+    <th><div class="variableIcon" data-variable="<%= data.name == "global" ? family : data.name %>"></div><span><%= app.variableToString(data.name,family,true) %></span></th>
+    <th title="<lang>Valor índice</lang>"><%= app.formatNumber(data.size) %></th>
+    <th title="<lang>Contribuciones de presencia</lang>">
+      <%= app.formatNumber(data.perc) %> %
+    </th>
+  </tr>
 
-	<% 
-	childs = _.sortBy(data.children, function(d){ return d.ord });
-	_.each(childs, function(d){ %>
-		<tr>
-			<td><div class="variableIcon" data-variable="<%= d.name%>"></div><span><%= app.variableToString(d.name,family) %></span></td>
-			<td title="<lang>Valor índice</lang>"><%= app.formatNumber(d.size) %></td>
-			<td title="<lang>Contribuciones de presencia</lang>"><%= app.formatNumber(d.perc) %> %</td>
-		</tr>
-	<% }); %>
-<!-- 	<tr class="table_legend">
-		<td colspan="3">
-			<ul>
-				<li>1. <lang>Valor índice</lang>. 2. <lang>Contribuciones de presencia</lang></li>
-			</ul>
+  <% 
+  childs = _.sortBy(data.children, function(d){ return d.ord });
+  _.each(childs, function(d){ %>
+    <tr>
+      <td><div class="variableIcon" data-variable="<%= d.name%>"></div><span><%= app.variableToString(d.name,family) %></span></td>
+      <td title="<lang>Valor índice</lang>"><%= app.formatNumber(d.size) %></td>
+      <td title="<lang>Contribuciones de presencia</lang>"><%= app.formatNumber(d.perc) %> %</td>
+    </tr>
+  <% }); %>
+<!--  <tr class="table_legend">
+    <td colspan="3">
+      <ul>
+        <li>1. <lang>Valor índice</lang>. 2. <lang>Contribuciones de presencia</lang></li>
+      </ul>
 
-		</td>
-	</tr> -->
-	
+    </td>
+  </tr> -->
+  
 </table>
 
 

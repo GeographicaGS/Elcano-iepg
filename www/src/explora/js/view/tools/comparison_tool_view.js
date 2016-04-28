@@ -1,8 +1,6 @@
 app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#comparison_tool_template').html() ),
-   	// This is the template for the chart legend
-    _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
-
+   	
     _templateHelp : _.template( $('#comparison_tool_help_template').html() ),
     // Force fetch data of the left tool. Get the data for the first country
     _forceFetchDataSubToolLeft: false,
@@ -20,6 +18,12 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this.countries = new app.view.tools.common.Countries({
             "variable" : false,
             "draggable" : true
+        });
+
+        this._sunburstCDModel = new Backbone.Model();
+        this._sunburstCDView = new app.view.tools.SunburstComparisonDataView({
+            'model': this._sunburstCDModel,
+            'iepgvsiepe' : true 
         });
     },
 
@@ -92,6 +96,9 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             	this.render();	
             }
         });
+
+        this.listenTo(app.events,'sunburst:moveto',this._moveChartSectionByName);
+
     },
 
     resizeMe: function(){
@@ -114,9 +121,6 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             ctx: this.getGlobalContext().data,
         }));
 
-        this.$co_iepg = this.$("#piepg");
-        this.$co_iepe = this.$("#piepe");
-
         this.$co_left = this.$("#co_chart_left");
         this.$co_right = this.$("#co_chart_right");
 
@@ -126,6 +130,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
         this.$chart_legend_left = this.$co_left.find(".chart_legend");
         this.$chart_legend_right = this.$co_right.find(".chart_legend");
+
+        this.$('#data_legend').html(this._sunburstCDView.el);
 
         if (ctx.countries.list.length==0){
             this._showError("emptybar");
@@ -163,6 +169,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 }
                 else{
                     this._showChart();
+
                     this._renderSubTool("iepg");
                     this._renderSubTool("iepe");
                     this._renderMap();
@@ -221,59 +228,14 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             country = ctx.countries.selection[0],
             // Links to DOM Elements
             $co_chart = family == "iepg" ? this.$co_left : this.$co_right;
-            
+
+
         // Set country name
-        $co_chart.find(".name").html(app.countryToString(country));
+        $co_chart.find(".name").html(app.countryToString(country) + ' ' + ctx.slider[0].date.getFullYear());
 
         this._drawD3Chart(family);
         
     },
-    // _renderSubTool:function(family){
-    //     var ctxObj = this.getGlobalContext(),
-    //         ctx = ctxObj.data,
-    //         country = ctx.countries.selection[0],
-    //         forceFetch = family == "iepg" ? this._forceFetchDataSubToolLeft : this._forceFetchDataSubToolRight,
-    //         // Links to DOM Elements
-    //        	$co_chart = family == "iepg" ? this.$co_left : this.$co_right;
-           	
-    //     // Set country name
-    //     $co_chart.find(".name").html(app.countryToString(country));
-
-
-    //     if (forceFetch){
-    //         this._nfetches = 0;
-    //         // Fetch the data of this tool
-    //         this._models[family] = new app.model.tools.country({
-    //             "id" : country,
-    //             "family" : family
-    //         });
-
-    //         var _this = this;
-    //         this._models[family].fetch({
-    //             success: function(){
-    //                 _this
-    //                if (family == "iepg"){
-    //                     _this._forceFetchDataSubToolLeft = false;
-    //                }
-    //                else{
-    //                     _this._forceFetchDataSubToolRight = false;
-    //                }
-
-    //                if (!_this._models[family].get(year).family.global.value){
-    //                     _this.$el.find(".body").html(_this._templateError());
-    //                }
-    //                else{
-    //                     _this._drawD3Chart(family); 
-    //                }
-                   
-    //             }
-    //         });
-    //     }
-    //     else{
-    //         //We already have the data, let's draw directly
-    //         this._drawD3Chart(family);
-    //     }
-    // },
 
     _fetchDataMap: function(){
 
@@ -319,6 +281,8 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
     onClose: function(){
         // Remove events on close
         this.stopListening();
+
+        if (this._sunburstCDView) this._sunburstCDView.close();
     },
 
     /* 
@@ -419,13 +383,13 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             year = ctx.slider[0].date.getFullYear(),
             variables = model.get(year).family,
             $chart = family == "iepg" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
-            $co = family== "iepg" ? this.$co_iepg : this.$co_iepe,
+            $co = family== "iepg" ? this.$co_left : this.$co_right,
             pos = family == "iepg" ? "left" : "right",
             width = $chart.width(),
             height = $chart.height(),
             radius = Math.min(width, height) / 2;
 
-        $co.find(".subheader .index .value").html(app.formatNumber(variables["global"].value));
+        //$co.find(".subheader .index .value").html(app.formatNumber(variables["global"].value));
         $co.find(".ranking").html(sprintf("<lang>Ranking %d</lang>%s", 
                 variables["global"].globalranking,
                 app.ordchr(variables["global"].globalranking)));
@@ -514,9 +478,12 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 if (d.name == "global" || d.name == "economic_global" ||
                     d.name == "soft_global" || d.name =="military_global")
                 {
-                    obj._moveChartSection(family,d,true);
+                    app.events.trigger('sunburst:moveto',['left','right'],d.name,750);
                 }
-                obj._refreshMapVariable(family,d.name);
+                else{
+                    obj._changeVariable(d.name);
+                }
+                //obj._refreshMapVariable(family,d.name);
 
           }
 
@@ -525,9 +492,14 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this._d3[family].tree = tree;
         this._d3[family].arcTween = arcTween;
 
+        var optsmodel = {};
+        optsmodel["tree_"+pos] = tree;
+        optsmodel["family"] = this.getGlobalContext().data.family;
+        this._sunburstCDModel.set(optsmodel);
+
         var data_variable;
         if (ctx.variables[0] == "global"){
-            this._renderChartLegend(family,ctx.variables[0]);
+            app.events.trigger('sunburst:moveto',[pos],ctx.variables[0]);
         }
         else{
             if (ctx.variables[0] == "economic_global" ||
@@ -538,45 +510,81 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 data_variable = tree.findParentInTreeByName(ctx.variables[0]);
             }
 
-            d3.select("#co_chart_" + pos + " .chart path[data-variable='" + data_variable  + "']").each(function(d, i) {
-                obj._moveChartSection(family,d,false,0)
-            }); 
-
+            app.events.trigger('sunburst:moveto',[pos],data_variable);
         }
     },
 
-    _moveChartSection: function(family,d,callBrother,speed){
 
-        if (speed == undefined || speed =="undefined"){
-            speed = 720;
+    _changeVariable: function(name){
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+        ctx.variables = [name];
+        this.contextToURL();
+
+        this._refreshMapVariable('iepg');
+        
+    },
+
+     _moveChartSectionByName: function(pos,varname,speed){
+
+        this._changeVariable(varname);
+        var _this = this;
+
+        for (var i =0;i<pos.length;i++){ 
+            this._moveChartSection(pos[i],varname,speed ? speed : 0); 
         }
+        
+    },
 
-        this._d3[family].path.transition()
-                        .duration(speed)
-                        .attrTween("d", this._d3[family].arcTween(d));
-        this._renderChartLegend(family,d.name);
-
-        if (!callBrother){
-            return;
+     _moveChartSection: function(pos,variable,speed){
+        if (speed == undefined || speed=="undefined"){
+            speed = 750;
         }
+        var d3pos = pos=='left' ? 'iepg' : 'iepe';
+        var _this = this;
+        d3.select("#co_chart_" + pos +" .chart path[data-variable='" + variable  + "']").each(function(d, i) {
+            _this._d3[d3pos].path.transition()
+                         .duration(speed)
+                         .attrTween("d", _this._d3[d3pos].arcTween(d));    
+        });
+        
+        
+    },
 
-        // Let's find d in the other tree.
-        var  // brother family
-            bfam = family == "iepg" ? "iepe" : "iepg";
+    // _moveChartSection: function(family,d,callBrother,speed){
 
-        if (!this._d3[bfam]){
-            // no brother chart
-            return;
-        }
+    //     if (speed == undefined || speed =="undefined"){
+    //         speed = 720;
+    //     }
 
-        var    // brother tree
-            btree = this._d3[bfam].tree,
-            // brother data element
-            bd = btree.findElementInTree(d.name);
+    //     this._d3[family].path.transition()
+    //                     .duration(speed)
+    //                     .attrTween("d", this._d3[family].arcTween(d));
+    //     this._renderChartLegend(family,d.name);
+
+    //     if (!callBrother){
+    //         return;
+    //     }
+
+    //     // Let's find d in the other tree.
+    //     var  // brother family
+    //         bfam = family == "iepg" ? "iepe" : "iepg";
+
+    //     if (!this._d3[bfam]){
+    //         // no brother chart
+    //         return;
+    //     }
+
+    //     var    // brother tree
+    //         btree = this._d3[bfam].tree,
+    //         // brother data element
+    //         bd = btree.findElementInTree(d.name);
     
-         this._moveChartSection(bfam,bd,false);
+    //      this._moveChartSection(bfam,bd,false);
 
-    },
+    // },
 
     _htmlToolTip: function(variable,bvariable,family){
         var ctxObj = this.getGlobalContext(),
@@ -622,20 +630,22 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _renderChartLegend: function(family,name){
+    // _renderChartLegend: function(family,name){
 
-        $legend = family == "iepg" ? this.$chart_legend_left : this.$chart_legend_right;
+    //     $legend = family == "iepg" ? this.$chart_legend_left : this.$chart_legend_right;
 
-        // Just a trick, this will be changed when service will be fixed
-        if (name=="iepe") name="iepg";
+    //     // Just a trick, this will be changed when service will be fixed
+    //     if (name=="iepe") name="iepg";
 
-        $legend.html(this._templateChartLegend({
-            data: this._d3[family].tree.findElementInTree(name),
-            family: family
-        }));
-    },
+    //     $legend.html(this._templateChartLegend({
+    //         data: this._d3[family].tree.findElementInTree(name),
+    //         family: family
+    //     }));
+    // },
 
     _refreshMapVariable: function(family){
+        if (!this._mapCollection)
+            return;
         // get data from server
         this._mapCollection._variable = this.getGlobalContext().data.variables[0];
         this._mapCollection._family = family;
@@ -682,5 +692,15 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
         // copy to latest context
         this.copyGlobalContextToLatestContext();
+    },
+
+    onBringToFront: function(){
+        if (this._sunburstCDView)
+            this._sunburstCDView.gofront();
+    },
+
+    onBringToBack: function(){
+        if (this._sunburstCDView)
+            this._sunburstCDView.goback();   
     }
 });

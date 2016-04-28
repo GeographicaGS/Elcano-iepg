@@ -61,7 +61,7 @@ app.view.tools.utils.getVariablesColorsForText = function(variable,family){
 }
 
 app.view.tools.utils.choroplethColors = {
-    "iepg": ["#ffd88b","#f9be84","#fa976a","#ee6756","#de3338"],
+    "iepg": ["#ffeabf","#fdcc8a","#fc8d59","#e34a33","#b30000"],
     "iepe" : ["#ffe6b5","#e0cca4","#9f9a91","#607194","#264c97"],
     "economic_global" : ["#ffe0a2","#dfcc96","#a4ae99","#6e98ac","#4086bc"],
     "military_global": ["#fae5b8","#efd687","#cdc05c","#9ba333","#6b950e"],

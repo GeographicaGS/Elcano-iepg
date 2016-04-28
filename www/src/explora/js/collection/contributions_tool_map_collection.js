@@ -13,7 +13,11 @@ app.collection.ContributionsToolMap = Backbone.Collection.extend({
     },
     
     url : function() {
-        return app.config.API_URL + "/mapdata/" + this._family +  "_relative_contribution/" + this._variable +  (this._variable == "global" ? "_global" : "") + "/" 
+        // Hack to avoid blank map
+        var srvname = this._variable == "global" ? "" : "_relative_contribution";
+
+        return app.config.API_URL + "/mapdata/" + this._family +  srvname + "/" 
+                + this._variable + "/" 
                 + this._date + "/" + this._mode +"?filter=" + app.getFilters().join(",");
     },
 

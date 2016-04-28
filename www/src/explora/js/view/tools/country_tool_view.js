@@ -1,7 +1,7 @@
 app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 	_template : _.template( $('#country_tool_template').html() ),
     _templateHelp : _.template( $('#country_tool_help_template').html() ),
-    _templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
+    //_templateChartLegend : _.template( $('#country_tool_chart_legend_template').html() ),
     type: "country",
 
     initialize: function(options) {
@@ -10,6 +10,14 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             "variable" : false
         });
 
+        this._sunburstDataModel = new Backbone.Model({
+            "tree": null,
+            "family" : null
+        });
+
+        this._sunburstDataView = new app.view.tools.SunburstDataView({
+            "model": this._sunburstDataModel
+        });
     },
 
     _events: function(){
@@ -21,7 +29,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                },
                "mouseout .infoover": function(e){
                     this.$(".content_infoover").fadeOut(300);
-               }
+               },
+               "click .co_comment_wrapper a.readmore": "_expandComment"
            }
         );
     },
@@ -58,7 +67,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             this.render(); // Implicit call to contextToURL
         });
 
-        
+        this.listenTo(app.events,'sunburst:moveto',this._moveChartSectionByName);
     },
 
     /* Fetch data for the current country*/
@@ -111,8 +120,6 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             ctx: this.getGlobalContext().data,
             model: this.model.toJSON()[year],
         }));
-
-        this.$chart_legend = this.$(".chart_legend");
 
         this.$chart = this.$(".chart");
 
@@ -183,6 +190,8 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
     onClose: function(){
         // Remove events on close
         this.stopListening();
+
+        if (this._sunburstDataView) this._sunburstDataView.close();
     },
 
     /* 
@@ -366,8 +375,15 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         var div = d3.select("#country_tool .tooltip"),
             obj = this;
-        
+
         this.tree = new app.view.tools.utils.variablesTree(this.model.get(year).family,family);
+
+        this._sunburstDataModel.set({
+            "tree" : this.tree,
+            "family" : this.getGlobalContext().data.family
+        });
+
+        this.$(".chart_legend").html(this._sunburstDataView.$el);
 
         var path = svg.selectAll("path")
               .data(partition.nodes(this.tree.get()))
@@ -396,17 +412,14 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         function click(d) {
 
-            ctx.variables = [d.name];
-            obj.contextToURL();
-
             if (d.name == "global" || d.name == "economic_global" ||
                 d.name == "soft_global" || d.name =="military_global"){
-                obj._moveChartSection(d,750);
+                //obj._moveChartSection(d,750);
+                app.events.trigger('sunburst:moveto',d.name,750);
             }
-
-            obj.mapCollection._variable = d.name;
-            obj.mapCollection.fetch({"reset":true});
-
+            else{
+                obj._changeVariable(d.name);
+            }
         }
 
         this._d3 = {};
@@ -414,7 +427,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this._d3.arcTween = arcTween;
 
         if (ctx.variables[0] == "global"){
-            this._renderChartLegend(ctx.variables[0]);
+            app.events.trigger('sunburst:moveto',ctx.variables[0]);
         }
         else {
 
@@ -427,11 +440,33 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             else{
                 data_variable = this.tree.findParentInTreeByName(ctx.variables[0]);
             }
-
-            d3.select("path[data-variable='" + data_variable  + "']").each(function(d, i) {
-                obj._moveChartSection(d,0);
-            }); 
+            app.events.trigger('sunburst:moveto',data_variable);
         }      
+    },
+
+
+    _changeVariable: function(name){
+
+        var ctxObj = this.getGlobalContext(),
+            ctx = ctxObj.data;
+
+        ctx.variables = [name];
+        this.contextToURL();
+
+        
+        this.mapCollection._variable = name;
+        this.mapCollection.fetch({"reset":true});    
+
+    },
+
+    _moveChartSectionByName: function(varname,time){
+
+        this._changeVariable(varname);
+
+        var _this = this;
+        d3.select("path[data-variable='" + varname  + "']").each(function(d, i) {
+            _this._moveChartSection(d,time ? time : 0);
+        }); 
     },
 
     _moveChartSection: function(d,speed){
@@ -440,11 +475,11 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
                          .duration(speed)
                          .attrTween("d", this._d3.arcTween(d));
 
-        this._renderChartLegend(d.name);
+        //this._renderChartLegend(d.name);
     },
 
     _htmlToolTip: function(tvariable){
-          var ctxObj = this.getGlobalContext(),
+        var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             family = ctx.family,
             year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
@@ -467,25 +502,21 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
     },
 
-    _renderChartLegend: function(name){
-        this.$chart_legend.html(this._templateChartLegend({
-            data: this.tree.findElementInTree(name),
-            family : this.getGlobalContext().data.family
-        }));
+    _expandComment: function(e){
+        e.preventDefault();
+
+        this.$('.comment_wrapper').removeClass('short');
+        $(e.target).remove();
     },
 
-    // _refreshMapVariable: function(name){
-    //     // get data from server
-    //     this.mapCollection._variable = name;
-    //     // trigger a call to renderMapAsync
-    //     this.mapCollection.fetch({"reset":true});
-    // },
+    onBringToFront: function(){
+        if (this._sunburstDataView)
+            this._sunburstDataView.gofront();
+    },
 
-    // selectVariable: function (name){
-
-    //     this._refreshMapVariable(name);
-    //     this._renderChartLegend(name);
-
-    // }
+    onBringToBack: function(){
+        if (this._sunburstDataView)
+            this._sunburstDataView.goback();   
+    }
     
 });

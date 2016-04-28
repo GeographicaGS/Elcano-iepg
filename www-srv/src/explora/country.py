@@ -39,8 +39,10 @@ def countryFilter(lang):
 @app.route('/blocks', methods=["GET"])
 def blocksData():
     """Retrieves blocks data."""
+
     isoSpanish = {k: v for (k,v) in datacache.isoToSpanish.iteritems() if k in datacache.blocks}
     isoEnglish = {k: v for (k,v) in datacache.isoToEnglish.iteritems() if k in datacache.blocks}
+
     out = dict()
     for b in datacache.blocks:
         year = dict()
@@ -51,7 +53,7 @@ def blocksData():
         year["name_en"] = isoEnglish[b]
         out[b] = year
 
-    locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")
+    #locale.setlocale(locale.LC_ALL, "es_ES.UTF-8")
     out["es"] = [k[0] for k in sorted(isoSpanish.items(), key=lambda t: t[1], cmp=locale.strcoll)]
     out["en"] = [k[0] for k in sorted(isoEnglish.items(), key=lambda t: t[1], cmp=locale.strcoll)]
 

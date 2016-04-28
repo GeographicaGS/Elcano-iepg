@@ -1,0 +1,55 @@
+--
+--NEW COUNTRY: Kosovo
+--
+
+BEGIN;
+INSERT INTO maplex.geometry
+  (id_geometry, description, geom)
+VALUES (
+  173, '[Kosovo] simplified for GeoJSON real-time vector.',
+  ST_Multi('SRID=4326;POLYGON((20.7621599999999944 42.05186000000003332,20.71731000000011136 41.84711000000004333,20.59023000000007642 41.85541000000006306,20.52295000000003711 42.21787000000006174,20.28374000000007982 42.32025000000010095,20.07070000000004484 42.58863000000008014,20.25758000000007542 42.81275000000010778,20.49679000000003271 42.88469000000003462,20.63507999999995945 43.21670999999997775,20.8144800000000032 43.2720500000000925,20.95650999999998021 43.13094000000006645,21.14339500000005501 43.06868500000013,21.27421000000003914 42.90959000000009382,21.4386599999999703 42.86254999999994197,21.63302000000004455 42.67717000000004646,21.77505000000002156 42.68270000000001119,21.66292000000004236 42.43922000000003436,21.5433200000000511 42.32025000000010095,21.57663598940212069 42.24522439706186105,21.35270000000014079 42.20679999999998699,20.7621599999999944 42.05186000000003332))')
+);
+
+INSERT INTO maplex.geoentity
+  (id_geoentity, description)
+VALUES (
+  249, 'Kosovo for Elcano IEPG 2015. Data source: Natural Earth, 2016.'
+);
+
+INSERT INTO maplex.geoentity_geometry
+  (id_geoentity,id_geometry_family, id_geometry)
+VALUES (
+  249,1,173
+);
+
+INSERT INTO maplex.name
+  (id_name, name, description)
+VALUES (
+  726,'Kosovo','Invented code by Geographica for Kosovo in the context of Elcano IEPG project.'
+);
+INSERT INTO maplex.name
+  (id_name, name, description)
+VALUES (
+  731,'KO','[Kosovo] ISO-3166-1 2 digits. (Not Official)'
+);
+
+INSERT INTO maplex.geoentity_name
+  (id_geoentity,id_name, id_name_family)
+VALUES (
+  249,726,1
+);
+INSERT INTO maplex.geoentity_name
+  (id_geoentity,id_name, id_name_family)
+VALUES (
+  249,731,1
+);
+
+INSERT INTO iepg_data_redux.master_country
+  (id_master_country, full_name_es, short_name_es_order,
+      short_name_en_order, short_name_es1,short_name_en1,
+      iso_3166_1_2_code
+  )
+VALUES (
+  'iepg02','Kosovo','Kosovo','Kosovo','Kosovo','Kosovo','KO'
+);
+COMMIT;

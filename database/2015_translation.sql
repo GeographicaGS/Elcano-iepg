@@ -497,11 +497,4 @@ _faq text 8	Weights assigned to variables and dimensions are based on experts’
 -- Name: translation_pkey; Type: CONSTRAINT; Schema: www; Owner: elcano_iepg_admin; Tablespace: 
 --
 
-ALTER TABLE ONLY translation
-    ADD CONSTRAINT translation_pkey PRIMARY KEY (key);
-
-
---
--- PostgreSQL database dump complete
---
 

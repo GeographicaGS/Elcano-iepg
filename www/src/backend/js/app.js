@@ -3,7 +3,7 @@ var ENTER_KEY = 13;
 Backbone.View.prototype.close = function(){
   this.remove();
   this.unbind();
-  
+
   if (this.onClose){
     this.onClose();
   }
@@ -26,11 +26,11 @@ $(function() {
         });
         return o;
     };
-    
+
     String.prototype.endsWith = function(suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
-    
+
     $("body").on("click","a",function(e){
         if ($(this).attr("target")=="_blank"){
             return;
@@ -43,36 +43,36 @@ $(function() {
         else if (href!="" && href!="#") {
             app.router.navigate($(this).attr("href").substring(3),{trigger: true});
         }
-        
+
     });
-    
+
     $("button#logout").click(function(){
         app.logout();
     });
 
     app.ini();
-    
+
 });
 
 app.detectCurrentLanguage = function(){
     // Detect lang analyzing the URL
-    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {        
+    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {
         return "es";
     }
-    else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {        
+    else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {
         return "en";
     }
-    
+
     return null;
 };
 app.ini = function(){
     this._user = new app.model.User();
     this.router = new app.router();
-    
+
     this.lang = this.detectCurrentLanguage();
     this.basePath = this.config.BASE_PATH + this.lang;
-    
-  
+
+
     // Is the user logged in ?
     this._user.once('sync',function(){
         if (!this._user.get("id")){
@@ -97,11 +97,11 @@ app.showView = function(view) {
     if (this.currentView){
       this.currentView.close();
     }
- 
+
     this.currentView = view;
-    this.currentView.render();    
- 
-    $("#app_container").html(this.currentView.el);  
+    this.currentView.render();
+
+    $("#app_container").html(this.currentView.el);
 }
 
 app.logout = function(){
@@ -131,8 +131,8 @@ app.events.on("menu", function(id){
 
 app.scrollTop = function(){
     var body = $("html, body");
-    body.animate({scrollTop:0}, '500', 'swing', function() { 
-       
+    body.animate({scrollTop:0}, '500', 'swing', function() {
+
     });
 }
 
@@ -160,11 +160,11 @@ app.nl2br = function nl2br(str, is_xhtml) {
 // Tue, 25 Feb 2014 22:32:40 GMT
 app.dateFormat = function(dateStr){
     var date = new Date(dateStr);
-    
+
     var month = date.getMonth() + 1; //Months are zero based
-    var day = date.getUTCDate(); 
-    var year = date.getFullYear();
-    
+    var day = date.getUTCDate();
+    var year = date.getUTCFullYear();
+
     if (day < 10) day = "0" + day;
     if (month < 10) month = "0" + month;
     return day +"/"+month+"/"+year;
@@ -173,18 +173,18 @@ app.dateFormat = function(dateStr){
 /* dateStr must be a date in GMT Tue, 25 Feb 2014 22:32:40 GMT*/
 app.dateTimeFormat = function(dateStr){
     var date = new Date(dateStr);
-    
+
     var month = date.getMonth() + 1; //Months are zero based
-    var day = date.getUTCDate(); 
-    var year = date.getFullYear();
+    var day = date.getUTCDate();
+    var year = date.getUTCFullYear();
     var hours = date.getHours();
     var minutes = date.getMinutes();
-    
+
     if (month < 10) month = "0" + month;
     if (day < 10) day = "0" + day;
     if (hours < 10) hours = "0" + hours;
     if (minutes < 10) minutes = "0" + minutes;
-    
+
     return day +"/"+month+"/"+year +" - " + hours + ":" + minutes ;
 };
 
@@ -195,5 +195,5 @@ app.truncate = function(s,limit){
     }
     return l;
 
-    
+
 };

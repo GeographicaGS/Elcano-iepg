@@ -145,7 +145,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            year = ctx.slider[0].date.getFullYear();
+            year = ctx.slider[0].date.getUTCFullYear();
 
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
@@ -240,7 +240,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
     _renderProportionalFlags : function(){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            year = ctx.slider[0].date.getFullYear();
+            year = ctx.slider[0].date.getUTCFullYear();
 
         this.$proportional_flags.html(this._templateProportionalFlags({
             collection: this._collectionGlobalIndex.toJSON(),
@@ -252,7 +252,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             selection = ctx.countries.selection,
-            year =  ctx.slider[0].date.getFullYear(),
+            year =  ctx.slider[0].date.getUTCFullYear(),
             // get correct force fecth variable
             forceFetch = pos == "left" ? this._forceFetchDataSubToolLeft : this._forceFetchDataSubToolRight,
             // Index 0 is for left position, index 1 is for right position
@@ -336,7 +336,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         this._mapCollection = new app.collection.ContributionsToolMap([],{
             "family" :  ctx.family,
             "variable" : ctx.variables[0],
-            "date" : ctx.slider[0].date.getFullYear()
+            "date" : ctx.slider[0].date.getUTCFullYear()
         });
         
         this.listenTo(this._mapCollection,"reset",this._renderMapAsync);
@@ -350,7 +350,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         var 
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
-            year =  ctx.slider[0].date.getFullYear(),
+            year =  ctx.slider[0].date.getUTCFullYear(),
             family = ctx.family,
             variable = ctx.variables[0],
             mapData = this._mapCollection.toJSON();
@@ -535,7 +535,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             family = ctx.family,
-            year = ctx.slider[0].date.getFullYear(),
+            year = ctx.slider[0].date.getUTCFullYear(),
             variables = model.get(year).family,
             $chart = pos == "left" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
             width = $chart.width(),
@@ -766,7 +766,7 @@ app.view.tools.ContributionsPlugin = app.view.tools.Plugin.extend({
             countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
             countries_sel = ctx.countries.selection.length>0 ? ctx.countries.selection.join(",") : "null",
             variable = ctx.variables[0],
-            year = ctx.slider[0].date.getFullYear(),
+            year = ctx.slider[0].date.getUTCFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "contributions/" + family + "/" + variable + "/" + year + "/" + countries + "/" + countries_sel + filters;
 

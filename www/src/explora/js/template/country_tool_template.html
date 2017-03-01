@@ -1,11 +1,11 @@
 <%
-    
+
     variable = model ? model.family.global : null;
     gdp = model ? model.context.gdp : null;
     population = model ? model.context.population : null;
     country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
     country_str = country ? app.countryToString(country) :  "<lang>Seleccione un país</lang>";
-    year = ctx.slider[0].date.getFullYear();
+    year = ctx.slider[0].date.getUTCFullYear();
 %>
 
 <div id="country_tool" >
@@ -15,7 +15,7 @@
         <span id="tool_year"><lang>Año</lang> <%= year %></span>
 
         <%= _.template($("#ctrl_family_template").html())({ctx : ctx}) %>
-        
+
     </div>
 
     <% if (model && variable.value) { %>
@@ -31,34 +31,34 @@
         </div>
         <div class="co_ranking size_13">
             <span>
-                <% 
-                    if (country.length == 2) { 
-                        print(sprintf("<lang> Ranking de país %d</lang>%s", 
+                <%
+                    if (country.length == 2) {
+                        print(sprintf("<lang> Ranking de país %d</lang>%s",
                             variable.globalranking,
                             app.ordchr(variable.globalranking)));
                     } else if (country == "XBEU") {
-                        print(sprintf("<lang> Ranking de país + UE %d</lang>%s", 
+                        print(sprintf("<lang> Ranking de país + UE %d</lang>%s",
                             variable.globalranking,
                             app.ordchr(variable.globalranking)));
                     }
                     else{
-                        print(sprintf("<lang> Ranking de bloque %d</lang>%s", 
+                        print(sprintf("<lang> Ranking de bloque %d</lang>%s",
                             variable.globalranking,
                             app.ordchr(variable.globalranking)));
                     }
                 %>
             </span>
 
-            <% if (app.getFilters().length 
-                    && variable.relativeranking 
+            <% if (app.getFilters().length
+                    && variable.relativeranking
                     && variable.relativeranking!=variable.globalranking ){ %>
-                    
+
                     <span class="relativeranking">
                         <%= sprintf("<lang> Con filtro %d</lang>%s", variable.relativeranking,app.ordchr(variable.relativeranking)) %>
                     </span>
-                    
+
             <% }%>
-            
+
         </div>
     </div>
 
@@ -85,7 +85,7 @@
                             <span class="grey uppercase size_11"><lang>Análisis</lang></span>
                         </div>
 
-                        
+
                         <div class='col-md-12 co_comment_wrapper'>
                             <a class='readmore' href='#'><lang>Seguir leyendo</lang></a>
                             <div class="comment_wrapper short">
@@ -97,12 +97,12 @@
                                 <p class="mth1 mb">
                                     <%= sprintf("<lang>El bloque %s está compuesto por</lang>",app.countryToString(country)) %>:
                                 </p>
-                                
+
                                 <ul class="flag_wrapper noclickable">
-                                    <% 
+                                    <%
                                     country_list = _.sortBy(app.blocks[country][year], function(c){ return  app.countryToString(c) });
 
-                                    for (var i=0;i<country_list.length;i++) 
+                                    for (var i=0;i<country_list.length;i++)
                                     {
                                         c = country_list[i];
                                     %>
@@ -152,10 +152,10 @@
                         </div>
                         <div class="row">
                             <ul class="flag_wrapper noclickable col-md-8 col-lg-6">
-                                <% 
+                                <%
                                 country_list = _.sortBy(app.blocks[country][year], function(c){ return  app.countryToString(c) });
 
-                                for (var i=0;i<country_list.length;i++) 
+                                for (var i=0;i<country_list.length;i++)
                                 {
                                     c = country_list[i];
                                 %>
@@ -194,9 +194,9 @@
                                 </div>
                                 <div class='grow right co_ranking noicon'>
                                     <span class="size_13">
-                                    <% 
-                                        if (country.length == 2) { 
-                                            print(sprintf("<lang> Ranking de país %d</lang>%s", 
+                                    <%
+                                        if (country.length == 2) {
+                                            print(sprintf("<lang> Ranking de país %d</lang>%s",
                                                 gdp.globalranking, app.ordchr(gdp.globalranking)));
                                         } else if (country == "XBEU") {
                                             print(sprintf("<lang> Ranking de país + UE %d</lang>%s",
@@ -204,19 +204,19 @@
                                              app.ordchr(gdp.globalranking)));
                                         }
                                         else{
-                                            print(sprintf("<lang> Ranking de bloque %d</lang>%s", 
+                                            print(sprintf("<lang> Ranking de bloque %d</lang>%s",
                                                 gdp.globalranking,
                                                 app.ordchr(gdp.globalranking)));
                                         }
                                     %>
                                     </span>
 
-                                    <% if (app.getFilters().length 
-                                        && gdp.relativeranking 
+                                    <% if (app.getFilters().length
+                                        && gdp.relativeranking
                                         && gdp.relativeranking!=gdp.globalranking ){ %>
-                                        
-                                        <span class="relativeranking" 
-                                            title="<%= sprintf("<lang> Ranking con filtro %d</lang>%s", gdp.relativeranking,app.ordchr(gdp.relativeranking)) %>"> 
+
+                                        <span class="relativeranking"
+                                            title="<%= sprintf("<lang> Ranking con filtro %d</lang>%s", gdp.relativeranking,app.ordchr(gdp.relativeranking)) %>">
                                             [<%= gdp.relativeranking + app.ordchr(gdp.relativeranking) %>]
                                         </span>
                                     <% }%>
@@ -230,13 +230,13 @@
                                 </div>
                                 <div class='grow left'>
                                     <span class="grey size_16">
-                                    <% 
+                                    <%
                                     if (population.unit) { 
                                         print(app.formatNumber(population.value));
                                     }
                                     else{
                                         print(app.formatNumber(population.value,0));
-                                    } 
+                                    }
                                     %>
                                     </span>
                                     <span class="grey_light uppercase size_13">
@@ -251,8 +251,8 @@
                                 </div>
                                 <div class='grow right co_ranking noicon'>
                                     <span class="size_13">
-                                        <% 
-                                            if (country.length == 2) { 
+                                        <%
+                                            if (country.length == 2) {
                                                 print(sprintf("<lang> Ranking de país %d</lang>%s", population.globalranking,app.ordchr(population.globalranking)));
                                             } else if (country == "XBEU") {
                                                 print(sprintf("<lang> Ranking de país + UE %d</lang>%s", population.globalranking,app.ordchr(population.globalranking)));
@@ -263,8 +263,8 @@
                                         %>
                                     </span>
 
-                                    <% if (app.getFilters().length 
-                                        && population.relativeranking 
+                                    <% if (app.getFilters().length
+                                        && population.relativeranking
                                         && population.relativeranking!=population.globalranking ){ %>
                                         <span class="relativeranking"> [<%= population.relativeranking + app.ordchr(population.relativeranking) %>]</span>
                                     <% }%>
@@ -288,7 +288,7 @@
                     <div class="tooltip"></div>
                 </div>
             </div>
-            
+
         </div>
 
     </div>

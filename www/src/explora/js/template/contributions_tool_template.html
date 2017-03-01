@@ -1,6 +1,6 @@
 <%
     country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
-    year = ctx.slider[0].date.getFullYear();
+    year = ctx.slider[0].date.getUTCFullYear();
 %>
 
 <div id="contributions_tool" >
@@ -21,12 +21,12 @@
                 <div class="col-md-3 col-lg-4" id="co_chart_left">
                    	<div class="chart"></div>
                     <div class="country_name border">
-                        
+
                     </div>
-                    
-                    
+
+
                 </div>
-                <div class="col-md-5 col-lg-4" id="data_legend"> 
+                <div class="col-md-5 col-lg-4" id="data_legend">
 
                 </div>
                 <div class="col-md-3 col-lg-4" id="co_chart_right">

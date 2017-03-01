@@ -4,8 +4,8 @@
         <a class="close" href="#"></a>
         <span id="tool_name"><lang>Ranking</lang></span>
   
-        <span id="tool_year"><lang>Año</lang> <%= ctx.slider[0].date.getFullYear()%></span>
-        <span id="tool_year_ref"><lang>Referencia</lang> <%= ctx.slider[1].date.getFullYear()%></span>
+        <span id="tool_year"><lang>Año</lang> <%= ctx.slider[0].date.getUTCFullYear()%></span>
+        <span id="tool_year_ref"><lang>Referencia</lang> <%= ctx.slider[1].date.getUTCFullYear()%></span>
 
         <%= _.template($("#ctrl_family_template").html())({ctx : ctx}) %>
     </div>

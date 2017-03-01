@@ -98,7 +98,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         this.mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
             "variable" : ctx.variables[0],
-            "date" : ctx.slider[0].date.getFullYear(),
+            "date" : ctx.slider[0].date.getUTCFullYear(),
             "mode" : !ctx.countries.selection.length ? 0 :
                     ctx.countries.selection[0].length == 2 ? 0 :
                     ctx.countries.selection[0] == "XBEU" ? 1 : 2
@@ -114,7 +114,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
 
         this._forceFetchDataTool = false;
 
-        var year =  this.getGlobalContext().data.slider[0].date.getFullYear();
+        var year =  this.getGlobalContext().data.slider[0].date.getUTCFullYear();
 
         this.$el.html(this._template({
             ctx: this.getGlobalContext().data,
@@ -137,7 +137,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         var 
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
-            year =  ctx.slider[0].date.getFullYear(),
+            year =  ctx.slider[0].date.getUTCFullYear(),
             family = ctx.family,
             variable = ctx.variables[0];
 
@@ -290,7 +290,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
             countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
             country_sel = ctx.countries.selection.length>0 ? ctx.countries.selection[0] : "null",
             variable = ctx.variables[0],
-            year = ctx.slider[0].date.getFullYear(),
+            year = ctx.slider[0].date.getUTCFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "country/" + family + "/" + variable + "/" + countries + "/" + country_sel + "/" + year + filters;
 
@@ -482,7 +482,7 @@ app.view.tools.CountryPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             family = ctx.family,
-            year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
+            year =  this.getGlobalContext().data.slider[0].date.getUTCFullYear(),
             variable = tvariable == "iepg" || tvariable ==  "iepe" ? this.model.get(year).family.global 
                         : this.model.get(year).family[tvariable],
             ranking = variable.globalranking ? variable.globalranking : variable.relativeranking;

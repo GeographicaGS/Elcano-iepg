@@ -1,6 +1,6 @@
 <%
     country = ctx.countries.selection.length ? ctx.countries.selection[0] : null;
-    year = ctx.slider[0].date.getFullYear();
+    year = ctx.slider[0].date.getUTCFullYear();
 %>
 
 <div id="comparison_tool">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="body">
-      
+
         <%= app.getLoadingHTML() %>
         <div class="error" style="display:none">
             <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-        
+
          <div class="error nocountry" style="display:none">
             <a href="#" class="helpIcon" title="<lang>Ayuda tooltip</lang>">
                 <img src="/img/ELC_icon_info_popover.svg" width="16px" height="16px" />
@@ -93,9 +93,9 @@
                             <span class="name"></span>
                         </div>
 
-                        
+
                     </div>
-                    <div class="col-md-6" id="data_legend"> 
+                    <div class="col-md-6" id="data_legend">
 
                     </div>
                     <div class="col-md-3" id="co_chart_right" >

@@ -3,7 +3,7 @@ var ENTER_KEY = 13;
 Backbone.View.prototype.close = function(){
   this.remove();
   this.unbind();
-  
+
   if (this.onClose){
     this.onClose();
   }
@@ -25,7 +25,7 @@ $(function() {
     $(document).ajaxError(function(event, jqxhr, settings, exception) {
         if (jqxhr.status == 404) {
             app.router.navigate("notfound",{trigger: true});
-        } 
+        }
         else {
             app.router.navigate("error",{trigger: true});
         }
@@ -34,7 +34,7 @@ $(function() {
     $("body").on("click","a",function(e){
         var href = $(this).attr("href"),
             normallink = $(this).attr('normallink');
-        if ($(this).attr("target")=="_blank" || href=="/es" || href=="/en" 
+        if ($(this).attr("target")=="_blank" || href=="/es" || href=="/en"
             || (typeof normallink !== typeof undefined && normallink !== false)){
             return;
         }
@@ -67,7 +67,7 @@ $(function() {
             $(this).find(" > a").css("color","#28282b").css("background-color","#fdc300");
             $(this).find("ul").fadeIn(300);
         });
-       
+
         $("body").on("mouseleave","#menu li[data-has-submenu]",function(e){
             $(this).find(" > a").css("color","").css("background-color","");
             $(this).find("ul").fadeOut(300);
@@ -105,7 +105,7 @@ $(function() {
         });
 
     }
-    
+
 
     // Fixed menu events
     $(window).scroll(function(){
@@ -126,7 +126,7 @@ $(function() {
 
         $("header#fixed_menu nav > div a").click(function(e){
             e.preventDefault();
-           
+
             $("header#fixed_menu nav > div").eq(0).removeClass('opened');
         });
 
@@ -175,7 +175,7 @@ $(function() {
     });
 
     app.resizeMe();
-    
+
 });
 
 app.resizeMe = function(){
@@ -192,17 +192,17 @@ app.resizeMe = function(){
 
 app.detectCurrentLanguage = function(){
     // Detect lang analyzing the URL
-    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {        
+    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {
         return "es";
     }
-    else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {        
+    else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {
         return "en";
     }
-    
+
     return null;
 };
 app.ini = function(){
-    
+
     this.lang = this.detectCurrentLanguage();
     if (this.lang == "es"){
         $("#menu_language li:nth-child(1)").attr("selected",true);
@@ -231,11 +231,11 @@ app.showView = function(view) {
     if (this.currentView){
       this.currentView.close();
     }
- 
+
     this.currentView = view;
-    //this.currentView.render();    
- 
-    this.$main.html(this.currentView.el);  
+    //this.currentView.render();
+
+    this.$main.html(this.currentView.el);
     app.scrollTop();
 }
 
@@ -244,7 +244,7 @@ app.events = {};
 _.extend(app.events , Backbone.Events);
 
 app.events.on("menu", function(id){
-   
+
     app.$menu.children().removeAttr("selected");
     app.$menu.find("[data-menu="+id+"]").closest("li").attr("selected",true);
     $('header#fixed_menu h1 span').html(app.$menu.find("[data-menu="+id+"]").html());
@@ -252,8 +252,8 @@ app.events.on("menu", function(id){
 
 app.scrollTop = function(){
     var body = $("html, body");
-    body.animate({scrollTop:0}, '500', 'swing', function() { 
-       
+    body.animate({scrollTop:0}, '500', 'swing', function() {
+
     });
 };
 
@@ -261,7 +261,7 @@ app.scrollToEl = function($el,offset){
     if (!offset) offset=0;
     $('html, body').animate({
         scrollTop: $el.offset().top + offset
-    }, 500);    
+    }, 500);
 };
 
 
@@ -273,11 +273,11 @@ app.nl2br = function nl2br(str, is_xhtml) {
 // Tue, 25 Feb 2014 22:32:40 GMT
 app.dateFormat = function(dateStr){
     var date = new Date(dateStr);
-    
+
     var month = date.getMonth() + 1; //Months are zero based
-    var day = date.getUTCDate(); 
-    var year = date.getFullYear();
-    
+    var day = date.getUTCDate();
+    var year = date.getUTCFullYear();
+
     if (day < 10) day = "0" + day;
     if (month < 10) month = "0" + month;
     return day +"/"+month+"/"+year;
@@ -286,18 +286,18 @@ app.dateFormat = function(dateStr){
 /* dateStr must be a date in GMT Tue, 25 Feb 2014 22:32:40 GMT*/
 app.dateTimeFormat = function(dateStr){
     var date = new Date(dateStr);
-    
+
     var month = date.getMonth() + 1; //Months are zero based
-    var day = date.getUTCDate(); 
-    var year = date.getFullYear();
+    var day = date.getUTCDate();
+    var year = date.getUTCFullYear();
     var hours = date.getHours();
     var minutes = date.getMinutes();
-    
+
     if (month < 10) month = "0" + month;
     if (day < 10) day = "0" + day;
     if (hours < 10) hours = "0" + hours;
     if (minutes < 10) minutes = "0" + minutes;
-    
+
     return day +"/"+month+"/"+year +" - " + hours + ":" + minutes ;
 }
 
@@ -306,7 +306,7 @@ app.urlify = function(text,attr) {
         return ""
     }
     var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i;
-    return text.replace(exp,"<a href='$1' "+ attr+ ">$1</a>"); 
+    return text.replace(exp,"<a href='$1' "+ attr+ ">$1</a>");
 }
 
 app.loadingHTML = function(){
@@ -349,7 +349,7 @@ app.isSupportedBrowser = function(){
 };
 
 app.getBrowser = function(){
-    var ua= navigator.userAgent, tem, 
+    var ua= navigator.userAgent, tem,
     M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([\d\.]+)/i) || [];
     if(/trident/i.test(M[1])){
         tem=  /\brv[ :]+(\d+(\.\d+)?)/g.exec(ua) || [];
@@ -417,7 +417,7 @@ app.variableToString = function(variable){
         case "cooperation":
             return "<lang>Cooperación</lang>";
 
-        // TODO complete this mapping 
+        // TODO complete this mapping
         default:
             return "No definida"
     }

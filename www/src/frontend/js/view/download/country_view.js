@@ -116,7 +116,10 @@ app.view.countryDownload = Backbone.View.extend({
       }
 
       for(var i=0; i<activeCountries.length;i++){
-        this.$('.pais[id="' + $(activeCountries[i]).attr('id') + '"]').addClass('active');
+        if($(activeCountries[i]).hasClass('todos'))
+          $(".pais.todos").addClass('active')
+        else
+          this.$('.pais[id="' + $(activeCountries[i]).attr('id') + '"]').addClass('active');
       }
 
     },

@@ -24,17 +24,19 @@ To deploy and develop it uses [Docker](https://www.docker.com).
 
 In December 2016 the update process of IEPG data shifted from calculating the whole dataset from source data by the application by conducting the full IEPG calculations to providing in a XLSX the full calculation of the whole dataset. Please check file __calculus2015.xlsx__ to see the format of the data XLSX. Then:
 
-- apply the database patch in file _www-srv/calculated_xlsx-database_patch.sql_;
+- apply the database patch in file _database/calculated_xlsx-database_patch.sql_:
+```Shell
+docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < database/calculated_xlsx-database_patch.sql
+```
+
 
 - Import the XLSX:
-
 ```Shell
 docker exec elcanoiepg_api_backend_1 python flux_updatefromcalculatedxlsx.py [XLSX file]
   [# of years in IEPG] [# of countries in IEPG] [# of years in IEPE] [# of countries in IEPE]
 ```
 
 - update REDIS from database:
-
 ```Shell
 docker exec elcanoiepg_api_backend_1 python updatecache.py
 ```

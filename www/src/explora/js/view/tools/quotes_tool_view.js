@@ -134,7 +134,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
             countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
             countries_sel = ctx.countries.selection.length>0 ? ctx.countries.selection.join(",") : "null",
             variable = ctx.variables[0],
-            year_ref = ctx.slider[0].date.getFullYear(),
+            year_ref = ctx.slider[0].date.getUTCFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "quotes/" + family + "/" + variable + "/" + countries + "/" + countries_sel + "/" + year_ref + filters;
 
@@ -232,7 +232,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         // Fetch the collection from the server
         this.mapCollection._family = ctx.family;
         this.mapCollection._variable = ctx.variables[0];
-        this.mapCollection._date = ctx.slider[0].date.getFullYear();
+        this.mapCollection._date = ctx.slider[0].date.getUTCFullYear();
 
          // Implicit call to renderToolMap
         this.mapCollection.fetch({"reset":true});
@@ -243,7 +243,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         this._forceFetchDataTool = false;
 
         var ctx = this.getGlobalContext().data
-            year =  this.getGlobalContext().data.slider[0].date.getFullYear(),
+            year =  this.getGlobalContext().data.slider[0].date.getUTCFullYear(),
             d3data = this._collectionToD3Data(),
             uitype = null;
 
@@ -278,7 +278,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
-            year =  ctx.slider[0].date.getFullYear(),
+            year =  ctx.slider[0].date.getUTCFullYear(),
             variable = ctx.variables[0],
             family = ctx.family;
 
@@ -320,7 +320,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
         var xAxis = d3.svg.axis()
             .scale(x)
             .tickPadding(6)
-            .tickValues(_.map(app.config.SLIDER, function(d){ return d.getFullYear(); }))
+            .tickValues(_.map(app.config.SLIDER, function(d){ return d.getUTCFullYear(); }))
             .tickFormat(d3.format('d'))
             .orient("bottom");
 
@@ -357,7 +357,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
           .call(yAxis);
 
         // Draw year ref
-        var year = ctx.slider[0].date.getFullYear(),
+        var year = ctx.slider[0].date.getUTCFullYear(),
             data_line_ref = [0,max],
             line_ref = d3.svg.line()
                 .x(function(d) { return x(year);})
@@ -369,7 +369,7 @@ app.view.tools.QuotesPlugin = app.view.tools.Plugin.extend({
               .attr("d", line_ref);
 
         //highlight the current year
-        var idx = _.map(app.config.SLIDER, function(d){ return d.getFullYear(); }).indexOf(year);
+        var idx = _.map(app.config.SLIDER, function(d){ return d.getUTCFullYear(); }).indexOf(year);
         $($(".chart .x.axis .tick")[idx]).attr("selected",true);
 
         // Div for Tooltip

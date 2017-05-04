@@ -1,10 +1,10 @@
 app.view.yearDownload = Backbone.View.extend({
     _template : _.template( $('#year_download_template').html() ),
-    
+
     initialize: function() {
 
     },
-    
+
     events:{
     	"click .celda": "yearClick",
     },
@@ -14,16 +14,16 @@ app.view.yearDownload = Backbone.View.extend({
         this.stopListening();
 
     },
-    
+
     render: function() {
-        
+
         this.$el.html(this._template());
-        
+
         var self = this;
         $(app.config.YEARS).each(function() {
-        	self.$(".yearList").append("<div class='celda'>" + this.getFullYear() + "</div>");
+        	self.$(".yearList").append("<div class='celda'>" + this.getUTCFullYear() + "</div>");
         });
-        
+
         return this;
     },
 
@@ -46,7 +46,7 @@ app.view.yearDownload = Backbone.View.extend({
     	$(".numAniosSelect").text($(".celda.active").length);
 
 
-        if($(".celda.active").length == "1"){    
+        if($(".celda.active").length == "1"){
             $(".numAniosSelect2").html(sprintf("<lang> %d ano seleccionado</lang>",$(".celda.active").length));
         }
         else{
@@ -58,13 +58,13 @@ app.view.yearDownload = Backbone.View.extend({
     	}else{
     		$(".boxDonwload").addClass("activeDownload");
     	}
-    	
+
     	if($(".counter.numAniosSelect").text() == "0"){
     		$(".counter.numAniosSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso.svg")
     	}else{
     		$(".counter.numAniosSelect").siblings("img").attr("src","/img/ELC_flecha_descarga_paso-selec.svg")
     	}
-    	
+
     }
 
 });

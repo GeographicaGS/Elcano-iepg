@@ -1,5 +1,5 @@
 pgsql:
-  image: geographica/postgis:postgresql-9.1.2-postgis-1.5.8-patched 
+  image: geographica/postgis:postgresql-9.1.2-postgis-1.5.8-patched
   volumes_from:
     - elcano_iepg_pgdata
   environment:
@@ -120,12 +120,9 @@ www_builder:
     - POSTGRES_DB=${POSTGRES_DB}
     - POSTGRES_USER=${POSTGRES_USER}
     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-  
+
   #command: npm run-script builder-watcher
-  #command: npm run-script builder-watcher-frontend
+  command: npm run-script builder-watcher-frontend
   # command: npm run-script builder-watcher-backend
   #command: npm run-script builder-watcher-explora
   #command: npm run-script debug
-
-
-

@@ -14,19 +14,19 @@
                     print(sprintf(s,link));
                 %>
             </p>
-            
-            <p class="size_24 hide" data-el="soft"><lang>La <strong>presencia blanda</strong> se mide a través de las 
-migraciones, el turismo, el rendimiento deportivo en competiciones internacionales, las patentes 
-internacionales, los artículos publicados en revistas 
+
+            <p class="size_24 hide" data-el="soft"><lang>La <strong>presencia blanda</strong> se mide a través de las
+migraciones, el turismo, el rendimiento deportivo en competiciones internacionales, las patentes
+internacionales, los artículos publicados en revistas
 científicas, la ayuda al desarrollo, entre otros.</lang>
             </p>
 
-            <p class="size_24 hide" data-el="military"><lang>La <strong>presencia militar</strong> se mide con las tropas 
-desplegadas en el extranjero y con el equipamiento 
+            <p class="size_24 hide" data-el="military"><lang>La <strong>presencia militar</strong> se mide con las tropas
+desplegadas en el extranjero y con el equipamiento
 militar.</lang>
             </p>
 
-             <p class="size_24 hide" data-el="eco"><lang>La <strong>presencia económica</strong> se mide a través de las 
+             <p class="size_24 hide" data-el="eco"><lang>La <strong>presencia económica</strong> se mide a través de las
 exportaciones de energía, bienes primarios,
 manufacturas y servicios, así como las inversiones
 directas en el exterior.</lang>
@@ -45,28 +45,28 @@ directas en el exterior.</lang>
         <div class="col-md-4 col-md-offset-1 col-sm-6 col-sm-offset-3" id="explora_sel">
             <h3><lang>Explora el índice</lang></h3>
             <div id="co_year">
-                <div id="year"><%=app.config.YEARS[app.config.YEARS.length-1].getFullYear()%></div>
+                <div id="year"><%=app.config.YEARS[app.config.YEARS.length-1].getUTCFullYear()%></div>
                 <div class="co_popup"  id="popup_year" style="display:none">
                     <div class="popup_content">
                         <h6><lang>Años</lang></h6>
                         <ul>
                         <% for (var i=0;i<app.config.YEARS.length;i++) {%>
                             <li <%= i== app.config.YEARS.length-1 ? "selected" : ""%>>
-                                <a href="#"><%=app.config.YEARS[i].getFullYear()%></a>
+                                <a href="#"><%=app.config.YEARS[i].getUTCFullYear()%></a>
                             </li>
                         <% } %>
                         </ul>
                     </div>
 
                     <div class="arrow"></div>
-                    
+
                 </div>
             </div>
             <div id="co_country">
                 <div id="country"><lang>Seleccione un país</lang></div>
                 <div class="co_popup"  id="popup_country" style="display:none"></div>
             </div>
-            
+
             <button class="go_explora"><lang>Calcular</lang></button>
 
             <div class="faq">
@@ -80,13 +80,13 @@ directas en el exterior.</lang>
 </section>
 
 <section id="news" >
-    
+
     <div class="header">
 
         <div class="container maxFixWidth">
             <div class="row">
                 <div class="col-md-2 size_15 text_bold grey mt12 top_title"><lang>Novedades</lang></div>
-                
+
                 <ul class="inlblock col-md-10">
                     <li selected><a href=""><lang>Todas</lang></a></li>
                     <li><a href=""><lang>Blog</lang></a></li>
@@ -101,7 +101,7 @@ directas en el exterior.</lang>
         </div>
     </div>
 
- 
+
     <div class="container maxFixWidth">
         <div id="co_news" class="list_els"></div>
 

@@ -114,7 +114,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            year = ctx.slider[0].date.getFullYear(),
+            year = ctx.slider[0].date.getUTCFullYear(),
             country = ctx.countries.selection[0];
 
         this.$el.html(this._template({
@@ -231,7 +231,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
 
         // Set country name
-        $co_chart.find(".name").html(app.countryToString(country) + ' ' + ctx.slider[0].date.getFullYear());
+        $co_chart.find(".name").html(app.countryToString(country) + ' ' + ctx.slider[0].date.getUTCFullYear());
 
         this._drawD3Chart(family);
         
@@ -246,7 +246,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this._mapCollection = new app.collection.CountryToolMap([],{
             "family" :  ctx.family,
             "variable" : ctx.variables[0],
-            "date" : ctx.slider[0].date.getFullYear()
+            "date" : ctx.slider[0].date.getUTCFullYear()
         });
         
         this.listenTo(this._mapCollection,"reset",this._renderMapAsync);
@@ -261,7 +261,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
             variable = ctx.variables[0],
-            year =  ctx.slider[0].date.getFullYear(),
+            year =  ctx.slider[0].date.getUTCFullYear(),
             family = ctx.family;
 
         this.mapLayer = app.map.drawChoropleth(this._mapCollection.toJSON(),year,variable,family);
@@ -380,7 +380,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
             model = this._models[family],
-            year = ctx.slider[0].date.getFullYear(),
+            year = ctx.slider[0].date.getUTCFullYear(),
             variables = model.get(year).family,
             $chart = family == "iepg" ? this.$co_left.find(".chart") : this.$co_right.find(".chart"),
             $co = family== "iepg" ? this.$co_left : this.$co_right,
@@ -660,7 +660,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
             countries_sel = ctx.countries.selection.length>0 ? ctx.countries.selection.join(",") : "null",
             variable = ctx.variables[0],
-            year = ctx.slider[0].date.getFullYear(),
+            year = ctx.slider[0].date.getUTCFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "comparison/" + variable + "/" + year + "/" + countries + "/" + countries_sel + filters;
 

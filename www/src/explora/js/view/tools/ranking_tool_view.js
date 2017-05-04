@@ -88,8 +88,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         this.collection = new app.collection.RankingTool({},{
 
-            "year" : ctxObj.getFirstSliderElement("Point").date.getFullYear(),
-            "yearRef" : ctxObj.getFirstSliderElement("PointReference").date.getFullYear(),
+            "year" : ctxObj.getFirstSliderElement("Point").date.getUTCFullYear(),
+            "yearRef" : ctxObj.getFirstSliderElement("PointReference").date.getUTCFullYear(),
             "variable" : ctx.variables[0],
             "family" : ctx.family,
             "block_analize" : ctx.block_analize,
@@ -151,7 +151,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            year = ctx.slider[0].date.getFullYear(),
+            year = ctx.slider[0].date.getUTCFullYear(),
             variable = ctx.variables[0],
             family = ctx.family
             colJSON = this.collection.toJSON(),
@@ -191,7 +191,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            year = ctx.slider[0].date.getFullYear() ;
+            year = ctx.slider[0].date.getUTCFullYear() ;
 
         // Remove previous map
         app.map.removeChoropleth();
@@ -226,8 +226,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
             country_sel = ctx.countries.selection.length>0 ? ctx.countries.selection[0] : "null",
             variable = ctx.variables[0],
-            year = ctx.slider[0].date.getFullYear(),
-            year_ref = ctx.slider[1].date.getFullYear(),
+            year = ctx.slider[0].date.getUTCFullYear(),
+            year_ref = ctx.slider[1].date.getUTCFullYear(),
             filters = app.getFilters().length ? "/" + app.getFilters().join(",") : "";
             url = "ranking/" + family + "/" + variable + "/" + year + "/" + year_ref + "/" + countries + "/" + country_sel + "/" + ctx.block_analize + filters;
 
@@ -291,8 +291,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             visibleHeight = this.$chart.height(),
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
-            year = ctxObj.getFirstSliderElement("Point").date.getFullYear(),
-            yearRef = ctxObj.getFirstSliderElement("PointReference").date.getFullYear(),
+            year = ctxObj.getFirstSliderElement("Point").date.getUTCFullYear(),
+            yearRef = ctxObj.getFirstSliderElement("PointReference").date.getUTCFullYear(),
             // get color variable
             colorVariable = app.view.tools.utils.variablesColors[
                 ctx.variables[0] == "global" ?  ctx.family : ctx.variables[0]

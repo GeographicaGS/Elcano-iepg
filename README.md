@@ -32,13 +32,8 @@ docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < database/ca
 
 - Import the XLSX:
 ```Shell
-docker exec elcanoiepg_api_backend_1 python flux_updatefromcalculatedxlsx.py [XLSX file]
+docker exec -it elcanoiepg_api_backend_1 python flux_updatefromcalculatedxlsx.py [XLSX file]
   [# of years in IEPG] [# of countries in IEPG] [# of years in IEPE] [# of countries in IEPE]
-```
-
-- update REDIS from database:
-```Shell
-docker exec elcanoiepg_api_backend_1 python updatecache.py
 ```
 
 

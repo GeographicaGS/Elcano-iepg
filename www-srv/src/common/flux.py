@@ -129,30 +129,36 @@ class Flux(object):
         # Backup old schema and drop all data in the production one
         fm.prepareSchemaIEPGDataRedux()
 
-        years = []
-        codes = []
-
         # Write IEPG data
 
         print "Processing IEPG..."
         print "Reading IEPG years and countries..."
+        
+        # Get countries and codes from database (master table)
+        q = pg.query("""
+            select xlsx_column_name, iso_3166_1_2_code
+            from iepg_data_redux.master_country;""")
+        
+        codes_all = q.result()
+        
+        countries_db = [dc['xlsx_column_name'] for dc in codes_all]
+        
+        ctrys_codes_db = dict((i['xlsx_column_name'], i['iso_3166_1_2_code']) for i in codes_all)
 
         # Get IEPG years and countries
-        for year in self.IEPGData["Energy IEPG"][0][1:]:
-            year = int(year.value)
-            years.append(year)
+        years = [int(year.value) for year in self.IEPGData["Energy IEPG"][0][1:]]
+        
+        countries = [str(ctry[0].value.encode('UTF-8')) for ctry in self.IEPGData["Energy IEPG"][1:]]
+        
+        countries_errors = set(countries).difference(set(countries_db))
+        
+        if len(countries_errors) > 0:
+            print "Error: You must repair this countries in XLS before execute data load: %s" % countries_errors
+            return
+            
+        codes = [ctrys_codes_db[ct] for ct in countries]
 
-        for country in self.IEPGData["Energy IEPG"][1:]:
-            country = str(country[0].value)
-            q = pg.query("""
-                select xlsx_column_name, iso_3166_1_2_code
-                from iepg_data_redux.master_country
-                where xlsx_column_name='"""+country+"';")
-
-            code = q.row()["iso_3166_1_2_code"]
-            codes.append(code)
-
-        print "Finished reading IEPG years and countries."
+        print "Finished reading IEPG years and countries. %s countries processed." % len(codes)
 
         print "Generating IEPG data..."
 
@@ -276,26 +282,26 @@ class Flux(object):
 
         years = []
         codes = []
+        countries = []
 
         print "Processing IEPE..."
         print "Reading IEPE years and countries..."
 
-        # Get IEPG years and countries
-        for year in self.IEPEData["Energy IEPE"][0][1:]:
-            year = int(year.value)
-            years.append(year)
+        # Get IEPE years and countries
+        
+        years = [int(year.value) for year in self.IEPEData["Energy IEPE"][0][1:]]
+        
+        countries = [str(ctry[0].value.encode('UTF-8')) for ctry in self.IEPEData["Energy IEPE"][1:]]
+        
+        countries_errors = set(countries).difference(set(countries_db))
+        
+        if len(countries_errors) > 0:
+            print "Error: You must repair this countries in XLS before execute data load: %s" % countries_errors
+            return
+            
+        codes = [ctrys_codes_db[ct] for ct in countries]
 
-        for country in self.IEPEData["Energy IEPE"][1:]:
-            country = str(country[0].value)
-            q = pg.query("""
-                select xlsx_column_name, iso_3166_1_2_code
-                from iepg_data_redux.master_country
-                where xlsx_column_name='"""+country+"';")
-
-            code = q.row()["iso_3166_1_2_code"]
-            codes.append(code)
-
-        print "Finished reading IEPE years and countries."
+        print "Finished reading IEPE years and countries. %s countries processed." % len(codes)
 
         print "Generating IEPE data..."
 
@@ -412,7 +418,6 @@ class Flux(object):
         print "Finished writing IEPE contribution to database."
 
         print "IEPE added successfully"
-
 
 
     ### HERE ENDS THE PROCESSING OF THE NEW, FULLY CALCULATED XSLX

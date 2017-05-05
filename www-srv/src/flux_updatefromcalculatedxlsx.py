@@ -39,7 +39,9 @@ def run():
     f = flux.Flux()
 
     o = f.loadCalculatedXlsxToDatabase(fileName, nIepgYears, nIepgCountries, nIepeYears, nIepeCountries)
-
+    
+    f.updateRedisCache()
+    
 
 if __name__ == '__main__':
     run()

@@ -11,10 +11,422 @@ from common import const as const
 from common import config
 import redis
 from pythonhelpers.database import datacache
-from maplex import maplex 
+from maplex import maplex
 import copy
+from model.base.PostgreSQL.PostgreSQLModel import PostgreSQLModel
 
 class Flux(object):
+
+    # HERE STARTS THE CODE TO IMPORT THE NEW CALCULATED XLSX
+    # ---
+    # For the new XLSX
+
+    # This lists are the names of tabs found in the XLSX
+
+    __iepgSheetsNames = [
+        "Energy IEPG", "Primary Goods IEPG", "Manufactures IEPG", "Services IEPG",
+        "Investments IEPG", "Troops IEPG", "Military Equipment IEPG", "Migrations IEPG",
+        "Tourism IEPG", "Sports IEPG", "Culture IEPG", "Information IEPG",
+        "Technology IEPG", "Science IEPG", "Education IEPG", "Development Coop. IEPG",
+        "Economic IEPG", "Military IEPG", "Soft IEPG", "IEPG",
+
+        # "Energy IEPG QUOTE", "Primary Goods IEPG QUOTE", "Manufactures IEPG QUOTE", "Services IEPG QUOTE",
+        # "Investments IEPG QUOTE", "Troops IEPG QUOTE", "Military Equipment IEPG QUOTE",
+        # "Migrations IEPG QUOTE", "Tourism IEPG QUOTE", "Sports IEPG QUOTE",
+        # "Culture IEPG QUOTE", "Information IEPG QUOTE", "Technology IEPG QUOTE",
+        # "Science IEPG QUOTE", "Education IEPG QUOTE", "Development Coop. IEPG QUOTE",
+        "Economic IEPG QUOTE", "Military IEPG QUOTE", "Soft IEPG QUOTE",
+        "IEPG IEPG QUOTE",
+
+        "Energy IEPG CONTRIBUTION", "Primary Goods IEPG CONTRIBUTION",
+        "Manufactures IEPG CONTRIBUTION", "Services IEPG CONTRIBUTION",
+        "Investments IEPG CONTRIBUTION", "Troops IEPG CONTRIBUTION",
+        "Military E. IEPG CONTRIBUTION", "Migrations IEPG CONTRIBUTION",
+        "Tourism IEPG CONTRIBUTION", "Sports IEPG CONTRIBUTION", "Culture IEPG CONTRIBUTION",
+        "Information IEPG CONTRIBUTION", "Technology IEPG CONTRIBUTION",
+        "Science IEPG CONTRIBUTION", "Education IEPG CONTRIBUTION",
+        "Devel. C. IEPG CONTRIBUTION", "Economic IEPG CONTRIBUTION",
+        "Military IEPG CONTRIBUTION", "Soft IEPG CONTRIBUTION"]
+
+    __iepeSheetsNames = [
+        "Energy IEPE", "Primary Goods IEPE", "Manufactures IEPE", "Services IEPE",
+        "Investments IEPE", "Troops IEPE", "Military Equipment IEPE", "Migrations IEPE",
+        "Tourism IEPE", "Sports IEPE", "Culture IEPE", "Information IEPE",
+        "Technology IEPE", "Science IEPE", "Education IEPE", "Development Coop. IEPE",
+        "Economic IEPE", "Military IEPE", "Soft IEPE", "IEPE",
+
+        # "Energy IEPE QUOTE", "Primary Goods IEPE QUOTE",
+        # "Manufactures IEPE QUOTE", "Services IEPE QUOTE",
+        # "Investments IEPE QUOTE", "Troops IEPE QUOTE",
+        # "Migrations IEPE QUOTE", "Tourism IEPE QUOTE", "Sports IEPE QUOTE",
+        # "Culture IEPE QUOTE", "Information IEPE QUOTE", "Technology IEPE QUOTE",
+        # "Science IEPE QUOTE", "Education IEPE QUOTE", "Development Coop. IEPE QUOTE",
+        "Economic IEPE QUOTE", "Military IEPE QUOTE", "Soft IEPE QUOTE",
+        "IEPE IEPE QUOTE",
+
+        "Energy IEPE CONTRIBUTION", "Primary Goods IEPE CONTRIBUTION",
+        "Manufactures IEPE CONTRIBUTION", "Services IEPE CONTRIBUTION",
+        "Investments IEPE CONTRIBUTION", "Troops IEPE CONTRIBUTION",
+        "Military E. IEPE CONTRIBUTION", "Migrations IEPE CONTRIBUTION",
+        "Tourism IEPE CONTRIBUTION", "Sports IEPE CONTRIBUTION", "Culture IEPE CONTRIBUTION",
+        "Information IEPE CONTRIBUTION", "Technology IEPE CONTRIBUTION",
+        "Science IEPE CONTRIBUTION", "Education IEPE CONTRIBUTION",
+        "Devel. C. IEPE CONTRIBUTION", "Economic IEPE CONTRIBUTION",
+        "Military IEPE CONTRIBUTION", "Soft IEPE CONTRIBUTION"]
+
+    # This are used in the processing of the new calculated XLSX
+    IEPGData = None
+    IEPEData = None
+
+
+    # For the new XLSX, gets an XLSX cell and output a intelligible Python value
+    def getCellValue(self, cell):
+        if cell.ctype==0:
+            return None
+        else:
+            return cell.value
+
+
+    # Reads the XLSX
+    def readComputedXLSX(self, filename, iepgYearsN, iepgCountriesN,
+             iepeYearsN, iepeCountriesN):
+        """
+        Reads the whole data set.
+
+        - filename: sheet file name
+        - iepgYearsN: number of years in IEPG
+        - iepgCountriesN: number of countries in IEPG
+        - iepeYearsN: number of years in IEPE
+        - iepeCountriesN: number of countries in IEPE
+        """
+
+        self.IEPGData = dict()
+        self.IEPEData = dict()
+
+        for i in self.__iepgSheetsNames:
+            self.IEPGData[i] = self.__readSheet(filename, i, iepgYearsN+1, iepgCountriesN+1)
+
+        for i in self.__iepeSheetsNames:
+            self.IEPEData[i] = self.__readSheet(filename, i, iepeYearsN+1, iepeCountriesN+1)
+
+
+    # This is the importer function of the calculated XLSX to the database
+
+    def loadCalculatedXlsxToDatabase(self, filename, iepgYearsN, iepgCountriesN,
+                                     iepeYearsN, iepeCountriesN):
+
+        print "Reading XLSX..."
+
+        self.readComputedXLSX(filename, iepgYearsN, iepgCountriesN,
+                  iepeYearsN, iepeCountriesN)
+
+        print "Finished reading XLSX."
+
+        # Access to database objects
+        pg = PostgreSQLModel()
+        fm = FluxModel()
+
+        # Backup old schema and drop all data in the production one
+        fm.prepareSchemaIEPGDataRedux()
+
+        # Write IEPG data
+
+        print "Processing IEPG..."
+        print "Reading IEPG years and countries..."
+        
+        # Get countries and codes from database (master table)
+        q = pg.query("""
+            select xlsx_column_name, iso_3166_1_2_code
+            from iepg_data_redux.master_country;""")
+        
+        codes_all = q.result()
+        
+        countries_db = [dc['xlsx_column_name'] for dc in codes_all]
+        
+        ctrys_codes_db = dict((i['xlsx_column_name'], i['iso_3166_1_2_code']) for i in codes_all)
+
+        # Get IEPG years and countries
+        years = [int(year.value) for year in self.IEPGData["Energy IEPG"][0][1:]]
+        
+        countries = [str(ctry[0].value.encode('UTF-8')) for ctry in self.IEPGData["Energy IEPG"][1:]]
+        
+        countries_errors = set(countries).difference(set(countries_db))
+        
+        if len(countries_errors) > 0:
+            print "Error: You must repair this countries in XLS before execute data load: %s" % countries_errors
+            return
+            
+        codes = [ctrys_codes_db[ct] for ct in countries]
+
+        print "Finished reading IEPG years and countries. %s countries processed." % len(codes)
+
+        print "Generating IEPG data..."
+
+        data = []
+
+        for y in range(0, len(years)):
+            for c in range(0, len(codes)):
+                d = {
+                    "code": codes[c],
+                    "date_in": '%s-01-01' % years[y],
+                    "date_out": '%s-12-31' % years[y],
+                    "energy": self.getCellValue(self.IEPGData["Energy IEPG"][c+1][y+1]),
+                    "primary_goods": self.getCellValue(self.IEPGData["Primary Goods IEPG"][c+1][y+1]),
+                    "manufactures": self.getCellValue(self.IEPGData["Manufactures IEPG"][c+1][y+1]),
+                    "services": self.getCellValue(self.IEPGData["Services IEPG"][c+1][y+1]),
+                    "investments": self.getCellValue(self.IEPGData["Investments IEPG"][c+1][y+1]),
+                    "troops": self.getCellValue(self.IEPGData["Troops IEPG"][c+1][y+1]),
+                    "military_equipment": self.getCellValue(self.IEPGData["Military Equipment IEPG"][c+1][y+1]),
+                    "migrations": self.getCellValue(self.IEPGData["Migrations IEPG"][c+1][y+1]),
+                    "tourism": self.getCellValue(self.IEPGData["Tourism IEPG"][c+1][y+1]),
+                    "sports": self.getCellValue(self.IEPGData["Sports IEPG"][c+1][y+1]),
+                    "culture": self.getCellValue(self.IEPGData["Culture IEPG"][c+1][y+1]),
+                    "information": self.getCellValue(self.IEPGData["Information IEPG"][c+1][y+1]),
+                    "technology": self.getCellValue(self.IEPGData["Technology IEPG"][c+1][y+1]),
+                    "science": self.getCellValue(self.IEPGData["Science IEPG"][c+1][y+1]),
+                    "education": self.getCellValue(self.IEPGData["Education IEPG"][c+1][y+1]),
+                    "cooperation": self.getCellValue(self.IEPGData["Development Coop. IEPG"][c+1][y+1]),
+                    "economic_presence": self.getCellValue(self.IEPGData["Economic IEPG"][c+1][y+1]),
+                    "military_presence": self.getCellValue(self.IEPGData["Military IEPG"][c+1][y+1]),
+                    "soft_presence": self.getCellValue(self.IEPGData["Soft IEPG"][c+1][y+1]),
+                    "iepg": self.getCellValue(self.IEPGData["IEPG"][c+1][y+1])
+                }
+
+                data.append(d)
+
+        print "Finished generating IEPG data."
+
+        print "Writing IEPG data to database..."
+
+        fm.addDataIEPG(data)
+
+        print "Finished writing IEPG data to database."
+
+
+        # IEPG quota data
+
+        print "Generating IEPG quota data..."
+
+        data = []
+
+        for y in range(0, len(years)):
+            for c in range(0, len(codes)):
+                d = {
+                    "code": codes[c],
+                    "date_in": "%s-01-01" % years[y],
+                    "date_out": "%s-12-31" % years[y],
+                    "economic_quota": self.getCellValue(self.IEPGData["Economic IEPG QUOTE"][c+1][y+1]),
+                    "military_quota": self.getCellValue(self.IEPGData["Military IEPG QUOTE"][c+1][y+1]),
+                    "soft_quota": self.getCellValue(self.IEPGData["Soft IEPG QUOTE"][c+1][y+1]),
+                    "global_quota": self.getCellValue(self.IEPGData["IEPG IEPG QUOTE"][c+1][y+1])
+                }
+
+                data.append(d)
+
+        print "Finished generating IEPG quota data."
+
+        print "Writing IEPG quote data to database..."
+
+        fm.addDataIEPGQuote(data)
+
+        print "Finished writing IEPG quote data to database."
+
+
+        # IEPG contribution data
+
+        print "Generating IEPG contribution data..."
+
+        data = []
+
+        for y in range(0, len(years)):
+            for c in range(0, len(codes)):
+                d = {
+                    "code" : codes[c],
+                    "date_in": '%s-01-01' % years[y],
+                    "date_out": '%s-12-31' % years[y],
+                    "energy" : self.getCellValue(self.IEPGData["Energy IEPG CONTRIBUTION"][c+1][y+1]),
+                    "primary_goods" : self.getCellValue(self.IEPGData["Primary Goods IEPG CONTRIBUTION"][c+1][y+1]),
+                    "manufactures" : self.getCellValue(self.IEPGData["Manufactures IEPG CONTRIBUTION"][c+1][y+1]),
+                    "services" : self.getCellValue(self.IEPGData["Services IEPG CONTRIBUTION"][c+1][y+1]),
+                    "investments" : self.getCellValue(self.IEPGData["Investments IEPG CONTRIBUTION"][c+1][y+1]),
+                    "troops" : self.getCellValue(self.IEPGData["Troops IEPG CONTRIBUTION"][c+1][y+1]),
+                    "military_equipment" : self.getCellValue(self.IEPGData["Military E. IEPG CONTRIBUTION"][c+1][y+1]),
+                    "migrations" : self.getCellValue(self.IEPGData["Migrations IEPG CONTRIBUTION"][c+1][y+1]),
+                    "tourism" : self.getCellValue(self.IEPGData["Tourism IEPG CONTRIBUTION"][c+1][y+1]),
+                    "sports" : self.getCellValue(self.IEPGData["Sports IEPG CONTRIBUTION"][c+1][y+1]),
+                    "culture" : self.getCellValue(self.IEPGData["Culture IEPG CONTRIBUTION"][c+1][y+1]),
+                    "information" : self.getCellValue(self.IEPGData["Information IEPG CONTRIBUTION"][c+1][y+1]),
+                    "technology" : self.getCellValue(self.IEPGData["Technology IEPG CONTRIBUTION"][c+1][y+1]),
+                    "science" : self.getCellValue(self.IEPGData["Science IEPG CONTRIBUTION"][c+1][y+1]),
+                    "education" : self.getCellValue(self.IEPGData["Education IEPG CONTRIBUTION"][c+1][y+1]),
+                    "cooperation" : self.getCellValue(self.IEPGData["Devel. C. IEPG CONTRIBUTION"][c+1][y+1]),
+                    "economic_contribution" : self.getCellValue(self.IEPGData["Economic IEPG CONTRIBUTION"][c+1][y+1]),
+                    "military_contribution" : self.getCellValue(self.IEPGData["Military IEPG CONTRIBUTION"][c+1][y+1]),
+                    "soft_contribution" : self.getCellValue(self.IEPGData["Soft IEPG CONTRIBUTION"][c+1][y+1])
+                }
+
+                data.append(d)
+
+        print "Finished generating IEPG contribution data."
+
+        print "Writing IEPG contribution data to database..."
+
+        fm.addDataIEPGContribituon(data)
+
+        print "Finished writing IEPG contribution to database."
+
+        print "IEPG added successfully"
+
+
+        # Calculus IEPE
+
+        years = []
+        codes = []
+        countries = []
+
+        print "Processing IEPE..."
+        print "Reading IEPE years and countries..."
+
+        # Get IEPE years and countries
+        
+        years = [int(year.value) for year in self.IEPEData["Energy IEPE"][0][1:]]
+        
+        countries = [str(ctry[0].value.encode('UTF-8')) for ctry in self.IEPEData["Energy IEPE"][1:]]
+        
+        countries_errors = set(countries).difference(set(countries_db))
+        
+        if len(countries_errors) > 0:
+            print "Error: You must repair this countries in XLS before execute data load: %s" % countries_errors
+            return
+            
+        codes = [ctrys_codes_db[ct] for ct in countries]
+
+        print "Finished reading IEPE years and countries. %s countries processed." % len(codes)
+
+        print "Generating IEPE data..."
+
+        data = []
+
+        for y in range(0, len(years)):
+            for c in range(0, len(codes)):
+                d = {
+                    "code": codes[c],
+                    "date_in": '%s-01-01' % years[y],
+                    "date_out": '%s-12-31' % years[y],
+                    "energy": self.getCellValue(self.IEPEData["Energy IEPE"][c+1][y+1]),
+                    "primary_goods": self.getCellValue(self.IEPEData["Primary Goods IEPE"][c+1][y+1]),
+                    "manufactures": self.getCellValue(self.IEPEData["Manufactures IEPE"][c+1][y+1]),
+                    "services": self.getCellValue(self.IEPEData["Services IEPE"][c+1][y+1]),
+                    "investments": self.getCellValue(self.IEPEData["Investments IEPE"][c+1][y+1]),
+                    "troops": self.getCellValue(self.IEPEData["Troops IEPE"][c+1][y+1]),
+                    "military_equipment": self.getCellValue(self.IEPEData["Military Equipment IEPE"][c+1][y+1]),
+                    "migrations": self.getCellValue(self.IEPEData["Migrations IEPE"][c+1][y+1]),
+                    "tourism": self.getCellValue(self.IEPEData["Tourism IEPE"][c+1][y+1]),
+                    "sports": self.getCellValue(self.IEPEData["Sports IEPE"][c+1][y+1]),
+                    "culture": self.getCellValue(self.IEPEData["Culture IEPE"][c+1][y+1]),
+                    "information": self.getCellValue(self.IEPEData["Information IEPE"][c+1][y+1]),
+                    "technology": self.getCellValue(self.IEPEData["Technology IEPE"][c+1][y+1]),
+                    "science": self.getCellValue(self.IEPEData["Science IEPE"][c+1][y+1]),
+                    "education": self.getCellValue(self.IEPEData["Education IEPE"][c+1][y+1]),
+                    "cooperation": self.getCellValue(self.IEPEData["Development Coop. IEPE"][c+1][y+1]),
+                    "economic_presence": self.getCellValue(self.IEPEData["Economic IEPE"][c+1][y+1]),
+                    "military_presence": self.getCellValue(self.IEPEData["Military IEPE"][c+1][y+1]),
+                    "soft_presence": self.getCellValue(self.IEPEData["Soft IEPE"][c+1][y+1]),
+                    "iepe": self.getCellValue(self.IEPEData["IEPE"][c+1][y+1])
+                }
+
+                data.append(d)
+
+        print "Finished generating IEPE data."
+
+        print "Writing IEPE data to database..."
+
+        fm.addDataIEPE(data)
+
+        print "Finished writing IEPE data to database."
+
+
+        # IEPE quota data
+
+        print "Generating IEPE quota data..."
+
+        data = []
+
+        for y in range(0, len(years)):
+            for c in range(0, len(codes)):
+                d = {
+                    "code": codes[c],
+                    "date_in": "%s-01-01" % years[y],
+                    "date_out": "%s-12-31" % years[y],
+                    "economic_quota": self.getCellValue(self.IEPEData["Economic IEPE QUOTE"][c+1][y+1]),
+                    "soft_quota": self.getCellValue(self.IEPEData["Soft IEPE QUOTE"][c+1][y+1]),
+                    "global_quota": self.getCellValue(self.IEPEData["IEPE IEPE QUOTE"][c+1][y+1])
+                }
+
+                data.append(d)
+
+        print "Finished generating IEPE quota data."
+
+        print "Writing IEPE quote data to database..."
+
+        fm.addDataIEPEQuote(data)
+
+        print "Finished writing IEPE quote data to database."
+
+
+        # IEPE contribution data
+
+        print "Generating IEPE contribution data..."
+
+        data = []
+
+        for y in range(0, len(years)):
+            for c in range(0, len(codes)):
+                d = {
+                    "code" : codes[c],
+                    "date_in": '%s-01-01' % years[y],
+                    "date_out": '%s-12-31' % years[y],
+                    "energy" : self.getCellValue(self.IEPEData["Energy IEPE CONTRIBUTION"][c+1][y+1]),
+                    "primary_goods" : self.getCellValue(self.IEPEData["Primary Goods IEPE CONTRIBUTION"][c+1][y+1]),
+                    "manufactures" : self.getCellValue(self.IEPEData["Manufactures IEPE CONTRIBUTION"][c+1][y+1]),
+                    "services" : self.getCellValue(self.IEPEData["Services IEPE CONTRIBUTION"][c+1][y+1]),
+                    "investments" : self.getCellValue(self.IEPEData["Investments IEPE CONTRIBUTION"][c+1][y+1]),
+                    "troops" : self.getCellValue(self.IEPEData["Troops IEPE CONTRIBUTION"][c+1][y+1]),
+                    "military_equipment" : self.getCellValue(self.IEPEData["Military E. IEPE CONTRIBUTION"][c+1][y+1]),
+                    "migrations" : self.getCellValue(self.IEPEData["Migrations IEPE CONTRIBUTION"][c+1][y+1]),
+                    "tourism" : self.getCellValue(self.IEPEData["Tourism IEPE CONTRIBUTION"][c+1][y+1]),
+                    "sports" : self.getCellValue(self.IEPEData["Sports IEPE CONTRIBUTION"][c+1][y+1]),
+                    "culture" : self.getCellValue(self.IEPEData["Culture IEPE CONTRIBUTION"][c+1][y+1]),
+                    "information" : self.getCellValue(self.IEPEData["Information IEPE CONTRIBUTION"][c+1][y+1]),
+                    "technology" : self.getCellValue(self.IEPEData["Technology IEPE CONTRIBUTION"][c+1][y+1]),
+                    "science" : self.getCellValue(self.IEPEData["Science IEPE CONTRIBUTION"][c+1][y+1]),
+                    "education" : self.getCellValue(self.IEPEData["Education IEPE CONTRIBUTION"][c+1][y+1]),
+                    "cooperation" : self.getCellValue(self.IEPEData["Devel. C. IEPE CONTRIBUTION"][c+1][y+1]),
+                    "economic_contribution" : self.getCellValue(self.IEPEData["Economic IEPE CONTRIBUTION"][c+1][y+1]),
+                    "military_contribution" : self.getCellValue(self.IEPEData["Military IEPE CONTRIBUTION"][c+1][y+1]),
+                    "soft_contribution" : self.getCellValue(self.IEPEData["Soft IEPE CONTRIBUTION"][c+1][y+1])
+                }
+
+                data.append(d)
+
+        print "Finished generating IEPE contribution data."
+
+        print "Writing IEPE contribution data to database..."
+
+        fm.addDataIEPEContribituon(data)
+
+        print "Finished writing IEPE contribution to database."
+
+        print "IEPE added successfully"
+
+
+    ### HERE ENDS THE PROCESSING OF THE NEW, FULLY CALCULATED XSLX
+
+
+
+
+
+    ### HERE STARTS OLD METHODS OF IEPG ENGINE
 
     __book = None
     __IEPGData = None
@@ -26,6 +438,7 @@ class Flux(object):
     __missingEuCountries = None
     __euDataYearsStr = None
     __refYear = None
+
 
     def calculusFromXLSXToXLSX(self,infilename,outfilename):
         self.__createBookFromXLSX(infilename)
@@ -42,10 +455,27 @@ class Flux(object):
     def calculusFromXLSXToWholeApplication(self,infilename):
         self.calculusFromXLSXToDatabase(infilename)
         self.updateRedisCache()
-    
+
+
+    def __readSheet(self, filename, sheet, columns, rows):
+        """
+        Returns an array of rows and columns with contents of a sheet.
+
+        - filename: XLSX file name
+        - sheet: sheet name
+        - columns: number of columns in sheet
+        - rows: number of rows in sheet
+        """
+        self.__book = excel_utils.ExcelReader(filename, decimalSeparator=",")
+
+        a, b = self.__book.rowReader(sheet, startCell=(0,0), dimensions=(rows, columns))
+
+        return a
+
+
     def __createBookFromXLSX(self,filename):
         # Start the calculus
-        self.__book = excel_utils.ExcelReader(filename, 
+        self.__book = excel_utils.ExcelReader(filename,
                                        decimalSeparator=",")
 
         # prepare context variables
@@ -56,7 +486,7 @@ class Flux(object):
         environmentEx,lastRowEnv = self.__book.rowReader("Metadata", startCell=(1,0), endMark="")
         variablesEx,lastRowVar = self.__book.rowReader("Metadata", startCell=(lastRowEnv+1,0), startMark="Filiation")
 
-        environmentEx.pop(len(environmentEx)-1) 
+        environmentEx.pop(len(environmentEx)-1)
         variablesEx.pop(0)
 
         # Read configuration variables
@@ -67,15 +497,16 @@ class Flux(object):
 
         # Read variables
         for i in variablesEx:
-            self.__variables.append(core.Variable(i[0].value, 
+            self.__variables.append(core.Variable(i[0].value,
                                            getattr(core, i[4].value),
-                                           getattr(np, i[5].value), 
-                                           self.__environment["LANGUAGE_CODES"], 
+                                           getattr(np, i[5].value),
+                                           self.__environment["LANGUAGE_CODES"],
                                            ast.literal_eval(i[1].value) if i[1].value!="" else None,
                                            ast.literal_eval(i[2].value) if i[2].value!="" else None,
                                            ast.literal_eval(i[3].value) if i[3].value!="" else None,
                                            ast.literal_eval(i[6].value) if i[6].value!="" else None))
 
+        print self.__variables;
 
         # Process EUROPEAN_UNION environment variable to find missing countries in each year
         self.__totalCountriesEu = []
@@ -95,9 +526,11 @@ class Flux(object):
 
     def __calculateIEPG(self):
 
+        # TODO: tenemos que hacer funcionar esto con los datos del 2014 para ver qué arroja esta función y simularlo
+
         if not self.__book:
             raise Exception('Book need to be created')
-                    
+
 
         # Prepare variables for IEPG calculus, excluding EU
         # All data for IEPG countries are loaded in data, but
@@ -111,7 +544,7 @@ class Flux(object):
         #totalCountriesEuIdx = []
         #[totalCountriesEuIdx.append(data.geoentity.index(i)) for i in totalCountriesEu]
 
-        # NOT SURE 
+        # NOT SURE
         #euDataYearsIdx = []
         # for i in euDataYearsStr:
         #     for t in data.time:
@@ -126,7 +559,7 @@ class Flux(object):
         #     missingEuCountriesIdx[euDataYearsIdx[t]] = missing
         #     t+=1
 
-            
+
         # Prepare and add data for EU
         data.addGeoentity(u"European Union")
         # Get the index of the EU for slicing
@@ -160,7 +593,7 @@ class Flux(object):
                     "IEPG_EU.Soft.TechnologyIntra",
                     "IEPG_EU.Soft.EducationTotal",
                     "IEPG_EU.Soft.EducationIntra"]
-                             
+
         euVector = core.GeoVariableArray()
         euTable = core.GeoVariableArray()
         [euVector.merge(self.__book.readGeoVariableArray(x)) for x in vectorVar]
@@ -182,18 +615,18 @@ class Flux(object):
         da = euVector.select(0, None, ["IEPG_EU.Soft.Culture","IEPG_EU.Economic.Services"])* \
             np.repeat(dolarEx, 1, axis=0).reshape(self.__euDataYears,1)*1000000
         data[u"European Union",3:,"IEPG.Soft.Culture"]=da[0,:,0]
-        
+
         # EU IEPG Services, loads EU data into "data" for IEPG calculation
         da = euVector.select(0, None, "IEPG_EU.Economic.Services") * np.repeat(dolarEx,1,axis=0).reshape(self.__euDataYears,1)
         data[u"European Union",3:,"IEPG.Economic.Services"]=da[0,:,0]
-        
+
         # EU IEPG Investments, loads EU data into "data" for IEPG calculation
         da = euVector.select(0,
                              None,
                              [
                               "IEPG_EU.Economic.Investments"]
                          )*np.repeat(dolarEx,1,axis=0).reshape(self.__euDataYears,1)
-        
+
         data[u"European Union",3:,"IEPG.Economic.Investments"]=da[0,:,0]
 
         # EU IEPG Primary Goods, loads EU data into "data" for IEPG calculation
@@ -248,7 +681,7 @@ class Flux(object):
 
 
         for x in variablesFromGlobal:
-            
+
             da = data.getSubset(self.__totalCountriesEu,self.__euDataYearsStr,x)
             da.sort()
             da = self.__clearMissingEuCountries(da, self.__missingEuCountries)
@@ -300,13 +733,13 @@ class Flux(object):
                   "IEPG.Soft.DevelopmentC"]
 
         for i in normal:
-            #print i 
+            #print i
             #print data[u"European Union",3:,i]
             # print data[u"United States of America",self.__refYear,i]
             # print "max: ", np.nanmax(data[:euIndex,self.__refYear,i])
 
             if i+"Est" in data.variable:
-                d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:euIndex,self.__refYear,i]), 
+                d = np.fmax(data[:,:,i]*1000.0/np.nanmax(data[:euIndex,self.__refYear,i]),
                             data[:,:,i+"Est"])
             else:
                 d = data[:,:,i]*1000.0/np.nanmax(data[:euIndex,self.__refYear,i])
@@ -331,12 +764,12 @@ class Flux(object):
 
         # countryIdx = data.geoentity.index(u"Germany")
         # print "Germany", countryIdx
-        # print "InternetCrud: ",  data[countryIdx,-1,"IEPG.Soft.Information.Internet"]   
+        # print "InternetCrud: ",  data[countryIdx,-1,"IEPG.Soft.Information.Internet"]
         # print "NewsCrud: ", data[countryIdx,-1,"IEPG.Soft.Information.News"]
         # print "Internet: ", infointernet[countryIdx,-1,0]
         # print "News: ", infonews[countryIdx,-1,0]
         # print "Total: ", info[countryIdx,-1,0]
-        
+
         data.addVariable("IEPG.Soft.Information_IEPG", data=info)
 
         # Sports calculus
@@ -345,11 +778,11 @@ class Flux(object):
         medals_fifa = self.__environment["SPORTS_MEDALS_FIFA_COEFICIENTS"]
 
         sports = ((medals_fifa[0]/np.repeat( \
-                                   np.nansum(data[:euIndex,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]), 
+                                   np.nansum(data[:euIndex,:,"IEPG.Soft.Support.Olimpics"], axis=0).reshape(1,shape[1]),
                                    shape[0], axis=0).reshape(shape[0],shape[1])* \
                    10000*data[:,:,"IEPG.Soft.Support.Olimpics"].reshape(shape[0],shape[1]))+ \
                   (medals_fifa[1]/np.repeat( \
-                                np.nansum(data[:euIndex,:,"IEPG.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]), 
+                                np.nansum(data[:euIndex,:,"IEPG.Soft.Support.FIFAPoints"], axis=0).reshape(1,shape[1]),
                                              shape[0], axis=0).reshape(shape[0],shape[1])* \
                        10000*data[:,:,"IEPG.Soft.Support.FIFAPoints"].reshape(shape[0],shape[1])))* \
                        np.repeat(np.array(linearCoef).reshape(1,shape[1]), shape[0], axis=0)
@@ -363,22 +796,22 @@ class Flux(object):
         #print np.nansum(euIepgSportsCoef.data, axis=0)*0.7
         euIepgSportsCoef = (np.nansum(euIepgSportsCoef.data, axis=0)*.7).flatten()
         data[u"European Union",3:,"IEPG.Soft.SportsCoef"] = euIepgSportsCoef
-        
+
         #print data.select(data.geoentity.index(u"Estados Unidos de América"),"2010","IEPG.Soft.SportsCoef")
         #print np.nanmax(data[:euIndex,refYear,"IEPG.Soft.SportsCoef"])
-        
+
         # Final IEPG sports calculus
         data.addVariable("IEPG.Soft.Sports_IEPG", data=
                          data[:,:,"IEPG.Soft.SportsCoef"]*1000.0/ \
-                         np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.SportsCoef"]))     
+                         np.nanmax(data[:euIndex,self.__refYear,"IEPG.Soft.SportsCoef"]))
 
         # euIepgSportsCoef.sort()
         # euIepgSportsCoef = self.__clearMissingEuCountries(euIepgSportsCoef, missingEuCountries)
         # test = np.nansum(euIepgSportsCoef.data,axis=0)
-        
+
         # euIepgSportsCoef = (np.nansum(euIepgSportsCoef.data, axis=0)*.7).flatten()
         # euIepgSportsCoef = euIepgSportsCoef * 1000.0 /  np.nanmax(data[:euIndex,refYear,"IEPG.Soft.Sports_IEPG"])
-        
+
         # data[u"European Union",3:,"IEPG.Soft.Sports_IEPG"] = euIepgSportsCoef
 
 
@@ -414,7 +847,7 @@ class Flux(object):
                             data[:,:,"MilitaryPoints"]*1000.0/ \
                             np.nanmax(data[:euIndex,self.__refYear,"MilitaryPoints"]))
 
-        
+
         # Dimensions and Index
         cEconomic = self.__environment["ECONOMIC_COEFICIENTS"]
         vEconomic = ["Energy","PrimaryGoods","Manufactures","Services","Investments"]
@@ -437,7 +870,7 @@ class Flux(object):
         a = np.zeros((shape[0],shape[1]))
         for i in range(0, len(cMilitary)):
             a+=data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"].reshape(shape[0],shape[1])*cMilitary[i]
-        
+
         data.addVariable("IEPG.Global.Military", data=a/100.0)
 
         a = np.zeros((shape[0],shape[1]))
@@ -446,8 +879,8 @@ class Flux(object):
             #print "DATA: ", data[u"United Arab Emirates",:,"IEPG.Soft."+vSoft[i]+"_IEPG"]
             a+=data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"].reshape(shape[0],shape[1])*cSoft[i]
 
-        
-        
+
+
         data.addVariable("IEPG.Global.Soft", data=a/100.0)
 
         data.addVariable("IEPG.Global.IEPG", data=(data[:,:,"IEPG.Global.Economic"]*cIndex[0]+
@@ -477,22 +910,22 @@ class Flux(object):
             'IEPG.Global.Soft',
             'IEPG.Global.IEPG']
 
-        
+
         for i in variable:
-          
+
             a = data[:,:,i].reshape(shape[0],shape[1])/ \
                 (np.repeat(np.nansum(data[:euIndex,:,i], axis=0).reshape(1,shape[1]), shape[0], axis=0))
 
-            # Copy array 
+            # Copy array
             euData = data[:,:,i].reshape(shape[0],shape[1]).copy()
-            
+
             # set UE countries data to NAN. Improve that with a better numpy solution.
             timeIdx = 3
             for year in self.__environment["EUROPEAN_UNION"]:
                 geoentityIdx = [data.geoentity.index(x) for x in self.__environment["EUROPEAN_UNION"][year]]
                 euData[geoentityIdx,timeIdx] = np.nan
                 timeIdx += 1
-            
+
             b = euData / \
                 (np.repeat(np.nansum(euData[:euIndex], axis=0).reshape(1,shape[1]), shape[0], axis=0))
 
@@ -557,7 +990,7 @@ class Flux(object):
             data.addVariable("IEPG.Global.Economic_CON", data=eco_con)
             data.addVariable("IEPG.Global.Military_CON", data=mil_con)
             data.addVariable("IEPG.Global.Soft_CON", data=soft_con)
-        
+
         else:
             economicGlobalCoeficients = self.__environment["ECONOMIC_GLOBAL_COEFICIENTS"]
             militaryGlobalCoeficients = self.__environment["MILITARY_GLOBAL_COEFICIENTS"]
@@ -567,13 +1000,13 @@ class Flux(object):
 
             for i in range(0, len(vEconomic)):
                 total_contributions += data[:,:,"IEPG.Economic."+vEconomic[i]+"_IEPG"].reshape(shape[0],shape[1])*economicGlobalCoeficients[i]
-                
+
             for i in range(0, len(vMilitary)):
                 total_contributions += data[:,:,"IEPG.Military."+vMilitary[i]+"_IEPG"].reshape(shape[0],shape[1])*militaryGlobalCoeficients[i]
 
             for i in range(0, len(vSoft)):
                 total_contributions += data[:,:,"IEPG.Soft."+vSoft[i]+"_IEPG"].reshape(shape[0],shape[1])*softGlobalCoeficients[i]
-       
+
             total_contributions = total_contributions.reshape(shape[0],shape[1],1)
 
             # calculate variables contributions
@@ -599,17 +1032,17 @@ class Flux(object):
                 eco_con += data[:,:,"IEPG.Economic."+vEconomic[i]+"_CON"]
 
             mil_con = np.zeros((shape[0],shape[1],1))
-            for i in range(0, len(vMilitary)):  
+            for i in range(0, len(vMilitary)):
                 mil_con += data[:,:,"IEPG.Military."+vMilitary[i]+"_CON"]
-                
+
             soft_con = np.zeros((shape[0],shape[1],1))
-            for i in range(0, len(vSoft)):  
+            for i in range(0, len(vSoft)):
                 soft_con += data[:,:,"IEPG.Soft."+vSoft[i]+"_CON"]
 
             data.addVariable("IEPG.Global.Economic_CON", data=eco_con)
             data.addVariable("IEPG.Global.Military_CON", data=mil_con)
             data.addVariable("IEPG.Global.Soft_CON", data=soft_con)
-            
+
         data.sort()
 
         self.__IEPGData = data
@@ -623,12 +1056,12 @@ class Flux(object):
 
         # Keep IEPG data for sports coefficients
         #self.__IEPGData = data
-        
+
         # Prepare variables for IEPE calculus
         data = core.GeoVariableArray()
         [data.merge(self.__book.readGeoVariableArray(".".join(x.filiation))) for x
         in self.__variables if x.filiation[0]=="IEPE"]
-        
+
         shape = data.shape
 
         # Previous aggregation
@@ -638,7 +1071,7 @@ class Flux(object):
                                                     "IEPE.Economic.NMG"]), axis=2)
         data.addVariable("IEPE.Economic.PrimaryGoods", data=primaryG)
         data = self.__clearMissingEuCountries(data, self.__missingEuCountries, variable="IEPE.Economic.PrimaryGoods")
-        
+
         # Manufactures
         man = np.nansum(data.select(None,None,["IEPE.Economic.CHM", "IEPE.Economic.ManufacturesPre", \
                                                "IEPE.Economic.Machinery", "IEPE.Economic.MMA"]), axis=2) - \
@@ -666,7 +1099,7 @@ class Flux(object):
             data.addVariable(i+"_IEPE", data=d)
             data = self.__clearMissingEuCountries(data, self.__missingEuCountries, variable=i+"_IEPE")
 
-        # Information calculus 
+        # Information calculus
         refYearIndex = data.getTimeIndex(self.__refYear)[0]
 
         infointernet = data[:,:,"IEPE.Soft.Information.Internet"]*1000.0/np.nanmax(data[:,self.__refYear,"IEPE.Soft.Information.Internet"])
@@ -689,7 +1122,7 @@ class Flux(object):
         euIepgSportsCoef = euIepgSportsCoef.data*1000.0/np.nanmax(euIepgSportsCoef.select(None, self.__refYear, 0))
         data.addVariable("IEPE.Soft.Sports_IEPE", data=euIepgSportsCoef)
         data = self.__clearMissingEuCountries(data, self.__missingEuCountries, variable="IEPE.Soft.Sports_IEPE")
-        
+
         # Dimensions and Index
         cEconomic = self.__environment["ECONOMIC_COEFICIENTS"]
         vEconomic = ["Energy","PrimaryGoods","Manufactures","Services","Investments"]
@@ -703,20 +1136,20 @@ class Flux(object):
         a = np.zeros((shape[0],shape[1]))
         for i in range(0, len(cEconomic)):
             a+=data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"].reshape(shape[0],shape[1])*cEconomic[i]
-        
+
         data.addVariable("IEPE.Global.Economic", data=a/100.0)
         data = self.__clearMissingEuCountries(data, self.__missingEuCountries, variable="IEPE.Global.Economic")
 
         a = np.zeros((shape[0],shape[1]))
         for i in range(0, len(cMilitary)):
             a+=data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"].reshape(shape[0],shape[1])*cMilitary[i]
-        
+
         data.addVariable("IEPE.Global.Military", data=a/100.0)
 
         a = np.zeros((shape[0],shape[1]))
         for i in range(0, len(cSoft)):
             a+=data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"].reshape(shape[0],shape[1])*cSoft[i]
-        
+
         data.addVariable("IEPE.Global.Soft", data=a/100.0)
         data = self.__clearMissingEuCountries(data, self.__missingEuCountries, variable="IEPE.Global.Soft")
 
@@ -760,7 +1193,7 @@ class Flux(object):
 
         if not "CONTRIBUTIONS_METHOD" in self.__environment or \
             self.__environment["CONTRIBUTIONS_METHOD"]!="GLOBAL_COEFICIENTS":
-       
+
             cPresenceEconomic = []
             cPresenceMilitary = []
             cPresenceSoft = []
@@ -812,13 +1245,13 @@ class Flux(object):
 
             for i in range(0, len(vEconomic)):
                 total_contributions += data[:,:,"IEPE.Economic."+vEconomic[i]+"_IEPE"].reshape(shape[0],shape[1])*economicGlobalCoeficients[i]
-                
+
             for i in range(0, len(vMilitary)):
                 total_contributions += data[:,:,"IEPE.Military."+vMilitary[i]+"_IEPE"].reshape(shape[0],shape[1])*militaryGlobalCoeficients[i]
 
             for i in range(0, len(vSoft)):
                 total_contributions += data[:,:,"IEPE.Soft."+vSoft[i]+"_IEPE"].reshape(shape[0],shape[1])*softGlobalCoeficients[i]
-       
+
             total_contributions = total_contributions.reshape(shape[0],shape[1],1)
 
             # calculate variables contributions
@@ -843,18 +1276,18 @@ class Flux(object):
                 eco_con += data[:,:,"IEPE.Economic."+vEconomic[i]+"_CON"]
 
             mil_con = np.zeros((shape[0],shape[1],1))
-            for i in range(0, len(vMilitary)):  
+            for i in range(0, len(vMilitary)):
                 mil_con += data[:,:,"IEPE.Military."+vMilitary[i]+"_CON"]
-                
+
             soft_con = np.zeros((shape[0],shape[1],1))
-            for i in range(0, len(vSoft)):  
+            for i in range(0, len(vSoft)):
                 soft_con += data[:,:,"IEPE.Soft."+vSoft[i]+"_CON"]
 
             data.addVariable("IEPE.Global.Economic_CON", data=eco_con)
             data.addVariable("IEPE.Global.Military_CON", data=mil_con)
             data.addVariable("IEPE.Global.Soft_CON", data=soft_con)
 
-        # Set to nan 
+        # Set to nan
         variables_tonan = [
             'IEPE.Military.Troops_IEPE',
             'IEPE.Military.MilitaryEquipment_IEPE',
@@ -881,7 +1314,7 @@ class Flux(object):
         return self.__IEPEData
 
 
-    # Clears data for non present countries in EU for certain years 
+    # Clears data for non present countries in EU for certain years
     def __clearMissingEuCountries(self,array, missingEuCountries, variable=0):
         for k,v in missingEuCountries.iteritems():
             for i in v:
@@ -891,7 +1324,7 @@ class Flux(object):
 
 
     def __writeToXLSX(self,outfilename):
-        
+
         ew = excel_utils.ExcelWriter(outfilename)
         ew.addStyle("header", {
             "bg_color": "#08608C",
@@ -1035,7 +1468,7 @@ class Flux(object):
                                                      'Military IEPG CONTRIBUTION',
                                                      'Soft IEPG CONTRIBUTION'])
 
-       
+
         self.__applyStylesXLSXSheets(ew,sheets)
         return sheets
 
@@ -1162,7 +1595,7 @@ class Flux(object):
                                                  'Economic IEPE CONTRIBUTION',
                                                     'Military IEPE CONTRIBUTION',
                                                     'Soft IEPE CONTRIBUTION'])
-        
+
         self.__applyStylesXLSXSheets(ew,sheets)
         return sheets
 
@@ -1200,13 +1633,13 @@ class Flux(object):
                 raise Exception('Not found geoentity for ' + countryName)
 
             geoentity_id = geoentity[0]["id_geoentity"]
-            
+
             geoentity_names = maplexModel.getGeoentityNames(geoentity_id,1)
             if not geoentity_names:
-                raise Exception('Not found geoentity code name for ' + countryName)            
+                raise Exception('Not found geoentity code name for ' + countryName)
 
             return geoentity_names[0]["names"][0]
-        
+
 
     def __writeToDatabase(self):
 
@@ -1222,7 +1655,7 @@ class Flux(object):
         for countryname in self.__IEPGData.geoentity:
 
             countrycode = self.__getCountryCodeByCountryName(countryname,mm)
-            
+
             for idx in range(0, len(self.__IEPGData.time)):
                 year = str(self.__IEPGData.time[idx].start.year)
                 el = {
@@ -1262,7 +1695,7 @@ class Flux(object):
         print "Adding IEPE"
         datadb = []
         for countryname in self.__IEPEData.geoentity:
-            
+
             countrycode = self.__getCountryCodeByCountryName(countryname,mm)
 
             for idx in range(0, len(self.__IEPEData.time)):
@@ -1302,7 +1735,7 @@ class Flux(object):
         print "Adding IEPG Quote"
         datadb = []
         for countryname in self.__IEPGData.geoentity:
-            
+
             countrycode = self.__getCountryCodeByCountryName(countryname,mm)
 
             for idx in range(0, len(self.__IEPGData.time)):
@@ -1322,11 +1755,10 @@ class Flux(object):
         fm.addDataIEPGQuote(datadb)
         print "IEPG Quote added successfully"
 
-        ## TODO IEPE Quote
         print "Adding IEPE Quotes"
         datadb = []
         for countryname in self.__IEPEData.geoentity:
-            
+
             countrycode = self.__getCountryCodeByCountryName(countryname,mm)
 
             for idx in range(0, len(self.__IEPEData.time)):
@@ -1425,11 +1857,11 @@ class Flux(object):
 
         fm.addDataIEPEContribituon(datadb)
         print "IEPE Contributions added successfully"
-        
+
         # END ADD IEPG Contributions
 
     def updateRedisCache(self):
-    
+
         print "Updating redis cache"
         connclient = redis.StrictRedis(host=config.RedisConfig["host"], port=config.RedisConfig["port"], db=0)
         mc = datacache.RedisDataCache(connclient, prefix="iepg_", timeout=None)
@@ -1451,7 +1883,7 @@ class Flux(object):
         # @@@YEARS To be edited to add new years to the application
         years = {
             "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015],
-            "iepe": [2005, 2010, 2011, 2012, 2013,2014,2015 ],
+            "iepe": [2005, 2010, 2011, 2012, 2013,2014,2015],
             "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015],
             #"iepe_individual_contribution": [2005, 2010, 2011, 2012, 2013],
             "iepe_quota": [2005, 2010, 2011, 2012, 2013],
@@ -1488,11 +1920,11 @@ class Flux(object):
             dataSets[fam].context["dataSets"] = dataSets
 
             mapping = dict()
-            dataInterface.readAll("iepg_data_redux."+tables[fam], 
+            dataInterface.readAll("iepg_data_redux."+tables[fam],
                                   "code", "date_in", "date_out")
             for k,var in const.variableNames[fam].iteritems():
                 v = varengine.Variable(k, True, "float", dataSet=dataSets[fam])
-                v.loadFromDataInterface(dataInterface, var["column"]) 
+                v.loadFromDataInterface(dataInterface, var["column"])
                 if fam in blockFunctions:
                     d = blockFunctions[fam]
                     for y in years[fam]:
@@ -1518,11 +1950,11 @@ class Flux(object):
                         v = ds.variables[var].getData(code=b, year=y)[str(b)+"@"+str(y)]["value"]
                         data = v+data if v else data
                     ds.variables[c].addValue(b, y, "float", data)
-    
+
         for dsKey in dataSets:
             mc.set(dsKey, dataSets[dsKey], 0)
 
-    
+
         blocks = [maplex.getGeoentityNames(i["id_geoentity_block"], 1)[0]["names"][0] for i in maplex.getBlocks()]
         blocksNoEu = copy.deepcopy(blocks)
         blocksNoEu.remove("XBEU")
@@ -1559,4 +1991,3 @@ class Flux(object):
         mc.set("geoentityToIso", geoentityToIso, 0)
 
         print "Update redis cache successfully"
-

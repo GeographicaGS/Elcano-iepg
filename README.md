@@ -30,10 +30,15 @@ docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < database/ca
 ```
 
 - Import the XLSX:
-```Shell
-docker exec -it elcanoiepg_api_backend_1 python flux_updatefromcalculatedxlsx.py [XLSX file]
-  [# of years in IEPG] [# of countries in IEPG] [# of years in IEPE] [# of countries in IEPE]
-```
+
+  How to use:
+  ```Shell
+  docker exec -it elcanoiepg_api_backend_1 python flux_updatefromcalculatedxlsx.py -h
+  ```
+  Usage example:
+  ```Shell
+  docker exec -it elcanoiepg_api_backend_1 python flux_updatefromcalculatedxlsx.py calculus2016.xlsx 11 101 8 28
+  ```
 
 - Stop and start explora API:
 ```Shell

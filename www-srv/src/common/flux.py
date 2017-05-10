@@ -113,7 +113,7 @@ class Flux(object):
     # This is the importer function of the calculated XLSX to the database
 
     def loadCalculatedXlsxToDatabase(self, filename, iepgYearsN, iepgCountriesN,
-                                     iepeYearsN, iepeCountriesN):
+                                     iepeYearsN, iepeCountriesN, printNewCountries=False):
 
         print "Reading XLSX..."
 
@@ -125,9 +125,6 @@ class Flux(object):
         # Access to database objects
         pg = PostgreSQLModel()
         fm = FluxModel()
-
-        # Backup old schema and drop all data in the production one
-        fm.prepareSchemaIEPGDataRedux()
 
         # Write IEPG data
 
@@ -157,8 +154,24 @@ class Flux(object):
             return
             
         codes = [ctrys_codes_db[ct] for ct in countries]
+        
+        if printNewCountries:
+            cq = pg.query("""
+                select distinct code
+                from iepg_data_redux.iepg_data;""")
+            
+            old_codes = cq.result()
+            
+            old_codes_lst = [oc['code'] for oc in old_codes]
+            
+            new_codes= set(codes).difference(set(old_codes_lst))
+            
+            print "New countries: %s" % new_codes
 
         print "Finished reading IEPG years and countries. %s countries processed." % len(codes)
+        
+        # Backup old schema and drop all data in the production one
+        fm.prepareSchemaIEPGDataRedux()
 
         print "Generating IEPG data..."
 

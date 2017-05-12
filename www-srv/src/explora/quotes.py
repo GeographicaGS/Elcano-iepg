@@ -33,6 +33,7 @@ def quotes(family,variable,countries,lang):
     # Sorted lists of years and geoentities
     geoentities = sorted(countriesArray)
     times = sorted([str(y) for y in years])
+    years = sorted(years)
 
     # Create a GeoVariableArray
     gva = flux.GeoVariableArray(geoentity=geoentities, time=times)

@@ -21,6 +21,15 @@ years = [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014]
 
 #### Database: Add new countries to blocks
 
+List all blocks:
+```
+SELECT distinct gn.id_geoentity, n.name
+FROM maplex.geoentity_name gn
+INNER JOIN maplex.name n ON gn.id_name=n.id_name
+INNER JOIN maplex.block mb on gn.id_geoentity=mb.id_geoentity_block
+WHERE gn.id_name_family=2;
+```
+
 INSERT INTO maplex.block the new members of the block.
 
 EG: for 2014 we need to add Sri Lanka (CODE LK) to Asia & Pacific (XBAP). We need to found the geonetity id of this two geoentities.

@@ -1,6 +1,8 @@
 pgsql:
   restart: always
-  image: geographica/postgis:postgresql-9.1.2-postgis-1.5.8-patched 
+  image: geographica/postgis:postgresql-9.1.2-postgis-1.5.8-patched
+  ports:
+    - 55432:5432 
   volumes_from:
     - elcano_iepg_pgdata
   environment:

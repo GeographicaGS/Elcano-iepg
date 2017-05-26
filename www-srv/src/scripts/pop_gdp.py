@@ -1,5 +1,5 @@
-input_file_gdp = 'csv/gdp_2015.csv'
-input_file_pop = 'csv/pob_2015.csv'
+input_file_gdp = 'csv/gdp_2016.csv'
+input_file_pop = 'csv/pob_2016.csv'
 
 import sys
 
@@ -28,11 +28,17 @@ def countryRightName(countryName):
         return "Venezuela"
     elif countryName=="Viet Nam":
         return "Vietnam"
+    elif countryName=="Bolivia (Plurinational State of)":
+        return "Bolivia"
+    elif countryName=="Congo (Democratic Republic of the)":
+        return "The Congo"
+    elif countryName=="Serbia (Republic of)":
+        return "Serbia"
     else:
         return countryName
 
 def parse(type):
-    
+
     if type == "population":
         input_file = input_file_pop
     elif type == "gdp":
@@ -45,7 +51,8 @@ def parse(type):
         
         sql = ""
 
-        for row in spamreader: 
+        for row in spamreader:
+
             countryname = countryRightName(row[0].strip())
             
             if countryname.isdigit() or countryname=="":    

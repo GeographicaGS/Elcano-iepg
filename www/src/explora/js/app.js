@@ -13,7 +13,7 @@ app.filters = [];
 Backbone.View.prototype.close = function(){
     this.remove();
     this.unbind();
-  
+
     if (this.onClose){
         this.onClose();
     }
@@ -22,7 +22,7 @@ Backbone.View.prototype.close = function(){
 $(function(){
 
     $("body").on("click","a",function(e){
-        
+
         var attr = $(this).attr("jslink"),
             href = $(this).attr("href");
 
@@ -38,16 +38,16 @@ $(function(){
             e.preventDefault();
         }
     });
-    
-   
-  
+
+
+
     if (app.config.DETECT_COUNTRY_LOCATION){
         $.ajax({
             url: "http://freegeoip.net/json/",
 
             error: function(){
                 app.country = "ES";
-                app.ini();  
+                app.ini();
                 app.setAjaxSetup();
             },
             success: function(location){
@@ -61,15 +61,15 @@ $(function(){
     }
     else{
         app.country = "ES";
-        app.ini();  
+        app.ini();
         app.setAjaxSetup();
     }
- 
+
 });
 
 app.setAjaxSetup = function(){
     $(document).ajaxError(function(event, jqxhr, settings, exception) {
-        if (jqxhr.status == 404) { app.router.navigate("notfound",{trigger: true});} 
+        if (jqxhr.status == 404) { app.router.navigate("notfound",{trigger: true});}
         else { app.router.navigate("error",{trigger: true});}
     });
 
@@ -98,17 +98,17 @@ app.resize = function(){
 
     var toolDataMarginAndPadding = this.$tool_data.outerHeight(true) - this.$tool_data.height() + 20;
 
-    this.$tool_data.height($(window).height() - this.$footer.outerHeight(true) - this.$tool_data.offset().top 
+    this.$tool_data.height($(window).height() - this.$footer.outerHeight(true) - this.$tool_data.offset().top
             - toolDataMarginAndPadding);
 
     this.map.resize();
 
     if(app.baseView.currentTool){
-     
+
         app.delay(function(){
             app.baseView.currentTool.resizeMe();
         },500);
-       
+
 
     }
 
@@ -138,8 +138,8 @@ app.ini = function(){
     // create the context
     this.context = new app.view.tools.context("global");
     this.context.restoreSavedContext();
-    
-    if (app.config.CLEAR_CONTEXT_NOMATCHING_VERSION 
+
+    if (app.config.CLEAR_CONTEXT_NOMATCHING_VERSION
         && this.context.data.version != this.version){
         this.clearData();
     }
@@ -155,7 +155,7 @@ app.ini = function(){
     this.refreshFiltersCtrl();
 
     app.map = new app.view.map({"container": "map"}).initialize();
-    
+
     this.baseView = new app.view.Base();
     this.baseView.render();
 
@@ -189,7 +189,7 @@ app.ini = function(){
         e.preventDefault();
 
         $("nav > div").eq(0).toggleClass('opened');
-        $(this).toggleClass('opened'); 
+        $(this).toggleClass('opened');
     });
 
     $("nav > div .quees").mouseenter(function(){
@@ -246,11 +246,11 @@ app.showViewInExtraPanel = function(view) {
     if (this.currentViewExtra){
       this.currentViewExtra.close();
     }
- 
+
     this.currentViewExtra = view;
-    //this.currentView.render();    
- 
-    this.$extraPanel.html(this.currentViewExtra.el);  
+    //this.currentView.render();
+
+    this.$extraPanel.html(this.currentViewExtra.el);
     this.$extraPanel.show()
     app.scrollTop();
 }
@@ -259,10 +259,10 @@ app.showViewInPopup = function(view) {
     if (this.currentViewPopup){
       this.currentViewPopup.close();
     }
- 
+
     this.currentViewPopup = view;
-    //this.currentView.render();    
- 
+    //this.currentView.render();
+
     this.$popup.html(this.currentViewPopup.el);
 
     app.scrollTop();
@@ -270,8 +270,8 @@ app.showViewInPopup = function(view) {
 
 app.scrollTop = function(){
     var body = $("html, body");
-    body.animate({scrollTop:0}, '500', 'swing', function() { 
-       
+    body.animate({scrollTop:0}, '500', 'swing', function() {
+
     });
 };
 
@@ -279,7 +279,7 @@ app.scrollToEl = function($el,offset){
     if (!offset) offset = 0;
     $('html, body').animate({
         scrollTop: $el.offset().top + offset
-    }, 500);    
+    }, 500);
 };
 
 app.variableToString = function(variable,family,minimizeVersion){
@@ -308,8 +308,8 @@ app.variableToString = function(variable,family,minimizeVersion){
                     return "No definida"
                 }
             }
-            
-      
+
+
         case "economic_global":
             return "<lang>Presencia económica</lang>";
         case "soft_global":
@@ -355,7 +355,7 @@ app.variableToString = function(variable,family,minimizeVersion){
         case "cooperation":
             return "<lang>Cooperación</lang>";
 
-        // TODO complete this mapping 
+        // TODO complete this mapping
         default:
             return "No definida"
     }
@@ -366,11 +366,11 @@ app.countryToString = function(id_country){
     if(!id_country){
         return "";
     }
-    
+
     // Temporal, we must add singapur to countries's geojson
     if (id_country == "SG"){
         if (app.lang == "es"){
-            return "Singapur";  
+            return "Singapur";
         }
         else{
             return "Singapore";
@@ -391,7 +391,7 @@ app.countryToString = function(id_country){
         // It's a block
         return app.blocks[id_country]["name_" + app.lang];
     }
-    
+
     return "No country name found";
 }
 
@@ -400,11 +400,11 @@ app.countryToShortString = function(id_country){
     if(!id_country){
         return "";
     }
-    
+
     // Temporal, we must add singapur to countries's geojson
     if (id_country == "SG"){
         if (app.lang == "es"){
-            return "Singapur";  
+            return "Singapur";
         }
         else{
             return "Singapore";
@@ -425,7 +425,7 @@ app.countryToShortString = function(id_country){
         // It's a block
         return app.blocks[id_country]["name_" + app.lang];
     }
-    
+
     return "No country name found";
 }
 
@@ -450,7 +450,7 @@ app.fancyboxOpts = function(){
                 }
             }
         }
-    }  
+    }
 };
 
 
@@ -471,7 +471,7 @@ app.fancyboxOptsHelper = function(){
                 }
             }
         }
-    }  
+    }
 };
 
 app.findCountry = function(id_country){
@@ -493,7 +493,7 @@ app.setFilters = function(filters){
     localStorage.setItem("filters", JSON.stringify(this.filters));
 };
 
-    
+
 app.filterschanged = function(filters){
     this.setFilters(filters);
 
@@ -504,7 +504,7 @@ app.filterschanged = function(filters){
     if (app.baseView.currentTool){
         app.baseView.currentTool.forceFetchDataOnNextRender().render();
     }
-  
+
     this.refreshFiltersCtrl();
 };
 
@@ -513,20 +513,20 @@ app.refreshFiltersCtrl =  function(){
         $("#ctrl_filter").addClass("enable");
     }
     else{
-        $("#ctrl_filter").removeClass("enable");   
+        $("#ctrl_filter").removeClass("enable");
     }
 };
-      
+
 app.events = {};
 _.extend(app.events , Backbone.Events);
 
 app.events.on("closepopup", function(popupView) {
     popupView.close();
-}); 
+});
 
 app.events.on("filterschanged", function(filters) {
     app.filterschanged(filters);
-}); 
+});
 
 app.clearData = function(){
     for (var key in localStorage){
@@ -544,7 +544,7 @@ app.reset = function(){
 
 app.reset2 = function(){
     //$("#start_loading").show();
-    
+
     //app.baseView.closeAllTools();
 
     this.context.data.countries.list = [];
@@ -586,12 +586,12 @@ app.countryCodeToStr = function(country){
 };
 
 app.getLoadingHTML = function(){
-    return "<div class='co_loading'>" + 
-                "<div class='loading'> " + 
-                   
-                        "<img src='/img/ELC_icon_loading_white.gif' />" + 
-                        "<span><lang>Loading</lang></span>" + 
-                   
+    return "<div class='co_loading'>" +
+                "<div class='loading'> " +
+
+                        "<img src='/img/ELC_icon_loading_white.gif' />" +
+                        "<span><lang>Loading</lang></span>" +
+
                 "</div>" +
             "</div>";
 };
@@ -608,25 +608,25 @@ app.formatNumber = function (n,decimals){
 
     if (typeof n == "number"){
         return parseFloat(sprintf("%."+ decimals + "f",n)).toLocaleString(app.lang, {
-            style: 'decimal', 
+            style: 'decimal',
             minimumFractionDigits: decimals
         });
     }
     else{
-        
+
         if (n.indexOf(".") != -1){
             n = sprintf("%."+ decimals + "f",n);
             return parseFloat(n).toFixed(decimals).toLocaleString(app.lang, {
-                style: 'decimal', 
+                style: 'decimal',
                 minimumFractionDigits: decimals
-            });   
+            });
         }
         else{
             return parseInt(n).toLocaleString(app.lang, {
-                style: 'decimal', 
-                minimumFractionDigits: decimals 
+                style: 'decimal',
+                minimumFractionDigits: decimals
             });
-        }    
+        }
     }
 };
 
@@ -661,7 +661,7 @@ app.showHelp = function() {
                 var $elem = $('#'+elem);
                 $elem.addClass('elemHighlighted');
                 var $content = $('#help-bck > .content > div');
-                
+
                 var canvas = document.createElement('canvas');
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
@@ -717,7 +717,7 @@ app.showHelp = function() {
             var $this = $(this);
             var next_idx = $this.attr('next-idx');
             var elem = $this.attr('elem');
-            
+
             loadHelpPage(next_idx, elem);
         });
 
@@ -727,7 +727,7 @@ app.showHelp = function() {
             var $this = $(this);
             var prev_idx = $this.attr('prev-idx');
             var elem = $this.attr('elem');
-            
+
             loadHelpPage(prev_idx, elem);
         });
 
@@ -746,7 +746,7 @@ app.showHelp = function() {
 
         $background.on('click','.help-btn_close', function(e){
             e.preventDefault();
-            
+
             // Remove old elements
             $('.elemHighlighted').removeClass('elemHighlighted');
             $('canvas').remove();
@@ -800,7 +800,7 @@ app.ordchr = function(d){
 }
 
 app.getBrowser = function(){
-    var ua= navigator.userAgent, tem, 
+    var ua= navigator.userAgent, tem,
     M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([\d\.]+)/i) || [];
     if(/trident/i.test(M[1])){
         tem=  /\brv[ :]+(\d+(\.\d+)?)/g.exec(ua) || [];

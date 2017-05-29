@@ -2,7 +2,7 @@
   <li class='th' >
     <ul>
       <li class='grow left'><lang>Variable</lang></li>
-      
+
       <li  class='ws1 right' title="<lang>Valor índice</lang>"><lang>Valor índice</lang></li>
 
       <li class='ws3 right' title="<lang>Contribución de presencia</lang>" ><lang>Contribución de presencia</lang></li>
@@ -19,15 +19,15 @@
         <div class="variableIcon" data-variable="<%= data.name == "global" ? family : data.name %>"></div>
         <%= app.variableToString(data.name,family,true) %>
       </li>
-      
+
       <li class='ws1 right size_18' title="<lang>Valor índice</lang>"><%= app.formatNumber(data.size) %></li>
       <li class="ws3 right italic size_18" title="<lang>Contribuciones de presencia</lang>">
-        <%= data.perc ? app.formatNumber(data.perc) + ' %' : '--' %> 
+        <%= (data.perc != undefined && data.perc != null) ? app.formatNumber(data.perc) + ' %' : '--' %>
       </li>
     </ul>
   </li>
-  
-  <% 
+
+  <%
   childs = _.sortBy(data.children, function(d){ return d.ord });
   _.each(childs, function(d){
       var color = d.depth == 1 ? d.color : d.parent.color;
@@ -37,16 +37,13 @@
         <li class="grow left " style="color: <%=color%>">
           <div class="variableIcon" data-variable="<%= d.name%>"></div><%= app.variableToString(d.name,family) %>
         </li>
-        
+
         <li class="ws1 right" title="<lang>Valor índice</lang>"><%= app.formatNumber(d.size) %></li>
         <li class='italic ws3 right' title="<lang>Contribuciones de presencia</lang>">
-          <%= d.perc ? app.formatNumber(d.perc) +' %' : '--' %> 
+          <%= (d.perc != undefined && d.perc != null) ? app.formatNumber(d.perc) +' %' : '--' %>
         </li>
       </ul>
     </li>
   <% }); %>
-  
+
 </ul>
-
-
-

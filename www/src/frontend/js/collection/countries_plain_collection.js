@@ -1,6 +1,6 @@
 
 app.collection.CountriesPlain = Backbone.Collection.extend({
- 
+
     initialize: function(models, options) {
 
     },
@@ -10,5 +10,5 @@ app.collection.CountriesPlain = Backbone.Collection.extend({
     parse: function(response){
         return response.results;
     }
-    
+
 });

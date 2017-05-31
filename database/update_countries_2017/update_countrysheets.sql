@@ -168,7 +168,7 @@ BEGIN;
     WHERE code='XBMM' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment 
-    SET comment='<p></p>'
+    SET comment='<p>The Maghreb and the Middle East are made up of the countries forming the region whose global presence has been calculated. The bloc’s global presence is the result of the pure sum of the global presence of each country comprising it. The countries considered are Saudi Arabia, Algeria, Egypt, Iran, Iraq, Israel, Jordan, Kuwait, Libyan Arab Jamahiriya, Lebanon, Morocco, Syria, Oman, Tunisia, Qatar and Yemen. They account for 98.3% of the region’s GDP and 98% of its population (according to World Bank data for 2016).</p>'
     WHERE code='XBMM' AND language='en';
 
 COMMIT;

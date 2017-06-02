@@ -45,7 +45,7 @@
 .variableIcon[data-variable='investments']{
    .iconVariableImage(investments);
 }
- 
+
 .variableIcon[data-variable='military_global']{
    .iconVariableImage(military_presence);
 }
@@ -113,7 +113,7 @@
         top: 0px;
         left: 0;
         right: 0;
-        
+
         .close{
             background: url("@{imgPath}ELC_icon_plegar_herramienta.svg") no-repeat left top;
             width: 30px;
@@ -194,7 +194,7 @@
                     color:@grey_dark;
                     font-size: 13px;
                     background-color: rgba(255,255,255,0.5);
-                    
+
                     cursor: pointer;
 
                     &:nth-child(1){
@@ -211,7 +211,7 @@
                         background-color: @grey_dark;
                         color:@white;
                         .roboto(bold);
-                        
+
                     }
                 }
             }
@@ -226,7 +226,7 @@
         background: url(@iconVariableHeader) no-repeat @colorVariable left 9px center;
         padding-left: 58px;
         #tool_title{
-            color:@color_text;    
+            color:@color_text;
         }
     }
 
@@ -271,7 +271,7 @@
     .header[data-variable='investments']{
        .headerTool(investments,@white);
     }
-     
+
     .header[data-variable='military_global']{
        .headerTool(military_presence,@white);
     }
@@ -352,7 +352,7 @@
     path[enhanced]{
         fill: @grey_dark !important;
     }
-}   
+}
 
 @media all and (max-height: 768px){
     .chart{
@@ -385,16 +385,16 @@
     .co_flag2{
         width: 24px;
         height: 24px;
-        
+
     }
 
     &.border{
         .co_flag2{
             border-radius: 24px;
-            border:1px solid #a2a2ac;    
+            border:1px solid #a2a2ac;
         }
     }
-    
+
     span{
         font-size: 18px;
         .roboto(light);
@@ -452,7 +452,7 @@
         z-index: 2;
         background-color: #fff;
         padding: 16px 20px 0 20px;
-        
+
         h6{
             .roboto(ultra-bold);
             font-size: 18px;
@@ -482,11 +482,11 @@
         }
 
         .comment_wrapper{
-            
+
             &.short{
                 height: 75px;
-                overflow-y: hidden;  
-                margin-bottom: 36px;  
+                overflow-y: hidden;
+                margin-bottom: 36px;
             }
         }
     }
@@ -497,7 +497,7 @@
 
     .basic_data{
         ul{
-            
+
             li{
                 background-color: #f5f5f6;
                 height: 36px;
@@ -509,7 +509,7 @@
                 }
 
                 .left{
-                    text-align: left;    
+                    text-align: left;
                 }
 
                 .right{
@@ -538,7 +538,7 @@
             }
         }
     }
-  
+
     .chart{
         margin-top: 40px;
     }
@@ -551,14 +551,14 @@
         path:hover {
           fill: @grey_dark !important;
           cursor: pointer;
-        }    
-    }   
+        }
+    }
 }
 
 .common_sunburst(){
 
     ul.table{
-        
+
         &>li{
             text-transform: uppercase;
             height: 36px;
@@ -568,15 +568,15 @@
             font-size: 13px;
 
             &.th{
-                
+
                 .roboto();
                 font-size: 11px;
                 border-color: #d0d0d5;
 
                 ul li{
-                    color: #a2a2ac;    
+                    color: #a2a2ac;
                 }
-                
+
             }
 
             &.th2{
@@ -592,17 +592,17 @@
 
                 &[data-variable=iepg]{
                     .colorVariable(iepg);
-                    background-color: fade(@colorVariable, 15%);        
+                    background-color: fade(@colorVariable, 15%);
                 }
 
                 &[data-variable=iepe]{
                     .colorVariable(iepe);
-                    background-color: fade(@colorVariable, 15%);        
+                    background-color: fade(@colorVariable, 15%);
                 }
 
                 &[data-variable=soft_global]{
                     .colorVariable(soft_presence);
-                    background-color: fade(@colorVariable, 15%);  
+                    background-color: fade(@colorVariable, 15%);
                     ul li.vartitle{
                         color: @colorVariable;
                     }
@@ -610,7 +610,7 @@
 
                 &[data-variable=military_global]{
                     .colorVariable(military_presence);
-                    background-color: fade(@colorVariable, 15%);  
+                    background-color: fade(@colorVariable, 15%);
                     ul li.vartitle{
                         color: @colorVariable;
                     }
@@ -618,7 +618,7 @@
 
                 &[data-variable=economic_global]{
                     .colorVariable(economic_presence);
-                    background-color: fade(@colorVariable, 15%);  
+                    background-color: fade(@colorVariable, 15%);
                     ul li.vartitle{
                         color: @colorVariable;
                     }
@@ -637,7 +637,7 @@
                         };
                     }
                 }
-            
+
             }
 
             &.childs{
@@ -651,6 +651,7 @@
                 li{
                     &.grow{
                         flex-grow: 1;
+                        flex-shrink: 0;
                         text-align: left;
                     }
 
@@ -663,9 +664,9 @@
                         flex-grow: 0;
                         width: 170px;
                     }
-                    
+
                     &.left{
-                        text-align: left;    
+                        text-align: left;
                         padding-left: 10px;
                     }
 
@@ -687,14 +688,14 @@
     .common_sunburst();
 
     ul.table{
-        
+
         &>li{
 
             ul{
                 li{
-                    
+
                     color: @grey;
-                    
+
                     .variableIcon{
                         float: left;
                         background-size: 24px 24px;
@@ -702,7 +703,7 @@
                     }
                 }
             }
-           
+
             &.th2{
 
                 li{
@@ -720,7 +721,7 @@
                 margin-left: 25px;
             }
 
-            
+
         }
     }
 }
@@ -736,11 +737,11 @@
             ul{
                 li{
                     color: @grey;
-                    
+
                     &.vartitle{
                         text-align: center;
                     }
-                    
+
                 }
             }
 
@@ -755,7 +756,7 @@
                             background-size: 24px 24px;
                             float: left;
                             margin-right: 5px;
-                        }  
+                        }
 
                         span.iepgvsiepe{
                             .roboto(ultra-bold);
@@ -775,14 +776,14 @@
                         &.right{
                             .variableIcon{
                                 float:right;
-                                margin-left: 5px; 
-                                margin-right: 0;   
+                                margin-left: 5px;
+                                margin-right: 0;
                             }
                         }
 
                         &.left{
                             .variableIcon{
-                                float:left;    
+                                float:left;
                                 margin-right: 5px;
                             }
                         }
@@ -799,9 +800,9 @@
                                 background-color: #d0d0d5;
                                 margin: 13px 8px 0 8px;
                             }
-                        }   
+                        }
 
-                        
+
                     }
                 }
             }
@@ -813,7 +814,7 @@
                 border-color: #d0d0d5;
 
                 ul li{
-                    color: #a2a2ac;    
+                    color: #a2a2ac;
                 }
             }
 
@@ -853,7 +854,7 @@
     right: 20px;
     line-height: 18px;
     background-color: @white;
-    
+
     ul{
         margin:10px;
         li{
@@ -996,7 +997,7 @@
                 }
 
                 .ctrl_ref{
-                    float:right;   
+                    float:right;
                     span{
                         float: left;
                     }
@@ -1008,7 +1009,7 @@
                         border-radius: 16px;
                         padding: 2px;
                         cursor: pointer;
-                        
+
                         &:after{
                             content: '';
                             float: left;
@@ -1060,7 +1061,7 @@
             //             a::before{
             //                  background-color: @yellow;
             //                  border-color: #000;
-                             
+
             //             }
             //         }
             //     }
@@ -1159,7 +1160,7 @@
         border-top: 20px solid #fff;
         border-bottom: 20px solid #fff;
         border-left: 20px solid #fff;
-        
+
         .info.data{
             margin: 5px 10px !important;
         }
@@ -1190,7 +1191,7 @@
 
     #scroll_up{
         top: 60px;
-       
+
         background: url("@{imgPath}ELC_icon_scroll_up.svg") no-repeat left center;
     }
 
@@ -1216,13 +1217,13 @@
             font-size: 14px;
             line-height: 18px;
             text-align: center;
-        }    
+        }
     }
 
     #data_legend{
         @media (max-width: 1025px){
             padding-left: 0;
-            padding-right: 0;        
+            padding-right: 0;
         }
     }
 
@@ -1250,7 +1251,7 @@
             li{
                 float:left;
                 margin-right: 20px;
-               
+
                 position: relative;
                 height: 150px;
                 width: 120px;
@@ -1277,7 +1278,7 @@
         // .roboto(bold);
         // color: @grey_dark;
         // text-align: center;
-       
+
         &.no_data{
             color: @grey_light;
             .roboto();
@@ -1359,7 +1360,7 @@
             fill:@grey;
             font-size: 13px;
             .roboto(cond);
-           
+
         }
 
         .axis path,.axis line {
@@ -1376,13 +1377,13 @@
             fill: none;
             stroke: @grey_light;
             stroke-width: 2px;
-           
+
             &[selected=true]{
                 stroke: @red;
             }
             cursor: pointer;
         }
-        
+
         .tick{
             line{
                 stroke: @grey_light2;
@@ -1390,7 +1391,7 @@
 
             &[selected]{
                 text{
-                    fill:@red;    
+                    fill:@red;
                 }
             }
         }
@@ -1400,7 +1401,7 @@
                 stroke: @grey_light;
             }
         }
-        
+
 
         .line_ref{
             fill: none;

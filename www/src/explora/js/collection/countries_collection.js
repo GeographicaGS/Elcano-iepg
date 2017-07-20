@@ -2,7 +2,7 @@ app.collection.Countries = Backbone.Collection.extend({
     initialize: function(models) {
 
     },
-    
+
     url : function() {
         return app.config.API_URL + "/countryfilter/" + app.lang;
     },
@@ -20,8 +20,8 @@ app.collection.Countries = Backbone.Collection.extend({
         var filtered = this.filter(function(c) {
             return filters.indexOf(c.get("id"))== -1;
         });
-        
+
         return new app.collection.Countries(filtered);
     }
-    
+
 });

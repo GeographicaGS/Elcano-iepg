@@ -14,6 +14,7 @@ from common.errorhandling import ElcanoApiRestError
 from common.const import variables, years
 import common.datacache as dc
 from collections import OrderedDict
+import unicodedata
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
 def countryFilter(lang):
@@ -21,8 +22,8 @@ def countryFilter(lang):
         l = dc.countriesAndEu
     else:
         l = dc.countries
-    
+
     isoTable = dc.isoToEnglish if lang=="en" else dc.isoToSpanish
     countries = sorted([{"id": x, "name": k}  for (x,k) in isoTable.iteritems() if x in l],
-                       key=lambda t: t["name"])
+                       key=lambda t: unicodedata.normalize('NFKD', t["name"].decode('utf-8')).encode('ASCII', 'ignore'))
     return(jsonify({"results": countries}))

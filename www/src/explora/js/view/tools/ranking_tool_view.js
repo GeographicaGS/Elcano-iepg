@@ -51,7 +51,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             // Render again the tool with the new context
             this._forceFetchDataTool = true;
-            
+
             this.render(); // implicit save the context
         });
 
@@ -99,7 +99,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         this.listenTo(this.collection,"reset",this._renderToolAsync);
 
         this.collection.fetch({"reset":true});
-        
+
     },
 
     _waitAllCollectionFetch: function(){
@@ -142,7 +142,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             this.$(".co_chart").css("top",this.$(".chart_header").outerHeight(true) + "px");
         }
-        
+
     },
 
     _renderToolAsync: function(){
@@ -157,15 +157,15 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             colJSON = this.collection.toJSON(),
             mapArray = [];
 
-    
+
         this._renderBaseTemplate(colJSON.length==0);
-       
+
         if (colJSON.length>0){
 
             this._drawD3Chart();
 
             for (var i=0;i<colJSON.length;i++){
-           
+
                 mapArray.push({
                     "code" : colJSON[i].code,
                     "value" : colJSON[i].currentRanking,
@@ -176,7 +176,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             this.mapLayer = app.map.drawChoropleth(mapArray,year,variable,family,"º",true,"Ranking ",true);
         }
-        
+
     },
 
     resizeMe: function(){
@@ -203,7 +203,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             this._renderBaseTemplate(false);
             this.$chart.html(this._templateNodataUE({}));
             this.$("#scroll_up,#scroll_down,#ranking_chart_tooltip").remove();
-            
+
         }
         else{
 
@@ -214,15 +214,15 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             else{
                 this._renderToolAsync();
             }
-        }  
+        }
     },
 
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
 
          var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data,  
-            family = ctx.family,          
+            ctx = ctxObj.data,
+            family = ctx.family,
             countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
             country_sel = ctx.countries.selection.length>0 ? ctx.countries.selection[0] : "null",
             variable = ctx.variables[0],
@@ -237,7 +237,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     URLToContext: function(url){
          var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
-           
+
         // Overwrite the family
         ctx.family = url.family;
         // Overwrite the variable
@@ -253,7 +253,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             "date" : new Date(url.year_ref)
         }];
 
-  
+
         ctx.countries.list = url.countries != "null" ? url.countries.split(",") : [];
         ctx.countries.selection = url.country_sel!= "null" ? [url.country_sel]: [];
 
@@ -279,8 +279,8 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     _drawD3Chart: function(){
          var data = _.filter(this.collection.toJSON(), function(d){ return d.code; }),
             max = !data[0].referenceValue || 
-                    data[0].currentValue > data[0].referenceValue 
-                    ?  data[0].currentValue 
+                    data[0].currentValue > data[0].referenceValue
+                    ?  data[0].currentValue
                     : data[0].referenceValue,
             margin = {top: 60, right: 0, bottom: 30, left: 160},
             width = this.$chart.width() - margin.left - margin.right,
@@ -311,6 +311,10 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .orient("top")
             .tickSize(-height)
             .tickFormat(function(d) { return app.formatNumber(d,0); });
+
+        if(max < 9){
+          xAxis.ticks(Math.floor(max));
+        }
 
         var yAxis = d3.svg.axis()
             .scale(y)
@@ -343,7 +347,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("dy", ".35em")
             .attr("transform", "rotate(-90)")
             .style("text-anchor", "start");
-      
+
         // Add another SVG, need to simulate an overflow hidden
         var canvas = svg.append("svg")
                 .attr("class", "co_bar")
@@ -365,7 +369,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         var subset = canvas.selectAll(".bar").data(data);
 
         var div = d3.select("#ranking_chart_tooltip") ;
-      
+
         var obj = this;
 
         canvas.append("rect")
@@ -376,20 +380,20 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("x", 0)
             .attr("y", 0);
 
-        function barmousehover(d) {   
-            div.transition()        
-                .duration(200)      
-                .style("opacity", 1);      
-            
-            div.html(obj._htmlChartToolTip(_.extend(d,{"year": year,"yearRef": yearRef})))  
-            .style("left", (d3.event.pageX) + "px")     
-            .style("top", (d3.event.pageY - 28) + "px");    
+        function barmousehover(d) {
+            div.transition()
+                .duration(200)
+                .style("opacity", 1);
+
+            div.html(obj._htmlChartToolTip(_.extend(d,{"year": year,"yearRef": yearRef})))
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
         }
 
-        function barmouseout(d) {   
-            div.transition()        
-                    .duration(500)      
-                    .style("opacity", 0);    
+        function barmouseout(d) {
+            div.transition()
+                    .duration(500)
+                    .style("opacity", 0);
         }
 
         // Variable bars
@@ -401,7 +405,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("y", function(d) { return y(data.indexOf(d) + 1); })
             .attr("country",function(d){ return d.code;})
             .attr("height", barHeight)
-            .on("mouseover", barmousehover)                  
+            .on("mouseover", barmousehover)
             .on("mouseout", barmouseout);
 
         // References bars
@@ -411,7 +415,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("width", function(d) { return x(d.referenceValue); })
             .attr("y", function(d) { return y(data.indexOf(d) + 1) + barHeight + 1; })
             .attr("height", barHeight)
-            .on("mouseover", barmousehover)                  
+            .on("mouseover", barmousehover)
             .on("mouseout", barmouseout);
 
 
@@ -420,12 +424,12 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             .attr("class","co_label")
             .attr("x",0)
             .attr("y",0)
-            .attr("transform",function(d) { 
+            .attr("transform",function(d) {
                 var h = (data.indexOf(d) + 0) * (totalCountryHeight );
                     h += 10;
-                return "translate(0," + h + ")"; 
+                return "translate(0," + h + ")";
             });
-       
+
         co_label.append("image")
             .attr("x",0)
             .attr("y",0)
@@ -465,11 +469,11 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
                 newy = maxHeight*-1;
                 zoom.translate([0,newy]);
             }
-            
+
             //console.log(newy);
             canvas.attr("transform", "translate(0," + newy + ")");
 
-        }    
+        }
 
         var scroll_inc = (totalCountryHeight) * 5;
 
@@ -479,7 +483,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             zoomed();
         });
 
-        d3.select("#scroll_down").on("click", function(){   
+        d3.select("#scroll_down").on("click", function(){
             var newzoom = zoom.translate()[1] - scroll_inc;
             zoom.translate([0,newzoom]);
             zoomed();
@@ -512,7 +516,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
             d3.select("#selection_mark").attr("y",newzoom);
         }
-            
+
 
     },
 
@@ -521,12 +525,12 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             variable = ctx.variables[0],
             family = ctx.family;
 
-            html = "<div class='block'>" 
-                        + "<div class='line1'>" 
+            html = "<div class='block'>"
+                        + "<div class='line1'>"
                         +   "<span class='title1'>" + d.currentRanking + app.ordchr(d.currentRanking) + " " +app.countryToString(d.code) + "</span>"
                         +   "<span class='value1'>" + d.year + "</span>"
                         + "</div>"
-                        + "<div class='line2'>" 
+                        + "<div class='line2'>"
                         +   "<span class='title2 uppercase'>" + app.variableToString(variable,family) + "</span>"
                         +   "<span class='value2'>" + app.formatNumber(d.currentValue) + "</span>"
                         +"</div>"
@@ -534,12 +538,12 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
 
         if (this._refYear){
 
-            html += "<div class='block ref'>" 
-                        + "<div class='line1'>" 
+            html += "<div class='block ref'>"
+                        + "<div class='line1'>"
                         +   "<span class='title1'>" + d.referenceRanking + app.ordchr(d.referenceRanking) + " " +app.countryToString(d.code) + "</span>"
                         +   "<span class='value1'>" + d.yearRef + "</span>"
                         + "</div>"
-                        + "<div class='line2'>" 
+                        + "<div class='line2'>"
                         +   "<span class='title2 uppercase'>" + app.variableToString(variable,family) + "</span>"
                         +   "<span class='value2'>" + app.formatNumber(d.referenceValue) + "</span>"
                         +"</div>"
@@ -554,7 +558,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         app.map.removeChoropleth();
     },
 
-    /* 
+    /*
         This method adapt the global context. Call on every render.
     */
     adaptGlobalContext: function(){
@@ -571,19 +575,19 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
         *       1.2) If The latestContext doesn't have a selection, the first on the list will be the selected.
         *   2) The selection has elements. We do nothing
         */
-        
+
         if (!ctx.countries.selection.length){
             // The selection is empty
-           
+
             if (latestCtx.selection>0 ){
                 //If the latestContext has a selection all the countries (which are present in the list of countries) will be copied.
                 for(var i=0;i<latestCtx.countries.list.length;i++){
                     // Is the selected country in context list?
                     if (ctx.countries.list.indexOf(latestCtx.countries.selection[i]) != -1){
-                        ctx.countries.selection.push(latestCtx.countries.selection[i]);    
+                        ctx.countries.selection.push(latestCtx.countries.selection[i]);
                     }
                 }
-                
+
             }
             else{
                 // the first on the list will be the selected
@@ -594,7 +598,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
             ctx.countries.selection = ctx.countries.selection.slice(0,1);
         }
 
-        // This tool works with a slider composed by a single point and a reference point. 
+        // This tool works with a slider composed by a single point and a reference point.
         var firstPoint = ctxObj.getFirstSliderElement("Point"),
             firstPointRef = ctxObj.getFirstSliderElement("PointReference");;
 
@@ -658,7 +662,7 @@ app.view.tools.RankingPlugin = app.view.tools.Plugin.extend({
     //     var _this = this;
     //     _this.zoom.y(100);
     //           _this.zoomed();
-        
+
     // },
 
     // scrollChartUp: function(e){

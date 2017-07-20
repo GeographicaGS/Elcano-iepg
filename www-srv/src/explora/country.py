@@ -23,6 +23,7 @@ from collections import OrderedDict
 import locale
 import copy
 import maplex as maplex
+import unicodedata
 
 
 @app.route('/countryfilter/<string:lang>', methods=['GET'])
@@ -31,8 +32,8 @@ def countryFilter(lang):
         iso = datacache.isoToSpanish
     else:
         iso = datacache.isoToEnglish
-    data = sorted([{"id": k, "name": v, "short_name_"+lang+"_order": v} for (k,v) in iso.iteritems() 
-            if k in datacache.countries], key=lambda t: t["short_name_"+lang+"_order"])
+    data = sorted([{"id": k, "name": v, "short_name_"+lang+"_order": v} for (k,v) in iso.iteritems()
+            if k in datacache.countries], key=lambda t: unicodedata.normalize('NFKD',t["short_name_"+lang+"_order"].decode('utf-8')).encode('ASCII', 'ignore'))
     return(jsonify({"results": data}))
 
 
@@ -115,18 +116,18 @@ def countrySheet(lang, family, countryCode):
                 # Check if countryCode is a block. If it is, substract its members from countries
                 # This is expensive. Cache block members.
                 if countryCode in datacache.blocks:
-                    c = arrayops.arraySubstraction(filteredPopulation, 
+                    c = arrayops.arraySubstraction(filteredPopulation,
                                                    common.helpers.getBlockMembers(countryCode, year))
                 else:
                     c = filteredPopulation
 
-                d["globalranking"] = common.helpers.getRankingCode(population, 
-                                                                   year, 
-                                                                   datacache.dataSets[family].variables[k], 
+                d["globalranking"] = common.helpers.getRankingCode(population,
+                                                                   year,
+                                                                   datacache.dataSets[family].variables[k],
                                                                    countryCode)
 
                 if f:
-                    d["relativeranking"] = common.helpers.getRankingCode(c, year, 
+                    d["relativeranking"] = common.helpers.getRankingCode(c, year,
                                                                          datacache.dataSets[family].variables[k],
                                                                          countryCode)
                 else:
@@ -161,14 +162,14 @@ def countrySheet(lang, family, countryCode):
 
                 # Check if countryCode is a block. If it is, substract its members from countries
                 if countryCode in datacache.blocks:
-                    c = arrayops.arraySubstraction(filteredPopulation, 
+                    c = arrayops.arraySubstraction(filteredPopulation,
                                                    common.helpers.getBlockMembers(countryCode, year))
                 else:
                     c = filteredPopulation
 
-                d["globalranking"] = common.helpers.getRankingCode(population, 
-                                                                   year, 
-                                                                   datacache.dataSets["context"].variables[k], 
+                d["globalranking"] = common.helpers.getRankingCode(population,
+                                                                   year,
+                                                                   datacache.dataSets["context"].variables[k],
                                                                    countryCode)
                 d["relativeranking"] = common.helpers.getRankingCode(c, year,
                                                                      datacache.dataSets["context"].variables[k],
@@ -189,7 +190,7 @@ def countrySheet(lang, family, countryCode):
 @app.route('/mapdata/<string:family>/<string:variable>/<int:year>/<int:mode>', methods=['GET'])
 def mapData(family, variable, year, mode):
     """Retrieves map data. Service call:
-    
+
     /mapdata/es/iepg/economic_presence/2013/0?filter=US,DK,ES&toolfilter=US,DK
 
     Modes are:
@@ -212,10 +213,10 @@ def mapData(family, variable, year, mode):
         c = arrayops.arraySubstraction(population, filter)
     else:
         c = population
-    
+
     try:
-        varData = [v for (k,v) in 
-                   common.helpers.getData(datacache.dataSets[family].variables[variable], 
+        varData = [v for (k,v) in
+                   common.helpers.getData(datacache.dataSets[family].variables[variable],
                                           year=year, countryList=c).iteritems()]
     except:
         varData = []
@@ -230,7 +231,7 @@ def mapGeoJson():
 
     out = dict()
     out["type"] = "FeatureCollection"
-    
+
     features = []
 
     for d in data:

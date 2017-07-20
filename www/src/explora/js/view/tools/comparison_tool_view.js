@@ -1,13 +1,13 @@
 app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
     _template : _.template( $('#comparison_tool_template').html() ),
-   	
+
     _templateHelp : _.template( $('#comparison_tool_help_template').html() ),
     // Force fetch data of the left tool. Get the data for the first country
     _forceFetchDataSubToolLeft: false,
     // Force fetch data of the right tool. Get the data for the second country
     _forceFetchDataSubToolRight: false,
     // References to d3 tool
-    _d3: { "iepg" : null, "iepe" : null }, 
+    _d3: { "iepg" : null, "iepe" : null },
 
     _models : { "iepg" : null, "iepe" : null },
 
@@ -23,7 +23,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this._sunburstCDModel = new Backbone.Model();
         this._sunburstCDView = new app.view.tools.SunburstComparisonDataView({
             'model': this._sunburstCDModel,
-            'iepgvsiepe' : true 
+            'iepgvsiepe' : true
         });
     },
 
@@ -59,7 +59,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             this._forceFetchDataMap = true;
 
             this.render();
-            
+
         });
 
         //redefine the contextchange:countries to not re-render each time a country is added
@@ -67,11 +67,11 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this.listenTo(app.events,"contextchange:countries",function(){
             //TOREMOVE
             console.log("contextchange:countries at app.view.tools.ComparisonPlugin");
-            
+
             var ctxObj = this.getGlobalContext(),
             	ctx = ctxObj.data,
                 selection = ctx.countries.selection;
-               
+
 
             if (!selection.length){
                 // Let's force a re-render because we need to adapt the context.
@@ -79,7 +79,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 this.render(); // Implicit call to contextToURL
             }
             this.countries.render();
-            
+
             this.copyGlobalContextToLatestContext();
         });
 
@@ -89,11 +89,11 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
              var ctxObj = this.getGlobalContext(),
                 ctx = ctxObj.data,
                 current = ctx.countries.selection[0];
-            
+
             if (current != id_country){
                 ctx.countries.selection[0] = id_country;
             	this._forceFetchDataTool = true;
-            	this.render();	
+            	this.render();
             }
         });
 
@@ -142,7 +142,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         else if (year<= 2000 // No data avalaible for iepe before year 2000
             || country && country.length > 2  // Only blocks
             || app.blocks.XBEU[year].indexOf(country) == -1 // Only UE countries
-            
+
             ){
 
             this._showError("generic");
@@ -150,19 +150,19 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
         else{
 
-            // Get the data from server if _forceFetchDataTool is set to true. 
+            // Get the data from server if _forceFetchDataTool is set to true.
             if (this._forceFetchDataTool){
                 this._n_fetches = 0;
                 this._errorfetch = false;
-      
-                // Fetch the data 
+
+                // Fetch the data
                 for (var family in {"iepg":null ,"iepe":null}){
                     this._fetchModelClosure(family);
                 }
             }
             else{
                 //We already have the data, let's draw directly
-                
+
                 if (!this._models["iepg"].get(year).family.global.value
                     || !this._models["iepe"].get(year).family.global.value){
                     this._showError("generic");
@@ -173,9 +173,9 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                     this._renderSubTool("iepg");
                     this._renderSubTool("iepe");
                     this._renderMap();
-                }   
+                }
             }
-        } 
+        }
     },
 
     _showError:function(type_error){
@@ -194,12 +194,12 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             "id" : country,
             "family" : family
         });
-        
+
         var _this = this;
         this._models[family].fetch({
             success: function(){
                 _this._n_fetches++;
-                
+
                 if (!_this._models[family].get(year).family.global.value){
                     _this._errorfetch = true;
                 }
@@ -207,7 +207,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 if (_this._n_fetches == 2){
                     _this._forceFetchDataTool = false;
 
-                   
+
                     if (_this._errorfetch){
                         _this._showError();
                     }
@@ -221,7 +221,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             }
         });
     },
-    
+
     _renderSubTool:function(family){
         var ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data,
@@ -234,7 +234,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         $co_chart.find(".name").html(app.countryToString(country) + ' ' + ctx.slider[0].date.getUTCFullYear());
 
         this._drawD3Chart(family);
-        
+
     },
 
     _fetchDataMap: function(){
@@ -248,7 +248,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             "variable" : ctx.variables[0],
             "date" : ctx.slider[0].date.getUTCFullYear()
         });
-        
+
         this.listenTo(this._mapCollection,"reset",this._renderMapAsync);
 
         this._mapCollection.fetch({"reset":true});
@@ -257,7 +257,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
      _renderMapAsync: function(){
         this._forceFetchDataMap = false;
-        var 
+        var
             ctxObj = this.getGlobalContext(),
             ctx = ctxObj.data;
             variable = ctx.variables[0],
@@ -285,7 +285,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         if (this._sunburstCDView) this._sunburstCDView.close();
     },
 
-    /* 
+    /*
         This method adapt the global context. Call on every render.
     */
     adaptGlobalContext: function(){
@@ -299,23 +299,23 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         /*
         * This tool only could have two countries selected. The options are:
         *   1) The selection is empty
-        *       1.1) If The latestContext has a selection the two first (which are present in the countries list) will be choosen. 
+        *       1.1) If The latestContext has a selection the two first (which are present in the countries list) will be choosen.
         *       1.2) If The latestContext doesn't have a selection. Do nothing.
-        *   2) The selection has elements. 
+        *   2) The selection has elements.
                 2.1) If selection has more than two element, we cut off them.
         */
         ctxObj.removeNullCountriesSelection();
 
         if (!ctx.countries.selection.length){
             // The selection is empty
-           
+
             if (latestCtx.selection>0 ){
                 //If the latestContext has a selection all the countries (which are present in the list of countries) will be copied.
 
                 for(var i=0,limit=0;i<latestCtx.countries.list.length && limit<2;i++){
                     // Is the selected country in context list?
                     if (ctx.countries.list.indexOf(latestCtx.countries.selection[i]) != -1){
-                        ctx.countries.selection.push(latestCtx.countries.selection[i]);    
+                        ctx.countries.selection.push(latestCtx.countries.selection[i]);
                         limit++;
                     }
                 }
@@ -331,7 +331,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             ctx.countries.selection = ctx.countries.selection.slice(0,1);
         }
 
-        // This tool works with a slider composed by a single point and a reference point. 
+        // This tool works with a slider composed by a single point and a reference point.
         var firstPoint = ctxObj.getFirstSliderElement("Point");
 
         // Have we a point in the context?
@@ -390,7 +390,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             radius = Math.min(width, height) / 2;
 
         //$co.find(".subheader .index .value").html(app.formatNumber(variables["global"].value));
-        $co.find(".ranking").html(sprintf("<lang>Ranking %d</lang>%s", 
+        $co.find(".ranking").html(sprintf("<lang>Ranking %d</lang>%s",
                 variables["global"].globalranking,
                 app.ordchr(variables["global"].globalranking)));
 
@@ -411,9 +411,13 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
             .attr("transform", "translate(" + width / 2 + "," + (height / 2 ) + ")")
             .attr("class", "variable");
 
+        // var partition = d3.layout.partition()
+        //     .sort(null)
+        //     .value(function(d) { debugger; return d.size; });
+
         var partition = d3.layout.partition()
             .sort(null)
-            .value(function(d) { return d.size; });
+            .value(function(d) { return d.perc; });
 
         var arc = d3.svg.arc()
             .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
@@ -446,30 +450,30 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
               .attr("d", arc)
               .style("fill", function(d) { return d.color; })
             .on("click", click)
-            .on("mouseover", function(d) { 
+            .on("mouseover", function(d) {
 
                 var variable = model.get(year).family[d.name],
                 // brother model
                 bmodel = family == "iepg" ? obj._models["iepe"] : obj._models["iepg"],
-                // brother variables 
+                // brother variables
                 bvariable = bmodel ? bmodel.get(year).family[d.name] : null;
 
-                div.transition()        
-                    .duration(200)      
-                    .style("opacity", 1);      
-                div.html(obj._htmlToolTip(variable,bvariable,family)) 
-                    .style("left", (d3.event.pageX) + "px")     
-                    .style("top", (d3.event.pageY - 28) + "px");  
-                $("path[data-variable='" + d.name+"']").attr("enhanced","true");   
-                })                  
-            .on("mouseout", function(d) {       
-                div.transition()        
-                    .duration(500)      
-                    .style("opacity", 0);   
+                div.transition()
+                    .duration(200)
+                    .style("opacity", 1);
+                div.html(obj._htmlToolTip(variable,bvariable,family))
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+                $("path[data-variable='" + d.name+"']").attr("enhanced","true");
+                })
+            .on("mouseout", function(d) {
+                div.transition()
+                    .duration(500)
+                    .style("opacity", 0);
                 $("path[data-variable='" + d.name+"']").removeAttr("enhanced");
             })
             .attr("data-variable",function(d){return d.name });
-        
+
 
             function click(d) {
                 ctx.variables = [d.name];
@@ -524,7 +528,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this.contextToURL();
 
         this._refreshMapVariable('iepg');
-        
+
     },
 
      _moveChartSectionByName: function(pos,varname,speed){
@@ -532,10 +536,10 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         this._changeVariable(varname);
         var _this = this;
 
-        for (var i =0;i<pos.length;i++){ 
-            this._moveChartSection(pos[i],varname,speed ? speed : 0); 
+        for (var i =0;i<pos.length;i++){
+            this._moveChartSection(pos[i],varname,speed ? speed : 0);
         }
-        
+
     },
 
      _moveChartSection: function(pos,variable,speed){
@@ -547,10 +551,10 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
         d3.select("#co_chart_" + pos +" .chart path[data-variable='" + variable  + "']").each(function(d, i) {
             _this._d3[d3pos].path.transition()
                          .duration(speed)
-                         .attrTween("d", _this._d3[d3pos].arcTween(d));    
+                         .attrTween("d", _this._d3[d3pos].arcTween(d));
         });
-        
-        
+
+
     },
 
     // _moveChartSection: function(family,d,callBrother,speed){
@@ -581,7 +585,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
     //         btree = this._d3[bfam].tree,
     //         // brother data element
     //         bd = btree.findElementInTree(d.name);
-    
+
     //      this._moveChartSection(bfam,bd,false);
 
     // },
@@ -605,17 +609,17 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 +       "<span>" + variable.year + "</span>"
                 +      "<div class='clear'></div>"
                 +   "</div>"
-                +   "<div>" 
+                +   "<div>"
                 +       "<span>" + app.variableToString(variable.variable,family) + "</span>"
                 +       "<span>" + app.formatNumber(variable.value) + "</span>"
                 +       "<div class='clear'></div>"
                 +   "</div>"
-               
+
                 + "<div class='co_progress' style='margin-left:-10px;margin-right:-10px'>"
                     +       "<div class='progress' ><div  style='width:" + progress + "%;background-color:" + colorVariable + ";'></div></div>"
                     +       "<div class='progress'><div  style='width:" + bprogress + "%;background-color:" + bcolorVariable + ";'></div></div>"
                 + "</div>"
-                +   "<div class='compare'>" 
+                +   "<div class='compare'>"
                 +       "<span class='ml vname'>" + app.variableToString(bvariable.variable,bfamily) + "</span>"
                 +       "<span class='mr vvalue'>" + app.formatNumber(bvariable.value) + "</span>"
                 +       "<div class='clear'></div>"
@@ -626,7 +630,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
                 +       "<div class='clear'></div>"
                 +   "</div>";
 
-        
+
 
     },
 
@@ -656,7 +660,7 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
     contextToURL: function(){
         // This method transforms the current context of the tool in a valid URL.
         var ctxObj = this.getGlobalContext(),
-            ctx = ctxObj.data,            
+            ctx = ctxObj.data,
             countries = ctx.countries.list.length>0 ? ctx.countries.list.join(",") : "null",
             countries_sel = ctx.countries.selection.length>0 ? ctx.countries.selection.join(",") : "null",
             variable = ctx.variables[0],
@@ -701,6 +705,6 @@ app.view.tools.ComparisonPlugin = app.view.tools.Plugin.extend({
 
     onBringToBack: function(){
         if (this._sunburstCDView)
-            this._sunburstCDView.goback();   
+            this._sunburstCDView.goback();
     }
 });

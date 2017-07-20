@@ -4,7 +4,7 @@ app.view.CountrySelector = Backbone.View.extend({
     _selectedCountriesStack : null,
     initialize: function(options){
         this.collection = new app.collection.Countries();
-        
+
         this.listenTo(this.collection, "reset",function(){
             this.render();
         });
@@ -22,10 +22,10 @@ app.view.CountrySelector = Backbone.View.extend({
         // Add tools to the stack.
         for (var i=0;i<countries.length;i++){
             if (countries[i].length == 2 || countries[i] =="XBEU"){
-                this._selectedCountriesStack.push(countries[i]);    
+                this._selectedCountriesStack.push(countries[i]);
             }
             else{
-                this._selectedBlocksStack.push(countries[i]);       
+                this._selectedBlocksStack.push(countries[i]);
             }
         }
 
@@ -44,7 +44,7 @@ app.view.CountrySelector = Backbone.View.extend({
     onClose: function(){
         // Remove events on close
         this.stopListening();
-    
+
         $(window).unbind("resize.c_sel");
     },
 
@@ -72,7 +72,7 @@ app.view.CountrySelector = Backbone.View.extend({
 
     save: function(){
         $.fancybox.close();
-        
+
         var ctx =  app.context;
         ctx.data.countries.list = _.union(this._selectedCountriesStack,this._selectedBlocksStack);
 
@@ -87,12 +87,12 @@ app.view.CountrySelector = Backbone.View.extend({
             nb = this._selectedBlocksStack.length;
 
         var html = "";
-      
+
         if (nc==1){
             html ="<lang>1 país </lang>";
         }
         else{
-            html = sprintf("<lang> %d países</lang>",nc);   
+            html = sprintf("<lang> %d países</lang>",nc);
         }
 
         html += " <lang>y</lang> ";
@@ -101,7 +101,7 @@ app.view.CountrySelector = Backbone.View.extend({
             html +="<lang>1 bloque</lang>";
         }
         else{
-            html += sprintf("<lang> %d bloques</lang>",nb);   
+            html += sprintf("<lang> %d bloques</lang>",nb);
         }
 
         if ($("#countries_plain li[selected]").length > 0){
@@ -123,11 +123,11 @@ app.view.CountrySelector = Backbone.View.extend({
             $(".ctrl_selc[data-type='block'][data-action='all']").show();
         }
 
-        
+
 
         //this.$("#ctrl_blocks_plain").prop("checked",$("#blocks_plain li").not("[selected]").length == 0);
 
-        html += " <lang>selecccionados</lang>";       
+        html += " <lang>selecccionados</lang>";
         this.$n_selected.html(html);
 
     },
@@ -141,9 +141,9 @@ app.view.CountrySelector = Backbone.View.extend({
 
     _addToTopStack: function(stack,c){
         if (stack.indexOf(c)==-1){
-            stack.push(c);    
+            stack.push(c);
         }
-        
+
     },
 
 
@@ -161,7 +161,7 @@ app.view.CountrySelector = Backbone.View.extend({
         }
 
         this.updateCountryOrBlockInStack($e);
-        
+
         this.refreshCounterElements();
         //this.showHideDeselectBtn();
     },
@@ -174,7 +174,7 @@ app.view.CountrySelector = Backbone.View.extend({
             // // Unselect element
             // $e.removeAttr("selected");
             if (code.length == 2 || code =="XBEU"){
-                this._removeFromStack(this._selectedCountriesStack,code);    
+                this._removeFromStack(this._selectedCountriesStack,code);
             }
             else{
                 this._removeFromStack(this._selectedBlocksStack,code);
@@ -183,7 +183,7 @@ app.view.CountrySelector = Backbone.View.extend({
         else{
             //$e.attr("selected",true);
             if (code.length == 2 || code =="XBEU"){
-                this._addToTopStack(this._selectedCountriesStack,code);    
+                this._addToTopStack(this._selectedCountriesStack,code);
             }
             else{
                 this._addToTopStack(this._selectedBlocksStack,code);

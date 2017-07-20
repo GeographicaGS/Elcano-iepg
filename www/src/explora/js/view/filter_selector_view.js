@@ -2,7 +2,7 @@ app.view.FilterSelector = Backbone.View.extend({
     _template : _.template( $('#filter_selector_template').html() ),
     initialize: function(options){
         this.collection = new app.collection.Countries();
-        
+
         this.listenTo(this.collection, "reset",function(){
             this.render();
         });
@@ -29,7 +29,7 @@ app.view.FilterSelector = Backbone.View.extend({
     onClose: function(){
         // Remove events on close
         this.stopListening();
-    
+
         $(window).off("resize.filterSelector", this.repositionBoards)
     },
 
@@ -76,9 +76,9 @@ app.view.FilterSelector = Backbone.View.extend({
             html ="<lang>1 país filtrado</lang>";
         }
         else{
-            html = sprintf("<lang>%d países filtrados</lang>",n);   
+            html = sprintf("<lang>%d países filtrados</lang>",n);
         }
-        
+
         this.$n_selected.html(html);
 
     },
@@ -91,7 +91,7 @@ app.view.FilterSelector = Backbone.View.extend({
         if (sel !== undefined && sel!="undefined"){
             // Unselect element
             $e.removeAttr("selected");
-        } 
+        }
         else{
             $e.attr("selected",true);
         }

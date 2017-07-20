@@ -6,7 +6,7 @@
                 </h3>
 
                 <div class="col-sm-6  col-md-6">
-                   
+
                     <a href="#" id="save" class="button check"><lang>Hecho</lang></a>
                     <a href="#" id="cancel" class="grey_light">Cancelar</a>
                 </div>
@@ -23,19 +23,19 @@
                     </div>
                 </div>
                 <div class="col-xs-6" id="n_selected">
-                  
+
                 </div>
             </div>
 
             <ul class="ctrl_cb">
-                
+
                 <li selected ><a href="#" data-rel="countries_plain"><lang>Países A - Z</lang></a></li>
                 <li ><a href="#" data-rel="blocks_plain"><lang>Bloques de países</lang></a></li>
             </ul>
         </div>
 
         <div class="body">
-            
+
             <div id="countries_plain"  class="sel_container">
                 <%
 
@@ -46,12 +46,12 @@
                 eubl["short_name_" +app.lang + "_order" ] = app.blocks.XBEU["name_"+app.lang];
 
                 collection.push(eubl);
-                collection = _.sortBy(collection, function(d){ return d["short_name_" +app.lang + "_order"]});
+                /*collection = _.sortBy(collection, function(d){ return d["short_name_" +app.lang + "_order"]});*/
                 var n_interval = app.isSMDevice() ? 2 : 3,
                  interval = parseInt(Math.ceil(collection.length / n_interval));
-                            
+
                 for (var i=0;i<n_interval;i++){
-                   
+
                 %>
                 <ul class="flag_wrapper col-md-4 col-sm-6">
                     <% _.each(collection.slice(interval*i,interval*(i+1)),function (d){
@@ -73,14 +73,14 @@
 
                     n_interval = 2;
                     interval = parseInt(Math.ceil(blocks.length / n_interval));
-                    
+
                     for (var i=0;i<n_interval;i++){
                     %>
                     <ul class="flag_wrapper col-sm-6">
                         <% _.each(blocks.slice(interval*i,interval*(i+1)),function (d){
                             if (d == "XBEU")
                                 return;
-                            
+
                             sel = ctx.countries.list.indexOf(d) != -1 ? "selected" : "";
                          %>
                             <li code="<%=d %>" <%= sel %> title="<%= app.blocks[d]["name_" + app.lang]  %>">
@@ -90,7 +90,7 @@
                             </li>
                         <% }); %>
                     </ul>
-                    <% } 
+                    <% }
                 %>
             </div>
         </div>

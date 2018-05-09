@@ -70,7 +70,7 @@ WHERE gn.id_name_family=2;
 
 INSERT INTO maplex.block the new members of the block.
 
-EG: for 2014 we need to add Sri Lanka (CODE LK) to Asia & Pacific (XBAP). We need to found the geonetity id of this two geoentities.
+EG: for 2014 we need to add Sri Lanka (CODE LK) to Asia & Pacific (XBAP). We need to found the geoentity id of this two geoentities.
 XBAP
 ```
 select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn

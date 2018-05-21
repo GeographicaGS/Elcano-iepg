@@ -85,7 +85,7 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name='Sub-Saharan Africa' and gn.id_name_family=2
+        where n.name='Sub-saharan Africa' and gn.id_name_family=2
       ),
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
@@ -100,7 +100,7 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name='Sub-Saharan Africa' and gn.id_name_family=2
+        where n.name='Sub-saharan Africa' and gn.id_name_family=2
       ),
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
@@ -115,7 +115,7 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name='Sub-Saharan Africa' and gn.id_name_family=2
+        where n.name='Sub-saharan Africa' and gn.id_name_family=2
       ),
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
@@ -130,7 +130,7 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name='Sub-Saharan Africa' and gn.id_name_family=2
+        where n.name='Sub-saharan Africa' and gn.id_name_family=2
       ),
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
@@ -145,7 +145,7 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name='Sub-Saharan Africa' and gn.id_name_family=2
+        where n.name='Sub-saharan Africa' and gn.id_name_family=2
       ),
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
@@ -160,7 +160,7 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name='Sub-Saharan Africa' and gn.id_name_family=2
+        where n.name='Sub-saharan Africa' and gn.id_name_family=2
       ),
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn

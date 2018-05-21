@@ -1,5 +1,5 @@
-input_file_gdp = 'csv/gdp_2016.csv'
-input_file_pop = 'csv/pob_2016.csv'
+input_file_gdp = 'csv/gdp_2017.csv'
+input_file_pop = 'csv/pob_2017.csv'
 
 import sys
 
@@ -48,14 +48,13 @@ def parse(type):
 
     with open(input_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
-        
+
         sql = ""
 
         for row in spamreader:
 
             countryname = countryRightName(row[0].strip())
-            
-            if countryname.isdigit() or countryname=="":    
+            if countryname.isdigit() or countryname=="":
                 continue
 
             geoentity = mm.getIdGeoentityByName(countryname,2)
@@ -63,10 +62,10 @@ def parse(type):
                 raise Exception('Not found geoentity for ' + countryname)
 
             geoentity_id = geoentity[0]["id_geoentity"]
-            
+
             geoentity_names = mm.getGeoentityNames(geoentity_id,1)
             if not geoentity_names:
-                raise Exception('Not found geoentity code name for ' + countryname)            
+                raise Exception('Not found geoentity code name for ' + countryname)
 
             geoentity_code = geoentity_names[0]["names"][0]
             if geoentity_code not in data:
@@ -81,10 +80,10 @@ def parse(type):
                     data[geoentity_code][year] = {
                         "population" : -1,
                         "gdp" : -1
-                    } 
+                    }
 
                 data[geoentity_code][year][type] = float(row[idx]) if row[idx]!="n.d" and row[idx]!="" else None
-                    
+
 
                 idx += 1
 

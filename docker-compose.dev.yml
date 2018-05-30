@@ -6,6 +6,9 @@ pgsql:
     - POSTGRES_PASSWD=${POSTGRES_PASSWORD}
 
   # DEV config
+  #DEV
+  volumes:
+    - ./database:/usr/src/app
   ports:
     - "5432:5432"
 

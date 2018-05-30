@@ -104,9 +104,11 @@ class Flux(object):
         self.IEPEData = dict()
 
         for i in self.__iepgSheetsNames:
+            print "Reading sheet [%s]" % i
             self.IEPGData[i] = self.__readSheet(filename, i, iepgYearsN+1, iepgCountriesN+1)
 
         for i in self.__iepeSheetsNames:
+            print "Reading sheet [%s]" % i
             self.IEPEData[i] = self.__readSheet(filename, i, iepeYearsN+1, iepeCountriesN+1)
 
 
@@ -130,46 +132,46 @@ class Flux(object):
 
         print "Processing IEPG..."
         print "Reading IEPG years and countries..."
-        
+
         # Get countries and codes from database (master table)
         q = pg.query("""
             select xlsx_column_name, iso_3166_1_2_code
             from iepg_data_redux.master_country;""")
-        
+
         codes_all = q.result()
-        
+
         countries_db = [dc['xlsx_column_name'] for dc in codes_all]
-        
+
         ctrys_codes_db = dict((i['xlsx_column_name'], i['iso_3166_1_2_code']) for i in codes_all)
 
         # Get IEPG years and countries
         years = [int(year.value) for year in self.IEPGData["Energy IEPG"][0][1:]]
-        
+
         countries = [str(ctry[0].value.encode('UTF-8')) for ctry in self.IEPGData["Energy IEPG"][1:]]
-        
+
         countries_errors = set(countries).difference(set(countries_db))
-        
+
         if len(countries_errors) > 0:
             print "Error: You must repair this countries in XLS before execute data load: %s" % countries_errors
             return
-            
+
         codes = [ctrys_codes_db[ct] for ct in countries]
-        
+
         if printNewCountries:
             cq = pg.query("""
                 select distinct code
                 from iepg_data_redux.iepg_data;""")
-            
+
             old_codes = cq.result()
-            
+
             old_codes_lst = [oc['code'] for oc in old_codes]
-            
+
             new_codes= set(codes).difference(set(old_codes_lst))
-            
+
             print "New countries: %s" % new_codes
 
         print "Finished reading IEPG years and countries. %s countries processed." % len(codes)
-        
+
         # Backup old schema and drop all data in the production one
         fm.prepareSchemaIEPGDataRedux()
 
@@ -301,17 +303,17 @@ class Flux(object):
         print "Reading IEPE years and countries..."
 
         # Get IEPE years and countries
-        
+
         years = [int(year.value) for year in self.IEPEData["Energy IEPE"][0][1:]]
-        
+
         countries = [str(ctry[0].value.encode('UTF-8')) for ctry in self.IEPEData["Energy IEPE"][1:]]
-        
+
         countries_errors = set(countries).difference(set(countries_db))
-        
+
         if len(countries_errors) > 0:
             print "Error: You must repair this countries in XLS before execute data load: %s" % countries_errors
             return
-            
+
         codes = [ctrys_codes_db[ct] for ct in countries]
 
         print "Finished reading IEPE years and countries. %s countries processed." % len(codes)
@@ -1895,15 +1897,15 @@ class Flux(object):
 
         # @@@YEARS To be edited to add new years to the application
         years = {
-            "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015,2016],
-            "iepe": [2005, 2010, 2011, 2012, 2013,2014,2015,2016],
-            "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015,2016],
+            "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
+            "iepe": [2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
+            "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
             #"iepe_individual_contribution": [2005, 2010, 2011, 2012, 2013],
             "iepe_quota": [2005, 2010, 2011, 2012, 2013],
-            "iepe_relative_contribution": [2005, 2010, 2011, 2012, 2013,2014,2015,2016],
+            "iepe_relative_contribution": [2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
             #"iepg_individual_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
-            "iepg_quota": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015,2016],
-            "iepg_relative_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013,2014,2015,2016]
+            "iepg_quota": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
+            "iepg_relative_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017]
         }
 
         blockFunctions = {

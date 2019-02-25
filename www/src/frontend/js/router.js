@@ -1,7 +1,7 @@
 var app = app || {};
 
 app.router = Backbone.Router.extend({
-    
+
     langRoutes : {
         "_link home" : {"en":"home","es": "inicio" },
         "_link about": {"en": "about","es" : "acerca_de" },
@@ -22,20 +22,20 @@ app.router = Backbone.Router.extend({
             "error" : "error",
             "explora" : "explora",
             "legal" : "legal",
-            "privacity" : "privacity",
+            "privacy" : "privacity",
             //"project/:id": "showProject",
             /* Sample usage: http://example.com/#about */
             "*other"    : "defaultRoute"
             /* This is a default route that also uses a *splat. Consider the
             default route a wildcard for URLs that are either not matched or where
             the user has incorrectly typed in a route path manually */
-        
+
     },
 
     initialize: function(options) {
         // Bind 'route' event to send Google Analytics info
         Backbone.history.on("route", this.sendPageview);
-        
+
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link home"][app.lang]+"/", "home");
         this.route(this.langRoutes["_link about"][app.lang], "about");
@@ -49,7 +49,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link about meth"][app.lang], "aboutMeth");
         this.route(this.langRoutes["_link download"][app.lang], "download");
     },
-    
+
     home: function(){
         $(document).prop("title", "<lang>Índice Elcano de Presencia Global</lang>");
         app.showView(new app.view.Home());
@@ -120,7 +120,7 @@ app.router = Backbone.Router.extend({
             filter = null;
         }
 
-       
+
         app.showView(new app.view.NewsList({
             "filter" : filter
         }));
@@ -145,7 +145,7 @@ app.router = Backbone.Router.extend({
         $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Aviso legal</lang>");
         app.showView(new app.view.Legal());
     },
-    
+
     download: function(){
         $(document).prop("title", "<lang>Índice Elcano de Presencia Global - Datos</lang>");
     	app.showView(new app.view.Download());
@@ -157,5 +157,5 @@ app.router = Backbone.Router.extend({
         ga('send', 'pageview', url);
     }
 
-    
+
 });

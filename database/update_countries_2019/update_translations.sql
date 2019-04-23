@@ -3,8 +3,8 @@
 
 BEGIN;
 
-UPDATE www.translation SET es = 'El <a class="nostyle" href="%s"><strong>Índice Elcano de Presencia Global</strong></a> calcula anualmente la proyección de 120 países fuera de sus fronteras en función de tres dimensiones:' WHERE key = '_home IEPG explora desc';
-UPDATE www.translation SET en = 'The <a class="nostyle" href="%s"><strong>Elcano Global Presence Index</strong></a> is an annual measurement of the projection in the world of 120 countries based on three dimensions:' WHERE key = '_home IEPG explora desc';
+UPDATE www.translation SET es = 'El <a class=\"nostyle\" href=\"%s\"><strong>Índice Elcano de Presencia Global</strong></a> calcula anualmente la proyección de 120 países fuera de sus fronteras en función de tres dimensiones:' WHERE key = '_home IEPG explora desc';
+UPDATE www.translation SET en = 'The <a class=\"nostyle\" href=\"%s\"><strong>Elcano Global Presence Index</strong></a> is an annual measurement of the projection in the world of 120 countries based on three dimensions:' WHERE key = '_home IEPG explora desc';
 
 
 UPDATE www.translation SET es = 'Flujo de exportación de productos energéticos (petróleo, productos refinados y gas) (SITC 3).' WHERE key = 'Variable energy desc TEXTO';

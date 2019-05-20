@@ -685,16 +685,4 @@ UPDATE www.translation SET es = '<table class="data">
     \r
     <p>You can select the appropriate time period with the timeline. Although the plot is minimally altered, the map will draw the quota data for the selected year.</p>' WHERE key = '_Ayuda_cuotas';
 
-    UPDATE www.translation SET es = '' WHERE key = '';
-    UPDATE www.translation SET en = '' WHERE key = '';
-
-    UPDATE www.translation SET es = '' WHERE key = '';
-    UPDATE www.translation SET en = '' WHERE key = '';
-
-    UPDATE www.translation SET es = '' WHERE key = '';
-    UPDATE www.translation SET en = '' WHERE key = '';
-
-    UPDATE www.translation SET es = '' WHERE key = '';
-    UPDATE www.translation SET en = '' WHERE key = '';
-
 COMMIT;

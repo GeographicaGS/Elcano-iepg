@@ -14,8 +14,7 @@ UPDATE www.translation SET en = E'This tool allows the quota of presence of coun
 
 UPDATE www.translation SET es = E'<p>Esta herramienta permite comparar las cuotas de presencia de países y bloques a lo largo del tiempo.</p>\r
 \r
-<p>La cuota de presencia es la proporción de proyección exterior que un
-determinado país ocupa en el universo de la presencia global total. Para su cálculo, se divide el valor índice de presencia global de un país por la suma de presencia global total –la de los 120 países para los que calculamos el índice– , y se multiplica por 100.
+<p>La cuota de presencia es la proporción de proyección exterior que un determinado país ocupa en el universo de la presencia global total. Para su cálculo, se divide el valor índice de presencia global de un país por la suma de presencia global total –la de los 120 países para los que calculamos el índice– , y se multiplica por 100.
 </p>\r
 \r
 <p>Esta herramienta crea un gráfico temporal con las cuotas de presencia de todos los países y bloques presentes en el selector de países para la dimensión seleccionada. Tenga en cuenta que no existen datos de cuota para las variables, tan sólo para el Índice global y las dimensiones económica, militar y blanda. Pulse sobre un país en el selector para resaltar su línea temporal en el gráfico.</p>\r

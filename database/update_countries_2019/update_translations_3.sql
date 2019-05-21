@@ -5,7 +5,8 @@ BEGIN;
 
 UPDATE www.translation SET es = 'Variables, indicadores y fuentes del Índice Elcano de Presencia Europea' WHERE key = 'Variables, Indicadores y fuentes del Índice Elcano de Presencia Europea';
 
-UPDATE www.translation SET es = 'Frequently asked questions' WHERE key = 'Preguntas frecuentes';
+UPDATE www.translation SET es = 'Preguntas frecuentes' WHERE key = 'Preguntas frecuentes';
+UPDATE www.translation SET en = 'Frequently asked questions' WHERE key = 'Preguntas frecuentes';
 
 UPDATE www.translation SET es = E'Esta herramienta permite comparar las cuotas de presencia de países y bloques a lo largo del tiempo.\r La cuota de presencia es la proporción de proyección exterior que un determinado país ocupa en el universo de la presencia global total. Para su cálculo, se divide el valor índice de presencia global de un país por la suma de presencia global total –la de los 120 países para los que calculamos el índice– , y se multiplica por 100.' WHERE key = 'Cuotas de presencia descripción TEXTO';
 

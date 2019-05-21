@@ -23,8 +23,7 @@ UPDATE www.translation SET es = E'<p>Esta herramienta permite comparar las cuota
 
 UPDATE www.translation SET en = E'<p>This tool allows the quota of presence of countries and blocks to be compared.</p>\r
 \r
-<p>The presence quota is the share of foreign projection held by a country or bloc in the total global presence universe. To calculate it the global presence index of a country is divided by the sum of the total global presence –ie, of the 120
-countries included in the study– and then multiplied by 100.
+<p>The presence quota is the share of foreign projection held by a country or bloc in the total global presence universe. To calculate it the global presence index of a country is divided by the sum of the total global presence –ie, of the 120 countries included in the study– and then multiplied by 100.
 </p>\r
 \r
 <p>The tool employs a temporal evolution graph to plot the presence quotas of all countries and blocs present in the countries selector for the selected dimension. Please note that there are no data for variables, only for the global index and for the economic, military and soft dimensions. Click on a country in the countries selector to highlight the appropriate time period on the plot.

@@ -1,5 +1,5 @@
-input_file_gdp = 'csv/gdp_2017.csv'
-input_file_pop = 'csv/pob_2017.csv'
+input_file_gdp = 'csv/gdp_2018.csv'
+input_file_pop = 'csv/pob_2018.csv'
 
 import sys
 

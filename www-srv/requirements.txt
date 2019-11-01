@@ -3,7 +3,7 @@ Jinja2==2.7.2
 MarkupSafe==0.23
 PyICU==1.8
 Pygments==2.0.2
-Werkzeug==0.9.4
+Werkzeug==0.15.3
 XlsxWriter==0.5.5
 gnureadline==6.3.3
 uWSGI==2.0.15

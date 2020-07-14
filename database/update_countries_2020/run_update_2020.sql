@@ -1,8 +1,10 @@
 --
--- TRANSACTION TO UPDATE countries - 09/05/2018
+-- TRANSACTION TO UPDATE countries
 --
 BEGIN;
-\ir database/update_countries_2018/update_blocks.sql
--- \ir database/update_countries_2018/cupdate_countrysheets.sql
--- \ir database/update_countries_2018/update_www_translation.sql
+  \ir database/update_countries_2020/update_northmacedonia_name.sql
+  \ir database/update_countries_2020/update_countries_geometries.sql
+  \ir database/update_countries_2020/update_blocks.sql
+  \ir database/update_countries_2020/pop_gdp.sql
+  \ir database/update_countries_2020/update_countrysheets.sql
 COMMIT;

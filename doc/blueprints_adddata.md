@@ -44,6 +44,19 @@ You can also get differences in columns:
 >>> set(df01.columns).symmetric_difference(df02.columns)
 {2017}
 ```
+## Differences in Excel sheets:
+
+If you want to get differences in sheets you need to read all Excel file first:
+```Python
+>>> import pandas as pd
+>>> df02_all = pd.read_excel('www-srv/src/calculus2019.xlsx', None)
+```
+
+Read all sheet names from source code (you can find variables `__iepeSheetsNames` and `__iepgSheetsNames` in www-srv/src/common/flux.py) and get differences:
+```Python
+>>> all_sheets = __iepeSheetsNames + __iepgSheetsNames
+>>> set(df02_all.keys()).symmetric_difference(all_sheets)
+```
 
 
 ## Edit common.const.py

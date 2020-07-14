@@ -1,5 +1,5 @@
-input_file_gdp = 'csv/gdp_2018.csv'
-input_file_pop = 'csv/pob_2018.csv'
+input_file_gdp = 'csv/gdp_2019.csv'
+input_file_pop = 'csv/pob_2019.csv'
 
 import sys
 
@@ -31,7 +31,7 @@ def countryRightName(countryName):
     elif countryName=="Bolivia (Plurinational State of)":
         return "Bolivia"
     elif countryName=="Congo (Democratic Republic of the)":
-        return "The Congo"
+        return "Congo DR"
     elif countryName=="Serbia (Republic of)":
         return "Serbia"
     else:

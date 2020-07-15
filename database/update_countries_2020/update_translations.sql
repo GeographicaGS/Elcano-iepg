@@ -26,8 +26,8 @@ UPDATE www.translation SET en = 'Flow of exports of primary goods (food, beverag
 UPDATE www.translation SET es = 'El Índice Elcano de Presencia Global cubre una selección de 130 países que se realiza, en términos generales, siguiendo el orden de estos países por PIB mundial.' WHERE key = '_methodology p1';
 UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 130 countries. These are selected, mainly, according to their size in terms of GDP.' WHERE key = '_methodology p1';
 
-UPDATE www.translation SET es = 'En relación a la selección de países, hay que tener en cuenta que al calcularse en escalas temporales que se remontan a 1990, la intención del proyecto es la de mostrar el ‘mundo de los dos bloques’ –aunque sea en su ocaso–. De este modo, los valores de 1990 de Rusia se refieren, evidentemente, a los de la Unión Soviética; los de Alemania a la República Federal Alemana; y los valores hasta 2005 de Serbia a la Unión Estatal de Serbia y Montenegro. Además, los países de Europa del Este que alcanzaron su independencia tras 1990 no tienen valor asignado para ese año. Es el caso de Azerbaiyán, Bielorrusia, Estonia, Georgia, Letonia, Lituania, Kazajistán, Turkmenistán, Ucrania y Uzbekistán como parte de la Unión Soviética; de Eslovaquia como parte de Checoslovaquia y de Bosnia y Herzegovina, Croacia, Eslovenia y Macedonia del Norte como parte de Yugoslavia.' WHERE key = '_methodology países p';
-UPDATE www.translation SET en = 'In terms of country selection, bear in mind that by making calculations at time intervals that go back to 1990, the intention of the project is to show the ‘two-bloc world’, even if in decline. Thus, Russia’s 1990 values refer to those of the Soviet Union, those of Germany to the German Federal Republic, those of the Czech Republic to Czechoslovakia, and those values up to 2005 of Serbia to the State Union of Serbia and Montenegro. Moreover, East European countries that became independent after 1990 have no value assigned in that year. This is the case for Azerbaijan, Belarus, Estonia, Georgia, Latvia, Lithuania, Kazakhstan, Turkmenistan, Ukraine and Uzbekistan as part of the Soviet Union, Slovakia as part of Czechoslovakia, and Bosnia and Herzegovina, Croatia, North Macedonia and Slovenia as part of Yugoslavia.' WHERE key = '_methodology países p';
+UPDATE www.translation SET es = 'En relación a la selección de países, hay que tener en cuenta que al calcularse en escalas temporales que se remontan a 1990, la intención del proyecto es la de mostrar el ‘mundo de los dos bloques’ –aunque sea en su ocaso–. De este modo, los valores de 1990 de Rusia se refieren, evidentemente, a los de la Unión Soviética; los de Alemania a la República Federal Alemana; y los valores hasta 2005 de Serbia a la Unión Estatal de Serbia y Montenegro. Además, los países de Europa del Este que alcanzaron su independencia tras 1990 no tienen valor asignado para ese año. Es el caso de Azerbaiyán, Bielorrusia, Estonia, Georgia, Letonia, Lituania, Kazajistán, Turkmenistán, Ucrania y Uzbekistán como parte de la Unión Soviética; de Eslovaquia como parte de Checoslovaquia y de Bosnia y Herzegovina, Croacia, Eslovenia y Macedonia del Norte como parte de Yugoslavia' WHERE key = '_methodology países p';
+UPDATE www.translation SET en = 'In terms of country selection, bear in mind that by making calculations at time intervals that go back to 1990, the intention of the project is to show the ‘two-bloc world’, even if in decline. Thus, Russia’s 1990 values refer to those of the Soviet Union, those of Germany to the German Federal Republic, those of the Czech Republic to Czechoslovakia, and those values up to 2005 of Serbia to the State Union of Serbia and Montenegro. Moreover, East European countries that became independent after 1990 have no value assigned in that year. This is the case for Azerbaijan, Belarus, Estonia, Georgia, Latvia, Lithuania, Kazakhstan, Turkmenistan, Ukraine and Uzbekistan as part of the Soviet Union, Slovakia as part of Czechoslovakia, and Bosnia and Herzegovina, Croatia, North Macedonia and Slovenia as part of Yugoslavia' WHERE key = '_methodology países p';
 
 
 UPDATE www.translation SET es = '<table class="data">
@@ -80,7 +80,7 @@ UPDATE www.translation SET es = '<table class="data">
    <tr>
        <td>Turismo</td>
        <td>Miles de llegadas de turistas no residentes a las fronteras</td>
-       <td>Base de datos estadística de la Organización Mundial del Turismo de Naciones Unidas (OMT)</td>
+       <td>Organización Mundial del Turismo de Naciones Unidas (OMT)</td>
    </tr>
    <tr>
        <td>Deportes</td>
@@ -237,8 +237,8 @@ UPDATE www.translation SET es = '<table class="data">
     </table>
 ' WHERE key = '_methodology tabla general';
 
-UPDATE www.translation SET es = 'Desde 2012 y hasta 2019 el Índice Elcano de Presencia Global se calcula además para la Unión Europea de los 28 países. Este ejercicio trata de cuantificar la proyección global de la Unión, como si se tratase de un supuesto súper-estado con identidad propia; medición que se complementa con el Índice Elcano de Presencia Europea que, por su parte evalúa la presencia de los países miembros dentro del perímetro de la Unión' WHERE key = '_methodology incorporación UE p';
-UPDATE www.translation SET en = 'Moreover, since 2012 and until 2019, the Index also measures the global presence of the European Union as a whole. The latter is complemented by the Elcano European Presence Index, which evaluates the internationalisation of member states within the Union’s boundaries.' WHERE key = '_methodology incorporación UE p';
+UPDATE www.translation SET es = 'Desde 2012 y hasta 2019 el Índice Elcano de Presencia Global se calcula además para la Unión Europea de los 28 países. Este ejercicio trata de cuantificar la proyección global de la Unión, como si se tratase de un supuesto súper-estado con identidad propia; medición que se complementa con el Índice Elcano de Presencia Europea que, por su parte, evalúa la presencia de los países miembros dentro del perímetro de la Unión' WHERE key = '_methodology incorporación UE p';
+UPDATE www.translation SET en = 'Moreover, since 2012 and until 2019, the Index also measures the global presence of the European Union as a whole. The latter is complemented by the Elcano European Presence Index, which evaluates the internationalisation of member states within the Union’s boundaries' WHERE key = '_methodology incorporación UE p';
 
 UPDATE www.translation SET es = ' <table class="data">
 
@@ -653,23 +653,23 @@ UPDATE www.translation SET en = ' <table class="data">
 </table>' WHERE key = '_methodology tabla IEPE';
 
 
-UPDATE www.translation SET es = 'Ambas. El Índice se compone de tres dimensiones (económica, militar y blanda) que, a su vez, se conforman de variables de distinta naturaleza (desde la energía hasta la cooperación al desarrollo pasando por las tropas desplegadas o el turismo). Así, no solamente permite saber cómo de presentes están los países en el orden global, sino también las características de dichas presencia.' WHERE key = '_faq text 6';
-UPDATE www.translation SET en = 'Both. The Elcano Global Presence Index is composed of three dimensions (economic, military, and soft presence), which in turn contain variables of differing nature (ranging from energy to development cooperation, to troops deployed or to tourism). It is therefore useful in revealing not only how present countries are in the global order, but also, the nature of said presence.' WHERE key = '_faq text 6';
+UPDATE www.translation SET es = 'Ambas. El Índice se compone de tres dimensiones (económica, militar y blanda) que, a su vez, se conforman de variables de distinta naturaleza (desde la energía hasta la cooperación al desarrollo pasando por las tropas desplegadas o el turismo). Así, no solamente permite saber cómo de presentes están los países en el orden global, sino también las características de dichas presencia' WHERE key = '_faq text 6';
+UPDATE www.translation SET en = 'Both. The Elcano Global Presence Index is composed of three dimensions (economic, military, and soft presence), which in turn contain variables of differing nature (ranging from energy to development cooperation, to troops deployed or to tourism). It is therefore useful in revealing not only how present countries are in the global order, but also, the nature of said presence' WHERE key = '_faq text 6';
 
-UPDATE www.translation SET es = 'Los pesos asignados a variables y dimensiones están basados en el criterio experto recogido mediante encuestas realizadas en 2011, 2012, 2015 y 2018, a un panel internacional de especialistas en relaciones internacionales cuyas respuestas se combinaron para determinar el peso de las variables y de las dimensiones.' WHERE key = '_faq text 8';
-UPDATE www.translation SET en = 'Weights assigned to variables and dimensions are based on experts’ criteria. Surveys were conducted in 2011, 2012, 2015 and 2018. Questionnaires were sent to specialists in international relations, and answers were combined to determine the weights of variables and dimensions.' WHERE key = '_faq text 8';
+UPDATE www.translation SET es = 'Los pesos asignados a variables y dimensiones están basados en el criterio experto recogido mediante encuestas realizadas en 2011, 2012, 2015 y 2018, a un panel internacional de especialistas en relaciones internacionales cuyas respuestas se combinaron para determinar el peso de las variables y de las dimensiones' WHERE key = '_faq text 8';
+UPDATE www.translation SET en = 'Weights assigned to variables and dimensions are based on experts’ criteria. Surveys were conducted in 2011, 2012, 2015 and 2018. Questionnaires were sent to specialists in international relations, and answers were combined to determine the weights of variables and dimensions' WHERE key = '_faq text 8';
 
-UPDATE www.translation SET es = 'Se estiman, siguiendo criterio del experto, 3.678 datos de un total de 66.348 observaciones. El número de estimaciones asciende a 5,5% de la base.' WHERE key = '_faq text 9';
-UPDATE www.translation SET en = 'In these cases we have also referred to expert opinion. A total of 3,678 data items have been estimated from 66,348 observations. The number of estimations accounts for 5.5% of the base.' WHERE key = '_faq text 9';
+UPDATE www.translation SET es = 'Se estiman, siguiendo criterio del experto, 3.678 datos de un total de 66.348 observaciones. El número de estimaciones asciende a 5,5% de la base' WHERE key = '_faq text 9';
+UPDATE www.translation SET en = 'In these cases we have also referred to expert opinion. A total of 3,678 data items have been estimated from 66,348 observations. The number of estimations accounts for 5.5% of the base' WHERE key = '_faq text 9';
 
-UPDATE www.translation SET es = 'Para 1990, 1995, 2000, 2005, y 2010-2019. Desde 2010, el cálculo es anual.' WHERE key = '_faq text 10';
-UPDATE www.translation SET en = 'For 1990, 1995, 2000, 2005, and 2010-19. Since 2010 the calculation is performed annually.' WHERE key = '_faq text 10';
+UPDATE www.translation SET es = 'Para 1990, 1995, 2000, 2005, y 2010-2019. Desde 2010, el cálculo es anual' WHERE key = '_faq text 10';
+UPDATE www.translation SET en = 'For 1990, 1995, 2000, 2005, and 2010-19. Since 2010 the calculation is performed annually' WHERE key = '_faq text 10';
 
-UPDATE www.translation SET es = 'El Índice Elcano de Presencia Global cubre una selección de 130 países que se realiza, en términos generales, siguiendo el orden de estos países por tamaño de PIB.' WHERE key = '_faq text 12';
-UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 130 countries. These are selected, mainly, according to their size in terms of GDP.' WHERE key = '_faq text 12';
+UPDATE www.translation SET es = 'El Índice Elcano de Presencia Global cubre una selección de 130 países que se realiza, en términos generales, siguiendo el orden de estos países por tamaño de PIB' WHERE key = '_faq text 12';
+UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 130 countries. These are selected, mainly, according to their size in terms of GDP' WHERE key = '_faq text 12';
 
 
-UPDATE www.translation SET es = '2014 - 2020 &copy; Real Instituto Elcano.' WHERE key = 'Copyright TEXT';
-UPDATE www.translation SET en = '2014 - 2020 &copy; Elcano Royal Institute.' WHERE key = 'Copyright TEXT';
+UPDATE www.translation SET es = '2014 - 2020 &copy; Real Instituto Elcano' WHERE key = 'Copyright TEXT';
+UPDATE www.translation SET en = '2014 - 2020 &copy; Elcano Royal Institute' WHERE key = 'Copyright TEXT';
 
 COMMIT;

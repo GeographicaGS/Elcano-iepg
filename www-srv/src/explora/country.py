@@ -33,7 +33,7 @@ def countryFilter(lang):
     else:
         iso = datacache.isoToEnglish
     data = sorted([{"id": k, "name": v, "short_name_"+lang+"_order": v} for (k,v) in iso.iteritems()
-            if k in datacache.countries], key=lambda t: unicodedata.normalize('NFKD',t["short_name_"+lang+"_order"].decode('utf-8')).encode('ASCII', 'ignore'))
+            if k in datacache.countries], key=lambda t: unicodedata.normalize('NFKD',t["short_name_"+lang+"_order"].lower().decode('utf-8')).encode('ASCII', 'ignore'))
     return(jsonify({"results": data}))
 
 

@@ -75,7 +75,7 @@ docker exec elcanoiepg_pgsql_1 psql -U postgres -c  "CREATE DATABASE $POSTGRES_D
 docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < <dumpfile.sql>
 ```
 
-Build the image for API.
+Build the image for API (if you have problems get the image from DockerHub `geographica/elcano_iepg_api`):
 ```
 docker build -t geographica/elcano_iepg_api www-srv
 ```

@@ -17304,8 +17304,8 @@ var countriesGeoJSON = {
                 "code": "QA",
                 "name_en": "Qatar",
                 "name_en_s": "Qatar",
-                "name_es": "Qatar",
-                "name_es_s": "Qatar"
+                "name_es": "Catar",
+                "name_es_s": "Catar"
             },
             "type": "Feature"
         },
@@ -18922,8 +18922,8 @@ var countriesGeoJSON = {
                 "code": "BH",
                 "name_en": "Bahrain",
                 "name_en_s": "Bahrain",
-                "name_es": "Bahrein",
-                "name_es_s": "Bahrein"
+                "name_es": "Baréin",
+                "name_es_s": "Baréin"
             },
             "type": "Feature"
         },
@@ -39073,9 +39073,9 @@ var countriesGeoJSON = {
             "properties": {
                 "code": "CI",
                 "name_en": "Côte d'Ivoire",
-                "name_en_s": "Côte d'Ivoire",
+                "name_en_s": "Côte D'Ivoire",
                 "name_es": "Costa de Marfil",
-                "name_es_s": "Costa de Marfil"
+                "name_es_s": "Costa De Marfil"
             },
             "type": "Feature"
         },

@@ -1,4 +1,5 @@
-DELETE FROM iepg_data_redux.pob_pib; 
+BEGIN;
+DELETE FROM iepg_data_redux.pob_pib;
 INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,population,pib) VALUES ('BD','2016-01-01','2016-12-31',157970840.00,221415162445.65);
 INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,population,pib) VALUES ('BD','2017-01-01','2017-12-31',159670593.00,249711052937.01);
 INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,population,pib) VALUES ('BD','2018-01-01','2018-12-31',161356039.00,274039092455.31);
@@ -1833,4 +1834,4 @@ INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,population,pib) VALUE
 INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,population,pib) VALUES ('QA','2013-01-01','2013-12-31',2336574.00,198727747252.75);
 INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,population,pib) VALUES ('QA','2014-01-01','2014-12-31',2459198.00,206224725274.73);
 INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,population,pib) VALUES ('QA','2015-01-01','2015-12-31',2565710.00,161739835164.83);
-
+COMMIT;

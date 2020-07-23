@@ -25,5 +25,5 @@ def countryFilter(lang):
 
     isoTable = dc.isoToEnglish if lang=="en" else dc.isoToSpanish
     countries = sorted([{"id": x, "name": k}  for (x,k) in isoTable.iteritems() if x in l],
-                       key=lambda t: unicodedata.normalize('NFD', t["name"].lower().decode('utf-8')).encode('ASCII', 'ignore'))
+                       key=lambda t: unicodedata.normalize('NFKD', t["name"].lower().decode('utf-8')).encode('ASCII', 'ignore'))
     return(jsonify({"results": countries}))

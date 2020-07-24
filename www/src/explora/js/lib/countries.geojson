@@ -17304,8 +17304,8 @@ var countriesGeoJSON = {
                 "code": "QA",
                 "name_en": "Qatar",
                 "name_en_s": "Qatar",
-                "name_es": "Qatar",
-                "name_es_s": "Qatar"
+                "name_es": "Catar",
+                "name_es_s": "Catar"
             },
             "type": "Feature"
         },
@@ -18877,6 +18877,53 @@ var countriesGeoJSON = {
                 "name_en_s": "Fiji",
                 "name_es": "Fiji",
                 "name_es_s": "Fiji"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    [
+                        [
+                            [
+                                50.5859375,
+                                26.24072265625
+                            ],
+                            [
+                                50.44773242018983,
+                                26.193291380500458
+                            ],
+                            [
+                                50.465917968750006,
+                                25.965527343749997
+                            ],
+                            [
+                                50.57490234375001,
+                                25.806787109374994
+                            ],
+                            [
+                                50.60722656250002,
+                                25.883105468750003
+                            ],
+                            [
+                                50.60976562500002,
+                                26.124462890624997
+                            ],
+                            [
+                                50.5859375,
+                                26.24072265625
+                            ]
+                        ]
+                    ]
+                ],
+                "type": "MultiPolygon"
+            },
+            "properties": {
+                "code": "BH",
+                "name_en": "Bahrain",
+                "name_en_s": "Bahrain",
+                "name_es": "Baréin",
+                "name_es_s": "Baréin"
             },
             "type": "Feature"
         },
@@ -24630,10 +24677,10 @@ var countriesGeoJSON = {
             },
             "properties": {
                 "code": "MK",
-                "name_en": "Macedonia",
-                "name_en_s": "Macedonia ",
-                "name_es": "Macedonia",
-                "name_es_s": "Macedonia "
+                "name_en": "North Macedonia",
+                "name_en_s": "North Macedonia",
+                "name_es": "Macedonia del Norte",
+                "name_es_s": "Macedonia del Norte"
             },
             "type": "Feature"
         },
@@ -39026,9 +39073,9 @@ var countriesGeoJSON = {
             "properties": {
                 "code": "CI",
                 "name_en": "Côte d'Ivoire",
-                "name_en_s": "Côte d'Ivoire",
+                "name_en_s": "Côte D'Ivoire",
                 "name_es": "Costa de Marfil",
-                "name_es_s": "Costa de Marfil"
+                "name_es_s": "Costa De Marfil"
             },
             "type": "Feature"
         },

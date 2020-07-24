@@ -26,20 +26,20 @@ class MaplexModel(PostgreSQLModel):
         if idNameFamilyB:
             sql = """
             with name_a as(
-            select 
-            a.id_geoentity, 
+            select
+            a.id_geoentity,
             b.name
-            from 
-            maplex.geoentity_name a inner join 
+            from
+            maplex.geoentity_name a inner join
             maplex.name b on
             a.id_name=b.id_name
             where id_name_family=%s),
             name_b as(
-            select 
-            a.id_geoentity, 
+            select
+            a.id_geoentity,
             b.name
-            from 
-            maplex.geoentity_name a inner join 
+            from
+            maplex.geoentity_name a inner join
             maplex.name b on
             a.id_name=b.id_name
             where id_name_family=%s)
@@ -54,11 +54,11 @@ class MaplexModel(PostgreSQLModel):
             return(self.query(sql, bindings=[idNameFamilyA, idNameFamilyB]).result())
         else:
             sql = """
-            select 
+            select
             b.name as name_a,
             a.id_geoentity as name_b
-            from 
-            maplex.geoentity_name a inner join 
+            from
+            maplex.geoentity_name a inner join
             maplex.name b on a.id_name=b.id_name
             where id_name_family=%s;
             """
@@ -73,7 +73,7 @@ class MaplexModel(PostgreSQLModel):
         where id_geoentity_child=%s
         """
 
-        if year: 
+        if year:
             sql += " and (date_part('YEAR', date_in_membership)<=%s or date_in_membership is null)"
             bindings.append(year)
 
@@ -92,7 +92,7 @@ class MaplexModel(PostgreSQLModel):
 
         return(self.query(sql).result())
 
-    
+
     def assignGeoentityName(self, idGeoentity, idName, idNameFamily, dateIn=None, dateOut=None):
         """Assign a name to a geoentity."""
         values = {"id_geoentity": idGeoentity,
@@ -109,7 +109,7 @@ class MaplexModel(PostgreSQLModel):
                         returnID="id_name")
         return(a)
 
-        
+
     def getGeoentities(self):
         """Return geoentities."""
         sql = """
@@ -143,7 +143,7 @@ class MaplexModel(PostgreSQLModel):
         order by id_name;"""
         return(self.query(sql, bindings=[idName]).result())
 
-    
+
     def getGeoentityNames(self, idGeoentity, idNameFamily):
         """Returns the names for idGeoentity and idNameFamily."""
         sql = """
@@ -166,7 +166,7 @@ class MaplexModel(PostgreSQLModel):
             a.date_in_block as date_in_block,
             a.date_out_block as date_out_block
             from
-            maplex.vw__blocks a left join 
+            maplex.vw__blocks a left join
             maplex.geoentity_name b on
             a.id_geoentity_block=b.id_geoentity left join
             maplex.name c on
@@ -177,7 +177,7 @@ class MaplexModel(PostgreSQLModel):
         else:
             sql = """
             select
-            a.id_geoentity_block as id_geoentity_block, 
+            a.id_geoentity_block as id_geoentity_block,
             a.date_members_first_entry as date_members_first_entry,
             a.date_members_last_exit as date_members_last_exit,
             a.description_block as description_block,
@@ -192,7 +192,7 @@ class MaplexModel(PostgreSQLModel):
         if timeLapseBlock:
             a = timeLapseBlock.getSqlFilter(["date_in_block", "date_out_block"])
             filter = " where " if filter=="" else filter+" and "
-            filter += a["sql"] 
+            filter += a["sql"]
             bindings.extend(a["bindings"])
         if timeLapseMembers:
             a = timeLapseMembers.getSqlFilter(["date_members_first_entry", "date_members_last_exit"])
@@ -220,7 +220,7 @@ class MaplexModel(PostgreSQLModel):
             a.date_in_child as date_in_child,
             a.date_out_child as date_out_child
             from
-            maplex.vw__blocks_membership a left join 
+            maplex.vw__blocks_membership a left join
             maplex.geoentity_name b on
             a.id_geoentity_block=b.id_geoentity left join
             maplex.name c on

@@ -29,9 +29,6 @@ UPDATE iepg_data_redux.iepg_comment
   SET comment='<p>América del Norte está formada por Estados Unidos y Canadá. De este modo, en el Índice Elcano de Presencia Global queda representado el 100% del PIB regional y de la población.</p>'
   WHERE code='XBNA' AND language='es';
 
-UPDATE iepg_data_redux.iepg_comment
- SET comment='<p>Estados Unidos ocupa el primer puesto del Índice Elcano de Presencia Global en todos los años para los que se calcula. En 2019, también ocupa esta primera posición en todas las variables, con las excepciones de energía, manufacturas y turismo. Presenta, de los 130 países, las mayores cuotas de presencia en todas las dimensiones –18,8% en la económica; 28,3% en la militar; y 22,4% en la blanda–. Por otro lado, a diferencia de lo que ocurre en otros países desarrollados, la dimensión militar define en buena medida su proyección exterior, con una contribución de 25,4% en 2019.</p><p>A pesar de esta hegemonía, Estados Unidos pierde presencia global relativa en comparación con el resto de países –24,8% de cuota de presencia global en 1990 frente a 21,5% en 2019–. En un periodo de surgimiento de nuevos actores globales, diversas economías emergentes (particularmente petroleras o asiáticas) cosechan ganancias de cuota que reducen el protagonismo estadounidense.</p>'
- WHERE code='US' AND language='en';
 
  -- Germany
 UPDATE iepg_data_redux.iepg_comment
@@ -127,6 +124,10 @@ UPDATE iepg_data_redux.iepg_comment
    WHERE code='XBSA' AND language='es';
 
 -- USA
+UPDATE iepg_data_redux.iepg_comment
+ SET comment='<p>Estados Unidos ocupa el primer puesto del Índice Elcano de Presencia Global en todos los años para los que se calcula. En 2019, también ocupa esta primera posición en todas las variables, con las excepciones de energía, manufacturas y turismo. Presenta, de los 130 países, las mayores cuotas de presencia en todas las dimensiones –18,8% en la económica; 28,3% en la militar; y 22,4% en la blanda–. Por otro lado, a diferencia de lo que ocurre en otros países desarrollados, la dimensión militar define en buena medida su proyección exterior, con una contribución de 25,4% en 2019.</p><p>A pesar de esta hegemonía, Estados Unidos pierde presencia global relativa en comparación con el resto de países –24,8% de cuota de presencia global en 1990 frente a 21,5% en 2019–. En un periodo de surgimiento de nuevos actores globales, diversas economías emergentes (particularmente petroleras o asiáticas) cosechan ganancias de cuota que reducen el protagonismo estadounidense.</p>'
+ WHERE code='US' AND language='es';
+
 UPDATE iepg_data_redux.iepg_comment
  SET comment='<p>US tops the Elcano Global Presence Index in all years. In 2019, it also leads the ranking in all variables, with the exception of energy, manufactures and tourism. Of all 130 countries, it records the highest share of presence in all dimensions: 18.8% in the economic domain, 28.3% in the military and 22.4% in soft presence. Moreover, unlike other developed countries, its military dimension strongly defines its index value, with a contribution at 25.4% in 2019.</p>
  <p>Despite its hegemony, the USA loses relative global presence when compared with other countries: from a 24.8% share of global presence in 1990 to 21.5% in 2019. In a period of emergence of new global players, several economies (particularly oil producers or Asian countries) reap gains of share that reduce the American role.</p>'

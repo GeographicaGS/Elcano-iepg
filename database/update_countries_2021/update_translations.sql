@@ -243,21 +243,21 @@ UPDATE www.translation SET en = 'Moreover, since 2012 and until 2020, the Index 
 UPDATE www.translation SET en = '<ul class="util">
 
  <li>Ángel Badillo, 2019,
-   <a href='''' target=''_blank''>
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/zonas_es/lengua+y+cultura/dt21-2020-badillo-la-cultura-en-el-poder-suave-revision-metodologica-indice-elcano-de-presencia-global'' target=''_blank''>
      La cultura en el “poder suave”: una revisión metodológica del Índice Elcano de Presencia Global
    </a>
    (Documento de Trabajo del Real Instituto Elcano (DT) 21/2020).
  </li>
 
  <li>Isabel Álvarez, José Miguel Natera and Raquel Marín, 2019,
-   <a href='''' target=''_blank''>
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/especiales/indiceelcanopresenciaglobal/ari115-2019-alvarez-natera-marin-indicadores-de-tecnologia-para-medir-la-presencia-global-de-un-pais'' target=''_blank''>
      Indicadores de tecnología para medir la presencia global de un país, ARI 115/2019, 05/12/2019
    </a>
    (Madrid: Elcano Royal Institute).
  </li>
 
  <li>Manuel Gracia, Iliana Olivié and Néstor Santana, 2019,
-   <a href='''' target=''_blank''>
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/especiales/indiceelcanopresenciaglobal/ari7-2019-gracia-olivie-santana-encuesta-ponderacion-2018-indice-elcano-presencia-global'' target=''_blank''>
      Un mundo, diferentes perspectivas: análisis de los resultados de la encuesta de ponderación 2018 del Índice Elcano de Presencia Global, ARI 7/2019, 16/01/2019
    </a>
    (Madrid: Elcano Royal Institute).
@@ -327,21 +327,21 @@ UPDATE www.translation SET en = '<ul class="util">
  UPDATE www.translation SET es = '<ul class="util">
 
   <li>Ángel Badillo, 2019,
-    <a href='''' target=''_blank''>
+    <a href=''http://www.realinstitutoelcano.org/wps/portal/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/zonas_es/lengua+y+cultura/dt21-2020-badillo-la-cultura-en-el-poder-suave-revision-metodologica-indice-elcano-de-presencia-global'' target=''_blank''>
       La cultura en el “poder suave”: una revisión metodológica del Índice Elcano de Presencia Global
     </a>
     (Documento de Trabajo del Real Instituto Elcano (DT) 21/2020).
   </li>
 
   <li>Isabel Álvarez, José Miguel Natera y Raquel Marín, 2019,
-    <a href='''' target=''_blank''>
+    <a href=''http://www.realinstitutoelcano.org/wps/portal/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/especiales/indiceelcanopresenciaglobal/ari115-2019-alvarez-natera-marin-indicadores-de-tecnologia-para-medir-la-presencia-global-de-un-pais'' target=''_blank''>
       Indicadores de tecnología para medir la presencia global de un país, ARI 115/2019, 05/12/2019
     </a>
     (Madrid: Real Instituto Elcano).
   </li>
 
   <li>Manuel Gracia, Iliana Olivié y Néstor Santana, 2019,
-    <a href='''' target=''_blank''>
+    <a href=''http://www.realinstitutoelcano.org/wps/portal/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/especiales/indiceelcanopresenciaglobal/ari7-2019-gracia-olivie-santana-encuesta-ponderacion-2018-indice-elcano-presencia-global'' target=''_blank''>
       Un mundo, diferentes perspectivas: análisis de los resultados de la encuesta de ponderación 2018 del Índice Elcano de Presencia Global, ARI 7/2019, 16/01/2019
     </a>
     (Madrid: Real Instituto Elcano).

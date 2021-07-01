@@ -1,5 +1,7 @@
-input_file_gdp = 'csv/gdp_2019.csv'
-input_file_pop = 'csv/pob_2019.csv'
+# coding=utf-8
+
+input_file_gdp = 'csv/gdp_2020.csv'
+input_file_pop = 'csv/pob_2020.csv'
 
 import sys
 
@@ -16,26 +18,47 @@ data = {}
 
 
 def countryRightName(countryName):
-    if countryName=="Iran (Islamic Republic of)":
+    if countryName == "Iran (Islamic Republic of)":
         return "Iran"
-    elif countryName=="Korea":
+    elif countryName in ("Korea", "Korea, Republic of", "Korea, Rep."):
         return "South Korea"
-    elif countryName=="Russian Federation":
+    elif countryName == "Russian Federation":
         return "Russia"
-    elif countryName=="United Republic of Tanzania":
+    elif countryName in ("United Republic of Tanzania", "Tanzania, United Republic of"):
         return "Tanzania"
-    elif countryName=="Venezuela (Bolivarian Republic of)":
+    elif countryName in ("Venezuela (Bolivarian Republic of)", "Venezuela, RB", "Venezuela (Bolivarian Rep. of)"):
         return "Venezuela"
-    elif countryName=="Viet Nam":
+    elif countryName == "Viet Nam":
         return "Vietnam"
-    elif countryName=="Bolivia (Plurinational State of)":
+    elif countryName == "Bolivia (Plurinational State of)":
         return "Bolivia"
-    elif countryName=="Congo (Democratic Republic of the)":
+    elif countryName in ("Congo (Democratic Republic of the)", "Congo, Dem. Rep.", "Congo, Dem. Rep. of the"):
         return "Congo DR"
-    elif countryName=="Serbia (Republic of)":
+    elif countryName == "Congo, Rep.":
+        return "Congo"
+    elif countryName == "Serbia (Republic of)":
         return "Serbia"
+    elif countryName in ("Lao People's Dem. Rep.", "Lao PDR"):
+        return "Laos"
+    elif countryName == "Moldova, Republic of":
+        return "Moldova"
+    elif countryName == "Brunei Darussalam":
+        return "Brunei"
+    elif countryName == "Cote d'Ivoire":
+        return "Côte d'Ivoire"
+    elif countryName == "Slovak Republic":
+        return "Slovakia"
+    elif countryName == "Syrian Arab Republic":
+        return "Syria"
+    elif countryName == "United States":
+        return "United States of America"
+    elif countryName == "Yemen, Rep.":
+        return "Yemen"
+    elif countryName == "Czechia":
+        return "Czech Republic"
     else:
         return countryName
+
 
 def parse(type):
 
@@ -54,16 +77,17 @@ def parse(type):
         for row in spamreader:
 
             countryname = countryRightName(row[0].strip())
-            if countryname.isdigit() or countryname=="":
+            if countryname.isdigit() or countryname == "":
                 continue
 
-            geoentity = mm.getIdGeoentityByName(countryname,2)
+            geoentity = mm.getIdGeoentityByName(countryname, 2)
+
             if not geoentity:
                 raise Exception('Not found geoentity for ' + countryname)
 
             geoentity_id = geoentity[0]["id_geoentity"]
 
-            geoentity_names = mm.getGeoentityNames(geoentity_id,1)
+            geoentity_names = mm.getGeoentityNames(geoentity_id, 1)
             if not geoentity_names:
                 raise Exception('Not found geoentity code name for ' + countryname)
 
@@ -74,16 +98,15 @@ def parse(type):
             idx = 1
             for year in const.years:
 
-                #value = float(row[idx].replace(",","."))
-                #value = float(row[idx].replace(",","."))
+                # value = float(row[idx].replace(",","."))
+                # value = float(row[idx].replace(",","."))
                 if year not in data[geoentity_code]:
                     data[geoentity_code][year] = {
-                        "population" : -1,
-                        "gdp" : -1
+                        "population": -1,
+                        "gdp": -1
                     }
 
-                data[geoentity_code][year][type] = float(row[idx]) if row[idx]!="n.d" and row[idx]!="" else None
-
+                data[geoentity_code][year][type] = float(row[idx]) if row[idx] != "n.d" and row[idx] != "" else None
 
                 idx += 1
 
@@ -94,15 +117,15 @@ parse("gdp")
 sql = "DELETE FROM iepg_data_redux.pob_pib; \n"
 
 
-for countrycode,country in data.iteritems():
-    for year,v in country.iteritems():
+for countrycode, country in data.iteritems():
+    for year, v in country.iteritems():
         # if year==2015 and countrycode=="ES":
         #     print v
         #     print str('%10.2f' % v["gdp"])
         pop = str('%10.2f' % v["population"]) if v["population"] else 'null'
         gdp = str('%10.2f' % v["gdp"]) if v["gdp"] else 'null'
         sql += "INSERT INTO iepg_data_redux.pob_pib (code,date_in,date_out,population,pib) VALUES ('%s','%s','%s',%s,%s);\n" % \
-                    (countrycode,str(year) + "-01-01",\
-                        str(year) + "-12-31",pop,gdp)
+                    (countrycode, str(year) + "-01-01", \
+                        str(year) + "-12-31", pop, gdp)
 
 print sql

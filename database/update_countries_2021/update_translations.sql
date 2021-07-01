@@ -3,11 +3,11 @@
 
 BEGIN;
 
-UPDATE www.translation SET es = 'El <a class=\"nostyle\" href=\"%s\"><strong>Índice Elcano de Presencia Global</strong></a> calcula anualmente la proyección de 130 países fuera de sus fronteras en función de tres dimensiones:' WHERE key = '_home IEPG explora desc';
-UPDATE www.translation SET en = 'The <a class=\"nostyle\" href=\"%s\"><strong>Elcano Global Presence Index</strong></a> is an annual measurement of the projection in the world of 130 countries based on three dimensions:' WHERE key = '_home IEPG explora desc';
+UPDATE www.translation SET es = 'El <a class=\"nostyle\" href=\"%s\"><strong>Índice Elcano de Presencia Global</strong></a> calcula anualmente la proyección de 140 países fuera de sus fronteras en función de tres dimensiones:' WHERE key = '_home IEPG explora desc';
+UPDATE www.translation SET en = 'The <a class=\"nostyle\" href=\"%s\"><strong>Elcano Global Presence Index</strong></a> is an annual measurement of the projection in the world of 140 countries based on three dimensions:' WHERE key = '_home IEPG explora desc';
 
-UPDATE www.translation SET es = 'Para definir la ponderación de los elementos del Índice, se ha recurrido a la valoración de expertos en relaciones internacionales vinculados a centros de análisis de los cinco continentes. Las encuestas a personas expertas seleccionados sobre la base del informe <a href="https://www.gotothinktank.com/" target="_blank">Global Go To Think Tanks que publica anualmente la Universidad de Pensilvania</a> se realizaron en 2011, 2012, 2015 y 2018.' WHERE key = '_methodology criterios lista pie p';
-UPDATE www.translation SET en = 'In defining the weightings of each of the elements included in the Index, we conducted surveys with a panel of experts in international relations based in intitutions from the five continents. The surveys were done in 2011, 2012, 2015 y 2018, to experts selected on the basis of the report <a href="https://www.gotothinktank.com/" target="_blank">Global Go To Think Tanks published annually by the University of Pennsylvania.</a>' WHERE key = '_methodology criterios lista pie p';
+UPDATE www.translation SET es = 'Para definir la ponderación de los elementos del Índice, se ha recurrido a la valoración de expertos en relaciones internacionales vinculados a centros de análisis de los cinco continentes. Las encuestas a personas expertas seleccionados sobre la base del informe <a href="https://www.gotothinktank.com/" target="_blank">Global Go To Think Tanks que publica anualmente la Universidad de Pensilvania</a> se realizaron en 2011, 2012, 2015, 2018 y 2021.' WHERE key = '_methodology criterios lista pie p';
+UPDATE www.translation SET en = 'In defining the weightings of each of the elements included in the Index, we conducted surveys with a panel of experts in international relations based in intitutions from the five continents. The surveys were done in 2011, 2012, 2015, 2018 and 2021 to experts selected on the basis of the report <a href="https://www.gotothinktank.com/" target="_blank">Global Go To Think Tanks published annually by the University of Pennsylvania.</a>' WHERE key = '_methodology criterios lista pie p';
 
 UPDATE www.translation SET es = 'Flujo de exportación de servicios en transporte, construcción, seguros, servicios financieros, informática, medios de comunicación, propiedad intelectual, otros servicios empresariales, servicios personales, culturales y de ocio, y servicios públicos.' WHERE key = 'Variable services desc TEXTO';
 UPDATE www.translation SET en = 'Flow of exports of services in transport, construction, insurance, financial services, IT, the media, intellectual property, other business services, personal, cultural and leisure services, and public services' WHERE key = 'Variable services desc TEXTO';
@@ -23,11 +23,11 @@ UPDATE www.translation SET en = 'External income for the use of intellectual pro
 
 UPDATE www.translation SET en = 'Flow of exports of primary goods (food, beverages, tobacco, agricultural commodities, non-ferrous metals, pearls, precious stones and non-monetary gold), excluding oil (SITC 0 + 1 + 2 + 4 + 68 + 667 + 971).' WHERE key = 'Variable primary_goods desc TEXTO';
 
-UPDATE www.translation SET es = 'El Índice Elcano de Presencia Global cubre una selección de 130 países que se realiza, en términos generales, siguiendo el orden de estos países por PIB mundial.' WHERE key = '_methodology p1';
-UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 130 countries. These are selected, mainly, according to their size in terms of GDP.' WHERE key = '_methodology p1';
+UPDATE www.translation SET es = 'El Índice Elcano de Presencia Global cubre una selección de 140 países que se realiza, en términos generales, siguiendo el orden de estos países por PIB mundial.' WHERE key = '_methodology p1';
+UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 140 countries. These are selected, mainly, according to their size in terms of GDP.' WHERE key = '_methodology p1';
 
-UPDATE www.translation SET es = 'En relación a la selección de países, hay que tener en cuenta que al calcularse en escalas temporales que se remontan a 1990, la intención del proyecto es la de mostrar el ‘mundo de los dos bloques’ –aunque sea en su ocaso–. De este modo, los valores de 1990 de Rusia se refieren, evidentemente, a los de la Unión Soviética; los de Alemania a la República Federal Alemana; y los valores hasta 2005 de Serbia a la Unión Estatal de Serbia y Montenegro. Además, los países de Europa del Este que alcanzaron su independencia tras 1990 no tienen valor asignado para ese año. Es el caso de Azerbaiyán, Bielorrusia, Estonia, Georgia, Letonia, Lituania, Kazajistán, Turkmenistán, Ucrania y Uzbekistán como parte de la Unión Soviética; de Eslovaquia como parte de Checoslovaquia y de Bosnia y Herzegovina, Croacia, Eslovenia y Macedonia del Norte como parte de Yugoslavia' WHERE key = '_methodology países p';
-UPDATE www.translation SET en = 'In terms of country selection, bear in mind that by making calculations at time intervals that go back to 1990, the intention of the project is to show the ‘two-bloc world’, even if in decline. Thus, Russia’s 1990 values refer to those of the Soviet Union, those of Germany to the German Federal Republic, those of the Czech Republic to Czechoslovakia, and those values up to 2005 of Serbia to the State Union of Serbia and Montenegro. Moreover, East European countries that became independent after 1990 have no value assigned in that year. This is the case for Azerbaijan, Belarus, Estonia, Georgia, Latvia, Lithuania, Kazakhstan, Turkmenistan, Ukraine and Uzbekistan as part of the Soviet Union, Slovakia as part of Czechoslovakia, and Bosnia and Herzegovina, Croatia, North Macedonia and Slovenia as part of Yugoslavia' WHERE key = '_methodology países p';
+UPDATE www.translation SET es = 'En relación a la selección de países, hay que tener en cuenta que al calcularse en escalas temporales que se remontan a 1990, la intención del proyecto es la de mostrar el ‘mundo de los dos bloques’ –aunque sea en su ocaso–. De este modo, los valores de 1990 de Rusia se refieren, evidentemente, a los de la Unión Soviética; los de Alemania a la República Federal Alemana; y los valores hasta 2005 de Serbia a la Unión Estatal de Serbia y Montenegro. Además, los países de Europa del Este que alcanzaron su independencia tras 1990 no tienen valor asignado para ese año. Es el caso de Armenia, Azerbaiyán, Bielorrusia, Estonia, Georgia, Letonia, Lituania, Kazajistán, Moldavia, Turkmenistán, Ucrania y Uzbekistán como parte de la Unión Soviética; de Eslovaquia como parte de Checoslovaquia y de Bosnia y Herzegovina, Croacia, Eslovenia y Macedonia del Norte como parte de Yugoslavia' WHERE key = '_methodology países p';
+UPDATE www.translation SET en = 'In terms of country selection, bear in mind that by making calculations at time intervals that go back to 1990, the intention of the project is to show the ‘two-bloc world’, even if in decline. Thus, Russia’s 1990 values refer to those of the Soviet Union, those of Germany to the German Federal Republic, those of the Czech Republic to Czechoslovakia, and those values up to 2005 of Serbia to the State Union of Serbia and Montenegro. Moreover, East European countries that became independent after 1990 have no value assigned in that year. This is the case for Armenia, Azerbaijan, Belarus, Estonia, Georgia, Latvia, Lithuania, Kazakhstan, Moldavia, Turkmenistan, Ukraine and Uzbekistan as part of the Soviet Union, Slovakia as part of Czechoslovakia, and Bosnia and Herzegovina, Croatia, North Macedonia and Slovenia as part of Yugoslavia' WHERE key = '_methodology países p';
 
 
 UPDATE www.translation SET es = '<table class="data">
@@ -237,8 +237,175 @@ UPDATE www.translation SET es = '<table class="data">
     </table>
 ' WHERE key = '_methodology tabla general';
 
-UPDATE www.translation SET es = 'Desde 2012 y hasta 2019 el Índice Elcano de Presencia Global se calcula además para la Unión Europea de los 28 países. Este ejercicio trata de cuantificar la proyección global de la Unión, como si se tratase de un supuesto súper-estado con identidad propia; medición que se complementa con el Índice Elcano de Presencia Europea que, por su parte, evalúa la presencia de los países miembros dentro del perímetro de la Unión' WHERE key = '_methodology incorporación UE p';
-UPDATE www.translation SET en = 'Moreover, since 2012 and until 2019, the Index also measures the global presence of the European Union as a whole. The latter is complemented by the Elcano European Presence Index, which evaluates the internationalisation of member states within the Union’s boundaries' WHERE key = '_methodology incorporación UE p';
+UPDATE www.translation SET es = 'Desde 2012 y hasta 2020 el Índice Elcano de Presencia Global se calcula además para la Unión Europea de los 28 países. Este ejercicio trata de cuantificar la proyección global de la Unión, como si se tratase de un supuesto súper-estado con identidad propia; medición que se complementa con el Índice Elcano de Presencia Europea que, por su parte, evalúa la presencia de los países miembros dentro del perímetro de la Unión' WHERE key = '_methodology incorporación UE p';
+UPDATE www.translation SET en = 'Moreover, since 2012 and until 2020, the Index also measures the global presence of the European Union as a whole. The latter is complemented by the Elcano European Presence Index, which evaluates the internationalisation of member states within the Union’s boundaries' WHERE key = '_methodology incorporación UE p';
+
+UPDATE www.translation SET en = '<ul class="util">
+
+ <li>Ángel Badillo, 2019,
+   <a href='''' target=''_blank''>
+     La cultura en el “poder suave”: una revisión metodológica del Índice Elcano de Presencia Global
+   </a>
+   (Documento de Trabajo del Real Instituto Elcano (DT) 21/2020).
+ </li>
+
+ <li>Isabel Álvarez, José Miguel Natera and Raquel Marín, 2019,
+   <a href='''' target=''_blank''>
+     Indicadores de tecnología para medir la presencia global de un país, ARI 115/2019, 05/12/2019
+   </a>
+   (Madrid: Elcano Royal Institute).
+ </li>
+
+ <li>Manuel Gracia, Iliana Olivié and Néstor Santana, 2019,
+   <a href='''' target=''_blank''>
+     Un mundo, diferentes perspectivas: análisis de los resultados de la encuesta de ponderación 2018 del Índice Elcano de Presencia Global, ARI 7/2019, 16/01/2019
+   </a>
+   (Madrid: Elcano Royal Institute).
+ </li>
+
+ <li>Iliana Olivié and Manuel Gracia, 2018,
+   <a href=''http://www.globalpresence.realinstitutoelcano.org/en/data/Global_Presence_2018.pdf'' target=''_blank''>
+     Elcano Global Presence Index Report 2018,
+   </a>
+   (Madrid: Elcano Royal Institute).
+ </li>
+
+ <li>Iliana Olivié and Manuel Gracia, 2017,
+   <a href=''http://www.globalpresence.realinstitutoelcano.org/en/data/Global_Presence_2017.pdf'' target=''_blank''>
+     Elcano Global Presence Index Report 2017,
+   </a>
+   (Madrid: Elcano Royal Institute).
+ </li>
+
+ <li>Iliana Olivié and Manuel Gracia, 2016,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_en/publication?WCM_GLOBAL_CONTEXT=/elcano/elcano_in/publications/elcano-global-presence-report-2016'' target=''_blank''>
+     Elcano Global Presence Index Report 2016,
+   </a>
+   (Madrid: Elcano Royal Institute).
+ </li>
+
+ <li>Iliana Olivié et al. (coord.), 2015,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_en/publication?WCM_GLOBAL_CONTEXT=/elcano/elcano_in/publications/elcano-global-presence-report-2015'' target=''_blank''>
+     Elcano Global Presence Index Report 2015,
+   </a>
+   (Madrid: Elcano Royal Institute).
+ </li>
+
+ <li>Iliana Olivié, Manuel Gracia and Carola García-Calvo, 2014,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_en/publication?WCM_GLOBAL_CONTEXT=/elcano/elcano_in/publications/elcano-global-presence-report-2014'' target=''_blank''>
+     Elcano Global Presence Index Report 2014,
+   </a>
+   (Madrid: Elcano Royal Institute).
+ </li>
+ <li>Iliana Olivié and Manuel Gracia and Carola García-Calvo, 2013,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_en/publication?WCM_GLOBAL_CONTEXT=/elcano/elcano_in/publications/global-presence-report-2012'' target=''_blank''>
+     Elcano Global Presence Report 2012,
+   </a>
+    (Madrid: Elcano Royal Institute).
+ </li>
+ <li>Iliana Olivié and Manuel Gracia, 2013,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_en/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_in/specials/globalpresenceindex-iepg/dt12-2013-olivie-gracia-iepg-metodologia-methodology-2012'' target=''_blank''>
+     IEPG 2012: methodology and new analytic tools,
+   </a>
+    Elcano Working Paper (WP) 12/2013.
+ </li>
+ <li>Iliana Olivié and Ignacio Molina (coord.), 2012,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_en/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_in/specials/globalpresenceindex-iepg/dt9-2012'' target=''_blank''>
+     Measuring the international presence of countries: the Elcano Institute''s IEPG Index methodology revisited,
+   </a>
+    Elcano Royal Institute Working Paper (WP) 9/2012.
+ </li>
+ <li>Iliana Olivié and Ignacio Molina (coord.), 2011,
+   <a href=''http://www.realinstitutoelcano.org/wps/wcm/connect/8aaf13804739471481169f00526b8882/EstudioElcano2-english_IEPG_Olivie_Molina.pdf?MOD=AJPERES'' target=''_blank''>
+     Elcano Global Presence Index (IEPG),
+   </a>
+    Estudio Elcano 2, (Madrid: Elcano Royal Institute).
+ </li>
+ </ul>' WHERE key = '_methodology más información lista';
+
+
+ UPDATE www.translation SET es = '<ul class="util">
+
+  <li>Ángel Badillo, 2019,
+    <a href='''' target=''_blank''>
+      La cultura en el “poder suave”: una revisión metodológica del Índice Elcano de Presencia Global
+    </a>
+    (Documento de Trabajo del Real Instituto Elcano (DT) 21/2020).
+  </li>
+
+  <li>Isabel Álvarez, José Miguel Natera y Raquel Marín, 2019,
+    <a href='''' target=''_blank''>
+      Indicadores de tecnología para medir la presencia global de un país, ARI 115/2019, 05/12/2019
+    </a>
+    (Madrid: Real Instituto Elcano).
+  </li>
+
+  <li>Manuel Gracia, Iliana Olivié y Néstor Santana, 2019,
+    <a href='''' target=''_blank''>
+      Un mundo, diferentes perspectivas: análisis de los resultados de la encuesta de ponderación 2018 del Índice Elcano de Presencia Global, ARI 7/2019, 16/01/2019
+    </a>
+    (Madrid: Real Instituto Elcano).
+  </li>
+
+ <li>
+   Iliana Olivié y Manuel Gracia, 2018,<a href=''http://www.globalpresence.realinstitutoelcano.org/es/data/Presencia_Global_2018.pdf'' target=''_blank''>
+     Informe Índice Elcano de Presencia Global 2018,
+   </a>
+ (Madrid: Real Instituto Elcano).
+ </li>
+
+ <li>
+   Iliana Olivié y Manuel Gracia, 2017,<a href=''http://www.globalpresence.realinstitutoelcano.org/es/data/Presencia_Global_2017.pdf'' target=''_blank''>
+     Informe Índice Elcano de Presencia Global 2017,
+   </a>
+ (Madrid: Real Instituto Elcano).
+ </li>
+
+ <li>
+   Iliana Olivié y Manuel Gracia, 2016,<a href=''http://www.realinstitutoelcano.org/wps/portal/rielcano_es/publicacion?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/publicaciones/informe-presencia-global-2016'' target=''_blank''>
+     Informe Índice Elcano de Presencia Global 2016,
+   </a>
+ (Madrid: Real Instituto Elcano).
+ </li>
+
+ <li>
+   Iliana Olivié et al. (coord.) 2015,<a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_es/publicacion?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/publicaciones/informe-presencia-global-2015'' target=''_blank''>
+     Informe Índice Elcano de Presencia Global 2015,
+   </a>
+ (Madrid: Real Instituto Elcano).
+ </li>
+
+ <li>Iliana Olivié, Manuel Gracia y Carola García-Calvo, 2014,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_es/publicacion?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/publicaciones/informe-presencia-global-2014'' target=''_blank''>
+     Informe Índice Elcano de Presencia Global 2014,
+   </a>
+ (Madrid: Real Instituto Elcano).
+ </li>
+ <li>Iliana Olivié y Manuel Gracia, 2013,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_es/publicacion?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/publicaciones/informe-presencia-global-2012'' target=''_blank''>
+     Informe Índice Elcano de Presencia Global 2012,
+   </a>
+   (Madrid: Real Instituto Elcano).
+ </li>
+ <li>Iliana Olivié y Manuel Gracia, 2013,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/especiales/indiceelcanopresenciaglobal/dt12-2013-olivie-gracia-iepg-metodologia-methodology-2012#.VTiVbtLtlBc'' target=''_blank''>
+     IEPG 2012: metodología y nuevos elementos para el análisis,
+   </a>
+   Documento de Trabajo del Real Instituto Elcano (DT) 12/2013.
+ </li>
+ <li>Iliana Olivié e Ignacio Molina (coord.), 2012,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/especiales/indiceelcanopresenciaglobal/dt9-2012#.VTiWpdLtlBc'' target=''_blank''>
+     Medir la presencia internacional de los países: metodología revisada del Índice Elcano de Presencia Global (IEPG),
+   </a>
+   Documento de Trabajo del Real Instituto Elcano (DT) 9/2012.
+ </li>
+ <li>Iliana Olivié e Ignacio Molina (coord.), 2011,
+   <a href=''http://www.realinstitutoelcano.org/wps/portal/web/rielcano_es/publicacion?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/publicaciones/estudio_elcano_2_iepg'' target=''_blank''>
+     Índice Elcano de Presencia Global (IEPG),
+   </a>
+   Estudio Elcano 2, (Madrid: Real Instituto Elcano).
+ </li>
+ </ul>' WHERE key = '_methodology más información lista';
 
 UPDATE www.translation SET es = ' <table class="data">
 
@@ -656,17 +823,17 @@ UPDATE www.translation SET en = ' <table class="data">
 UPDATE www.translation SET es = 'Ambas. El Índice se compone de tres dimensiones (económica, militar y blanda) que, a su vez, se conforman de variables de distinta naturaleza (desde la energía hasta la cooperación al desarrollo pasando por las tropas desplegadas o el turismo). Así, no solamente permite saber cómo de presentes están los países en el orden global, sino también las características de dichas presencia' WHERE key = '_faq text 6';
 UPDATE www.translation SET en = 'Both. The Elcano Global Presence Index is composed of three dimensions (economic, military, and soft presence), which in turn contain variables of differing nature (ranging from energy to development cooperation, to troops deployed or to tourism). It is therefore useful in revealing not only how present countries are in the global order, but also, the nature of said presence' WHERE key = '_faq text 6';
 
-UPDATE www.translation SET es = 'Los pesos asignados a variables y dimensiones están basados en el criterio experto recogido mediante encuestas realizadas en 2011, 2012, 2015 y 2018, a un panel internacional de especialistas en relaciones internacionales cuyas respuestas se combinaron para determinar el peso de las variables y de las dimensiones' WHERE key = '_faq text 8';
-UPDATE www.translation SET en = 'Weights assigned to variables and dimensions are based on experts’ criteria. Surveys were conducted in 2011, 2012, 2015 and 2018. Questionnaires were sent to specialists in international relations, and answers were combined to determine the weights of variables and dimensions' WHERE key = '_faq text 8';
+UPDATE www.translation SET es = 'Los pesos asignados a variables y dimensiones están basados en el criterio experto recogido mediante encuestas realizadas en 2011, 2012, 2015, 2018 y 2021, a un panel internacional de especialistas en relaciones internacionales cuyas respuestas se combinaron para determinar el peso de las variables y de las dimensiones' WHERE key = '_faq text 8';
+UPDATE www.translation SET en = 'Weights assigned to variables and dimensions are based on experts’ criteria. Surveys were conducted in 2011, 2012, 2015, 2018 and 2021. Questionnaires were sent to specialists in international relations, and answers were combined to determine the weights of variables and dimensions' WHERE key = '_faq text 8';
 
-UPDATE www.translation SET es = 'Se estiman, siguiendo criterio del experto, 3.678 datos de un total de 66.348 observaciones. El número de estimaciones asciende a 5,5% de la base' WHERE key = '_faq text 9';
-UPDATE www.translation SET en = 'In these cases we have also referred to expert opinion. A total of 3,678 data items have been estimated from 66,348 observations. The number of estimations accounts for 5.5% of the base' WHERE key = '_faq text 9';
+UPDATE www.translation SET es = 'Se estiman, siguiendo criterio del experto, 4.564 datos de un total de 88.704 observaciones. El número de estimaciones asciende a 5,15% de la base' WHERE key = '_faq text 9';
+UPDATE www.translation SET en = 'In these cases we have also referred to expert opinion. A total of 4,564 data items have been estimated from 88,704 observations. The number of estimations accounts for 5.15% of the base' WHERE key = '_faq text 9';
 
-UPDATE www.translation SET es = 'Para 1990, 1995, 2000, 2005, y 2010-2019. Desde 2010, el cálculo es anual' WHERE key = '_faq text 10';
-UPDATE www.translation SET en = 'For 1990, 1995, 2000, 2005, and 2010-19. Since 2010 the calculation is performed annually' WHERE key = '_faq text 10';
+UPDATE www.translation SET es = 'Para 1990, 1995, 2000, 2005, y 2010-2020. Desde 2010, el cálculo es anual' WHERE key = '_faq text 10';
+UPDATE www.translation SET en = 'For 1990, 1995, 2000, 2005, and 2010-20. Since 2010 the calculation is performed annually' WHERE key = '_faq text 10';
 
-UPDATE www.translation SET es = 'El Índice Elcano de Presencia Global cubre una selección de 130 países que se realiza, en términos generales, siguiendo el orden de estos países por tamaño de PIB' WHERE key = '_faq text 12';
-UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 130 countries. These are selected, mainly, according to their size in terms of GDP' WHERE key = '_faq text 12';
+UPDATE www.translation SET es = 'El Índice Elcano de Presencia Global cubre una selección de 140 países que se realiza, en términos generales, siguiendo el orden de estos países por tamaño de PIB' WHERE key = '_faq text 12';
+UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 140 countries. These are selected, mainly, according to their size in terms of GDP' WHERE key = '_faq text 12';
 
 
 UPDATE www.translation SET es = '2014 - 2020 &copy; Real Instituto Elcano' WHERE key = 'Copyright TEXT';

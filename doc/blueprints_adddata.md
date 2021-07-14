@@ -5,7 +5,15 @@ Instructions to follow to add a new year
 #Backend
 
 ## Countries at iepg_data_redux.master_country.
-Check that all the countries who come from the input of the data engine (XLSX) are at the table iepg_data_redux.master_country. The mapping field between the xlsx and this table is short_name_es. If an error happens, flux throws an exception.
+Check that all the countries who come from the input of the data engine (XLSX) are at the table iepg_data_redux.master_country. The mapping field between the xlsx and this table is xlsx_column_name. If an error happens, flux throws an exception.
+
+You could check country names in this way:
+
+```
+select xlsx_column_name, iso_3166_1_2_code
+from iepg_data_redux.master_country
+where xlsx_column_name ilike '%congo%';
+```      
 
 You can get new countries (or differences in names) in new year with Pandas. Example:
 

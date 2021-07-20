@@ -10,7 +10,7 @@ UPDATE iepg_data_redux.iepg_comment
  WHERE code='US' AND language='es';
 
 UPDATE iepg_data_redux.iepg_comment
- SET comment='<p>US tops the Elcano Global Presence Index in all years. In 2020, it also leads the ranking in all variables, with the exception of energy, manufactures, information, science and tourism. Of all 140 countries, it records the highest share of presence in all dimensions: 18.3% in the economic domain, 29.8% in the military and 22.1% in soft presence. Moreover, unlike other developed countries, its military dimension strongly defines its index value, with a contribution at 26.5% in 2019.</p><p>Despite its hegemony, the US loses relative global presence when compared with other countries: from a 24.5% share of global presence in 1990 to 21.4% in 2020. In a period of emergence of new global players, several economies (particularly oil producers or Asian countries) reap gains of share that reduce the American role.</p>'
+ SET comment='<p>The US tops the Elcano Global Presence Index in all years. In 2020, it also leads the ranking in all variables, with the exception of energy, manufactures, information, science and tourism. Of all 140 countries, it records the highest share of presence in all dimensions: 18.3% in the economic domain, 29.8% in the military and 22.1% in soft presence. Moreover, unlike other developed countries, its military dimension strongly defines its index value, with a contribution at 26.5% in 2020.</p><p>Despite its hegemony, the US loses relative global presence when compared with other countries: from a 24.5% share of global presence in 1990 to 21.4% in 2020. In a period of emergence of new global players, several economies (particularly oil producers or Asian countries) reap gains of share that reduce the American role.</p>'
  WHERE code='US' AND language='en';
 
 -- European Union
@@ -19,8 +19,10 @@ SET comment='<p>Si considerásemos a la Unión Europea un único país, tendría
 WHERE code='XBEU' AND language='es';
 
 UPDATE iepg_data_redux.iepg_comment
-SET comment=E'<p>If the European Union were to be considered a single country, it would occupy the first place in the Global Presence ranking in 2020, with a record similar to that of the United States. The European Union would have the greatest value of economic presence –with relevant foreign investment and exports of services– and of soft presence –tourism, education, science, sports or development cooperation–, being surpassed by the United States only in the classification of military presence.</p><p>The late 2000s\' economic crisis, which has especially hit the European Union, has had an impact on its presence in the rest of the world. On the one hand, within the economic dimension, there is a loss of presence until 2013, mainly due to the decline in exports of goods and foreign investment –in part due to the depreciation of the euro against other currencies–.
-</p><p>On the other hand, its soft presence.</p><p>However, both the European Union and the United States maintain high levels of global presence, which locates them still far from China, which would occupy the 3rd place.</p>'
+SET comment=E'<p>If the European Union were to be considered a single country, it would have a similar record to that of the United States. The European Union would have the greatest value of economic presence –with relevant foreign investment and exports of services– and of soft presence –tourism, education, science, sports or development cooperation–, being surpassed by the United States only in the classification of military presence.</p>
+<p>The late 2000s\' economic crisis, which has especially hit the European Union, has had an impact on its presence in the rest of the world. On the one hand, within the economic dimension, there is a loss of presence until 2013, mainly due to the decline in exports of goods and foreign investment –in part due to the depreciation of the euro against other currencies–.</p>
+<p>On the other hand, its soft presence continues to grow, although this is insufficient to compensate for the loss of economic and military presence.</p>
+<p>However, both the European Union and the United States maintain high levels of global presence, which locates them still far from China, which would occupy the 3rd place.</p>'
 WHERE code='XBEU' AND language='en';
 
 
@@ -102,7 +104,7 @@ UPDATE iepg_data_redux.iepg_comment
  -- Italy
  UPDATE iepg_data_redux.iepg_comment
   SET comment='<p>Italia se mantiene, desde 2014, en el 10º puesto del ranking –frente al 7º puesto ocupado en 1990–. Esta tendencia se debe a la ralentización del crecimiento de su presencia económica, que tiene un escaso crecimiento desde los 90 en comparación con otros países del entorno. No obstante, continúa siendo uno de los países más industrializados, por lo que tiene relevancia dentro de las exportaciones de manufacturas e inversiones en el exterior. Al igual que ocurre con otras potencias europeas, mantiene registros elevados en la dimensión blanda –apoyada en cultura, tecnología, ciencia y turismo–.</p>
-  <p>Por el contrario, dentro del espacio europeo su presencia es fundamentalmente blanda –estando entre los cinco primeros puestos en turismo, migraciones, deportes, información, tecnología y ciencia– y ha sido precisamente esta dimensión la que mayores crecimientos había venido registrando.</p>'
+  <p>Por el contrario, dentro del espacio europeo su presencia es fundamentalmente blanda –estando entre los cinco primeros puestos en turismo, migraciones, deportes, información, tecnología y ciencia– y ha sido precisamente esta dimensión la que mayores crecimientos ha venido registrando.</p>'
   WHERE code='IT' AND language='es';
 
  UPDATE iepg_data_redux.iepg_comment
@@ -125,12 +127,12 @@ UPDATE iepg_data_redux.iepg_comment
 
   -- The Netherlands
   UPDATE iepg_data_redux.iepg_comment
-   SET comment='<p>A pesar del paulatino descenso de los Países Bajos en la clasificación mundial según el PIB, el país se mantiene en puestos elevados del Índice Elcano de Presencia Global. Se trata de una presencia de naturaleza fundamentalmente económica –esta dimensión representa en 2020 el 82.8% de su presencia global–. A su potencial exportador de bienes primarios se añaden su condición de principal productor de gas en la Unión Europea, la posición estratégica del puerto de Rotterdam y su posición en el sistema bancario y financiero europeo. Así, buena parte de su elevado registro puede explicarse por su condición de hub exportador e inversor.</p>
+   SET comment='<p>A pesar del paulatino descenso de los Países Bajos en la clasificación mundial según el PIB, el país se mantiene en puestos elevados del Índice Elcano de Presencia Global. Se trata de una presencia de naturaleza fundamentalmente económica –esta dimensión representa en 2020 el 82,8% de su presencia global–. A su potencial exportador de bienes primarios se añaden su condición de principal productor de gas en la Unión Europea, la posición estratégica del puerto de Rotterdam y su posición en el sistema bancario y financiero europeo. Así, buena parte de su elevado registro puede explicarse por su condición de hub exportador e inversor.</p>
    <p>Este perfil se repite en el análisis de su presencia dentro del espacio europeo, donde ocupa el segundo puesto por detrás de Alemania, por delante de Reino Unido y de Francia desde 2014.</p>'
    WHERE code='NL' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment
-   SET comment='<p>Despite the gradual decline in its world ranking by GDP, the Netherlands retains a high position in the Elcano Global Presence Index. Its economic dimension –which in 2020 accounted for 82,8% of its total value– continues to be the most important component.</p>
+   SET comment='<p>Despite the gradual decline in its world ranking by GDP, the Netherlands retains a high position in the Elcano Global Presence Index. Its economic dimension –which in 2020 accounted for 82.8% of its total value– continues to be the most important component.</p>
    <p>The importance of the Netherlands as exporter of primary goods is added to its status as the main gas European producer, the strategic position of the port of Rotterdam and its position in the European banking and financial system. Thus, much of its position can be explained by its role as an export and investor hub. Its profile is replicated in Europe, where the Netherlands has the 2nd highest value after Germany, ahead of the United Kingdom and France since 2014.</p>'
    WHERE code='NL' AND language='en';
 
@@ -141,7 +143,7 @@ UPDATE iepg_data_redux.iepg_comment
    WHERE code='KR' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment
-   SET comment='<p>South Korea ranks 11th position in the 2020 edition of Elcano Global Presence Index. The Asian country has recorded significant growth in its external projection since 1990, when it occupied the 16th place.</p>
+   SET comment='<p>South Korea ranks 11th in the 2020 edition of Elcano Global Presence Index. The Asian country has recorded significant growth in its external projection since 1990, when it occupied the 16th place.</p>
    <p>This growth has been mainly supported by the increase in manufacturing exports, and more recently in the foreign investment stock, reflecting the internationalization process of Korean companies. Within the soft dimension, it stands out in science and technology, linked to the increase in the technological complexity of its goods exports; as well as in culture, due to the foreign cultural diplomacy strategy that has been developing for years. Regarding the military dimension, it registers a significant increase in its naval equipment in recent years, behind China and Japan but ahead of India.</p>'
    WHERE code='KR' AND language='en';
 
@@ -149,13 +151,13 @@ UPDATE iepg_data_redux.iepg_comment
   -- Spain
   UPDATE iepg_data_redux.iepg_comment
    SET comment='<p>España ocupa la 13ª posición en el Índice Elcano de Presencia Global en 2020, perdiendo una posición respecto al año previo. Aunque gana presencia global en términos absolutos, este incremento es insuficiente para contener el ascenso de India. Ello se debe al empeoramiento de su desempeño económico en el exterior (donde ocupa la 12ª posición en presencia económica), su fortaleza sigue estando fundamentalmente en la dimensión blanda (11ª posición). En el plano militar, el papel internacional de España es más pasivo (14ª posición).</p>
-   <p>En la década de los 90 aumentó notablemente su presencia global, debido al crecimiento de la dimensión económica y, sobre todo, de la blanda. Destaca la variable de turismo, siendo el 2º país con mayor número de visitantes extranjeros. La dimensión económica se ve afectada por la crisis de finales de los 2000- Aunque recientemente se venía produciendo una recuperación de las exportaciones de servicios explicada con el sector turístico, desde 2018 vuelve a perder presencia económica por la merma de la inversión en el exterior y las exportaciones de manufacturas.</p>
+   <p>En la década de los 90 aumentó notablemente su presencia global, debido al crecimiento de la dimensión económica y, sobre todo, de la blanda. Destaca la variable de turismo, siendo el 2º país con mayor número de visitantes extranjeros. La dimensión económica se ve afectada por la crisis de finales de los 2000. Aunque recientemente se venía produciendo una recuperación de las exportaciones de servicios explicada con el sector turístico, desde 2018 vuelve a perder presencia económica por la merma de la inversión en el exterior y las exportaciones de manufacturas.</p>
    <p>España es 5ª en el ranking del Índice Elcano de Presencia Europea. En el ámbito económico europeo destaca por sus exportaciones de bienes primarios, y dentro de la dimensión blanda el protagonismo es de las migraciones, el turismo o publicaciones científicas.</p>'
    WHERE code='ES' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment
-   SET comment=E'<p>Spain is 13th in the Elcano Global Presence Index in 2020, losing one position with respect to the previous year. Although it is gains presence in absolute terms, this increase is not enough to contain India\'s rise. This is due to the worsening of its economic performance abroad (12th position in economic presence), its main strength being the soft dimension, (11th place). In the military sphere (14th), Spain’s international role is more passive (14th place).</p>
-   <p>Spain’s global presence increased significantly during the 90s; a trend supported by the economic dimension and, mainly, by its soft presence. Tourism stands out, being the 2nd world destination. The economic dimension was affected by the late 2000s crisis. Although services exports were recently recovering due to the tourism sector, since 2018 Spain has been losing again economic presence due to the decline in outward investment and manufacturing exports.</p>
+   SET comment=E'<p>Spain is 13th in the Elcano Global Presence Index in 2020, losing one position with respect to the previous year. Although it gains presence in absolute terms, this increase is not enough to contain India\'s rise. This is due to the worsening of its economic performance abroad (12th position in economic presence), its main strength being the soft dimension, (11th place). In the military sphere, Spain’s international role is more passive (14th place).</p>
+   <p>Spain’s global presence increased significantly during the 90s; a trend supported by the economic dimension and, mainly, by its soft presence. Tourism stands out, being the 2nd world destination. The economic dimension was affected by the late 2000s crisis. Although services exports were recently recovering due to the tourism sector, since 2018 Spain has been losing economic presence due to the decline in outward investment and manufacturing exports.</p>
    <p>Spain ranks 5th in the Elcano European Presence Index. In the European economic field Spain stands out for its exports of primary goods, and for its soft dimension, with a leading role in migration, tourism or scientific publications.</p>'
    WHERE code='ES' AND language='en';
 
@@ -227,7 +229,7 @@ UPDATE iepg_data_redux.iepg_comment
 
   -- Africa Sub.
   UPDATE iepg_data_redux.iepg_comment
-   SET comment='<p><África Subsahariana se compone de los países de esta región para los que existe cálculo de presencia global, esto es: Angola, Benín, Botsuana, Burkina Faso, Camerún, Chad, Costa de Marfil, Etiopía, Gabón, Ghana, Guinea, Guinea Ecuatorial, Kenia, Madagascar, Mali, Mauricio, Mozambique, Namibia, Níger, Nigeria, República del Congo, República Democrática del Congo, Senegal, Sudáfrica, Sudán, Tanzania, Uganda, Zambia y Zimbabue. La presencia global del bloque se obtiene mediante la suma de la presencia global de cada país. Representan un 96,7% del PIB regional y un 89,9% de su población (según datos de 2019 del Banco Mundial).</p>'
+   SET comment='<p>África Subsahariana se compone de los países de esta región para los que existe cálculo de presencia global, esto es: Angola, Benín, Botsuana, Burkina Faso, Camerún, Chad, Costa de Marfil, Etiopía, Gabón, Ghana, Guinea, Guinea Ecuatorial, Kenia, Madagascar, Mali, Mauricio, Mozambique, Namibia, Níger, Nigeria, República del Congo, República Democrática del Congo, Senegal, Sudáfrica, Sudán, Tanzania, Uganda, Zambia y Zimbabue. La presencia global del bloque se obtiene mediante la suma de la presencia global de cada país. Representan un 96,7% del PIB regional y un 89,9% de su población (según datos de 2019 del Banco Mundial).</p>'
    WHERE code='XBSA' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment

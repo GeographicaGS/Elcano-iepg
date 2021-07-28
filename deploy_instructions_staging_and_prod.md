@@ -5,10 +5,12 @@ Before to start deploying to Staging you need to change code, prepare data files
 
 # STAGING (Lincoln Server)
 
+pre-step: make a database backup
+
 0. sudo git pull origin staging
 1. Database scripts: psql -h localhost -U elcano_iepg_admin -d elcano_iepg < run_update.sql
 2. cd www-srv/src
-3. python flux_updatefromcalculatedxlsx.py calculus2019.xlsx 14 131 11 28
+3. python flux_updatefromcalculatedxlsx.py calculus2020.xlsx 15 141 12 28
 4. python updatecache.py
 5. Add new year. Open with vim this files and add year:
   - explora/js/config.js
@@ -19,13 +21,16 @@ Before to start deploying to Staging you need to change code, prepare data files
 
 WARNING: not dockerized environment :-)
 
+pre-step: make a database backup:
+pg_dump -h localhost -U elcano_iepg_admin -d elcano_iepg > elcanoiepg_<fill with year month and day>_dump.sql
+
 0. sudo git pull origin master
 1. Database scripts: psql -h localhost -U elcano_iepg_admin -d elcano_iepg < run_update.sql
-2. cd www-srv/ && venv/bin/activate
-3. cd src && python flux_updatefromcalculatedxlsx.py calculus2019.xlsx 14 131 11 28
+2. cd www-srv/ && . venv/bin/activate
+3. cd src && python flux_updatefromcalculatedxlsx.py calculus2020.xlsx 15 141 12 28
 4. python updatecache.py
 5. deactivate
-6. Add new year. Open with vim this files and add year:
+6. Add new year. Open with vim this files and add year located at www/src folder:
   - explora/js/config.js
   - frontend/js/config.js
 6. Change PROD configs:

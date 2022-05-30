@@ -828,11 +828,11 @@ UPDATE www.translation SET en = 'Both. The Elcano Global Presence Index is compo
 UPDATE www.translation SET es = 'Los pesos asignados a variables y dimensiones están basados en el criterio experto recogido mediante encuestas realizadas en 2011, 2012, 2015, 2018 y 2021, a un panel internacional de especialistas en relaciones internacionales cuyas respuestas se combinaron para determinar el peso de las variables y de las dimensiones' WHERE key = '_faq text 8';
 UPDATE www.translation SET en = 'Weights assigned to variables and dimensions are based on experts’ criteria. Surveys were conducted in 2011, 2012, 2015, 2018 and 2021. Questionnaires were sent to specialists in international relations, and answers were combined to determine the weights of variables and dimensions' WHERE key = '_faq text 8';
 
-UPDATE www.translation SET es = 'Se estiman, siguiendo criterio del experto, 4.564 datos de un total de 88.704 observaciones. El número de estimaciones asciende a 5,15% de la base' WHERE key = '_faq text 9';
-UPDATE www.translation SET en = 'In these cases we have also referred to expert opinion. A total of 4,564 data items have been estimated from 88,704 observations. The number of estimations accounts for 5.15% of the base' WHERE key = '_faq text 9';
+UPDATE www.translation SET es = 'Se estiman, siguiendo criterio del experto, 5.205 datos de un total de 86.447 observaciones. El número de estimaciones asciende a 6% de la base' WHERE key = '_faq text 9';
+UPDATE www.translation SET en = 'In these cases we have also referred to expert opinion. A total of 5,205 data items have been estimated from 86,447 observations. The number of estimations accounts for 6% of the base' WHERE key = '_faq text 9';
 
-UPDATE www.translation SET es = 'Para 1990, 1995, 2000, 2005, y 2010-2020. Desde 2010, el cálculo es anual' WHERE key = '_faq text 10';
-UPDATE www.translation SET en = 'For 1990, 1995, 2000, 2005, and 2010-20. Since 2010 the calculation is performed annually' WHERE key = '_faq text 10';
+UPDATE www.translation SET es = 'Para 1990, 1995, 2000, 2005, y 2010-2021. Desde 2010, el cálculo es anual' WHERE key = '_faq text 10';
+UPDATE www.translation SET en = 'For 1990, 1995, 2000, 2005, and 2010-21. Since 2010 the calculation is performed annually' WHERE key = '_faq text 10';
 
 UPDATE www.translation SET es = 'El Índice Elcano de Presencia Global cubre una selección de 150 países que se realiza, en términos generales, siguiendo el orden de estos países por tamaño de PIB' WHERE key = '_faq text 12';
 UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 150 countries. These are selected, mainly, according to their size in terms of GDP' WHERE key = '_faq text 12';

@@ -183,12 +183,12 @@ UPDATE iepg_data_redux.iepg_comment
   -- Latin America
   UPDATE iepg_data_redux.iepg_comment
    SET comment='<p>América Latina se compone de los países de esta región para los que existe cálculo de presencia global. La presencia global del bloque se obtiene mediante la suma de la presencia global de cada país.</p>
-   <p>Los países que forman parte de él son Argentina, Bahamas, Bolivia, Brasil, Chile, Colombia, Costa Rica, Cuba, Ecuador, El Salvador, Guatemala, Jamaica, Honduras, México, Nicaragua, Panamá, Paraguay, Perú, República Dominicana, Trinidad y Tobago, Uruguay y Venezuela. Representan en conjunto el 99,2% del PIB regional y 97,8% de la población latinoamericana (según datos de 2019 del Banco Mundial).</p>'
+   <p>Los países que forman parte de él son Argentina, Bahamas, Bolivia, Brasil, Chile, Colombia, Costa Rica, Cuba, Ecuador, El Salvador, Guatemala, Jamaica, Honduras, México, Nicaragua, Panamá, Paraguay, Perú, República Dominicana, Trinidad y Tobago, Uruguay y Venezuela. Representan en conjunto el 99,5% del PIB regional y 99,5% de la población latinoamericana (según datos de 2020 del Banco Mundial).</p>'
    WHERE code='XBLA' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment
    SET comment='<p>Latin America is constituted by the countries in the region whose global presence has been included in the calculation. The bloc’s global presence is obtained by adding the global presence of each country of which it is comprised.</p>
-   <p>The countries that make up the bloc are Argentina, Bahamas, Bolivia, Brazil, Chile, Colombia, Costa Rica, Cuba, Ecuador, El Salvador, Guatemala, Jamaica, Honduras, Mexico, Nicaragua, Panama, Peru, the Dominican Republic, Trinidad and Tobago, Uruguay and Venezuela. They account for 99.2 % of the Latin America’s GDP and 97.8% of its population (according to World Bank data for 2019).</p>'
+   <p>The countries that make up the bloc are Argentina, Bahamas, Bolivia, Brazil, Chile, Colombia, Costa Rica, Cuba, Ecuador, El Salvador, Guatemala, Jamaica, Honduras, Mexico, Nicaragua, Panama, Peru, the Dominican Republic, Trinidad and Tobago, Uruguay and Venezuela. They account for 99.5 % of the Latin America’s GDP and 99.5% of its population (according to World Bank data for 2020).</p>'
    WHERE code='XBLA' AND language='en';
 
   -- North America.
@@ -203,43 +203,43 @@ UPDATE iepg_data_redux.iepg_comment
   -- Asia Pacif.
   UPDATE iepg_data_redux.iepg_comment
    SET comment='<p>Asia-Pacífico se compone de los países de esta región para los que existe cálculo de presencia global. La presencia global del bloque se obtiene mediante la suma de la presencia global de cada país.</p>
-   <p>Los países que forman parte de él son Australia, Bangladesh, Brunéi, Camboya, China, Filipinas, India, Indonesia, Japón, Malasia, Nueva Zelanda, Pakistán, Corea del Sur, Singapur, Tailandia, Vietnam, Mongolia, Myanmar, Nepal, Papúa Nueva Guinea, Sri Lanka, Kazajistán, Turkmenistán y Uzbekistán. Representan el 99,8% y el 98,9% del PIB y de la población de la región, respectivamente (según datos de 2019 del Banco Mundial).</p>'
+   <p>Los países que forman parte de él son Australia, Bangladesh, Brunéi, Camboya, China, Corea del Sur, Filipinas, India, Indonesia, Japón, Kazajistán, Kirguistán, Laos, Malasia, Mongolia, Myanmar, Nepal, Nueva Zelanda, Pakistán, Papúa Nueva Guinea, Singapur, Sri Lanka, Tailandia, Tayikistán, Turkmenistán, Uzbekistán y Vietnam. Representan el 99,9% y el 99,3% del PIB y de la población de la región, respectivamente (según datos de 2020 del Banco Mundial).</p>'
    WHERE code='XBAP' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment
    SET comment='<p>Asia-Pacific is constituted by the countries in the region for which their global presence has been calculated. The global presence of the bloc is obtained by the pure sum of the global presence of each country that makes up the bloc.</p>
-   <p>The countries comprising the bloc are Australia, Bangladesh, Brunei, Cambodia, China, India, Indonesia, Japan, Malaysia, Mongolia, Nepal, New Zealand, Papua New Guinea, Pakistan, the Philippines, South Korea, Singapore, Sri Lanka, Thailand, Vietnam, Myanmar, Kazakhstan, Turkmenistan and Uzbekistan. They account for 99.8% and 98.9% of the region’s GDP and population, respectively (according to World Bank data for 2019).</p>'
+   <p>The countries comprising the bloc are Australia, Bangladesh, Brunei, Cambodia, China, India, Indonesia, Japan, Kazakhstan, Kyrgyzstan, Laos, Malaysia, Mongolia, Myanmar, Nepal, New Zealand, Papua New Guinea, Pakistan, the Philippines, Singapore, South Korea, Sri Lanka, Tajikistan, Thailand, Turkmenistan, Uzbekistan and Vietnam. They account for 99.9% and 99.3% of the region’s GDP and population, respectively (according to World Bank data for 2020).</p>'
    WHERE code='XBAP' AND language='en';
 
   -- Europe
   UPDATE iepg_data_redux.iepg_comment
    SET comment='<p>Europa, como bloque, se compone de todos los países que forman parte de la región (sean o no estados miembros de la Unión Europea) para los que existe cálculo de presencia global. La presencia global del bloque se obtiene mediante la mera suma de la presencia global de cada país que conforma el bloque.</p>
    <p>Los países que forman parte del bloque Europa son Albania, Alemania, Armenia, Austria, Azerbaiyán, Bélgica, Bielorrusia, Bosnia y Herzegovina, Bulgaria, Chipre, Croacia, Dinamarca, Eslovaquia, Eslovenia, España, Estonia, Finlandia, Francia, Georgia, Grecia, Hungría, Irlanda, Islandia, Italia, Letonia, Lituania, Luxemburgo, Macedonia del Norte, Malta, Moldavia, Noruega, Países Bajos, Polonia, Portugal, Reino Unido, República Checa, Rumanía, Rusia, Serbia, Suecia, Suiza, Turquía y Ucrania.</p>
-   <p>Los países europeos considerados para el Índice Elcano de Presencia Global representan el 99,8% del PIB regional y el 99,6% de su población, según datos de 2019 del Banco Mundial.</p>'
+   <p>Los países europeos considerados para el Índice Elcano de Presencia Global representan el 99,8% del PIB regional y el 99,7% de su población, según datos de 2020 del Banco Mundial.</p>'
    WHERE code='XBE2' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment
    SET comment='<p>Europe, as a bloc, is considered to comprise all the countries in the region (regardless of whether they are member states of the European Union) whose global presence has been calculated. The bloc’s global presence is obtained by adding up the result for each of its constituent countries. The countries that make up the European bloc are Albania, Armenia, Austria, Azerbaijan, Belarus, Belgium, Bosnia and Herzegovina, Bulgaria, Croatia, Cyprus, the Czech Republic, Denmark, Estonia, Finland, France, Georgia, Germany, Greece, Hungary, Iceland, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Moldova, the Netherlands, North Macedonia, Norway, Poland, Portugal, Romania, Russia, Serbia, Slovakia, Slovenia, Spain, Sweden, Switzerland, Turkey, the Ukraine and the United Kingdom.</p>
-   <p>The European countries considered for the Elcano Global Presence Index account for 99.8% of the region’s GDP and 99.6 % of its population (according to World Bank data for 2019).</p>'
+   <p>The European countries considered for the Elcano Global Presence Index account for 99.8% of the region’s GDP and 99.7 % of its population (according to World Bank data for 2020).</p>'
    WHERE code='XBE2' AND language='en';
 
   -- Magreb and ME.
   UPDATE iepg_data_redux.iepg_comment
    SET comment='<p>Magreb y Oriente Medio se compone de los países de esta región para los que existe cálculo de presencia global. La presencia global del bloque se obtiene mediante la suma de la presencia global de cada país.</p>
-   <p>Los países que forman parte de él son Afganistán, Arabia Saudí, Argelia, Baréin, Egipto, Emiratos Árabes Unidos, Irán, Irak, Israel, Jordania, Kuwait, Libia, Líbano, Marruecos, Siria, Omán, Túnez, Catar y Yemen. Representan el 98,5% del PIB regional y el 99,5% de su población (según datos de 2019 del Banco Mundial).</p>'
+   <p>Los países que forman parte de él son Afganistán, Arabia Saudí, Argelia, Baréin, Egipto, Emiratos Árabes Unidos, Irán, Irak, Israel, Jordania, Kuwait, Libia, Líbano, Marruecos, Siria, Omán, Túnez, Catar y Yemen. Representan el 98,9% del PIB regional y el 99,5% de su población (según datos de 2020 del Banco Mundial).</p>'
    WHERE code='XBMM' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment
-   SET comment='<p>The Maghreb and the Middle East are made up of the countries forming the region whose global presence has been calculated. The bloc’s global presence is the result of the pure sum of the global presence of each country comprising it. The countries considered are Afghanistan, Algeria, Bahrein, Egypt, Iran, Iraq, Israel, Jordan, Kuwait, Libya, Lebanon, Morocco, Oman, Syria, Tunisia, the United Arab Emirates, Qatar and Yemen. They account for 99.5% of the s GDP and 98.9% of its population (according to World Bank data for 2019).</p>'
+   SET comment='<p>The Maghreb and the Middle East are made up of the countries forming the region whose global presence has been calculated. The bloc’s global presence is the result of the pure sum of the global presence of each country comprising it. The countries considered are Afghanistan, Algeria, Bahrain, Egypt, Iran, Iraq, Israel, Jordan, Kuwait, Libya, Lebanon, Morocco, Oman, Syria, Tunisia, the United Arab Emirates, Qatar and Yemen. They account for 98.9% of the region’s GDP and 98.9% of its population (according to World Bank data for 2020).</p>'
    WHERE code='XBMM' AND language='en';
 
   -- Africa Sub.
   UPDATE iepg_data_redux.iepg_comment
-   SET comment='<p>África Subsahariana se compone de los países de esta región para los que existe cálculo de presencia global, esto es: Angola, Benín, Botsuana, Burkina Faso, Camerún, Chad, Costa de Marfil, Etiopía, Gabón, Ghana, Guinea, Guinea Ecuatorial, Kenia, Madagascar, Mali, Mauricio, Mozambique, Namibia, Níger, Nigeria, República del Congo, República Democrática del Congo, Senegal, Sudáfrica, Sudán, Tanzania, Uganda, Zambia y Zimbabue. La presencia global del bloque se obtiene mediante la suma de la presencia global de cada país. Representan un 96,7% del PIB regional y un 89,9% de su población (según datos de 2019 del Banco Mundial).</p>'
+   SET comment='<p>África Subsahariana se compone de los países de esta región para los que existe cálculo de presencia global; esto es, Angola, Benín, Botsuana, Burkina Faso, Burundi, Camerún, Chad, Costa de Marfil, Etiopía, Gabón, Ghana, Guinea, Guinea Ecuatorial, Kenia, Malawi, Mali, Mauricio, Mauritania, Mozambique, Namibia, Níger, Nigeria, República del Congo, República Democrática del Congo, Ruanda, Senegal, Somalia, Sudáfrica, Sudán, Sudán del Sur, Tanzania, Togo, Uganda, Zambia y Zimbabue. La presencia global del bloque se obtiene mediante la suma de la presencia global de cada país. Representan un 98,7% del PIB regional y un 97,6% de su población (según datos de 2020 del Banco Mundial).</p>'
    WHERE code='XBSA' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment
-   SET comment='<p>Sub-Saharan Africa comprises the countries in the region whose global presence has been calculated: Angola, Benin, Botswana, Burkina Faso, Cameroon, Chad, Côte d’Ivoire, Equatorial Guinea, Ethiopia, Gabon, Ghana, Guinea, Kenya, Madagascar, Mali, Mauritius, Mozambique, Namibia, Niger, Nigeria, the Democratic Republic of Congo, Republic of Congo, Senegal, South Africa, Sudan, Tanzania, Uganda, Zambia and Zimbabwe. The bloc’s global presence is obtained by adding the global presence of each country considered. They account 96.7% of the region’s GDP and 89.9% of its population (according to World Bank 2019 data).</p>'
+   SET comment='<p>Sub-Saharan Africa comprises the countries in the region whose global presence has been calculated: Angola, Benin, Botswana, Burkina Faso, Burundi, Cameroon, Chad, Côte d’Ivoire, Equatorial Guinea, Ethiopia, Gabon, Guinea, Kenya, Ghana, Malawi, Mali, Mauritania, Mauritius, Mozambique, Namibia, Niger, Nigeria, the Democratic Republic of Congo, Republic of Congo, Rwanda, Senegal, Somalia, South Africa, South Sudan, Sudan, Tanzania, Togo, Uganda, Zambia and Zimbabwe. The bloc’s global presence is obtained by adding the global presence of each country considered. They account 98.7% of the region’s GDP and 97.6% of its population (according to World Bank 2020 data).</p>'
    WHERE code='XBSA' AND language='en';
 
 COMMIT;

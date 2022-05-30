@@ -838,7 +838,7 @@ UPDATE www.translation SET es = 'El Índice Elcano de Presencia Global cubre una
 UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 150 countries. These are selected, mainly, according to their size in terms of GDP' WHERE key = '_faq text 12';
 
 
-UPDATE www.translation SET es = '2014 - 2021 &copy; Real Instituto Elcano' WHERE key = 'Copyright TEXT';
-UPDATE www.translation SET en = '2014 - 2021 &copy; Elcano Royal Institute' WHERE key = 'Copyright TEXT';
+UPDATE www.translation SET es = '2014 - 2022 &copy; Real Instituto Elcano' WHERE key = 'Copyright TEXT';
+UPDATE www.translation SET en = '2014 - 2022 &copy; Elcano Royal Institute' WHERE key = 'Copyright TEXT';
 
 COMMIT;

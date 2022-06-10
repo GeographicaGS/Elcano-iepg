@@ -244,6 +244,20 @@ INSERT INTO www.translation VALUES ('_methodology incorporación UE p2', 'The ca
 
 UPDATE www.translation SET en = '<ul class="util">
 
+ <li>Iliana Iliana Olivié and Manuel Gracia, 2022,
+   <a href=''https://www.realinstitutoelcano.org/en/reports/elcano-global-presence-report-2022'' target=''_blank''>
+     Elcano Global Presence Index Report 2022,
+   </a>
+   (Madrid: Elcano Royal Institute).
+ </li>
+
+  <li>Iliana Olivié, Manuel Gracia and Lucía Mantecón, 2022,
+   <a href=''https://www.realinstitutoelcano.org/analisis/la-percepcion-de-las-relaciones-internacionales-en-tiempos-de-pandemia-encuesta-de-ponderacion-2021-del-indice-elcano-de-presencia-global'' target=''_blank''>
+     La percepción de las relaciones internacionales en tiempos de pandemia: encuesta de ponderación 2021 del Índice Elcano de Presencia Global, ARI, 14/02/2022,
+   </a>
+   (Madrid: Elcano Royal Institute).
+ </li>
+
  <li>Ángel Badillo, 2019,
    <a href=''http://www.realinstitutoelcano.org/wps/portal/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/zonas_es/lengua+y+cultura/dt21-2020-badillo-la-cultura-en-el-poder-suave-revision-metodologica-indice-elcano-de-presencia-global'' target=''_blank''>
      La cultura en el “poder suave”: una revisión metodológica del Índice Elcano de Presencia Global
@@ -327,6 +341,20 @@ UPDATE www.translation SET en = '<ul class="util">
 
 
  UPDATE www.translation SET es = '<ul class="util">
+
+  <li>Iliana Iliana Olivié y Manuel Gracia, 2022,
+   <a href=''https://www.realinstitutoelcano.org/informes/informe-elcano-de-presencia-global-2022'' target=''_blank''>
+     Informe Índice Elcano de Presencia Global 2022,
+   </a>
+   (Madrid: Real Instituto Elcano).
+ </li>
+
+  <li>Iliana Olivié, Manuel Gracia y Lucía Mantecón, 2022,
+   <a href=''https://www.realinstitutoelcano.org/analisis/la-percepcion-de-las-relaciones-internacionales-en-tiempos-de-pandemia-encuesta-de-ponderacion-2021-del-indice-elcano-de-presencia-global'' target=''_blank''>
+     La percepción de las relaciones internacionales en tiempos de pandemia: encuesta de ponderación 2021 del Índice Elcano de Presencia Global, ARI, 14/02/2022,
+   </a>
+   (Madrid: Real Instituto Elcano).
+ </li>
 
   <li>Ángel Badillo, 2019,
     <a href=''http://www.realinstitutoelcano.org/wps/portal/rielcano_es/contenido?WCM_GLOBAL_CONTEXT=/elcano/elcano_es/zonas_es/lengua+y+cultura/dt21-2020-badillo-la-cultura-en-el-poder-suave-revision-metodologica-indice-elcano-de-presencia-global'' target=''_blank''>

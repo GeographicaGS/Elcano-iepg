@@ -152,7 +152,7 @@ class Flux(object):
         countries_errors = set(countries).difference(set(countries_db))
 
         if len(countries_errors) > 0:
-            print "Error: You must repair this countries in XLS before execute data load: %s" % countries_errors
+            print "Error: You must repair these countries in XLS before execute data load: %s" % countries_errors
             return
 
         codes = [ctrys_codes_db[ct] for ct in countries]

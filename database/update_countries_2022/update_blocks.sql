@@ -101,9 +101,6 @@ BEGIN;
         where n.name = 'Togo' and gn.id_name_family=2
       )
     );
-   
-   -- Update South Sudan id_name_family
-   UPDATE maplex.geoentity_name SET id_name_family = 2 WHERE id_geoentity = 123 AND id_name = 345;
 
    INSERT INTO
     maplex.block (id_geoentity_block,id_geoentity_child)

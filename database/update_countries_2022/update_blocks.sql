@@ -4,16 +4,17 @@
 -- SELECT gn.id_geoentity, n.name
 -- FROM maplex.geoentity_name gn
 -- INNER JOIN maplex.name n ON gn.id_name=n.id_name
--- WHERE n.name IN ('Papua New Guinea',
---  'Benin',
---  'Mongolia',
---  'Armenia',
---  'Guinea',
---  'Brunei',
---  'Niger',
---  'Moldova',
---  'Chad',
---  'Congo R')
+-- WHERE n.name IN (
+--  'Burundi',
+--  'Haiti',
+--  'Kyrgyzstan',
+--  'Malawi',
+--  'Mauritania',
+--  'Rwanda',
+--  'Somalia',
+--  'South Sudan',
+--  'Tajikistan',
+--  'Togo')
 -- AND gn.id_name_family=2;
 -- --
 -- -- Get blocks:
@@ -26,38 +27,22 @@
 
 BEGIN;
 
-
-  INSERT INTO
+   INSERT INTO
     maplex.block (id_geoentity_block,id_geoentity_child)
     VALUES (
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name='Europe' and gn.id_name_family=2
+        where n.name='Latin America' and gn.id_name_family=2
       ),
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Armenia' and gn.id_name_family=2
+        where n.name = 'Haiti' and gn.id_name_family=2
       )
     );
 
-  INSERT INTO
-    maplex.block (id_geoentity_block,id_geoentity_child)
-    VALUES (
-      (
-        select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
-        INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name='Europe' and gn.id_name_family=2
-      ),
-      (
-        select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
-        INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Moldova' and gn.id_name_family=2
-      )
-    );
-
-  INSERT INTO
+   INSERT INTO
     maplex.block (id_geoentity_block,id_geoentity_child)
     VALUES (
       (
@@ -68,11 +53,11 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Papua New Guinea' and gn.id_name_family=2
+        where n.name = 'Kyrgyzstan' and gn.id_name_family=2
       )
     );
-
-  INSERT INTO
+ 
+   INSERT INTO
     maplex.block (id_geoentity_block,id_geoentity_child)
     VALUES (
       (
@@ -83,26 +68,11 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Mongolia' and gn.id_name_family=2
+        where n.name = 'Tajikistan' and gn.id_name_family=2
       )
     );
 
-  INSERT INTO
-    maplex.block (id_geoentity_block,id_geoentity_child)
-    VALUES (
-      (
-        select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
-        INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name='Asia & Pacific' and gn.id_name_family=2
-      ),
-      (
-        select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
-        INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Brunei' and gn.id_name_family=2
-      )
-    );
-
-  INSERT INTO
+   INSERT INTO
     maplex.block (id_geoentity_block,id_geoentity_child)
     VALUES (
       (
@@ -113,11 +83,11 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Niger' and gn.id_name_family=2
+        where n.name = 'Burundi' and gn.id_name_family=2
       )
     );
 
-  INSERT INTO
+   INSERT INTO
     maplex.block (id_geoentity_block,id_geoentity_child)
     VALUES (
       (
@@ -128,11 +98,14 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Benin' and gn.id_name_family=2
+        where n.name = 'Togo' and gn.id_name_family=2
       )
     );
+   
+   -- Update South Sudan id_name_family
+   UPDATE maplex.geoentity_name SET id_name_family = 2 WHERE id_geoentity = 123 AND id_name = 345;
 
-  INSERT INTO
+   INSERT INTO
     maplex.block (id_geoentity_block,id_geoentity_child)
     VALUES (
       (
@@ -143,11 +116,11 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Guinea' and gn.id_name_family=2
+        where n.name = 'South Sudan' and gn.id_name_family=2
       )
     );
 
-  INSERT INTO
+   INSERT INTO
     maplex.block (id_geoentity_block,id_geoentity_child)
     VALUES (
       (
@@ -158,11 +131,11 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Chad' and gn.id_name_family=2
+        where n.name = 'Somalia' and gn.id_name_family=2
       )
     );
 
-  INSERT INTO
+   INSERT INTO
     maplex.block (id_geoentity_block,id_geoentity_child)
     VALUES (
       (
@@ -173,7 +146,37 @@ BEGIN;
       (
         select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
         INNER JOIN maplex.name n ON gn.id_name=n.id_name
-        where n.name = 'Congo' and gn.id_name_family=2
+        where n.name = 'Rwanda' and gn.id_name_family=2
+      )
+    );
+
+   INSERT INTO
+    maplex.block (id_geoentity_block,id_geoentity_child)
+    VALUES (
+      (
+        select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
+        INNER JOIN maplex.name n ON gn.id_name=n.id_name
+        where n.name='Sub-Saharan Africa' and gn.id_name_family=2
+      ),
+      (
+        select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
+        INNER JOIN maplex.name n ON gn.id_name=n.id_name
+        where n.name = 'Malawi' and gn.id_name_family=2
+      )
+    );
+
+   INSERT INTO
+    maplex.block (id_geoentity_block,id_geoentity_child)
+    VALUES (
+      (
+        select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
+        INNER JOIN maplex.name n ON gn.id_name=n.id_name
+        where n.name='Maghreb & Middle East' and gn.id_name_family=2
+      ),
+      (
+        select gn.id_geoentity as id_geoentity_xbap from maplex.geoentity_name gn
+        INNER JOIN maplex.name n ON gn.id_name=n.id_name
+        where n.name = 'Mauritania' and gn.id_name_family=2
       )
     );
 

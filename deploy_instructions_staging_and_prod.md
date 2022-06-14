@@ -10,7 +10,7 @@ pre-step: make a database backup
 0. sudo git pull origin staging
 1. Database scripts: psql -h localhost -U elcano_iepg_admin -d elcano_iepg < run_update.sql
 2. cd www-srv/src
-3. python flux_updatefromcalculatedxlsx.py calculus2020.xlsx 15 141 12 28
+3. python flux_updatefromcalculatedxlsx.py calculus2021.xlsx 16 151 13 28
 4. python updatecache.py
 5. Add new year. Open with vim this files and add year:
   - explora/js/config.js
@@ -27,7 +27,7 @@ pg_dump -h localhost -U elcano_iepg_admin -d elcano_iepg > elcanoiepg_<fill with
 0. sudo git pull origin master
 1. Database scripts: psql -h localhost -U elcano_iepg_admin -d elcano_iepg < run_update.sql
 2. cd www-srv/ && . venv/bin/activate
-3. cd src && python flux_updatefromcalculatedxlsx.py calculus2020.xlsx 15 141 12 28
+3. cd src && python flux_updatefromcalculatedxlsx.py calculus2021.xlsx 16 151 13 28
 4. python updatecache.py
 5. deactivate
 6. Add new year. Open with vim this files and add year located at www/src folder:

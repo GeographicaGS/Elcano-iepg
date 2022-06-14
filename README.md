@@ -37,7 +37,7 @@ docker exec -i elcanoiepg_pgsql_1 psql -U postgres -d $POSTGRES_DB < database/ca
   ```
   Usage example:
   ```Shell
-  docker exec -it elcanoiepg_api_backend_1 python flux_updatefromcalculatedxlsx.py calculus2020.xlsx 15 141 12 28
+  docker exec -it elcanoiepg_api_backend_1 python flux_updatefromcalculatedxlsx.py calculus2020.xlsx 16 151 13 28
   ```
 
 - Stop and start explora API:

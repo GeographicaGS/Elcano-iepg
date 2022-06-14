@@ -152,7 +152,7 @@ class Flux(object):
         countries_errors = set(countries).difference(set(countries_db))
 
         if len(countries_errors) > 0:
-            print "Error: You must repair this countries in XLS before execute data load: %s" % countries_errors
+            print "Error: You must repair these countries in XLS before execute data load: %s" % countries_errors
             return
 
         codes = [ctrys_codes_db[ct] for ct in countries]
@@ -1897,15 +1897,15 @@ class Flux(object):
 
         # @@@YEARS To be edited to add new years to the application
         years = {
-            "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
-            "iepe": [2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
-            "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
+            "iepg": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021],
+            "iepe": [2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021],
+            "context": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021],
             #"iepe_individual_contribution": [2005, 2010, 2011, 2012, 2013],
             "iepe_quota": [2005, 2010, 2011, 2012, 2013],
-            "iepe_relative_contribution": [2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
+            "iepe_relative_contribution": [2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021],
             #"iepg_individual_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013],
-            "iepg_quota": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
-            "iepg_relative_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
+            "iepg_quota": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021],
+            "iepg_relative_contribution": [1990, 1995, 2000, 2005, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
         }
 
         blockFunctions = {

@@ -1,0 +1,22 @@
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M20 40C8.955 40 0 31.046 0 20 0 8.956 8.954 0 20 0s20 8.956 20 20c0 11.046-8.954 20-20 20z" id="as6y5ll79a"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <mask id="7icsg6k1yb" fill="#fff">
+            <use xlink:href="#as6y5ll79a"/>
+        </mask>
+        <use fill="#C8102E" xlink:href="#as6y5ll79a"/>
+        <g mask="url(#7icsg6k1yb)" fill="#43B02A" fill-rule="nonzero" stroke="#FFF" stroke-width="5.333">
+            <path d="M-16.35-2v44l73.7-44v44z"/>
+        </g>
+        <ellipse fill="#FFF" fill-rule="nonzero" mask="url(#7icsg6k1yb)" cx="20.5" cy="20" rx="11.39" ry="11.333"/>
+        <path stroke="#43B02A" stroke-width=".5" fill="#C8102E" fill-rule="nonzero" mask="url(#7icsg6k1yb)" d="m20.5 11.707.704 1.213h1.408l-.704 1.213.704 1.214h-1.408L20.5 16.56l-.704-1.213h-1.408l.704-1.214-.704-1.213h1.408z"/>
+        <g mask="url(#7icsg6k1yb)" fill="#C8102E" fill-rule="nonzero" stroke="#43B02A" stroke-width=".5">
+            <path d="m27.708 24.147-1.403.003-.704 1.219-.7-1.216-1.402.003.704-1.22-.698-1.216 1.402-.003.704-1.22.7 1.217 1.402-.003-.704 1.22z"/>
+        </g>
+        <g mask="url(#7icsg6k1yb)" fill="#C8102E" fill-rule="nonzero" stroke="#43B02A" stroke-width=".5">
+            <path d="m13.292 24.147.7-1.217-.705-1.219 1.403.003.699-1.216.704 1.219 1.402.003-.698 1.216.704 1.22-1.403-.003-.699 1.216-.704-1.22z"/>
+        </g>
+    </g>
+</svg>

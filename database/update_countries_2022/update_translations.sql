@@ -240,8 +240,6 @@ UPDATE www.translation SET es = '<table class="data">
 UPDATE www.translation SET es = 'Desde 2012, el Índice Elcano de Presencia Global se calcula además para la Unión Europea. Este ejercicio trata de cuantificar la proyección global de la Unión, como si se tratase de un supuesto súper-estado con identidad propia; medición que se complementa con el Índice Elcano de Presencia Europea que, por su parte, evalúa la presencia de los países miembros dentro del perímetro de la Unión' WHERE key = '_methodology incorporación UE p';
 UPDATE www.translation SET en = 'Moreover, since 2012, the Index also measures the global presence of the European Union as a whole. The latter is complemented by the Elcano European Presence Index, which evaluates the internationalisation of member states within the Union’s boundaries' WHERE key = '_methodology incorporación UE p';
 
-INSERT INTO www.translation VALUES ('_methodology incorporación UE p2', 'The calculation is made considering the EU actually existing at each date, so that data from 2005 refer to the EU-25, from 2010 to the EU-27, from 2013 to the EU-28, and from 2021 to the EU-27 after the exit of the United Kingdom', 'El cálculo se realiza teniendo en cuenta la UE realmente existente en cada fecha, por lo que los datos entre 2005 se refieren a la UE-25, a partir de 2010 a la UE-27, a partir de 2013 a la UE-28, y desde 2021 la UE-27 tras la salida de Reino Unido');
-
 UPDATE www.translation SET en = '<ul class="util">
 
  <li>Iliana Iliana Olivié and Manuel Gracia, 2022,
@@ -870,3 +868,5 @@ UPDATE www.translation SET es = '2014 - 2022 &copy; Real Instituto Elcano' WHERE
 UPDATE www.translation SET en = '2014 - 2022 &copy; Elcano Royal Institute' WHERE key = 'Copyright TEXT';
 
 COMMIT;
+
+INSERT INTO www.translation VALUES ('_methodology incorporación UE p2', 'The calculation is made considering the EU actually existing at each date, so that data from 2005 refer to the EU-25, from 2010 to the EU-27, from 2013 to the EU-28, and from 2021 to the EU-27 after the exit of the United Kingdom', 'El cálculo se realiza teniendo en cuenta la UE realmente existente en cada fecha, por lo que los datos entre 2005 se refieren a la UE-25, a partir de 2010 a la UE-27, a partir de 2013 a la UE-28, y desde 2021 la UE-27 tras la salida de Reino Unido');

@@ -98,7 +98,7 @@ UPDATE iepg_data_redux.iepg_comment
  WHERE code='FR' AND language='es';
 
 UPDATE iepg_data_redux.iepg_comment
- SET comment='<p>France faces a relative loss of relevance in the international scene. Third in 1995, it is now ranked 6th according to the Elcano Global Presence Index. Its profile is like that of other European countries, with a strong soft presence, particularly in tourism -being the first world tourism destination-, culture or development cooperation.</p>
+ SET comment=E'<p>France faces a relative loss of relevance in the international scene. Third in 1995, it is now ranked 6th according to the Elcano Global Presence Index. Its profile is like that of other European countries, with a strong soft presence, particularly in tourism -being the first world tourism destination-, culture or development cooperation.</p>
  <p>It is 3rd in the European sphere, when measured with the Elcano European Presence Index, after winning a position due to the UK\'s exit from the EU. As most member states, its profile within the EU is soft (with a contribution of 52.9%), rather than economic (47.1%).</p>'
  WHERE code='FR' AND language='en';
 
@@ -109,8 +109,8 @@ UPDATE iepg_data_redux.iepg_comment
   WHERE code='IT' AND language='es';
 
  UPDATE iepg_data_redux.iepg_comment
-  SET comment='<p>Italy holds the 10th place in the Elcano Global Presence Index ranking since 2014 –7th position in 1990–. This trend is due to the slower growth of its economic presence, which has registered a low increase compared to other neighboring countries. However, Italy is still one of the most industrialized countries, so its presence is fundamentally economic, supported by manufactured exports and investments. Similarly, to other European countries Italy has a high score in the soft dimension –mainly because of culture, technology, science and tourism–.</p>
-  <p>Within the European Union, Italy’s presence is of a soft nature. This dimension has registered the greatest growth –climbing positions up to being one of the top five European countries in all indicators in this domain, except for education.</p>'
+  SET comment=E'<p>Italy holds the 10th place in the Elcano Global Presence Index ranking since 2014 –7th position in 1990–. This trend is due to the slower growth of its economic presence, which has registered a low increase compared to other neighboring countries. However, Italy is still one of the most industrialized countries, so its presence is fundamentally economic, supported by manufactured exports and investments. Similarly, to other European countries Italy has a high score in the soft dimension –mainly because of culture, technology, science and tourism–.</p>
+  <p>Within the European Union, Italy\'s presence is of a soft nature. This dimension has registered the greatest growth –climbing positions up to being one of the top five European countries in all indicators in this domain, except for education.</p>'
   WHERE code='IT' AND language='en';
 
   -- Canada
@@ -121,7 +121,7 @@ UPDATE iepg_data_redux.iepg_comment
    WHERE code='CA' AND language='es';
 
   UPDATE iepg_data_redux.iepg_comment
-   SET comment='<p>Canada is 8th in the global presence ranking; a position that it still holds despite the rise of China and despite its loss of economic weight –down four positions since 1990 in the GDP ranking–.</p>
+   SET comment=E'<p>Canada is 8th in the global presence ranking; a position that it still holds despite the rise of China and despite its loss of economic weight –down four positions since 1990 in the GDP ranking–.</p>
    <p>It maintains a strong economic profile –74.3% of its global presence in 2021– via its investments abroad and its exports of primary goods or energy, given that it is the 4th largest gas and oil exporter.</p>
    <p>Its soft dimension, which is less determinant, is grounded in migrations, culture, science and education.</p>'
    WHERE code='CA' AND language='en';

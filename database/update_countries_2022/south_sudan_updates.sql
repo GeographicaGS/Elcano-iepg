@@ -5,6 +5,10 @@ UPDATE maplex.geoentity_name
     SET id_name_family = 2
 WHERE id_geoentity = 123 AND id_name = 345;
 
+UPDATE maplex.geoentity_name
+    SET id_name_family = 3
+WHERE id_geoentity = 123 AND id_name = 586;
+
 
 UPDATE iepg_data_redux.master_country
     SET xlsx_column_name='Sudan (South)'

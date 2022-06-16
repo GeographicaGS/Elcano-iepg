@@ -867,6 +867,4 @@ UPDATE www.translation SET en = 'The Elcano Global Presence Index includes 150 c
 UPDATE www.translation SET es = '2014 - 2022 &copy; Real Instituto Elcano' WHERE key = 'Copyright TEXT';
 UPDATE www.translation SET en = '2014 - 2022 &copy; Elcano Royal Institute' WHERE key = 'Copyright TEXT';
 
-INSERT INTO www.translation VALUES ('_methodology incorporación UE p2', 'The calculation is made considering the EU actually existing at each date, so that data from 2005 refer to the EU-25, from 2010 to the EU-27, from 2013 to the EU-28, and from 2021 to the EU-27 after the exit of the United Kingdom', 'El cálculo se realiza teniendo en cuenta la UE realmente existente en cada fecha, por lo que los datos entre 2005 se refieren a la UE-25, a partir de 2010 a la UE-27, a partir de 2013 a la UE-28, y desde 2021 la UE-27 tras la salida de Reino Unido');
-
 COMMIT;

@@ -11,8 +11,7 @@ app.router = Backbone.Router.extend({
         "_link news": {"en": "news","es" : "noticias" },
         "_link about infr": {"en": "structure","es" : "estructura" },
         "_link about meth": {"en": "methodologic","es" : "metodologia" },
-        "_link download": {"en": "download","es" : "descarga" },
-        "_link feed": {"en": "https://www.realinstitutoelcano.org/en/feed/", "es" : "https://www.realinstitutoelcano.org/feed/" }
+        "_link download": {"en": "download","es" : "descarga" }
     },
 
     /* define the route and function maps for this router */
@@ -49,7 +48,6 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link about infr"][app.lang], "aboutInfr");
         this.route(this.langRoutes["_link about meth"][app.lang], "aboutMeth");
         this.route(this.langRoutes["_link download"][app.lang], "download");
-        this.route(this.langRoutes["_link feed"][app.lang], "feed");
     },
 
     home: function(){

@@ -365,6 +365,11 @@ app.latestReport = function(){
     else return "/en/data/Global_Presence_2022.pdf";
 }
 
+app.getFeedLink = function() {
+    if (app.lang=="es") return "https://www.realinstitutoelcano.org/feed/";
+    else return "https://www.realinstitutoelcano.org/en/feed/";
+}
+
 app.variableToString = function(variable){
     switch(variable){
         case "IEPG":

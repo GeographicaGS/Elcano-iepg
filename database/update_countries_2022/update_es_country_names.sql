@@ -11,6 +11,10 @@ BEGIN;
       full_name_es = 'Ruanda'
    WHERE id_master_country = 'un646'
     AND short_name_en1='Rwanda';
+  
+  UPDATE maplex.name
+    SET name = 'Ruanda'
+  WHERE id_name = 698;
 
   UPDATE iepg_data_redux.master_country
     SET
@@ -21,5 +25,9 @@ BEGIN;
       full_name_es = 'Malaui'
    WHERE id_master_country = 'un454'
     AND short_name_en1='Malawi';
+
+  UPDATE maplex.name
+    SET name = 'Malaui'
+  WHERE id_name = 566;
 
 COMMIT;

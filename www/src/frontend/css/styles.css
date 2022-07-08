@@ -1102,7 +1102,6 @@ footer{
         width: 100%;
     }
     .last_iepg{
-		display: none;
         border-left: 1px solid @grey_light2;
         min-height: 500px;
 
@@ -1185,7 +1184,6 @@ footer{
 }
 
 .last_iepg{
-	display: none;
     img{
         border: 1px solid @grey_light2 ;
     }

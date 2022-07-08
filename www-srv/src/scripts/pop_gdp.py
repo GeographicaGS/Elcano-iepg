@@ -1,7 +1,7 @@
 # coding=utf-8
 
-input_file_gdp = 'csv/gdp_2020.csv'
-input_file_pop = 'csv/pob_2020.csv'
+input_file_gdp = 'csv/gdp_2021.csv'
+input_file_pop = 'csv/pob_2021.csv'
 
 import sys
 

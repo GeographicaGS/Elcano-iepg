@@ -20623,8 +20623,8 @@ var countriesGeoJSON = {
                 "code": "MW",
                 "name_en": "Malawi",
                 "name_en_s": "Malawi",
-                "name_es": "Malawi",
-                "name_es_s": "Malawi"
+                "name_es": "Malaui",
+                "name_es_s": "Malaui"
             },
             "type": "Feature"
         },
@@ -40563,8 +40563,8 @@ var countriesGeoJSON = {
                 "code": "RW",
                 "name_en": "Rwanda",
                 "name_en_s": "Rwanda",
-                "name_es": "Rwanda",
-                "name_es_s": "Rwanda"
+                "name_es": "Ruanda",
+                "name_es_s": "Ruanda"
             },
             "type": "Feature"
         },

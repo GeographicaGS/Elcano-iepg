@@ -44,6 +44,15 @@
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', 'UA-52414901-1', 'auto');
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var RSSLink = document.getElementById('rsslink');
+            var isSpanish = document.URL.indexOf("/es/") != -1;
+            if (!isSpanish) {
+                RSSLink.href = 'https://www.realinstitutoelcano.org/en/feed/';
+            }
+        });
+    </script>
     <header >
         <div class="container">
             <a id="top_logo" href="http://www.realinstitutoelcano.org/wps/portal/rielcano_<lang>lang</lang>/" class="fleft nostyle"
@@ -183,7 +192,7 @@
                     <ul class="inlblock social_networks">
                         <li class="mr15"><lang>Síguenos en</lang></li>
                         <li>
-                            <a href="https://www.realinstitutoelcano.org/feed/" class="RSSLink min_white" title="RSS" target="_blank">
+                            <a href="https://www.realinstitutoelcano.org/feed/" id="rsslink" class="RSSLink min_white" title="RSS" target="_blank">
                                 <img src="/img/icons/social_links/rss_footer_ico.png" alt="RSS">
                             </a>
                         </li>

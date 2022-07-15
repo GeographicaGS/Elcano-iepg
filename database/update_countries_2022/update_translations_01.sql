@@ -341,7 +341,7 @@ UPDATE www.translation SET en = '<ul class="util">
  UPDATE www.translation SET es = '<ul class="util">
 
   <li>Iliana Iliana Olivié y Manuel Gracia, 2022,
-   <a href=''https://www.realinstitutoelcano.org/informes/informe-elcano-de-presencia-global-2022'' target=''_blank''>
+   <a href=''https://www.realinstitutoelcano.org/informes/informe-elcano-de-presencia-global-2022/'' target=''_blank''>
      Informe Índice Elcano de Presencia Global 2022,
    </a>
    (Madrid: Real Instituto Elcano).

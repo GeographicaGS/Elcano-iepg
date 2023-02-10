@@ -7,7 +7,7 @@ Werkzeug==0.9.4
 XlsxWriter==0.5.5
 gnureadline==6.3.3
 uWSGI==2.0.15
-ipython==2.0.0
+ipython==8.10.0
 itsdangerous==0.24
 numpy==1.8.1
 psycopg2==2.5.2
